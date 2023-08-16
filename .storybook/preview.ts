@@ -10,6 +10,16 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    (story: any) => {
+      const el = story();
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "20px";
+      wrapper.style.border = "1px solid #ccc";
+      wrapper.appendChild(el);
+      return wrapper;
+    },
+  ],
 };
 
 export default preview;

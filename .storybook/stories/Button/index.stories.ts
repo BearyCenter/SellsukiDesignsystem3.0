@@ -31,7 +31,7 @@ export const Primary: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/LKQ4FJ4bTnCSjedbRpk931/Sample-File",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1103%3A78477",
     },
   },
 };
@@ -43,7 +43,7 @@ export const Secondary: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/LKQ4FJ4bTnCSjedbRpk931/Sample-File",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1103%3A78477",
     },
   },
 };
@@ -56,7 +56,7 @@ export const Large: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/LKQ4FJ4bTnCSjedbRpk931/Sample-File",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1103%3A78477",
     },
   },
 };
@@ -69,7 +69,7 @@ export const Small: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/LKQ4FJ4bTnCSjedbRpk931/Sample-File",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1103%3A78477",
     },
   },
 };
