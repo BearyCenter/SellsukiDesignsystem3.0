@@ -1,4 +1,6 @@
 import type { Preview } from "@storybook/web-components";
+import { html } from "lit";
+import "../src/components/theme-context";
 
 const preview: Preview = {
   parameters: {
@@ -12,12 +14,9 @@ const preview: Preview = {
   },
   decorators: [
     (story: any) => {
-      const el = story();
-      const wrapper = document.createElement("div");
-      wrapper.style.padding = "20px";
-      wrapper.style.border = "1px solid #ccc";
-      wrapper.appendChild(el);
-      return wrapper;
+      const h = html`<ssk-theme-provider>${story()}</s-theme-provider>`;
+
+      return h;
     },
   ],
 };

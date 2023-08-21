@@ -1,32 +1,63 @@
+import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import type { ButtonProps } from ".";
-import "../../../src/my-element";
+import "../../../src/components/button/index.ts";
+import { Button } from "../../../src/components/button/index.ts";
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
   title: "Example/Button2",
   tags: ["autodocs"],
-  render: (args) => html`<my-element></my-element>`,
+  render: ({ children, ...args }) => {
+    return html`<ssk-button ${spreadProps(args)}>${children}</ssk-button>`;
+  },
   argTypes: {
-    backgroundColor: { control: "color" },
-    onClick: { action: "onClick" },
-    size: {
-      control: { type: "select" },
-      options: ["small", "medium", "large"],
+    children: {
+      control: {
+        type: "text",
+        defaultValue: "Button",
+      },
+    },
+    variant: {
+      options: ["solid", "outline", "ghost"],
+      control: {
+        type: "inline-radio",
+      },
+    },
+    loading: {
+      control: {
+        type: "boolean",
+      },
+    },
+    disabled: {
+      control: {
+        type: "boolean",
+      },
+    },
+    hidden: {
+      control: {
+        type: "boolean",
+      },
+    },
+    padding: {
+      control: {
+        type: "text",
+      },
+    },
+
+    onClick: {
+      action: "onClick",
     },
   },
-} satisfies Meta<ButtonProps>;
+} satisfies Meta<Button>;
 
 export default meta;
-type Story = StoryObj<ButtonProps>;
+
+type Story = StoryObj<Button>;
 
 // More on writing stories with args: https://storybook.js.org/docs/web-components/writing-stories/args
 export const Primary: Story = {
-  args: {
-    primary: true,
-    label: "Button",
-  },
+  args: {},
 
   parameters: {
     design: {
@@ -37,9 +68,7 @@ export const Primary: Story = {
 };
 
 export const Secondary: Story = {
-  args: {
-    label: "Button",
-  },
+  args: {},
   parameters: {
     design: {
       type: "figma",
@@ -49,10 +78,7 @@ export const Secondary: Story = {
 };
 
 export const Large: Story = {
-  args: {
-    size: "large",
-    label: "Button",
-  },
+  args: {},
   parameters: {
     design: {
       type: "figma",
@@ -62,10 +88,7 @@ export const Large: Story = {
 };
 
 export const Small: Story = {
-  args: {
-    size: "small",
-    label: "Button",
-  },
+  args: {},
   parameters: {
     design: {
       type: "figma",
