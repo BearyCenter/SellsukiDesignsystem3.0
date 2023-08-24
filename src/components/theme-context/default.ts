@@ -309,17 +309,6 @@ export const defaultTheme: Theme = {
     "4xl": "0px 24px 56px rgba(0, 0, 0, 0.2)",
     "5xl": "0px 32px 64px rgba(0, 0, 0, 0.2)",
   },
-  dropShadow: {
-    xs: "0px 1px 4px rgba(0, 0, 0, 0.2)",
-    sm: "0px 2px 10px rgba(0, 0, 0, 0.2)",
-    md: "0px 3px 16px rgba(0, 0, 0, 0.2)",
-    lg: "0px 6px 24px rgba(0, 0, 0, 0.2)",
-    xl: "0px 8px 32px rgba(0, 0, 0, 0.2)",
-    "2xl": "0px 12px 40px rgba(0, 0, 0, 0.2)",
-    "3xl": "0px 16px 48px rgba(0, 0, 0, 0.2)",
-    "4xl": "0px 24px 56px rgba(0, 0, 0, 0.2)",
-    "5xl": "0px 32px 64px rgba(0, 0, 0, 0.2)",
-  },
   width: {
     "1/2": "50%",
     "1/3": "33.333333%",
@@ -436,8 +425,8 @@ export const defaultTheme: Theme = {
         xs: "4px 8px",
         sm: "6px 12px",
         md: "8px 16px",
-        lg: "20px 40px",
-        xl: "24px 48px",
+        lg: "12px 24px",
+        xl: "16px 32px",
       },
       margin: {
         xs: "0px",
@@ -447,14 +436,13 @@ export const defaultTheme: Theme = {
         xl: "0px",
       },
       boxShadow: {}, // no boxShadow
-      dropShadow: {}, // no dropShadow
       borderWidth: {}, // no borderWidth
       rounded: {
-        xs: "2px",
+        xs: "3px",
         sm: "4px",
-        md: "8px",
-        lg: "16px",
-        xl: "24px",
+        md: "6px",
+        lg: "8px",
+        xl: "10px",
       },
     },
   },

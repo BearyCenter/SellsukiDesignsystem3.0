@@ -100,50 +100,48 @@ export class Button extends LitElement implements ThemeValue {
 
     return html`
       <style>
-
         button {
+          border-style: solid;
+          border-width: 0;
           ${parseThemeValueComponentCss(this.theme, "button", this)}
-          border: none;
           cursor: pointer;
           transition: background-color 0.2s ease-in-out;
-
         }
 
-        button:hover {
-          background-color: ${getComponentThemeColor(
-          this.theme,
-          "button",
-          "colors",
-          this.themeColor,
-          "400"
-        )};
+        button:hover:enabled {
+          background: linear-gradient(
+            to top,
+            rgba(255, 255, 255, 0.2),
+            rgba(255, 255, 255, 0.2)
+          ) var(--background-color);
         }
 
-        button:active {
-          background-color: ${getComponentThemeColor(
-          this.theme,
-          "button",
-          "colors",
-          this.themeColor,
-          "300"
-        )};
+        button:active:enabled  {
+          background: linear-gradient(
+            to top,
+            rgba(255, 255, 255, 0.3),
+            rgba(255, 255, 255, 0.3)
+          ) var(--background-color);
         }
 
         button:disabled {
-          background-color: ${getComponentThemeColor(
-          this.theme,
-          "button",
-          "colors",
-          "gray",
-          "300"
-        )};
-          color: ${getComponentThemeColor(
-          this.theme,
-          "button",
-          "colors",
-          "gray",
-          "500"
-        )};
+          background-color: ${this.loading
+          ? getComponentThemeColor(
+              this.theme,
+              "button",
+              "colors",
+              this.themeColor,
+              "300"
+            )
+          : getComponentThemeColor(
+              this.theme,
+              "button",
+              "colors",
+              "gray",
+              "200"
+            )};
+          color: ${!this.loading &&
+        getComponentThemeColor(this.theme, "button", "colors", "gray", "300")};
           cursor: not-allowed;
         }
       </style>

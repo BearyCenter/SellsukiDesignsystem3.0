@@ -117,9 +117,6 @@ type ThemeField = {
   boxShadow: {
     [key in Size]: string;
   };
-  dropShadow: {
-    [key in Size]: string;
-  };
   width: {
     [key in Size | SizeSystem]: string;
   };
@@ -207,7 +204,7 @@ export const getComponentThemeColor = (
       return c;
     }
 
-    return c?.[scale] || color || fallbackColor;
+    return c?.[scale] || fallbackColor || color;
   }
 
   const fc = f?.[color];
@@ -215,7 +212,7 @@ export const getComponentThemeColor = (
     return fc;
   }
 
-  return fc?.[scale] || fallbackColor;
+  return fc?.[scale] || fallbackColor || color;
 };
 
 export const getComponentThemeSize = (
@@ -228,10 +225,10 @@ export const getComponentThemeSize = (
   const f = theme?.components?.[component]?.[field];
   // if not component override, use root theme
   if (!f) {
-    return theme?.[field]?.[size] || size || fallbackSize;
+    return theme?.[field]?.[size] || fallbackSize || size;
   }
 
-  return f?.[size] || fallbackSize;
+  return f?.[size] || fallbackSize || size;
 };
 
 export const getComponentThemeFontFamily = (
@@ -261,10 +258,12 @@ export const getComponentThemeFontWeight = (
   const f = theme?.components?.[component]?.fontWeight;
   // if not component override, use root theme
   if (!f) {
-    return theme?.fontWeight?.[weight] || weight || fallbackFontWeight;
+    return theme?.fontWeight?.[weight] || fallbackFontWeight || weight;
   }
 
   return (
-    theme?.components?.[component]?.fontWeight?.[weight] || fallbackFontWeight
+    theme?.components?.[component]?.fontWeight?.[weight] ||
+    fallbackFontWeight ||
+    weight
   );
 };

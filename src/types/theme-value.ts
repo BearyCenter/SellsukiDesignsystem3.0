@@ -29,7 +29,6 @@ export type ThemeValue = {
   borderWidth?: string;
 
   boxShadow?: string;
-  dropShadow?: string;
 
   width?: string;
   height?: string;
@@ -54,6 +53,7 @@ export const parseThemeValueComponentCss = (
     themeValue.backgroundColor || themeValue.themeColor,
     "500"
   );
+  cssKV["--background-color"] = cssKV["background-color"];
 
   cssKV["color"] = getComponentThemeColor(
     theme,
@@ -63,6 +63,7 @@ export const parseThemeValueComponentCss = (
       (colord(themeValue.themeColor).isDark() ? "white" : "black"),
     "100"
   );
+  cssKV["--color"] = cssKV["color"];
 
   cssKV["border-color"] = getComponentThemeColor(
     theme,
@@ -71,6 +72,7 @@ export const parseThemeValueComponentCss = (
     themeValue.borderColor || themeValue.themeColor,
     "400"
   );
+  cssKV["--border-color"] = cssKV["border-color"];
 
   // Size
   cssKV["font-size"] = getComponentThemeSize(
@@ -143,13 +145,6 @@ export const parseThemeValueComponentCss = (
     component,
     "boxShadow",
     themeValue.boxShadow || themeValue.size
-  );
-
-  cssKV["drop-shadow"] = getComponentThemeSize(
-    theme,
-    component,
-    "dropShadow",
-    themeValue.dropShadow || themeValue.size
   );
 
   // Width, Height

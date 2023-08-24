@@ -3,26 +3,32 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/button/index.ts";
 import { Button } from "../../../src/components/button/index.ts";
+import { baseArgsTypes } from "../helper.ts";
+
+type ButtonWithLabel = Button & { label: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
   title: "Example/Button2",
   tags: ["autodocs"],
-  render: ({ children, ...args }) => {
-    return html`<ssk-button ${spreadProps(args)}>${children}</ssk-button>`;
+  render: ({ label, ...args }) => {
+    return html`<ssk-button ${spreadProps(args)}>${label}</ssk-button>`;
   },
   argTypes: {
-    children: {
-      control: {
-        type: "text",
-      },
+    ...baseArgsTypes,
+
+    label: {
+      description: "The content of the button",
+      control: "text",
     },
+
     variant: {
       options: ["solid", "outline", "ghost"],
       control: {
         type: "inline-radio",
       },
     },
+
     loading: {
       control: {
         type: "boolean",
@@ -38,37 +44,23 @@ const meta = {
         type: "boolean",
       },
     },
-    padding: {
-      control: {
-        type: "text",
-      },
-    },
 
     onClick: {
       action: "onClick",
     },
   },
-} satisfies Meta<Button>;
+} satisfies Meta<ButtonWithLabel>;
 
 export default meta;
 
-type Story = StoryObj<Button>;
+type Story = StoryObj<ButtonWithLabel>;
 
 // More on writing stories with args: https://storybook.js.org/docs/web-components/writing-stories/args
 export const Primary: Story = {
   args: {
-    children: "Button",
-    variant: "solid",
-    loading: false,
-    disabled: false,
-    hidden: false,
-    size: "md",
-    padding: "md",
     themeColor: "primary",
-    color: "white",
-    onClick: () => {
-      console.log("click");
-    },
+    size: "md",
+    label: "Button",
   },
   parameters: {
     design: {
