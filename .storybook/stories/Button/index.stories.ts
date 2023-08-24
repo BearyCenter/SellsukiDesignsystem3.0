@@ -15,7 +15,6 @@ const meta = {
     children: {
       control: {
         type: "text",
-        defaultValue: "Button",
       },
     },
     variant: {
@@ -57,8 +56,20 @@ type Story = StoryObj<Button>;
 
 // More on writing stories with args: https://storybook.js.org/docs/web-components/writing-stories/args
 export const Primary: Story = {
-  args: {},
-
+  args: {
+    children: "Button",
+    variant: "solid",
+    loading: false,
+    disabled: false,
+    hidden: false,
+    size: "md",
+    padding: "md",
+    themeColor: "primary",
+    color: "white",
+    onClick: () => {
+      console.log("click");
+    },
+  },
   parameters: {
     design: {
       type: "figma",

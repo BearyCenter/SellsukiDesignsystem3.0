@@ -31,7 +31,7 @@ export type FontWeight =
 
 export type FontFamilyGroup = "sans" | "serif" | "mono";
 
-export type ColorRange =
+export type ColorScale =
   | string // user defined
   | "50"
   | "100"
@@ -80,15 +80,17 @@ export type BackgroundSize = "auto" | "cover" | "contain";
 
 export type ButtonVariants = "solid" | "outline" | "ghost";
 
-export type Color = {
-  [key: ColorRange | string]: string;
-};
+export type Color =
+  | {
+      [key: ColorScale | string]: string;
+    }
+  | string;
 
 export type ColorPalette = {
   [key in ColorName | ColorRole]: Color;
 };
 
-export type Theme = {
+type ThemeField = {
   colors: ColorPalette;
   spacing: {
     [key in Size]: string;
@@ -105,10 +107,13 @@ export type Theme = {
   fontWeight: {
     [key in FontWeight]: number;
   };
-  blur: {
+  borderColor: ColorPalette;
+  borderWidth: {
     [key in Size]: string;
   };
-  borderColor: ColorPalette;
+  rounded: {
+    [key in Size]: string;
+  };
   boxShadow: {
     [key in Size]: string;
   };
@@ -116,25 +121,22 @@ export type Theme = {
     [key in Size]: string;
   };
   width: {
-    [key in SizeSystem]: string;
+    [key in Size | SizeSystem]: string;
   };
   height: {
-    [key in SizeSystem]: string;
+    [key in Size | SizeSystem]: string;
   };
   minWidth: {
-    [key in SizeSystem]: string;
+    [key in Size | SizeSystem]: string;
   };
   minHeight: {
-    [key in SizeSystem]: string;
+    [key in Size | SizeSystem]: string;
   };
   maxWidth: {
-    [key in SizeSystem]: string;
+    [key in Size | SizeSystem]: string;
   };
   maxHeight: {
-    [key in SizeSystem]: string;
-  };
-  gap: {
-    [key in Size]: string;
+    [key in Size | SizeSystem]: string;
   };
   padding: {
     [key in Size]: string;
@@ -155,4 +157,124 @@ export type Theme = {
   screens: {
     [key: Size]: string;
   };
+};
+
+export type Theme = {
+  components: {
+    button?: {
+      // for extra fields
+    } & Partial<ThemeField>;
+    input?: {} & Partial<ThemeField>;
+  };
+} & ThemeField;
+
+type ExcludeUndefinedKeys<T> = Exclude<T, undefined>;
+type ColorFieldKeys<T> = ExcludeUndefinedKeys<
+  {
+    [K in keyof T]: T[K] extends ColorPalette ? K : never;
+  }[keyof T]
+>;
+type SizeFieldKeys<T> = ExcludeUndefinedKeys<
+  {
+    [K in keyof T]: T[K] extends {
+      [key in Size | SizeSystem]: string;
+    }
+      ? K
+      : never;
+  }[keyof T]
+>;
+
+export const getColor = (
+  theme: ThemeField | undefined,
+  field: ColorFieldKeys<Theme>,
+  color: ColorName | ColorRole,
+  scale: ColorScale,
+  fallbackColor?: string
+) => {
+  const c = theme?.[field]?.[color];
+
+  if (typeof c === "string") {
+    return c;
+  }
+
+  return c?.[scale] || fallbackColor;
+};
+
+export const getSize = (
+  theme: ThemeField | undefined,
+  field: SizeFieldKeys<Theme>,
+  size: Size | SizeSystem,
+  fallbackSize?: string
+) => {
+  return theme?.[field]?.[size] || fallbackSize;
+};
+
+export const getFontFamily = (
+  theme: Theme | undefined,
+  group: FontFamilyGroup,
+  fallbackFontFamily?: string
+) => {
+  return theme?.fontFamily?.[group]?.join(",") || fallbackFontFamily;
+};
+
+export const getFontWeight = (
+  theme: Theme | undefined,
+  weight: FontWeight,
+  fallbackFontWeight?: number
+) => {
+  return theme?.fontWeight?.[weight] || fallbackFontWeight;
+};
+
+export const getComponentThemeColor = (
+  theme: Theme | undefined,
+  component: keyof Theme["components"],
+  field: ColorFieldKeys<ThemeField>,
+  color: ColorName | ColorRole,
+  scale: ColorScale,
+  fallbackColor?: string
+) => {
+  const c = theme?.components?.[component]?.[field]?.[color];
+
+  if (typeof c === "string") {
+    return c;
+  }
+
+  return c?.[scale] || getColor(theme, field, color, scale, fallbackColor);
+};
+
+export const getComponentThemeSize = (
+  theme: Theme | undefined,
+  component: keyof Theme["components"],
+  field: SizeFieldKeys<ThemeField>,
+  size: Size | SizeSystem,
+  fallbackSize?: string
+) => {
+  return (
+    theme?.components?.[component]?.[field]?.[size] ||
+    getSize(theme, field, size, fallbackSize)
+  );
+};
+
+export const getComponentThemeFontFamily = (
+  theme: Theme | undefined,
+  component: keyof Theme["components"],
+  group: FontFamilyGroup,
+  fallbackFontFamily?: string
+) => {
+  return (
+    theme?.components?.[component]?.fontFamily?.[group]?.join(",") ||
+    getFontFamily(theme, group, fallbackFontFamily)
+  );
+};
+
+export const getComponentThemeFontWeight = (
+  theme: Theme | undefined,
+  component: keyof Theme["components"],
+  weight: FontWeight,
+  fallbackFontWeight?: number
+) => {
+  return (
+    theme?.components?.[component]?.fontWeight?.[weight] ||
+    getFontWeight(theme, weight, fallbackFontWeight)
+  );
 };

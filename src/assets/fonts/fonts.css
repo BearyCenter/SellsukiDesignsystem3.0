@@ -1,0 +1,58 @@
+@font-face {
+  src: url("/assets/fonts/DB HeaventRounded v3.2.1.ttf") format("truetype");
+  font-family: "DB HeaventRounded";
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  src: url("/assets/fonts/DB HeaventRounded It v3.2.1.ttf") format("truetype");
+  font-family: "DB HeaventRounded";
+  font-style: italic;
+  font-weight: 400;
+}
+
+@font-face {
+  src: url("/assets/fonts/DB HeaventRounded Med v3.2.1.ttf") format("truetype");
+  font-family: "DB HeaventRounded";
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  src: url("/assets/fonts/DB HeaventRounded Med It v3.2.1.ttf")
+    format("truetype");
+  font-family: "DB HeaventRounded";
+  font-style: italic;
+  font-weight: 500;
+}
+
+@font-face {
+  src: url("/assets/fonts/DB HeaventRounded Bold v3.2.1.ttf") format("truetype");
+  font-family: "DB HeaventRounded";
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  src: url("/assets/fonts/DB HeaventRounded Bold It v3.2.1.ttf")
+    format("truetype");
+  font-family: "DB HeaventRounded";
+  font-style: italic;
+  font-weight: 700;
+}
+
+@font-face {
+  src: url("/assets/fonts/DB HeaventRounded Blk v3.2.1.ttf") format("truetype");
+  font-family: "DB HeaventRounded";
+  font-style: normal;
+  font-weight: 900;
+}
+
+@font-face {
+  src: url("/assets/fonts/DB HeaventRounded Blk It v3.2.1.ttf")
+    format("truetype");
+  font-family: "DB HeaventRounded";
+  font-style: italic;
+  font-weight: 900;
+}

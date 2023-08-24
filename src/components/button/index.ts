@@ -1,7 +1,17 @@
 import { consume } from "@lit-labs/context";
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { ButtonVariants, Theme } from "../../types/theme";
+import {
+  ButtonVariants,
+  ColorName,
+  ColorRole,
+  FontFamilyGroup,
+  Size,
+  Theme,
+  getComponentThemeColor,
+  getComponentThemeFontFamily,
+  getComponentThemeSize,
+} from "../../types/theme";
 import { themeContext } from "../theme-context";
 
 /**
@@ -10,6 +20,10 @@ import { themeContext } from "../theme-context";
  */
 @customElement("ssk-button")
 export class Button extends LitElement {
+  @consume({ context: themeContext, subscribe: true })
+  @property({ attribute: false })
+  public theme?: Theme;
+
   @property({ type: String })
   variant: ButtonVariants = "solid";
 
@@ -22,24 +36,29 @@ export class Button extends LitElement {
   @property({ type: Boolean })
   hidden = false;
 
-  @property({
-    reflect: true,
-    converter: {
-      toAttribute: (value, t) => {
-        console.log("toAttribute", value, t);
-        return value;
-      },
-    },
-  })
-  padding = "8px 16px";
+  @property({ type: String })
+  size: Size = "md";
+
+  @property({ type: String })
+  padding: Size = "md";
+
+  @property({ type: String })
+  themeColor: ColorRole | ColorName = "primary";
+
+  // font group
+  @property({ type: String })
+  fontFamilyGroup: FontFamilyGroup = "sans";
+
+  @property({ type: String })
+  fontWeight = "400";
+
+  // font color
+  @property({ type: String })
+  color: ColorRole | ColorName = "white";
 
   // onClick
   @property({ type: Function })
   onClick?: () => void;
-
-  @consume({ context: themeContext, subscribe: true })
-  @property({ attribute: false })
-  public theme?: Theme;
 
   render() {
     if (this.hidden) {
@@ -49,29 +68,91 @@ export class Button extends LitElement {
     return html`
       <style>
         button {
-          background-color: ${this.theme?.colors.primary?.["500"]};
-          color: ${this.theme?.colors.black?.["800"]};
+          background-color: ${getComponentThemeColor(
+            this.theme,
+            "button",
+            "colors",
+            this.themeColor,
+            "500"
+          )};
+          color: ${getComponentThemeColor(
+            this.theme,
+            "button",
+            "colors",
+            this.color,
+            "100"
+          )};
           border: none;
-          border-radius: 4px;
-          padding: 8px 16px;
-          font-size: 16px;
-          font-weight: 500;
+          border-radius: ${getComponentThemeSize(
+            this.theme,
+            "button",
+            "rounded",
+            this.size
+          )};
+          padding: ${getComponentThemeSize(
+            this.theme,
+            "button",
+            "padding",
+            this.padding || this.size
+          )};
+          font-size: ${getComponentThemeSize(
+            this.theme,
+            "button",
+            "fontSize",
+            this.size
+          )};
+          line-height: ${getComponentThemeSize(
+            this.theme,
+            "button",
+            "lineHeight",
+            this.size
+          )};
+          font-family: ${getComponentThemeFontFamily(
+            this.theme,
+            "button",
+            this.fontFamilyGroup,
+            this.size
+          )};
+          font-weight: ${this.fontWeight};
           cursor: pointer;
           transition: background-color 0.2s ease-in-out;
-          padding: ${this.padding};
         }
 
         button:hover {
-          background-color: ${this.theme?.colors.primary?.["600"]};
+          background-color: ${getComponentThemeColor(
+            this.theme,
+            "button",
+            "colors",
+            this.themeColor,
+            "600"
+          )};
         }
 
         button:active {
-          background-color: ${this.theme?.colors.primary?.["700"]};
+          background-color: ${getComponentThemeColor(
+            this.theme,
+            "button",
+            "colors",
+            this.themeColor,
+            "700"
+          )};
         }
 
         button:disabled {
-          background-color: ${this.theme?.colors.gray?.["300"]};
-          color: ${this.theme?.colors.gray?.["500"]};
+          background-color: ${getComponentThemeColor(
+            this.theme,
+            "button",
+            "colors",
+            this.themeColor,
+            "300"
+          )};
+          color: ${getComponentThemeColor(
+            this.theme,
+            "button",
+            "colors",
+            this.color,
+            "500"
+          )};
           cursor: not-allowed;
         }
       </style>
