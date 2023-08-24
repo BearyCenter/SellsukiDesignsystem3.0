@@ -138,7 +138,7 @@ export class Button extends LitElement implements ThemeValue {
           this.theme,
           "button",
           "colors",
-          this.color,
+          this.themeColor,
           "500"
         )};
           cursor: not-allowed;

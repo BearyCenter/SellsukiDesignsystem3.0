@@ -177,7 +177,6 @@ export const parseThemeValueComponentCss = (
     themeValue.maxHeight &&
     getComponentThemeSize(theme, component, "maxHeight", themeValue.maxHeight);
 
-  console.log(cssKV);
   return Object.entries(cssKV)
     .filter(([_, v]) => v !== undefined)
     .map(([k, v]) => `${k}: ${v};`)
