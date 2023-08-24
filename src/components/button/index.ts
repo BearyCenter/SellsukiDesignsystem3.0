@@ -100,10 +100,13 @@ export class Button extends LitElement implements ThemeValue {
 
     return html`
       <style>
+
         button {
           ${parseThemeValueComponentCss(this.theme, "button", this)}
+          border: none;
           cursor: pointer;
           transition: background-color 0.2s ease-in-out;
+
         }
 
         button:hover {
@@ -112,7 +115,7 @@ export class Button extends LitElement implements ThemeValue {
           "button",
           "colors",
           this.themeColor,
-          "600"
+          "400"
         )};
         }
 
@@ -122,7 +125,7 @@ export class Button extends LitElement implements ThemeValue {
           "button",
           "colors",
           this.themeColor,
-          "700"
+          "300"
         )};
         }
 
@@ -131,14 +134,14 @@ export class Button extends LitElement implements ThemeValue {
           this.theme,
           "button",
           "colors",
-          this.themeColor,
+          "gray",
           "300"
         )};
           color: ${getComponentThemeColor(
           this.theme,
           "button",
           "colors",
-          this.themeColor,
+          "gray",
           "500"
         )};
           cursor: not-allowed;

@@ -439,6 +439,23 @@ export const defaultTheme: Theme = {
         lg: "20px 40px",
         xl: "24px 48px",
       },
+      margin: {
+        xs: "0px",
+        sm: "0px",
+        md: "0px",
+        lg: "0px",
+        xl: "0px",
+      },
+      boxShadow: {}, // no boxShadow
+      dropShadow: {}, // no dropShadow
+      borderWidth: {}, // no borderWidth
+      rounded: {
+        xs: "2px",
+        sm: "4px",
+        md: "8px",
+        lg: "16px",
+        xl: "24px",
+      },
     },
   },
 };
