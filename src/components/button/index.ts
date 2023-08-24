@@ -6,12 +6,15 @@ import {
   ColorName,
   ColorRole,
   FontFamilyGroup,
+  FontWeight,
   Size,
   Theme,
   getComponentThemeColor,
-  getComponentThemeFontFamily,
-  getComponentThemeSize,
 } from "../../types/theme";
+import {
+  ThemeValue,
+  parseThemeValueComponentCss,
+} from "../../types/theme-value";
 import { themeContext } from "../theme-context";
 
 /**
@@ -19,11 +22,61 @@ import { themeContext } from "../theme-context";
  * @csspart button - The button
  */
 @customElement("ssk-button")
-export class Button extends LitElement {
+export class Button extends LitElement implements ThemeValue {
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  @property({ type: String })
+  themeColor: ColorRole | ColorName = "primary";
+  @property({ type: String })
+  color?: ColorRole | ColorName;
+  @property({ type: String })
+  backgroundColor?: string | undefined;
+  @property({ type: String })
+  borderColor?: string | undefined;
+
+  @property({ type: String })
+  size: Size = "md";
+  @property({ type: String })
+  padding?: Size;
+  @property({ type: String })
+  fontSize?: string | undefined;
+  @property({ type: String })
+  lineHeight?: string | undefined;
+  @property({ type: String })
+  gap?: string | undefined;
+  @property({ type: String })
+  rounded?: string | undefined;
+  @property({ type: String })
+  margin?: string | undefined;
+
+  // font
+  @property({ type: String })
+  fontFamilyGroup: FontFamilyGroup = "sans";
+  @property({ type: String })
+  fontWeight: FontWeight = "normal";
+
+  @property({ type: String })
+  borderWidth?: string | undefined;
+  @property({ type: String })
+  boxShadow?: string | undefined;
+  @property({ type: String })
+  dropShadow?: string | undefined;
+  @property({ type: String })
+  width?: string | undefined;
+  @property({ type: String })
+  height?: string | undefined;
+  @property({ type: String })
+  minWidth?: string | undefined;
+  @property({ type: String })
+  minHeight?: string | undefined;
+  @property({ type: String })
+  maxWidth?: string | undefined;
+  @property({ type: String })
+  maxHeight?: string | undefined;
+
+  // button specific
   @property({ type: String })
   variant: ButtonVariants = "solid";
 
@@ -36,27 +89,7 @@ export class Button extends LitElement {
   @property({ type: Boolean })
   hidden = false;
 
-  @property({ type: String })
-  size: Size = "md";
-
-  @property({ type: String })
-  padding: Size = "md";
-
-  @property({ type: String })
-  themeColor: ColorRole | ColorName = "primary";
-
-  // font group
-  @property({ type: String })
-  fontFamilyGroup: FontFamilyGroup = "sans";
-
-  @property({ type: String })
-  fontWeight = "400";
-
-  // font color
-  @property({ type: String })
-  color: ColorRole | ColorName = "white";
-
-  // onClick
+  // Event
   @property({ type: Function })
   onClick?: () => void;
 
@@ -68,91 +101,46 @@ export class Button extends LitElement {
     return html`
       <style>
         button {
-          background-color: ${getComponentThemeColor(
-            this.theme,
-            "button",
-            "colors",
-            this.themeColor,
-            "500"
-          )};
-          color: ${getComponentThemeColor(
-            this.theme,
-            "button",
-            "colors",
-            this.color,
-            "100"
-          )};
-          border: none;
-          border-radius: ${getComponentThemeSize(
-            this.theme,
-            "button",
-            "rounded",
-            this.size
-          )};
-          padding: ${getComponentThemeSize(
-            this.theme,
-            "button",
-            "padding",
-            this.padding || this.size
-          )};
-          font-size: ${getComponentThemeSize(
-            this.theme,
-            "button",
-            "fontSize",
-            this.size
-          )};
-          line-height: ${getComponentThemeSize(
-            this.theme,
-            "button",
-            "lineHeight",
-            this.size
-          )};
-          font-family: ${getComponentThemeFontFamily(
-            this.theme,
-            "button",
-            this.fontFamilyGroup,
-            this.size
-          )};
-          font-weight: ${this.fontWeight};
+          ${parseThemeValueComponentCss(this.theme, "button", this)}
           cursor: pointer;
           transition: background-color 0.2s ease-in-out;
         }
 
         button:hover {
           background-color: ${getComponentThemeColor(
-            this.theme,
-            "button",
-            "colors",
-            this.themeColor,
-            "600"
-          )};
+          this.theme,
+          "button",
+          "colors",
+          this.themeColor,
+          "600"
+        )};
         }
 
         button:active {
           background-color: ${getComponentThemeColor(
-            this.theme,
-            "button",
-            "colors",
-            this.themeColor,
-            "700"
-          )};
+          this.theme,
+          "button",
+          "colors",
+          this.themeColor,
+          "700"
+        )};
         }
 
         button:disabled {
           background-color: ${getComponentThemeColor(
-            this.theme,
-            "button",
-            "colors",
-            this.themeColor,
-            "300"
-          )};
+          this.theme,
+          "button",
+          "colors",
+          this.themeColor,
+          "300"
+        )};
           color: ${getComponentThemeColor(
-            this.theme,
-            "button",
-            "colors",
-            this.color,
-            "500"
-          )};
+          this.theme,
+          "button",
+          "colors",
+          this.color,
+          "500"
+        )};
           cursor: not-allowed;
         }
       </style>

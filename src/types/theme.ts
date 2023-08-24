@@ -197,7 +197,7 @@ export const getColor = (
     return c;
   }
 
-  return c?.[scale] || fallbackColor;
+  return c?.[scale] || fallbackColor || color;
 };
 
 export const getSize = (
@@ -206,7 +206,7 @@ export const getSize = (
   size: Size | SizeSystem,
   fallbackSize?: string
 ) => {
-  return theme?.[field]?.[size] || fallbackSize;
+  return theme?.[field]?.[size] || fallbackSize || size;
 };
 
 export const getFontFamily = (
@@ -222,7 +222,7 @@ export const getFontWeight = (
   weight: FontWeight,
   fallbackFontWeight?: number
 ) => {
-  return theme?.fontWeight?.[weight] || fallbackFontWeight;
+  return theme?.fontWeight?.[weight] || fallbackFontWeight || weight;
 };
 
 export const getComponentThemeColor = (
@@ -233,8 +233,14 @@ export const getComponentThemeColor = (
   scale: ColorScale,
   fallbackColor?: string
 ) => {
-  const c = theme?.components?.[component]?.[field]?.[color];
+  const cs = color.split(".");
+  // e.g. "primary.500"
+  if (cs.length === 2) {
+    color = cs[0] as ColorName | ColorRole;
+    scale = cs[1] as ColorScale;
+  }
 
+  const c = theme?.components?.[component]?.[field]?.[color];
   if (typeof c === "string") {
     return c;
   }
