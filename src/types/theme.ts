@@ -184,47 +184,6 @@ type SizeFieldKeys<T> = ExcludeUndefinedKeys<
   }[keyof T]
 >;
 
-export const getColor = (
-  theme: ThemeField | undefined,
-  field: ColorFieldKeys<Theme>,
-  color: ColorName | ColorRole,
-  scale: ColorScale,
-  fallbackColor?: string
-) => {
-  const c = theme?.[field]?.[color];
-
-  if (typeof c === "string") {
-    return c;
-  }
-
-  return c?.[scale] || fallbackColor || color;
-};
-
-export const getSize = (
-  theme: ThemeField | undefined,
-  field: SizeFieldKeys<Theme>,
-  size: Size | SizeSystem,
-  fallbackSize?: string
-) => {
-  return theme?.[field]?.[size] || fallbackSize || size;
-};
-
-export const getFontFamily = (
-  theme: Theme | undefined,
-  group: FontFamilyGroup,
-  fallbackFontFamily?: string
-) => {
-  return theme?.fontFamily?.[group]?.join(",") || fallbackFontFamily;
-};
-
-export const getFontWeight = (
-  theme: Theme | undefined,
-  weight: FontWeight,
-  fallbackFontWeight?: number
-) => {
-  return theme?.fontWeight?.[weight] || fallbackFontWeight || weight;
-};
-
 export const getComponentThemeColor = (
   theme: Theme | undefined,
   component: keyof Theme["components"],
@@ -240,12 +199,23 @@ export const getComponentThemeColor = (
     scale = cs[1] as ColorScale;
   }
 
-  const c = theme?.components?.[component]?.[field]?.[color];
-  if (typeof c === "string") {
-    return c;
+  const f = theme?.components?.[component]?.[field];
+  // if not component override, use root theme
+  if (!f) {
+    const c = theme?.[field]?.[color];
+    if (typeof c === "string") {
+      return c;
+    }
+
+    return c?.[scale] || color || fallbackColor;
   }
 
-  return c?.[scale] || getColor(theme, field, color, scale, fallbackColor);
+  const fc = f?.[color];
+  if (typeof fc === "string") {
+    return fc;
+  }
+
+  return fc?.[scale] || fallbackColor;
 };
 
 export const getComponentThemeSize = (
@@ -255,10 +225,13 @@ export const getComponentThemeSize = (
   size: Size | SizeSystem,
   fallbackSize?: string
 ) => {
-  return (
-    theme?.components?.[component]?.[field]?.[size] ||
-    getSize(theme, field, size, fallbackSize)
-  );
+  const f = theme?.components?.[component]?.[field];
+  // if not component override, use root theme
+  if (!f) {
+    return theme?.[field]?.[size] || size || fallbackSize;
+  }
+
+  return f?.[size] || fallbackSize;
 };
 
 export const getComponentThemeFontFamily = (
@@ -267,9 +240,15 @@ export const getComponentThemeFontFamily = (
   group: FontFamilyGroup,
   fallbackFontFamily?: string
 ) => {
+  const f = theme?.components?.[component]?.fontFamily;
+  // if not component override, use root theme
+  if (!f) {
+    return theme?.fontFamily?.[group]?.join(",") || fallbackFontFamily;
+  }
+
   return (
     theme?.components?.[component]?.fontFamily?.[group]?.join(",") ||
-    getFontFamily(theme, group, fallbackFontFamily)
+    fallbackFontFamily
   );
 };
 
@@ -279,8 +258,13 @@ export const getComponentThemeFontWeight = (
   weight: FontWeight,
   fallbackFontWeight?: number
 ) => {
+  const f = theme?.components?.[component]?.fontWeight;
+  // if not component override, use root theme
+  if (!f) {
+    return theme?.fontWeight?.[weight] || weight || fallbackFontWeight;
+  }
+
   return (
-    theme?.components?.[component]?.fontWeight?.[weight] ||
-    getFontWeight(theme, weight, fallbackFontWeight)
+    theme?.components?.[component]?.fontWeight?.[weight] || fallbackFontWeight
   );
 };
