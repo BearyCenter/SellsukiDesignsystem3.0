@@ -162,6 +162,7 @@ export type Theme = {
       // for extra fields
     } & Partial<ThemeField>;
     input?: {} & Partial<ThemeField>;
+    icon?: {} & Partial<ThemeField>;
   };
 } & ThemeField;
 
@@ -189,11 +190,15 @@ export const getComponentThemeColor = (
   scale: ColorScale,
   fallbackColor?: string
 ) => {
-  const cs = color.split(".");
+  // split color into color and scale e.g. "primary.500"
+  const regex = new RegExp(
+    `^(${Object.keys(theme?.[field] || {}).join("|")})\\.(\\d+)$`
+  );
+  const cs = color.match(regex);
   // e.g. "primary.500"
-  if (cs.length === 2) {
-    color = cs[0] as ColorName | ColorRole;
-    scale = cs[1] as ColorScale;
+  if (cs && cs.length === 3) {
+    color = cs[1] as ColorName | ColorRole;
+    scale = cs[2] as ColorScale;
   }
 
   const f = theme?.components?.[component]?.[field];

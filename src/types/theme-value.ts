@@ -10,7 +10,7 @@ import {
 } from "./theme";
 
 export type ThemeValue = {
-  themeColor: string;
+  themeColor?: string;
   backgroundColor?: string;
   color?: string;
   borderColor?: string;
@@ -44,6 +44,8 @@ export const parseThemeValueComponentCss = (
   themeValue: ThemeValue
 ): string => {
   let cssKV: { [props: string]: string | number | undefined } = {};
+
+  if (!themeValue.themeColor) themeValue.themeColor = "transparent";
 
   // Color
   cssKV["background-color"] = getComponentThemeColor(
@@ -138,12 +140,9 @@ export const parseThemeValueComponentCss = (
   );
 
   // Shadow
-  cssKV["box-shadow"] = getComponentThemeSize(
-    theme,
-    component,
-    "boxShadow",
-    themeValue.boxShadow || themeValue.size
-  );
+  cssKV["box-shadow"] =
+    themeValue.boxShadow &&
+    getComponentThemeSize(theme, component, "boxShadow", themeValue.boxShadow);
 
   // Width, Height
   cssKV["width"] =

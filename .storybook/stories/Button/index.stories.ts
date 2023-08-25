@@ -9,7 +9,7 @@ type ButtonWithLabel = Button & { label: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Button2",
+  title: "Example/Button",
   tags: ["autodocs"],
   render: ({ label, ...args }) => {
     return html`<ssk-button ${spreadProps(args)}>${label}</ssk-button>`;
