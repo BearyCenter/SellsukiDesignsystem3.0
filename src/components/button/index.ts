@@ -98,6 +98,156 @@ export class Button extends LitElement implements ThemeValue {
       return html``;
     }
 
+    // split css into variants
+    let additionalCss = "";
+
+    if (this.variant === "solid") {
+      additionalCss += `
+      button:hover:enabled {
+        background: linear-gradient(
+          to top,
+          rgba(255, 255, 255, 0.2),
+          rgba(255, 255, 255, 0.2)
+        ) var(--background-color);
+      }
+
+      button:active:enabled  {
+        background: linear-gradient(
+          to top,
+          rgba(255, 255, 255, 0.3),
+          rgba(255, 255, 255, 0.3)
+        ) var(--background-color);
+      }
+
+      button:disabled {
+        background-color: ${getComponentThemeColor(
+          this.theme,
+          "button",
+          "colors",
+          "gray",
+          "200"
+        )};
+        color: ${getComponentThemeColor(
+          this.theme,
+          "button",
+          "colors",
+          "gray",
+          "300"
+        )};
+      }
+      `;
+
+      if (this.loading) {
+        additionalCss += `
+        button {
+          background: linear-gradient(
+            to top,
+            rgba(255, 255, 255, 0.3),
+            rgba(255, 255, 255, 0.3)
+          ) var(--background-color);
+        }
+        `;
+      }
+    }
+
+    if (this.variant === "outline") {
+      additionalCss += `
+      button {
+        background-color: transparent;
+        border-width: max(1px, calc(var(--border-width)));
+        border-color: var(--background-color);
+        color: var(--background-color);
+      }
+
+      button:hover:enabled {
+        background: linear-gradient(
+          to top,
+          rgba(255, 255, 255, 0.2),
+          rgba(255, 255, 255, 0.2)
+        ) var(--background-color);
+      }
+
+      button:active:enabled  {
+        background: linear-gradient(
+          to top,
+          rgba(255, 255, 255, 0.3),
+          rgba(255, 255, 255, 0.3)
+        ) var(--background-color);
+      }
+
+      button:disabled {
+        background-color: transparent;
+        border-color: ${getComponentThemeColor(
+          this.theme,
+          "button",
+          "colors",
+          "gray",
+          "200"
+        )};
+        color: ${getComponentThemeColor(
+          this.theme,
+          "button",
+          "colors",
+          "gray",
+          "200"
+        )};
+      }
+      `;
+    }
+
+    if (this.variant === "ghost") {
+      additionalCss += `
+      button {
+        background-color: transparent;
+        border: none;
+        color: var(--background-color);
+      }
+
+      button:hover:enabled {
+        background-color: ${getComponentThemeColor(
+          this.theme,
+          "button",
+          "colors",
+          this.backgroundColor || this.themeColor,
+          "100"
+        )};
+      }
+
+      button:active:enabled  {
+        background-color: ${getComponentThemeColor(
+          this.theme,
+          "button",
+          "colors",
+          this.backgroundColor || this.themeColor,
+          "200"
+        )};
+      }
+
+      button:disabled {
+        background-color: transparent;
+        color: ${getComponentThemeColor(
+          this.theme,
+          "button",
+          "colors",
+          "gray",
+          "200"
+        )};
+      }
+      `;
+
+      if (this.loading) {
+        additionalCss += `
+        button {
+          background: linear-gradient(
+            to top,
+            rgba(255, 255, 255, 0.3),
+            rgba(255, 255, 255, 0.3)
+          ) var(--background-color);
+        }
+        `;
+      }
+    }
+
     return html`
       <style>
         button {
@@ -108,50 +258,20 @@ export class Button extends LitElement implements ThemeValue {
           transition: background-color 0.2s ease-in-out;
         }
 
-        button:hover:enabled {
-          background: linear-gradient(
-            to top,
-            rgba(255, 255, 255, 0.2),
-            rgba(255, 255, 255, 0.2)
-          ) var(--background-color);
-        }
-
-        button:active:enabled  {
-          background: linear-gradient(
-            to top,
-            rgba(255, 255, 255, 0.3),
-            rgba(255, 255, 255, 0.3)
-          ) var(--background-color);
-        }
-
         button:disabled {
-          background-color: ${this.loading
-          ? getComponentThemeColor(
-              this.theme,
-              "button",
-              "colors",
-              this.themeColor,
-              "300"
-            )
-          : getComponentThemeColor(
-              this.theme,
-              "button",
-              "colors",
-              "gray",
-              "200"
-            )};
-          color: ${!this.loading &&
-        getComponentThemeColor(this.theme, "button", "colors", "gray", "300")};
           cursor: not-allowed;
         }
+
+        ${additionalCss}
       </style>
 
-      <button .disabled=${this.disabled || this.loading} @click=${this.onClick}>
-        ${this.loading
-          ? html`<span>Loading...</span>`
-          : html`<slot name="prefix" />
-              <slot />
-              <slot name="postfix" />`}
+      <button
+        .disabled=${this.disabled}
+        @click=${!this.loading && this.onClick}
+      >
+        ${this.loading ? html`<span>...</span>` : html`<slot name="prefix" />`}
+        <slot />
+        <slot name="postfix" />
       </button>
     `;
   }

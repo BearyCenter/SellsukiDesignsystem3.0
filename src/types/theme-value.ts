@@ -53,7 +53,6 @@ export const parseThemeValueComponentCss = (
     themeValue.backgroundColor || themeValue.themeColor,
     "500"
   );
-  cssKV["--background-color"] = cssKV["background-color"];
 
   cssKV["color"] = getComponentThemeColor(
     theme,
@@ -63,7 +62,6 @@ export const parseThemeValueComponentCss = (
       (colord(themeValue.themeColor).isDark() ? "white" : "black"),
     "100"
   );
-  cssKV["--color"] = cssKV["color"];
 
   cssKV["border-color"] = getComponentThemeColor(
     theme,
@@ -72,7 +70,6 @@ export const parseThemeValueComponentCss = (
     themeValue.borderColor || themeValue.themeColor,
     "400"
   );
-  cssKV["--border-color"] = cssKV["border-color"];
 
   // Size
   cssKV["font-size"] = getComponentThemeSize(
@@ -136,7 +133,8 @@ export const parseThemeValueComponentCss = (
     theme,
     component,
     "borderWidth",
-    themeValue.borderWidth || themeValue.size
+    themeValue.borderWidth || themeValue.size,
+    "0px"
   );
 
   // Shadow
@@ -174,6 +172,6 @@ export const parseThemeValueComponentCss = (
 
   return Object.entries(cssKV)
     .filter(([_, v]) => v !== undefined)
-    .map(([k, v]) => `${k}: ${v};`)
+    .map(([k, v]) => `${k}: ${v};\n--${k}: ${v};`)
     .join("\n");
 };
