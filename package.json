@@ -9,14 +9,15 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "vitest"
+    "test": "vitest",
+    "generate:icon": "node scripts/generate-icon/index.js"
   },
   "dependencies": {
     "@lit-labs/context": "^0.4.0",
     "@open-wc/lit-helpers": "^0.6.0",
     "colord": "^2.9.3",
-    "lit": "^2.7.6",
-    "tailwindcss": "^3.3.3"
+    "glob": "^10.3.3",
+    "lit": "^2.7.6"
   },
   "devDependencies": {
     "@storybook/addon-designs": "^7.0.4",

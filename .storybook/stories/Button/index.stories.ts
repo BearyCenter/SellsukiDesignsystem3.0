@@ -71,7 +71,11 @@ export const Primary: Story = {
 };
 
 export const Secondary: Story = {
-  args: {},
+  args: {
+    themeColor: "secondary",
+    size: "md",
+    label: "Button",
+  },
   parameters: {
     design: {
       type: "figma",
@@ -81,7 +85,11 @@ export const Secondary: Story = {
 };
 
 export const Large: Story = {
-  args: {},
+  args: {
+    themeColor: "primary",
+    size: "lg",
+    label: "Button",
+  },
   parameters: {
     design: {
       type: "figma",
@@ -91,7 +99,11 @@ export const Large: Story = {
 };
 
 export const Small: Story = {
-  args: {},
+  args: {
+    themeColor: "primary",
+    size: "sm",
+    label: "Button",
+  },
   parameters: {
     design: {
       type: "figma",

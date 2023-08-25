@@ -23,6 +23,8 @@ import { themeContext } from "../theme-context";
  */
 @customElement("ssk-button")
 export class Button extends LitElement implements ThemeValue {
+  static registeredName = "ssk-button";
+
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
