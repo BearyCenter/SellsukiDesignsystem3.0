@@ -90,7 +90,7 @@ export type ColorPalette = {
   [key in ColorName | ColorRole]: Color;
 };
 
-type ThemeField = {
+export type ThemeField = {
   colors: ColorPalette;
   spacing: {
     [key in Size]: string;
@@ -163,6 +163,8 @@ export type Theme = {
     } & Partial<ThemeField>;
     input?: {} & Partial<ThemeField>;
     icon?: {} & Partial<ThemeField>;
+    text?: {} & Partial<ThemeField>;
+    heading?: {} & Partial<ThemeField>;
   };
 } & ThemeField;
 
