@@ -16,15 +16,9 @@ const meta = {
           width: 100%;
           display: flex;
           flex-flow: row wrap;
-          gap: 1rem;
-        }
-
-        .icon-card {
-          display: flex;
-          flex-flow: column nowrap;
           align-items: center;
-          gap: 0.5rem;
-          max-width: 10rem;
+          justify-content: space-between;
+          gap: 1rem;
         }
       </style>
       <main>

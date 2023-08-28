@@ -1938,10 +1938,10 @@ export class Icon extends LitElement implements ThemeValue {
     return html`
       <style>
         svg {
-          ${parseThemeValueComponentCss(this.theme, "icon", this)}
-
           height: 1em;
           width: 1em;
+          
+          ${parseThemeValueComponentCss(this.theme, "icon", this)}
         }
       </style>
 
