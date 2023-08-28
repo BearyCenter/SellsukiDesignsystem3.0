@@ -15,14 +15,13 @@ const meta = {
     return html`<ssk-icon ${spreadProps(args)}></ssk-icon>`;
   },
   argTypes: {
-    ...baseArgsTypes,
-
     name: {
       options: Object.keys(Icon.svgs),
       control: {
         type: "select",
       },
     },
+    ...baseArgsTypes,
   },
 } satisfies Meta<IconArgs>;
 

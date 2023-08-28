@@ -15,8 +15,6 @@ const meta = {
     return html`<ssk-button ${spreadProps(args)}>${label}</ssk-button>`;
   },
   argTypes: {
-    ...baseArgsTypes,
-
     label: {
       description: "The content of the button",
       control: "text",
@@ -28,7 +26,6 @@ const meta = {
         type: "inline-radio",
       },
     },
-
     loading: {
       control: {
         type: "boolean",
@@ -44,10 +41,10 @@ const meta = {
         type: "boolean",
       },
     },
-
     onClick: {
       action: "onClick",
     },
+    ...baseArgsTypes,
   },
 } satisfies Meta<ButtonWithLabel>;
 
