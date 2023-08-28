@@ -1,13 +1,16 @@
+import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import { unsafeHTML } from "lit/directives/unsafe-html.js";
-import "../../../src/components/icon/index.ts";
-import * as Icons from "../../../src/components/icon/index.ts";
+import "../../../src/components/icon";
+import { Icon } from "../../../src/components/icon";
+import { baseArgsTypes } from "../helper";
+
+type IconArgs = Omit<Icon, "name">;
 
 const meta = {
-  title: "Example/Icon/Showcase",
+  title: "Example/Icon",
   tags: [],
-  render: () => {
+  render: ({ ...args }) => {
     return html` <style>
         main {
           width: 100%;
@@ -25,18 +28,21 @@ const meta = {
         }
       </style>
       <main>
-        ${Object.entries(Icons).map(([name, component]) =>
-          unsafeHTML(`<${component.registeredName} />`)
+        ${Object.keys(Icon.svgs).map(
+          (name) => html`<ssk-icon ${spreadProps(args)} name=${name} />`
         )}
       </main>`;
   },
-} satisfies Meta<Icons.IconOutlineAcademicCap>;
+  argTypes: {
+    ...baseArgsTypes,
+  },
+} satisfies Meta<IconArgs>;
 
 export default meta;
 
-type Story = StoryObj<Icons.IconOutlineAcademicCap>;
+type Story = StoryObj<IconArgs>;
 
-export const ShowCase: Story = {
+export const All: Story = {
   args: {},
   parameters: {
     design: {

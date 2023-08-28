@@ -2,7 +2,7 @@
 // script: npm run generate:icon
 
 import { consume } from "@lit-labs/context";
-import { LitElement, css, html } from "lit";
+import { LitElement, css, html, svg, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import {
   ColorName,
@@ -18,11 +18,9 @@ import {
 } from "../../types/theme-value";
 import { themeContext } from "../theme-context";
 
-<% for (let icon of icons){ %>
-<% var tagName = `icon-${icon.variant}-${icon.name}`; %>
-@customElement("<%= tagName %>")
-export class <%= pascal(tagName) %> extends LitElement implements ThemeValue {
-  static registeredName = "<%= tagName %>";
+@customElement("ssk-icon")
+export class Icon extends LitElement implements ThemeValue {
+  static registeredName = "ssk-icon";
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
@@ -84,6 +82,13 @@ export class <%= pascal(tagName) %> extends LitElement implements ThemeValue {
   @property({ type: Function })
   onClick?: () => void;
 
+  @property({ type: String })
+  name: string = "";
+
+  static svgs: Record<string, TemplateResult> = {
+    <% for (let icon of icons){ %>"<%- `${icon.variant}-${icon.name}`; %>": svg`<%- icon.content %>`, <% } %>
+  };
+
   render() {
     if (this.hidden) {
       return html``;
@@ -99,20 +104,16 @@ export class <%= pascal(tagName) %> extends LitElement implements ThemeValue {
         }
       </style>
 
-      <%- icon.content %>
+      ${Icon.svgs[this.name]}
     `;
   }
 
   static styles = css``;
 }
 
-<% } %>
 
 declare global {
   interface HTMLElementTagNameMap {
-<% for (let icon of icons) { %>
-<% var tagName = `icon-${icon.variant}-${icon.name}`; %>
-    "<%- tagName %>": <%- pascal(tagName) %>;
-<% } %>
+    "ssk-icon": Icon;
   }
 }
