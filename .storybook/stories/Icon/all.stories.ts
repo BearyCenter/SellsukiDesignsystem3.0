@@ -47,7 +47,7 @@ export const All: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1103%3A78477",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=2012-9914",
     },
   },
 };
