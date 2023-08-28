@@ -23,13 +23,39 @@ const meta = {
       </div>`;
   },
   argTypes: {
-    ...baseArgsTypes,
-
     content: {
       control: {
         type: "text",
       },
     },
+    italic: {
+      control: {
+        type: "boolean",
+      },
+    },
+    underline: {
+      control: {
+        type: "boolean",
+      },
+    },
+    strike: {
+      control: {
+        type: "boolean",
+      },
+    },
+    align: {
+      options: ["left", "center", "right", "justify"],
+      control: {
+        type: "select",
+      },
+    },
+    transform: {
+      options: ["uppercase", "lowercase", "capitalize"],
+      control: {
+        type: "inline-radio",
+      },
+    },
+    ...baseArgsTypes,
   },
 } satisfies Meta<TextArgs>;
 

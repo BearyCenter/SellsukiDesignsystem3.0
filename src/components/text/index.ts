@@ -87,9 +87,6 @@ export class Text extends LitElement implements ThemeValue {
   underline = false;
 
   @property({ type: Boolean })
-  bold = false;
-
-  @property({ type: Boolean })
   strike = false;
 
   @property({ type: String })
@@ -103,10 +100,38 @@ export class Text extends LitElement implements ThemeValue {
       return html``;
     }
 
+    let additionalCss = "";
+    let textDecorations = [];
+
+    if (this.italic) {
+      additionalCss += "font-style: italic;";
+    }
+
+    if (this.underline) {
+      textDecorations.push("underline");
+    }
+
+    if (this.strike) {
+      textDecorations.push("line-through");
+    }
+
+    if (this.transform) {
+      additionalCss += `text-transform: ${this.transform};`;
+    }
+
+    if (this.align) {
+      additionalCss += `text-align: ${this.align};`;
+    }
+
     return html`
       <style>
         p {
           ${parseThemeValueComponentCss(this.theme, "text", this)}
+          ${additionalCss}
+
+          ${textDecorations.length > 0
+          ? `text-decoration: ${textDecorations.join(" ")};`
+          : ""}
         }
       </style>
       <p><slot /></p>
