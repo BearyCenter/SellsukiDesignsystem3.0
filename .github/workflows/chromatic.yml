@@ -27,3 +27,4 @@ jobs:
         with:
           # 👇 Chromatic projectToken, refer to the manage page to obtain it.
           projectToken: chpt_1a9282bc21799b2
+          token: ${{ secrets.GITHUB_TOKEN }}
