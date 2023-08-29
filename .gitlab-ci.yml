@@ -20,6 +20,12 @@ chromatic_publish_auto_accept_changes:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always
+  tags:
+    - amd
+    - docker
+    - general
+    - sellsuki
+    - production
 
 chromatic_publish:
   stage: test
@@ -29,3 +35,9 @@ chromatic_publish:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: always
       allow_failure: true
+  tags:
+    - amd
+    - docker
+    - general
+    - sellsuki
+    - staging
