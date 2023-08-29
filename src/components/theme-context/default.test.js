@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { applyTheme, defaultTheme } from "./default";
 
-const deepFreeze = <T>(obj: T): T => {
+const deepFreeze = (obj) => {
   if (typeof obj !== "object" || obj === null) {
     return obj;
   }
 
   for (const key of Object.keys(obj)) {
-    deepFreeze((obj as any)[key]);
+    deepFreeze(obj[key]);
   }
 
   return Object.freeze(obj);
@@ -25,7 +25,7 @@ describe("theme-context/applyTheme", () => {
       applyTheme({
         colors: {
           primary: {
-            "500": "#ff0000",
+            500: "#ff0000",
           },
         },
       })
@@ -35,7 +35,7 @@ describe("theme-context/applyTheme", () => {
         ...freezeDefaultTheme.colors,
         primary: {
           ...freezeDefaultTheme.colors.primary,
-          "500": "#ff0000",
+          500: "#ff0000",
         },
       },
     });
