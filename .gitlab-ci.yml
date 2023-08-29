@@ -34,7 +34,6 @@ chromatic_publish:
   rules: 
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: always
-      allow_failure: true
   tags:
     - amd
     - docker
