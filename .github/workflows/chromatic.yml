@@ -22,6 +22,8 @@ jobs:
         # 👇 Install dependencies with the same package manager used in the project (replace it as needed), e.g. yarn, npm, pnpm
         run: npm i
         # 👇 Adds Chromatic as a step in the workflow
+      - name: Build library
+        run: npm run build
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         # Chromatic GitHub Action options

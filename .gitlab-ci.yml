@@ -16,6 +16,7 @@ before_script:
 chromatic_publish_auto_accept_changes:
   stage: test
   script:
+    - npm run build
     - npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --auto-accept-changes
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
@@ -30,6 +31,7 @@ chromatic_publish_auto_accept_changes:
 chromatic_publish:
   stage: test
   script:
+    - npm run build
     - npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN
   rules: 
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
