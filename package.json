@@ -3,6 +3,19 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/sellsuki-core-components.umd.cjs",
+  "module": "dist/sellsuki-core-components.js",
+  "types": "dist/main.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/sellsuki-core-components.js",
+      "require": "./dist/sellsuki-core-components.umd.cjs",
+      "types": "./dist/main.d.ts"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -32,6 +45,7 @@
     "storybook": "^7.2.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
+    "vite-plugin-dts": "^3.5.3",
     "vitest": "^0.34.1"
   },
   "readme": "ERROR: No README data found!",
