@@ -3,6 +3,7 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Theme } from "../../types/theme";
 import { defaultTheme } from "./default";
+export * from "./default";
 
 export const themeContext = createContext<Theme>("ssk-theme");
 
