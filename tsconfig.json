@@ -20,5 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "vite.config.js", ".storybook/stories"]
+  "include": ["src/**/*.ts"],
+  "exclude": [".storybook/**/*.stories.ts"]
 }
