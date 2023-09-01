@@ -281,6 +281,7 @@ export class Button extends LitElement implements ThemeValue {
           : html`<slot name="prefix" />`}
         <slot />
         <slot name="postfix" />
+        duck
       </button>
     `;
   }
