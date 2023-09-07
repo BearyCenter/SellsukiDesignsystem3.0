@@ -1,9 +1,9 @@
 import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/components/button/index.ts";
-import { Button } from "../../../src/components/button/index.ts";
-import { baseArgsTypes } from "../helper.ts";
+import "../../../src/components/button";
+import { Button } from "../../../src/components/button";
+import { baseArgsTypes } from "../helper";
 
 type ButtonWithLabel = Button & { label: string };
 

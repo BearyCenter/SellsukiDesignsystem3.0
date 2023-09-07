@@ -6,6 +6,7 @@ import mustache from "mustache";
 
 const DB_NAMESPACE = "ssk-i18n";
 const DB_VERSION = 1;
+const DEFAULT_LANG = "en";
 
 type I18nStoreData = {
   key: string;
@@ -34,6 +35,8 @@ export class IdbI18nStore implements I18nStore {
       },
     });
   }
+
+  public currentLang: string = DEFAULT_LANG;
 
   public async getVersion(): Promise<number> {
     const db = await this.db;

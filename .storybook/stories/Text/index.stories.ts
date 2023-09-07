@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/text";
 import { Text } from "../../../src/components/text";
-import { baseArgsTypes } from "../helper.ts";
+import { baseArgsTypes } from "../helper";
 
 type TextArgs = {
   content: string;
@@ -14,13 +14,7 @@ const meta = {
   title: "Example/Text",
   tags: ["autodocs"],
   render: ({ content, ...args }) => {
-    return html` <style>
-        div {
-        }
-      </style>
-      <div>
-        <ssk-text ${spreadProps(args)}>${content}</ssk-text>
-      </div>`;
+    return html`<ssk-text ${spreadProps(args)}>${content}</ssk-text>`;
   },
   argTypes: {
     content: {

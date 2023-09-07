@@ -4,6 +4,7 @@ import { customElement, property } from "lit/decorators.js";
 import { IdbI18nStore } from "./idb";
 
 export interface I18nStore {
+  currentLang: string;
   getVersion: () => Promise<number>;
   setVersion: (version: number) => Promise<void>;
   set: (key: string, lang: string, value: string) => Promise<void>;
@@ -23,7 +24,14 @@ export class I18nProvider extends LitElement {
   })
   store: I18nStore = new IdbI18nStore();
 
+  @property({
+    attribute: true,
+  })
+  lang: string = "en";
+
   render() {
+    this.store.currentLang = this.lang;
+
     return html`<slot></slot>`;
   }
 }

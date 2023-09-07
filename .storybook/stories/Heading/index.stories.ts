@@ -1,9 +1,9 @@
 import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/components/heading/index.ts";
-import { Heading } from "../../../src/components/heading/index.ts";
-import { baseArgsTypes } from "../helper.ts";
+import "../../../src/components/heading";
+import { Heading } from "../../../src/components/heading";
+import { baseArgsTypes } from "../helper";
 
 type HeadingArgs = {
   content: string;
@@ -14,13 +14,7 @@ const meta = {
   title: "Example/Heading",
   tags: ["autodocs"],
   render: ({ content, ...args }) => {
-    return html` <style>
-        div {
-        }
-      </style>
-      <div>
-        <ssk-heading ${spreadProps(args)}>${content}</ssk-heading>
-      </div>`;
+    return html`<ssk-heading ${spreadProps(args)}>${content}</ssk-heading>`;
   },
   argTypes: {
     level: {

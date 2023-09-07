@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/icon";
 import { Icon } from "../../../src/components/icon";
-import { baseArgsTypes } from "../helper.ts";
+import { baseArgsTypes } from "../helper";
 
 type IconArgs = {} & Icon;
 
