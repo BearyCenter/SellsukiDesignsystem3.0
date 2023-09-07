@@ -4,7 +4,8 @@ import { customElement, property } from "lit/decorators.js";
 import { IdbI18nStore } from "./idb";
 
 export interface I18nStore {
-  dataVersion: string;
+  getVersion: () => Promise<number>;
+  setVersion: (version: number) => Promise<void>;
   set: (key: string, lang: string, value: string) => Promise<void>;
   sets: (key: string, values: { [lang: string]: string }) => Promise<void>;
   get: (key: string, lang: string) => Promise<string>;

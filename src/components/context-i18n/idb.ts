@@ -1,6 +1,9 @@
 import { IDBPDatabase, openDB } from "idb";
 import { I18nStore } from ".";
 
+// mustache
+import mustache from "mustache";
+
 const DB_NAMESPACE = "ssk-i18n";
 const DB_VERSION = 1;
 
@@ -11,21 +14,37 @@ type I18nStoreData = {
 };
 
 export class IdbI18nStore implements I18nStore {
-  constructor(namespace?: string) {
-    this.namespace = namespace || DB_NAMESPACE;
+  constructor(namespace: string = DB_NAMESPACE, version: number = DB_VERSION) {
+    this.namespace = namespace;
 
-    this.db = openDB<I18nStoreData>(this.namespace, DB_VERSION, {
-      upgrade: (db) => {
-        db.createObjectStore(this.namespace);
-      },
-    });
+    this.db = this.initDb(namespace, version);
   }
 
   private db: Promise<IDBPDatabase<I18nStoreData>>;
 
   private namespace: string = DB_NAMESPACE;
 
-  public dataVersion: string = "";
+  private async initDb(
+    namespace: string = DB_NAMESPACE,
+    version: number = DB_VERSION
+  ) {
+    return openDB<I18nStoreData>(namespace, version, {
+      upgrade: (db) => {
+        db.createObjectStore(namespace);
+      },
+    });
+  }
+
+  public async getVersion(): Promise<number> {
+    const db = await this.db;
+    return db.version;
+  }
+
+  public async setVersion(version: number): Promise<void> {
+    const db = await this.db;
+    await db.close();
+    this.db = this.initDb(this.namespace, version);
+  }
 
   public async set(key: string, lang: string, value: string): Promise<void> {
     const db = await this.db;
@@ -51,7 +70,7 @@ export class IdbI18nStore implements I18nStore {
 
   public async get(key: string, lang: string): Promise<string> {
     const db = await this.db;
-    return (await db.get(this.namespace, `${key}-${lang}`))?.value;
+    return (await db.get(this.namespace, `${key}-${lang}`))?.value ?? "";
   }
 
   public async render(
@@ -59,9 +78,9 @@ export class IdbI18nStore implements I18nStore {
     lang: string,
     metadata: any
   ): Promise<string> {
-    const db = await this.db;
-    const value = (await db.get(this.namespace, `${key}-${lang}`))?.value;
-    return value ? value : metadata?.default;
+    const value = await this.get(key, lang);
+
+    return mustache.render(value, metadata);
   }
 
   public async clear(): Promise<void> {

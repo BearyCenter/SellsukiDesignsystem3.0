@@ -15,7 +15,7 @@ const deepFreeze = (obj) => {
 
 const freezeDefaultTheme = deepFreeze(defaultTheme);
 
-describe("theme-context/applyTheme", () => {
+describe("context-theme/applyTheme", () => {
   it("should apply empty", () => {
     expect(applyTheme({})).toEqual(freezeDefaultTheme);
   });
