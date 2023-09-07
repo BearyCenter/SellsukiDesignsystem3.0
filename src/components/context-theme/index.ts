@@ -5,7 +5,7 @@ import { Theme } from "../../types/theme";
 import { defaultTheme } from "./default";
 export * from "./default";
 
-export const themeContext = createContext<Theme>("ssk-theme");
+export const themeContext = createContext<Theme>("ssk-theme-context");
 
 @customElement("ssk-theme-provider")
 export class ThemeProvider extends LitElement {

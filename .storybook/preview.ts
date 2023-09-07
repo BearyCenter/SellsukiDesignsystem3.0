@@ -1,6 +1,6 @@
 import type { Preview } from "@storybook/web-components";
 import { html } from "lit";
-import "../src/components/theme-context";
+import "../src/components/context-theme";
 
 const preview: Preview = {
   parameters: {
