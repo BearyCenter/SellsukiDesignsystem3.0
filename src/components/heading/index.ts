@@ -13,7 +13,7 @@ import {
   ThemeValue,
   parseThemeValueComponentCss,
 } from "../../types/theme-value";
-import { themeContext } from "../theme-context";
+import { themeContext } from "../context-theme";
 
 const levelToSize: Record<1 | 2 | 3 | 4 | 5, Size> = {
   1: "4xl",

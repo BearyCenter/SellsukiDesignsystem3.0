@@ -13,7 +13,7 @@ import {
   ThemeValue,
   parseThemeValueComponentCss,
 } from "../../types/theme-value";
-import { themeContext } from "../theme-context";
+import { themeContext } from "../context-theme";
 
 /**
  * @slot - This element has a slot

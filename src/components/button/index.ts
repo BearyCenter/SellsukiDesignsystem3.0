@@ -15,8 +15,8 @@ import {
   ThemeValue,
   parseThemeValueComponentCss,
 } from "../../types/theme-value";
+import { themeContext } from "../context-theme";
 import "../icon";
-import { themeContext } from "../theme-context";
 
 /**
  * @slot - This element has a slot
