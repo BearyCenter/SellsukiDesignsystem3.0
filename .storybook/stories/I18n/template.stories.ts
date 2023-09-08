@@ -2,21 +2,26 @@ import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/context-i18n";
-import "../../../src/components/i18n/translate";
-import { Translate } from "../../../src/components/i18n/translate";
+import "../../../src/components/i18n/template";
+import { Template } from "../../../src/components/i18n/template";
 
-type TranslateArgs = {} & Translate;
+type TemplateArgs = {} & Template;
 
 const meta = {
-  title: "Example/I18n/Translate",
+  title: "Example/I18n/Template",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html` <ssk-i18n-translate ${spreadProps(args)} />`;
+    return html` <ssk-i18n-template ${spreadProps(args)} />`;
   },
   argTypes: {
     key: {
       control: {
         type: "text",
+      },
+    },
+    data: {
+      control: {
+        type: "object",
       },
     },
     lang: {
@@ -57,16 +62,20 @@ const meta = {
       },
     },
   },
-} satisfies Meta<TranslateArgs>;
+} satisfies Meta<TemplateArgs>;
 
 export default meta;
 
-type Story = StoryObj<TranslateArgs>;
+type Story = StoryObj<TemplateArgs>;
 
 export const Default: Story = {
   args: {
-    key: "hello",
+    key: "greeting",
     lang: "en",
+    data: {
+      name: "John",
+      place: "Paris",
+    },
   },
   parameters: {},
 };
