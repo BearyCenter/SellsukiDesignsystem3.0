@@ -27,6 +27,21 @@ describe("context-i18n/idb", () => {
     expect(await store.get("hello_xxx", "th")).toEqual("");
   });
 
+  test("get not exist language", async () => {
+    const store = new IdbI18nStore();
+    expect(await store.get("hello", "xxx")).toEqual("");
+  });
+
+  test("get not exist value and language", async () => {
+    const store = new IdbI18nStore();
+    expect(await store.get("hello_xxx", "xxx")).toEqual("");
+  });
+
+  test("get not exist language with fallback", async () => {
+    const store = new IdbI18nStore();
+    expect(await store.get("hello", "xx", "th")).toEqual("สวัสดี");
+  });
+
   test("render template", async () => {
     const store = new IdbI18nStore();
     await store.set("hello_template", "th", data["hello_template"]["th"]);

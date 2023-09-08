@@ -3,14 +3,25 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { IdbI18nStore } from "./idb";
 
+export type I18nData = {
+  [key: string]: { [lang: string]: string };
+};
+
 export interface I18nStore {
   currentLang: string;
   getVersion: () => Promise<number>;
   setVersion: (version: number) => Promise<void>;
+  bulkSet: (data: I18nData) => Promise<void>;
   set: (key: string, lang: string, value: string) => Promise<void>;
   sets: (key: string, values: { [lang: string]: string }) => Promise<void>;
-  get: (key: string, lang: string) => Promise<string>;
-  render: (key: string, lang: string, metadata: any) => Promise<string>;
+  get: (key: string, lang: string, fallbackLang?: string) => Promise<string>;
+  getAll: () => Promise<I18nData>;
+  render: (
+    key: string,
+    lang: string,
+    metadata: any,
+    fallbackLang?: string
+  ) => Promise<string>;
   clear: () => Promise<void>;
 }
 

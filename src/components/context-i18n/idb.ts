@@ -1,5 +1,5 @@
 import { IDBPDatabase, openDB } from "idb";
-import { I18nStore } from ".";
+import { I18nData, I18nStore } from ".";
 
 // mustache
 import mustache from "mustache";
@@ -42,7 +42,6 @@ export class IdbI18nStore implements I18nStore {
     const db = await this.db;
     return db.version;
   }
-
   public async setVersion(version: number): Promise<void> {
     const db = await this.db;
     await db.close();
@@ -52,6 +51,25 @@ export class IdbI18nStore implements I18nStore {
   public async set(key: string, lang: string, value: string): Promise<void> {
     const db = await this.db;
     await db.put(this.namespace, { key, lang, value }, `${key}-${lang}`);
+  }
+
+  public async bulkSet(values: I18nData): Promise<void> {
+    const db = await this.db;
+    const keys = Object.keys(values);
+    await Promise.all(
+      keys.map((key) => {
+        const langs = Object.keys(values[key]);
+        return Promise.all(
+          langs.map((lang) => {
+            return db.put(
+              this.namespace,
+              { key, lang, value: values[key][lang] },
+              `${key}-${lang}`
+            );
+          })
+        );
+      })
+    );
   }
 
   public async sets(
@@ -71,17 +89,52 @@ export class IdbI18nStore implements I18nStore {
     );
   }
 
-  public async get(key: string, lang: string): Promise<string> {
+  public async get(
+    key: string,
+    lang: string,
+    fallbackLang?: string
+  ): Promise<string> {
     const db = await this.db;
-    return (await db.get(this.namespace, `${key}-${lang}`))?.value ?? "";
+
+    const v = await db.get(this.namespace, `${key}-${lang}`);
+
+    if (!v && fallbackLang) {
+      return (
+        (await db.get(this.namespace, `${key}-${fallbackLang}`))?.value ?? ""
+      );
+    }
+
+    return v?.value ?? "";
+  }
+
+  public async getAll(): Promise<I18nData> {
+    const db = await this.db;
+    const keys = await db.getAllKeys(this.namespace);
+
+    const data: I18nData = {};
+
+    await Promise.all(
+      keys.map(async (key) => {
+        const v = await db.get(this.namespace, key);
+        if (v) {
+          if (!data[v.key]) {
+            data[v.key] = {};
+          }
+          data[v.key][v.lang] = v.value;
+        }
+      })
+    );
+
+    return data;
   }
 
   public async render(
     key: string,
     lang: string,
-    metadata: any
+    metadata: any,
+    fallbackLang?: string
   ): Promise<string> {
-    const value = await this.get(key, lang);
+    const value = await this.get(key, lang, fallbackLang);
 
     return mustache.render(value, metadata);
   }

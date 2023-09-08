@@ -1,0 +1,41 @@
+import { spreadProps } from "@open-wc/lit-helpers";
+import type { Meta, StoryObj } from "@storybook/web-components";
+import { html } from "lit";
+import "../../../src/components/context-i18n";
+import "../../../src/components/i18n/translate";
+import { Translate } from "../../../src/components/i18n/translate";
+
+type TranslateArgs = {} & Translate;
+
+const meta = {
+  title: "Example/I18n/Translate",
+  tags: ["autodocs"],
+  render: ({ ...args }) => {
+    return html` <ssk-translate ${spreadProps(args)} />`;
+  },
+  argTypes: {
+    key: {
+      control: {
+        type: "text",
+      },
+    },
+    lang: {
+      options: ["en", "fr", "es", "de", "it", "pt", "ru", "zh", "ja", "ko"],
+      control: {
+        type: "select",
+      },
+    },
+  },
+} satisfies Meta<TranslateArgs>;
+
+export default meta;
+
+type Story = StoryObj<TranslateArgs>;
+
+export const Default: Story = {
+  args: {
+    key: "hello",
+    lang: "en",
+  },
+  parameters: {},
+};
