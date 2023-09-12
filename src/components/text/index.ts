@@ -134,7 +134,7 @@ export class Text extends LitElement implements ThemeValue {
           : ""}
         }
       </style>
-      <p><slot /></p>
+      <p><slot > </slot></p>
     `;
   }
 

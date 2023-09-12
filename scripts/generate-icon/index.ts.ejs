@@ -79,7 +79,7 @@ export class Icon extends LitElement implements ThemeValue {
   hidden = false;
 
   // Event
-  @property({ type: Function })
+  @property({ attribute: false })
   onClick?: () => void;
 
   @property({ type: String })

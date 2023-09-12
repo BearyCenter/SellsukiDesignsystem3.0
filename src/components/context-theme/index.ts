@@ -10,9 +10,7 @@ export const themeContext = createContext<Theme>("ssk-theme-context");
 @customElement("ssk-theme-provider")
 export class ThemeProvider extends LitElement {
   @provide({ context: themeContext })
-  @property({
-    attribute: true,
-  })
+  @property({ attribute: false })
   theme: Theme = defaultTheme;
 
   render() {

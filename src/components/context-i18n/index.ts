@@ -30,14 +30,10 @@ export const i18nContext = createContext<I18nStore>("ssk-i18n-context");
 @customElement("ssk-i18n-provider")
 export class I18nProvider extends LitElement {
   @provide({ context: i18nContext })
-  @property({
-    attribute: true,
-  })
+  @property({ attribute: false })
   store: I18nStore = new IdbI18nStore();
 
-  @property({
-    attribute: true,
-  })
+  @property({ attribute: true })
   lang: string = "en";
 
   render() {
