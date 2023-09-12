@@ -65,6 +65,7 @@ const meta = {
               ${size.map((sz) =>
                 state.map(
                   (s) => html`<ssk-button
+                    testId=${`button-${v}-${sz}-${s.disabled}-${s.loading}`}
                     ${spreadProps({ ...args, ...s, size: sz })}
                     variant=${v}
                     >${label}</ssk-button

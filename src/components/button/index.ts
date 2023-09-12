@@ -1,6 +1,7 @@
 import { consume } from "@lit-labs/context";
-import { LitElement, css, html, svg } from "lit";
+import { LitElement, css, html, nothing, svg } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { BaseAttributes } from "../../types/base-attributes";
 import {
   ButtonVariants,
   ColorName,
@@ -22,13 +23,18 @@ import { themeContext } from "../context-theme";
  * @csspart button - The button
  */
 @customElement("ssk-button")
-export class Button extends LitElement implements ThemeValue {
+export class Button extends LitElement implements ThemeValue, BaseAttributes {
   static registeredName = "ssk-button";
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  // BaseAttributes
+  @property({ type: String })
+  testId?: string;
+
+  // ThemeValue
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
   @property({ type: String })
@@ -271,6 +277,7 @@ export class Button extends LitElement implements ThemeValue {
       </style>
 
       <button
+        data-testid=${this.testId || nothing}
         .disabled=${this.disabled}
         @click=${!this.loading && this.onClick}
       >
