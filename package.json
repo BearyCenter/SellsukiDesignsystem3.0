@@ -24,7 +24,7 @@
     "build-storybook": "storybook build",
     "test": "vitest",
     "generate:icon": "node scripts/generate-icon/index.js",
-    "chromatic": "npx chromatic --project-token=chpt_1a9282bc21799b2"
+    "chromatic": "npx chromatic"
   },
   "dependencies": {
     "@lit-labs/context": "^0.4.0",
