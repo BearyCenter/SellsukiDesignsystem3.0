@@ -1,0 +1,48 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="React" />
+
+# React setup
+
+## Install
+```sh
+npm i @sellsuki/sellsuki-ui @lit-labs/react
+```
+
+## Usage
+```tsx
+// components/SskButton.tsx
+import { Button } from "@sellsuki/sellsuki-ui";
+import { createComponent } from '@lit-labs/react';
+
+const SskButton = createComponent({
+  tagName: Button.registeredName,
+  elementClass: Button,
+  react: React,
+  events: {
+    onClick: "change", // callback function have to manual add
+  },
+});
+
+export default SskButton
+```
+
+```tsx
+// App.tsx
+import React from "react";
+import SskButton from "./components/SskButton";
+
+const App = () => {
+  const [count, setCount] = React.useState(0);
+  const handleClick = () => setCount(count + 1);
+
+  return (
+    <div>
+      <SskButton onClick={handleClick}>Click Me</SskButton>
+      <div>Count: {count}</div>
+    </div>
+  );
+}
+
+export default App;
+```
