@@ -15,22 +15,18 @@ import {
 } from "../../types/theme-value";
 import { themeContext } from "../context-theme";
 
-/**
- * @slot - This element has a slot
- * @csspart text
- */
-@customElement("ssk-text")
-export class Text extends LitElement implements ThemeValue {
-  static registeredName = "ssk-text";
+@customElement("ssk-divider")
+export class Divider extends LitElement implements ThemeValue {
+  static registeredName = "ssk-divider";
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   @property({ type: String })
-  themeColor: ColorRole | ColorName = "";
+  themeColor: ColorRole | ColorName = "gray";
   @property({ type: String })
-  color?: ColorRole | ColorName = "black.900";
+  color?: ColorRole | ColorName = "";
   @property({ type: String })
   backgroundColor?: string | undefined;
   @property({ type: String })
@@ -76,24 +72,11 @@ export class Text extends LitElement implements ThemeValue {
   @property({ type: String })
   maxHeight?: string | undefined;
 
-  // text specific
+  // divider specific
   @property({ type: Boolean })
   hidden = false;
-
-  @property({ type: Boolean })
-  italic = false;
-
-  @property({ type: Boolean })
-  underline = false;
-
-  @property({ type: Boolean })
-  strike = false;
-
   @property({ type: String })
-  align?: "left" | "center" | "right" | "justify" | undefined;
-
-  @property({ type: String })
-  transform?: "uppercase" | "lowercase" | "capitalize" | undefined;
+  orientation: "horizontal" | "vertical" = "horizontal";
 
   render() {
     if (this.hidden) {
@@ -101,40 +84,38 @@ export class Text extends LitElement implements ThemeValue {
     }
 
     let additionalCss = "";
-    let textDecorations = [];
 
-    if (this.italic) {
-      additionalCss += "font-style: italic;";
+    if (this.orientation === "vertical") {
+      additionalCss += `
+        height: 100%;
+        width: min-content;
+        margin-top: 0;
+        margin-bottom: 0;
+      `;
     }
 
-    if (this.underline) {
-      textDecorations.push("underline");
-    }
-
-    if (this.strike) {
-      textDecorations.push("line-through");
-    }
-
-    if (this.transform) {
-      additionalCss += `text-transform: ${this.transform};`;
-    }
-
-    if (this.align) {
-      additionalCss += `text-align: ${this.align};`;
+    if (this.orientation === "horizontal") {
+      additionalCss += `
+        width: 100%;
+        height: min-content;
+        margin-left: 0;
+        margin-right: 0;
+      `;
     }
 
     return html`
       <style>
-        p {
-          ${parseThemeValueComponentCss(this.theme, "text", this)}
-          ${additionalCss}
+        div {
+          ${parseThemeValueComponentCss(this.theme, "divider", this)};
+          ${additionalCss};
 
-          ${textDecorations.length > 0
-          ? `text-decoration: ${textDecorations.join(" ")};`
-          : ""}
+          box-sizing: border-box;
+          background-color: ${this.backgroundColor ||
+        "var(--background-color)"};
+
         }
       </style>
-      <p><slot> </slot></p>
+      <div></div>
     `;
   }
 
@@ -143,6 +124,6 @@ export class Text extends LitElement implements ThemeValue {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ssk-text": Text;
+    "ssk-divider": Divider;
   }
 }

@@ -641,6 +641,38 @@ export const defaultTheme: Theme = {
         "4xl": "1em",
       },
     },
+    divider: {
+      padding: {
+        xs: "1px",
+        sm: "2px",
+        md: "4px",
+        lg: "8px",
+        xl: "12px",
+        "2xl": "16px",
+        "3xl": "24px",
+        "4xl": "32px",
+      },
+      margin: {
+        xs: "1px",
+        sm: "2px",
+        md: "4px",
+        lg: "8px",
+        xl: "12px",
+        "2xl": "16px",
+        "3xl": "24px",
+        "4xl": "32px",
+      },
+      rounded: {
+        xs: "0px",
+        sm: "0px",
+        md: "0px",
+        lg: "0px",
+        xl: "0px",
+        "2xl": "0px",
+        "3xl": "0px",
+        "4xl": "0px",
+      },
+    },
   },
 };
 
