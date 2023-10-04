@@ -41,7 +41,8 @@ export type ThemeValue = {
 export const parseThemeValueComponentCss = (
   theme: Theme | undefined,
   component: keyof Theme["components"],
-  themeValue: ThemeValue
+  themeValue: ThemeValue,
+  varOnly = false
 ): string => {
   let cssKV: { [props: string]: string | number | undefined } = {};
 
@@ -169,8 +170,19 @@ export const parseThemeValueComponentCss = (
     themeValue.maxHeight &&
     getComponentThemeSize(theme, component, "maxHeight", themeValue.maxHeight);
 
+  if (varOnly) {
+    return Object.entries(cssKV)
+      .filter(([_, v]) => v !== undefined)
+      .map(([k, v]) => `--${k}: ${v};`)
+      .join("\n");
+  }
+
   return Object.entries(cssKV)
     .filter(([_, v]) => v !== undefined)
-    .map(([k, v]) => `${k}: ${v};\n--${k}: ${v};`)
+    .map(
+      ([k, v]) =>
+        `${k}: ${v};
+    --${k}: ${v};`
+    )
     .join("\n");
 };

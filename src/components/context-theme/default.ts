@@ -673,6 +673,7 @@ export const defaultTheme: Theme = {
         "4xl": "0px",
       },
     },
+    checkbox: {},
   },
 };
 

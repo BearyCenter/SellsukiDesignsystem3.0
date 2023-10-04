@@ -166,6 +166,7 @@ export type Theme = {
     text?: {} & Partial<ThemeField>;
     heading?: {} & Partial<ThemeField>;
     divider?: {} & Partial<ThemeField>;
+    checkbox?: {} & Partial<ThemeField>;
   };
 } & ThemeField;
 

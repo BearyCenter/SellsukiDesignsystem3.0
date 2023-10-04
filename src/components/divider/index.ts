@@ -24,9 +24,9 @@ export class Divider extends LitElement implements ThemeValue {
   public theme?: Theme;
 
   @property({ type: String })
-  themeColor: ColorRole | ColorName = "gray";
+  themeColor: ColorRole | ColorName = "";
   @property({ type: String })
-  color?: ColorRole | ColorName = "";
+  color?: ColorRole | ColorName = "gray.200";
   @property({ type: String })
   backgroundColor?: string | undefined;
   @property({ type: String })
@@ -110,9 +110,7 @@ export class Divider extends LitElement implements ThemeValue {
           ${additionalCss};
 
           box-sizing: border-box;
-          background-color: ${this.backgroundColor ||
-        "var(--background-color)"};
-
+          background-color: var(--color);
         }
       </style>
       <div></div>
