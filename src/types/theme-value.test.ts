@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { deepFlattenTheme } from "./theme-value";
+import { deepFlattenTheme, parseAtRuleThemeValue } from "./theme-value";
 
 describe("deepFlattenTheme", () => {
   test("should flatten a nested theme object", () => {
@@ -706,27 +706,30 @@ describe("deepFlattenTheme", () => {
         "5xl": "8rem",
       },
       "@keyframes": {
-        spin: `
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-          `,
-        ping: `
-            75%, 100% { transform: scale(2), opacity: 0 }
-          `,
-        pulse: `
-            50% { opacity: 0.5 }
-          `,
-        bounce: `
-            0%, 100% {
-              transform: translateY(-25%);
-              animation-timing-function: cubic-bezier(0.8,0,1,1);
-            }
-      
-            50% {
-              transform: "none";
-              animation-timing-function: cubic-bezier(0,0,0.2,1);
-            }
-          `,
+        spin: {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        ping: {
+          "75%, 100%": {
+            transform: "scale(2)",
+            opacity: "0",
+          },
+        },
+
+        pulse: {
+          "50%": { opacity: ".5" },
+        },
+        bounce: {
+          "0%, 100%": {
+            transform: "translateY(-25%)",
+            animationTimingFunction: "cubic-bezier(0.8,0,1,1)",
+          },
+          "50%": {
+            transform: "none",
+            animationTimingFunction: "cubic-bezier(0,0,0.2,1)",
+          },
+        },
       },
       animation: {
         none: "none",
@@ -1167,9 +1170,9 @@ describe("deepFlattenTheme", () => {
       "line-height.3xl": "1em",
       "line-height.4xl": "1em",
       "line-height.5xl": "1.2em",
-      "font-family.sans": "DB HeaventRounded, Roboto, sans-serif",
-      "font-family.serif": "DB HeaventRounded, Merriweather, serif",
-      "font-family.mono": "DB HeaventRounded, Roboto Mono, monospace",
+      "font-family.sans": `"DB HeaventRounded", "Roboto", "sans-serif"`,
+      "font-family.serif": `"DB HeaventRounded", "Merriweather", "serif"`,
+      "font-family.mono": `"DB HeaventRounded", "Roboto Mono", "monospace"`,
       "font-weight.thin": "100",
       "font-weight.extralight": "200",
       "font-weight.light": "300",
@@ -1666,5 +1669,51 @@ describe("deepFlattenTheme", () => {
     };
 
     expect(deepFlattenTheme(theme)).toEqual(expected);
+  });
+});
+
+describe("parseAtRuleThemeValue", () => {
+  test("returns an empty array when theme is undefined", () => {
+    const theme = undefined;
+    const result = parseAtRuleThemeValue(theme);
+    expect(result).toEqual([]);
+  });
+
+  test("returns an array of at-rule strings when theme is defined", () => {
+    const theme = {
+      "@keyframes": {
+        spin: {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        ping: {
+          "75%, 100%": {
+            transform: "scale(2)",
+            opacity: "0",
+          },
+        },
+
+        pulse: {
+          "50%": { opacity: ".5" },
+        },
+        bounce: {
+          "0%, 100%": {
+            transform: "translateY(-25%)",
+            animationTimingFunction: "cubic-bezier(0.8,0,1,1)",
+          },
+          "50%": {
+            transform: "none",
+            animationTimingFunction: "cubic-bezier(0,0,0.2,1)",
+          },
+        },
+      },
+    };
+    const result = parseAtRuleThemeValue(theme);
+    expect(result).toEqual([
+      "@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }",
+      "@keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }",
+      "@keyframes pulse { 50% { opacity: .5; } }",
+      "@keyframes bounce { 0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8,0,1,1); } 50% { transform: none; animation-timing-function: cubic-bezier(0,0,0.2,1); } }",
+    ]);
   });
 });

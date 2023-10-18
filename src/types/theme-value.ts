@@ -68,6 +68,8 @@ export const deepFlattenTheme = (t: any, prefix = "", kv: kv = {}): kv => {
 
     switch (typeof v) {
       case "string":
+        kv[key] = v;
+        break;
       case "number":
         kv[key] = `${v}`;
         break;
@@ -75,7 +77,18 @@ export const deepFlattenTheme = (t: any, prefix = "", kv: kv = {}): kv => {
       case "object":
         // case array join them with space
         if (Array.isArray(v)) {
-          kv[key] = v.join(", ");
+          kv[key] = v
+            .map((v) => {
+              switch (typeof v) {
+                case "string":
+                  return `"${v}"`;
+                case "number":
+                  return `${v}`;
+                default:
+                  return `"${v}"`;
+              }
+            })
+            .join(", ");
           break;
         }
 
@@ -93,8 +106,17 @@ export const parseAtRuleThemeValue = (theme: Theme | undefined): string[] => {
   if (!theme) return atRules;
 
   // @keyframes
-  for (const [k, v] of Object.entries(theme["@keyframes"])) {
-    atRules.push(`@keyframes ${k} { ${v} }`);
+  for (const [k, ranges] of Object.entries(theme["@keyframes"])) {
+    atRules.push(
+      `@keyframes ${k} { ${Object.entries(ranges)
+        .map(
+          ([r, styles]) =>
+            `${r} { ${Object.entries(styles)
+              .map(([k, v]) => `${kebabCase(k)}: ${v};`)
+              .join(" ")} }`
+        )
+        .join(" ")} }`
+    );
   }
 
   return atRules;

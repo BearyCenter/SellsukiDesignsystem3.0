@@ -142,7 +142,9 @@ export type ThemeField = {
     [key in Size]: string;
   };
   "@keyframes": {
-    [key: string]: string;
+    [keyframe: string]: {
+      [range: string]: { [style: string]: string };
+    };
   };
   animation: {
     [key: string]: string;
