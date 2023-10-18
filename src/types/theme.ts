@@ -141,12 +141,8 @@ export type ThemeField = {
   margin: {
     [key in Size]: string;
   };
-  keyframes: {
-    [key: string]: {
-      [range: string]: {
-        [style: string]: string;
-      };
-    };
+  "@keyframes": {
+    [key: string]: string;
   };
   animation: {
     [key: string]: string;

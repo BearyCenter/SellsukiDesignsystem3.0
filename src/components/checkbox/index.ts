@@ -93,35 +93,13 @@ export class Checkbox extends LitElement implements ThemeValue {
 
     return html`
       <style>
-        span {
+        * {
           ${parseThemeValueComponentCss(this.theme, "checkbox", this, true)};
-        }
-
-        input, label {
-          font-family: inherit;
-          font-feature-settings: inherit;
-          font-variation-settings: inherit;
-          font-size: 100%;
-          font-weight: inherit;
-          line-height: inherit;
-          color: inherit;
-          margin: 0;
-          padding: 0;
-        }
-
-
-        input {
-          height: 1.5rem;
-          width: 1.5rem;
-          cursor: pointer;
-          -webkit-appearance: none;
-          -moz-appearance: none;
-          appearance: none;
         }
       </style>
       <div class="checkbox-wrapper">
         <input id="checkbox" type="checkbox" />
-        <label for="checkbox">Checkbox</label>
+        <label for="checkbox"><slot></slot></label>
       </div>
     `;
   }
@@ -139,7 +117,8 @@ export class Checkbox extends LitElement implements ThemeValue {
         --disabled-inner: #e1e6f9;
         -webkit-appearance: none;
         -moz-appearance: none;
-        height: 21px;
+        height: var(--height);
+        width: var(--width);
         outline: none;
         display: inline-block;
         vertical-align: top;
@@ -160,8 +139,8 @@ export class Checkbox extends LitElement implements ThemeValue {
           opacity var(--d-o, 0.2s);
       }
       .checkbox-wrapper input[type="checkbox"]:checked {
-        --b: var(--active);
-        --bc: var(--active);
+        --b: var(--color-500);
+        --bc: var(--color-500);
         --d-o: 0.3s;
         --d-t: 0.6s;
         --d-t-e: cubic-bezier(0.2, 0.85, 0.32, 1.2);
@@ -183,7 +162,7 @@ export class Checkbox extends LitElement implements ThemeValue {
         --bc: var(--border-hover);
       }
       .checkbox-wrapper input[type="checkbox"]:focus {
-        box-shadow: 0 0 0 var(--focus);
+        box-shadow: 0 0 0 3px var(--color-200);
       }
       .checkbox-wrapper input[type="checkbox"]:not(.switch) {
         width: 21px;
@@ -202,16 +181,16 @@ export class Checkbox extends LitElement implements ThemeValue {
       }
 
       .checkbox-wrapper input[type="checkbox"]:not(.switch) {
-        border-radius: 7px;
+        border-radius: var(--border-radius, 3px);
       }
       .checkbox-wrapper input[type="checkbox"]:not(.switch):after {
-        width: 5px;
-        height: 9px;
-        border: 2px solid var(--active-inner);
+        width: 30%;
+        height: 60%;
+        border: 2px solid var(--color);
         border-top: 0;
         border-left: 0;
-        left: 7px;
-        top: 4px;
+        left: 33%;
+        top: 7%;
         transform: rotate(var(--r, 20deg));
       }
       .checkbox-wrapper input[type="checkbox"]:not(.switch):checked {

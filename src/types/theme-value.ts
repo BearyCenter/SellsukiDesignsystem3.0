@@ -1,3 +1,4 @@
+import { kebabCase } from "change-case";
 import { colord } from "colord";
 import {
   FontFamilyGroup,
@@ -36,6 +37,67 @@ export type ThemeValue = {
   minHeight?: string;
   maxWidth?: string;
   maxHeight?: string;
+};
+
+type kv = { [key: string]: string };
+
+export const parseCssThemeValue = (
+  theme: Theme | undefined,
+  themeValue: ThemeValue,
+  component?: keyof Theme["components"]
+): kv => {
+  let cssKV: kv = {};
+
+  if (!theme) return cssKV;
+
+  for (const [k, v] of Object.entries(themeValue)) {
+    if (typeof v === "string") {
+      cssKV[`--${k}`] = v;
+    }
+  }
+
+  return cssKV;
+};
+
+export const deepFlattenTheme = (t: any, prefix = "", kv: kv = {}): kv => {
+  for (const [k, v] of Object.entries(t)) {
+    // ignore at-rule
+    if (k.startsWith("@")) continue;
+
+    const key = prefix ? `${prefix}.${kebabCase(k)}` : kebabCase(k);
+
+    switch (typeof v) {
+      case "string":
+      case "number":
+        kv[key] = `${v}`;
+        break;
+
+      case "object":
+        // case array join them with space
+        if (Array.isArray(v)) {
+          kv[key] = v.join(", ");
+          break;
+        }
+
+        deepFlattenTheme(v, key, kv);
+        break;
+    }
+  }
+
+  return kv;
+};
+
+export const parseAtRuleThemeValue = (theme: Theme | undefined): string[] => {
+  let atRules: string[] = [];
+
+  if (!theme) return atRules;
+
+  // @keyframes
+  for (const [k, v] of Object.entries(theme["@keyframes"])) {
+    atRules.push(`@keyframes ${k} { ${v} }`);
+  }
+
+  return atRules;
 };
 
 export const parseThemeValueComponentCss = (
@@ -170,19 +232,32 @@ export const parseThemeValueComponentCss = (
     themeValue.maxHeight &&
     getComponentThemeSize(theme, component, "maxHeight", themeValue.maxHeight);
 
+  for (const [k, v] of Object.entries(cssKV)) {
+    if (v === undefined) {
+      delete cssKV[k];
+      continue;
+    }
+
+    cssKV[`--${k}`] = v;
+  }
+
+  if (themeValue.themeColor) {
+    const color = theme?.colors[themeValue.themeColor];
+    if (color) {
+      for (const [k, v] of Object.entries(color)) {
+        cssKV[`--color-${k}`] = v;
+      }
+    }
+  }
+
   if (varOnly) {
     return Object.entries(cssKV)
-      .filter(([_, v]) => v !== undefined)
-      .map(([k, v]) => `--${k}: ${v};`)
+      .filter(([k, _]) => k.startsWith("--"))
+      .map(([k, v]) => `${k}: ${v};\n`)
       .join("\n");
   }
 
   return Object.entries(cssKV)
-    .filter(([_, v]) => v !== undefined)
-    .map(
-      ([k, v]) =>
-        `${k}: ${v};
-    --${k}: ${v};`
-    )
+    .map(([k, v]) => `${k}: ${v};\n`)
     .join("\n");
 };
