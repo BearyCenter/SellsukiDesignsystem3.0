@@ -1,28 +1,22 @@
 import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/components/heading";
-import { Heading } from "../../../src/components/heading";
-import { baseArgsTypes } from "../helper";
+import { baseArgsTypes } from "../../.storybook/stories/helper";
+import "../../src/components/text";
+import { Text } from "../../src/components/text";
 
-type HeadingArgs = {
+type TextArgs = {
   content: string;
-} & Heading;
+} & Text;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Heading",
+  title: "Example/Text",
   tags: ["autodocs"],
   render: ({ content, ...args }) => {
-    return html`<ssk-heading ${spreadProps(args)}>${content}</ssk-heading>`;
+    return html`<ssk-text ${spreadProps(args)}>${content}</ssk-text>`;
   },
   argTypes: {
-    level: {
-      options: [1, 2, 3, 4, 5],
-      control: {
-        type: "select",
-      },
-    },
     content: {
       control: {
         type: "text",
@@ -57,16 +51,16 @@ const meta = {
     },
     ...baseArgsTypes,
   },
-} satisfies Meta<HeadingArgs>;
+} satisfies Meta<TextArgs>;
 
 export default meta;
 
-type Story = StoryObj<HeadingArgs>;
+type Story = StoryObj<TextArgs>;
 
 export const Default: Story = {
   args: {
     content: "Don't forget to be awesome!",
-    level: 1,
+    size: "md",
     color: "black.900",
   },
   parameters: {

@@ -1,7 +1,7 @@
 import { createContext, provide } from "@lit-labs/context";
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Theme } from "../../types/theme";
+import { Theme, parseThemeToCssVariables } from "../../types/theme";
 import { defaultTheme } from "./default";
 export * from "./default";
 
@@ -14,7 +14,7 @@ export class ThemeProvider extends LitElement {
   theme: Theme = defaultTheme;
 
   render() {
-    return html`<slot></slot>`;
+    return html`${parseThemeToCssVariables(this.theme, "*")} <slot></slot>`;
   }
 }
 

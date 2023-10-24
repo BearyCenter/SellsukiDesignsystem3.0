@@ -1,18 +1,18 @@
 {
-  "name": "sellsuki-core-components",
-  "private": true,
+  "name": "sellsuki-components",
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "dist/sellsuki-core-components.umd.cjs",
-  "module": "dist/sellsuki-core-components.js",
+  "main": "dist/sellsuki-components.umd.cjs",
+  "module": "dist/sellsuki-components.js",
   "types": "dist/main.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/sellsuki-core-components.js",
-      "require": "./dist/sellsuki-core-components.umd.cjs",
+      "import": "./dist/sellsuki-components.js",
+      "require": "./dist/sellsuki-components.umd.cjs",
       "types": "./dist/main.d.ts"
     }
   },
@@ -55,7 +55,5 @@
     "vite": "^4.4.5",
     "vite-plugin-dts": "^3.5.3",
     "vitest": "^0.34.1"
-  },
-  "readme": "ERROR: No README data found!",
-  "_id": "sellsuki-core-components@0.0.0"
+  }
 }

@@ -10,7 +10,7 @@ export default defineConfig({
       entry: path.resolve(__dirname, "./src/main.ts"),
       name: "Sellsuki Core Components",
       // the proper extensions will be added
-      fileName: "sellsuki-core-components",
+      fileName: "sellsuki-components",
       // formats: ["es"],
     },
     rollupOptions: {

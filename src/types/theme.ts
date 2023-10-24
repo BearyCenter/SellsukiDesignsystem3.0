@@ -1,3 +1,7 @@
+import { kebabCase } from "change-case";
+
+import { TemplateResult, html } from "lit";
+
 export type SizeSystem =
   | string // e.g. __em, __rem, __vh, __vw, __%, __px
   | "full"
@@ -92,9 +96,6 @@ export type ColorPalette = {
 
 export type ThemeField = {
   colors: ColorPalette;
-  spacing: {
-    [key in Size]: string;
-  };
   fontSize: {
     [key in Size]: string;
   };
@@ -168,109 +169,124 @@ export type Theme = {
   };
 } & ThemeField;
 
-type ExcludeUndefinedKeys<T> = Exclude<T, undefined>;
-type ColorFieldKeys<T> = ExcludeUndefinedKeys<
-  {
-    [K in keyof T]: T[K] extends ColorPalette ? K : never;
-  }[keyof T]
->;
-type SizeFieldKeys<T> = ExcludeUndefinedKeys<
-  {
-    [K in keyof T]: T[K] extends {
-      [key in Size | SizeSystem]: string;
+type kv = { [key: string]: string };
+
+export const parseThemeToCssVariables = (
+  theme: Partial<ThemeField> | undefined,
+  base: string = ":host"
+): TemplateResult => {
+  let cssKV: kv = {};
+
+  if (!theme) return html``;
+
+  // base theme
+  cssKV = deepFlattenCssVar(theme);
+
+  return html`<style>
+    ${base} {${Object.entries(cssKV)
+      .map(([k, v]) => `--${k}: ${v};`)
+      .join(" ")}}${parseAtRuleThemeValue(theme).join("\n")}
+  </style>`;
+};
+
+export const deepFlattenCssVar = (t: any, prefix = "", kv: kv = {}): kv => {
+  for (const [k, v] of Object.entries(t)) {
+    // ignore at-rule
+    if (k.startsWith("@")) continue;
+
+    const key = prefix ? `${prefix}-${kebabCase(k)}` : kebabCase(k);
+
+    switch (typeof v) {
+      case "string":
+        kv[key] = v;
+        break;
+      case "number":
+        kv[key] = `${v}`;
+        break;
+
+      case "object":
+        // case array join them with space
+        if (Array.isArray(v)) {
+          kv[key] = v
+            .map((v) => {
+              switch (typeof v) {
+                case "string":
+                  return `"${v}"`;
+                case "number":
+                  return `${v}`;
+                default:
+                  return `"${v}"`;
+              }
+            })
+            .join(", ");
+          break;
+        }
+
+        deepFlattenCssVar(v, key, kv);
+        break;
     }
-      ? K
-      : never;
-  }[keyof T]
->;
-
-export const getComponentThemeColor = (
-  theme: Theme | undefined,
-  component: keyof Theme["components"],
-  field: ColorFieldKeys<ThemeField>,
-  color: ColorName | ColorRole,
-  scale: ColorScale,
-  fallbackColor?: string
-) => {
-  // split color into color and scale e.g. "primary.500"
-  const regex = new RegExp(
-    `^(${Object.keys(theme?.[field] || {}).join("|")})\\.(\\d+)$`
-  );
-  const cs = color.match(regex);
-  // e.g. "primary.500"
-  if (cs && cs.length === 3) {
-    color = cs[1] as ColorName | ColorRole;
-    scale = cs[2] as ColorScale;
   }
 
-  const f = theme?.components?.[component]?.[field];
-  // if not component override, use root theme
-  if (!f) {
-    const c = theme?.[field]?.[color];
-    if (typeof c === "string") {
-      return c;
-    }
-
-    return c?.[scale] || fallbackColor || color;
-  }
-
-  const fc = f?.[color];
-  if (typeof fc === "string") {
-    return fc;
-  }
-
-  return fc?.[scale] || fallbackColor || color;
+  return kv;
 };
 
-export const getComponentThemeSize = (
-  theme: Theme | undefined,
-  component: keyof Theme["components"],
-  field: SizeFieldKeys<ThemeField>,
-  size: Size | SizeSystem,
-  fallbackSize?: string
-) => {
-  const f = theme?.components?.[component]?.[field];
-  // if not component override, use root theme
-  if (!f) {
-    return theme?.[field]?.[size] || fallbackSize || size;
+export const parseAtRuleThemeValue = (
+  theme: Partial<ThemeField> | undefined
+): string[] => {
+  let atRules: string[] = [];
+
+  if (!theme) return atRules;
+
+  // @keyframes
+  for (const [k, ranges] of Object.entries(theme["@keyframes"] ?? {})) {
+    atRules.push(
+      `@keyframes ${k} { ${Object.entries(ranges)
+        .map(
+          ([r, styles]) =>
+            `${r} { ${Object.entries(styles)
+              .map(([k, v]) => `${kebabCase(k)}: ${v};`)
+              .join(" ")} }`
+        )
+        .join(" ")} }`
+    );
   }
 
-  return f?.[size] || fallbackSize || size;
+  return atRules;
 };
 
-export const getComponentThemeFontFamily = (
-  theme: Theme | undefined,
-  component: keyof Theme["components"],
-  group: FontFamilyGroup,
-  fallbackFontFamily?: string
-) => {
-  const f = theme?.components?.[component]?.fontFamily;
-  // if not component override, use root theme
-  if (!f) {
-    return theme?.fontFamily?.[group]?.join(",") || fallbackFontFamily;
-  }
+// parseVariableWithDefault
+// vars = ['--color', '--color-500','--color-primary', '--color-primary-500', '#fff']
+// return `var(--color, var(--color-500, var(--color-primary, var(--color-primary-500, #fff))))`
+export const parseVariables = (
+  ...variables: (string | undefined)[]
+): string => {
+  const vs = variables.filter((v): v is string => !!v);
 
-  return (
-    theme?.components?.[component]?.fontFamily?.[group]?.join(",") ||
-    fallbackFontFamily
-  );
+  if (vs.length === 0) return "";
+
+  return parseVariablesWithFallback(...vs);
 };
 
-export const getComponentThemeFontWeight = (
-  theme: Theme | undefined,
-  component: keyof Theme["components"],
-  weight: FontWeight,
-  fallbackFontWeight?: number
-) => {
-  const f = theme?.components?.[component]?.fontWeight;
-  // if not component override, use root theme
-  if (!f) {
-    return theme?.fontWeight?.[weight] || fallbackFontWeight || weight;
+const parseVariablesWithFallback = (...variables: string[]): string => {
+  const [first, ...rest] = variables;
+
+  if (rest.length === 0) {
+    if (first.startsWith("--")) return `var(${first})`;
+
+    return first;
   }
 
-  return (
-    theme?.components?.[component]?.fontWeight?.[weight] ||
-    fallbackFontWeight ||
-    weight
-  );
+  if (first.startsWith("--"))
+    return `var(${first}, ${parseVariablesWithFallback(...rest)})`;
+
+  return first;
+};
+
+export const cssVar = (
+  ...key: (string | number | undefined)[]
+): string | undefined => {
+  // if any key are undefined, return undefined
+  if (key.some((k) => k === undefined)) return undefined;
+
+  return `--${key.map((k) => kebabCase(`${k}`)).join("-")}`;
 };

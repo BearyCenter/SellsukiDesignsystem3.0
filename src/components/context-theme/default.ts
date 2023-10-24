@@ -253,7 +253,6 @@ export const defaultSize: {
 
 export const noTheme: ThemeField = {
   colors: {},
-  spacing: {},
   fontSize: {},
   lineHeight: {},
   fontFamily: {
@@ -292,9 +291,6 @@ export const noTheme: ThemeField = {
 export const defaultTheme: Theme = {
   colors: {
     ...defaultColorPallete,
-  },
-  spacing: {
-    ...defaultSize,
   },
   fontSize: {
     xs: "18px",
@@ -510,13 +506,6 @@ export const defaultTheme: Theme = {
         lg: "8px",
         xl: "10px",
       },
-      spacing: {
-        xs: "4px",
-        sm: "6px",
-        md: "8px",
-        lg: "12px",
-        xl: "16px",
-      },
     },
     input: {},
     icon: {
@@ -541,14 +530,14 @@ export const defaultTheme: Theme = {
         "4xl": "128px",
       },
       padding: {
-        xs: "4px",
-        sm: "6px",
-        md: "8px",
-        lg: "12px",
-        xl: "16px",
-        "2xl": "18px",
-        "3xl": "24px",
-        "4xl": "32px",
+        xs: "2px",
+        sm: "3px",
+        md: "5px",
+        lg: "7px",
+        xl: "9px",
+        "2xl": "13px",
+        "3xl": "15px",
+        "4xl": "18px",
       },
       margin: {
         xs: "0px",
@@ -719,7 +708,7 @@ const deepMerge = <T = object | any[]>(src: T, target: T): T => {
               ? deepMerge((src as any)[key], (target as any)[key])
               : (target as any)[key],
         }),
-        {}
+        {},
       ),
     };
   }

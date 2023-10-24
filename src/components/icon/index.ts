@@ -4,6 +4,7 @@
 import { consume } from "@lit-labs/context";
 import { LitElement, TemplateResult, css, html, svg } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { ThemeValue } from "../../types/base-attributes";
 import {
   ColorName,
   ColorRole,
@@ -11,11 +12,10 @@ import {
   FontWeight,
   Size,
   Theme,
+  cssVar,
+  parseThemeToCssVariables,
+  parseVariables,
 } from "../../types/theme";
-import {
-  ThemeValue,
-  parseThemeValueComponentCss,
-} from "../../types/theme-value";
 import { themeContext } from "../context-theme";
 
 @customElement("ssk-icon")
@@ -1936,12 +1936,50 @@ export class Icon extends LitElement implements ThemeValue {
     }
 
     return html`
+      ${parseThemeToCssVariables(this.theme?.components?.icon, "svg")}
+
       <style>
         svg {
-          height: 1em;
-          width: 1em;
-          
-          ${parseThemeValueComponentCss(this.theme, "icon", this)}
+          color: ${parseVariables(
+            cssVar("colors", this.color),
+            cssVar("colors", this.color, 500),
+            this.color,
+            cssVar("colors", this.themeColor, 500),
+          )};
+
+          background-color: ${parseVariables(
+            cssVar("colors", this.backgroundColor),
+            cssVar("colors", this.backgroundColor, 500),
+            this.backgroundColor,
+          )};
+
+          font-size: ${parseVariables(
+            cssVar("fontSize", this.fontSize),
+            this.fontSize,
+            cssVar("fontSize", this.size),
+          )};
+
+          margin: ${parseVariables(
+            cssVar("margin", this.margin),
+            this.margin,
+            cssVar("margin", this.size),
+          )};
+
+          padding: ${parseVariables(
+            cssVar("padding", this.padding),
+            this.padding,
+            cssVar("padding", this.size),
+          )};
+
+          width: ${parseVariables(cssVar("width", this.width), this.width)};
+
+          height: ${parseVariables(cssVar("height", this.height), this.height)};
+
+          border-radius: ${parseVariables(
+            cssVar("borderRadius", this.rounded),
+            this.rounded,
+            cssVar("borderRadius", this.size),
+          )};
         }
       </style>
 
@@ -1949,7 +1987,12 @@ export class Icon extends LitElement implements ThemeValue {
     `;
   }
 
-  static styles = css``;
+  static styles = css`
+    svg {
+      height: 1em;
+      width: 1em;
+    }
+  `;
 }
 
 

@@ -1,7 +1,7 @@
 import { consume } from "@lit-labs/context";
 import { LitElement, css, html, nothing, svg } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { BaseAttributes } from "../../types/base-attributes";
+import { BaseAttributes, ThemeValue } from "../../types/base-attributes";
 import {
   ButtonVariants,
   ColorName,
@@ -10,12 +10,7 @@ import {
   FontWeight,
   Size,
   Theme,
-  getComponentThemeColor,
 } from "../../types/theme";
-import {
-  ThemeValue,
-  parseThemeValueComponentCss,
-} from "../../types/theme-value";
 import { themeContext } from "../context-theme";
 
 /**
@@ -284,8 +279,8 @@ export class Button extends LitElement implements ThemeValue, BaseAttributes {
         ${this.loading
           ? svg`<svg width="1em" height="1em" stroke="currentColor" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_V8m1{transform-origin:center;animation:spinner_zKoa 2s linear infinite}.spinner_V8m1 circle{stroke-linecap:round;animation:spinner_YpZS 1.5s ease-in-out infinite}@keyframes spinner_zKoa{100%{transform:rotate(360deg)}}@keyframes spinner_YpZS{0%{stroke-dasharray:0 150;stroke-dashoffset:0}47.5%{stroke-dasharray:42 150;stroke-dashoffset:-16}95%,100%{stroke-dasharray:42 150;stroke-dashoffset:-59}}</style><g class="spinner_V8m1"><circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3"></circle></g></svg>`
           : html`<slot name="prefix"></slot>`}
-        <slot ></slot>
-        <slot name="postfix" ></slot>
+        <slot></slot>
+        <slot name="postfix"></slot>
       </button>
     `;
   }
