@@ -283,6 +283,7 @@ export const noTheme: ThemeField = {
   maxHeight: {},
   padding: {},
   margin: {},
+  spacing: {},
   "@keyframes": {},
   animation: {},
   screens: {},
@@ -441,6 +442,9 @@ export const defaultTheme: Theme = {
   margin: {
     ...defaultSize,
   },
+  spacing: {
+    ...defaultSize,
+  },
   "@keyframes": {
     spin: {
       from: { transform: "rotate(0deg)" },
@@ -484,11 +488,11 @@ export const defaultTheme: Theme = {
   components: {
     button: {
       padding: {
-        xs: "4px 8px",
-        sm: "6px 12px",
+        xs: "3px 6px",
+        sm: "4px 8px",
         md: "8px 16px",
-        lg: "12px 24px",
-        xl: "16px 32px",
+        lg: "8px 16px",
+        xl: "10px 18px",
       },
       margin: {
         xs: "0px",
@@ -496,6 +500,13 @@ export const defaultTheme: Theme = {
         md: "0px",
         lg: "0px",
         xl: "0px",
+      },
+      spacing: {
+        xs: "3px",
+        sm: "4px",
+        md: "8px",
+        lg: "8px",
+        xl: "10px",
       },
       boxShadow: {}, // no boxShadow
       borderWidth: {}, // no borderWidth
@@ -530,14 +541,14 @@ export const defaultTheme: Theme = {
         "4xl": "128px",
       },
       padding: {
-        xs: "2px",
-        sm: "3px",
-        md: "5px",
-        lg: "7px",
-        xl: "9px",
-        "2xl": "13px",
-        "3xl": "15px",
-        "4xl": "18px",
+        xs: "0px",
+        sm: "0px",
+        md: "0px",
+        lg: "0px",
+        xl: "0px",
+        "2xl": "0px",
+        "3xl": "0px",
+        "4xl": "0px",
       },
       margin: {
         xs: "0px",

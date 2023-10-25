@@ -1939,6 +1939,10 @@ export class Icon extends LitElement implements ThemeValue {
       ${parseThemeToCssVariables(this.theme?.components?.icon, "svg")}
 
       <style>
+        :host {
+          display: inherit;
+        }
+        
         svg {
           color: ${parseVariables(
             cssVar("colors", this.color),

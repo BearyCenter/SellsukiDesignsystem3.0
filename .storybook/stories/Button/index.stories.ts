@@ -1,9 +1,10 @@
 import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import { baseArgsTypes } from "../../.storybook/stories/helper";
-import "../../src/components/button";
-import { Button } from "../../src/components/button";
+import "../../../src/components/button";
+import { Button } from "../../../src/components/button";
+import "../../../src/components/icon";
+import { baseArgsTypes } from "../helper";
 
 type ButtonWithLabel = Button & { label: string };
 
@@ -12,7 +13,14 @@ const meta = {
   title: "Example/Button",
   tags: ["autodocs"],
   render: ({ label, ...args }) => {
-    return html`<ssk-button ${spreadProps(args)}>${label}</ssk-button>`;
+    return html`<ssk-button ${spreadProps(args)}
+      ><ssk-icon
+        slot="prefix"
+        name="solid-users"
+        size="${args.size}"
+      ></ssk-icon>
+      ${label}</ssk-button
+    >`;
   },
   argTypes: {
     label: {
