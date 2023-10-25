@@ -23,7 +23,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest",
-    "generate:icon": "node scripts/generate-icon/index.js",
+    "generate:icon": "node scripts/generate-icons/index.js",
     "chromatic": "npx chromatic"
   },
   "dependencies": {
