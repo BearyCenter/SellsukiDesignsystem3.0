@@ -24,6 +24,7 @@
     "build-storybook": "storybook build",
     "test": "vitest",
     "generate:icon": "node scripts/generate-icons/index.js",
+    "generate:font": "node scripts/generate-fonts/index.js",
     "chromatic": "npx chromatic"
   },
   "dependencies": {

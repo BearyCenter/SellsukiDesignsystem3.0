@@ -1,0 +1,10 @@
+<% for (let font of fonts){ %>
+@font-face {
+  src: url("data:font/truetype;charset=utf-8;base64,<%= font.base64 %>")
+    format("<%= font.format %>");
+  font-family: "<%= font.name %>";
+  font-style: <%= font.style %>;
+  font-weight: <%= font.weight %>;
+  font-display: swap;
+}
+<% } %>

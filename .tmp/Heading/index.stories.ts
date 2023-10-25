@@ -2,8 +2,8 @@ import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { baseArgsTypes } from "../../.storybook/stories/helper";
-import "../../src/components/heading";
-import { Heading } from "../../src/components/heading";
+import "../../src/elements/heading";
+import { Heading } from "../../src/elements/heading";
 
 type HeadingArgs = {
   content: string;

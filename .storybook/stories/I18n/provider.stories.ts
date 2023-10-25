@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { until } from "lit/directives/until.js";
-import "../../../src/components/button";
-import "../../../src/components/context-i18n";
-import "../../../src/components/i18n/translate";
+import "../../../src/contexts/i18n";
+import "../../../src/elements/button";
+import "../../../src/elements/i18n/translate";
 
 const meta = {
   title: "Example/I18n/Provider",
@@ -42,7 +42,7 @@ const meta = {
           .value=${until(
             window.__SSK_I18N_STORE__
               .getAll()
-              .then((s) => JSON.stringify(s, null, 2))
+              .then((s) => JSON.stringify(s, null, 2)),
           )}
         ></textarea>
         <div class="actions">
@@ -89,7 +89,7 @@ const meta = {
             @click=${async () => {
               try {
                 const t = document.getElementById(
-                  "store"
+                  "store",
                 ) as HTMLTextAreaElement;
                 await window.__SSK_I18N_STORE__.bulkSet(JSON.parse(t.value));
                 location.reload();

@@ -40,5 +40,5 @@ const ts = ejs.render(
   {},
 );
 
-// write the generated code to "./src/components/icon/index.ts"
+// write the generated code to "./src/elements/icon/index.ts"
 fs.writeFileSync("./src/elements/icon/index.ts", ts);

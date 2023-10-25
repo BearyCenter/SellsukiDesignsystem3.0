@@ -1,8 +1,8 @@
 import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/components/divider";
-import { Divider } from "../../../src/components/divider";
+import "../../../src/elements/divider";
+import { Divider } from "../../../src/elements/divider";
 import { baseArgsTypes } from "../helper";
 
 type DividerArgs = {} & Omit<Divider, "level">;

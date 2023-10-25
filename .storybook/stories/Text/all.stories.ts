@@ -1,8 +1,8 @@
 import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/components/text";
-import { Text } from "../../../src/components/text";
+import "../../../src/elements/text";
+import { Text } from "../../../src/elements/text";
 import { baseArgsTypes } from "../helper";
 
 type TextArgs = {

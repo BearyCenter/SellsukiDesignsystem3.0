@@ -1,8 +1,8 @@
 import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/components/icon";
-import { Icon } from "../../../src/components/icon";
+import "../../../src/elements/icon";
+import { Icon } from "../../../src/elements/icon";
 import { baseArgsTypes } from "../helper";
 
 type IconArgs = Omit<Icon, "name">;
@@ -23,7 +23,7 @@ const meta = {
       </style>
       <main>
         ${Object.keys(Icon.svgs).map(
-          (name) => html`<ssk-icon ${spreadProps(args)} name=${name} />`
+          (name) => html`<ssk-icon ${spreadProps(args)} name=${name} />`,
         )}
       </main>`;
   },

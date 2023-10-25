@@ -1,8 +1,8 @@
 import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/components/checkbox";
-import { Checkbox } from "../../../src/components/checkbox";
+import "../../../src/elements/checkbox";
+import { Checkbox } from "../../../src/elements/checkbox";
 import { baseArgsTypes } from "../helper";
 
 type CheckboxArgs = {} & Omit<Checkbox, "level">;

@@ -1,8 +1,8 @@
 import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/components/button";
-import { Button } from "../../../src/components/button";
+import "../../../src/elements/button";
+import { Button } from "../../../src/elements/button";
 import { baseArgsTypes } from "../helper";
 
 type ButtonWithLabel = Omit<
@@ -69,11 +69,11 @@ const meta = {
                     ${spreadProps({ ...args, ...s, size: sz })}
                     variant=${v}
                     >${label}</ssk-button
-                  >`
-                )
+                  >`,
+                ),
               )}
             </div>
-          </section>`
+          </section>`,
         )}
       </main>`;
   },

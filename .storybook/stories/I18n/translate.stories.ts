@@ -1,9 +1,9 @@
 import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/components/context-i18n";
-import "../../../src/components/i18n/translate";
-import { Translate } from "../../../src/components/i18n/translate";
+import "../../../src/elements/context-i18n";
+import "../../../src/elements/i18n/translate";
+import { Translate } from "../../../src/elements/i18n/translate";
 
 type TranslateArgs = {} & Translate;
 
