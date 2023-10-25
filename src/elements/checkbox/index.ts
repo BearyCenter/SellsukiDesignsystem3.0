@@ -11,8 +11,6 @@ import {
   Size,
   Theme,
 } from "../../types/theme";
-import { parseThemeValueComponentCss } from "../../types/theme-value";
-
 @customElement("ssk-checkbox")
 export class Checkbox extends LitElement implements ThemeValue {
   static registeredName = "ssk-checkbox";
@@ -90,11 +88,7 @@ export class Checkbox extends LitElement implements ThemeValue {
     let additionalCss = "";
 
     return html`
-      <style>
-        * {
-          ${parseThemeValueComponentCss(this.theme, "checkbox", this, true)};
-        }
-      </style>
+      <style></style>
       <div class="checkbox-wrapper">
         <input id="checkbox" type="checkbox" />
         <label for="checkbox"><slot></slot></label>

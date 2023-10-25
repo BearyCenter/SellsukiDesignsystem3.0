@@ -1,4 +1,4 @@
-import { ColorPalette, Size, Theme, ThemeField } from "../../types/theme";
+import { ColorPalette, Size, Theme } from "../../types/theme";
 
 export const defaultColorPallete: ColorPalette = {
   primary: {
@@ -249,44 +249,6 @@ export const defaultSize: {
   "3xl": "4rem",
   "4xl": "6rem",
   "5xl": "8rem",
-};
-
-export const noTheme: ThemeField = {
-  colors: {},
-  fontSize: {},
-  lineHeight: {},
-  fontFamily: {
-    sans: ["DB HeaventRounded", "Roboto", "sans-serif"],
-    serif: ["DB HeaventRounded", "Merriweather", "serif"],
-    mono: ["DB HeaventRounded", "Roboto Mono", "monospace"],
-  },
-  fontWeight: {
-    thin: 100,
-    extralight: 200,
-    light: 300,
-    normal: 400,
-    medium: 500,
-    semibold: 600,
-    bold: 700,
-    extrabold: 800,
-    black: 900,
-  },
-  borderColor: {},
-  borderWidth: {},
-  rounded: {},
-  boxShadow: {},
-  width: {},
-  height: {},
-  minWidth: {},
-  minHeight: {},
-  maxWidth: {},
-  maxHeight: {},
-  padding: {},
-  margin: {},
-  spacing: {},
-  "@keyframes": {},
-  animation: {},
-  screens: {},
 };
 
 export const defaultTheme: Theme = {
@@ -697,6 +659,22 @@ export const defaultTheme: Theme = {
         "2xl": "64px",
         "3xl": "96px",
         "4xl": "128px",
+      },
+    },
+    image: {
+      padding: {
+        xs: "0px",
+        sm: "0px",
+        md: "0px",
+        lg: "0px",
+        xl: "0px",
+      },
+      margin: {
+        xs: "0px",
+        sm: "0px",
+        md: "0px",
+        lg: "0px",
+        xl: "0px",
       },
     },
   },

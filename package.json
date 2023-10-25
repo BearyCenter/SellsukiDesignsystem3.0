@@ -31,7 +31,6 @@
     "@lit-labs/context": "^0.4.0",
     "@open-wc/lit-helpers": "^0.6.0",
     "change-case": "^5.0.2",
-    "colord": "^2.9.3",
     "glob": "^10.3.3",
     "idb": "^7.1.1",
     "lit": "^2.7.6",
