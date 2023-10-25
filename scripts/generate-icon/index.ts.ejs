@@ -29,7 +29,7 @@ export class Icon extends LitElement implements ThemeValue {
   @property({ type: String })
   themeColor?: ColorRole | ColorName;
   @property({ type: String })
-  color: ColorRole | ColorName = "primary.500";
+  color?: ColorRole | ColorName;
   @property({ type: String })
   backgroundColor?: string | undefined;
   @property({ type: String })
