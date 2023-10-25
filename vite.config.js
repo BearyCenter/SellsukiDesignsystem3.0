@@ -8,7 +8,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "./src/main.ts"),
-      name: "Sellsuki Core Components",
+      name: "Sellsuki Components",
       // the proper extensions will be added
       fileName: "sellsuki-components",
       // formats: ["es"],

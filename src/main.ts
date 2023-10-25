@@ -7,3 +7,5 @@ export * from "./elements/image";
 export * from "./elements/text";
 
 export * from "./types/theme";
+
+import "./assets/fonts.css";
