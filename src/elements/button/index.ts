@@ -1,6 +1,7 @@
 import { consume } from "@lit-labs/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { themeContext } from "../../contexts/theme";
 import { BaseAttributes, ThemeValue } from "../../types/base-attributes";
 import {
   ButtonVariants,
@@ -14,7 +15,6 @@ import {
   parseThemeToCssVariables,
   parseVariables,
 } from "../../types/theme";
-import { themeContext } from "../context-theme";
 
 /**
  * @slot - This element has a slot

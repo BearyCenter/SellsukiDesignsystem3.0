@@ -1,6 +1,7 @@
 import { consume } from "@lit-labs/context";
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
 import {
   ColorName,
@@ -9,26 +10,23 @@ import {
   FontWeight,
   Size,
   Theme,
+  cssVar,
+  parseThemeToCssVariables,
+  parseVariables,
 } from "../../types/theme";
-import { parseThemeValueComponentCss } from "../../types/theme-value";
-import { themeContext } from "../context-theme";
 
-/**
- * @slot - This element has a slot
- * @csspart text
- */
-@customElement("ssk-text")
-export class Text extends LitElement implements ThemeValue {
-  static registeredName = "ssk-text";
+@customElement("ssk-divider")
+export class Divider extends LitElement implements ThemeValue {
+  static registeredName = "ssk-divider";
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   @property({ type: String })
-  themeColor: ColorRole | ColorName = "";
+  themeColor: ColorRole | ColorName = "gray";
   @property({ type: String })
-  color?: ColorRole | ColorName = "black.900";
+  color?: ColorRole | ColorName;
   @property({ type: String })
   backgroundColor?: string | undefined;
   @property({ type: String })
@@ -74,73 +72,76 @@ export class Text extends LitElement implements ThemeValue {
   @property({ type: String })
   maxHeight?: string | undefined;
 
-  // text specific
+  // divider specific
   @property({ type: Boolean })
   hidden = false;
-
-  @property({ type: Boolean })
-  italic = false;
-
-  @property({ type: Boolean })
-  underline = false;
-
-  @property({ type: Boolean })
-  strike = false;
-
   @property({ type: String })
-  align?: "left" | "center" | "right" | "justify" | undefined;
-
-  @property({ type: String })
-  transform?: "uppercase" | "lowercase" | "capitalize" | undefined;
+  orientation: "horizontal" | "vertical" = "horizontal";
 
   render() {
     if (this.hidden) {
       return html``;
     }
 
-    let additionalCss = "";
-    let textDecorations = [];
+    let additionalCss = `
+      background-color: ${parseVariables(
+        cssVar("colors", this.color),
+        cssVar("colors", this.color, 200),
+        this.color,
+        cssVar("colors", this.themeColor, 200),
+        cssVar("colors", "white", 200),
+      )};
+      
+      padding: ${parseVariables(
+        cssVar("padding", this.padding),
+        cssVar("padding", this.size),
+      )};
 
-    if (this.italic) {
-      additionalCss += "font-style: italic;";
+      margin: ${parseVariables(
+        cssVar("margin", this.margin),
+        cssVar("margin", this.size),
+      )};
+      `;
+
+    if (this.orientation === "vertical") {
+      additionalCss += `
+        height: 100%;
+        width: min-content;
+        margin-top: 0;
+        margin-bottom: 0;
+      `;
     }
 
-    if (this.underline) {
-      textDecorations.push("underline");
-    }
-
-    if (this.strike) {
-      textDecorations.push("line-through");
-    }
-
-    if (this.transform) {
-      additionalCss += `text-transform: ${this.transform};`;
-    }
-
-    if (this.align) {
-      additionalCss += `text-align: ${this.align};`;
+    if (this.orientation === "horizontal") {
+      additionalCss += `
+        width: 100%;
+        height: min-content;
+        margin-left: 0;
+        margin-right: 0;
+      `;
     }
 
     return html`
-      <style>
-        p {
-          ${parseThemeValueComponentCss(this.theme, "text", this)}
-          ${additionalCss}
+      ${parseThemeToCssVariables(this.theme?.components?.divider, "div")}
 
-          ${textDecorations.length > 0
-          ? `text-decoration: ${textDecorations.join(" ")};`
-          : ""}
+      <style>
+        div {
+          ${additionalCss};
         }
       </style>
-      <p><slot> </slot></p>
+      <div></div>
     `;
   }
 
-  static styles = css``;
+  static styles = css`
+    div {
+      box-sizing: border-box;
+    }
+  `;
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ssk-text": Text;
+    "ssk-divider": Divider;
   }
 }

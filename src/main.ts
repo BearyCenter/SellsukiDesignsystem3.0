@@ -1,7 +1,7 @@
-export * from "./components/button";
-export * from "./components/context-theme";
-export * from "./components/heading";
-export * from "./components/text";
+export * from "./contexts/theme";
+export * from "./elements/button";
+export * from "./elements/heading";
+export * from "./elements/text";
 
 export * from "./types/theme";
 export * from "./types/theme-value";

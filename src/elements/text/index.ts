@@ -1,6 +1,7 @@
 import { consume } from "@lit-labs/context";
-import { LitElement, TemplateResult, css, html } from "lit";
+import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
 import {
   ColorName,
@@ -10,24 +11,14 @@ import {
   Size,
   Theme,
 } from "../../types/theme";
-import { parseThemeValueComponentCss } from "../../types/theme-value";
-import { themeContext } from "../context-theme";
-
-const levelToSize: Record<1 | 2 | 3 | 4 | 5, Size> = {
-  1: "4xl",
-  2: "3xl",
-  3: "2xl",
-  4: "xl",
-  5: "lg",
-};
 
 /**
  * @slot - This element has a slot
  * @csspart text
  */
-@customElement("ssk-heading")
-export class Heading extends LitElement implements ThemeValue {
-  static registeredName = "ssk-heading";
+@customElement("ssk-text")
+export class Text extends LitElement implements ThemeValue {
+  static registeredName = "ssk-text";
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
@@ -101,17 +92,6 @@ export class Heading extends LitElement implements ThemeValue {
   @property({ type: String })
   transform?: "uppercase" | "lowercase" | "capitalize" | undefined;
 
-  @property({ type: Number })
-  level: 1 | 2 | 3 | 4 | 5 = 1;
-
-  static headings: Record<1 | 2 | 3 | 4 | 5, TemplateResult> = {
-    1: html`<h1><slot /></h1>`,
-    2: html`<h2><slot /></h2>`,
-    3: html`<h3><slot /></h3>`,
-    4: html`<h4><slot /></h4>`,
-    5: html`<h5><slot /></h5>`,
-  };
-
   render() {
     if (this.hidden) {
       return html``;
@@ -132,6 +112,10 @@ export class Heading extends LitElement implements ThemeValue {
       textDecorations.push("line-through");
     }
 
+    if (textDecorations.length > 0) {
+      additionalCss += `text-decoration: ${textDecorations.join(" ")};`;
+    }
+
     if (this.transform) {
       additionalCss += `text-transform: ${this.transform};`;
     }
@@ -140,21 +124,13 @@ export class Heading extends LitElement implements ThemeValue {
       additionalCss += `text-align: ${this.align};`;
     }
 
-    this.size = levelToSize[this.level];
-
     return html`
       <style>
-        h1, h2, h3, h4, h5 {
-          ${parseThemeValueComponentCss(this.theme, "heading", this)}
-          ${additionalCss}
-
-          ${textDecorations.length > 0
-          ? `text-decoration: ${textDecorations.join(" ")};`
-          : ""}
+        p {
+          ${additionalCss};
         }
       </style>
-
-      ${Heading.headings[this.level]}
+      <p><slot> </slot></p>
     `;
   }
 
@@ -163,6 +139,6 @@ export class Heading extends LitElement implements ThemeValue {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ssk-heading": Heading;
+    "ssk-text": Text;
   }
 }

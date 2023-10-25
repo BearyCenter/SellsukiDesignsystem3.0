@@ -1,6 +1,7 @@
 import { consume } from "@lit-labs/context";
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
 import {
   ColorName,
@@ -11,7 +12,6 @@ import {
   Theme,
 } from "../../types/theme";
 import { parseThemeValueComponentCss } from "../../types/theme-value";
-import { themeContext } from "../context-theme";
 
 @customElement("ssk-checkbox")
 export class Checkbox extends LitElement implements ThemeValue {
