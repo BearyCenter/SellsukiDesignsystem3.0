@@ -2,8 +2,7 @@ import * as ejs from "ejs";
 import fs from "fs";
 import * as glob from "glob";
 
-// list icons that match "./src/components/icon/icons/*/*.svg" folder
-const icons = glob.sync("./src/components/icon/icons/*/*.svg");
+const icons = glob.sync("./scripts/generate-icons/icons/*/*.svg");
 
 // generate a list of icons
 // { name: string, variant: string, content: string }[]
@@ -17,8 +16,8 @@ const iconList = icons.map((icon) => {
 
 // render a template with the list of icons using ejs
 const template = fs.readFileSync(
-  "./scripts/generate-icon/index.ts.ejs",
-  "utf8"
+  "./scripts/generate-icons/index.ts.ejs",
+  "utf8",
 );
 
 const ts = ejs.render(
@@ -33,13 +32,13 @@ const ts = ejs.render(
         .replace(new RegExp(/[^\w\s]/, "g"), "")
         .replace(
           new RegExp(/\s+(.)(\w*)/, "g"),
-          ($1, $2, $3) => `${$2.toUpperCase() + $3}`
+          ($1, $2, $3) => `${$2.toUpperCase() + $3}`,
         )
         .replace(new RegExp(/\w/), (s) => s.toUpperCase());
     },
   },
-  {}
+  {},
 );
 
 // write the generated code to "./src/components/icon/index.ts"
-fs.writeFileSync("./src/components/icon/index.ts", ts);
+fs.writeFileSync("./src/elements/icon/index.ts", ts);
