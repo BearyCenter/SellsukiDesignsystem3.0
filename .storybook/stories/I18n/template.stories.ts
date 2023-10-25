@@ -1,7 +1,7 @@
 import { spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/elements/context-i18n";
+import "../../../src/contexts/i18n";
 import "../../../src/elements/i18n/template";
 import { Template } from "../../../src/elements/i18n/template";
 

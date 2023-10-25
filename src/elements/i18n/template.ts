@@ -22,7 +22,7 @@ export class Template extends LitElement {
   @property({ type: String })
   lang: string = "";
 
-  @property({ type: Object })
+  @property({ type: String })
   fallbackLang: string = "";
 
   render() {
