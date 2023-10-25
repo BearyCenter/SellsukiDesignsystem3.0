@@ -1,7 +1,9 @@
+export * from "./contexts/i18n";
 export * from "./contexts/theme";
 export * from "./elements/button";
+export * from "./elements/divider";
 export * from "./elements/heading";
+export * from "./elements/image";
 export * from "./elements/text";
 
 export * from "./types/theme";
-export * from "./types/theme-value";

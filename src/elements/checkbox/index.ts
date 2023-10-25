@@ -85,8 +85,6 @@ export class Checkbox extends LitElement implements ThemeValue {
       return html``;
     }
 
-    let additionalCss = "";
-
     return html`
       <style></style>
       <div class="checkbox-wrapper">
