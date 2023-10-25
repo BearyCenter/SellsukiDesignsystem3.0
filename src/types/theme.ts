@@ -54,7 +54,14 @@ export type ColorRole =
   | "success"
   | "warning"
   | "danger"
-  | "info";
+  | "info"
+  | "light"
+  | "dark"
+  | "text"
+  | "muted"
+  | "background"
+  | "foreground"
+  | "shadow";
 
 export type ColorName =
   | string

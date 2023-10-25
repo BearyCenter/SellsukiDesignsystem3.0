@@ -9,8 +9,10 @@ import {
   FontWeight,
   Size,
   Theme,
+  cssVar,
+  parseThemeToCssVariables,
+  parseVariables,
 } from "../../types/theme";
-import { parseThemeValueComponentCss } from "../../types/theme-value";
 import { themeContext } from "../context-theme";
 
 @customElement("ssk-divider")
@@ -22,9 +24,9 @@ export class Divider extends LitElement implements ThemeValue {
   public theme?: Theme;
 
   @property({ type: String })
-  themeColor: ColorRole | ColorName = "";
+  themeColor: ColorRole | ColorName = "gray";
   @property({ type: String })
-  color?: ColorRole | ColorName = "gray.200";
+  color?: ColorRole | ColorName;
   @property({ type: String })
   backgroundColor?: string | undefined;
   @property({ type: String })
@@ -81,7 +83,25 @@ export class Divider extends LitElement implements ThemeValue {
       return html``;
     }
 
-    let additionalCss = "";
+    let additionalCss = `
+      background-color: ${parseVariables(
+        cssVar("colors", this.color),
+        cssVar("colors", this.color, 200),
+        this.color,
+        cssVar("colors", this.themeColor, 200),
+        cssVar("colors", "white", 200),
+      )};
+      
+      padding: ${parseVariables(
+        cssVar("padding", this.padding),
+        cssVar("padding", this.size),
+      )};
+
+      margin: ${parseVariables(
+        cssVar("margin", this.margin),
+        cssVar("margin", this.size),
+      )};
+      `;
 
     if (this.orientation === "vertical") {
       additionalCss += `
@@ -102,20 +122,22 @@ export class Divider extends LitElement implements ThemeValue {
     }
 
     return html`
+      ${parseThemeToCssVariables(this.theme?.components?.divider, "div")}
+
       <style>
         div {
-          ${parseThemeValueComponentCss(this.theme, "divider", this)};
           ${additionalCss};
-
-          box-sizing: border-box;
-          background-color: var(--color);
         }
       </style>
       <div></div>
     `;
   }
 
-  static styles = css``;
+  static styles = css`
+    div {
+      box-sizing: border-box;
+    }
+  `;
 }
 
 declare global {

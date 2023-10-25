@@ -1,5 +1,5 @@
 import { createContext, provide } from "@lit-labs/context";
-import { LitElement, html } from "lit";
+import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Theme, parseThemeToCssVariables } from "../../types/theme";
 import { defaultTheme } from "./default";
@@ -14,8 +14,14 @@ export class ThemeProvider extends LitElement {
   theme: Theme = defaultTheme;
 
   render() {
-    return html`${parseThemeToCssVariables(this.theme, "*")} <slot></slot>`;
+    return html`${parseThemeToCssVariables(this.theme, ":host")} <slot></slot>`;
   }
+
+  static styles = css`
+    :host {
+      font-family: var(--font-family-sans);
+    }
+  `;
 }
 
 declare global {

@@ -33,7 +33,6 @@ export const Default: Story = {
   args: {
     orientation: "horizontal",
     size: "md",
-    color: "black.900",
   },
   parameters: {
     design: {
