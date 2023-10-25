@@ -10,8 +10,10 @@ import {
   FontWeight,
   Size,
   Theme,
+  cssVar,
+  parseThemeToCssVariables,
+  parseVariables,
 } from "../../types/theme";
-import { parseThemeValueComponentCss } from "../../types/theme-value";
 
 const levelToSize: Record<1 | 2 | 3 | 4 | 5, Size> = {
   1: "4xl",
@@ -117,19 +119,43 @@ export class Heading extends LitElement implements ThemeValue {
       return html``;
     }
 
-    let additionalCss = "";
-    let textDecorations = [];
+    let additionalCss = `
+    --font-family: ${parseVariables(
+      cssVar("font-family", this.fontFamilyGroup),
+    )};
+    --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
+    --font-size: ${parseVariables(
+      cssVar("font-size", this.fontSize),
+      cssVar("font-size", this.size),
+    )};
+    --line-height: ${parseVariables(
+      cssVar("line-height", this.lineHeight),
+      cssVar("font-size", this.size),
+    )};
+
+    --padding: ${parseVariables(
+      cssVar("padding", this.padding),
+      cssVar("padding", this.size),
+    )};
+    --margin: ${parseVariables(
+      cssVar("margin", this.margin),
+      cssVar("margin", this.size),
+    )};
+    `;
 
     if (this.italic) {
       additionalCss += "font-style: italic;";
     }
 
+    let textDecorations = [];
     if (this.underline) {
       textDecorations.push("underline");
     }
-
     if (this.strike) {
       textDecorations.push("line-through");
+    }
+    if (textDecorations.length > 0) {
+      additionalCss += `text-decoration: ${textDecorations.join(" ")};`;
     }
 
     if (this.transform) {
@@ -143,14 +169,14 @@ export class Heading extends LitElement implements ThemeValue {
     this.size = levelToSize[this.level];
 
     return html`
+      ${parseThemeToCssVariables(
+        this.theme?.components?.heading,
+        "h1, h2, h3, h4, h5",
+      )}
+
       <style>
         h1, h2, h3, h4, h5 {
-          ${parseThemeValueComponentCss(this.theme, "heading", this)}
-          ${additionalCss}
-
-          ${textDecorations.length > 0
-          ? `text-decoration: ${textDecorations.join(" ")};`
-          : ""}
+          ${additionalCss};
         }
       </style>
 
@@ -158,7 +184,21 @@ export class Heading extends LitElement implements ThemeValue {
     `;
   }
 
-  static styles = css``;
+  static styles = css`
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      background-color: var(--background-color);
+      color: var(--color);
+      font-family: var(--font-family);
+      font-weight: var(--font-weight);
+      line-height: var(--line-height);
+      padding: var(--padding);
+      margin: var(--margin);
+    }
+  `;
 }
 
 declare global {

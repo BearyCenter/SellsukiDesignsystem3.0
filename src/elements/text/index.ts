@@ -10,6 +10,9 @@ import {
   FontWeight,
   Size,
   Theme,
+  cssVar,
+  parseThemeToCssVariables,
+  parseVariables,
 } from "../../types/theme";
 
 /**
@@ -97,21 +100,41 @@ export class Text extends LitElement implements ThemeValue {
       return html``;
     }
 
-    let additionalCss = "";
-    let textDecorations = [];
+    let additionalCss = `
+    --font-family: ${parseVariables(
+      cssVar("font-family", this.fontFamilyGroup),
+    )};
+    --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
+    --font-size: ${parseVariables(
+      cssVar("font-size", this.fontSize),
+      cssVar("font-size", this.size),
+    )};
+    --line-height: ${parseVariables(
+      cssVar("line-height", this.lineHeight),
+      cssVar("font-size", this.size),
+    )};
+
+    --padding: ${parseVariables(
+      cssVar("padding", this.padding),
+      cssVar("padding", this.size),
+    )};
+    --margin: ${parseVariables(
+      cssVar("margin", this.margin),
+      cssVar("margin", this.size),
+    )};
+    `;
 
     if (this.italic) {
       additionalCss += "font-style: italic;";
     }
 
+    let textDecorations = [];
     if (this.underline) {
       textDecorations.push("underline");
     }
-
     if (this.strike) {
       textDecorations.push("line-through");
     }
-
     if (textDecorations.length > 0) {
       additionalCss += `text-decoration: ${textDecorations.join(" ")};`;
     }
@@ -125,16 +148,29 @@ export class Text extends LitElement implements ThemeValue {
     }
 
     return html`
+      ${parseThemeToCssVariables(this.theme?.components?.text, "p")}
+
       <style>
         p {
           ${additionalCss};
         }
       </style>
-      <p><slot> </slot></p>
+      <p><slot></slot></p>
     `;
   }
 
-  static styles = css``;
+  static styles = css`
+    p {
+      background-color: var(--background-color);
+      color: var(--color);
+      font-size: var(--font-size);
+      font-family: var(--font-family);
+      font-weight: var(--font-weight);
+      line-height: var(--line-height);
+      padding: var(--padding);
+      margin: var(--margin);
+    }
+  `;
 }
 
 declare global {
