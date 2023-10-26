@@ -23,6 +23,17 @@ export type ThemeValue = {
 
   borderWidth?: string;
 
+  borderStyle?:
+    | "solid"
+    | "dashed"
+    | "dotted"
+    | "double"
+    | "groove"
+    | "ridge"
+    | "inset"
+    | "outset"
+    | "none"
+    | "hidden";
   boxShadow?: string;
 
   width?: string;

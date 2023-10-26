@@ -61,6 +61,20 @@ export class Image extends LitElement implements ThemeValue {
   @property({ type: String })
   borderWidth?: string | undefined;
   @property({ type: String })
+  borderStyle?:
+    | "solid"
+    | "dashed"
+    | "dotted"
+    | "double"
+    | "groove"
+    | "ridge"
+    | "inset"
+    | "outset"
+    | "none"
+    | "hidden"
+    | undefined;
+
+  @property({ type: String })
   boxShadow?: string | undefined;
   @property({ type: String })
   dropShadow?: string | undefined;
@@ -93,6 +107,9 @@ export class Image extends LitElement implements ThemeValue {
   @property({ type: String })
   boxSize?: string | undefined;
 
+  @property({ type: String })
+  objectFit?: "fill" | "contain" | "cover" | "none" | "scale-down" | undefined;
+
   render() {
     if (this.hidden) {
       return html``;
@@ -107,6 +124,37 @@ export class Image extends LitElement implements ThemeValue {
         cssVar("margin", this.margin),
         cssVar("margin", this.size),
       )};
+
+      width: ${parseVariables(
+        cssVar("width", this.width),
+        cssVar("width", this.size),
+        this.width,
+        this.boxSize,
+        "auto",
+      )};
+      height: ${parseVariables(
+        cssVar("height", this.height),
+        cssVar("height", this.size),
+        this.height,
+        this.boxSize,
+        "auto",
+      )};
+
+      object-fit: ${this.objectFit};
+
+      border-radius: ${parseVariables(cssVar("rounded", this.rounded), "0px")};
+      border-style: ${parseVariables(this.borderStyle, "solid")};
+      border-width: ${parseVariables(
+        cssVar("border-width", this.borderWidth),
+        this.borderWidth,
+        "0px",
+      )};
+      border-color: ${parseVariables(
+        cssVar("border-color", this.borderColor),
+        this.borderColor,
+        "transparent",
+      )};
+
     `;
 
     return html`

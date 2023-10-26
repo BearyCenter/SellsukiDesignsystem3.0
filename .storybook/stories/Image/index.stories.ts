@@ -30,6 +30,17 @@ const meta = {
         type: "text",
       },
     },
+    boxSize: {
+      control: {
+        type: "text",
+      },
+    },
+    objectFit: {
+      options: ["fill", "contain", "cover", "none", "scale-down"],
+      control: {
+        type: "select",
+      },
+    },
     ...baseArgsTypes,
   },
 } satisfies Meta<ImageArgs>;

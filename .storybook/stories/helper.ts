@@ -93,6 +93,23 @@ export const baseArgsTypes: ArgTypes<ThemeValue> = {
     control: "color",
   },
 
+  borderStyle: {
+    options: [
+      "solid",
+      "dashed",
+      "dotted",
+      "double",
+      "groove",
+      "ridge",
+      "inset",
+      "outset",
+      "none",
+      "hidden",
+    ],
+    description: "The border style",
+    control: "select",
+  },
+
   size: {
     options: [...sizes, ...customSizes],
     control: "select",
