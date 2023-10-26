@@ -5,54 +5,54 @@ import { Meta } from "@storybook/blocks";
 # Vue setup
 
 ## Install
+
 ```sh
 npm i @sellsuki/sellsuki-ui
 ```
 
 ## Usage
+
 ```tsx
 // src/main.js
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from "vue";
+import App from "./App.vue";
 
 // Import the ui-library package with our ssk-button Web Component
-import { Button } from '@sellsuki/sellsuki-ui/button'
+import "sellsuki-components/sellsuki-components.js";
+import "sellsuki-components/style.css";
 
-// IMPORTANT: Configure Vue to ignore any elements named ssk-button.
-//   If this isn't set, Vue will try to render ssk-button as a Vue
-//   component which will cause an error.
-Vue.config.ignoredElements = [Button.registeredName]
-
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 new Vue({
-    render: h => h(App),
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount("#app");
 ```
 
 ```html
 <!-- src/App.vue -->
 <template>
+  <ssk-theme-provider>
     <div id="app">
-        <h1>Web Components</h1>
-        <!-- Our web component! -->
-        <ssk-button>Hello Vue</ssk-button>
+      <h1>Web Components</h1>
+      <!-- Our web component! -->
+      <ssk-button>Hello Vue</ssk-button>
     </div>
+  </ssk-theme-provider>
 </template>
 
 <script>
-export default {
-    name: 'App',
-}
+  export default {
+    name: "App",
+  };
 </script>
 
 <style>
-#app {
+  #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
-}
+  }
 </style>
 ```
