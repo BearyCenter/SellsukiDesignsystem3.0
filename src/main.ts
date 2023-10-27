@@ -3,7 +3,9 @@ export * from "./contexts/theme";
 export * from "./elements/button";
 export * from "./elements/divider";
 export * from "./elements/heading";
+export * from "./elements/icon";
 export * from "./elements/image";
+export * from "./elements/input";
 export * from "./elements/text";
 
 export * from "./types/theme";

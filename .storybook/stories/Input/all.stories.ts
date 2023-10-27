@@ -15,7 +15,7 @@ const meta = {
   title: "Example/Input",
   tags: [],
   render: ({ ...args }) => {
-    return html` <style>
+    return html`<style>
         main {
           display: flex;
           justify-content: space-between;
