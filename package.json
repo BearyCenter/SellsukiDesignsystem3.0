@@ -1,7 +1,7 @@
 {
   "name": "sellsuki-components",
   "private": false,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "files": [
     "dist"
@@ -14,7 +14,8 @@
       "import": "./dist/sellsuki-components.js",
       "require": "./dist/sellsuki-components.umd.cjs",
       "types": "./dist/main.d.ts"
-    }
+    },
+    "./stlye.css": "./dist/stlye.css"
   },
   "scripts": {
     "dev": "vite",
