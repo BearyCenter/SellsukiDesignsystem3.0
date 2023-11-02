@@ -30,8 +30,9 @@ const meta = {
         type: "boolean",
       },
     },
-    onClick: {
-      action: "onClick",
+    value: {
+      description: "",
+      control: "text",
     },
     ...baseArgsTypes,
   },
@@ -48,6 +49,7 @@ export const Medium: Story = {
     label: "Input",
     placeholder: "Placeholder",
     helperText: "Helper text",
+    value: "",
   },
   parameters: {
     design: {

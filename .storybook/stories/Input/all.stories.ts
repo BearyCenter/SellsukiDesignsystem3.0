@@ -65,14 +65,14 @@ const meta = {
       description: "",
       control: "text",
     },
-
     hidden: {
       control: {
         type: "boolean",
       },
     },
-    change: {
-      action: "onChange",
+    value: {
+      description: "",
+      control: "text",
     },
     ...baseArgsTypes,
   },
@@ -88,6 +88,7 @@ export const ShowCase: Story = {
     label: "Input",
     placeholder: "Placeholder",
     helperText: "Helper text",
+    value: "",
   },
   parameters: {
     design: {

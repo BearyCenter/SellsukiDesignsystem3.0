@@ -187,9 +187,9 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
           data-testid=${this.testId || nothing}
           placeholder=${this.placeholder || ""}
           name=${this.name || ""}
-          value=${this.value || ""}
+          .value=${this.value || ""}
           ?disabled=${this.disabled}
-          type=${this.type}
+          .type=${this.type}
           @input=${(e: Event) => redispatchEvents(e, this)}
           @change=${(e: Event) => redispatchEvents(e, this)}
         />
