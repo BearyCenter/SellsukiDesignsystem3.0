@@ -104,7 +104,7 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
 
   // Event
   @property({ attribute: false })
-  onChange?: (event: Event) => void;
+  change?: (event: Event) => void;
 
   render() {
     if (this.hidden) {
@@ -193,7 +193,7 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
           value=${this.value || ""}
           ?disabled=${this.disabled}
           type=${this.type}
-          @change=${this.onChange}
+          @change=${this.change}
         />
         ${this.helperText
           ? html`<label class="helper">${this.helperText}</label>`
