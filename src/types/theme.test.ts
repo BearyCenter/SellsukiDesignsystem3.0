@@ -10,7 +10,9 @@ export function template_as_string(data: TemplateResult) {
   let output = "";
   for (let i = 0; i < strings.length; i++) {
     let v = value_list[i];
+    // @ts-ignore
     if (v._$litType$ !== undefined) {
+      // @ts-ignore
       v = template_as_string(v); // embedded Template
     } else if (v instanceof Array) {
       // array of strings or templates.
