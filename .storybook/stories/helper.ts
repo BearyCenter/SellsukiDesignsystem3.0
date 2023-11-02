@@ -1,6 +1,6 @@
 import { ArgTypes } from "@storybook/web-components";
+import { BaseAttributes } from "../../src/types/base-attributes";
 import { ColorName, ColorRole, Size } from "../../src/types/theme";
-import { ThemeValue } from "../../src/types/theme-value";
 
 const colors: (ColorRole | ColorName)[] = [
   "primary",
@@ -71,7 +71,119 @@ const shadows: string[] = [
   "0px 4px 16px rgba(255, 0, 0, 0.6)",
 ];
 
-export const baseArgsTypes: ArgTypes<ThemeValue> = {
+export const genericEvents: ArgTypes<any> = {
+  // events
+  "@click": {
+    action: "@click",
+  },
+  "@dblclick": {
+    action: "@dblclick",
+  },
+  "@focus": {
+    action: "@focus",
+  },
+  "@blur": {
+    action: "@blur",
+  },
+  "@mouseenter": {
+    action: "@mouseenter",
+  },
+  "@mouseleave": {
+    action: "@mouseleave",
+  },
+  "@mouseover": {
+    action: "@mouseover",
+  },
+  "@mouseout": {
+    action: "@mouseout",
+  },
+  "@mousedown": {
+    action: "@mousedown",
+  },
+  "@mouseup": {
+    action: "@mouseup",
+  },
+  "@keydown": {
+    action: "@keydown",
+  },
+  "@keyup": {
+    action: "@keyup",
+  },
+  "@keypress": {
+    action: "@keypress",
+  },
+  "@change": {
+    action: "@change",
+  },
+  "@input": {
+    action: "@input",
+  },
+  "@invalid": {
+    action: "@invalid",
+  },
+  "@submit": {
+    action: "@submit",
+  },
+  "@reset": {
+    action: "@reset",
+  },
+  "@select": {
+    action: "@select",
+  },
+  "@dragstart": {
+    action: "@dragstart",
+  },
+  "@drag": {
+    action: "@drag",
+  },
+  "@dragend": {
+    action: "@dragend",
+  },
+  "@dragenter": {
+    action: "@dragenter",
+  },
+  "@dragleave": {
+    action: "@dragleave",
+  },
+  "@dragover": {
+    action: "@dragover",
+  },
+  "@drop": {
+    action: "@drop",
+  },
+  "@scroll": {
+    action: "@scroll",
+  },
+  "@wheel": {
+    action: "@wheel",
+  },
+  "@animationstart": {
+    action: "@animationstart",
+  },
+  "@animationend": {
+    action: "@animationend",
+  },
+  "@animationiteration": {
+    action: "@animationiteration",
+  },
+  "@transitionstart": {
+    action: "@transitionstart",
+  },
+  "@transitioncancel": {
+    action: "@transitioncancel",
+  },
+  "@transitionend": {
+    action: "@transitionend",
+  },
+  "@load": {
+    action: "@load",
+  },
+  "@error": {
+    action: "@error",
+  },
+};
+
+export const baseArgsTypes: ArgTypes<BaseAttributes | any> = {
   themeColor: {
     options: colors,
     description: "The theme color",
@@ -214,4 +326,12 @@ export const baseArgsTypes: ArgTypes<ThemeValue> = {
     description: "The max height",
     control: "select",
   },
+
+  "?hidden": {
+    control: {
+      type: "boolean",
+    },
+  },
+
+  ...genericEvents,
 };

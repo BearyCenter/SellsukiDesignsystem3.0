@@ -1,4 +1,4 @@
-import { spreadProps } from "@open-wc/lit-helpers";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/icon";
@@ -12,7 +12,7 @@ const meta = {
   title: "Example/Icon",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html`<ssk-icon ${spreadProps(args)}></ssk-icon>`;
+    return html`<ssk-icon ${spread(args)}></ssk-icon>`;
   },
   argTypes: {
     name: {

@@ -1,4 +1,4 @@
-import { spreadProps } from "@open-wc/lit-helpers";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/input";
@@ -42,12 +42,12 @@ const meta = {
             <div>
               <ssk-input
                 testId=${`input-${s}`}
-                ${spreadProps({ ...args })}
+                ${spread({ ...args })}
                 size=${s}
               ></ssk-input>
               <ssk-input
                 testId=${`input-${s}-disabled`}
-                ${spreadProps({ ...args })}
+                ${spread({ ...args })}
                 size=${s}
                 disabled
               ></ssk-input>
@@ -71,7 +71,7 @@ const meta = {
         type: "boolean",
       },
     },
-    onChange: {
+    change: {
       action: "onChange",
     },
     ...baseArgsTypes,

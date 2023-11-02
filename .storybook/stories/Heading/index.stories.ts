@@ -1,4 +1,4 @@
-import { spreadProps } from "@open-wc/lit-helpers";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/heading";
@@ -14,7 +14,7 @@ const meta = {
   title: "Example/Heading",
   tags: ["autodocs"],
   render: ({ content, ...args }) => {
-    return html`<ssk-heading ${spreadProps(args)}>${content}</ssk-heading>`;
+    return html`<ssk-heading ${spread(args)}>${content}</ssk-heading>`;
   },
   argTypes: {
     level: {

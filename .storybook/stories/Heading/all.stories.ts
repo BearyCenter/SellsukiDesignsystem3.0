@@ -1,4 +1,4 @@
-import { spreadProps } from "@open-wc/lit-helpers";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/heading";
@@ -15,11 +15,11 @@ const meta = {
   tags: [],
   render: ({ content, ...args }) => {
     return html`<div>
-      <ssk-heading ${spreadProps(args)} level="1">${content}</ssk-heading>
-      <ssk-heading ${spreadProps(args)} level="2">${content}</ssk-heading>
-      <ssk-heading ${spreadProps(args)} level="3">${content}</ssk-heading>
-      <ssk-heading ${spreadProps(args)} level="4">${content}</ssk-heading>
-      <ssk-heading ${spreadProps(args)} level="5">${content}</ssk-heading>
+      <ssk-heading ${spread(args)} level="1">${content}</ssk-heading>
+      <ssk-heading ${spread(args)} level="2">${content}</ssk-heading>
+      <ssk-heading ${spread(args)} level="3">${content}</ssk-heading>
+      <ssk-heading ${spread(args)} level="4">${content}</ssk-heading>
+      <ssk-heading ${spread(args)} level="5">${content}</ssk-heading>
     </div>`;
   },
   argTypes: {

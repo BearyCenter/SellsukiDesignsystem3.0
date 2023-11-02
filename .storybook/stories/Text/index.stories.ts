@@ -1,4 +1,4 @@
-import { spreadProps } from "@open-wc/lit-helpers";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/text";
@@ -14,7 +14,7 @@ const meta = {
   title: "Example/Text",
   tags: ["autodocs"],
   render: ({ content, ...args }) => {
-    return html`<ssk-text ${spreadProps(args)}>${content}</ssk-text>`;
+    return html`<ssk-text ${spread(args)}>${content}</ssk-text>`;
   },
   argTypes: {
     content: {

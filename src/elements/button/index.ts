@@ -92,10 +92,6 @@ export class Button extends LitElement implements ThemeValue, BaseAttributes {
   @property({ type: Boolean })
   hidden = false;
 
-  // Event
-  @property({ attribute: false })
-  onClick?: () => void;
-
   render() {
     if (this.hidden) {
       return html``;
@@ -245,11 +241,7 @@ export class Button extends LitElement implements ThemeValue, BaseAttributes {
         }
       </style>
 
-      <button
-        data-testid=${this.testId || nothing}
-        .disabled=${this.disabled}
-        @click=${this.onClick}
-      >
+      <button data-testid=${this.testId || nothing} .disabled=${this.disabled}>
         <slot name="prefix"></slot>
         <slot></slot>
         <slot name="postfix"></slot>

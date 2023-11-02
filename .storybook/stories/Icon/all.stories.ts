@@ -1,4 +1,4 @@
-import { spreadProps } from "@open-wc/lit-helpers";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/icon";
@@ -23,7 +23,7 @@ const meta = {
       </style>
       <main>
         ${Object.keys(Icon.svgs).map(
-          (name) => html`<ssk-icon ${spreadProps(args)} name=${name} />`,
+          (name) => html`<ssk-icon ${spread(args)} name=${name} />`,
         )}
       </main>`;
   },

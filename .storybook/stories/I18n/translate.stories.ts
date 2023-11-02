@@ -1,4 +1,4 @@
-import { spreadProps } from "@open-wc/lit-helpers";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/contexts/i18n";
@@ -11,7 +11,7 @@ const meta = {
   title: "Example/I18n/Translate",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html` <ssk-i18n-translate ${spreadProps(args)} />`;
+    return html` <ssk-i18n-translate ${spread(args)} />`;
   },
   argTypes: {
     key: {

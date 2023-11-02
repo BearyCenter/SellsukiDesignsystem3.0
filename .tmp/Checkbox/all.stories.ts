@@ -1,4 +1,4 @@
-import { spreadProps } from "@open-wc/lit-helpers";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/checkbox";
@@ -32,84 +32,84 @@ const meta = {
       <main>
         <section class="horizontal">
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="horizontal"
             size="xs"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="horizontal"
             size="sm"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="horizontal"
             size="md"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="horizontal"
             size="lg"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="horizontal"
             size="xl"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="horizontal"
             size="2xl"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="horizontal"
             size="3xl"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="horizontal"
             size="4xl"
           ></ssk-checkbox>
         </section>
         <section class="vertical">
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="vertical"
             size="xs"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="vertical"
             size="sm"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="vertical"
             size="md"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="vertical"
             size="lg"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="vertical"
             size="xl"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="vertical"
             size="2xl"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="vertical"
             size="3xl"
           ></ssk-checkbox>
           <ssk-checkbox
-            ${spreadProps(args)}
+            ${spread(args)}
             orientation="vertical"
             size="4xl"
           ></ssk-checkbox>

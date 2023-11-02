@@ -1,4 +1,4 @@
-import { spreadProps } from "@open-wc/lit-helpers";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/divider";
@@ -12,7 +12,7 @@ const meta = {
   title: "Example/Divider",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html`<ssk-divider ${spreadProps(args)}></ssk-divider>`;
+    return html`<ssk-divider ${spread(args)}></ssk-divider>`;
   },
   argTypes: {
     orientation: {

@@ -2,6 +2,7 @@ import { consume } from "@lit-labs/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
+import { redispatchEvents } from "../../helpers/lit";
 import { BaseAttributes, ThemeValue } from "../../types/base-attributes";
 import {
   ColorName,
@@ -102,22 +103,6 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
   @property({ type: Boolean })
   hidden = false;
 
-  // Event
-  @property({ attribute: false })
-  change?: (event: Event) => void;
-
-  private handleChange = (event: Event) => {
-    const onChange = new CustomEvent("change", {
-      bubbles: true,
-      composed: true,
-      detail: {
-        value: (event.target as HTMLInputElement).value,
-      },
-    });
-    this.dispatchEvent(onChange);
-    this.change?.(event);
-  };
-
   render() {
     if (this.hidden) {
       return html``;
@@ -205,7 +190,8 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
           value=${this.value || ""}
           ?disabled=${this.disabled}
           type=${this.type}
-          @change=${this.handleChange}
+          @input=${(e: Event) => redispatchEvents(e, this)}
+          @change=${(e: Event) => redispatchEvents(e, this)}
         />
         ${this.helperText
           ? html`<label class="helper">${this.helperText}</label>`

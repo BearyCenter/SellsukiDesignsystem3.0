@@ -1,4 +1,4 @@
-import { spreadProps } from "@open-wc/lit-helpers";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/text";
@@ -15,14 +15,14 @@ const meta = {
   tags: [],
   render: ({ content, ...args }) => {
     return html`<div>
-      <ssk-text ${spreadProps(args)} size="4xl">${content}</ssk-text>
-      <ssk-text ${spreadProps(args)} size="3xl">${content}</ssk-text>
-      <ssk-text ${spreadProps(args)} size="2xl">${content}</ssk-text>
-      <ssk-text ${spreadProps(args)} size="xl">${content}</ssk-text>
-      <ssk-text ${spreadProps(args)} size="lg">${content}</ssk-text>
-      <ssk-text ${spreadProps(args)} size="md">${content}</ssk-text>
-      <ssk-text ${spreadProps(args)} size="sm">${content}</ssk-text>
-      <ssk-text ${spreadProps(args)} size="xs">${content}</ssk-text>
+      <ssk-text ${spread(args)} size="4xl">${content}</ssk-text>
+      <ssk-text ${spread(args)} size="3xl">${content}</ssk-text>
+      <ssk-text ${spread(args)} size="2xl">${content}</ssk-text>
+      <ssk-text ${spread(args)} size="xl">${content}</ssk-text>
+      <ssk-text ${spread(args)} size="lg">${content}</ssk-text>
+      <ssk-text ${spread(args)} size="md">${content}</ssk-text>
+      <ssk-text ${spread(args)} size="sm">${content}</ssk-text>
+      <ssk-text ${spread(args)} size="xs">${content}</ssk-text>
     </div>`;
   },
   argTypes: {

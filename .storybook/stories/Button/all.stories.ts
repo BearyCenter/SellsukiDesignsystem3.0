@@ -1,4 +1,4 @@
-import { spreadProps } from "@open-wc/lit-helpers";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/button";
@@ -15,20 +15,10 @@ type ButtonWithLabel = Omit<
 const variant: Button["variant"][] = ["solid", "outline", "ghost"];
 const state = [
   {
-    disabled: false,
-    loading: false,
+    "?disabled": true,
   },
   {
-    disabled: false,
-    loading: true,
-  },
-  {
-    disabled: true,
-    loading: false,
-  },
-  {
-    disabled: true,
-    loading: true,
+    "?disabled": false,
   },
 ];
 const size: Button["size"][] = ["xl", "lg", "md", "sm", "xs"];
@@ -36,7 +26,7 @@ const size: Button["size"][] = ["xl", "lg", "md", "sm", "xs"];
 const meta = {
   title: "Example/Button",
   tags: [],
-  render: ({ label, ...args }) => {
+  render: ({ label, click, ...args }) => {
     return html` <style>
         main {
           display: flex;
@@ -65,8 +55,8 @@ const meta = {
               ${size.map((sz) =>
                 state.map(
                   (s) => html`<ssk-button
-                    testId=${`button-${v}-${sz}-${s.disabled}-${s.loading}`}
-                    ${spreadProps({ ...args, ...s, size: sz })}
+                    testId=${`button-${v}-${sz}-${s["?disabled"]}`}
+                    ${spread({ ...args, ...s, size: sz })}
                     variant=${v}
                     >${label}</ssk-button
                   >`,
@@ -81,15 +71,6 @@ const meta = {
     label: {
       description: "The content of the button",
       control: "text",
-    },
-
-    hidden: {
-      control: {
-        type: "boolean",
-      },
-    },
-    onClick: {
-      action: "onClick",
     },
     ...baseArgsTypes,
   },

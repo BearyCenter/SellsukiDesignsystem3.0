@@ -1,4 +1,4 @@
-import { spreadProps } from "@open-wc/lit-helpers";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/button";
@@ -13,7 +13,7 @@ const meta = {
   title: "Example/Button",
   tags: ["autodocs"],
   render: ({ label, ...args }) => {
-    return html`<ssk-button ${spreadProps(args)}
+    return html`<ssk-button ${spread(args)}
       ><ssk-icon
         slot="prefix"
         name="solid-users"
@@ -34,23 +34,10 @@ const meta = {
         type: "inline-radio",
       },
     },
-    loading: {
+    "?disabled": {
       control: {
         type: "boolean",
       },
-    },
-    disabled: {
-      control: {
-        type: "boolean",
-      },
-    },
-    hidden: {
-      control: {
-        type: "boolean",
-      },
-    },
-    onClick: {
-      action: "onClick",
     },
     ...baseArgsTypes,
   },
