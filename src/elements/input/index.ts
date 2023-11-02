@@ -106,6 +106,18 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
   @property({ attribute: false })
   change?: (event: Event) => void;
 
+  private handleChange = (event: Event) => {
+    const onChange = new CustomEvent("change", {
+      bubbles: true,
+      composed: true,
+      detail: {
+        value: (event.target as HTMLInputElement).value,
+      },
+    });
+    this.dispatchEvent(onChange);
+    this.change?.(event);
+  };
+
   render() {
     if (this.hidden) {
       return html``;
@@ -193,7 +205,7 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
           value=${this.value || ""}
           ?disabled=${this.disabled}
           type=${this.type}
-          @change=${this.change}
+          @change=${this.handleChange}
         />
         ${this.helperText
           ? html`<label class="helper">${this.helperText}</label>`
