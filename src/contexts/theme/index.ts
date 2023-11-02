@@ -19,7 +19,7 @@ export class ThemeProvider extends LitElement {
 
   static styles = css`
     :host {
-      font-family: var(--font-family-sans);
+      font-family: var(--ssk-font-family-sans);
     }
   `;
 }

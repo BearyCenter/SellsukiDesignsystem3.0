@@ -195,7 +195,7 @@ export const parseThemeToCssVariables = (
 
   return html`<style>
     ${base} {${Object.entries(cssKV)
-      .map(([k, v]) => `--${k}: ${v};`)
+      .map(([k, v]) => `--ssk-${k}: ${v};`)
       .join(" ")}}${parseAtRuleThemeValue(theme).join("\n")}
   </style>`;
 };
@@ -299,5 +299,5 @@ export const cssVar = (
   // if any key are undefined, return undefined
   if (key.some((k) => k === undefined)) return undefined;
 
-  return `--${key.map((k) => kebabCase(`${k}`)).join("-")}`;
+  return `--ssk-${key.map((k) => kebabCase(`${k}`)).join("-")}`;
 };

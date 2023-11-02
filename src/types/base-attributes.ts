@@ -43,9 +43,3 @@ export type ThemeValue = {
   maxWidth?: string;
   maxHeight?: string;
 };
-
-// export const parseBaseThemeValueToCssVariables = (
-//   themeValue: ThemeValue,
-//   base: string = ":host" // svg, div, button, etc
-// ): TemplateResult => {
-//   return

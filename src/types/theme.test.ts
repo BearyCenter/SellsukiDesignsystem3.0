@@ -1,7 +1,29 @@
 import { describe, expect, test } from "vitest";
-import { parseThemeToCss } from "./theme";
+import { parseThemeToCssVariables } from "./theme";
 
+import { TemplateResult } from "lit";
 import { deepFlattenCssVar, parseAtRuleThemeValue } from "./theme";
+
+export function template_as_string(data: TemplateResult) {
+  const { strings, values } = data;
+  const value_list = [...values, ""]; // + last empty part
+  let output = "";
+  for (let i = 0; i < strings.length; i++) {
+    let v = value_list[i];
+    if (v._$litType$ !== undefined) {
+      v = template_as_string(v); // embedded Template
+    } else if (v instanceof Array) {
+      // array of strings or templates.
+      let new_v = "";
+      for (const inner_v of [...v]) {
+        new_v += template_as_string(inner_v);
+      }
+      v = new_v;
+    }
+    output += strings[i] + v;
+  }
+  return output;
+}
 
 describe("deepFlattenTheme", () => {
   test("should flatten a nested theme object", () => {
@@ -1361,11 +1383,13 @@ describe("parseAtRuleThemeValue", () => {
   });
 });
 
-describe("parseThemeToCss", () => {
+describe("parseThemeToCssVariables", () => {
   test("should return empty string if theme is empty", () => {
     const theme = {};
-    const result = parseThemeToCss(theme);
-    expect(result).toEqual(":host {}");
+    const result = parseThemeToCssVariables(theme);
+    expect(template_as_string(result)).toEqual(`<style>
+    :host {}
+  </style>`);
   });
 
   test("should return CSS string with valid theme", () => {
@@ -1390,9 +1414,11 @@ describe("parseThemeToCss", () => {
         large: "20px",
       },
     };
-    const result = parseThemeToCss(theme);
-    expect(result).toEqual(
-      `:host {--colors-primary: #007bff; --colors-secondary: #6c757d; --colors-success: #28a745; --colors-danger: #dc3545; --colors-warning: #ffc107; --colors-info: #17a2b8; --colors-light: #f8f9fa; --colors-dark: #343a40; --fonts-body: Arial, sans-serif; --fonts-heading: Helvetica, sans-serif; --font-sizes-small: 12px; --font-sizes-medium: 16px; --font-sizes-large: 20px;}`
+    const result = parseThemeToCssVariables(theme);
+    expect(template_as_string(result)).toEqual(
+      `<style>
+    :host {--ssk-colors-primary: #007bff; --ssk-colors-secondary: #6c757d; --ssk-colors-success: #28a745; --ssk-colors-danger: #dc3545; --ssk-colors-warning: #ffc107; --ssk-colors-info: #17a2b8; --ssk-colors-light: #f8f9fa; --ssk-colors-dark: #343a40; --ssk-fonts-body: Arial, sans-serif; --ssk-fonts-heading: Helvetica, sans-serif; --ssk-font-sizes-small: 12px; --ssk-font-sizes-medium: 16px; --ssk-font-sizes-large: 20px;}
+  </style>`,
     );
   });
 });
