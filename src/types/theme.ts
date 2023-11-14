@@ -177,6 +177,7 @@ export type Theme = {
     divider?: {} & Partial<ThemeField>;
     checkbox?: {} & Partial<ThemeField>;
     image?: {} & Partial<ThemeField>;
+    toggle?: {} & Partial<ThemeField>;
   };
 } & ThemeField;
 
