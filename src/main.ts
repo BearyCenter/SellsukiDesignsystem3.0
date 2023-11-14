@@ -7,6 +7,7 @@ export * from "./elements/icon";
 export * from "./elements/image";
 export * from "./elements/input";
 export * from "./elements/text";
+export * from "./elements/toggle";
 
 export * from "./types/theme";
 
