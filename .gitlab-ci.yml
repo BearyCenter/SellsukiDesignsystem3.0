@@ -4,6 +4,7 @@ include:
     file: "pipelines/gitlab-ci-pipeline.npm-publish.yml"
 
 variables:
+  CI_JOB_ENABLE: "true"
   PUBLISH_REGISTRY_HOST_URL: "registry.npmjs.org"
 
 chromatic_publish_auto_accept_changes:
