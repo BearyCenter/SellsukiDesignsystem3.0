@@ -8,7 +8,7 @@ variables:
 
 chromatic_publish_auto_accept_changes:
   extends:
-    - production_runner_amd_tags
+    - .production_runner_amd_tags
   image: node:latest
   stage: test
   script:
@@ -21,7 +21,7 @@ chromatic_publish_auto_accept_changes:
 
 chromatic_publish:
   extends:
-    - production_runner_amd_tags
+    - .production_runner_amd_tags
   image: node:latest
   stage: test
   script:
