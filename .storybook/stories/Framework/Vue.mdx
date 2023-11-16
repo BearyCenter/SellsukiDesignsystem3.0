@@ -56,3 +56,38 @@ new Vue({
   }
 </style>
 ```
+
+## Known Issues
+
+
+Warning: Failed to resolve component: ssk-___ 
+```
+HomeView.vue:36 [Vue warn]: Failed to resolve component: ssk-toggle
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at <HomeView onVnodeUnmounted=fn<onVnodeUnmounted> ref=Ref< Proxy(Object) {__v_skip: true} > > 
+  at <RouterView> 
+  at <App>
+```
+
+This can be fix by adding 'compilerOptions' in 'vite.config.ts'
+```javascript
+export default defineConfig({
+  server: {
+    port: 5173,
+    host: '0.0.0.0',
+  },
+  plugins: [
+    vue(
+      {
+        template: {
+          compilerOptions: {
+            isCustomElement: (tag) => tag.startsWith('ssk-'),
+          }
+        }
+      }
+    ),
+    vueJsx(),
+  ],
+})
+
+```
