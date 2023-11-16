@@ -1,3 +1,12 @@
+include:
+  - project: "sellsuki/sre/deployment/pipeline-deployment"
+    ref: "feature/npm-publish-by-tag"
+    file: "gitlab-ci-pipeline.npm-publish.yml"
+
+variables:
+  # Skip all test
+  PUBLISH_REGISTRY_HOST_URL: "registry.npmjs.org"
+
 image: node:latest
 
 stages:
@@ -33,7 +42,7 @@ chromatic_publish:
   script:
     - npm run build
     - npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN
-  rules: 
+  rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: always
       allow_failure: false
