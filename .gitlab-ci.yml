@@ -1,7 +1,7 @@
 include:
   - project: "sellsuki/sre/deployment/pipeline-deployment"
     ref: "feature/npm-publish-by-tag"
-    file: "gitlab-ci-pipeline.npm-publish.yml"
+    file: "pipelines/gitlab-ci-pipeline.npm-publish.yml"
 
 variables:
   # Skip all test
