@@ -6,6 +6,7 @@ include:
 variables:
   CI_JOB_ENABLE: "true"
   PUBLISH_REGISTRY_HOST_URL: "registry.npmjs.org"
+  DOCKER_IMAGE: "registry.fountain.sellsuki.com/dockerhub/library/node:18"
 
 chromatic_publish_auto_accept_changes:
   extends:
