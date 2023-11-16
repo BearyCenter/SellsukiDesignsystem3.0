@@ -1,0 +1,16 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+import { defaultTheme } from "../../../src/contexts/theme/default";
+
+
+<Meta title="Typography/Colors" />
+
+## Sellsuki Design System Base Colors
+<ColorPalette>
+  { Object.entries(defaultTheme.colors).map(([k,v]) => {
+    return <ColorItem 
+        key={k}
+        title={k}
+        colors={ {...v} }
+      />
+  })}
+</ColorPalette>
