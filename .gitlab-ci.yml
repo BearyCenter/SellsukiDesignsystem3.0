@@ -1,45 +1,36 @@
-image: node:latest
+include:
+  - project: "sellsuki/sre/deployment/pipeline-deployment"
+    ref: "feature/npm-publish-by-tag"
+    file: "pipelines/gitlab-ci-pipeline.npm-publish.yml"
 
-stages:
-  - test
-
-# Cache modules in between jobs
-cache:
-  key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
-  paths:
-    - node_modules/
-
-before_script:
-  - npm ci
-  - echo merge request $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+variables:
+  CI_JOB_ENABLE: "true"
+  PUBLISH_REGISTRY_HOST_URL: "registry.npmjs.org"
+  DOCKER_IMAGE: "registry.fountain.sellsuki.com/dockerhub/library/node:18"
 
 chromatic_publish_auto_accept_changes:
+  extends:
+    - .production_runner_amd_tags
+  image: node:latest
   stage: test
   script:
+    - npm ci
     - npm run build
     - npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --auto-accept-changes
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always
-  tags:
-    - amd
-    - docker
-    - general
-    - sellsuki
-    - production
 
 chromatic_publish:
+  extends:
+    - .production_runner_amd_tags
+  image: node:latest
   stage: test
   script:
+    - npm ci
     - npm run build
     - npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN
-  rules: 
+  rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: always
-      allow_failure: true
-  tags:
-    - amd
-    - docker
-    - general
-    - sellsuki
-    - staging
+      allow_failure: false
