@@ -2,7 +2,7 @@
 // script: npm run generate:icon
 
 import { consume } from "@lit-labs/context";
-import { LitElement, TemplateResult, css, html, svg } from "lit";
+import { LitElement, TemplateResult, css, html, nothing, svg } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
@@ -2515,7 +2515,7 @@ export class Icon extends LitElement implements ThemeValue {
 
   render() {
     if (this.hidden) {
-      return html``;
+      return nothing;
     }
 
     return html`

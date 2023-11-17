@@ -105,7 +105,7 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
 
   render() {
     if (this.hidden) {
-      return html``;
+      return nothing;
     }
 
     return html`
