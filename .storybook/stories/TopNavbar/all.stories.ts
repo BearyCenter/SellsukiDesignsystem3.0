@@ -75,7 +75,6 @@ type Story = StoryObj<TopNavbarArgs>;
 // More on writing stories with args: https://storybook.js.org/docs/web-components/writing-stories/args
 export const ShowCase: Story = {
   args: {
-    level: 2,
     placeholder: "Placeholder",
     leftImgSrc: "https://placehold.co/80x40",
     rightImgSrc: "https://placeholder.com/40x40",
