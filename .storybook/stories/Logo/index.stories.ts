@@ -15,12 +15,22 @@ const meta = {
     return html`<ssk-logo ${spread(args)}></ssk-logo>`;
   },
   argTypes: {
-    src: {
+    srcLogo: {
       control: {
         type: "text",
       },
     },
-    alt: {
+    altLogo: {
+      control: {
+        type: "text",
+      },
+    },
+    srcName: {
+      control: {
+        type: "text",
+      },
+    },
+    altName: {
       control: {
         type: "text",
       },
@@ -28,6 +38,11 @@ const meta = {
     boxSize: {
       control: {
         type: "text",
+      },
+    },
+    "?fullLogo": {
+      control: {
+        type: "boolean",
       },
     },
     ...baseArgsTypes,
@@ -40,8 +55,10 @@ type Story = StoryObj<LogoArgs>;
 
 export const Default: Story = {
   args: {
-    src: "https://placehold.co/72x72",
-    alt: "demo brand",
+    srcLogo: "https://placehold.co/72x72",
+    altLogo: "demo brand logo",
+    srcName: "https://placehold.co/72x72",
+    altName: "demo brand name",
   },
   parameters: {
     design: {

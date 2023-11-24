@@ -35,17 +35,26 @@ export class Logo extends LitElement implements ThemeValue {
   width?: string | undefined;
   @property({ type: String })
   height?: string | undefined;
-
+  @property({ type: String })
+  gap?: string | undefined = "0.2em";
   @property({ type: String })
   boxSize?: string | undefined;
   @property({ type: Boolean })
   hidden = false;
 
-  // Avatar Attributes
+  // Logo Attributes
+  @property({ type: Boolean })
+  fullLogo = false;
+
   @property({ type: String })
-  src?: string;
+  srcLogo?: string;
   @property({ type: String })
-  alt?: string;
+  altLogo?: string;
+
+  @property({ type: String })
+  srcName?: string;
+  @property({ type: String })
+  altName?: string;
 
   render() {
     if (this.hidden) {
@@ -68,6 +77,10 @@ export class Logo extends LitElement implements ThemeValue {
       "auto",
     )};
     --margin: ${parseVariables(cssVar("margin", this.margin))};
+    --gap: ${parseVariables(
+      cssVar("spacing", this.gap),
+      cssVar("spacing", this.size),
+    )};
     border-width:  ${parseVariables(
       cssVar("border-width", this.borderWidth),
       this.borderWidth,
@@ -81,27 +94,48 @@ export class Logo extends LitElement implements ThemeValue {
     `;
 
     return html`
-      ${parseThemeToCssVariables(this.theme?.components?.logo, "logo")}
+      ${parseThemeToCssVariables(this.theme?.components?.logo, "img")}
       <style>
-        img{
+        img,div{
           ${additionalCss};
         }
       </style>
-      ${this.src
+      ${this.fullLogo
         ? html`
-            <img src="${ifDefined(this.src)}" alt="${ifDefined(this.alt)}" />
+            <div>
+              <img
+                src="${ifDefined(this.srcLogo)}"
+                alt="${ifDefined(this.altLogo)}"
+              />
+              <img
+                src="${ifDefined(this.srcName)}"
+                alt="${ifDefined(this.altName)}"
+              />
+            </div>
           `
-        : nothing}
+        : html`
+            <div>
+              <img
+                src="${ifDefined(this.srcLogo)}"
+                alt="${ifDefined(this.altLogo)}"
+              />
+            </div>
+          `}
     `;
   }
 
   static styles = css`
     img {
-      display: flex;
-      align-items: center;
       justify-content: center;
       cursor: pointer;
       margin: var(--margin);
+    }
+    div {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      margin: var(--margin);
+      gap: 0.2em;
     }
   `;
 }

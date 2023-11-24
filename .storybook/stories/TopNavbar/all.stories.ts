@@ -21,8 +21,11 @@ const meta = {
         ></ssk-icon>
         <ssk-logo
           ${spread(args)}
-          src="https://placehold.co/40x40"
-          alt="demo brand"
+          srcLogo="https://placehold.co/40x40"
+          altLogo="demo brand"
+          srcName="https://placehold.co/70x40"
+          altName="demo brand name"
+          fullLogo
           slot="left-slot"
         ></ssk-logo>
         <ssk-input
@@ -50,7 +53,7 @@ const meta = {
         <ssk-avatar
           ${spread(args)}
           slot="right-slot"
-          src="https://placehold.co/40x40"
+          src="https://placehold.co/70x40"
           alt="demo avatar"
           shape="circle"
         ></ssk-avatar>
@@ -64,8 +67,11 @@ const meta = {
         ></ssk-icon>
         <ssk-logo
           ${spread(args)}
-          src="https://placehold.co/40x40"
-          alt="demo brand"
+          srcLogo="https://placehold.co/40x40"
+          altLogo="demo brand"
+          srcName="https://placehold.co/40x40"
+          altName="demo brand name"
+          fullLogo
           slot="left-slot"
         ></ssk-logo>
         <ssk-input
