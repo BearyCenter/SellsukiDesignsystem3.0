@@ -12,45 +12,84 @@ type TopNavbarArgs = {} & TopNavbar;
 const meta = {
   title: "Example/TopNavbar",
   tags: [],
-  render: ({ level, leftImgSrc, rightImgSrc, ...args }) => {
-    return html`<ssk-top-navbar
-        .leftImgSrc=${leftImgSrc}
-        .rightImgSrc=${rightImgSrc}
-        ${spread(args)}
-      >
+  render: ({ ...args }) => {
+    return html`<ssk-top-navbar ${spread(args)}>
         <ssk-icon
           name="outline-bars-3-center-left"
           ${spread(args)}
-          slot="left-col"
+          slot="left-slot"
         ></ssk-icon>
+        <ssk-logo
+          ${spread(args)}
+          src="https://placehold.co/40x40"
+          alt="demo brand"
+          slot="left-slot"
+        ></ssk-logo>
+        <ssk-input
+          ${spread(args)}
+          slot="center-slot"
+          placeholder="Placeholder"
+          value=""
+        >
+          <ssk-icon
+            ${spread({ ...args })}
+            name="outline-magnifying-glass"
+            slot="prefix"
+          ></ssk-icon>
+        </ssk-input>
         <ssk-icon
           name="outline-bell"
           ${spread(args)}
-          slot="right-col"
+          slot="right-slot"
         ></ssk-icon>
         <ssk-icon
           name="solid-squares-2x2"
           ${spread(args)}
-          slot="right-col"
+          slot="right-slot"
         ></ssk-icon>
+        <ssk-avatar
+          ${spread(args)}
+          slot="right-slot"
+          src="https://placehold.co/40x40"
+          alt="demo avatar"
+          shape="circle"
+        ></ssk-avatar>
       </ssk-top-navbar>
-      <ssk-top-navbar .leftImgSrc=${leftImgSrc} ${spread(args)}>
+
+      <ssk-top-navbar ${spread(args)}>
         <ssk-icon
           name="outline-bars-3-center-left"
           ${spread(args)}
-          slot="left-col"
+          slot="left-slot"
         ></ssk-icon>
-
-        <ssk-button ${spread(args)} slot="right-col" variant="outline"
+        <ssk-logo
+          ${spread(args)}
+          src="https://placehold.co/40x40"
+          alt="demo brand"
+          slot="left-slot"
+        ></ssk-logo>
+        <ssk-input
+          ${spread(args)}
+          slot="center-slot"
+          placeholder="Placeholder"
+          value=""
+        >
+          <ssk-icon
+            ${spread({ ...args })}
+            name="outline-magnifying-glass"
+            slot="prefix"
+          ></ssk-icon>
+        </ssk-input>
+        <ssk-button ${spread(args)} slot="right-slot" variant="outline"
           ><ssk-icon
             name="outline-ellipsis-horizontal-circle"
             ${spread(args)}
           ></ssk-icon>
           Sign in</ssk-button
         >
-        <ssk-button ${spread(args)} slot="right-col"
+        <ssk-button ${spread(args)} slot="right-slot"
           ><ssk-icon
-            name="solid-ellipsis-horizontal-circle"
+            name="outline-ellipsis-horizontal-circle"
             ${spread(args)}
           ></ssk-icon>
           Sign up</ssk-button
@@ -58,12 +97,6 @@ const meta = {
       </ssk-top-navbar> `;
   },
   argTypes: {
-    type: {
-      options: ["text", "hidden"],
-      control: {
-        type: "select",
-      },
-    },
     ...baseArgsTypes,
   },
 } satisfies Meta<TopNavbarArgs>;
@@ -74,11 +107,7 @@ type Story = StoryObj<TopNavbarArgs>;
 
 // More on writing stories with args: https://storybook.js.org/docs/web-components/writing-stories/args
 export const ShowCase: Story = {
-  args: {
-    placeholder: "Placeholder",
-    leftImgSrc: "https://placehold.co/80x40",
-    rightImgSrc: "https://placeholder.com/40x40",
-  },
+  args: {},
   parameters: {
     design: {
       type: "figma",

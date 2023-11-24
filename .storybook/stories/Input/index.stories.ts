@@ -13,7 +13,7 @@ const meta = {
   title: "Example/Input",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html`<ssk-input ${spread({ ...args })}></ssk-input>`;
+    return html`<ssk-input ${spread({ ...args })}> </ssk-input>`;
   },
   argTypes: {
     label: {
@@ -33,6 +33,12 @@ const meta = {
     value: {
       description: "",
       control: "text",
+    },
+    type: {
+      options: ["text", "number", "password", "email", "tel", "url"],
+      control: {
+        type: "select",
+      },
     },
     ...baseArgsTypes,
   },
@@ -76,7 +82,7 @@ export const Large: Story = {
 
 export const Small: Story = {
   args: {
-    size: "xl",
+    size: "sx",
     label: "Input",
     placeholder: "Placeholder",
     helperText: "Helper text",
@@ -86,5 +92,35 @@ export const Small: Story = {
       type: "figma",
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1123-65244",
     },
+  },
+};
+
+export const SearchField: Story = {
+  args: {
+    size: "md",
+    label: "Input",
+    placeholder: "Placeholder",
+    helperText: "Helper text",
+    value: "",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=585%3A57607&mode=dev",
+    },
+  },
+  render: ({ ...args }) => {
+    return html`<ssk-input ${spread({ ...args })}>
+      <ssk-icon
+        ${spread({ ...args })}
+        name="outline-magnifying-glass"
+        slot="prefix"
+      ></ssk-icon>
+      <ssk-icon
+        ${spread({ ...args })}
+        name="outline-ellipsis-horizontal-circle"
+        slot="postfix"
+      ></ssk-icon>
+    </ssk-input>`;
   },
 };

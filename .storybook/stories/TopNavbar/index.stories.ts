@@ -12,77 +12,52 @@ type TopNavbarArgs = {} & TopNavbar;
 const meta = {
   title: "Example/TopNavbar",
   tags: ["autodocs"],
-  render: ({ level, leftImgSrc, rightImgSrc, ...args }) => {
-    return html` ${level === 2
-      ? html`
-          <ssk-top-navbar
-            .leftImgSrc=${leftImgSrc}
-            .rightImgSrc=${rightImgSrc}
-            ${spread(args)}
-          >
-            <ssk-icon
-              name="outline-bars-3-center-left"
-              ${spread(args)}
-              slot="left-col"
-            ></ssk-icon>
-            <ssk-icon
-              name="outline-bell"
-              ${spread(args)}
-              slot="right-col"
-            ></ssk-icon>
-            <ssk-icon
-              name="solid-squares-2x2"
-              ${spread(args)}
-              slot="right-col"
-            ></ssk-icon>
-          </ssk-top-navbar>
-        `
-      : level === 4
-      ? html`
-          <ssk-top-navbar .leftImgSrc=${leftImgSrc} ${spread(args)}>
-            <ssk-icon
-              name="outline-bars-3-center-left"
-              ${spread(args)}
-              slot="left-col"
-            ></ssk-icon>
-
-            <ssk-button ${spread(args)} slot="right-col" variant="outline"
-              ><ssk-icon
-                name="outline-ellipsis-horizontal-circle"
-                ${spread(args)}
-              ></ssk-icon>
-              Sign in</ssk-button
-            >
-            <ssk-button ${spread(args)} slot="right-col"
-              ><ssk-icon
-                name="solid-ellipsis-horizontal-circle"
-                ${spread(args)}
-              ></ssk-icon>
-              Sign up</ssk-button
-            >
-          </ssk-top-navbar>
-        `
-      : nothing}`;
+  render: ({ ...args }) => {
+    return html`
+      <ssk-top-navbar ${spread(args)}>
+        <ssk-icon
+          name="outline-bars-3-center-left"
+          ${spread(args)}
+          slot="left-slot"
+        ></ssk-icon>
+        <ssk-logo
+          ${spread(args)}
+          src="https://placehold.co/40x40"
+          alt="demo brand"
+          slot="left-slot"
+        ></ssk-logo>
+        <ssk-input
+          ${spread(args)}
+          slot="center-slot"
+          placeholder="Placeholder"
+          value=""
+          ><ssk-icon
+            ${spread({ ...args })}
+            name="outline-magnifying-glass"
+            slot="prefix"
+          ></ssk-icon
+        ></ssk-input>
+        <ssk-icon
+          name="outline-bell"
+          ${spread(args)}
+          slot="right-slot"
+        ></ssk-icon>
+        <ssk-icon
+          name="solid-squares-2x2"
+          ${spread(args)}
+          slot="right-slot"
+        ></ssk-icon>
+        <ssk-avatar
+          ${spread(args)}
+          slot="right-slot"
+          src="https://placehold.co/40x40"
+          alt="demo avatar"
+          shape="circle"
+        ></ssk-avatar>
+      </ssk-top-navbar>
+    `;
   },
   argTypes: {
-    level: {
-      options: [2, 4],
-      control: {
-        type: "select",
-      },
-    },
-    leftImgSrc: { control: "text" },
-    rightImgSrc: { control: "text" },
-    value: {
-      description: "",
-      control: "text",
-    },
-    type: {
-      options: ["text", "hidden"],
-      control: {
-        type: "select",
-      },
-    },
     ...baseArgsTypes,
   },
 } satisfies Meta<TopNavbarArgs>;
@@ -95,12 +70,6 @@ type Story = StoryObj<TopNavbarArgs>;
 export const Default: Story = {
   args: {
     size: "md",
-    level: 2,
-    type: "text",
-    placeholder: "Placeholder",
-    value: "",
-    leftImgSrc: "https://placehold.co/80x40",
-    rightImgSrc: "https://placeholder.com/40x40",
   },
   parameters: {
     design: {

@@ -1,0 +1,114 @@
+import { spread } from "@open-wc/lit-helpers";
+import type { Meta, StoryObj } from "@storybook/web-components";
+import { html } from "lit";
+import "../../../src/elements/avatar";
+import { Avatar } from "../../../src/elements/avatar";
+import { baseArgsTypes } from "../helper";
+
+type AvatarArgs = {} & Avatar;
+
+// More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
+const meta = {
+  title: "Example/Avatar",
+  tags: ["autodocs"],
+  render: ({ ...args }) => {
+    return html`<ssk-avatar ${spread(args)}></ssk-avatar>`;
+  },
+  argTypes: {
+    shape: {
+      options: ["circle", "rounded"],
+      control: {
+        type: "select",
+      },
+    },
+    src: {
+      control: {
+        type: "text",
+      },
+    },
+    alt: {
+      control: {
+        type: "text",
+      },
+    },
+    boxSize: {
+      control: {
+        type: "text",
+      },
+    },
+    objectFit: {
+      options: ["fill", "contain", "cover", "none", "scale-down"],
+      control: {
+        type: "select",
+      },
+    },
+    initials: {
+      control: {
+        type: "text",
+      },
+    },
+    ...baseArgsTypes,
+  },
+} satisfies Meta<AvatarArgs>;
+
+export default meta;
+
+type Story = StoryObj<AvatarArgs>;
+
+export const Default: Story = {
+  args: {
+    src: "https://placehold.co/72x72",
+    alt: "demo avatar",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1230-74988&mode=design&t=q6xYkXSoidIAD1Sz-0",
+    },
+  },
+};
+
+export const Circle: Story = {
+  args: {
+    src: "https://placehold.co/72x72",
+    alt: "demo avatar",
+    shape: "circle",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1230-74988&mode=design&t=q6xYkXSoidIAD1Sz-0",
+    },
+  },
+};
+
+export const InitialDefault: Story = {
+  args: {
+    initials: "WW",
+    backgroundColor: "#32A9FF",
+    color: "white",
+    boxSize: "72px",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1230-74988&mode=design&t=q6xYkXSoidIAD1Sz-0",
+    },
+  },
+};
+
+export const InitialCircle: Story = {
+  args: {
+    initials: "WW",
+    backgroundColor: "#32A9FF",
+    color: "white",
+    shape: "circle",
+    boxSize: "72px",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1230-74988&mode=design&t=q6xYkXSoidIAD1Sz-0",
+    },
+  },
+};
