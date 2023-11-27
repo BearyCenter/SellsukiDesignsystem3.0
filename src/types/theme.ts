@@ -207,6 +207,9 @@ export type Theme = {
     checkbox?: {} & Partial<ThemeField>;
     image?: {} & Partial<ThemeField>;
     toggle?: {} & Partial<ThemeField>;
+    topNavbar?: {} & Partial<ThemeField>;
+    avatar?: {} & Partial<ThemeField>;
+    logo?: {} & Partial<ThemeField>;
   };
 } & ThemeField;
 

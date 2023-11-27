@@ -103,9 +103,13 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
   @property({ type: Boolean })
   hidden = false;
 
+  get hasPrefix(): boolean {
+    return this.querySelector('[slot="prefix"]') !== null;
+  }
+
   render() {
     if (this.hidden) {
-      return html``;
+      return nothing;
     }
 
     return html`
@@ -182,8 +186,11 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
 
       <div>
         <label for="input">${this.label}</label>
+        <slot name="prefix" class="prefix-control"></slot>
+        <slot name="postfix" class="postfix-control"></slot>
         <input
           id="input"
+          class="${this.hasPrefix ? "input-control" : ""}"
           data-testid=${this.testId || nothing}
           placeholder=${this.placeholder || ""}
           name=${this.name || ""}
@@ -193,6 +200,7 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
           @input=${(e: Event) => redispatchEvents(e, this)}
           @change=${(e: Event) => redispatchEvents(e, this)}
         />
+
         ${this.helperText
           ? html`<label class="helper">${this.helperText}</label>`
           : nothing}
@@ -215,6 +223,8 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
       padding: var(--padding);
       margin: var(--margin);
       gap: var(--gap);
+      position: relative;
+      display: inline-block;
     }
 
     input {
@@ -249,6 +259,25 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
       line-height: 0.75em;
       font-weight: 200;
       color: var(--color-helper);
+    }
+
+    div .input-control {
+      padding-left: 2em;
+      padding-right: 2em;
+    }
+
+    div .prefix-control,
+    div .postfix-control {
+      position: absolute;
+      display: block;
+      padding: 0.25em 0.5em;
+      pointer-events: none;
+      color: var(--color);
+      background-color: var(--background-color);
+    }
+
+    div .postfix-control {
+      right: 0;
     }
   `;
 }

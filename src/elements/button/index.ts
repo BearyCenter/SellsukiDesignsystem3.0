@@ -94,7 +94,7 @@ export class Button extends LitElement implements ThemeValue, BaseAttributes {
 
   render() {
     if (this.hidden) {
-      return html``;
+      return nothing;
     }
 
     let additionalCss = `

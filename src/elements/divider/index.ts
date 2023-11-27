@@ -1,5 +1,5 @@
 import { consume } from "@lit-labs/context";
-import { LitElement, css, html } from "lit";
+import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
@@ -56,12 +56,18 @@ export class Divider extends LitElement implements ThemeValue {
   fontWeight: FontWeight = "normal";
 
   // divider specific
+  @property({ type: Boolean })
+  hidden = false;
   @property({ type: String })
   orientation: "horizontal" | "vertical" = "horizontal";
   @property({ type: String })
   label?: string | undefined;
 
   render() {
+    if (this.hidden) {
+      return nothing;
+    }
+
     let textCss = `
     --text-color: ${parseVariables(
       cssVar("colors", this.color),

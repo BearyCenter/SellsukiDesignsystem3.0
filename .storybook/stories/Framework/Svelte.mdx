@@ -1,10 +1,24 @@
-import { Meta } from "@storybook/blocks";
-
-<Meta title="Framework/Svelte" />
-
 # Svelte setup
 
 ## Install
+
 ```sh
-npm i @sellsuki/sellsuki-ui
+npm i sellsuki-components
+```
+
+## Usage
+
+```html
+// src/+page.svelte
+<script lang="ts">
+  import "sellsuki-components";
+</script>
+
+<ssk-theme-provider>
+  <ssk-i18n-provider>
+    <ssk-button themecolor="primary" size="md">
+      <ssk-icon slot="prefix" name="solid-users" size="md" />Button
+    </ssk-button>
+  </ssk-i18n-provider>
+</ssk-theme-provider>
 ```
