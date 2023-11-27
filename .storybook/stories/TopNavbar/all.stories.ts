@@ -1,6 +1,6 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html, nothing } from "lit";
+import { html } from "lit";
 import "../../../src/elements/top-navbar/index";
 import { TopNavbar } from "../../../src/elements/top-navbar/index";
 import "../../../src/elements/icon";
@@ -53,7 +53,7 @@ const meta = {
         <ssk-avatar
           ${spread(args)}
           slot="right-slot"
-          src="https://placehold.co/70x40"
+          src="https://placehold.co/40x40"
           alt="demo avatar"
           shape="circle"
         ></ssk-avatar>
@@ -69,7 +69,7 @@ const meta = {
           ${spread(args)}
           srcLogo="https://placehold.co/40x40"
           altLogo="demo brand"
-          srcName="https://placehold.co/40x40"
+          srcName="https://placehold.co/70x40"
           altName="demo brand name"
           fullLogo
           slot="left-slot"
