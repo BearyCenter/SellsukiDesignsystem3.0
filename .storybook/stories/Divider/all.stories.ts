@@ -6,7 +6,18 @@ import { Divider } from "../../../src/elements/divider";
 import { baseArgsTypes } from "../helper";
 
 type DividerArgs = {} & Omit<Divider, "level">;
+const size: Divider["size"][] = [
+  "xs",
+  "sm",
+  "md",
+  "lg",
+  "xl",
+  "2xl",
+  "3xl",
+  "4xl",
+];
 
+const orientation: Divider["orientation"][] = ["horizontal", "vertical"];
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
   title: "Example/Divider",
@@ -30,136 +41,24 @@ const meta = {
         }
       </style>
       <main>
-        <section class="horizontal">
-          <ssk-divider
-            ${spread(args)}
-            label="label"
-            orientation="horizontal"
-            size="xs"
-          >
-          </ssk-divider>
-          <ssk-divider ${spread(args)} orientation="horizontal" size="xs">
-          </ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            label="label"
-            size="sm"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            size="sm"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            label="label"
-            size="md"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            size="md"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            label="label"
-            size="lg"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            size="lg"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            label="label"
-            size="xl"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            size="xl"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            label="label"
-            size="2xl"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            size="2xl"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            label="label"
-            size="3xl"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            size="3xl"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            label="label"
-            size="4xl"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="horizontal"
-            size="4xl"
-          ></ssk-divider>
-        </section>
-        <section class="vertical">
-          <ssk-divider
-            ${spread(args)}
-            orientation="vertical"
-            size="xs"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="vertical"
-            size="sm"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="vertical"
-            size="md"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="vertical"
-            size="lg"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="vertical"
-            size="xl"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="vertical"
-            size="2xl"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="vertical"
-            size="3xl"
-          ></ssk-divider>
-          <ssk-divider
-            ${spread(args)}
-            orientation="vertical"
-            size="4xl"
-          ></ssk-divider>
-        </section>
+        ${orientation.map(
+          (o) => html`<section class=${o}>
+            ${size.map(
+              (sz) => html`
+                ${o === "horizontal"
+                  ? html`<ssk-divider
+                      ${spread(args)}
+                      label="label"
+                      orientation=${o}
+                      size=${sz}
+                    ></ssk-divider>`
+                  : null}
+                <ssk-divider ${spread(args)} orientation=${o} size=${sz}>
+                </ssk-divider>
+              `
+            )}
+          </section> `
+        )}
       </main>`;
   },
   argTypes: {
