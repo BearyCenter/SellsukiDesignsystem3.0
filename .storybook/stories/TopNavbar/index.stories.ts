@@ -24,8 +24,8 @@ const meta = {
           ${spread(args)}
           srcLogo="https://placehold.co/40x40"
           altLogo="demo brand"
-          srcName="https://placehold.co/70x40"
-          altName="demo brand name"
+          srcLogoName="https://placehold.co/70x40"
+          altLogoName="demo brand name"
           fullLogo
           slot="left-slot"
         ></ssk-logo>

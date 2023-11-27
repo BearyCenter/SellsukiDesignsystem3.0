@@ -63,7 +63,7 @@ export class Avatar extends LitElement implements ThemeValue {
   @property({ type: String })
   src?: string;
   @property({ type: String })
-  initials?: string;
+  label?: string;
   @property({ type: String })
   alt?: string;
   @property({ type: String })
@@ -134,7 +134,7 @@ export class Avatar extends LitElement implements ThemeValue {
         ? html`
             <img src="${ifDefined(this.src)}" alt="${ifDefined(this.alt)}" />
           `
-        : html` <div>${this.initials}</div>`}
+        : html` <div>${this.label}</div>`}
     `;
   }
 

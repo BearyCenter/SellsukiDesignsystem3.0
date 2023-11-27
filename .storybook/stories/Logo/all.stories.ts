@@ -60,12 +60,12 @@ const meta = {
         type: "text",
       },
     },
-    srcName: {
+    srcLogoName: {
       control: {
         type: "text",
       },
     },
-    altName: {
+    altLogoName: {
       control: {
         type: "text",
       },
@@ -87,8 +87,8 @@ export const ShowCase: Story = {
   args: {
     srcLogo: "https://placehold.co/72x72",
     altLogo: "demo brand logo",
-    srcName: "https://placehold.co/72x72",
-    altName: "demo brand name",
+    srcLogoName: "https://placehold.co/72x72",
+    altLogoName: "demo brand name",
   },
   parameters: {
     design: {

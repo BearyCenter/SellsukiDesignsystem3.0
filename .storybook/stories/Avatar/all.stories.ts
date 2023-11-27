@@ -64,7 +64,7 @@ const meta = {
                         shape: v,
                         boxSize: bs,
                         src: "",
-                        initials: "ww",
+                        label: "ww",
                       })}
                     ></ssk-avatar>`,
                   )}

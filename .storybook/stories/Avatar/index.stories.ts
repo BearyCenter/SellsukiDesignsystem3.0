@@ -42,7 +42,7 @@ const meta = {
         type: "select",
       },
     },
-    initials: {
+    label: {
       control: {
         type: "text",
       },
@@ -84,7 +84,7 @@ export const Circle: Story = {
 
 export const InitialDefault: Story = {
   args: {
-    initials: "WW",
+    label: "WW",
     backgroundColor: "#32A9FF",
     color: "white",
     boxSize: "72px",
@@ -99,7 +99,7 @@ export const InitialDefault: Story = {
 
 export const InitialCircle: Story = {
   args: {
-    initials: "WW",
+    label: "WW",
     backgroundColor: "#32A9FF",
     color: "white",
     shape: "circle",

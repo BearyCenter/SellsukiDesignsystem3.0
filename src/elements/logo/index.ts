@@ -52,9 +52,9 @@ export class Logo extends LitElement implements ThemeValue {
   altLogo?: string;
 
   @property({ type: String })
-  srcName?: string;
+  srcLogoName?: string;
   @property({ type: String })
-  altName?: string;
+  altLogoName?: string;
 
   render() {
     if (this.hidden) {
@@ -108,8 +108,8 @@ export class Logo extends LitElement implements ThemeValue {
                 alt="${ifDefined(this.altLogo)}"
               />
               <img
-                src="${ifDefined(this.srcName)}"
-                alt="${ifDefined(this.altName)}"
+                src="${ifDefined(this.srcLogoName)}"
+                alt="${ifDefined(this.altLogoName)}"
               />
             </div>
           `
