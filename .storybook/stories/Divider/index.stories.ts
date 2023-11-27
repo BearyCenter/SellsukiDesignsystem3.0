@@ -48,7 +48,12 @@ const meta = {
         type: "inline-radio",
       },
     },
-    ...baseArgsTypes,
+    size: baseArgsTypes.size,
+    themeColor: baseArgsTypes.themeColor,
+    color: baseArgsTypes.color,
+    gap: baseArgsTypes.gap,
+    padding: baseArgsTypes.padding,
+    margin: baseArgsTypes.margin,
   },
 } satisfies Meta<DividerArgs>;
 
