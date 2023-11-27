@@ -77,6 +77,10 @@ export class Avatar extends LitElement implements ThemeValue {
     }
 
     let additionalCss = `
+    --padding: ${parseVariables(
+      cssVar("padding", this.padding),
+      cssVar("padding", this.size),
+    )};
     --font-family: ${parseVariables(
       cssVar("font-family", this.fontFamilyGroup),
     )};
@@ -158,6 +162,7 @@ export class Avatar extends LitElement implements ThemeValue {
     }
 
     div {
+      padding: var(--padding);
       text-align: center;
       background-color: var(--background-color);
       color: var(--color);

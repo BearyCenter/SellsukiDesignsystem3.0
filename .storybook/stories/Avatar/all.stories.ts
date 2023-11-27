@@ -7,8 +7,8 @@ import { baseArgsTypes } from "../helper";
 
 type AvatarArgs = {} & Avatar;
 const shape: Avatar["shape"][] = ["circle", "rounded"];
-const boxSize: Avatar["boxSize"][] = ["24px", "40px", "56px", "72px"];
-const size: Avatar["size"][] = ["xl", "lg", "md", "sm", "xs"];
+const width: Avatar["width"][] = ["24px", "40px", "56px", "72px"];
+const size: Avatar["size"][] = ["xl", "lg", "md", "sm"];
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
@@ -32,7 +32,7 @@ const meta = {
 
         div.container {
           display: grid;
-          grid-template-columns: repeat(${boxSize.length}, auto);
+          grid-template-columns: repeat(${size.length}, auto);
           gap: 0.5em;
         }
       </style>
@@ -42,9 +42,9 @@ const meta = {
             ${shape.map(
               (v) => html`<section>
                 <div class="container">
-                  ${boxSize.map(
-                    (s) => html` <ssk-avatar
-                      ${spread({ ...args, shape: v, boxSize: s })}
+                  ${width.map(
+                    (w) => html` <ssk-avatar
+                      ${spread({ ...args, shape: v, width: w })}
                     ></ssk-avatar>`,
                   )}
                 </div>
@@ -57,12 +57,12 @@ const meta = {
             ${shape.map(
               (v) => html`<section>
                 <div class="container">
-                  ${boxSize.map(
-                    (bs) => html` <ssk-avatar
+                  ${size.map(
+                    (s) => html` <ssk-avatar
                       ${spread({
                         ...args,
                         shape: v,
-                        boxSize: bs,
+                        size: s,
                         src: "",
                         label: "ww",
                       })}

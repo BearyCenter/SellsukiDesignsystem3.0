@@ -87,7 +87,6 @@ export const InitialDefault: Story = {
     label: "WW",
     backgroundColor: "#32A9FF",
     color: "white",
-    boxSize: "72px",
   },
   parameters: {
     design: {
@@ -103,7 +102,6 @@ export const InitialCircle: Story = {
     backgroundColor: "#32A9FF",
     color: "white",
     shape: "circle",
-    boxSize: "72px",
   },
   parameters: {
     design: {
