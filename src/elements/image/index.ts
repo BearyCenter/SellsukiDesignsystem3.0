@@ -1,5 +1,5 @@
 import { consume } from "@lit-labs/context";
-import { LitElement, css, html } from "lit";
+import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { themeContext } from "../../contexts/theme";
@@ -112,7 +112,7 @@ export class Image extends LitElement implements ThemeValue {
 
   render() {
     if (this.hidden) {
-      return html``;
+      return nothing;
     }
 
     let additionalCss = `
