@@ -82,7 +82,7 @@ export const Large: Story = {
 
 export const Small: Story = {
   args: {
-    size: "sx",
+    size: "sm",
     label: "Input",
     placeholder: "Placeholder",
     helperText: "Helper text",
