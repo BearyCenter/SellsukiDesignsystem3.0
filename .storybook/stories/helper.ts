@@ -545,7 +545,7 @@ export const baseArgsTypes: ArgTypes<BaseAttributes | any> = {
     table: {
       category: "Base props",
       defaultValue: {
-        summary: true,
+        summary: false,
       },
       type: {
         summary: "boolean",

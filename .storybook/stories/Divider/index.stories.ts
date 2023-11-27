@@ -54,6 +54,7 @@ const meta = {
     gap: baseArgsTypes.gap,
     padding: baseArgsTypes.padding,
     margin: baseArgsTypes.margin,
+    "?hidden": baseArgsTypes["?hidden"],
   },
 } satisfies Meta<DividerArgs>;
 
