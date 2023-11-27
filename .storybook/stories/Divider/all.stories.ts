@@ -33,8 +33,18 @@ const meta = {
         <section class="horizontal">
           <ssk-divider
             ${spread(args)}
+            label="label"
             orientation="horizontal"
             size="xs"
+          >
+          </ssk-divider>
+          <ssk-divider ${spread(args)} orientation="horizontal" size="xs">
+          </ssk-divider>
+          <ssk-divider
+            ${spread(args)}
+            orientation="horizontal"
+            label="label"
+            size="sm"
           ></ssk-divider>
           <ssk-divider
             ${spread(args)}
@@ -44,7 +54,19 @@ const meta = {
           <ssk-divider
             ${spread(args)}
             orientation="horizontal"
+            label="label"
             size="md"
+          ></ssk-divider>
+          <ssk-divider
+            ${spread(args)}
+            orientation="horizontal"
+            size="md"
+          ></ssk-divider>
+          <ssk-divider
+            ${spread(args)}
+            orientation="horizontal"
+            label="label"
+            size="lg"
           ></ssk-divider>
           <ssk-divider
             ${spread(args)}
@@ -54,7 +76,19 @@ const meta = {
           <ssk-divider
             ${spread(args)}
             orientation="horizontal"
+            label="label"
             size="xl"
+          ></ssk-divider>
+          <ssk-divider
+            ${spread(args)}
+            orientation="horizontal"
+            size="xl"
+          ></ssk-divider>
+          <ssk-divider
+            ${spread(args)}
+            orientation="horizontal"
+            label="label"
+            size="2xl"
           ></ssk-divider>
           <ssk-divider
             ${spread(args)}
@@ -64,7 +98,19 @@ const meta = {
           <ssk-divider
             ${spread(args)}
             orientation="horizontal"
+            label="label"
             size="3xl"
+          ></ssk-divider>
+          <ssk-divider
+            ${spread(args)}
+            orientation="horizontal"
+            size="3xl"
+          ></ssk-divider>
+          <ssk-divider
+            ${spread(args)}
+            orientation="horizontal"
+            label="label"
+            size="4xl"
           ></ssk-divider>
           <ssk-divider
             ${spread(args)}

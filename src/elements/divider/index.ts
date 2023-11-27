@@ -15,6 +15,10 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * @slot - This element has a slot
+ * @csspart text
+ */
 @customElement("ssk-divider")
 export class Divider extends LitElement implements ThemeValue {
   static registeredName = "ssk-divider";
@@ -77,29 +81,46 @@ export class Divider extends LitElement implements ThemeValue {
   hidden = false;
   @property({ type: String })
   orientation: "horizontal" | "vertical" = "horizontal";
+  @property({ type: String })
+  label?: string | undefined;
 
   render() {
     if (this.hidden) {
       return html``;
     }
 
+    let textCss = `
+    --text-color: ${parseVariables(
+      cssVar("colors", this.color),
+      cssVar("colors", this.color, 400),
+      this.color,
+      cssVar("colors", this.themeColor, 400)
+    )};
+    --text-divider-gap: ${parseVariables(
+      cssVar("spacing", this.gap),
+      cssVar("spacing", this.size)
+    )};
+    --font-size: ${parseVariables(
+      cssVar("font-size", this.fontSize),
+      cssVar("font-size", this.size)
+    )};`;
     let additionalCss = `
-      background-color: ${parseVariables(
-        cssVar("colors", this.color),
-        cssVar("colors", this.color, 200),
-        this.color,
-        cssVar("colors", this.themeColor, 200),
-        cssVar("colors", "white", 200),
-      )};
+    background-color: ${parseVariables(
+      cssVar("colors", this.color),
+      cssVar("colors", this.color, 200),
+      this.color,
+      cssVar("colors", this.themeColor, 200),
+      cssVar("colors", "white", 200)
+    )};
       
       padding: ${parseVariables(
         cssVar("padding", this.padding),
-        cssVar("padding", this.size),
+        cssVar("padding", this.size)
       )};
 
       margin: ${parseVariables(
         cssVar("margin", this.margin),
-        cssVar("margin", this.size),
+        cssVar("margin", this.size)
       )};
       `;
 
@@ -125,11 +146,39 @@ export class Divider extends LitElement implements ThemeValue {
       ${parseThemeToCssVariables(this.theme?.components?.divider, "div")}
 
       <style>
-        div {
-          ${additionalCss};
+        .notext-divider {
+          ${additionalCss}
+        }
+
+        .text-divider {
+          ${textCss}
+          display: flex;
+          align-items: center;
+          font-size: var(--font-size);
+          color: var(--text-color);
+
+          &:before, &:after {
+            content: "";
+            ${textCss}
+            ${additionalCss}
+          }
+
+          &:before {
+            margin-right: var(--text-divider-gap);
+          }
+
+          &:after {
+            margin-left: var(--text-divider-gap);
+          }
         }
       </style>
-      <div></div>
+      <div
+        class="${this.orientation == "horizontal" && this.label
+          ? "text-divider"
+          : "notext-divider"}"
+      >
+        ${this.orientation == "horizontal" && this.label ? this.label : null}
+      </div>
     `;
   }
 

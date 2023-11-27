@@ -37,7 +37,43 @@ export const Default: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=801-59140",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1084-66910&mode=design&t=aZnYIj6wbvwQJakA-0",
     },
+  },
+  render: ({ ...args }) => {
+    return html` <style>
+        div {
+          height: 200px;
+        }
+      </style>
+
+      <div>
+        <ssk-divider ${spread({ ...args })}></ssk-divider>
+      </div>`;
+  },
+};
+
+export const DividerWithText: Story = {
+  args: {
+    orientation: "horizontal",
+    size: "md",
+    label: "label",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1084-66910&mode=design&t=aZnYIj6wbvwQJakA-0",
+    },
+  },
+  render: ({ ...args }) => {
+    return html` <style>
+        div {
+          height: 200px;
+        }
+      </style>
+
+      <div>
+        <ssk-divider ${spread({ ...args })}></ssk-divider>
+      </div>`;
   },
 };
