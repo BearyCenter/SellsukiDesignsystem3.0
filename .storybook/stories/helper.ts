@@ -108,7 +108,7 @@ const shadows: string[] = [
 
 export const genericEvents: ArgTypes<any> = {
   // events
-  "@clickss": {
+  "@click": {
     action: "@click",
     table: {
       category: "Events props",
@@ -544,6 +544,12 @@ export const baseArgsTypes: ArgTypes<BaseAttributes | any> = {
     },
     table: {
       category: "Base props",
+      defaultValue: {
+        summary: true,
+      },
+      type: {
+        summary: "boolean",
+      },
     },
   },
 };

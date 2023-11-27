@@ -4,7 +4,7 @@ import { html } from "lit";
 import "../../../src/elements/button";
 import { Button } from "../../../src/elements/button";
 import "../../../src/elements/icon";
-import { baseArgsTypes } from "../helper";
+import { baseArgsTypes, genericEvents } from "../helper";
 
 type ButtonWithLabel = Button & { label: string };
 
@@ -26,20 +26,40 @@ const meta = {
     label: {
       description: "The content of the button",
       control: "text",
+      table: {
+        category: "Props",
+      },
     },
 
     variant: {
       options: ["solid", "outline", "ghost"],
+      description: "The type of button",
       control: {
         type: "inline-radio",
       },
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "solid",
+        },
+        type: {
+          summary: "string",
+        },
+      },
     },
     "?disabled": {
+      description: "When true gives the button a disabled apparence",
       control: {
         type: "boolean",
       },
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: { summary: "boolean" },
+      },
     },
     ...baseArgsTypes,
+    "@click": genericEvents["@click"],
   },
 } satisfies Meta<ButtonWithLabel>;
 
@@ -48,11 +68,11 @@ export default meta;
 type Story = StoryObj<ButtonWithLabel>;
 
 // More on writing stories with args: https://storybook.js.org/docs/web-components/writing-stories/args
-export const Primary: Story = {
+export const SolidButton: Story = {
   args: {
-    themeColor: "primary",
+    variant: "solid",
     size: "md",
-    label: "Button",
+    label: "solid button",
   },
   parameters: {
     design: {
@@ -62,11 +82,10 @@ export const Primary: Story = {
   },
 };
 
-export const Secondary: Story = {
+export const OutlineButton: Story = {
   args: {
-    themeColor: "secondary",
-    size: "md",
-    label: "Button",
+    variant: "outline",
+    label: "Outline Button",
   },
   parameters: {
     design: {
@@ -76,25 +95,10 @@ export const Secondary: Story = {
   },
 };
 
-export const Large: Story = {
+export const GhostButton: Story = {
   args: {
-    themeColor: "primary",
-    size: "lg",
-    label: "Button",
-  },
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1103%3A78477",
-    },
-  },
-};
-
-export const Small: Story = {
-  args: {
-    themeColor: "primary",
-    size: "sm",
-    label: "Button",
+    variant: "ghost",
+    label: "Ghost Button",
   },
   parameters: {
     design: {
