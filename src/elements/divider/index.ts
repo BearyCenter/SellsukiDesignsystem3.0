@@ -47,8 +47,6 @@ export class Divider extends LitElement implements ThemeValue {
   @property({ type: String })
   gap?: string | undefined;
   @property({ type: String })
-  rounded?: string | undefined;
-  @property({ type: String })
   margin?: string | undefined;
 
   // font
@@ -57,38 +55,13 @@ export class Divider extends LitElement implements ThemeValue {
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
-  @property({ type: String })
-  borderWidth?: string | undefined;
-  @property({ type: String })
-  boxShadow?: string | undefined;
-  @property({ type: String })
-  dropShadow?: string | undefined;
-  @property({ type: String })
-  width?: string | undefined;
-  @property({ type: String })
-  height?: string | undefined;
-  @property({ type: String })
-  minWidth?: string | undefined;
-  @property({ type: String })
-  minHeight?: string | undefined;
-  @property({ type: String })
-  maxWidth?: string | undefined;
-  @property({ type: String })
-  maxHeight?: string | undefined;
-
   // divider specific
-  @property({ type: Boolean })
-  hidden = false;
   @property({ type: String })
   orientation: "horizontal" | "vertical" = "horizontal";
   @property({ type: String })
   label?: string | undefined;
 
   render() {
-    if (this.hidden) {
-      return html``;
-    }
-
     let textCss = `
     --text-color: ${parseVariables(
       cssVar("colors", this.color),
@@ -104,6 +77,7 @@ export class Divider extends LitElement implements ThemeValue {
       cssVar("font-size", this.fontSize),
       cssVar("font-size", this.size)
     )};`;
+
     let additionalCss = `
     background-color: ${parseVariables(
       cssVar("colors", this.color),
