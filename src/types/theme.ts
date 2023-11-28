@@ -210,6 +210,7 @@ export type Theme = {
     topNavbar?: {} & Partial<ThemeField>;
     avatar?: {} & Partial<ThemeField>;
     logo?: {} & Partial<ThemeField>;
+    groupMenu?: {} & Partial<ThemeField>;
   };
 } & ThemeField;
 
