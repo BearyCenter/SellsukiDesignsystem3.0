@@ -14,6 +14,7 @@ import {
   Size,
   Theme,
   cssVar,
+  parseAtRuleThemeValue,
   parseThemeToCssVariables,
   parseVariables,
 } from "../../types/theme";
@@ -2562,57 +2563,62 @@ export class Icon extends LitElement implements ThemeValue {
       return nothing;
     }
 
+    const keyframes = parseAtRuleThemeValue(this.theme).join("\n");
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.icon, "svg")}
-      ${parseThemeToCssVariables(this.theme?.["@keyframes"], ":host")}
 
       <style>
         :host {
           display: inherit;
         }
-
-        svg {
+         svg {
           color: ${parseVariables(
-            cssVar("colors", this.color),
-            cssVar("colors", this.color, 500),
-            this.color,
-            cssVar("colors", this.themeColor, 500)
-          )};
+          cssVar("colors", this.color),
+          cssVar("colors", this.color, 500),
+          this.color,
+          cssVar("colors", this.themeColor, 500)
+        )};
 
           background-color: ${parseVariables(
-            cssVar("colors", this.backgroundColor),
-            cssVar("colors", this.backgroundColor, 500),
-            this.backgroundColor
-          )};
+          cssVar("colors", this.backgroundColor),
+          cssVar("colors", this.backgroundColor, 500),
+          this.backgroundColor
+        )};
 
           font-size: ${parseVariables(
-            cssVar("fontSize", this.fontSize),
-            this.fontSize,
-            cssVar("fontSize", this.size)
-          )};
+          cssVar("fontSize", this.fontSize),
+          this.fontSize,
+          cssVar("fontSize", this.size)
+        )};
 
           margin: ${parseVariables(
-            cssVar("margin", this.margin),
-            this.margin,
-            cssVar("margin", this.size)
-          )};
+          cssVar("margin", this.margin),
+          this.margin,
+          cssVar("margin", this.size)
+        )};
 
           padding: ${parseVariables(
-            cssVar("padding", this.padding),
-            this.padding,
-            cssVar("padding", this.size)
-          )};
+          cssVar("padding", this.padding),
+          this.padding,
+          cssVar("padding", this.size)
+        )};
 
           width: ${parseVariables(cssVar("width", this.width), this.width)};
 
           height: ${parseVariables(cssVar("height", this.height), this.height)};
 
           border-radius: ${parseVariables(
-            cssVar("borderRadius", this.rounded),
-            this.rounded,
-            cssVar("borderRadius", this.size)
-          )};
+          cssVar("borderRadius", this.rounded),
+          this.rounded,
+          cssVar("borderRadius", this.size)
+        )};
         }
+
+        #spin {
+          animation: var(--ssk-animation-spin);
+        }
+
+        ${keyframes}
       </style>
 
       ${Icon.svgs[this.name]}
@@ -2624,18 +2630,6 @@ export class Icon extends LitElement implements ThemeValue {
       height: 1em;
       width: 1em;
     }
-    #spin {
-      animation: var(--ssk-animation-spin);
-    }
-
-    // @keyframes spin {
-    //   from {
-    //     transform: rotate(0deg);
-    //   }
-    //   to {
-    //     transform: rotate(360deg);
-    //   }
-    // }
   `;
 }
 

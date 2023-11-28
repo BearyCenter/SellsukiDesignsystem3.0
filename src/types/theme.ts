@@ -226,11 +226,6 @@ export const parseThemeToCssVariables = (
   // base theme
   cssKV = deepFlattenCssVar(theme);
 
-  console.log(
-    ` ${base} {${Object.entries(cssKV)
-      .map(([k, v]) => `--ssk-${k}: ${v};`)
-      .join(" ")}}${parseAtRuleThemeValue(theme).join("\n")}`
-  );
   return html`<style>
     ${base} {${Object.entries(cssKV)
       .map(([k, v]) => `--ssk-${k}: ${v};`)
@@ -299,8 +294,6 @@ export const parseAtRuleThemeValue = (
         .join(" ")} }`
     );
   }
-  console.log(atRules);
-
   return atRules;
 };
 
