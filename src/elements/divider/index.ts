@@ -70,11 +70,10 @@ export class Divider extends LitElement implements ThemeValue {
 
     let textCss = `
     --text-color: ${parseVariables(
-      cssVar("colors", this.color),
-      cssVar("colors", this.color, 400),
-      this.color,
-      cssVar("colors", this.themeColor, 400)
+      cssVar("colors", this.color, 500),
+      cssVar("colors", this.themeColor, 500)
     )};
+    
     --text-divider-gap: ${parseVariables(
       cssVar("spacing", this.gap),
       cssVar("spacing", this.size)
