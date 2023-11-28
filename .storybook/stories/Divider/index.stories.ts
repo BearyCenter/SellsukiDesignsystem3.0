@@ -1,5 +1,4 @@
 import { spread } from "@open-wc/lit-helpers";
-import _pick from "lodash/pick";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/divider";
@@ -9,16 +8,6 @@ import { baseArgsTypes } from "../helper";
 type DividerArgs = {} & Divider;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
-const baseArgs = _pick(baseArgsTypes, [
-  "size",
-  "themeColor",
-  "color",
-  "gap",
-  "padding",
-  "margin",
-  "?hidden",
-]);
-
 const meta = {
   title: "Example/Divider",
   tags: ["autodocs"],
@@ -59,7 +48,13 @@ const meta = {
         type: "inline-radio",
       },
     },
-    ...baseArgs,
+    size: baseArgsTypes.size,
+    themeColor: baseArgsTypes.themeColor,
+    color: baseArgsTypes.color,
+    gap: baseArgsTypes.gap,
+    padding: baseArgsTypes.padding,
+    margin: baseArgsTypes.margin,
+    "?hidden": baseArgsTypes["?hidden"],
   },
 } satisfies Meta<DividerArgs>;
 
