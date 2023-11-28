@@ -15,13 +15,46 @@ const meta = {
     return html`<ssk-divider ${spread(args)}></ssk-divider>`;
   },
   argTypes: {
+    label: {
+      if: {
+        arg: "orientation",
+        eq: "horizontal",
+      },
+      description:
+        "Label to show in divider, only 'horizontal' orientation is supported",
+      table: {
+        category: "Props",
+        type: {
+          summary: "string",
+        },
+      },
+      control: {
+        type: "text",
+      },
+    },
     orientation: {
+      description: "The orientation for a divider",
       options: ["horizontal", "vertical"],
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "horizontal",
+        },
+        type: {
+          summary: "string",
+        },
+      },
       control: {
         type: "inline-radio",
       },
     },
-    ...baseArgsTypes,
+    size: baseArgsTypes.size,
+    themeColor: baseArgsTypes.themeColor,
+    color: baseArgsTypes.color,
+    gap: baseArgsTypes.gap,
+    padding: baseArgsTypes.padding,
+    margin: baseArgsTypes.margin,
+    "?hidden": baseArgsTypes["?hidden"],
   },
 } satisfies Meta<DividerArgs>;
 
@@ -37,7 +70,21 @@ export const Default: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=801-59140",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1084-66910&mode=design&t=aZnYIj6wbvwQJakA-0",
+    },
+  },
+};
+
+export const DividerWithText: Story = {
+  args: {
+    orientation: "horizontal",
+    size: "md",
+    label: "label",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1084-66910&mode=design&t=aZnYIj6wbvwQJakA-0",
     },
   },
 };
