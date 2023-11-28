@@ -10,7 +10,7 @@ import { baseArgsTypes, genericEvents } from "../helper";
 type ButtonWithLabel = Button & { label: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
-const eventsArgs = _pick(baseArgsTypes, ["@click"]);
+const eventsArgs = _pick(genericEvents, ["@click"]);
 
 const meta = {
   title: "Example/Button",
