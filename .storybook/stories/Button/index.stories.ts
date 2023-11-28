@@ -1,6 +1,7 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
+import _pick from "lodash/pick";
 import "../../../src/elements/button";
 import { Button } from "../../../src/elements/button";
 import "../../../src/elements/icon";
@@ -9,6 +10,8 @@ import { baseArgsTypes, genericEvents } from "../helper";
 type ButtonWithLabel = Button & { label: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
+const eventsArgs = _pick(baseArgsTypes, ["@click"]);
+
 const meta = {
   title: "Example/Button",
   tags: ["autodocs"],
@@ -59,7 +62,7 @@ const meta = {
       },
     },
     ...baseArgsTypes,
-    "@click": genericEvents["@click"],
+    ...eventsArgs,
   },
 } satisfies Meta<ButtonWithLabel>;
 
