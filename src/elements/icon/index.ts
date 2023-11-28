@@ -2533,7 +2533,7 @@ export class Icon extends LitElement implements ThemeValue {
   <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
 </svg>
 `,
-    "outline-spinner": svg`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    "outline-spinner": svg`<svg id="spin" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M12 2.28923C6.63689 2.28923 2.28923 6.63689 2.28923 12C2.28923 17.3631 6.63689 21.7108 12 21.7108C17.3631 21.7108 21.7108 17.3631 21.7108 12C21.7108 6.63689 17.3631 2.28923 12 2.28923ZM0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12Z" fill="#111827"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M10.8552 1.14462C10.8552 0.512462 11.3677 0 11.9998 0C18.6273 0 23.9998 5.37258 23.9998 12C23.9998 12.6322 23.4874 13.1446 22.8552 13.1446C22.2231 13.1446 21.7106 12.6322 21.7106 12C21.7106 6.63689 17.3629 2.28923 11.9998 2.28923C11.3677 2.28923 10.8552 1.77677 10.8552 1.14462Z" fill="#111827"/>
 </svg>
@@ -2564,6 +2564,7 @@ export class Icon extends LitElement implements ThemeValue {
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.icon, "svg")}
+      ${parseThemeToCssVariables(this.theme?.["@keyframes"], ":host")}
 
       <style>
         :host {
@@ -2623,6 +2624,18 @@ export class Icon extends LitElement implements ThemeValue {
       height: 1em;
       width: 1em;
     }
+    #spin {
+      animation: var(--ssk-animation-spin);
+    }
+
+    // @keyframes spin {
+    //   from {
+    //     transform: rotate(0deg);
+    //   }
+    //   to {
+    //     transform: rotate(360deg);
+    //   }
+    // }
   `;
 }
 
