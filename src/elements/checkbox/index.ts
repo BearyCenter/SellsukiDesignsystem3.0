@@ -155,12 +155,16 @@ export class Checkbox extends LitElement implements ThemeValue {
         font-size: var(--font-size);
       }
 
+      // checkbox hover
+      .checkbox-wrapper input[type="checkbox"]:hover:not(:disabled) {
+        --border-color: var(--active-500);
+        box-shadow: 0 0 0 2px var(--active-100);
+      }
+
+      // checkbox checked
       .checkbox-wrapper input[type="checkbox"]:checked {
         --background-color: var(--active-500);
         --border-color: var(--active-500);
-        --d-o: 0.3s;
-        --d-t: 0.6s;
-        --d-t-e: cubic-bezier(0.2, 0.85, 0.32, 1.2);
       }
       .checkbox-wrapper input[type="checkbox"]:checked::before {
         content: "";
@@ -183,6 +187,7 @@ export class Checkbox extends LitElement implements ThemeValue {
         transform: rotate(45deg);
       }
 
+      // checkbox disabled
       .checkbox-wrapper input[type="checkbox"]:disabled {
         --background-color: var(--disabled-200);
         --border-color: var(--disabled-300);
@@ -194,10 +199,6 @@ export class Checkbox extends LitElement implements ThemeValue {
       }
       .checkbox-wrapper input[type="checkbox"]:disabled + label {
         cursor: not-allowed;
-      }
-      .checkbox-wrapper input[type="checkbox"]:hover:not(:disabled) {
-        --border-color: var(--active-500);
-        box-shadow: 0 0 0 2px var(--active-100);
       }
     }
 
