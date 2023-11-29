@@ -165,20 +165,20 @@ export class Checkbox extends LitElement implements ThemeValue {
       .checkbox-wrapper input[type="checkbox"]:checked::before {
         content: "";
         position: absolute;
-        top: 9px;
-        left: 5px;
-        width: 13px;
-        height: 2px;
+        top: 45%;
+        left: 25%;
+        width: 65%;
+        height: 10%;
         background: var(--checked-color);
         transform: rotate(-45deg);
       }
       .checkbox-wrapper input[type="checkbox"]:checked::after {
         content: "";
         position: absolute;
-        top: 11px;
-        left: 2px;
-        width: 7px;
-        height: 2px;
+        top: 55%;
+        left: 10%;
+        width: 35%;
+        height: 10%;
         background: var(--checked-color);
         transform: rotate(45deg);
       }
@@ -196,7 +196,7 @@ export class Checkbox extends LitElement implements ThemeValue {
         cursor: not-allowed;
       }
       .checkbox-wrapper input[type="checkbox"]:hover:not(:disabled) {
-        --bc: var(--border-hover);
+        --border-color: var(--active-500);
         box-shadow: 0 0 0 2px var(--active-100);
       }
     }
