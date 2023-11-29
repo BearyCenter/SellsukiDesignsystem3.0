@@ -155,13 +155,11 @@ export class Checkbox extends LitElement implements ThemeValue {
         font-size: var(--font-size);
       }
 
-      // checkbox hover
       .checkbox-wrapper input[type="checkbox"]:hover:not(:disabled) {
         --border-color: var(--active-500);
         box-shadow: 0 0 0 2px var(--active-100);
       }
 
-      // checkbox checked
       .checkbox-wrapper input[type="checkbox"]:checked {
         --background-color: var(--active-500);
         --border-color: var(--active-500);
@@ -187,7 +185,6 @@ export class Checkbox extends LitElement implements ThemeValue {
         transform: rotate(45deg);
       }
 
-      // checkbox disabled
       .checkbox-wrapper input[type="checkbox"]:disabled {
         --background-color: var(--disabled-200);
         --border-color: var(--disabled-300);
