@@ -32,7 +32,7 @@ export class Checkbox extends LitElement implements ThemeValue {
   borderColor?: string | undefined;
 
   @property({ type: String })
-  size: Size = "md";
+  size: Size = "sm";
   @property({ type: String })
   padding?: Size;
   @property({ type: String })
@@ -89,6 +89,13 @@ export class Checkbox extends LitElement implements ThemeValue {
     }
 
     const additionalCss = `
+    --active-100:  ${parseVariables(cssVar("colors", this.themeColor, 100))};
+    --active-500:  ${parseVariables(cssVar("colors", this.themeColor, 500))};
+    --disabled-200:  ${parseVariables(cssVar("colors", "gray", 200))};
+    --disabled-300:  ${parseVariables(cssVar("colors", "gray", 300))};
+    --disabled-400:  ${parseVariables(cssVar("colors", "gray", 400))};
+
+    --border-radius: ${parseVariables(cssVar("rounded", this.rounded), "4px")};
     --width: ${parseVariables(
       cssVar("width", this.width),
       cssVar("width", this.size),
@@ -110,7 +117,7 @@ export class Checkbox extends LitElement implements ThemeValue {
       ${parseThemeToCssVariables(this.theme?.components?.checkbox, "input")}
 
       <style>
-        input, div {
+        div, input {
           ${additionalCss}
         }
       </style>
@@ -123,27 +130,30 @@ export class Checkbox extends LitElement implements ThemeValue {
 
   static styles = css`
     @supports (-webkit-appearance: none) or (-moz-appearance: none) {
-      .checkbox-wrapper input#checkbox {
-        --active: #275efe;
-        --active-inner: #fff;
-        --focus: 2px rgba(39, 94, 254, 0.3);
-        --border: #bbc1e1;
-        --border-hover: #275efe;
-        --background: #fff;
-        --disabled: #f6f8ff;
-        --disabled-inner: #e1e6f9;
+      .checkbox-wrapper input[type="checkbox"] {
+        --background-color: #fff;
+        --border-color: var(--disabled-200);
+        --d-o: 0.3s;
+        --d-t: 0.6s;
+        --d-t-e: cubic-bezier(0.2, 0.85, 0.32, 1.2);
         -moz-appearance: none;
+        appearance: none;
         height: var(--height);
         width: var(--width);
         outline: none;
         display: inline-block;
-        vertical-align: top;
         position: relative;
         cursor: pointer;
-        border: 1px solid var(--bc, var(--border));
-        background: var(--b, var(--background));
+        border: 2px solid var(--border-color);
+        border-radius: var(--border-radius);
+        background-color: var(--background-color);
         vertical-align: middle;
-        transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+      }
+      .checkbox-wrapper input[type="checkbox"] + label {
+        display: inline-block;
+        cursor: pointer;
+        margin-left: 4px;
+        font-size: var(--font-size);
       }
 
       .checkbox-wrapper input[type="checkbox"]:after {
@@ -155,62 +165,29 @@ export class Checkbox extends LitElement implements ThemeValue {
         transition: transform var(--d-t, 0.3s) var(--d-t-e, ease),
           opacity var(--d-o, 0.2s);
       }
+
       .checkbox-wrapper input[type="checkbox"]:checked {
-        --b: var(--color-500);
-        --bc: var(--color-500);
+        --background-color: var(--active-500);
+        --border-color: var(--active-500);
         --d-o: 0.3s;
         --d-t: 0.6s;
         --d-t-e: cubic-bezier(0.2, 0.85, 0.32, 1.2);
       }
       .checkbox-wrapper input[type="checkbox"]:disabled {
-        --b: var(--disabled);
+        --background-color: var(--disabled-200);
+        --border-color: var(--disabled-300);
         cursor: not-allowed;
         opacity: 0.9;
       }
       .checkbox-wrapper input[type="checkbox"]:disabled:checked {
         --b: var(--disabled-inner);
-        --bc: var(--border);
       }
       .checkbox-wrapper input[type="checkbox"]:disabled + label {
         cursor: not-allowed;
       }
       .checkbox-wrapper input[type="checkbox"]:hover:not(:disabled) {
         --bc: var(--border-hover);
-      }
-      .checkbox-wrapper input[type="checkbox"]:focus {
-        box-shadow: 0 0 0 3px var(--color-200);
-      }
-      .checkbox-wrapper input[type="checkbox"]:not(.switch) {
-        width: 21px;
-      }
-      .checkbox-wrapper input[type="checkbox"]:not(.switch):after {
-        opacity: var(--o, 0);
-      }
-      .checkbox-wrapper input[type="checkbox"]:not(.switch):checked {
-        --o: 1;
-      }
-      .checkbox-wrapper input[type="checkbox"] + label {
-        display: inline-block;
-        cursor: pointer;
-        margin-left: 4px;
-        font-size: var(--font-size);
-      }
-
-      .checkbox-wrapper input[type="checkbox"]:not(.switch) {
-        border-radius: var(--border-radius, 3px);
-      }
-      .checkbox-wrapper input[type="checkbox"]:not(.switch):after {
-        width: 30%;
-        height: 60%;
-        border: 2px solid var(--color);
-        border-top: 0;
-        border-left: 0;
-        left: 33%;
-        top: 7%;
-        transform: rotate(var(--r, 20deg));
-      }
-      .checkbox-wrapper input[type="checkbox"]:not(.switch):checked {
-        --r: 43deg;
+        box-shadow: 0 0 0 2px var(--active-100);
       }
     }
 

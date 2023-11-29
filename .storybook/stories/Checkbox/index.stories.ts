@@ -47,6 +47,7 @@ const meta = {
     gap: baseArgsTypes.gap,
     padding: baseArgsTypes.padding,
     margin: baseArgsTypes.margin,
+    rounded: baseArgsTypes.rounded,
     "?hidden": baseArgsTypes["?hidden"],
   },
 } satisfies Meta<CheckboxArgs>;
@@ -57,7 +58,6 @@ type Story = StoryObj<CheckboxArgs>;
 
 export const Default: Story = {
   args: {
-    size: "md",
     label: "Checkbox",
   },
   parameters: {
