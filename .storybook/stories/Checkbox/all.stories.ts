@@ -3,19 +3,9 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/checkbox";
 import { Checkbox } from "../../../src/elements/checkbox";
-import { baseArgsTypes } from "../helper";
 
 type DividerArgs = {} & Omit<Checkbox, "level">;
-const size: Checkbox["size"][] = [
-  "xs",
-  "sm",
-  "md",
-  "lg",
-  "xl",
-  "2xl",
-  "3xl",
-  "4xl",
-];
+const size: Checkbox["size"][] = ["xs", "sm", "md", "lg", "xl"];
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
@@ -40,7 +30,7 @@ const meta = {
         }
       </style>
       <main>
-        <section>
+        <section class="show-size">
           ${size.map(
             (sz) => html`
               <ssk-checkbox
@@ -52,11 +42,26 @@ const meta = {
             `
           )}
         </section>
+        <section class="show-case">
+          <ssk-checkbox
+            ${spread(args)}
+            disabled="true"
+            label="Checkbox disabled"
+          >
+          </ssk-checkbox>
+          <ssk-checkbox ${spread(args)} checked="true" label="Checkbox checked">
+          </ssk-checkbox>
+          <ssk-checkbox
+            ${spread(args)}
+            disabled="true"
+            checked="true"
+            label="Checkbox checked disabled"
+          >
+          </ssk-checkbox>
+        </section>
       </main>`;
   },
-  argTypes: {
-    ...baseArgsTypes,
-  },
+  argTypes: {},
 } satisfies Meta<DividerArgs>;
 
 export default meta;
