@@ -122,7 +122,12 @@ export class Checkbox extends LitElement implements ThemeValue {
         }
       </style>
       <div class="checkbox-wrapper">
-        <input id="checkbox" type="checkbox" .disabled=${this.disabled} />
+        <input
+          id="checkbox"
+          type="checkbox"
+          .disabled=${this.disabled}
+          .checked=${this.checked}
+        />
         <label for="checkbox">${this.label}</label>
       </div>
     `;

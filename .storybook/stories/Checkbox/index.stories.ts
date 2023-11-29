@@ -41,6 +41,20 @@ const meta = {
         type: "boolean",
       },
     },
+    "?checked": {
+      description: "When true gives the checkbox a checked apparence",
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+
+        type: {
+          summary: "boolean",
+        },
+      },
+      control: {
+        type: "boolean",
+      },
+    },
     size: baseArgsTypes.size,
     themeColor: baseArgsTypes.themeColor,
     color: baseArgsTypes.color,
