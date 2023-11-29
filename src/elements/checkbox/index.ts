@@ -132,10 +132,9 @@ export class Checkbox extends LitElement implements ThemeValue {
     @supports (-webkit-appearance: none) or (-moz-appearance: none) {
       .checkbox-wrapper input[type="checkbox"] {
         --background-color: #fff;
+        --checked-color: #fff;
+
         --border-color: var(--disabled-200);
-        --d-o: 0.3s;
-        --d-t: 0.6s;
-        --d-t-e: cubic-bezier(0.2, 0.85, 0.32, 1.2);
         -moz-appearance: none;
         appearance: none;
         height: var(--height);
@@ -156,16 +155,6 @@ export class Checkbox extends LitElement implements ThemeValue {
         font-size: var(--font-size);
       }
 
-      .checkbox-wrapper input[type="checkbox"]:after {
-        content: "";
-        display: block;
-        left: 0;
-        top: 0;
-        position: absolute;
-        transition: transform var(--d-t, 0.3s) var(--d-t-e, ease),
-          opacity var(--d-o, 0.2s);
-      }
-
       .checkbox-wrapper input[type="checkbox"]:checked {
         --background-color: var(--active-500);
         --border-color: var(--active-500);
@@ -173,6 +162,27 @@ export class Checkbox extends LitElement implements ThemeValue {
         --d-t: 0.6s;
         --d-t-e: cubic-bezier(0.2, 0.85, 0.32, 1.2);
       }
+      .checkbox-wrapper input[type="checkbox"]:checked::before {
+        content: "";
+        position: absolute;
+        top: 9px;
+        left: 5px;
+        width: 13px;
+        height: 2px;
+        background: var(--checked-color);
+        transform: rotate(-45deg);
+      }
+      .checkbox-wrapper input[type="checkbox"]:checked::after {
+        content: "";
+        position: absolute;
+        top: 11px;
+        left: 2px;
+        width: 7px;
+        height: 2px;
+        background: var(--checked-color);
+        transform: rotate(45deg);
+      }
+
       .checkbox-wrapper input[type="checkbox"]:disabled {
         --background-color: var(--disabled-200);
         --border-color: var(--disabled-300);
@@ -180,7 +190,7 @@ export class Checkbox extends LitElement implements ThemeValue {
         opacity: 0.9;
       }
       .checkbox-wrapper input[type="checkbox"]:disabled:checked {
-        --b: var(--disabled-inner);
+        --checked-color: var(--disabled-400);
       }
       .checkbox-wrapper input[type="checkbox"]:disabled + label {
         cursor: not-allowed;
