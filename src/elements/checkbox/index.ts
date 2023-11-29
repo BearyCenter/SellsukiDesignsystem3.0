@@ -8,6 +8,9 @@ import {
   ColorRole,
   FontFamilyGroup,
   FontWeight,
+  cssVar,
+  parseVariables,
+  parseThemeToCssVariables,
   Size,
   Theme,
 } from "../../types/theme";
@@ -85,18 +88,42 @@ export class Checkbox extends LitElement implements ThemeValue {
       return nothing;
     }
 
+    const additionalCss = `
+    --width: ${parseVariables(
+      cssVar("width", this.width),
+      cssVar("width", this.size),
+      this.width,
+      "auto"
+    )};
+    --height: ${parseVariables(
+      cssVar("height", this.height),
+      cssVar("height", this.size),
+      this.height,
+      "auto"
+    )};
+    --font-size: ${parseVariables(
+      cssVar("font-size", this.fontSize),
+      cssVar("font-size", this.size)
+    )};`;
+
     return html`
-      <style></style>
+      ${parseThemeToCssVariables(this.theme?.components?.checkbox, "input")}
+
+      <style>
+        input, div {
+          ${additionalCss}
+        }
+      </style>
       <div class="checkbox-wrapper">
-        <input id="checkbox" type="checkbox" />
-        <label for="checkbox"><slot></slot></label>
+        <input id="checkbox" type="checkbox" .disabled=${this.disabled} />
+        <label for="checkbox">${this.label}</label>
       </div>
     `;
   }
 
   static styles = css`
     @supports (-webkit-appearance: none) or (-moz-appearance: none) {
-      .checkbox-wrapper input[type="checkbox"] {
+      .checkbox-wrapper input#checkbox {
         --active: #275efe;
         --active-inner: #fff;
         --focus: 2px rgba(39, 94, 254, 0.3);
@@ -105,7 +132,6 @@ export class Checkbox extends LitElement implements ThemeValue {
         --background: #fff;
         --disabled: #f6f8ff;
         --disabled-inner: #e1e6f9;
-        -webkit-appearance: none;
         -moz-appearance: none;
         height: var(--height);
         width: var(--width);
@@ -113,12 +139,13 @@ export class Checkbox extends LitElement implements ThemeValue {
         display: inline-block;
         vertical-align: top;
         position: relative;
-        margin: 0;
         cursor: pointer;
         border: 1px solid var(--bc, var(--border));
         background: var(--b, var(--background));
+        vertical-align: middle;
         transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
       }
+
       .checkbox-wrapper input[type="checkbox"]:after {
         content: "";
         display: block;
@@ -147,8 +174,7 @@ export class Checkbox extends LitElement implements ThemeValue {
       .checkbox-wrapper input[type="checkbox"]:disabled + label {
         cursor: not-allowed;
       }
-      .checkbox-wrapper
-        input[type="checkbox"]:hover:not(:checked):not(:disabled) {
+      .checkbox-wrapper input[type="checkbox"]:hover:not(:disabled) {
         --bc: var(--border-hover);
       }
       .checkbox-wrapper input[type="checkbox"]:focus {
@@ -165,9 +191,9 @@ export class Checkbox extends LitElement implements ThemeValue {
       }
       .checkbox-wrapper input[type="checkbox"] + label {
         display: inline-block;
-        vertical-align: middle;
         cursor: pointer;
         margin-left: 4px;
+        font-size: var(--font-size);
       }
 
       .checkbox-wrapper input[type="checkbox"]:not(.switch) {
