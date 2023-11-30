@@ -1,4 +1,4 @@
-import { spread } from "@open-wc/lit-helpers";
+import { spread, spreadProps } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/checkbox";
@@ -11,12 +11,25 @@ type CheckboxArgs = {} & Checkbox;
 const meta = {
   title: "Example/Checkbox",
   tags: ["autodocs"],
-  render: ({ ...args }) => {
-    return html` <ssk-checkbox ${spread(args)}> </ssk-checkbox>`;
+  render: ({ options, ...args }) => {
+    return html`<ssk-checkbox .options=${options} ${spread(args)}>
+    </ssk-checkbox>`;
   },
   argTypes: {
     label: {
       description: "Label to show in checkbox",
+      table: {
+        category: "Props",
+        type: {
+          summary: "string",
+        },
+      },
+      control: {
+        type: "text",
+      },
+    },
+    value: {
+      description: "Used for setting the currently selected value",
       table: {
         category: "Props",
         type: {
@@ -55,6 +68,20 @@ const meta = {
         type: "boolean",
       },
     },
+    "?options": {
+      description: "The object for child checkbox",
+      table: {
+        category: "Props",
+        defaultValue: { summary: [] },
+
+        type: {
+          summary: "object",
+        },
+      },
+      control: {
+        type: "object",
+      },
+    },
     size: baseArgsTypes.size,
     themeColor: baseArgsTypes.themeColor,
     color: baseArgsTypes.color,
@@ -73,6 +100,23 @@ type Story = StoryObj<CheckboxArgs>;
 export const Default: Story = {
   args: {
     label: "Checkbox",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=854-63033&mode=design&t=MQ1h7Rh93hzVCRMd-0",
+    },
+  },
+};
+
+export const GroupCheckbox: Story = {
+  args: {
+    label: "Parent Checkbox",
+    value: "value1",
+    options: [
+      { label: "Child checkbox1", value: "value2" },
+      { label: "Child checkbox2", value: "value3", disabled: true },
+    ],
   },
   parameters: {
     design: {

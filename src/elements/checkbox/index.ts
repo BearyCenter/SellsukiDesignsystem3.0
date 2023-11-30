@@ -14,6 +14,12 @@ import {
   Size,
   Theme,
 } from "../../types/theme";
+
+type Options = {
+  label: string;
+  value: string;
+  disabled?: boolean;
+};
 @customElement("ssk-checkbox")
 export class Checkbox extends LitElement implements ThemeValue {
   static registeredName = "ssk-checkbox";
@@ -78,10 +84,12 @@ export class Checkbox extends LitElement implements ThemeValue {
   label?: string | undefined;
   @property({ type: Boolean })
   checked = false;
-  @property({ type: Boolean })
-  indeterminate = false;
+  @property({ type: String })
+  value: string | undefined;
   @property({ type: Boolean })
   disabled = false;
+  @property({ type: Array<Options> })
+  options?: Options[] | undefined;
 
   render() {
     if (this.hidden) {
@@ -113,6 +121,34 @@ export class Checkbox extends LitElement implements ThemeValue {
       cssVar("font-size", this.size)
     )};`;
 
+    const groupCheckbox = html` <div class="group-checkbox-wrapper">
+      <input
+        type="checkbox"
+        value=${this.value}
+        .disabled=${this.disabled}
+        .checked=${this.checked}
+      />
+      <label for="checkbox">${this.label}</label>
+      <div class="child-checkbox">
+        ${this.options?.map((o) => {
+          return html`
+            <input type="checkbox" value=${o.value} .disabled=${o.disabled} />
+            <label for="checkbox">${o.label}</label>
+          `;
+        })}
+      </div>
+    </div>`;
+
+    const checkbox = html`<div class="checkbox-wrapper">
+      <input
+        type="checkbox"
+        value=${this.value}
+        .disabled=${this.disabled}
+        .checked=${this.checked}
+      />
+      <label for="checkbox">${this.label}</label>
+    </div>`;
+
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.checkbox, "input")}
 
@@ -121,15 +157,7 @@ export class Checkbox extends LitElement implements ThemeValue {
           ${additionalCss}
         }
       </style>
-      <div class="checkbox-wrapper">
-        <input
-          id="checkbox"
-          type="checkbox"
-          .disabled=${this.disabled}
-          .checked=${this.checked}
-        />
-        <label for="checkbox">${this.label}</label>
-      </div>
+      ${this.options && this.options?.length > 0 ? groupCheckbox : checkbox}
     `;
   }
 
