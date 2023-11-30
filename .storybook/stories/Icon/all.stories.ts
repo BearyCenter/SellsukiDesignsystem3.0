@@ -23,7 +23,7 @@ const meta = {
       </style>
       <main>
         ${Object.keys(Icon.svgs).map(
-          (name) => html`<ssk-icon ${spread(args)} name=${name} />`
+          (name) => html`<ssk-icon ${spread(args)} name=${name} />`,
         )}
       </main>`;
   },

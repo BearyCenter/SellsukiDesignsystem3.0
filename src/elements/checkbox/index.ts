@@ -109,31 +109,31 @@ export class Checkbox extends LitElement implements ThemeValue {
         div,
         input {
           --active-100: ${parseVariables(
-            cssVar("colors", this.themeColor, 100)
+            cssVar("colors", this.themeColor, 100),
           )};
           --active-500: ${parseVariables(
-            cssVar("colors", this.themeColor, 500)
+            cssVar("colors", this.themeColor, 500),
           )};
           --disabled-200: ${parseVariables(cssVar("colors", "gray", 200))};
           --disabled-300: ${parseVariables(cssVar("colors", "gray", 300))};
           --disabled-400: ${parseVariables(cssVar("colors", "gray", 400))};
           --border-radius: ${parseVariables(
             cssVar("rounded", this.rounded),
-            "20%"
+            "20%",
           )};
           --width: ${parseVariables(
             cssVar("width", this.width),
             cssVar("width", this.size),
-            "auto"
+            "auto",
           )};
           --height: ${parseVariables(
             cssVar("height", this.height),
             cssVar("height", this.size),
-            "auto"
+            "auto",
           )};
           --font-size: ${parseVariables(
             cssVar("font-size", this.fontSize),
-            cssVar("font-size", this.size)
+            cssVar("font-size", this.size),
           )};
         }
       </style>

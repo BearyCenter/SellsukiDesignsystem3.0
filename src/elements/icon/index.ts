@@ -2576,31 +2576,31 @@ export class Icon extends LitElement implements ThemeValue {
           cssVar("colors", this.color),
           cssVar("colors", this.color, 500),
           this.color,
-          cssVar("colors", this.themeColor, 500)
+          cssVar("colors", this.themeColor, 500),
         )};
 
           background-color: ${parseVariables(
           cssVar("colors", this.backgroundColor),
           cssVar("colors", this.backgroundColor, 500),
-          this.backgroundColor
+          this.backgroundColor,
         )};
 
           font-size: ${parseVariables(
           cssVar("fontSize", this.fontSize),
           this.fontSize,
-          cssVar("fontSize", this.size)
+          cssVar("fontSize", this.size),
         )};
 
           margin: ${parseVariables(
           cssVar("margin", this.margin),
           this.margin,
-          cssVar("margin", this.size)
+          cssVar("margin", this.size),
         )};
 
           padding: ${parseVariables(
           cssVar("padding", this.padding),
           this.padding,
-          cssVar("padding", this.size)
+          cssVar("padding", this.size),
         )};
 
           width: ${parseVariables(cssVar("width", this.width), this.width)};
@@ -2610,7 +2610,7 @@ export class Icon extends LitElement implements ThemeValue {
           border-radius: ${parseVariables(
           cssVar("borderRadius", this.rounded),
           this.rounded,
-          cssVar("borderRadius", this.size)
+          cssVar("borderRadius", this.size),
         )};
         }
 

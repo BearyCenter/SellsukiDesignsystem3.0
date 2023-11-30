@@ -4,7 +4,7 @@ import { html } from "lit";
 import "../../../src/elements/checkbox";
 import { Checkbox } from "../../../src/elements/checkbox";
 
-type DividerArgs = {} & Omit<Checkbox, "level">;
+type CheckboxArgs = {} & Omit<Checkbox, "level">;
 const size: Checkbox["size"][] = [
   "xs",
   "sm",
@@ -80,17 +80,17 @@ const meta = {
                 label="Checkbox size ${sz}"
               >
               </ssk-checkbox>
-            `
+            `,
           )}
         </section>
       </main>`;
   },
   argTypes: {},
-} satisfies Meta<DividerArgs>;
+} satisfies Meta<CheckboxArgs>;
 
 export default meta;
 
-type Story = StoryObj<DividerArgs>;
+type Story = StoryObj<CheckboxArgs>;
 
 // More on writing stories with args: https://storybook.js.org/docs/web-components/writing-stories/args
 export const ShowCase: Story = {
