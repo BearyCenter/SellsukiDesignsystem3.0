@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/checkbox";
 import { Checkbox } from "../../../src/elements/checkbox";
-import { baseArgsTypes } from "../helper";
+import { baseArgsTypes, genericEvents } from "../helper";
 
 type CheckboxArgs = {} & Checkbox;
 
@@ -74,6 +74,7 @@ const meta = {
     margin: baseArgsTypes.margin,
     rounded: baseArgsTypes.rounded,
     "?hidden": baseArgsTypes["?hidden"],
+    "@change": genericEvents["@change"],
   },
 } satisfies Meta<CheckboxArgs>;
 
