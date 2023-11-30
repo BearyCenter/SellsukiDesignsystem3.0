@@ -45,6 +45,8 @@ export class GroupMenu extends LitElement implements ThemeValue {
   // GroupMenu Attributes
   @property({ type: Array })
   items: Array<{ label: string; icon?: string; onClick?: () => void }> = [];
+  @property({ type: Boolean })
+  private isHeaderOpen: boolean = true;
 
   render() {
     if (this.hidden) {
@@ -93,8 +95,32 @@ export class GroupMenu extends LitElement implements ThemeValue {
           ${additionalCss}
         }
       </style>
-      <div>${this.items.map((item) => html` <p>${item}</p> `)}</div>
+      <div>
+        <div class="header" @click=${this.toggleHeader}>
+          Header Group ${this.isHeaderOpen ? "▼" : "►"}
+        </div>
+        ${this.isHeaderOpen ? this.renderItemList() : ""}
+      </div>
     `;
+  }
+
+  private renderItemList() {
+    return html`
+      <div class="item-list">
+        ${this.items.map(
+          (item) => html`
+            <div class="item" @click=${item.onClick}>
+              ${item.icon ? html`<span>${item.icon}</span>` : ""}
+              <span>${item.label}</span>
+            </div>
+          `,
+        )}
+      </div>
+    `;
+  }
+
+  private toggleHeader() {
+    this.isHeaderOpen = !this.isHeaderOpen;
   }
 
   static styles = css`
@@ -105,6 +131,25 @@ export class GroupMenu extends LitElement implements ThemeValue {
       cursor: pointer;
       margin: var(--margin);
       gap: var(--gap);
+    }
+
+    .header {
+      font-weight: bold;
+      margin-bottom: 8px;
+      user-select: none; /* Prevent text selection on header */
+      cursor: pointer;
+    }
+
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
     }
   `;
 }
