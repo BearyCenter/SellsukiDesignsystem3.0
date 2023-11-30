@@ -45,7 +45,6 @@ const meta = {
       table: {
         category: "Props",
         defaultValue: { summary: false },
-
         type: {
           summary: "boolean",
         },
@@ -59,7 +58,6 @@ const meta = {
       table: {
         category: "Props",
         defaultValue: { summary: false },
-
         type: {
           summary: "boolean",
         },
@@ -73,7 +71,6 @@ const meta = {
       table: {
         category: "Props",
         defaultValue: { summary: [] },
-
         type: {
           summary: "object",
         },
@@ -113,7 +110,7 @@ export const GroupCheckbox: Story = {
   args: {
     label: "Parent Checkbox",
     value: "value1",
-    options: [
+    "?options": [
       { label: "Child checkbox1", value: "value2" },
       { label: "Child checkbox2", value: "value3", disabled: true },
     ],

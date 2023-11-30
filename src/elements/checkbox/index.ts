@@ -28,6 +28,10 @@ export class Checkbox extends LitElement implements ThemeValue {
   @property({ attribute: false })
   public theme?: Theme;
 
+  // BaseAttributes
+  @property({ type: String })
+  testId?: string;
+
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
   @property({ type: String })
@@ -89,7 +93,7 @@ export class Checkbox extends LitElement implements ThemeValue {
   @property({ type: Boolean })
   disabled = false;
   @property({ type: Array<Options> })
-  options?: Options[] | undefined;
+  options: Options[] | undefined;
 
   render() {
     if (this.hidden) {
@@ -124,15 +128,21 @@ export class Checkbox extends LitElement implements ThemeValue {
     const groupCheckbox = html` <div class="group-checkbox-wrapper">
       <input
         type="checkbox"
+        data-testid=${this.testId || nothing}
         value=${this.value}
         .disabled=${this.disabled}
         .checked=${this.checked}
       />
       <label for="checkbox">${this.label}</label>
       <div class="child-checkbox">
-        ${this.options?.map((o) => {
+        ${this.options?.map((o, i) => {
           return html`
-            <input type="checkbox" value=${o.value} .disabled=${o.disabled} />
+            <input
+              data-testid=${this.testId ? `child-${this.testId}-${i}` : nothing}
+              type="checkbox"
+              value=${o.value}
+              .disabled=${o.disabled}
+            />
             <label for="checkbox">${o.label}</label>
           `;
         })}
@@ -142,6 +152,7 @@ export class Checkbox extends LitElement implements ThemeValue {
     const checkbox = html`<div class="checkbox-wrapper">
       <input
         type="checkbox"
+        data-testid=${this.testId || nothing}
         value=${this.value}
         .disabled=${this.disabled}
         .checked=${this.checked}
