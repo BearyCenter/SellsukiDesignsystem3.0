@@ -24,7 +24,12 @@ export default meta;
 type Story = StoryObj<GroupMenuArgs>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    items: [
+      { label: "Item 1", onClick: () => console.log("Item 1 clicked") },
+      { label: "Item 2", onClick: () => console.log("Item 2 clicked") },
+    ],
+  },
   parameters: {
     design: {
       type: "figma",
