@@ -11,25 +11,12 @@ type CheckboxArgs = {} & Checkbox;
 const meta = {
   title: "Example/Checkbox",
   tags: ["autodocs"],
-  render: ({ options, ...args }) => {
-    return html`<ssk-checkbox .options=${options} ${spread(args)}>
-    </ssk-checkbox>`;
+  render: ({ ...args }) => {
+    return html`<ssk-checkbox ${spread(args)}> </ssk-checkbox>`;
   },
   argTypes: {
     label: {
       description: "Label to show in checkbox",
-      table: {
-        category: "Props",
-        type: {
-          summary: "string",
-        },
-      },
-      control: {
-        type: "text",
-      },
-    },
-    value: {
-      description: "Used for setting the currently selected value",
       table: {
         category: "Props",
         type: {
@@ -66,17 +53,17 @@ const meta = {
         type: "boolean",
       },
     },
-    "?options": {
-      description: "The object for child checkbox",
+    "?indeterminate": {
+      description: "When true gives the checkbox a indeterminate apparence",
       table: {
         category: "Props",
-        defaultValue: { summary: [] },
+        defaultValue: { summary: false },
         type: {
-          summary: "object",
+          summary: "boolean",
         },
       },
       control: {
-        type: "object",
+        type: "boolean",
       },
     },
     size: baseArgsTypes.size,
@@ -97,23 +84,6 @@ type Story = StoryObj<CheckboxArgs>;
 export const Default: Story = {
   args: {
     label: "Checkbox",
-  },
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=854-63033&mode=design&t=MQ1h7Rh93hzVCRMd-0",
-    },
-  },
-};
-
-export const GroupCheckbox: Story = {
-  args: {
-    label: "Parent Checkbox",
-    value: "value1",
-    "?options": [
-      { label: "Child checkbox1", value: "value2" },
-      { label: "Child checkbox2", value: "value3", disabled: true },
-    ],
   },
   parameters: {
     design: {

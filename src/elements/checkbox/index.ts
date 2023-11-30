@@ -1,5 +1,5 @@
 import { consume } from "@lit-labs/context";
-import { LitElement, css, html, nothing } from "lit";
+import { LitElement, PropertyDeclaration, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
@@ -14,12 +14,8 @@ import {
   Size,
   Theme,
 } from "../../types/theme";
+import { redispatchEvents } from "../../helpers/lit";
 
-type Options = {
-  label: string;
-  value: string;
-  disabled?: boolean;
-};
 @customElement("ssk-checkbox")
 export class Checkbox extends LitElement implements ThemeValue {
   static registeredName = "ssk-checkbox";
@@ -88,88 +84,77 @@ export class Checkbox extends LitElement implements ThemeValue {
   label?: string | undefined;
   @property({ type: Boolean })
   checked = false;
-  @property({ type: String })
-  value: string | undefined;
+  @property({ type: Boolean })
+  indeterminate = false;
   @property({ type: Boolean })
   disabled = false;
-  @property({ type: Array<Options> })
-  options: Options[] | undefined;
+
+  updated(changedProperties: Map<PropertyKey, unknown>) {
+    super.updated(changedProperties);
+
+    if (changedProperties.has("indeterminate")) {
+      this._updateIndeterminateState();
+    }
+  }
 
   render() {
     if (this.hidden) {
       return nothing;
     }
 
-    const additionalCss = `
-    --active-100:  ${parseVariables(cssVar("colors", this.themeColor, 100))};
-    --active-500:  ${parseVariables(cssVar("colors", this.themeColor, 500))};
-    --disabled-200:  ${parseVariables(cssVar("colors", "gray", 200))};
-    --disabled-300:  ${parseVariables(cssVar("colors", "gray", 300))};
-    --disabled-400:  ${parseVariables(cssVar("colors", "gray", 400))};
-
-    --border-radius: ${parseVariables(cssVar("rounded", this.rounded), "20%")};
-    --width: ${parseVariables(
-      cssVar("width", this.width),
-      cssVar("width", this.size),
-      this.width,
-      "auto"
-    )};
-    --height: ${parseVariables(
-      cssVar("height", this.height),
-      cssVar("height", this.size),
-      this.height,
-      "auto"
-    )};
-    --font-size: ${parseVariables(
-      cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size)
-    )};`;
-
-    const groupCheckbox = html` <div class="group-checkbox-wrapper">
-      <input
-        type="checkbox"
-        data-testid=${this.testId || nothing}
-        value=${this.value}
-        .disabled=${this.disabled}
-        .checked=${this.checked}
-      />
-      <label for="checkbox">${this.label}</label>
-      <div class="child-checkbox">
-        ${this.options?.map((o, i) => {
-          return html`
-            <input
-              data-testid=${this.testId ? `child-${this.testId}-${i}` : nothing}
-              type="checkbox"
-              value=${o.value}
-              .disabled=${o.disabled}
-            />
-            <label for="checkbox">${o.label}</label>
-          `;
-        })}
-      </div>
-    </div>`;
-
-    const checkbox = html`<div class="checkbox-wrapper">
-      <input
-        type="checkbox"
-        data-testid=${this.testId || nothing}
-        value=${this.value}
-        .disabled=${this.disabled}
-        .checked=${this.checked}
-      />
-      <label for="checkbox">${this.label}</label>
-    </div>`;
-
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.checkbox, "input")}
 
       <style>
-        div, input {
-          ${additionalCss}
+        div,
+        input {
+          --active-100: ${parseVariables(
+            cssVar("colors", this.themeColor, 100)
+          )};
+          --active-500: ${parseVariables(
+            cssVar("colors", this.themeColor, 500)
+          )};
+          --disabled-200: ${parseVariables(cssVar("colors", "gray", 200))};
+          --disabled-300: ${parseVariables(cssVar("colors", "gray", 300))};
+          --disabled-400: ${parseVariables(cssVar("colors", "gray", 400))};
+          --border-radius: ${parseVariables(
+            cssVar("rounded", this.rounded),
+            "20%"
+          )};
+          --width: ${parseVariables(
+            cssVar("width", this.width),
+            cssVar("width", this.size),
+            "auto"
+          )};
+          --height: ${parseVariables(
+            cssVar("height", this.height),
+            cssVar("height", this.size),
+            "auto"
+          )};
+          --font-size: ${parseVariables(
+            cssVar("font-size", this.fontSize),
+            cssVar("font-size", this.size)
+          )};
         }
       </style>
-      ${this.options && this.options?.length > 0 ? groupCheckbox : checkbox}
+      <div class="checkbox-wrapper">
+        <input
+          type="checkbox"
+          data-testid=${this.testId || nothing}
+          .disabled=${this.disabled}
+          .checked=${this.checked}
+          @change=${(e: Event) => redispatchEvents(e, this)}
+        />
+        <label for="checkbox">${this.label}</label>
+      </div>
     `;
+  }
+
+  private _updateIndeterminateState() {
+    const checkbox = this.shadowRoot?.querySelector("input");
+    if (checkbox) {
+      checkbox.indeterminate = this.indeterminate;
+    }
   }
 
   static styles = css`
@@ -187,7 +172,7 @@ export class Checkbox extends LitElement implements ThemeValue {
         display: inline-block;
         position: relative;
         cursor: pointer;
-        border: 2px solid var(--border-color);
+        border: calc(0.1 * var(--width)) solid var(--border-color);
         border-radius: var(--border-radius);
         background-color: var(--background-color);
         vertical-align: middle;
@@ -195,18 +180,29 @@ export class Checkbox extends LitElement implements ThemeValue {
       .checkbox-wrapper input[type="checkbox"] + label {
         display: inline-block;
         cursor: pointer;
-        margin-left: 4px;
+        margin-left: calc(0.2 * var(--font-size));
         font-size: var(--font-size);
       }
 
       .checkbox-wrapper input[type="checkbox"]:hover:not(:disabled) {
         --border-color: var(--active-500);
-        box-shadow: 0 0 0 2px var(--active-100);
+        box-shadow: 0 0 0 calc(0.1 * var(--width)) var(--active-100);
       }
 
-      .checkbox-wrapper input[type="checkbox"]:checked {
+      .checkbox-wrapper input[type="checkbox"]:checked,
+      input[type="checkbox"]:indeterminate {
         --background-color: var(--active-500);
         --border-color: var(--active-500);
+      }
+
+      .checkbox-wrapper input[type="checkbox"]:indeterminate::before {
+        content: "";
+        position: absolute;
+        top: 45%;
+        left: 20%;
+        width: 65%;
+        height: 10%;
+        background: var(--checked-color);
       }
       .checkbox-wrapper input[type="checkbox"]:checked::before {
         content: "";
@@ -235,7 +231,8 @@ export class Checkbox extends LitElement implements ThemeValue {
         cursor: not-allowed;
         opacity: 0.9;
       }
-      .checkbox-wrapper input[type="checkbox"]:disabled:checked {
+      .checkbox-wrapper input[type="checkbox"]:disabled:checked,
+      input[type="checkbox"]:disabled:indeterminate {
         --checked-color: var(--disabled-400);
       }
       .checkbox-wrapper input[type="checkbox"]:disabled + label {

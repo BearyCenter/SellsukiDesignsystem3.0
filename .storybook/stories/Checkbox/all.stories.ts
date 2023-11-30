@@ -5,7 +5,16 @@ import "../../../src/elements/checkbox";
 import { Checkbox } from "../../../src/elements/checkbox";
 
 type DividerArgs = {} & Omit<Checkbox, "level">;
-const size: Checkbox["size"][] = ["xs", "sm", "md", "lg", "xl"];
+const size: Checkbox["size"][] = [
+  "xs",
+  "sm",
+  "md",
+  "lg",
+  "xl",
+  "2xl",
+  "3xl",
+  "4xl",
+];
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
@@ -30,19 +39,7 @@ const meta = {
         }
       </style>
       <main>
-        <section class="show-size">
-          ${size.map(
-            (sz) => html`
-              <ssk-checkbox
-                ${spread(args)}
-                size=${sz}
-                label="Checkbox size ${sz}"
-              >
-              </ssk-checkbox>
-            `
-          )}
-        </section>
-        <section class="show-case">
+        <section class="show-checked">
           <ssk-checkbox
             ${spread(args)}
             disabled="true"
@@ -58,6 +55,33 @@ const meta = {
             label="Checkbox checked disabled"
           >
           </ssk-checkbox>
+        </section>
+        <section class="show-indeterminate">
+          <ssk-checkbox
+            ${spread(args)}
+            indeterminate="true"
+            label="Checkbox indeterminate"
+          >
+          </ssk-checkbox>
+          <ssk-checkbox
+            ${spread(args)}
+            disabled="true"
+            indeterminate="true"
+            label="Checkbox indeterminate disabled"
+          >
+          </ssk-checkbox>
+        </section>
+        <section class="show-size">
+          ${size.map(
+            (sz) => html`
+              <ssk-checkbox
+                ${spread(args)}
+                size=${sz}
+                label="Checkbox size ${sz}"
+              >
+              </ssk-checkbox>
+            `
+          )}
         </section>
       </main>`;
   },
