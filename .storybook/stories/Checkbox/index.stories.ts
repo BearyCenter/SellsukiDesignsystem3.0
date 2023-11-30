@@ -92,3 +92,31 @@ export const Default: Story = {
     },
   },
 };
+
+export const CheckboxWithChild: Story = {
+  args: {
+    label: "Checkbox",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=854-63033&mode=design&t=MQ1h7Rh93hzVCRMd-0",
+    },
+  },
+  render: () => {
+    return html`<style>
+        div.child-container {
+          margin-left: 30px;
+        }
+      </style>
+      <div>
+        <ssk-checkbox label="Parent checkbox" indeterminate="true">
+        </ssk-checkbox>
+        <div class="child-container">
+          <ssk-checkbox label="Child checkbox1"> </ssk-checkbox>
+          <ssk-checkbox label="Child checkbox2" checked="true"> </ssk-checkbox>
+          <ssk-checkbox label="Child checkbox3"> </ssk-checkbox>
+        </div>
+      </div> `;
+  },
+};
