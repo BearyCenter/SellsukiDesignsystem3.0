@@ -13,7 +13,7 @@ import {
   cssVar,
 } from "../../types/theme";
 
-type Type = "default" | "info" | "error" | "warning" | "success";
+export type Type = "default" | "info" | "error" | "warning" | "success";
 @customElement("ssk-alert")
 export class Alert extends LitElement implements ThemeValue {
   static registeredName = "ssk-alert";
@@ -37,8 +37,6 @@ export class Alert extends LitElement implements ThemeValue {
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
   @property({ type: String })
-  fontWeight: FontWeight = "normal";
-  @property({ type: String })
   fontSize?: string | undefined;
 
   // Alert attributes
@@ -46,6 +44,10 @@ export class Alert extends LitElement implements ThemeValue {
   hidden = false;
   @property({ type: String })
   type: Type = "default";
+  @property({ type: String })
+  message?: string | undefined;
+  @property({ type: String })
+  topic?: string | undefined;
 
   render() {
     if (this.hidden) {
@@ -53,14 +55,8 @@ export class Alert extends LitElement implements ThemeValue {
     }
 
     let additionalCss = `
-    --margin: ${parseVariables(
-      cssVar("margin", this.margin),
-      cssVar("padding", this.size),
-    )};
-    --padding: ${parseVariables(
-      cssVar("padding", this.padding),
-      cssVar("padding", this.size),
-    )};
+    --margin: ${parseVariables(cssVar("margin", this.margin), "auto")};
+    --padding: ${parseVariables(cssVar("padding", this.padding), "0.75em")};
     --border-color: ${parseVariables(
       cssVar("border-color", this.type, 500),
       cssVar("border-color", "gray", 200),
@@ -71,7 +67,16 @@ export class Alert extends LitElement implements ThemeValue {
       cssVar("border-color", this.type, 50),
       "#fff",
     )};
+    --color: ${parseVariables(cssVar("colors", "gray", 500))};
+    --font-family: ${parseVariables(
+      cssVar("font-family", this.fontFamilyGroup),
+    )};
+    --font-size: ${parseVariables(
+      cssVar("font-size", this.fontSize),
+      cssVar("font-size", this.size),
+    )};
     `;
+
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.alert, ":host")}
       <style>
@@ -82,24 +87,38 @@ export class Alert extends LitElement implements ThemeValue {
         <div class="icon">
           <slot name="icon-slot"></slot>
         </div>
-        <div class="alert-header">dddd</div>
-        <div class="alert-description">ddddsssssssssdd</div>
+        <div class="detail">
+          <div class="alert-title">${this.topic}</div>
+          <div class="alert-message">${this.message}</div>
+        </div>
       </div>
     `;
   }
 
   static styles = css`
+    .detail {
+      margin-left: 0.75rem;
+
+      .alert-title,
+      .alert-message {
+        font-family: var(--font-family);
+        font-size: var(--font-size);
+      }
+
+      .alert-message {
+        color: var(--color);
+      }
+
+      .alert-title {
+        font-weight: 500;
+      }
+    }
     .container {
       display: flex;
-      flex-direction: column;
-      align-items: center;
       width: var(--width);
       height: auto;
       margin: var(--margin);
       padding: var(--padding);
-      font-size: var(--font-size);
-      font-family: var(--font-family);
-      font-weight: var(--font-weight);
       border: 1px solid var(--border-color);
       border-radius: var(--rounded);
       background-color: var(--background-color);

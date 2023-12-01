@@ -2,26 +2,64 @@ import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/alert";
-import { Alert } from "../../../src/elements/alert";
-import { baseArgsTypes } from "../helper";
+import { Alert, Type } from "../../../src/elements/alert";
+import { baseArgsTypes, genericEvents } from "../helper";
 
 type AlertArgs = {} & Alert;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
+const alertType: Type[] = ["default", "error", "info", "success", "warning"];
 const meta = {
   title: "Example/Alert",
   tags: ["autodocs"],
   render: ({ ...args }) => {
+    console.log(args);
     return html`<ssk-alert ${spread(args)}
       ><ssk-icon
         name="outline-information-circle"
         themeColor="${args.type}"
         slot="icon-slot"
-      ></ssk-icon
-    ></ssk-alert>`;
+      ></ssk-icon>
+    </ssk-alert>`;
   },
   argTypes: {
-    ...baseArgsTypes,
+    message: {
+      description: "The description to show in alert",
+      table: {
+        category: "Props",
+        type: {
+          summary: "string",
+        },
+      },
+      control: "text",
+    },
+    topic: {
+      description: "The title to show in alert",
+      table: {
+        category: "Props",
+        type: {
+          summary: "string",
+        },
+      },
+      control: "text",
+    },
+    type: {
+      description: "The type of alert",
+      options: alertType,
+      table: {
+        category: "Props",
+        type: {
+          summary: "string",
+        },
+      },
+      control: "select",
+    },
+    size: baseArgsTypes.size,
+    padding: baseArgsTypes.padding,
+    margin: baseArgsTypes.margin,
+    rounded: baseArgsTypes.rounded,
+    "?hidden": baseArgsTypes["?hidden"],
+    "@click": genericEvents["@change"],
   },
 } satisfies Meta<AlertArgs>;
 
@@ -32,6 +70,9 @@ type Story = StoryObj<AlertArgs>;
 export const Default: Story = {
   args: {
     type: "default",
+    message:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquidpariatur, ipsum dolor.",
+    topic: "Alert header",
   },
   parameters: {
     design: {

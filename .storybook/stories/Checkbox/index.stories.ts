@@ -1,4 +1,4 @@
-import { spread, spreadProps } from "@open-wc/lit-helpers";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/checkbox";

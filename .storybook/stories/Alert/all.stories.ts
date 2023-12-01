@@ -14,6 +14,14 @@ const type: Alert["type"][] = [
   "success",
 ];
 const size: Alert["size"][] = ["xl", "lg", "md", "sm"];
+function getIcon(alertType: string): string {
+  switch (alertType) {
+    case "success":
+      return "outline-check-circle";
+    default:
+      return "outline-information-circle";
+  }
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
@@ -45,7 +53,13 @@ const meta = {
         ${type.map(
           (t) => html` <section class="${t}">
             <div class="container">
-              <ssk-alert ${spread({ ...args, type: t })}></ssk-alert>
+              <ssk-alert ${spread({ ...args, type: t })}
+                ><ssk-icon
+                  name=${getIcon(t)}
+                  themeColor="${t}"
+                  slot="icon-slot"
+                ></ssk-icon>
+              </ssk-alert>
             </div>
           </section>`,
         )}
@@ -61,7 +75,11 @@ export default meta;
 type Story = StoryObj<AlertArgs>;
 
 export const ShowCase: Story = {
-  args: {},
+  args: {
+    message:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquidpariatur, ipsum dolor.",
+    topic: "Alert header",
+  },
   parameters: {
     design: {
       type: "figma",
