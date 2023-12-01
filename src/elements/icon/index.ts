@@ -14,6 +14,7 @@ import {
   Size,
   Theme,
   cssVar,
+  parseAtRuleThemeValue,
   parseThemeToCssVariables,
   parseVariables,
 } from "../../types/theme";
@@ -1331,6 +1332,28 @@ export class Icon extends LitElement implements ThemeValue {
   <path d="M4.462 19.462c.42-.419.753-.89 1-1.394.453.213.902.434 1.347.661a6.743 6.743 0 01-1.286 1.794.75.75 0 11-1.06-1.06z"/>
 </svg>
 `,
+    "solid-spinner": svg`<svg id="spin" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M12 2.28923C6.63689 2.28923 2.28923 6.63689 2.28923 12C2.28923 17.3631 6.63689 21.7108 12 21.7108C17.3631 21.7108 21.7108 17.3631 21.7108 12C21.7108 6.63689 17.3631 2.28923 12 2.28923ZM0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12Z" fill="#111827"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.8552 1.14462C10.8552 0.512462 11.3677 0 11.9998 0C18.6273 0 23.9998 5.37258 23.9998 12C23.9998 12.6322 23.4874 13.1446 22.8552 13.1446C22.2231 13.1446 21.7106 12.6322 21.7106 12C21.7106 6.63689 17.3629 2.28923 11.9998 2.28923C11.3677 2.28923 10.8552 1.77677 10.8552 1.14462Z" fill="#111827"/>
+</svg>
+`,
+    "solid-point-3x3": svg`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="4.7999" cy="4.80002" r="2.4" fill="#111827"/>
+<circle cx="4.7999" cy="12" r="2.4" fill="#111827"/>
+<circle cx="4.7999" cy="19.2" r="2.4" fill="#111827"/>
+<circle cx="12.0001" cy="4.80002" r="2.4" fill="#111827"/>
+<circle cx="12.0001" cy="12" r="2.4" fill="#111827"/>
+<circle cx="12.0001" cy="19.2" r="2.4" fill="#111827"/>
+<circle cx="19.2" cy="4.80002" r="2.4" fill="#111827"/>
+<circle cx="19.2" cy="12" r="2.4" fill="#111827"/>
+<circle cx="19.2" cy="19.2" r="2.4" fill="#111827"/>
+</svg>
+`,
+    "solid-arrow-switch": svg`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M18.7499 6L21 8.25036M21 8.25036L18.7499 10.5005M21 8.25036H18.1569C17.096 8.25036 16.0786 8.67179 15.3284 9.42193L8.67157 16.0788C7.92143 16.8289 6.90401 17.2504 5.84315 17.2504H3" stroke="#111827" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18.7499 18.7505L21 16.5001M21 16.5001L18.7499 14.25M21 16.5001H18.1569C17.096 16.5001 16.0786 16.0787 15.3284 15.3286L14.25 14.2501M3 7.50013H5.84315C6.90401 7.50013 7.92143 7.92155 8.67157 8.6717L9.75 9.75013" stroke="#111827" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
     "outline-x-mark": svg`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
 </svg>
@@ -2511,6 +2534,28 @@ export class Icon extends LitElement implements ThemeValue {
   <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
 </svg>
 `,
+    "outline-spinner": svg`<svg id="spin" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M12 2.28923C6.63689 2.28923 2.28923 6.63689 2.28923 12C2.28923 17.3631 6.63689 21.7108 12 21.7108C17.3631 21.7108 21.7108 17.3631 21.7108 12C21.7108 6.63689 17.3631 2.28923 12 2.28923ZM0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12Z" fill="#111827"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.8552 1.14462C10.8552 0.512462 11.3677 0 11.9998 0C18.6273 0 23.9998 5.37258 23.9998 12C23.9998 12.6322 23.4874 13.1446 22.8552 13.1446C22.2231 13.1446 21.7106 12.6322 21.7106 12C21.7106 6.63689 17.3629 2.28923 11.9998 2.28923C11.3677 2.28923 10.8552 1.77677 10.8552 1.14462Z" fill="#111827"/>
+</svg>
+`,
+    "outline-point-3x3": svg`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="4.7999" cy="4.80002" r="1.9" stroke="#111827"/>
+    <circle cx="4.7999" cy="12" r="1.9" stroke="#111827"/>
+    <circle cx="4.7999" cy="19.2" r="1.9" stroke="#111827"/>
+    <circle cx="12.0001" cy="4.80002" r="1.9" stroke="#111827"/>
+    <circle cx="12.0001" cy="12" r="1.9" stroke="#111827"/>
+    <circle cx="12.0001" cy="19.2" r="1.9" stroke="#111827"/>
+    <circle cx="19.2" cy="4.80002" r="1.9" stroke="#111827"/>
+    <circle cx="19.2" cy="12" r="1.9" stroke="#111827"/>
+    <circle cx="19.2" cy="19.2" r="1.9" stroke="#111827"/>
+    </svg>
+    `,
+    "outline-arrow-switch": svg`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18.7499 6L21 8.25036M21 8.25036L18.7499 10.5005M21 8.25036H18.1569C17.096 8.25036 16.0786 8.67179 15.3284 9.42193L8.67157 16.0788C7.92143 16.8289 6.90401 17.2504 5.84315 17.2504H3" stroke="#111827" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M18.7499 18.7505L21 16.5001M21 16.5001L18.7499 14.25M21 16.5001H18.1569C17.096 16.5001 16.0786 16.0787 15.3284 15.3286L14.25 14.2501M3 7.50013H5.84315C6.90401 7.50013 7.92143 7.92155 8.67157 8.6717L9.75 9.75013" stroke="#111827" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>    
+    `,
   };
 
   render() {
@@ -2518,6 +2563,7 @@ export class Icon extends LitElement implements ThemeValue {
       return nothing;
     }
 
+    const keyframes = parseAtRuleThemeValue(this.theme).join("\n");
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.icon, "svg")}
 
@@ -2525,49 +2571,54 @@ export class Icon extends LitElement implements ThemeValue {
         :host {
           display: inherit;
         }
-
-        svg {
+         svg {
           color: ${parseVariables(
-            cssVar("colors", this.color),
-            cssVar("colors", this.color, 500),
-            this.color,
-            cssVar("colors", this.themeColor, 500),
-          )};
+          cssVar("colors", this.color),
+          cssVar("colors", this.color, 500),
+          this.color,
+          cssVar("colors", this.themeColor, 500),
+        )};
 
           background-color: ${parseVariables(
-            cssVar("colors", this.backgroundColor),
-            cssVar("colors", this.backgroundColor, 500),
-            this.backgroundColor,
-          )};
+          cssVar("colors", this.backgroundColor),
+          cssVar("colors", this.backgroundColor, 500),
+          this.backgroundColor,
+        )};
 
           font-size: ${parseVariables(
-            cssVar("fontSize", this.fontSize),
-            this.fontSize,
-            cssVar("fontSize", this.size),
-          )};
+          cssVar("fontSize", this.fontSize),
+          this.fontSize,
+          cssVar("fontSize", this.size),
+        )};
 
           margin: ${parseVariables(
-            cssVar("margin", this.margin),
-            this.margin,
-            cssVar("margin", this.size),
-          )};
+          cssVar("margin", this.margin),
+          this.margin,
+          cssVar("margin", this.size),
+        )};
 
           padding: ${parseVariables(
-            cssVar("padding", this.padding),
-            this.padding,
-            cssVar("padding", this.size),
-          )};
+          cssVar("padding", this.padding),
+          this.padding,
+          cssVar("padding", this.size),
+        )};
 
           width: ${parseVariables(cssVar("width", this.width), this.width)};
 
           height: ${parseVariables(cssVar("height", this.height), this.height)};
 
           border-radius: ${parseVariables(
-            cssVar("borderRadius", this.rounded),
-            this.rounded,
-            cssVar("borderRadius", this.size),
-          )};
+          cssVar("borderRadius", this.rounded),
+          this.rounded,
+          cssVar("borderRadius", this.size),
+        )};
         }
+
+        #spin {
+          animation: var(--ssk-animation-spin);
+        }
+
+        ${keyframes}
       </style>
 
       ${Icon.svgs[this.name]}

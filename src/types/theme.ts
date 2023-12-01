@@ -295,7 +295,6 @@ export const parseAtRuleThemeValue = (
         .join(" ")} }`,
     );
   }
-
   return atRules;
 };
 

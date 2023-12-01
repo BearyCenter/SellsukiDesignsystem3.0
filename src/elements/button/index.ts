@@ -85,10 +85,8 @@ export class Button extends LitElement implements ThemeValue, BaseAttributes {
   // button specific
   @property({ type: String })
   variant: ButtonVariants = "solid";
-
   @property({ type: Boolean })
   disabled = false;
-
   @property({ type: Boolean })
   hidden = false;
 

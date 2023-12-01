@@ -8,9 +8,14 @@ import {
   ColorRole,
   FontFamilyGroup,
   FontWeight,
+  cssVar,
+  parseVariables,
+  parseThemeToCssVariables,
   Size,
   Theme,
 } from "../../types/theme";
+import { redispatchEvents } from "../../helpers/lit";
+
 @customElement("ssk-checkbox")
 export class Checkbox extends LitElement implements ThemeValue {
   static registeredName = "ssk-checkbox";
@@ -18,6 +23,10 @@ export class Checkbox extends LitElement implements ThemeValue {
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
+
+  // BaseAttributes
+  @property({ type: String })
+  testId?: string;
 
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
@@ -80,111 +89,148 @@ export class Checkbox extends LitElement implements ThemeValue {
   @property({ type: Boolean })
   disabled = false;
 
+  updated(changedProperties: Map<PropertyKey, unknown>) {
+    super.updated(changedProperties);
+
+    if (changedProperties.has("indeterminate")) {
+      this._updateIndeterminateState();
+    }
+  }
+
   render() {
     if (this.hidden) {
       return nothing;
     }
 
     return html`
-      <style></style>
+      ${parseThemeToCssVariables(this.theme?.components?.checkbox, "input")}
+
+      <style>
+        div,
+        input {
+          --active-100: ${parseVariables(
+            cssVar("colors", this.themeColor, 100),
+          )};
+          --active-500: ${parseVariables(
+            cssVar("colors", this.themeColor, 500),
+          )};
+          --disabled-200: ${parseVariables(cssVar("colors", "gray", 200))};
+          --disabled-300: ${parseVariables(cssVar("colors", "gray", 300))};
+          --disabled-400: ${parseVariables(cssVar("colors", "gray", 400))};
+          --border-radius: ${parseVariables(
+            cssVar("rounded", this.rounded),
+            "20%",
+          )};
+          --width: 0.7085em;
+          --height: 0.7085em;
+          --font-size: ${parseVariables(
+            cssVar("font-size", this.fontSize),
+            cssVar("font-size", this.size),
+          )};
+        }
+      </style>
       <div class="checkbox-wrapper">
-        <input id="checkbox" type="checkbox" />
-        <label for="checkbox"><slot></slot></label>
+        <input
+          type="checkbox"
+          data-testid=${this.testId || nothing}
+          .disabled=${this.disabled}
+          .checked=${this.checked}
+          @change=${(e: Event) => redispatchEvents(e, this)}
+        />
+        <label for="checkbox">${this.label}</label>
       </div>
     `;
+  }
+
+  private _updateIndeterminateState() {
+    const checkbox = this.shadowRoot?.querySelector("input");
+    if (checkbox) {
+      checkbox.indeterminate = this.indeterminate;
+    }
   }
 
   static styles = css`
     @supports (-webkit-appearance: none) or (-moz-appearance: none) {
       .checkbox-wrapper input[type="checkbox"] {
-        --active: #275efe;
-        --active-inner: #fff;
-        --focus: 2px rgba(39, 94, 254, 0.3);
-        --border: #bbc1e1;
-        --border-hover: #275efe;
-        --background: #fff;
-        --disabled: #f6f8ff;
-        --disabled-inner: #e1e6f9;
-        -webkit-appearance: none;
+        --background-color: #fff;
+        --checked-color: #fff;
+
+        --border-color: var(--disabled-200);
         -moz-appearance: none;
+        appearance: none;
         height: var(--height);
         width: var(--width);
+        font-size: var(--font-size);
         outline: none;
         display: inline-block;
-        vertical-align: top;
         position: relative;
-        margin: 0;
         cursor: pointer;
-        border: 1px solid var(--bc, var(--border));
-        background: var(--b, var(--background));
-        transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
-      }
-      .checkbox-wrapper input[type="checkbox"]:after {
-        content: "";
-        display: block;
-        left: 0;
-        top: 0;
-        position: absolute;
-        transition: transform var(--d-t, 0.3s) var(--d-t-e, ease),
-          opacity var(--d-o, 0.2s);
-      }
-      .checkbox-wrapper input[type="checkbox"]:checked {
-        --b: var(--color-500);
-        --bc: var(--color-500);
-        --d-o: 0.3s;
-        --d-t: 0.6s;
-        --d-t-e: cubic-bezier(0.2, 0.85, 0.32, 1.2);
-      }
-      .checkbox-wrapper input[type="checkbox"]:disabled {
-        --b: var(--disabled);
-        cursor: not-allowed;
-        opacity: 0.9;
-      }
-      .checkbox-wrapper input[type="checkbox"]:disabled:checked {
-        --b: var(--disabled-inner);
-        --bc: var(--border);
-      }
-      .checkbox-wrapper input[type="checkbox"]:disabled + label {
-        cursor: not-allowed;
-      }
-      .checkbox-wrapper
-        input[type="checkbox"]:hover:not(:checked):not(:disabled) {
-        --bc: var(--border-hover);
-      }
-      .checkbox-wrapper input[type="checkbox"]:focus {
-        box-shadow: 0 0 0 3px var(--color-200);
-      }
-      .checkbox-wrapper input[type="checkbox"]:not(.switch) {
-        width: 21px;
-      }
-      .checkbox-wrapper input[type="checkbox"]:not(.switch):after {
-        opacity: var(--o, 0);
-      }
-      .checkbox-wrapper input[type="checkbox"]:not(.switch):checked {
-        --o: 1;
+        border: calc(0.1 * var(--width)) solid var(--border-color);
+        border-radius: var(--border-radius);
+        background-color: var(--background-color);
+        vertical-align: middle;
       }
       .checkbox-wrapper input[type="checkbox"] + label {
         display: inline-block;
         vertical-align: middle;
         cursor: pointer;
-        margin-left: 4px;
+        margin-left: calc(0.2 * var(--font-size));
+        font-size: var(--font-size);
       }
 
-      .checkbox-wrapper input[type="checkbox"]:not(.switch) {
-        border-radius: var(--border-radius, 3px);
+      .checkbox-wrapper input[type="checkbox"]:hover:not(:disabled) {
+        --border-color: var(--active-500);
+        box-shadow: 0 0 0 calc(0.1 * var(--width)) var(--active-100);
       }
-      .checkbox-wrapper input[type="checkbox"]:not(.switch):after {
-        width: 30%;
-        height: 60%;
-        border: 2px solid var(--color);
-        border-top: 0;
-        border-left: 0;
-        left: 33%;
-        top: 7%;
-        transform: rotate(var(--r, 20deg));
+
+      .checkbox-wrapper input[type="checkbox"]:checked,
+      input[type="checkbox"]:indeterminate {
+        --background-color: var(--active-500);
+        --border-color: var(--active-500);
       }
-      .checkbox-wrapper input[type="checkbox"]:not(.switch):checked {
-        --r: 43deg;
+
+      .checkbox-wrapper input[type="checkbox"]:indeterminate::before {
+        content: "";
+        position: absolute;
+        top: 45%;
+        left: 20%;
+        width: 65%;
+        height: 10%;
+        background: var(--checked-color);
+      }
+      .checkbox-wrapper input[type="checkbox"]:checked::before {
+        content: "";
+        position: absolute;
+        top: 45%;
+        left: 25%;
+        width: 65%;
+        height: 10%;
+        background: var(--checked-color);
+        transform: rotate(-45deg);
+      }
+      .checkbox-wrapper input[type="checkbox"]:checked::after {
+        content: "";
+        position: absolute;
+        top: 55%;
+        left: 10%;
+        width: 35%;
+        height: 10%;
+        background: var(--checked-color);
+        transform: rotate(45deg);
+      }
+
+      .checkbox-wrapper input[type="checkbox"]:disabled {
+        --background-color: var(--disabled-200);
+        --border-color: var(--disabled-300);
+        cursor: not-allowed;
+        opacity: 0.9;
+      }
+      .checkbox-wrapper input[type="checkbox"]:disabled:checked,
+      input[type="checkbox"]:disabled:indeterminate {
+        --checked-color: var(--disabled-400);
+      }
+      .checkbox-wrapper input[type="checkbox"]:disabled + label {
+        cursor: not-allowed;
       }
     }
 
