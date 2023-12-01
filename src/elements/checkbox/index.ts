@@ -121,8 +121,8 @@ export class Checkbox extends LitElement implements ThemeValue {
             cssVar("rounded", this.rounded),
             "20%",
           )};
-          --width: 0.6667em;
-          --height: 0.6667em;
+          --width: 0.7085em;
+          --height: 0.7085em;
           --font-size: ${parseVariables(
             cssVar("font-size", this.fontSize),
             cssVar("font-size", this.size),
