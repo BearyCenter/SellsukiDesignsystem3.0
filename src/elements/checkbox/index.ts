@@ -38,7 +38,7 @@ export class Checkbox extends LitElement implements ThemeValue {
   borderColor?: string | undefined;
 
   @property({ type: String })
-  size: Size = "sm";
+  size: Size = "md";
   @property({ type: String })
   padding?: Size;
   @property({ type: String })
