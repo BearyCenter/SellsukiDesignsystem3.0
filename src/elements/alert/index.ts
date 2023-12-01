@@ -30,6 +30,8 @@ export class Alert extends LitElement implements ThemeValue {
   padding?: Size;
   @property({ type: String })
   rounded?: string | undefined;
+  @property({ type: String })
+  width?: string | undefined;
 
   // Font
   @property({ type: String })
@@ -63,6 +65,7 @@ export class Alert extends LitElement implements ThemeValue {
       cssVar("border-color", this.type, 500),
       cssVar("border-color", "gray", 200),
     )};
+    --width: ${parseVariables(cssVar("width", this.width), "100%")};
     --rounded: ${parseVariables(cssVar("rounded", this.rounded), "8px")};
     --background-color: ${parseVariables(
       cssVar("border-color", this.type, 50),
@@ -76,7 +79,9 @@ export class Alert extends LitElement implements ThemeValue {
       </style>
 
       <div class="container">
-        <slot name="icon-slot"></slot>
+        <div class="icon">
+          <slot name="icon-slot"></slot>
+        </div>
         <div class="alert-header">dddd</div>
         <div class="alert-description">ddddsssssssssdd</div>
       </div>
@@ -86,8 +91,9 @@ export class Alert extends LitElement implements ThemeValue {
   static styles = css`
     .container {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      width: 100%;
+      width: var(--width);
       height: auto;
       margin: var(--margin);
       padding: var(--padding);

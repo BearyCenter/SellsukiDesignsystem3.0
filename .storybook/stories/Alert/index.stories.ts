@@ -12,9 +12,13 @@ const meta = {
   title: "Example/Alert",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html`<ssk-alert ${spread(
-      args,
-    )}><ssk-icon name="outline-information-circle" slot="icon"></ssk-alert>`;
+    return html`<ssk-alert ${spread(args)}
+      ><ssk-icon
+        name="outline-information-circle"
+        themeColor="${args.type}"
+        slot="icon-slot"
+      ></ssk-icon
+    ></ssk-alert>`;
   },
   argTypes: {
     ...baseArgsTypes,

@@ -42,15 +42,13 @@ const meta = {
         }
       </style>
       <main>
-        <section>
-          <div class="container">
-            ${type.map(
-              (t) => html` <ssk-alert
-                ${spread({ ...args, type: t })}
-              ></ssk-alert>`,
-            )}
-          </div>
-        </section>
+        ${type.map(
+          (t) => html` <section class="${t}">
+            <div class="container">
+              <ssk-alert ${spread({ ...args, type: t })}></ssk-alert>
+            </div>
+          </section>`,
+        )}
       </main>`;
   },
   argTypes: {
