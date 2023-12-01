@@ -121,16 +121,8 @@ export class Checkbox extends LitElement implements ThemeValue {
             cssVar("rounded", this.rounded),
             "20%",
           )};
-          --width: ${parseVariables(
-            cssVar("width", this.width),
-            cssVar("width", this.size),
-            "auto",
-          )};
-          --height: ${parseVariables(
-            cssVar("height", this.height),
-            cssVar("height", this.size),
-            "auto",
-          )};
+          --width: 0.6667em;
+          --height: 0.6667em;
           --font-size: ${parseVariables(
             cssVar("font-size", this.fontSize),
             cssVar("font-size", this.size),
@@ -168,6 +160,7 @@ export class Checkbox extends LitElement implements ThemeValue {
         appearance: none;
         height: var(--height);
         width: var(--width);
+        font-size: var(--font-size);
         outline: none;
         display: inline-block;
         position: relative;
