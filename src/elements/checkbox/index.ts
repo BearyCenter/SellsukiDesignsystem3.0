@@ -172,6 +172,7 @@ export class Checkbox extends LitElement implements ThemeValue {
       }
       .checkbox-wrapper input[type="checkbox"] + label {
         display: inline-block;
+        vertical-align: middle;
         cursor: pointer;
         margin-left: calc(0.2 * var(--font-size));
         font-size: var(--font-size);
