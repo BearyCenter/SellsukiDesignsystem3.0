@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/alert";
 import { Alert, Type } from "../../../src/elements/alert";
-import { baseArgsTypes, genericEvents } from "../helper";
+import { baseArgsTypes } from "../helper";
 
 type AlertArgs = {} & Alert;
 

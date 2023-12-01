@@ -214,6 +214,7 @@ export type Theme = {
     logo?: {} & Partial<ThemeField>;
     alert?: {} & Partial<ThemeField>;
     menu?: {} & Partial<ThemeField>;
+    alert?: {} & Partial<ThemeField>;
   };
 } & ThemeField;
 
