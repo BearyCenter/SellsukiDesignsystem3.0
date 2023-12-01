@@ -12,7 +12,9 @@ const meta = {
   title: "Example/Alert",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html`<ssk-alert ${spread(args)}></ssk-alert>`;
+    return html`<ssk-alert ${spread(
+      args,
+    )}><ssk-icon name="outline-information-circle" slot="icon"></ssk-alert>`;
   },
   argTypes: {
     ...baseArgsTypes,
@@ -24,41 +26,13 @@ export default meta;
 type Story = StoryObj<AlertArgs>;
 
 export const Default: Story = {
-  args: {},
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1230-74988&mode=design&t=q6xYkXSoidIAD1Sz-0",
-    },
+  args: {
+    type: "default",
   },
-};
-
-export const Circle: Story = {
-  args: {},
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1230-74988&mode=design&t=q6xYkXSoidIAD1Sz-0",
-    },
-  },
-};
-
-export const InitialDefault: Story = {
-  args: {},
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1230-74988&mode=design&t=q6xYkXSoidIAD1Sz-0",
-    },
-  },
-};
-
-export const InitialCircle: Story = {
-  args: {},
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1230-74988&mode=design&t=q6xYkXSoidIAD1Sz-0",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=6658-7777&mode=design&t=qckIvE75lPnkGzw0-4",
     },
   },
 };

@@ -1,4 +1,5 @@
-import { LitElement } from "lit";
+import { LitElement, html, nothing, css } from "lit";
+import { ThemeValue } from "../../types/base-attributes";
 import { customElement, property } from "lit/decorators.js";
 import { consume } from "@lit-labs/context";
 import { themeContext } from "../../contexts/theme";
@@ -7,14 +8,15 @@ import {
   Theme,
   FontFamilyGroup,
   FontWeight,
-  Type,
+  parseThemeToCssVariables,
+  parseVariables,
+  cssVar,
 } from "../../types/theme";
-import { ThemeValue } from "../../types/base-attributes";
 
+type Type = "default" | "info" | "error" | "warning" | "success";
 @customElement("ssk-alert")
 export class Alert extends LitElement implements ThemeValue {
   static registeredName = "ssk-alert";
-
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
@@ -22,6 +24,12 @@ export class Alert extends LitElement implements ThemeValue {
   // ThemeValue
   @property({ type: String })
   size: Size = "md";
+  @property({ type: String })
+  margin?: string;
+  @property({ type: String })
+  padding?: Size;
+  @property({ type: String })
+  rounded?: string | undefined;
 
   // Font
   @property({ type: String })
@@ -32,10 +40,69 @@ export class Alert extends LitElement implements ThemeValue {
   fontSize?: string | undefined;
 
   // Alert attributes
+  @property({ type: Boolean })
+  hidden = false;
   @property({ type: String })
   type: Type = "default";
-  @property({ type: String })
-  header: String;
-  @property({ type: String })
-  subHeader: String;
+
+  render() {
+    if (this.hidden) {
+      return nothing;
+    }
+
+    let additionalCss = `
+    --margin: ${parseVariables(
+      cssVar("margin", this.margin),
+      cssVar("padding", this.size),
+    )};
+    --padding: ${parseVariables(
+      cssVar("padding", this.padding),
+      cssVar("padding", this.size),
+    )};
+    --border-color: ${parseVariables(
+      cssVar("border-color", this.type, 500),
+      cssVar("border-color", "gray", 200),
+    )};
+    --rounded: ${parseVariables(cssVar("rounded", this.rounded), "8px")};
+    --background-color: ${parseVariables(
+      cssVar("border-color", this.type, 50),
+      "#fff",
+    )};
+    `;
+    return html`
+      ${parseThemeToCssVariables(this.theme?.components?.alert, ":host")}
+      <style>
+        div {${additionalCss}}
+      </style>
+
+      <div class="container">
+        <slot name="icon-slot"></slot>
+        <div class="alert-header">dddd</div>
+        <div class="alert-description">ddddsssssssssdd</div>
+      </div>
+    `;
+  }
+
+  static styles = css`
+    .container {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: auto;
+      margin: var(--margin);
+      padding: var(--padding);
+      font-size: var(--font-size);
+      font-family: var(--font-family);
+      font-weight: var(--font-weight);
+      border: 1px solid var(--border-color);
+      border-radius: var(--rounded);
+      background-color: var(--background-color);
+    }
+  `;
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "ssk-alert": Alert;
+  }
 }
