@@ -3,11 +3,12 @@ import { ThemeValue } from "../../types/base-attributes";
 import { customElement, property } from "lit/decorators.js";
 import { consume } from "@lit-labs/context";
 import { themeContext } from "../../contexts/theme";
+import { redispatchEvents } from "../../helpers/lit";
+
 import {
   Size,
   Theme,
   FontFamilyGroup,
-  FontWeight,
   parseThemeToCssVariables,
   parseVariables,
   cssVar,
@@ -31,7 +32,7 @@ export class Alert extends LitElement implements ThemeValue {
   @property({ type: String })
   rounded?: string | undefined;
   @property({ type: String })
-  width?: string | undefined;
+  width?: string = "max";
 
   // Font
   @property({ type: String })
@@ -84,13 +85,16 @@ export class Alert extends LitElement implements ThemeValue {
       </style>
 
       <div class="container">
-        <div class="icon">
-          <slot name="icon-slot"></slot>
+        <div class="alert-content">
+          <div class="icon">
+            <slot name="icon-slot"></slot>
+          </div>
+          <div class="detail">
+            <div class="alert-title">${this.topic}</div>
+            <div class="alert-message">${this.message}</div>
+          </div>
         </div>
-        <div class="detail">
-          <div class="alert-title">${this.topic}</div>
-          <div class="alert-message">${this.message}</div>
-        </div>
+        <div class="close" @click=${(e: Event) => redispatchEvents(e, this)} />
       </div>
     `;
   }
@@ -113,8 +117,29 @@ export class Alert extends LitElement implements ThemeValue {
         font-weight: 500;
       }
     }
+
+    .close {
+      cursor: pointer;
+      padding-right: 0.75em;
+    }
+    .close:before,
+    .close:after {
+      content: "";
+      position: absolute;
+      height: 0.967em;
+      width: 1.5px;
+      background-color: var(--color);
+    }
+    .close:before {
+      transform: rotate(45deg);
+    }
+    .close:after {
+      transform: rotate(-45deg);
+    }
+
     .container {
       display: flex;
+      justify-content: space-between;
       width: var(--width);
       height: auto;
       margin: var(--margin);
@@ -122,6 +147,10 @@ export class Alert extends LitElement implements ThemeValue {
       border: 1px solid var(--border-color);
       border-radius: var(--rounded);
       background-color: var(--background-color);
+
+      .alert-content {
+        display: flex;
+      }
     }
   `;
 }

@@ -58,6 +58,7 @@ const meta = {
     padding: baseArgsTypes.padding,
     margin: baseArgsTypes.margin,
     rounded: baseArgsTypes.rounded,
+    width: baseArgsTypes.width,
     "?hidden": baseArgsTypes["?hidden"],
     "@click": genericEvents["@change"],
   },
