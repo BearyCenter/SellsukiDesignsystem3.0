@@ -211,7 +211,7 @@ export type Theme = {
     avatar?: {} & Partial<ThemeField>;
     logo?: {} & Partial<ThemeField>;
     alert?: {} & Partial<ThemeField>;
-    groupMenu?: {} & Partial<ThemeField>;
+    menu?: {} & Partial<ThemeField>;
   };
 } & ThemeField;
 

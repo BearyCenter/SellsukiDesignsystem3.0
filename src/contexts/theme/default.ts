@@ -109,7 +109,7 @@ export const defaultColorPallete: ColorPalette = {
     "800": "#000000",
     "900": "#000000",
   },
-  'vin-rouge': {
+  "vin-rouge": {
     "50": "#FAF5F8",
     "100": "#F7ECF2",
     "200": "#F1D9E7",
@@ -121,7 +121,7 @@ export const defaultColorPallete: ColorPalette = {
     "800": "#7D3752",
     "900": "#6A3147",
   },
-  'light-orchid': {
+  "light-orchid": {
     "50": "#FAF5FA",
     "100": "#F7ECF6",
     "200": "#F1D9F0",
@@ -145,7 +145,7 @@ export const defaultColorPallete: ColorPalette = {
     "800": "#5B3A6E",
     "900": "#4E345B",
   },
-  'matte-violet': {
+  "matte-violet": {
     "50": "#F4F4FA",
     "100": "#E7E5F4",
     "200": "#D4D1EC",
@@ -157,7 +157,7 @@ export const defaultColorPallete: ColorPalette = {
     "800": "#5F4B8B",
     "900": "#4A3D6B",
   },
-  'matte-blue': {
+  "matte-blue": {
     "50": "#F3F6FB",
     "100": "#E4E9F5",
     "200": "#D0DAED",
@@ -169,7 +169,7 @@ export const defaultColorPallete: ColorPalette = {
     "800": "#444C89",
     "900": "#3A426E",
   },
-  'cobalt-blue': {
+  "cobalt-blue": {
     "50": "#E6F1F9",
     "100": "#C0D7EA",
     "200": "#98BBD6",
@@ -493,7 +493,7 @@ export const defaultColorPallete: ColorPalette = {
     "800": "#9A3412",
     "900": "#7C2D12",
   },
-  'aerospace-orange': {
+  "aerospace-orange": {
     "50": "#FCEFE7",
     "100": "#F9DDCE",
     "200": "#F4BC9E",

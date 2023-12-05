@@ -1,9 +1,11 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html, nothing } from "lit";
+import { html } from "lit";
 import "../../../src/elements/top-navbar/index";
 import { TopNavbar } from "../../../src/elements/top-navbar/index";
 import "../../../src/elements/icon";
+import "../../../src/elements/input";
+import "../../../src/elements/button";
 import { baseArgsTypes } from "../helper";
 
 type TopNavbarArgs = {} & TopNavbar;
@@ -46,7 +48,7 @@ const meta = {
           slot="right-slot"
         ></ssk-icon>
         <ssk-icon
-          name="solid-squares-2x2"
+          name="solid-point-3x3"
           ${spread(args)}
           slot="right-slot"
         ></ssk-icon>
