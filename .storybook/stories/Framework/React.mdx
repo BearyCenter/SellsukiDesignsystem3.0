@@ -5,15 +5,17 @@ import { Meta } from "@storybook/blocks";
 # React setup
 
 ## Install
+
 ```sh
-npm i @sellsuki/sellsuki-ui @lit-labs/react
+npm i sellsuki-components @lit-labs/react
 ```
 
 ## Usage
+
 ```tsx
 // components/SskButton.tsx
 import { Button } from "@sellsuki/sellsuki-ui";
-import { createComponent } from '@lit-labs/react';
+import { createComponent } from "@lit-labs/react";
 
 const SskButton = createComponent({
   tagName: Button.registeredName,
@@ -24,7 +26,7 @@ const SskButton = createComponent({
   },
 });
 
-export default SskButton
+export default SskButton;
 ```
 
 ```tsx
@@ -42,7 +44,7 @@ const App = () => {
       <div>Count: {count}</div>
     </div>
   );
-}
+};
 
 export default App;
 ```
