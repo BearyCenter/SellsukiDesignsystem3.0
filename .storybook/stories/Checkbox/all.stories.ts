@@ -98,7 +98,7 @@ export const ShowCase: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=854-63033&mode=design&t=PnxCQWfQJ1iyEePz-0",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=854-63033&mode=design&t=G2I0NN3uw2YZ9fKS-0",
     },
   },
 };

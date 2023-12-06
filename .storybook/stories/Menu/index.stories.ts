@@ -108,6 +108,19 @@ const meta = {
         type: "boolean",
       },
     },
+    "?hiddenIcon": {
+      description: "When true gives the group menu a hidden icon apparence",
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: {
+          summary: "boolean",
+        },
+      },
+      control: {
+        type: "boolean",
+      },
+    },
     size: baseArgsTypes.size,
     themeColor: baseArgsTypes.themeColor,
     margin: baseArgsTypes.margin,
@@ -152,14 +165,7 @@ export const GroupMenu: Story = {
   render: ({ ...args }) => {
     return html`
       <ssk-menu-group ${spread(args)}>
-        <ssk-icon
-          slot="icon-closed"
-          name="solid-chevron-down"
-          size="md"
-        ></ssk-icon>
-        <ssk-icon slot="icon-open" name="solid-chevron-up" size="md"></ssk-icon>
-
-        <ssk-menu-items ${spread(args)}>
+        <ssk-menu-items>
           <ssk-icon
             slot="prefix"
             name="outline-ellipsis-horizontal-circle"
@@ -172,7 +178,7 @@ export const GroupMenu: Story = {
             size="md"
           ></ssk-icon>
         </ssk-menu-items>
-        <ssk-menu-items ${spread(args)} active>
+        <ssk-menu-items active>
           <ssk-icon
             slot="prefix"
             name="outline-ellipsis-horizontal-circle"
