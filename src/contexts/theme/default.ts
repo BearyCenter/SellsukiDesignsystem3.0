@@ -1070,11 +1070,11 @@ export const defaultTheme: Theme = {
     },
     menu: {
       padding: {
-        xs: "8px 16px",
+        xs: "4px 16px",
         sm: "8px 16px",
-        md: "8px 16px",
-        lg: "8px 16px",
-        xl: "8px 16px",
+        md: "12px 16px",
+        lg: "16px 16px",
+        xl: "20px 16px",
       },
     },
   },

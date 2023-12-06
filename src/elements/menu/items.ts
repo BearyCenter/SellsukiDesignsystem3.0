@@ -13,6 +13,7 @@ import {
   ColorName,
   FontFamilyGroup,
   FontWeight,
+  MenuVariants,
 } from "../../types/theme";
 import { redispatchEvents } from "../../helpers/lit";
 
@@ -56,6 +57,8 @@ export class MenuItems extends LitElement implements ThemeValue {
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  @property({ type: String })
+  variant: MenuVariants = "solid";
   @property({ type: Boolean })
   hidden = false;
   @property({ type: String })
@@ -94,28 +97,47 @@ export class MenuItems extends LitElement implements ThemeValue {
 
     --background-color: transparent;
     --background-color-hover: ${parseVariables(
-      cssVar("colors", this.themeColor, 200),
-    )};
-    --background-color-active: ${parseVariables(
-      cssVar("colors", this.themeColor, 600),
+      cssVar("colors", this.themeColor, 100),
     )};
     --background-color-disabled: ${parseVariables(
       cssVar("colors", "gray", 100),
     )};
     --color: var(--color);
     --color-hover: var(--color);
-    --color-active:  ${parseVariables(
-      cssVar("colors", this.color),
-      cssVar("colors", this.color),
-      this.color,
-      cssVar("colors", "white", 200),
-    )};
+   
     --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
 
     --border-color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
     --border-color-disabled: var(--background-color-disabled);
     --border-width: 0px;
     `;
+
+    switch (this.variant) {
+      case "solid":
+        additionalCss += `
+        --background-color-active: ${parseVariables(
+          cssVar("colors", this.themeColor, 600),
+        )};
+        --color-active:  ${parseVariables(
+          cssVar("colors", this.color),
+          cssVar("colors", this.color),
+          this.color,
+          cssVar("colors", "white", 200),
+        )};
+       `;
+        break;
+
+      case "outline":
+        additionalCss += `
+        --background-color-active: ${parseVariables(
+          cssVar("colors", this.themeColor, 100),
+        )};
+        --color-active: ${parseVariables(
+          cssVar("colors", this.themeColor, 600),
+        )};
+          `;
+        break;
+    }
 
     return html`
       ${parseThemeToCssVariables(

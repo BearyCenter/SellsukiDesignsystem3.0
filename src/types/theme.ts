@@ -120,6 +120,8 @@ export type BackgroundSize = "auto" | "cover" | "contain";
 
 export type ButtonVariants = "solid" | "outline" | "ghost";
 
+export type MenuVariants = "solid" | "outline";
+
 export type Color =
   | {
       [key: ColorScale | string]: string;

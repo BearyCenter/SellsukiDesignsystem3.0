@@ -9,8 +9,9 @@ import { MenuGroup } from "../../../src/elements/menu/group";
 
 type MenuArgs = {} & Omit<
   MenuItems & MenuGroup,
-  "size" | "disabled" | "active" | "min"
+  "size" | "disabled" | "active" | "min" | "variant"
 >;
+const variant: MenuItems["variant"][] = ["solid", "outline"];
 const size: MenuItems["size"][] = ["xs", "sm", "md", "lg"];
 const state = [
   {
@@ -55,13 +56,14 @@ const stateGroup = [
 const meta = {
   title: "Example/Menu",
   tags: [],
-  render: ({ label, header, ...args }) => {
+  render: ({ label, ...args }) => {
     return html`
       <style>
         main {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          grid-gap: 1rem;
+          display: flex;
+          justify-content: space-between;
+          gap: 2rem;
+          flex-flow: column wrap;
         }
 
         section {
@@ -78,37 +80,44 @@ const meta = {
 
         div.group {
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: repeat(${stateGroup.length}, auto);
           gap: 0.5em;
         }
       </style>
       <main>
-        ${stateMin.map(
-          (m) => html` <section>
+        ${variant.map(
+          (v) => html`<section>
             <div class="container">
-              ${size.map((s) =>
-                state.map((st) => {
-                  return html` <section>
-                    <div class="container">
-                      <ssk-menu-items
-                        testId=${`button-${m["?min"]}-${s}-${st["?disabled"]}-${st["?active"]}`}
-                        ${spread({ ...args, ...st, ...m, size: s })}
-                      >
-                        <ssk-icon
-                          slot="prefix"
-                          name="outline-ellipsis-horizontal-circle"
-                          size="${s}"
-                        ></ssk-icon>
-                        ${label}
-                        <ssk-icon
-                          slot="postfix"
-                          name="solid-chevron-down"
-                          size="${s}"
-                        ></ssk-icon>
-                      </ssk-menu-items>
-                    </div>
-                  </section>`;
-                }),
+              ${stateMin.map(
+                (m) => html` <section>
+                  <div class="container">
+                    ${size.map((s) =>
+                      state.map((st) => {
+                        return html` <section>
+                          <div class="container">
+                            <ssk-menu-items
+                              variant=${v}
+                              testId=${`item-${v}-${m["?min"]}-${s}-${st["?disabled"]}-${st["?active"]}`}
+                              ${spread({ ...args, ...st, ...m, size: s })}
+                            >
+                              <ssk-icon
+                                slot="prefix"
+                                name="outline-ellipsis-horizontal-circle"
+                                size="${s}"
+                              ></ssk-icon>
+                              ${label}
+                              <ssk-icon
+                                slot="postfix"
+                                name="solid-chevron-down"
+                                size="${s}"
+                              ></ssk-icon>
+                            </ssk-menu-items>
+                          </div>
+                        </section>`;
+                      }),
+                    )}
+                  </div>
+                </section>`,
               )}
             </div>
           </section>`,
@@ -119,7 +128,9 @@ const meta = {
             (sg) => html`
               <ssk-menu-group
                 ${spread({ ...args, ...sg })}
-                header=${header}
+                header=${sg["?hiddenIcon"]
+                  ? "Group menu hidden icon"
+                  : "Group menu"}
                 size="md"
               >
                 <ssk-menu-items ${spread(args)}>
@@ -135,7 +146,20 @@ const meta = {
                     size="md"
                   ></ssk-icon>
                 </ssk-menu-items>
-                <ssk-menu-items ${spread(args)} active>
+                <ssk-menu-items ${spread(args)}variant="solid" active>
+                  <ssk-icon
+                    slot="prefix"
+                    name="outline-ellipsis-horizontal-circle"
+                    size="md"
+                  ></ssk-icon>
+                  ${label}
+                  <ssk-icon
+                    slot="postfix"
+                    name="solid-chevron-down"
+                    size="md"
+                  ></ssk-icon>
+                </ssk-menu-items>
+                <ssk-menu-items ${spread(args)} variant="outline" active>
                   <ssk-icon
                     slot="prefix"
                     name="outline-ellipsis-horizontal-circle"
@@ -165,7 +189,6 @@ type Story = StoryObj<MenuArgs>;
 export const ShowCase: Story = {
   args: {
     label: "item",
-    header: "menu",
   },
   parameters: {
     design: {

@@ -22,8 +22,8 @@ const checked = [
   },
   {
     "?checked": false,
-  }
-]
+  },
+];
 const size: Toggle["size"][] = ["xl", "lg", "md", "sm", "xs"];
 
 const meta = {
@@ -54,23 +54,23 @@ const meta = {
       <main>
         <section>
           <div class="container">
-          ${checked.map(
-            (v) => html`<section>
-              <div class="container">
-                ${size.map((sz) =>
-                  state.map(
-                    (s) => html`<ssk-toggle
-                      testId=${`button-${v}-${sz}-${s["?disabled"]}`}
-                      ${spread({ ...args, ...s, ...v, size: sz })}
-                      ></ssk-toggle
-                    >`,
-                  ),
-                )}
-              </div>
-            </section>`,
-          )}
+            ${checked.map(
+              (v) => html`<section>
+                <div class="container">
+                  ${size.map((sz) =>
+                    state.map(
+                      (s) => html`<ssk-toggle
+                        testId=${`button-${v}-${sz}-${s["?disabled"]}`}
+                        ${spread({ ...args, ...s, ...v, size: sz })}
+                      ></ssk-toggle>`,
+                    ),
+                  )}
+                </div>
+              </section>`,
+            )}
           </div>
-        </section>,
+        </section>
+        ,
       </main>`;
   },
   argTypes: {
