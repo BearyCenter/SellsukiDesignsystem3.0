@@ -56,6 +56,22 @@ const meta = {
         type: "text",
       },
     },
+    variant: {
+      options: ["solid", "outline"],
+      description: "The type of menu",
+      control: {
+        type: "inline-radio",
+      },
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "solid",
+        },
+        type: {
+          summary: "string",
+        },
+      },
+    },
     "?disabled": {
       description: "When true gives the menu a disabled apparence",
       table: {
@@ -140,6 +156,7 @@ type Story = StoryObj<MenuArgs>;
 export const Default: Story = {
   args: {
     label: "item",
+    variant: "solid",
     size: "md",
   },
   parameters: {
