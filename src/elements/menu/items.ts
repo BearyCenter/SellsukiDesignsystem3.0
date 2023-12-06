@@ -84,7 +84,7 @@ export class MenuItems extends LitElement implements ThemeValue {
     --margin: ${parseVariables(cssVar("margin", this.margin))};
     --gap: ${parseVariables(
       cssVar("spacing", this.gap),
-      cssVar("padding", this.size),
+      cssVar("spacing", this.size),
     )};
 
     --rounded: ${parseVariables(
@@ -118,7 +118,10 @@ export class MenuItems extends LitElement implements ThemeValue {
     `;
 
     return html`
-      ${parseThemeToCssVariables(this.theme?.components?.menu, "menu-items")}
+      ${parseThemeToCssVariables(
+        this.theme?.components?.menu,
+        ".menu-container",
+      )}
       <style>
         .menu-container {
           ${additionalCss};

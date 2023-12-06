@@ -12,28 +12,43 @@ type MenuArgs = {} & Omit<
   "size" | "disabled" | "active" | "min"
 >;
 const size: MenuItems["size"][] = ["xs", "sm", "md", "lg"];
-const stateActive = [
+const state = [
   {
     "?active": true,
+  },
+  {
+    "?disabled": true,
   },
   {
     "?active": false,
   },
 ];
-const state = [
-  {
-    "?disabled": true,
-  },
-  {
-    "?disabled": false,
-  },
-];
+
 const stateMin = [
   {
     "?min": false,
   },
   {
     "?min": true,
+  },
+];
+
+const stateGroup = [
+  {
+    "?isOpen": false,
+    "?hiddenIcon": false,
+  },
+  {
+    "?isOpen": true,
+    "?hiddenIcon": false,
+  },
+  {
+    "?isOpen": false,
+    "?hiddenIcon": true,
+  },
+  {
+    "?isOpen": true,
+    "?hiddenIcon": true,
   },
 ];
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
@@ -57,7 +72,13 @@ const meta = {
 
         div.container {
           display: grid;
-          grid-template-columns: repeat(${stateMin.length}, auto);
+          grid-template-columns: repeat(${state.length}, auto);
+          gap: 0.5em;
+        }
+
+        div.group {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
           gap: 0.5em;
         }
       </style>
@@ -66,91 +87,70 @@ const meta = {
           (m) => html` <section>
             <div class="container">
               ${size.map((s) =>
-                state.map(
-                  (st) => html` <section>
+                state.map((st) => {
+                  return html` <section>
                     <div class="container">
-                      ${stateActive.map((sa) => {
-                        const combinedArgs = {
-                          ...args,
-                          ...st,
-                          ...m,
-                          ...sa,
-                          size: s,
-                        };
-
-                        if (
-                          combinedArgs["?disabled"] &&
-                          combinedArgs["?active"]
-                        ) {
-                          return nothing;
-                        }
-                        return html`
-                          <ssk-menu-items
-                            testId=${`button-${m["?min"]}-${s}-${st["?disabled"]}-${sa["?active"]}`}
-                            ${spread(combinedArgs)}
-                          >
-                            <ssk-icon
-                              slot="prefix"
-                              name="outline-ellipsis-horizontal-circle"
-                              size="${s}"
-                            ></ssk-icon>
-                            ${label}
-                            <ssk-icon
-                              slot="postfix"
-                              name="solid-chevron-down"
-                              size="${s}"
-                            ></ssk-icon>
-                          </ssk-menu-items>
-                        `;
-                      })}
+                      <ssk-menu-items
+                        testId=${`button-${m["?min"]}-${s}-${st["?disabled"]}-${st["?active"]}`}
+                        ${spread({ ...args, ...st, ...m, size: s })}
+                      >
+                        <ssk-icon
+                          slot="prefix"
+                          name="outline-ellipsis-horizontal-circle"
+                          size="${s}"
+                        ></ssk-icon>
+                        ${label}
+                        <ssk-icon
+                          slot="postfix"
+                          name="solid-chevron-down"
+                          size="${s}"
+                        ></ssk-icon>
+                      </ssk-menu-items>
                     </div>
-                  </section>`,
-                ),
+                  </section>`;
+                }),
               )}
             </div>
           </section>`,
         )}
 
-        <div class="container">
-          <ssk-menu-group ${spread(args)} header=${header} size="md">
-            <ssk-icon
-              slot="icon-closed"
-              name="solid-chevron-down"
-              size="md"
-            ></ssk-icon>
-            <ssk-icon
-              slot="icon-open"
-              name="solid-chevron-up"
-              size="md"
-            ></ssk-icon>
-
-            <ssk-menu-items ${spread(args)}>
-              <ssk-icon
-                slot="prefix"
-                name="outline-ellipsis-horizontal-circle"
+        <div class="group">
+          ${stateGroup.map(
+            (sg) => html`
+              <ssk-menu-group
+                ${spread({ ...args, ...sg })}
+                header=${header}
                 size="md"
-              ></ssk-icon>
-              ${label}
-              <ssk-icon
-                slot="postfix"
-                name="solid-chevron-down"
-                size="md"
-              ></ssk-icon>
-            </ssk-menu-items>
-            <ssk-menu-items ${spread(args)} active>
-              <ssk-icon
-                slot="prefix"
-                name="outline-ellipsis-horizontal-circle"
-                size="md"
-              ></ssk-icon>
-              ${label}
-              <ssk-icon
-                slot="postfix"
-                name="solid-chevron-down"
-                size="md"
-              ></ssk-icon>
-            </ssk-menu-items>
-          </ssk-menu-group>
+              >
+                <ssk-menu-items ${spread(args)}>
+                  <ssk-icon
+                    slot="prefix"
+                    name="outline-ellipsis-horizontal-circle"
+                    size="md"
+                  ></ssk-icon>
+                  ${label}
+                  <ssk-icon
+                    slot="postfix"
+                    name="solid-chevron-down"
+                    size="md"
+                  ></ssk-icon>
+                </ssk-menu-items>
+                <ssk-menu-items ${spread(args)} active>
+                  <ssk-icon
+                    slot="prefix"
+                    name="outline-ellipsis-horizontal-circle"
+                    size="md"
+                  ></ssk-icon>
+                  ${label}
+                  <ssk-icon
+                    slot="postfix"
+                    name="solid-chevron-down"
+                    size="md"
+                  ></ssk-icon>
+                </ssk-menu-items>
+              </ssk-menu-group>
+            `,
+          )}
         </div>
       </main>
     `;

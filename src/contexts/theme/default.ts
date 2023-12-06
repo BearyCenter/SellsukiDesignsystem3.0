@@ -1068,6 +1068,15 @@ export const defaultTheme: Theme = {
         xl: "0px",
       },
     },
+    menu: {
+      padding: {
+        xs: "8px 16px",
+        sm: "8px 16px",
+        md: "8px 16px",
+        lg: "8px 16px",
+        xl: "8px 16px",
+      },
+    },
   },
 };
 
