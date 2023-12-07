@@ -13,7 +13,6 @@ const meta = {
   title: "Example/Alert",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    console.log(args);
     return html`<ssk-alert ${spread(args)}
       ><ssk-icon
         name="outline-information-circle"
@@ -60,7 +59,6 @@ const meta = {
     rounded: baseArgsTypes.rounded,
     width: baseArgsTypes.width,
     "?hidden": baseArgsTypes["?hidden"],
-    "@click": genericEvents["@change"],
   },
 } satisfies Meta<AlertArgs>;
 
@@ -80,5 +78,52 @@ export const Default: Story = {
       type: "figma",
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=6658-7777&mode=design&t=qckIvE75lPnkGzw0-4",
     },
+  },
+};
+
+export const AlertWithFooter: Story = {
+  args: {
+    type: "default",
+    message:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquidpariatur, ipsum dolor.",
+    topic: "Alert header",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=6658-7777&mode=design&t=qckIvE75lPnkGzw0-4",
+    },
+  },
+  render: ({ ...args }) => {
+    return html` <ssk-alert ${spread(args)}
+      ><ssk-icon
+        name="outline-information-circle"
+        themeColor="${args.type}"
+        slot="icon-slot"
+      ></ssk-icon>
+      <ssk-button
+        themeColor="gray"
+        padding="sm"
+        variant="ghost"
+        slot="close-button-slot"
+      >
+        <ssk-icon
+          slot="postfix"
+          size="sm"
+          name="outline-ellipsis-horizontal-circle"
+          size="md"
+        ></ssk-icon>
+        Dismiss
+      </ssk-button>
+      <ssk-button padding="sm" variant="ghost" slot="ok-button-slot">
+        <ssk-icon
+          slot="postfix"
+          size="sm"
+          name="outline-ellipsis-horizontal-circle"
+          size="md"
+        ></ssk-icon>
+        View changes
+      </ssk-button>
+    </ssk-alert>`;
   },
 };

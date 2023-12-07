@@ -14,6 +14,7 @@ const type: Alert["type"][] = [
   "success",
 ];
 const size: Alert["size"][] = ["xl", "lg", "md", "sm"];
+const hasFooter: Boolean[] = [true, false];
 function getIcon(alertType: string): string {
   switch (alertType) {
     case "success":

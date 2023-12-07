@@ -93,8 +93,15 @@ export class Alert extends LitElement implements ThemeValue {
             <div class="alert-title">${this.topic}</div>
             <div class="alert-message">${this.message}</div>
           </div>
+          <div
+            class="close"
+            @click=${(e: Event) => redispatchEvents(e, this)}
+          ></div>
         </div>
-        <div class="close" @click=${(e: Event) => redispatchEvents(e, this)} />
+        <div class="alert-footer">
+          <slot name="close-button-slot"></slot>
+          <slot name="ok-button-slot"></slot>
+        </div>
       </div>
     `;
   }
@@ -139,7 +146,7 @@ export class Alert extends LitElement implements ThemeValue {
 
     .container {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       width: var(--width);
       height: auto;
       margin: var(--margin);
@@ -148,8 +155,13 @@ export class Alert extends LitElement implements ThemeValue {
       border-radius: var(--rounded);
       background-color: var(--background-color);
 
-      .alert-content {
+      .alert-content,
+      .alert-footer {
         display: flex;
+      }
+
+      .alert-footer {
+        margin-left: 1.7em;
       }
     }
   `;
