@@ -32,7 +32,7 @@ export class Alert extends LitElement implements ThemeValue {
   @property({ type: String })
   rounded?: string | undefined;
   @property({ type: String })
-  width?: string = "max";
+  width?: string = "auto";
 
   // Font
   @property({ type: String })
@@ -62,7 +62,7 @@ export class Alert extends LitElement implements ThemeValue {
       cssVar("border-color", this.type, 500),
       cssVar("border-color", "gray", 200),
     )};
-    --width: ${parseVariables(cssVar("width", this.width), "100%")};
+    --width: ${parseVariables(cssVar("width", this.width), "auto")};
     --rounded: ${parseVariables(cssVar("rounded", this.rounded), "8px")};
     --background-color: ${parseVariables(
       cssVar("border-color", this.type, 50),
@@ -85,19 +85,19 @@ export class Alert extends LitElement implements ThemeValue {
       </style>
 
       <div class="container">
+        <div class="icon">
+          <slot name="icon-slot"></slot>
+        </div>
         <div class="alert-content">
-          <div class="icon">
-            <slot name="icon-slot"></slot>
-          </div>
           <div class="detail">
             <div class="alert-title">${this.topic}</div>
             <div class="alert-message">${this.message}</div>
           </div>
-          <div
-            class="close"
-            @click=${(e: Event) => redispatchEvents(e, this)}
-          ></div>
         </div>
+        <div
+          class="close"
+          @click=${(e: Event) => redispatchEvents(e, this)}
+        ></div>
         <div class="alert-footer">
           <slot name="close-button-slot"></slot>
           <slot name="ok-button-slot"></slot>
@@ -128,13 +128,15 @@ export class Alert extends LitElement implements ThemeValue {
     .close {
       cursor: pointer;
       padding-right: 0.75em;
+      grid-column: 3;
+      grid-row: 1;
     }
     .close:before,
     .close:after {
       content: "";
       position: absolute;
       height: 0.967em;
-      width: 1.5px;
+      width: 0.1em;
       background-color: var(--color);
     }
     .close:before {
@@ -144,9 +146,17 @@ export class Alert extends LitElement implements ThemeValue {
       transform: rotate(-45deg);
     }
 
-    .container {
+    .alert-footer {
       display: flex;
-      flex-direction: column;
+      grid-column: 2;
+      grid-row: 3;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      grid-template-rows: repeat(3, auto);
+      gap: 0.5em;
       width: var(--width);
       height: auto;
       margin: var(--margin);
@@ -154,15 +164,6 @@ export class Alert extends LitElement implements ThemeValue {
       border: 1px solid var(--border-color);
       border-radius: var(--rounded);
       background-color: var(--background-color);
-
-      .alert-content,
-      .alert-footer {
-        display: flex;
-      }
-
-      .alert-footer {
-        margin-left: 1.7em;
-      }
     }
   `;
 }
