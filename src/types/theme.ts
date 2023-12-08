@@ -212,6 +212,7 @@ export type Theme = {
     topNavbar?: {} & Partial<ThemeField>;
     avatar?: {} & Partial<ThemeField>;
     logo?: {} & Partial<ThemeField>;
+    alert?: {} & Partial<ThemeField>;
     menu?: {} & Partial<ThemeField>;
   };
 } & ThemeField;

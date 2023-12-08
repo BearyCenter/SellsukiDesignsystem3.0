@@ -100,6 +100,40 @@ const windowSizes: string[] = [
   "auto",
 ];
 
+const widthPropotion: string[] = [
+  "1/2",
+  "1/3",
+  "2/3",
+  "1/4",
+  "2/4",
+  "3/4",
+  "1/5",
+  "2/5",
+  "3/5",
+  "4/5",
+  "1/6",
+  "2/6",
+  "3/6",
+  "4/6",
+  "5/6",
+  "1/12",
+  "2/12",
+  "3/12",
+  "4/12",
+  "5/12",
+  "6/12",
+  "7/12",
+  "8/12",
+  "9/12",
+  "10/12",
+  "11/12",
+  "full",
+  "screen",
+  "min",
+  "max",
+  "fit",
+];
+
 const shadows: string[] = [
   "0px 1px 4px rgba(0, 0, 0, 0.2)",
   "0px 2px 8px rgba(0, 0, 0, 0.2)",
@@ -484,7 +518,7 @@ export const baseArgsTypes: ArgTypes<BaseAttributes | any> = {
   },
 
   width: {
-    options: [...sizes, ...customSizes, ...windowSizes],
+    options: [...widthPropotion],
     description: "The width",
     control: "select",
     table: {
