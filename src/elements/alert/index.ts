@@ -154,7 +154,7 @@ export class Alert extends LitElement implements ThemeValue {
 
     .container {
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
+      grid-template-columns: auto 1fr auto;
       grid-template-rows: repeat(3, auto);
       gap: 0.5em;
       width: var(--width);
