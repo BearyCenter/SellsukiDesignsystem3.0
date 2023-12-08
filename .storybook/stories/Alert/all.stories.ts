@@ -51,17 +51,49 @@ const meta = {
         }
       </style>
       <main>
-        ${type.map(
-          (t) => html` <section class="${t}">
-            <div class="container">
-              <ssk-alert ${spread({ ...args, type: t })}
-                ><ssk-icon
-                  name=${getIcon(t)}
-                  themeColor="${t}"
-                  slot="icon-slot"
-                ></ssk-icon>
-              </ssk-alert>
-            </div>
+        ${hasFooter.map(
+          (f) => html` <section class="alert-hasfooter-${f}">
+            ${type.map(
+              (t) => html`
+                <div class="container">
+                  <ssk-alert ${spread({ ...args, type: t })}
+                    ><ssk-icon
+                      name=${getIcon(t)}
+                      themeColor="${t}"
+                      slot="icon-slot"
+                    ></ssk-icon>
+                    ${f &&
+                    html`<ssk-button
+                        themeColor="gray"
+                        padding="sm"
+                        variant="ghost"
+                        slot="close-button-slot"
+                      >
+                        <ssk-icon
+                          slot="postfix"
+                          size="sm"
+                          name="outline-ellipsis-horizontal-circle"
+                          size="md"
+                        ></ssk-icon>
+                        Dismiss
+                      </ssk-button>
+                      <ssk-button
+                        padding="sm"
+                        variant="ghost"
+                        slot="ok-button-slot"
+                      >
+                        <ssk-icon
+                          slot="postfix"
+                          size="sm"
+                          name="outline-ellipsis-horizontal-circle"
+                          size="md"
+                        ></ssk-icon>
+                        View changes
+                      </ssk-button>`}
+                  </ssk-alert>
+                </div>
+              `,
+            )}
           </section>`,
         )}
       </main>`;
@@ -84,7 +116,7 @@ export const ShowCase: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1223-74500&mode=design&t=yXcQnF7GyIy2CKb6-0",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=6658-7777&mode=design&t=dUMijHwCDWrl1XsT-4",
     },
   },
 };
