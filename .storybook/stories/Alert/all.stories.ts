@@ -2,6 +2,9 @@ import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/alert";
+import "../../../src/elements/icon";
+import "../../../src/elements/button";
+
 import { Alert } from "../../../src/elements/alert";
 import { baseArgsTypes } from "../helper";
 
