@@ -192,15 +192,15 @@ export class Checkbox extends LitElement implements ThemeValue {
 
   private _onChangeGroup(e: Event) {
     const groupCheckList = this._filterCheckedList(
-      e.target?.value,
-      e.target?.checked,
+      (e.target as HTMLInputElement).value,
+      (e.target as HTMLInputElement).checked,
     );
 
     this._setGroupChecked(groupCheckList);
   }
 
   private _onChange(e: Event) {
-    this._checked = e.target?.checked;
+    this._checked = (e.target as HTMLInputElement).checked;
     const groupList = this._groupOptions.map((o) => o.value);
     this._setGroupChecked(this._checked ? groupList : []);
 
