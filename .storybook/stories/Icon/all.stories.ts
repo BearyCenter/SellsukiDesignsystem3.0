@@ -29,6 +29,19 @@ const meta = {
   },
   argTypes: {
     "@click": genericEvents["@click"],
+    "?spin": {
+      description: "When true gives the icon a spinner apparence",
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: {
+          summary: "boolean",
+        },
+      },
+      control: {
+        type: "boolean",
+      },
+    },
     ...baseArgsTypes,
   },
 } satisfies Meta<IconArgs>;

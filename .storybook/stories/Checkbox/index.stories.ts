@@ -96,7 +96,24 @@ export const Default: Story = {
 
 export const CheckboxWithChild: Story = {
   args: {
-    label: "Checkbox",
+    label: "Parent checkbox",
+    indeterminate: true,
+    "@change": () => {
+      console.log("change naja");
+    },
+    ".group": {
+      defaultValue: ["cc2"],
+      options: [
+        {
+          label: "Child checkbox1",
+          value: "cc1",
+        },
+        {
+          label: "Child checkbox2",
+          value: "cc2",
+        },
+      ],
+    },
   },
   parameters: {
     design: {
@@ -104,20 +121,11 @@ export const CheckboxWithChild: Story = {
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=6511-21664&mode=design&t=PnxCQWfQJ1iyEePz-4",
     },
   },
-  render: () => {
-    return html`<style>
-        div.child-container {
-          margin-left: 30px;
-        }
-      </style>
+  render: ({ ...agrs }) => {
+    return html`
       <div>
-        <ssk-checkbox label="Parent checkbox" indeterminate="true">
-        </ssk-checkbox>
-        <div class="child-container">
-          <ssk-checkbox label="Child checkbox1"> </ssk-checkbox>
-          <ssk-checkbox label="Child checkbox2" checked="true"> </ssk-checkbox>
-          <ssk-checkbox label="Child checkbox3"> </ssk-checkbox>
-        </div>
-      </div> `;
+        <ssk-checkbox ${spread(agrs)}> </ssk-checkbox>
+      </div>
+    `;
   },
 };

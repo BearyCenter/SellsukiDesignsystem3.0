@@ -16,9 +16,30 @@ const meta = {
   },
   argTypes: {
     name: {
+      description: "The icon's name",
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: {
+          summary: "string",
+        },
+      },
       options: Object.keys(Icon.svgs),
       control: {
         type: "select",
+      },
+    },
+    "?spin": {
+      description: "When true gives the icon a spinner apparence",
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: {
+          summary: "boolean",
+        },
+      },
+      control: {
+        type: "boolean",
       },
     },
     ...baseArgsTypes,
@@ -30,7 +51,7 @@ export default meta;
 type Story = StoryObj<IconArgs>;
 
 // More on writing stories with args: https://storybook.js.org/docs/web-components/writing-stories/args
-export const Primary: Story = {
+export const Default: Story = {
   args: {
     name: "outline-academic-cap",
     size: "lg",

@@ -2,7 +2,7 @@
 // script: npm run generate:icon
 
 import { consume } from "@lit-labs/context";
-import { LitElement, TemplateResult, css, html, svg } from "lit";
+import { LitElement, TemplateResult, css, html, svg, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ThemeValue } from "../../types/base-attributes";
 import {
@@ -14,6 +14,7 @@ import {
   Theme,
   cssVar,
   parseThemeToCssVariables,
+  parseAtRuleThemeValue,
   parseVariables,
 } from "../../types/theme";
 import { themeContext } from "../../contexts/theme";
@@ -85,15 +86,25 @@ export class Icon extends LitElement implements ThemeValue {
   @property({ type: String })
   name: string = "";
 
+  @property({ type: Boolean })
+  spin = false;
+
   static svgs: Record<string, TemplateResult> = {
     <% for (let icon of icons){ %>"<%- `${icon.variant}-${icon.name}`; %>": svg`<%- icon.content %>`, <% } %>
   };
 
   render() {
     if (this.hidden) {
-      return html``;
+      return nothing;
     }
 
+    const keyframes = parseAtRuleThemeValue(this.theme).join("\n")
+    let spinCss = ``;
+    if (this.spin) {
+      spinCss = `
+      animation: var(--ssk-animation-spin);
+    `;
+    }
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.icon, "svg")}
 
@@ -101,8 +112,10 @@ export class Icon extends LitElement implements ThemeValue {
         :host {
           display: inherit;
         }
+        ${keyframes}
         
         svg {
+          ${spinCss}
           color: ${parseVariables(
             cssVar("colors", this.color),
             cssVar("colors", this.color, 500),
