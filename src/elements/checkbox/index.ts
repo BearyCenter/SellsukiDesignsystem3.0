@@ -71,6 +71,8 @@ export class Checkbox extends LitElement implements ThemeValue {
 
   // checkbox state
   @state()
+  _isGroupCheckbox: boolean = false;
+  @state()
   _checked: boolean = false;
   @state()
   _groupOptions: checkboxOptions[] = [];
@@ -78,9 +80,11 @@ export class Checkbox extends LitElement implements ThemeValue {
   firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
     super.firstUpdated(changedProperties);
 
+    this._isGroupCheckbox = !!this.group;
     this._checked = this.checked;
-    if (this.group?.defaultValue)
+    if (this.group?.defaultValue) {
       this._setGroupChecked(this.group?.defaultValue);
+    }
   }
 
   updated(changedProperties: Map<PropertyKey, unknown>) {
@@ -159,12 +163,16 @@ export class Checkbox extends LitElement implements ThemeValue {
 
   private _updateCheckboxState() {
     const checkbox = this.shadowRoot?.querySelector("input");
+
     const isCheckedAll = this._groupOptions.every((o) => o.checked);
     const isNotCheck = this._groupOptions.every((o) => !o.checked);
 
-    let indeterminate = !isCheckedAll && !isNotCheck;
+    let checked = this._isGroupCheckbox ? isCheckedAll : this.checked;
+    let indeterminate = this._isGroupCheckbox
+      ? !isCheckedAll && !isNotCheck
+      : this.indeterminate;
     if (checkbox) {
-      this._checked = isCheckedAll;
+      if (this._isGroupCheckbox) this._checked = checked;
       checkbox.indeterminate = indeterminate;
     }
   }
