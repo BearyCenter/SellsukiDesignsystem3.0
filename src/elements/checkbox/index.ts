@@ -1,5 +1,5 @@
 import { consume } from "@lit-labs/context";
-import { LitElement, PropertyValueMap, css, html, nothing } from "lit";
+import { LitElement, css, html, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
