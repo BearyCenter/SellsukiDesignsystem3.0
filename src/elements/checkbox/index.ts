@@ -1,13 +1,11 @@
 import { consume } from "@lit-labs/context";
-import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { LitElement, PropertyValueMap, css, html, nothing } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
 import {
   ColorName,
   ColorRole,
-  FontFamilyGroup,
-  FontWeight,
   cssVar,
   parseVariables,
   parseThemeToCssVariables,
@@ -16,6 +14,17 @@ import {
 } from "../../types/theme";
 import { redispatchEvents } from "../../helpers/lit";
 
+export type GroupCheckbox = {
+  defaultValue?: string[];
+  options: checkboxOptions[];
+};
+
+export type checkboxOptions = {
+  label: string;
+  checked?: boolean;
+  disabled?: boolean;
+  value: string;
+};
 @customElement("ssk-checkbox")
 export class Checkbox extends LitElement implements ThemeValue {
   static registeredName = "ssk-checkbox";
@@ -40,42 +49,11 @@ export class Checkbox extends LitElement implements ThemeValue {
   @property({ type: String })
   size: Size = "md";
   @property({ type: String })
-  padding?: Size;
-  @property({ type: String })
   fontSize?: string | undefined;
-  @property({ type: String })
-  lineHeight?: string | undefined;
   @property({ type: String })
   gap?: string | undefined;
   @property({ type: String })
   rounded?: string | undefined;
-  @property({ type: String })
-  margin?: string | undefined;
-
-  // font
-  @property({ type: String })
-  fontFamilyGroup: FontFamilyGroup = "sans";
-  @property({ type: String })
-  fontWeight: FontWeight = "normal";
-
-  @property({ type: String })
-  borderWidth?: string | undefined;
-  @property({ type: String })
-  boxShadow?: string | undefined;
-  @property({ type: String })
-  dropShadow?: string | undefined;
-  @property({ type: String })
-  width?: string | undefined;
-  @property({ type: String })
-  height?: string | undefined;
-  @property({ type: String })
-  minWidth?: string | undefined;
-  @property({ type: String })
-  minHeight?: string | undefined;
-  @property({ type: String })
-  maxWidth?: string | undefined;
-  @property({ type: String })
-  maxHeight?: string | undefined;
 
   // checkbox specific
   @property({ type: Boolean })
@@ -88,19 +66,55 @@ export class Checkbox extends LitElement implements ThemeValue {
   indeterminate = false;
   @property({ type: Boolean })
   disabled = false;
+  @property({ type: Object })
+  group?: GroupCheckbox | undefined;
+
+  // checkbox state
+  @state()
+  _checked: boolean = false;
+  @state()
+  _groupOptions: checkboxOptions[] = [];
+
+  firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
+    super.firstUpdated(changedProperties);
+
+    this._checked = this.checked;
+    if (this.group?.defaultValue)
+      this._setGroupChecked(this.group?.defaultValue);
+  }
 
   updated(changedProperties: Map<PropertyKey, unknown>) {
     super.updated(changedProperties);
 
-    if (changedProperties.has("indeterminate")) {
-      this._updateIndeterminateState();
-    }
+    this._updateCheckboxState();
   }
 
   render() {
     if (this.hidden) {
       return nothing;
     }
+
+    const isRenderGroupCheckbox = this.group
+      ? html`
+          <div class="group-checkbox">
+            ${this._groupOptions.map(
+              (g) => html`<div class="checkbox-wrapper">
+                <input
+                  type="checkbox"
+                  data-testid=${this.testId
+                    ? this.testId + "-" + g.value
+                    : nothing}
+                  .disabled=${g.disabled}
+                  .checked=${g.checked}
+                  value=${g.value}
+                  @change=${(e: Event) => this._onChangeGroup(e)}
+                />
+                <label for="checkbox">${g.label}</label>
+              </div>`,
+            )}
+          </div>
+        `
+      : nothing;
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.checkbox, "input")}
@@ -134,19 +148,64 @@ export class Checkbox extends LitElement implements ThemeValue {
           type="checkbox"
           data-testid=${this.testId || nothing}
           .disabled=${this.disabled}
-          .checked=${this.checked}
-          @change=${(e: Event) => redispatchEvents(e, this)}
+          .checked=${this._checked}
+          @change=${(e: Event) => this._onChange(e)}
         />
         <label for="checkbox">${this.label}</label>
       </div>
+      ${isRenderGroupCheckbox}
     `;
   }
 
-  private _updateIndeterminateState() {
+  private _updateCheckboxState() {
     const checkbox = this.shadowRoot?.querySelector("input");
+    const isCheckedAll = this._groupOptions.every((o) => o.checked);
+    const isNotCheck = this._groupOptions.every((o) => !o.checked);
+
+    let indeterminate = !isCheckedAll && !isNotCheck;
     if (checkbox) {
-      checkbox.indeterminate = this.indeterminate;
+      this._checked = isCheckedAll;
+      checkbox.indeterminate = indeterminate;
     }
+  }
+
+  private _setGroupChecked(value: string[]) {
+    if (this.group) {
+      this._groupOptions = this.group?.options.map((o) => {
+        const checked = value.includes(o.value) ? true : false;
+
+        return {
+          ...o,
+          checked,
+        };
+      });
+    }
+  }
+
+  private _onChangeGroup(e: Event) {
+    const groupCheckList = this._filterCheckedList(
+      e.target?.value,
+      e.target?.checked,
+    );
+
+    this._setGroupChecked(groupCheckList);
+  }
+
+  private _onChange(e: Event) {
+    this._checked = e.target?.checked;
+    const groupList = this._groupOptions.map((o) => o.value);
+    this._setGroupChecked(this._checked ? groupList : []);
+
+    redispatchEvents(e, this);
+  }
+
+  private _filterCheckedList(value: string, checked: boolean): string[] {
+    const list = this._groupOptions
+      .map((o) => (o.value === value ? { ...o, checked } : o))
+      .filter((o) => o.checked)
+      .map((o) => o.value);
+
+    return list;
   }
 
   static styles = css`
@@ -240,6 +299,9 @@ export class Checkbox extends LitElement implements ThemeValue {
     .checkbox-wrapper *:before,
     .checkbox-wrapper *:after {
       box-sizing: inherit;
+    }
+    .group-checkbox {
+      margin-left: 2em;
     }
   `;
 }
