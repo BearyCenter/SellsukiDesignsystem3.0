@@ -49,7 +49,7 @@ export class SidebarItems
   @property({ type: String })
   rounded?: string | undefined;
   @property({ type: String })
-  color?: ColorRole | ColorName;
+  color?: ColorRole | ColorName = "black";
   @property({ type: String })
   fontSize?: string | undefined;
   @property({ type: String })
@@ -90,6 +90,7 @@ export class SidebarItems
     if (this.hidden) {
       return null;
     }
+
     let additionalCss = `
     --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
     --font-size: ${parseVariables(
@@ -118,7 +119,8 @@ export class SidebarItems
     --background-color-disabled: ${parseVariables(
       cssVar("colors", "gray", 100),
     )};
-    --color: var(--color);
+    --color: ${parseVariables(cssVar("colors", this.color, 900))};
+    --color-prefix: ${parseVariables(cssVar("colors", this.color, 400))};
     --color-hover: var(--color);
    
     --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
@@ -262,6 +264,14 @@ export class SidebarItems
 
     .sidebar-menu-container .prefix {
       width: auto;
+
+      color: var(--color-prefix);
+    }
+
+    .sidebar-menu-container.active .prefix {
+      width: auto;
+
+      color: var(--color-active);
     }
 
     .collapsed-content {

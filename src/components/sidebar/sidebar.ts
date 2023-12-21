@@ -102,7 +102,10 @@ export class Sidebar
     --padding: ${parseVariables(
       cssVar("padding", this.padding),
       cssVar("padding", this.size),
-    )};`;
+    )};
+    
+    --border-color: ${parseVariables(cssVar("colors", "gray", 200))};
+    `;
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.sidebar, ".sidebar")}
@@ -118,6 +121,10 @@ export class Sidebar
           <slot name="header"></slot>
         </div>
 
+        <div class="content">
+          <slot></slot>
+        </div>
+
         <div class="footer">
           <slot name="footer"></slot>
         </div>
@@ -127,22 +134,25 @@ export class Sidebar
 
   static styles = css`
     .sidebar {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
       overflow-x: hidden;
-      width: 25vw;
       padding: var(--padding);
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
       transition: width 0.3s ease;
+      gap: 0.5em;
+      border-right: 1px solid var(--border-color);
     }
 
     .sidebar.collapsed {
-      width: 5vw;
+      width: 6em;
     }
 
     .footer {
       margin-top: auto;
+      border-top: 1px solid var(--border-color);
     }
   `;
 }

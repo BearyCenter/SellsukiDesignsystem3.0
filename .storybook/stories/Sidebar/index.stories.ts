@@ -1,12 +1,12 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/components/sidebar/index";
+import { Sidebar } from "../../../src/components/sidebar";
 import "../../../src/components/sidebar/group";
+import "../../../src/components/sidebar/index";
 import "../../../src/components/sidebar/items";
 import "../../../src/components/sidebar/list";
 import "../../../src/elements/avatar";
-import { Sidebar } from "../../../src/components/sidebar";
 import "../../../src/elements/icon";
 import { baseArgsTypes, genericEvents } from "../helper";
 
@@ -67,42 +67,47 @@ export const Default: Story = {
             slot="prefix"
           ></ssk-avatar>
         </ssk-sidebar-list>
-        <ssk-sidebar-group label="Dashboard" slot="header" size="sm">
-          <ssk-sidebar-items size="md">
-            <ssk-icon
-              slot="prefix"
-              name="outline-building-storefront"
-              size="md"
-            ></ssk-icon>
-            item
-          </ssk-sidebar-items>
-          <ssk-sidebar-items size="md" active>
-            <ssk-icon
-              slot="prefix"
-              name="outline-inbox-stack"
-              size="md"
-            ></ssk-icon>
-            item
-          </ssk-sidebar-items>
         </ssk-sidebar-group>
-        <ssk-sidebar-group label="Product" slot="header" size="sm">
-          <ssk-sidebar-items size="md">
-            <ssk-icon
-              slot="prefix"
-              name="outline-shopping-bag"
-              size="md"
-            ></ssk-icon>
-            item
-          </ssk-sidebar-items>
-          <ssk-sidebar-items size="md">
-            <ssk-icon
-              slot="prefix"
-              name="outline-squares-plus"
-              size="md"
-            ></ssk-icon>
-            item
-          </ssk-sidebar-items>
-        </ssk-sidebar-group>
+
+        <div>
+          <ssk-sidebar-group label="Dashboard" slot="header" size="sm">
+            <ssk-sidebar-items size="md">
+              <ssk-icon
+                slot="prefix"
+                name="outline-building-storefront"
+                size="md"
+              ></ssk-icon>
+              item
+            </ssk-sidebar-items>
+            <ssk-sidebar-items size="md" active>
+              <ssk-icon
+                slot="prefix"
+                name="outline-inbox-stack"
+                size="md"
+              ></ssk-icon>
+              item
+            </ssk-sidebar-items>
+          </ssk-sidebar-group>
+          <ssk-sidebar-group label="Product" slot="header" size="sm">
+            <ssk-sidebar-items size="md">
+              <ssk-icon
+                slot="prefix"
+                name="outline-shopping-bag"
+                size="md"
+              ></ssk-icon>
+              item
+            </ssk-sidebar-items>
+            <ssk-sidebar-items size="md">
+              <ssk-icon
+                slot="prefix"
+                name="outline-squares-plus"
+                size="md"
+              ></ssk-icon>
+              item
+            </ssk-sidebar-items>
+          </ssk-sidebar-group>
+        </div>
+
         <ssk-sidebar-items slot="footer" size="md">
           <ssk-icon
             slot="prefix"
