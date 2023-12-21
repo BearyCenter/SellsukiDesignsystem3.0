@@ -1,11 +1,11 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/elements/top-navbar/index";
-import { TopNavbar } from "../../../src/elements/top-navbar/index";
+import "../../../src/elements/button";
 import "../../../src/elements/icon";
 import "../../../src/elements/input";
-import "../../../src/elements/button";
+import "../../../src/elements/top-navbar/index";
+import { TopNavbar } from "../../../src/elements/top-navbar/index";
 import { baseArgsTypes } from "../helper";
 
 type TopNavbarArgs = {} & TopNavbar;
@@ -15,94 +15,53 @@ const meta = {
   title: "Example/TopNavbar",
   tags: [],
   render: ({ ...args }) => {
-    return html`<ssk-top-navbar ${spread(args)}>
-        <ssk-icon
-          name="outline-bars-3-center-left"
-          ${spread(args)}
-          slot="left-slot"
-        ></ssk-icon>
-        <ssk-logo
-          ${spread(args)}
-          srcLogo="https://placehold.co/40x40"
-          altLogo="demo brand"
-          srcLogoName="https://placehold.co/70x40"
-          altLogoName="demo brand name"
-          fullLogo
-          slot="left-slot"
-        ></ssk-logo>
-        <ssk-input
-          ${spread(args)}
-          slot="center-slot"
-          placeholder="Placeholder"
-          value=""
-        >
-          <ssk-icon
-            ${spread({ ...args })}
-            name="outline-magnifying-glass"
-            slot="prefix"
-          ></ssk-icon>
-        </ssk-input>
-        <ssk-icon
-          name="outline-bell"
-          ${spread(args)}
-          slot="right-slot"
-        ></ssk-icon>
-        <ssk-icon
-          name="solid-point-3x3"
-          ${spread(args)}
-          slot="right-slot"
-        ></ssk-icon>
-        <ssk-avatar
-          ${spread(args)}
-          slot="right-slot"
-          src="https://placehold.co/40x40"
-          alt="demo avatar"
-          shape="circle"
-        ></ssk-avatar>
-      </ssk-top-navbar>
-
+    return html`
+      <style>
+        .item-container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+        }
+      </style>
       <ssk-top-navbar ${spread(args)}>
-        <ssk-icon
-          name="outline-bars-3-center-left"
-          ${spread(args)}
-          slot="left-slot"
-        ></ssk-icon>
-        <ssk-logo
-          ${spread(args)}
-          srcLogo="https://placehold.co/40x40"
-          altLogo="demo brand"
-          srcLogoName="https://placehold.co/70x40"
-          altLogoName="demo brand name"
-          fullLogo
-          slot="left-slot"
-        ></ssk-logo>
-        <ssk-input
-          ${spread(args)}
-          slot="center-slot"
-          placeholder="Placeholder"
-          value=""
-        >
+        <div slot="left" class="item-container">
+          <ssk-icon
+            name="outline-bars-3-center-left"
+            ${spread(args)}
+          ></ssk-icon>
+
+          <ssk-logo
+            ${spread(args)}
+            srcLogo="https://placehold.co/40x40"
+            altLogo="demo brand"
+            srcLogoName="https://placehold.co/70x40"
+            altLogoName="demo brand name"
+            fullLogo
+          ></ssk-logo>
+        </div>
+
+        <ssk-input ${spread(args)} placeholder="Placeholder" value="">
           <ssk-icon
             ${spread({ ...args })}
             name="outline-magnifying-glass"
             slot="prefix"
           ></ssk-icon>
         </ssk-input>
-        <ssk-button ${spread(args)} slot="right-slot" variant="outline"
-          ><ssk-icon
-            name="outline-ellipsis-horizontal-circle"
+
+        <div slot="right" class="item-container">
+          <ssk-icon name="outline-bell" ${spread(args)}></ssk-icon>
+          <ssk-icon name="solid-point-3x3" ${spread(args)}></ssk-icon>
+          <ssk-avatar
             ${spread(args)}
-          ></ssk-icon>
-          Sign in</ssk-button
-        >
-        <ssk-button ${spread(args)} slot="right-slot"
-          ><ssk-icon
-            name="outline-ellipsis-horizontal-circle"
-            ${spread(args)}
-          ></ssk-icon>
-          Sign up</ssk-button
-        >
-      </ssk-top-navbar> `;
+            src="https://placehold.co/40x40"
+            alt="demo avatar"
+            shape="circle"
+          ></ssk-avatar>
+        </div>
+      </ssk-top-navbar>
+    `;
   },
   argTypes: {
     ...baseArgsTypes,

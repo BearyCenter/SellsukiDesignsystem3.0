@@ -1,15 +1,17 @@
 import { consume } from "@lit-labs/context";
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { ThemeValue } from "../../types/base-attributes";
 import { themeContext } from "../../contexts/theme";
-import { Size, Theme, parseThemeToCssVariables } from "../../types/theme";
+import { ThemeValue } from "../../types/base-attributes";
 import {
   ColorName,
   ColorRole,
   FontFamilyGroup,
   FontWeight,
+  Size,
+  Theme,
   cssVar,
+  parseThemeToCssVariables,
   parseVariables,
 } from "../../types/theme";
 
@@ -61,6 +63,9 @@ export class TopNavbar extends LitElement implements ThemeValue {
       cssVar("spacing", this.gap),
       cssVar("padding", this.size),
     )};
+
+    --border-color: ${parseVariables(cssVar("colors", "gray", 200))};
+    --gap: ${parseVariables(cssVar("spacing", this.gap))};
     `;
 
     return html`
@@ -76,25 +81,21 @@ export class TopNavbar extends LitElement implements ThemeValue {
         }
       </style>
 
-      <div class="left-container">
-        <slot name="left-slot"></slot>
-      </div>
-      <div class="center-container">
-        <slot name="center-slot"></slot>
-      </div>
-      <div class="right-container">
-        <slot name="right-slot"></slot>
+      <div class="container">
+        <slot name="left"></slot>
+        <slot></slot>
+        <slot name="right"></slot>
       </div>
     `;
   }
 
   static styles = css`
-    .left-container,
-    .center-container,
-    .right-container {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
+    .container {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+
+      width: 100%;
+      gap: var(--gap);
       padding: var(--padding);
       margin: var(--margin);
       gap: var(--gap);
@@ -102,10 +103,8 @@ export class TopNavbar extends LitElement implements ThemeValue {
       font-size: var(--font-size);
       font-family: var(--font-family);
       font-weight: var(--font-weight);
-    }
 
-    .center-container {
-      flex: 1;
+      border-bottom: 1px solid var(--border-color);
     }
   `;
 }

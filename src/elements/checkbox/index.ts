@@ -2,17 +2,17 @@ import { consume } from "@lit-labs/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
+import { redispatchEvents } from "../../helpers/lit";
 import { ThemeValue } from "../../types/base-attributes";
 import {
   ColorName,
   ColorRole,
-  cssVar,
-  parseVariables,
-  parseThemeToCssVariables,
   Size,
   Theme,
+  cssVar,
+  parseThemeToCssVariables,
+  parseVariables,
 } from "../../types/theme";
-import { redispatchEvents } from "../../helpers/lit";
 
 export type GroupCheckbox = {
   defaultValue?: string[];
@@ -108,8 +108,8 @@ export class Checkbox extends LitElement implements ThemeValue {
                   data-testid=${this.testId
                     ? this.testId + "-" + g.value
                     : nothing}
-                  .disabled=${g.disabled}
-                  .checked=${g.checked}
+                  .disabled=${!!g.disabled}
+                  .checked=${!!g.checked}
                   value=${g.value}
                   @change=${(e: Event) => this._onChangeGroup(e)}
                 />

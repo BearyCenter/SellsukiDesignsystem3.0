@@ -1,11 +1,11 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/elements/top-navbar/index";
-import { TopNavbar } from "../../../src/elements/top-navbar/index";
+import "../../../src/elements/button";
 import "../../../src/elements/icon";
 import "../../../src/elements/input";
-import "../../../src/elements/button";
+import "../../../src/elements/top-navbar/index";
+import { TopNavbar } from "../../../src/elements/top-navbar/index";
 import { baseArgsTypes } from "../helper";
 
 type TopNavbarArgs = {} & TopNavbar;
@@ -16,49 +16,50 @@ const meta = {
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`
+      <style>
+        .item-container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+        }
+      </style>
       <ssk-top-navbar ${spread(args)}>
-        <ssk-icon
-          name="outline-bars-3-center-left"
-          ${spread(args)}
-          slot="left-slot"
-        ></ssk-icon>
-        <ssk-logo
-          ${spread(args)}
-          srcLogo="https://placehold.co/40x40"
-          altLogo="demo brand"
-          srcLogoName="https://placehold.co/70x40"
-          altLogoName="demo brand name"
-          fullLogo
-          slot="left-slot"
-        ></ssk-logo>
-        <ssk-input
-          ${spread(args)}
-          slot="center-slot"
-          placeholder="Placeholder"
-          value=""
-          ><ssk-icon
+        <div slot="left" class="item-container">
+          <ssk-icon
+            name="outline-bars-3-center-left"
+            ${spread(args)}
+          ></ssk-icon>
+
+          <ssk-logo
+            ${spread(args)}
+            srcLogo="https://placehold.co/40x40"
+            altLogo="demo brand"
+            srcLogoName="https://placehold.co/70x40"
+            altLogoName="demo brand name"
+            fullLogo
+          ></ssk-logo>
+        </div>
+
+        <ssk-input ${spread(args)} placeholder="Placeholder" value="">
+          <ssk-icon
             ${spread({ ...args })}
             name="outline-magnifying-glass"
             slot="prefix"
-          ></ssk-icon
-        ></ssk-input>
-        <ssk-icon
-          name="outline-bell"
-          ${spread(args)}
-          slot="right-slot"
-        ></ssk-icon>
-        <ssk-icon
-          name="solid-point-3x3"
-          ${spread(args)}
-          slot="right-slot"
-        ></ssk-icon>
-        <ssk-avatar
-          ${spread(args)}
-          slot="right-slot"
-          src="https://placehold.co/40x40"
-          alt="demo avatar"
-          shape="circle"
-        ></ssk-avatar>
+          ></ssk-icon>
+        </ssk-input>
+
+        <div slot="right" class="item-container">
+          <ssk-icon name="outline-bell" ${spread(args)}></ssk-icon>
+          <ssk-icon name="solid-point-3x3" ${spread(args)}></ssk-icon>
+          <ssk-avatar
+            ${spread(args)}
+            src="https://placehold.co/40x40"
+            alt="demo avatar"
+            shape="circle"
+          ></ssk-avatar>
+        </div>
       </ssk-top-navbar>
     `;
   },
