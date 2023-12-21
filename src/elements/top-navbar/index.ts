@@ -82,9 +82,9 @@ export class TopNavbar extends LitElement implements ThemeValue {
       </style>
 
       <div class="container">
-        <slot name="left"></slot>
-        <slot></slot>
-        <slot name="right"></slot>
+        <span><slot name="left"></slot></span>
+        <span><slot></slot></span>
+        <span><slot name="right"></slot></span>
       </div>
     `;
   }
