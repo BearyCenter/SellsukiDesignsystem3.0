@@ -1,20 +1,20 @@
-import { LitElement, html, css, nothing } from "lit";
-import { themeContext } from "../../contexts/theme";
-import { customElement, property } from "lit/decorators.js";
 import { consume } from "@lit-labs/context";
+import { LitElement, css, html, nothing } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { themeContext } from "../../contexts/theme";
+import { redispatchEvents } from "../../helpers/lit";
 import {
-  Theme,
+  ColorName,
+  ColorRole,
+  FontFamilyGroup,
+  FontWeight,
   Size,
+  Theme,
   cssVar,
   parseThemeToCssVariables,
   parseVariables,
-  ColorRole,
-  ColorName,
-  FontFamilyGroup,
-  FontWeight,
 } from "../../types/theme";
-import { redispatchEvents } from "../../helpers/lit";
-import { SidebarAttributes } from ".";
+import { SidebarAttributes } from "./types";
 
 @customElement("ssk-sidebar-group")
 export class SidebarGroup extends LitElement implements SidebarAttributes {
