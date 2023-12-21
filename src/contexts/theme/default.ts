@@ -1077,6 +1077,15 @@ export const defaultTheme: Theme = {
         xl: "20px 16px",
       },
     },
+    sidebar: {
+      padding: {
+        xs: "4px 16px",
+        sm: "8px 16px",
+        md: "12px 16px",
+        lg: "16px 16px",
+        xl: "20px 16px",
+      },
+    },
   },
 };
 
