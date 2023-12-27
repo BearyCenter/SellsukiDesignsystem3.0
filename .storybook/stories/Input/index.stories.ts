@@ -4,6 +4,7 @@ import { html } from "lit";
 import "../../../src/elements/icon";
 import "../../../src/elements/input";
 import { Input } from "../../../src/elements/input";
+import "../../../src/elements/input/addon";
 import { baseArgsTypes } from "../helper";
 
 type InputWithLabel = Input & { label: string };
@@ -121,6 +122,32 @@ export const SearchField: Story = {
         name="outline-ellipsis-horizontal-circle"
         slot="postfix"
       ></ssk-icon>
+    </ssk-input>`;
+  },
+};
+
+export const WithAddon: Story = {
+  args: {
+    size: "md",
+    label: "Input",
+    placeholder: "Placeholder",
+    helperText: "Helper text",
+    value: "",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=585%3A57607&mode=dev",
+    },
+  },
+  render: ({ ...args }) => {
+    return html`<ssk-input ${spread({ ...args })}>
+      <ssk-input-addon slot="prefix" color="white.100" themeColor="primary">
+        +69
+      </ssk-input-addon>
+      <ssk-input-addon slot="postfix">
+        <ssk-icon name="outline-ellipsis-horizontal-circle"></ssk-icon>
+      </ssk-input-addon>
     </ssk-input>`;
   },
 };

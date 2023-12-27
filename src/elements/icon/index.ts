@@ -86,9 +86,6 @@ export class Icon extends LitElement implements ThemeValue {
   @property({ type: String })
   name: string = "";
 
-  @property({ type: Boolean })
-  spin = false;
-
   static svgs: Record<string, TemplateResult> = {
     "solid-x-mark": svg`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
   <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd"/>
@@ -1971,13 +1968,6 @@ export class Icon extends LitElement implements ThemeValue {
       return nothing;
     }
 
-    const keyframes = parseAtRuleThemeValue(this.theme).join("\n")
-    let spinCss = ``;
-    if (this.spin) {
-      spinCss = `
-      animation: var(--ssk-animation-spin);
-    `;
-    }
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.icon, "svg")}
 
@@ -1985,15 +1975,14 @@ export class Icon extends LitElement implements ThemeValue {
         :host {
           display: inherit;
         }
-        ${keyframes}
         
         svg {
-          ${spinCss}
           color: ${parseVariables(
             cssVar("colors", this.color),
             cssVar("colors", this.color, 500),
             this.color,
             cssVar("colors", this.themeColor, 500),
+            "inherit"
           )};
 
           background-color: ${parseVariables(

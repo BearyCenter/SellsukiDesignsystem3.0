@@ -32,26 +32,12 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
   @property({ type: String })
-  color?: ColorRole | ColorName;
+  color?: ColorRole | ColorName
   @property({ type: String })
   backgroundColor?: string | undefined;
-  @property({ type: String })
-  borderColor?: string | undefined;
 
   @property({ type: String })
   size: Size = "md";
-  @property({ type: String })
-  padding?: Size;
-  @property({ type: String })
-  fontSize?: string | undefined;
-  @property({ type: String })
-  lineHeight?: string | undefined;
-  @property({ type: String })
-  gap?: string | undefined;
-  @property({ type: String })
-  rounded?: string | undefined;
-  @property({ type: String })
-  margin?: string | undefined;
 
   // font
   @property({ type: String })
@@ -60,24 +46,8 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
   fontWeight: FontWeight = "normal";
 
   @property({ type: String })
-  borderWidth?: string | undefined;
-  @property({ type: String })
-  boxShadow?: string | undefined;
-  @property({ type: String })
-  dropShadow?: string | undefined;
-  @property({ type: String })
   width?: string | undefined;
-  @property({ type: String })
-  height?: string | undefined;
-  @property({ type: String })
-  minWidth?: string | undefined;
-  @property({ type: String })
-  minHeight?: string | undefined;
-  @property({ type: String })
-  maxWidth?: string | undefined;
-  @property({ type: String })
-  maxHeight?: string | undefined;
-
+  
   // input specific
   @property({ type: String })
   label: string | undefined;
@@ -97,15 +67,15 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
   @property({ type: String })
   placeholder: string | undefined;
 
+  @property({ type: String })
+  status: "error" | "success" | undefined;
+
   @property({ type: Boolean })
   disabled = false;
 
   @property({ type: Boolean })
   hidden = false;
 
-  get hasPrefix(): boolean {
-    return this.querySelector('[slot="prefix"]') !== null;
-  }
 
   render() {
     if (this.hidden) {
@@ -119,88 +89,84 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
         :host {
           --color: ${parseVariables(
             cssVar("colors", this.color),
-            cssVar("colors", "text", 400),
+            cssVar("colors", this.color, 700),
             this.color,
+            cssVar("colors", "text", 700),
           )};
+          --color-disabled: ${parseVariables(
+            cssVar("colors", "text", 300),
+          )};
+
           --color-helper: ${parseVariables(
             cssVar("colors", this.color),
-            cssVar("colors", "text", 300),
+            cssVar("colors", this.color, 300),
             this.color,
+            cssVar("colors", "text", 300),
           )};
 
           --background-color-disabled: ${parseVariables(
-            cssVar("colors", "text", 50),
+            cssVar("colors", "border", 50)
           )};
 
-          --outline-color: ${parseVariables(
-            cssVar("colors", this.borderColor),
-            cssVar("colors", "border", 200),
-            this.borderColor,
+          --border-color: ${parseVariables(
+            cssVar("colors", "border", 100),
           )};
-          --outline-color-disabled: var(--background-color-disabled);
+          --border-color-active: ${parseVariables(
+            cssVar("colors", this.themeColor, 600),
+          )};
+          --border-color-disabled: ${parseVariables(
+            cssVar("colors", "border", 100),
+          )};
+
           --outline-color-active: ${parseVariables(
-            cssVar("colors", this.borderColor),
-            cssVar("colors", this.themeColor, 300),
-            this.borderColor,
+            cssVar("colors", this.themeColor, 200),
           )};
 
           --font-family: ${parseVariables(
-            cssVar("font-family", this.fontFamilyGroup),
+            cssVar("font-family", this.fontFamilyGroup)
           )};
           --font-weight: ${parseVariables(
-            cssVar("font-weight", this.fontWeight),
+            cssVar("font-weight", this.fontWeight)
           )};
           --font-size: ${parseVariables(
-            cssVar("font-size", this.fontSize),
-            cssVar("font-size", this.size),
+            cssVar("font-size", this.size)
           )};
           --line-height: ${parseVariables(
-            cssVar("line-height", this.lineHeight),
-            cssVar("font-size", this.size),
+            cssVar("font-size", this.size)
           )};
 
           --gap: ${parseVariables(
-            cssVar("spacing", this.gap),
-            cssVar("spacing", this.size),
+            cssVar("spacing", this.size)
           )};
-          --padding: ${parseVariables(
-            cssVar("padding", this.padding),
-            cssVar("padding", this.size),
-          )};
-          --margin: ${parseVariables(
-            cssVar("margin", this.margin),
-            cssVar("margin", this.size),
-          )};
-
           --rounded: ${parseVariables(
-            cssVar("rounded", this.rounded),
-            cssVar("rounded", this.size),
+            cssVar("rounded", this.size)
           )};
 
-          --border-width: ${parseVariables(
-            cssVar("border-width", this.borderWidth),
-            "1px",
+          --width: ${parseVariables(
+            cssVar("width", this.width),
+            "auto"
           )};
+
         }
       </style>
 
-      <div>
+      <div class="container">
         <label for="input">${this.label}</label>
-        <slot name="prefix" class="prefix-control"></slot>
-        <slot name="postfix" class="postfix-control"></slot>
-        <input
-          id="input"
-          class="${this.hasPrefix ? "input-control" : ""}"
-          data-testid=${this.testId || nothing}
-          placeholder=${this.placeholder || ""}
-          name=${this.name || ""}
-          .value=${this.value || ""}
-          ?disabled=${this.disabled}
-          .type=${this.type}
-          @input=${(e: Event) => redispatchEvents(e, this)}
-          @change=${(e: Event) => redispatchEvents(e, this)}
-        />
-
+        <div class=${`input-container ${this.disabled ? "disabled" : ""}`}>
+          <slot name="prefix" class="prefix-control"></slot>
+          <input
+            id="input"
+            data-testid=${this.testId || nothing}
+            placeholder=${this.placeholder || ""}
+            name=${this.name || ""}
+            .value=${this.value || ""}
+            ?disabled=${this.disabled}
+            .type=${this.type}
+            @input=${(e: Event) => redispatchEvents(e, this)}
+            @change=${(e: Event) => redispatchEvents(e, this)}
+          />
+          <slot name="postfix" class="postfix-control"></slot>
+        </div>
         ${this.helperText
           ? html`<label class="helper">${this.helperText}</label>`
           : nothing}
@@ -219,39 +185,68 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
       line-height: var(--line-height);
     }
 
-    div {
-      padding: var(--padding);
-      margin: var(--margin);
-      gap: var(--gap);
-      position: relative;
-      display: inline-block;
+    div.container {
+      display: flex;
+      flex-direction: column;
+      width: var(--width);
+      gap: 0.25em;
     }
 
-    input {
-      display: flex;
+    div.input-container {
+      display: grid;
+      grid-template-areas: "prefix input postfix";
+      grid-template-columns: auto 1fr auto;
+      overflow: hidden;
       align-items: center;
-      justify-content: center;
+
       border-style: solid;
-      cursor: pointer;
       transition: background-color 0.2s ease-in-out;
-      padding: 0.1em 0.5em;
       background-color: var(--background-color);
 
       border-radius: var(--rounded);
-      outline-color: var(--outline-color);
-      border-width: var(--border-width);
+      border: 1px solid var(--border-color);
+ 
+      gap: var(--gap);
     }
 
-    input:enabled {
-      outline-color: var(--outline-color-active);
-      outline-width: var(--border-width);
+    div.input-container.disabled {
+      background-color: var(--background-color-disabled);
+      border-color: var(--border-color-disabled);
+      color: var(--color-disabled);
+    }
+
+    div.input-container:focus-within {
+      border-color: var(--border-color-active);
+      outline: 4px solid var(--outline-color-active);
+    }
+
+    slot[name="prefix"] {
+      grid-area: prefix;
+    }
+
+    slot[name="postfix"] {
+      grid-area: postfix;
+    }
+
+    input {
+      grid-area: input;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      /* remove all style */
+      border: none;
+      outline: none;
+      background-color: transparent;
+      padding: 0.25em 0;
+      margin: 0;
     }
 
     input:disabled {
-      cursor: not-allowed;
       background-color: var(--background-color-disabled);
+      border-color: var(--border-color-disabled);
+      cursor: not-allowed;
       color: var(--color-disabled);
-      outline-color: var(--outline-color-disabled);
     }
 
     label.helper {
@@ -261,23 +256,9 @@ export class Input extends LitElement implements ThemeValue, BaseAttributes {
       color: var(--color-helper);
     }
 
-    div .input-control {
+    div.input-control {
       padding-left: 2em;
       padding-right: 2em;
-    }
-
-    div .prefix-control,
-    div .postfix-control {
-      position: absolute;
-      display: block;
-      padding: 0.25em 0.5em;
-      pointer-events: none;
-      color: var(--color);
-      background-color: var(--background-color);
-    }
-
-    div .postfix-control {
-      right: 0;
     }
   `;
 }

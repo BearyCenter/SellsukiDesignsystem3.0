@@ -222,7 +222,7 @@ type kv = { [key: string]: string };
 
 export const parseThemeToCssVariables = (
   theme: Partial<ThemeField> | undefined,
-  base: string = ":host",
+  scope: string = ":host",
 ): TemplateResult => {
   let cssKV: kv = {};
 
@@ -232,7 +232,7 @@ export const parseThemeToCssVariables = (
   cssKV = deepFlattenCssVar(theme);
 
   return html`<style>
-    ${base} {${Object.entries(cssKV)
+    ${scope} {${Object.entries(cssKV)
       .map(([k, v]) => `--ssk-${k}: ${v};`)
       .join(" ")}}${parseAtRuleThemeValue(theme).join("\n")}
   </style>`;
