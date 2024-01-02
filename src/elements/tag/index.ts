@@ -15,9 +15,9 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-badge")
-export class Badge extends LitElement {
-  static registeredName = "ssk-badge";
+@customElement("ssk-tag")
+export class Tag extends LitElement {
+  static registeredName = "ssk-tag";
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
@@ -47,11 +47,13 @@ export class Badge extends LitElement {
   @property({ type: String })
   width?: string | undefined;
 
-  // button specific
   @property({ type: String })
   variant: BadgeVariants = "solid";
   @property({ type: Boolean })
   hidden = false;
+
+  @property({ type: String })
+  cursor?: string | undefined;
 
   render() {
     if (this.hidden) {
@@ -65,7 +67,8 @@ export class Badge extends LitElement {
       )};
       --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
 
-      --rounded: ${parseVariables(cssVar("rounded", this.rounded), "9999px")};
+      --rounded: ${parseVariables(cssVar("rounded", this.rounded), "8px")};
+      --cursor: ${parseVariables(cssVar("cursor", this.cursor), "default")};
     `;
 
     switch (this.variant) {
@@ -103,12 +106,12 @@ export class Badge extends LitElement {
       case "subtle":
         additionalCss += `
         --background-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 200)
+          cssVar("colors", this.themeColor, 100)
         )};
         --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 300)
+          cssVar("colors", this.themeColor, 100)
         )};
-        --border-width: 1px;
+        --border-width: 0px;
 
         --color:  ${parseVariables(cssVar("colors", this.themeColor, 500))};
           `;
@@ -116,7 +119,7 @@ export class Badge extends LitElement {
     }
 
     return html`
-      ${parseThemeToCssVariables(this.theme?.components?.badge, ":host")}
+      ${parseThemeToCssVariables(this.theme?.components?.tag, ":host")}
 
       <style>
         span {
@@ -150,6 +153,8 @@ export class Badge extends LitElement {
       border-color: var(--border-color);
       border-width: var(--border-width);
 
+      cursor: var(--cursor);
+
       padding: 0 0.5em;
     }
   `;
@@ -157,6 +162,6 @@ export class Badge extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ssk-badge": Badge;
+    "ssk-tag": Tag;
   }
 }

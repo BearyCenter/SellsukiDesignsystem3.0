@@ -2,7 +2,6 @@ import { consume } from "@lit-labs/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
-import { BaseAttributes, ThemeValue } from "../../types/base-attributes";
 import {
   ButtonVariants,
   ColorName,
@@ -21,7 +20,7 @@ import {
  * @csspart button - The button
  */
 @customElement("ssk-button")
-export class Button extends LitElement implements ThemeValue, BaseAttributes {
+export class Button extends LitElement {
   static registeredName = "ssk-button";
 
   @consume({ context: themeContext, subscribe: true })
@@ -97,39 +96,39 @@ export class Button extends LitElement implements ThemeValue, BaseAttributes {
 
     let additionalCss = `
       --font-family: ${parseVariables(
-        cssVar("font-family", this.fontFamilyGroup),
+        cssVar("font-family", this.fontFamilyGroup)
       )};
       --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
       --font-size: ${parseVariables(
         cssVar("font-size", this.fontSize),
-        cssVar("font-size", this.size),
+        cssVar("font-size", this.size)
       )};
       --line-height: ${parseVariables(
         cssVar("line-height", this.lineHeight),
-        cssVar("font-size", this.size),
+        cssVar("font-size", this.size)
       )};
 
       --gap: ${parseVariables(
         cssVar("spacing", this.gap),
-        cssVar("spacing", this.size),
+        cssVar("spacing", this.size)
       )};
       --padding: ${parseVariables(
         cssVar("padding", this.padding),
-        cssVar("padding", this.size),
+        cssVar("padding", this.size)
       )};
       --margin: ${parseVariables(
         cssVar("margin", this.margin),
-        cssVar("margin", this.size),
+        cssVar("margin", this.size)
       )};
 
       --rounded: ${parseVariables(
         cssVar("rounded", this.rounded),
-        cssVar("rounded", this.size),
+        cssVar("rounded", this.size)
       )};
 
       --border-width: ${parseVariables(
         cssVar("border-width", this.borderWidth),
-        "1px",
+        "1px"
       )};
 
     `;
@@ -138,29 +137,29 @@ export class Button extends LitElement implements ThemeValue, BaseAttributes {
       case "solid":
         additionalCss += `
         --background-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
+          cssVar("colors", this.themeColor, 500)
         )};
         --background-color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 700),
+          cssVar("colors", this.themeColor, 700)
         )};
         --background-color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600),
+          cssVar("colors", this.themeColor, 600)
         )};
         --background-color-disabled: ${parseVariables(
-          cssVar("colors", "gray", 100),
+          cssVar("colors", "gray", 100)
         )};
         --color: ${parseVariables(
           cssVar("colors", this.color, 200),
           cssVar("colors", this.color),
           this.color,
-          cssVar("colors", "white", 200),
+          cssVar("colors", "white", 200)
         )};
         --color-hover: var(--color);
         --color-active: var(--color);
         --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
 
         --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
+          cssVar("colors", this.themeColor, 500)
         )};
         --border-color-disabled: var(--background-color-disabled);
         --border-width: 0px;
@@ -171,28 +170,28 @@ export class Button extends LitElement implements ThemeValue, BaseAttributes {
         additionalCss += `
         --background-color: ${parseVariables(cssVar("colors", "white", 200))};
         --background-color-hover: ${parseVariables(
-          cssVar("colors", "white", 200),
+          cssVar("colors", "white", 200)
         )};
         --background-color-active: ${parseVariables(
-          cssVar("colors", "white", 200),
+          cssVar("colors", "white", 200)
         )};
         --background-color-disabled: ${parseVariables(
-          cssVar("colors", "white", 200),
+          cssVar("colors", "white", 200)
         )};
         --color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
         --color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 700),
+          cssVar("colors", this.themeColor, 700)
         )};
         --color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600),
+          cssVar("colors", this.themeColor, 600)
         )};
         --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
 
         --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
+          cssVar("colors", this.themeColor, 500)
         )};
         --border-color-disabled: ${parseVariables(
-          cssVar("colors", "gray", 400),
+          cssVar("colors", "gray", 400)
         )};
         --border-width: 1px;
           `;
@@ -202,28 +201,28 @@ export class Button extends LitElement implements ThemeValue, BaseAttributes {
         additionalCss += `
         --background-color: transparent;
         --background-color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 200),
+          cssVar("colors", this.themeColor, 200)
         )};
         --background-color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 100),
+          cssVar("colors", this.themeColor, 100)
         )};
         --background-color-disabled: ${parseVariables(
-          cssVar("colors", "white", 200),
+          cssVar("colors", "white", 200)
         )};
         --color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
         --color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 700),
+          cssVar("colors", this.themeColor, 700)
         )};
         --color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600),
+          cssVar("colors", this.themeColor, 600)
         )};
         --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
 
         --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
+          cssVar("colors", this.themeColor, 500)
         )};
         --border-color-disabled: ${parseVariables(
-          cssVar("colors", "gray", 400),
+          cssVar("colors", "gray", 400)
         )};
         --border-width: 0px;
           `;

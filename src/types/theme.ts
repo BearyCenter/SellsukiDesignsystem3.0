@@ -219,6 +219,7 @@ export type Theme = {
     menu?: Partial<ThemeField>;
     sidebar?: Partial<ThemeField>;
     badge?: Partial<ThemeField>;
+    tag?: Partial<ThemeField>;
   };
 } & ThemeField;
 

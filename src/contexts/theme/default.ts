@@ -1093,6 +1093,13 @@ export const defaultTheme: Theme = {
         lg: "20px",
       },
     },
+    tag: {
+      fontSize: {
+        sm: "16px",
+        md: "18px",
+        lg: "20px",
+      },
+    },
   },
 };
 

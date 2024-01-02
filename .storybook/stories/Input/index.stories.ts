@@ -112,16 +112,18 @@ export const SearchField: Story = {
   },
   render: ({ ...args }) => {
     return html`<ssk-input ${spread({ ...args })}>
-      <ssk-icon
-        ${spread({ ...args })}
-        name="outline-magnifying-glass"
-        slot="prefix"
-      ></ssk-icon>
-      <ssk-icon
-        ${spread({ ...args })}
-        name="outline-ellipsis-horizontal-circle"
-        slot="postfix"
-      ></ssk-icon>
+      <ssk-input-addon slot="prefix">
+        <ssk-icon
+          ${spread({ ...args })}
+          name="outline-magnifying-glass"
+        ></ssk-icon>
+      </ssk-input-addon>
+      <ssk-input-addon slot="postfix">
+        <ssk-icon
+          ${spread({ ...args })}
+          name="outline-ellipsis-horizontal-circle"
+        ></ssk-icon>
+      </ssk-input-addon>
     </ssk-input>`;
   },
 };
