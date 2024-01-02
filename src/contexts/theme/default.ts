@@ -1086,6 +1086,13 @@ export const defaultTheme: Theme = {
         xl: "20px 16px",
       },
     },
+    badge: {
+      fontSize: {
+        sm: "16px",
+        md: "18px",
+        lg: "20px",
+      },
+    },
   },
 };
 
@@ -1106,7 +1113,7 @@ const deepMerge = <T = object | any[]>(src: T, target: T): T => {
               ? deepMerge((src as any)[key], (target as any)[key])
               : (target as any)[key],
         }),
-        {},
+        {}
       ),
     };
   }

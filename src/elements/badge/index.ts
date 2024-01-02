@@ -2,22 +2,21 @@ import { consume } from "@lit-labs/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
-import { BaseAttributes, ThemeValue } from "../../types/base-attributes";
 import {
-    ButtonVariants,
-    ColorName,
-    ColorRole,
-    FontFamilyGroup,
-    FontWeight,
-    Size,
-    Theme,
-    cssVar,
-    parseThemeToCssVariables,
-    parseVariables,
+  BadgeVariants,
+  ColorName,
+  ColorRole,
+  FontFamilyGroup,
+  FontWeight,
+  Size,
+  Theme,
+  cssVar,
+  parseThemeToCssVariables,
+  parseVariables,
 } from "../../types/theme";
 
 @customElement("ssk-badge")
-export class Badge extends LitElement implements ThemeValue, BaseAttributes {
+export class Badge extends LitElement {
   static registeredName = "ssk-badge";
 
   @consume({ context: themeContext, subscribe: true })
@@ -33,15 +32,9 @@ export class Badge extends LitElement implements ThemeValue, BaseAttributes {
   themeColor: ColorRole | ColorName = "primary";
   @property({ type: String })
   color?: ColorRole | ColorName;
-  @property({ type: String })
-  backgroundColor?: string | undefined;
-  @property({ type: String })
-  borderColor?: string | undefined;
 
   @property({ type: String })
   size: Size = "md";
-  @property({ type: String })
-  gap?: string | undefined;
   @property({ type: String })
   rounded?: string | undefined;
 
@@ -56,7 +49,7 @@ export class Badge extends LitElement implements ThemeValue, BaseAttributes {
 
   // button specific
   @property({ type: String })
-  variant: ButtonVariants = "solid";
+  variant: BadgeVariants = "solid";
   @property({ type: Boolean })
   hidden = false;
 
@@ -66,142 +59,64 @@ export class Badge extends LitElement implements ThemeValue, BaseAttributes {
     }
 
     let additionalCss = `
+      --font-size: ${parseVariables(cssVar("font-size", this.size), "1rem")};
       --font-family: ${parseVariables(
-        cssVar("font-family", this.fontFamilyGroup),
+        cssVar("font-family", this.fontFamilyGroup)
       )};
       --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
-      --font-size: ${parseVariables(
-        cssVar("font-size", this.fontSize),
-        cssVar("font-size", this.size),
-      )};
-      --line-height: ${parseVariables(
-        cssVar("line-height", this.lineHeight),
-        cssVar("font-size", this.size),
-      )};
 
-      --gap: ${parseVariables(
-        cssVar("spacing", this.gap),
-        cssVar("spacing", this.size),
-      )};
-      --padding: ${parseVariables(
-        cssVar("padding", this.padding),
-        cssVar("padding", this.size),
-      )};
-      --margin: ${parseVariables(
-        cssVar("margin", this.margin),
-        cssVar("margin", this.size),
-      )};
-
-      --rounded: ${parseVariables(
-        cssVar("rounded", this.rounded),
-        cssVar("rounded", this.size),
-      )};
-
-      --border-width: ${parseVariables(
-        cssVar("border-width", this.borderWidth),
-        "1px",
-      )};
-
+      --rounded: ${parseVariables(cssVar("rounded", this.rounded), "9999px")};
     `;
 
     switch (this.variant) {
       case "solid":
         additionalCss += `
         --background-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
+          cssVar("colors", this.themeColor, 500)
         )};
-        --background-color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 700),
+        --border-color: ${parseVariables(
+          cssVar("colors", this.themeColor, 500)
         )};
-        --background-color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600),
-        )};
-        --background-color-disabled: ${parseVariables(
-          cssVar("colors", "gray", 100),
-        )};
+        --border-width: 0px;
+
         --color: ${parseVariables(
           cssVar("colors", this.color, 200),
           cssVar("colors", this.color),
           this.color,
-          cssVar("colors", "white", 200),
+          cssVar("colors", "white", 100)
         )};
-        --color-hover: var(--color);
-        --color-active: var(--color);
-        --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
-
-        --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
-        )};
-        --border-color-disabled: var(--background-color-disabled);
-        --border-width: 0px;
           `;
         break;
 
       case "outline":
         additionalCss += `
-        --background-color: ${parseVariables(cssVar("colors", "white", 200))};
-        --background-color-hover: ${parseVariables(
-          cssVar("colors", "white", 200),
-        )};
-        --background-color-active: ${parseVariables(
-          cssVar("colors", "white", 200),
-        )};
-        --background-color-disabled: ${parseVariables(
-          cssVar("colors", "white", 200),
-        )};
-        --color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
-        --color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 700),
-        )};
-        --color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600),
-        )};
-        --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
-
+        --background-color: ${parseVariables(cssVar("colors", "white", 100))};
         --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
-        )};
-        --border-color-disabled: ${parseVariables(
-          cssVar("colors", "gray", 400),
+          cssVar("colors", this.themeColor, 500)
         )};
         --border-width: 1px;
+
+        --color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
           `;
         break;
 
-      case "ghost":
+      case "subtle":
         additionalCss += `
-        --background-color: transparent;
-        --background-color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 200),
+        --background-color: ${parseVariables(
+          cssVar("colors", this.themeColor, 200)
         )};
-        --background-color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 100),
-        )};
-        --background-color-disabled: ${parseVariables(
-          cssVar("colors", "white", 200),
-        )};
-        --color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
-        --color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 700),
-        )};
-        --color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600),
-        )};
-        --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
-
         --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
+          cssVar("colors", this.themeColor, 300)
         )};
-        --border-color-disabled: ${parseVariables(
-          cssVar("colors", "gray", 400),
-        )};
-        --border-width: 0px;
+        --border-width: 1px;
+
+        --color:  ${parseVariables(cssVar("colors", this.themeColor, 500))};
           `;
         break;
     }
 
     return html`
-      ${parseThemeToCssVariables(this.theme?.components?.badge, "badge")}
+      ${parseThemeToCssVariables(this.theme?.components?.badge, ":host")}
 
       <style>
         span {
@@ -216,42 +131,21 @@ export class Badge extends LitElement implements ThemeValue, BaseAttributes {
   }
 
   static styles = css`
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-style: solid;
-      cursor: pointer;
-      transition: background-color 0.2s ease-in-out;
+    span {
       background-color: var(--background-color);
       color: var(--color);
+
       font-size: var(--font-size);
       font-family: var(--font-family);
       font-weight: var(--font-weight);
       line-height: var(--line-height);
-      padding: var(--padding);
-      margin: var(--margin);
-      gap: var(--gap);
+
+      border-style: solid;
       border-radius: var(--rounded);
       border-color: var(--border-color);
       border-width: var(--border-width);
-    }
 
-    button:hover:enabled {
-      background-color: var(--background-color-hover);
-      color: var(--color-hover);
-    }
-
-    button:active:enabled {
-      background-color: var(--background-color-active);
-      color: var(--color-active);
-    }
-
-    button:disabled {
-      cursor: not-allowed;
-      background-color: var(--background-color-disabled);
-      color: var(--color-disabled);
-      border-color: var(--border-color-disabled);
+      padding: 0 0.5em;
     }
   `;
 }
