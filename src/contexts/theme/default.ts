@@ -1100,6 +1100,18 @@ export const defaultTheme: Theme = {
         lg: "20px",
       },
     },
+    textarea: {
+      rounded: {
+        xs: "6px",
+        sm: "7px",
+        md: "8px",
+        lg: "8px",
+        xl: "9px",
+        "2xl": "10px",
+        "3xl": "10px",
+        "4xl": "10px",
+      },
+    },
   },
 };
 

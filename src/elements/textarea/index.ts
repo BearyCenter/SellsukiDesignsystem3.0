@@ -1,5 +1,5 @@
 import { consume } from "@lit-labs/context";
-import { LitElement, css, html, nothing } from "lit";
+import { LitElement, PropertyValueMap, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
@@ -58,9 +58,6 @@ export class Textarea extends LitElement {
   name: string | undefined;
 
   @property({ type: String })
-  type: "text" | "number" | "password" | "email" | "tel" | "url" = "text";
-
-  @property({ type: String })
   value: string | undefined;
 
   @property({ type: String })
@@ -74,6 +71,25 @@ export class Textarea extends LitElement {
 
   @property({ type: Boolean })
   hidden = false;
+
+  @property({ type: Number })
+  rows = 2;
+
+  @property({ type: Number })
+  limit?: number;
+
+  @property({ type: String })
+  private _value = "";
+
+  protected shouldUpdate(
+    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
+  ): boolean {
+    if (_changedProperties.has("value")) {
+      this._value = this.value || "";
+    }
+
+    return true;
+  }
 
   render() {
     if (this.hidden) {
@@ -134,24 +150,28 @@ export class Textarea extends LitElement {
 
       <div class="container">
         <label for="textarea">${this.label}</label>
-        <div class=${`textarea-container ${this.disabled ? "disabled" : ""}`}>
-          <slot name="prefix" class="prefix-control"></slot>
-          <textarea
-            id="textarea"
-            data-testid=${this.testId || nothing}
-            placeholder=${this.placeholder || ""}
-            name=${this.name || ""}
-            .value=${this.value || ""}
-            ?disabled=${this.disabled}
-            .type=${this.type}
-            @textarea=${(e: Event) => redispatchEvents(e, this)}
-            @change=${(e: Event) => redispatchEvents(e, this)}
-          />
-          <slot name="postfix" class="postfix-control"></slot>
+        <textarea
+          id="textarea"
+          data-testid=${this.testId || nothing}
+          placeholder=${this.placeholder || ""}
+          name=${this.name || ""}
+          .value=${this.value || ""}
+          ?disabled=${this.disabled}
+          @input=${(e: Event) => {
+            this._value = (e.target as HTMLInputElement).value;
+            redispatchEvents(e, this);
+          }}
+          @change=${(e: Event) => redispatchEvents(e, this)}
+          rows=${this.rows}
+          maxlength=${this.limit!}
+        >
+        </textarea>
+        <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
+          <label class="helper">${this.helperText}</label>
+          <label class="helper ${this.limit ? "" : "hidden"}">
+            (${this._value?.length || 0}/${this.limit})
+          </label>
         </div>
-        ${this.helperText
-          ? html`<label class="helper">${this.helperText}</label>`
-          : nothing}
       </div>
     `;
   }
@@ -174,12 +194,14 @@ export class Textarea extends LitElement {
       gap: 0.25em;
     }
 
-    div.textarea-container {
+    textarea {
       display: grid;
       grid-template-areas: "prefix textarea postfix";
       grid-template-columns: auto 1fr auto;
       overflow: hidden;
       align-items: center;
+
+      padding: 0.25em 0.5em;
 
       border-style: solid;
       transition: background-color 0.2s ease-in-out;
@@ -191,44 +213,20 @@ export class Textarea extends LitElement {
       gap: var(--gap);
     }
 
-    div.textarea-container.disabled {
+    textarea:disabled {
       background-color: var(--background-color-disabled);
       border-color: var(--border-color-disabled);
       color: var(--color-disabled);
     }
 
-    div.textarea-container:focus-within {
+    textarea:focus {
       border-color: var(--border-color-active);
       outline: 4px solid var(--outline-color-active);
     }
 
-    slot[name="prefix"] {
-      grid-area: prefix;
-    }
-
-    slot[name="postfix"] {
-      grid-area: postfix;
-    }
-
-    textarea {
-      grid-area: textarea;
+    .footer {
       display: flex;
-      align-items: center;
-      justify-content: center;
-
-      /* remove all style */
-      border: none;
-      outline: none;
-      background-color: transparent;
-      padding: 0.25em 0;
-      margin: 0;
-    }
-
-    textarea:disabled {
-      background-color: var(--background-color-disabled);
-      border-color: var(--border-color-disabled);
-      cursor: not-allowed;
-      color: var(--color-disabled);
+      justify-content: space-between;
     }
 
     label.helper {
@@ -241,6 +239,10 @@ export class Textarea extends LitElement {
     div.textarea-control {
       padding-left: 2em;
       padding-right: 2em;
+    }
+
+    .hidden {
+      display: none;
     }
   `;
 }
