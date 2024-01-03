@@ -32,8 +32,8 @@ const meta = {
 
         div.row {
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 0.5em;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 3em;
         }
       </style>
       <main class="showcase">
@@ -51,6 +51,12 @@ const meta = {
                 ${spread({ ...args })}
                 size=${s}
                 disabled
+              ></ssk-textarea>
+              <ssk-textarea
+                testId=${`textarea-${s}-error`}
+                ${spread({ ...args })}
+                size=${s}
+                error
               ></ssk-textarea>
             </div>
           </section>`
@@ -79,6 +85,12 @@ const meta = {
       description: "",
       control: "number",
     },
+    error: {
+      control: {
+        type: "boolean",
+      },
+    },
+
     ...baseArgsTypes,
   },
 } satisfies Meta<TextareaWithLabel>;

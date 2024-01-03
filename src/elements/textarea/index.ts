@@ -78,6 +78,9 @@ export class Textarea extends LitElement {
   @property({ type: Number })
   limit?: number;
 
+  @property({ type: Boolean })
+  error = false;
+
   @property({ type: String })
   private _value = "";
 
@@ -145,10 +148,21 @@ export class Textarea extends LitElement {
           --rounded: ${parseVariables(cssVar("rounded", this.size))};
 
           --width: ${parseVariables(cssVar("width", this.width), "auto")};
+
+          --color-error: ${parseVariables(cssVar("colors", "error", 600))};
+          --color-helper-error: ${parseVariables(
+            cssVar("colors", "error", 600)
+          )};
+          --border-color-error: ${parseVariables(
+            cssVar("colors", "error", 600)
+          )};
+          --outline-color-error: ${parseVariables(
+            cssVar("colors", "error", 300)
+          )};
         }
       </style>
 
-      <div class="container">
+      <div class="container ${this.error ? "error" : ""}">
         <label for="textarea">${this.label}</label>
         <textarea
           id="textarea"
@@ -202,6 +216,7 @@ export class Textarea extends LitElement {
       align-items: center;
 
       padding: 0.25em 0.5em;
+      /* margin: 0.125em 0; */
 
       border-style: solid;
       transition: background-color 0.2s ease-in-out;
@@ -236,9 +251,15 @@ export class Textarea extends LitElement {
       color: var(--color-helper);
     }
 
-    div.textarea-control {
-      padding-left: 2em;
-      padding-right: 2em;
+    .error {
+      textarea {
+        border-color: var(--border-color-error);
+        outline: 4px solid var(--outline-color-error);
+      }
+
+      label.helper {
+        color: var(--color-helper-error);
+      }
     }
 
     .hidden {
