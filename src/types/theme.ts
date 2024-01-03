@@ -221,6 +221,7 @@ export type Theme = {
     badge?: Partial<ThemeField>;
     tag?: Partial<ThemeField>;
     container?: Partial<ThemeField>;
+    textarea?: Partial<ThemeField>;
   };
 } & ThemeField;
 

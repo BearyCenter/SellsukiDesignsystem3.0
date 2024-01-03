@@ -14,7 +14,6 @@ import {
   Theme,
   cssVar,
   parseThemeToCssVariables,
-  parseAtRuleThemeValue,
   parseVariables,
 } from "../../types/theme";
 import { themeContext } from "../../contexts/theme";

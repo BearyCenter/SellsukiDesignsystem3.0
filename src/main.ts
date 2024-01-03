@@ -10,6 +10,7 @@ export * from "./elements/heading";
 export * from "./elements/icon";
 export * from "./elements/image";
 export * from "./elements/input";
+export * from "./elements/input/addon";
 export * from "./elements/logo";
 export * from "./elements/tag";
 export * from "./elements/text";

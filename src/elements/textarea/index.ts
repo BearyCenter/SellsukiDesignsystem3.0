@@ -15,9 +15,9 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-input")
-export class Input extends LitElement {
-  static registeredName = "ssk-input";
+@customElement("ssk-textarea")
+export class Textarea extends LitElement {
+  static registeredName = "ssk-textarea";
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
@@ -47,7 +47,7 @@ export class Input extends LitElement {
   @property({ type: String })
   width?: string | undefined;
 
-  // input specific
+  // textarea specific
   @property({ type: String })
   label: string | undefined;
 
@@ -81,7 +81,7 @@ export class Input extends LitElement {
     }
 
     return html`
-      ${parseThemeToCssVariables(this.theme?.components?.input, ":host")}
+      ${parseThemeToCssVariables(this.theme?.components?.textarea, ":host")}
 
       <style>
         :host {
@@ -133,18 +133,18 @@ export class Input extends LitElement {
       </style>
 
       <div class="container">
-        <label for="input">${this.label}</label>
-        <div class=${`input-container ${this.disabled ? "disabled" : ""}`}>
+        <label for="textarea">${this.label}</label>
+        <div class=${`textarea-container ${this.disabled ? "disabled" : ""}`}>
           <slot name="prefix" class="prefix-control"></slot>
-          <input
-            id="input"
+          <textarea
+            id="textarea"
             data-testid=${this.testId || nothing}
             placeholder=${this.placeholder || ""}
             name=${this.name || ""}
             .value=${this.value || ""}
             ?disabled=${this.disabled}
             .type=${this.type}
-            @input=${(e: Event) => redispatchEvents(e, this)}
+            @textarea=${(e: Event) => redispatchEvents(e, this)}
             @change=${(e: Event) => redispatchEvents(e, this)}
           />
           <slot name="postfix" class="postfix-control"></slot>
@@ -159,7 +159,7 @@ export class Input extends LitElement {
   static styles = css`
     div,
     label,
-    input {
+    textarea {
       color: var(--color);
       font-size: var(--font-size);
       font-family: var(--font-family);
@@ -174,9 +174,9 @@ export class Input extends LitElement {
       gap: 0.25em;
     }
 
-    div.input-container {
+    div.textarea-container {
       display: grid;
-      grid-template-areas: "prefix input postfix";
+      grid-template-areas: "prefix textarea postfix";
       grid-template-columns: auto 1fr auto;
       overflow: hidden;
       align-items: center;
@@ -191,13 +191,13 @@ export class Input extends LitElement {
       gap: var(--gap);
     }
 
-    div.input-container.disabled {
+    div.textarea-container.disabled {
       background-color: var(--background-color-disabled);
       border-color: var(--border-color-disabled);
       color: var(--color-disabled);
     }
 
-    div.input-container:focus-within {
+    div.textarea-container:focus-within {
       border-color: var(--border-color-active);
       outline: 4px solid var(--outline-color-active);
     }
@@ -210,8 +210,8 @@ export class Input extends LitElement {
       grid-area: postfix;
     }
 
-    input {
-      grid-area: input;
+    textarea {
+      grid-area: textarea;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -224,7 +224,7 @@ export class Input extends LitElement {
       margin: 0;
     }
 
-    input:disabled {
+    textarea:disabled {
       background-color: var(--background-color-disabled);
       border-color: var(--border-color-disabled);
       cursor: not-allowed;
@@ -238,7 +238,7 @@ export class Input extends LitElement {
       color: var(--color-helper);
     }
 
-    div.input-control {
+    div.textarea-control {
       padding-left: 2em;
       padding-right: 2em;
     }
@@ -247,6 +247,6 @@ export class Input extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ssk-input": Input;
+    "ssk-textarea": Textarea;
   }
 }
