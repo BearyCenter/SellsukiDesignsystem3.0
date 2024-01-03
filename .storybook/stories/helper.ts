@@ -610,3 +610,8 @@ export type addPrefixToObject<
 > = {
   [K in addPrefix<keyof TObject, TPrefix>]: prefixedValue<TObject, K, TPrefix>;
 };
+
+export type AutoLitProperty<T extends object> = T &
+  addPrefixToObject<T, "?"> &
+  addPrefixToObject<T, "@"> &
+  addPrefixToObject<T, ".">;

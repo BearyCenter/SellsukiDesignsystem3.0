@@ -68,7 +68,7 @@ export class Tag extends LitElement {
       --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
 
       --rounded: ${parseVariables(cssVar("rounded", this.rounded), "8px")};
-      --cursor: ${parseVariables(cssVar("cursor", this.cursor), "default")};
+      --cursor: ${parseVariables(this.cursor, "default")};
     `;
 
     switch (this.variant) {

@@ -220,6 +220,7 @@ export type Theme = {
     sidebar?: Partial<ThemeField>;
     badge?: Partial<ThemeField>;
     tag?: Partial<ThemeField>;
+    container?: Partial<ThemeField>;
   };
 } & ThemeField;
 

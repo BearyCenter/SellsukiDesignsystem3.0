@@ -4,6 +4,7 @@ export * from "./elements/alert";
 export * from "./elements/avatar";
 export * from "./elements/badge";
 export * from "./elements/button";
+export * from "./elements/container";
 export * from "./elements/divider";
 export * from "./elements/heading";
 export * from "./elements/icon";
