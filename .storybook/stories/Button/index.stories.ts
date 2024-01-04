@@ -4,11 +4,9 @@ import { html } from "lit";
 import "../../../src/elements/button";
 import { Button } from "../../../src/elements/button";
 import "../../../src/elements/icon";
-import { addPrefixToObject, baseArgsTypes, genericEvents } from "../helper";
+import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
 
-type ButtonWithLabel = Button &
-  addPrefixToObject<Button, "?"> &
-  addPrefixToObject<Button, "@"> & { label: string };
+type ButtonWithLabel = AutoLitProperty<Button> & { label: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {

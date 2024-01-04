@@ -44,6 +44,7 @@
     "@storybook/addon-links": "^7.5.1",
     "@storybook/addon-mdx-gfm": "^7.5.1",
     "@storybook/blocks": "^7.5.1",
+    "@storybook/client-api": "^7.6.7",
     "@storybook/web-components": "^7.5.1",
     "@storybook/web-components-vite": "^7.5.1",
     "@types/mustache": "^4.2.2",
