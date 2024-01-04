@@ -75,6 +75,9 @@ export class Input extends LitElement {
   @property({ type: Boolean })
   hidden = false;
 
+  @property({ type: Boolean })
+  error = false;
+
   render() {
     if (this.hidden) {
       return nothing;
@@ -128,11 +131,22 @@ export class Input extends LitElement {
           --gap: ${parseVariables(cssVar("spacing", this.size))};
           --rounded: ${parseVariables(cssVar("rounded", this.size))};
 
+          --color-error: ${parseVariables(cssVar("colors", "error", 600))};
+          --color-helper-error: ${parseVariables(
+            cssVar("colors", "error", 600)
+          )};
+          --border-color-error: ${parseVariables(
+            cssVar("colors", "error", 600)
+          )};
+          --outline-color-error: ${parseVariables(
+            cssVar("colors", "error", 300)
+          )};
+
           --width: ${parseVariables(cssVar("width", this.width), "auto")};
         }
       </style>
 
-      <div class="container">
+      <div class="container ${this.error ? "error" : ""}">
         <label for="input">${this.label}</label>
         <div class=${`input-container ${this.disabled ? "disabled" : ""}`}>
           <slot name="prefix" class="prefix-control"></slot>
@@ -236,6 +250,17 @@ export class Input extends LitElement {
       line-height: 0.75em;
       font-weight: 200;
       color: var(--color-helper);
+    }
+
+    .error {
+      div.input-container {
+        border-color: var(--border-color-error);
+        outline: 4px solid var(--outline-color-error);
+      }
+
+      label.helper {
+        color: var(--color-helper-error);
+      }
     }
 
     div.input-control {

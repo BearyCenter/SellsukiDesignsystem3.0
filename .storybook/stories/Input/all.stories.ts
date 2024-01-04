@@ -32,7 +32,7 @@ const meta = {
 
         div.row {
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: repeat(3, 1fr);
           gap: 0.5em;
         }
       </style>
@@ -51,6 +51,12 @@ const meta = {
                 ${spread({ ...args })}
                 size=${s}
                 disabled
+              ></ssk-input>
+              <ssk-input
+                testId=${`input-${s}-error`}
+                ${spread({ ...args })}
+                size=${s}
+                error
               ></ssk-input>
             </div>
           </section>`
