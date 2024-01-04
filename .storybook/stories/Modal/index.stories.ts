@@ -37,7 +37,7 @@ const meta: Meta<ModalWithLabel> = {
         category: "Props",
       },
     },
-    hidden: {
+    "?hidden": {
       description: "Whether the modal is initially hidden",
       control: "boolean",
       table: {
