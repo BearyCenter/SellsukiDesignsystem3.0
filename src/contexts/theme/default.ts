@@ -567,15 +567,15 @@ export const defaultColorPallete: ColorPalette = {
   },
   background: {
     50: "#ffffff",
-    100: "#ffffff",
-    200: "#ffffff",
-    300: "#ffffff",
-    400: "#ffffff",
-    500: "#ffffff",
-    600: "#e6e6e6",
-    700: "#bfbfbf",
-    800: "#999999",
-    900: "#737373",
+    100: "#F9FAFB",
+    200: "#f3f4f6",
+    300: "#e5e7eb",
+    400: "#d1d5db",
+    500: "#9ca3af",
+    600: "#6b7280",
+    700: "#4b5563",
+    800: "#374151",
+    900: "#1f2937",
   },
 };
 
@@ -1086,6 +1086,32 @@ export const defaultTheme: Theme = {
         xl: "20px 16px",
       },
     },
+    badge: {
+      fontSize: {
+        sm: "16px",
+        md: "18px",
+        lg: "20px",
+      },
+    },
+    tag: {
+      fontSize: {
+        sm: "16px",
+        md: "18px",
+        lg: "20px",
+      },
+    },
+    textarea: {
+      rounded: {
+        xs: "6px",
+        sm: "7px",
+        md: "8px",
+        lg: "8px",
+        xl: "9px",
+        "2xl": "10px",
+        "3xl": "10px",
+        "4xl": "10px",
+      },
+    },
   },
 };
 
@@ -1106,7 +1132,7 @@ const deepMerge = <T = object | any[]>(src: T, target: T): T => {
               ? deepMerge((src as any)[key], (target as any)[key])
               : (target as any)[key],
         }),
-        {},
+        {}
       ),
     };
   }

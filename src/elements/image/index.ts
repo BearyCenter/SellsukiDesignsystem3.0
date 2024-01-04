@@ -110,6 +110,10 @@ export class Image extends LitElement implements ThemeValue {
   @property({ type: String })
   objectFit?: "fill" | "contain" | "cover" | "none" | "scale-down" | undefined;
 
+  onImageError() {
+    this.src = this.fallbackSrc;
+  }
+
   render() {
     if (this.hidden) {
       return nothing;
@@ -118,11 +122,11 @@ export class Image extends LitElement implements ThemeValue {
     let additionalCss = `
       --padding: ${parseVariables(
         cssVar("padding", this.padding),
-        cssVar("padding", this.size),
+        cssVar("padding", this.size)
       )};
       --margin: ${parseVariables(
         cssVar("margin", this.margin),
-        cssVar("margin", this.size),
+        cssVar("margin", this.size)
       )};
 
       width: ${parseVariables(
@@ -130,14 +134,14 @@ export class Image extends LitElement implements ThemeValue {
         cssVar("width", this.size),
         this.width,
         this.boxSize,
-        "auto",
+        "auto"
       )};
       height: ${parseVariables(
         cssVar("height", this.height),
         cssVar("height", this.size),
         this.height,
         this.boxSize,
-        "auto",
+        "auto"
       )};
 
       object-fit: ${this.objectFit};
@@ -147,12 +151,12 @@ export class Image extends LitElement implements ThemeValue {
       border-width: ${parseVariables(
         cssVar("border-width", this.borderWidth),
         this.borderWidth,
-        "0px",
+        "0px"
       )};
       border-color: ${parseVariables(
         cssVar("border-color", this.borderColor),
         this.borderColor,
-        "transparent",
+        "transparent"
       )};
 
     `;
@@ -161,14 +165,25 @@ export class Image extends LitElement implements ThemeValue {
       ${parseThemeToCssVariables(this.theme?.components?.image, "img")}
 
       <style>
+        :host {
+          display: inherit;
+        }
+
         img {
           ${additionalCss};
         }
+
+        picture {
+          height: 100%;
+          width: 100%;
+        }
       </style>
-      <picture>
-        <source srcset="${ifDefined(this.fallbackSrc)}" />
-        <img src="${ifDefined(this.src)}" alt="${ifDefined(this.alt)}" />
-      </picture>
+
+      <img
+        src="${ifDefined(this.src)}"
+        alt="${this.alt ?? this.src ?? ""}"
+        @error="${this.onImageError}"
+      />
     `;
   }
 

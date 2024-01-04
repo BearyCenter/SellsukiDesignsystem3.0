@@ -120,6 +120,8 @@ export type BackgroundSize = "auto" | "cover" | "contain";
 
 export type ButtonVariants = "solid" | "outline" | "ghost";
 
+export type BadgeVariants = "solid" | "outline" | "subtle";
+
 export type MenuVariants = "solid" | "outline";
 
 export type Color =
@@ -200,21 +202,26 @@ export type Theme = {
   components: {
     button?: {
       // for extra fields
+      // foo?: string;
     } & Partial<ThemeField>;
-    input?: {} & Partial<ThemeField>;
-    icon?: {} & Partial<ThemeField>;
-    text?: {} & Partial<ThemeField>;
-    heading?: {} & Partial<ThemeField>;
-    divider?: {} & Partial<ThemeField>;
-    checkbox?: {} & Partial<ThemeField>;
-    image?: {} & Partial<ThemeField>;
-    toggle?: {} & Partial<ThemeField>;
-    topNavbar?: {} & Partial<ThemeField>;
-    avatar?: {} & Partial<ThemeField>;
-    logo?: {} & Partial<ThemeField>;
-    alert?: {} & Partial<ThemeField>;
-    menu?: {} & Partial<ThemeField>;
-    sidebar?: {} & Partial<ThemeField>;
+    input?: Partial<ThemeField>;
+    icon?: Partial<ThemeField>;
+    text?: Partial<ThemeField>;
+    heading?: Partial<ThemeField>;
+    divider?: Partial<ThemeField>;
+    checkbox?: Partial<ThemeField>;
+    image?: Partial<ThemeField>;
+    toggle?: Partial<ThemeField>;
+    topNavbar?: Partial<ThemeField>;
+    avatar?: Partial<ThemeField>;
+    logo?: Partial<ThemeField>;
+    alert?: Partial<ThemeField>;
+    menu?: Partial<ThemeField>;
+    sidebar?: Partial<ThemeField>;
+    badge?: Partial<ThemeField>;
+    tag?: Partial<ThemeField>;
+    container?: Partial<ThemeField>;
+    textarea?: Partial<ThemeField>;
   };
 } & ThemeField;
 
@@ -222,7 +229,7 @@ type kv = { [key: string]: string };
 
 export const parseThemeToCssVariables = (
   theme: Partial<ThemeField> | undefined,
-  base: string = ":host",
+  scope: string = ":host"
 ): TemplateResult => {
   let cssKV: kv = {};
 
@@ -232,7 +239,7 @@ export const parseThemeToCssVariables = (
   cssKV = deepFlattenCssVar(theme);
 
   return html`<style>
-    ${base} {${Object.entries(cssKV)
+    ${scope} {${Object.entries(cssKV)
       .map(([k, v]) => `--ssk-${k}: ${v};`)
       .join(" ")}}${parseAtRuleThemeValue(theme).join("\n")}
   </style>`;
@@ -280,7 +287,7 @@ export const deepFlattenCssVar = (t: any, prefix = "", kv: kv = {}): kv => {
 };
 
 export const parseAtRuleThemeValue = (
-  theme: Partial<ThemeField> | undefined,
+  theme: Partial<ThemeField> | undefined
 ): string[] => {
   let atRules: string[] = [];
 
@@ -294,9 +301,9 @@ export const parseAtRuleThemeValue = (
           ([r, styles]) =>
             `${r} { ${Object.entries(styles)
               .map(([k, v]) => `${kebabCase(k)}: ${v};`)
-              .join(" ")} }`,
+              .join(" ")} }`
         )
-        .join(" ")} }`,
+        .join(" ")} }`
     );
   }
   return atRules;

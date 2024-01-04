@@ -1,5 +1,5 @@
 import { consume } from "@lit-labs/context";
-import { LitElement, css, html, nothing } from "lit";
+import { LitElement, PropertyValueMap, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
@@ -15,9 +15,9 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-input")
-export class Input extends LitElement {
-  static registeredName = "ssk-input";
+@customElement("ssk-textarea")
+export class Textarea extends LitElement {
+  static registeredName = "ssk-textarea";
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
@@ -47,7 +47,7 @@ export class Input extends LitElement {
   @property({ type: String })
   width?: string | undefined;
 
-  // input specific
+  // textarea specific
   @property({ type: String })
   label: string | undefined;
 
@@ -56,9 +56,6 @@ export class Input extends LitElement {
 
   @property({ type: String })
   name: string | undefined;
-
-  @property({ type: String })
-  type: "text" | "number" | "password" | "email" | "tel" | "url" = "text";
 
   @property({ type: String })
   value: string | undefined;
@@ -75,8 +72,27 @@ export class Input extends LitElement {
   @property({ type: Boolean })
   hidden = false;
 
+  @property({ type: Number })
+  rows = 2;
+
+  @property({ type: Number })
+  limit?: number;
+
   @property({ type: Boolean })
   error = false;
+
+  @property({ type: String })
+  private _value = "";
+
+  protected shouldUpdate(
+    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
+  ): boolean {
+    if (_changedProperties.has("value")) {
+      this._value = this.value || "";
+    }
+
+    return true;
+  }
 
   render() {
     if (this.hidden) {
@@ -84,7 +100,7 @@ export class Input extends LitElement {
     }
 
     return html`
-      ${parseThemeToCssVariables(this.theme?.components?.input, ":host")}
+      ${parseThemeToCssVariables(this.theme?.components?.textarea, ":host")}
 
       <style>
         :host {
@@ -131,6 +147,8 @@ export class Input extends LitElement {
           --gap: ${parseVariables(cssVar("spacing", this.size))};
           --rounded: ${parseVariables(cssVar("rounded", this.size))};
 
+          --width: ${parseVariables(cssVar("width", this.width), "auto")};
+
           --color-error: ${parseVariables(cssVar("colors", "error", 600))};
           --color-helper-error: ${parseVariables(
             cssVar("colors", "error", 600)
@@ -141,31 +159,33 @@ export class Input extends LitElement {
           --outline-color-error: ${parseVariables(
             cssVar("colors", "error", 300)
           )};
-
-          --width: ${parseVariables(cssVar("width", this.width), "auto")};
         }
       </style>
 
       <div class="container ${this.error ? "error" : ""}">
-        <label for="input">${this.label}</label>
-        <div class=${`input-container ${this.disabled ? "disabled" : ""}`}>
-          <slot name="prefix" class="prefix-control"></slot>
-          <input
-            id="input"
-            data-testid=${this.testId || nothing}
-            placeholder=${this.placeholder || ""}
-            name=${this.name || ""}
-            .value=${this.value || ""}
-            ?disabled=${this.disabled}
-            .type=${this.type}
-            @input=${(e: Event) => redispatchEvents(e, this)}
-            @change=${(e: Event) => redispatchEvents(e, this)}
-          />
-          <slot name="postfix" class="postfix-control"></slot>
+        <label for="textarea">${this.label}</label>
+        <textarea
+          id="textarea"
+          data-testid=${this.testId || nothing}
+          placeholder=${this.placeholder || ""}
+          name=${this.name || ""}
+          .value=${this.value || ""}
+          ?disabled=${this.disabled}
+          @input=${(e: Event) => {
+            this._value = (e.target as HTMLInputElement).value;
+            redispatchEvents(e, this);
+          }}
+          @change=${(e: Event) => redispatchEvents(e, this)}
+          rows=${this.rows}
+          maxlength=${this.limit!}
+        >
+        </textarea>
+        <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
+          <label class="helper">${this.helperText}</label>
+          <label class="helper ${this.limit ? "" : "hidden"}">
+            (${this._value?.length || 0}/${this.limit})
+          </label>
         </div>
-        ${this.helperText
-          ? html`<label class="helper">${this.helperText}</label>`
-          : nothing}
       </div>
     `;
   }
@@ -173,7 +193,7 @@ export class Input extends LitElement {
   static styles = css`
     div,
     label,
-    input {
+    textarea {
       color: var(--color);
       font-size: var(--font-size);
       font-family: var(--font-family);
@@ -188,12 +208,15 @@ export class Input extends LitElement {
       gap: 0.25em;
     }
 
-    div.input-container {
+    textarea {
       display: grid;
-      grid-template-areas: "prefix input postfix";
+      grid-template-areas: "prefix textarea postfix";
       grid-template-columns: auto 1fr auto;
       overflow: hidden;
       align-items: center;
+
+      padding: 0.25em 0.5em;
+      /* margin: 0.125em 0; */
 
       border-style: solid;
       transition: background-color 0.2s ease-in-out;
@@ -205,44 +228,20 @@ export class Input extends LitElement {
       gap: var(--gap);
     }
 
-    div.input-container.disabled {
+    textarea:disabled {
       background-color: var(--background-color-disabled);
       border-color: var(--border-color-disabled);
       color: var(--color-disabled);
     }
 
-    div.input-container:focus-within {
+    textarea:focus {
       border-color: var(--border-color-active);
       outline: 4px solid var(--outline-color-active);
     }
 
-    slot[name="prefix"] {
-      grid-area: prefix;
-    }
-
-    slot[name="postfix"] {
-      grid-area: postfix;
-    }
-
-    input {
-      grid-area: input;
+    .footer {
       display: flex;
-      align-items: center;
-      justify-content: center;
-
-      /* remove all style */
-      border: none;
-      outline: none;
-      background-color: transparent;
-      padding: 0.25em 0;
-      margin: 0;
-    }
-
-    input:disabled {
-      background-color: var(--background-color-disabled);
-      border-color: var(--border-color-disabled);
-      cursor: not-allowed;
-      color: var(--color-disabled);
+      justify-content: space-between;
     }
 
     label.helper {
@@ -253,7 +252,7 @@ export class Input extends LitElement {
     }
 
     .error {
-      div.input-container {
+      textarea {
         border-color: var(--border-color-error);
         outline: 4px solid var(--outline-color-error);
       }
@@ -263,15 +262,14 @@ export class Input extends LitElement {
       }
     }
 
-    div.input-control {
-      padding-left: 2em;
-      padding-right: 2em;
+    .hidden {
+      display: none;
     }
   `;
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ssk-input": Input;
+    "ssk-textarea": Textarea;
   }
 }

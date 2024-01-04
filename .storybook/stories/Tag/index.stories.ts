@@ -1,30 +1,24 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/elements/button";
-import { Button } from "../../../src/elements/button";
-import "../../../src/elements/icon";
-import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
+import "../../../src/elements/tag";
+import { Tag } from "../../../src/elements/tag";
+import { addPrefixToObject, baseArgsTypes } from "../helper";
 
-type ButtonWithLabel = AutoLitProperty<Button> & { label: string };
+type TagWithLabel = Tag &
+  addPrefixToObject<Tag, "?"> &
+  addPrefixToObject<Tag, "@"> & { label: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Button",
+  title: "Example/Tag",
   tags: ["autodocs"],
   render: ({ label, ...args }) => {
-    return html`<ssk-button ${spread(args)}
-      ><ssk-icon
-        slot="prefix"
-        name="solid-users"
-        size="${args.size}"
-      ></ssk-icon>
-      ${label}</ssk-button
-    >`;
+    return html`<ssk-tag ${spread(args)}>${label}</ssk-tag>`;
   },
   argTypes: {
     label: {
-      description: "The content of the button",
+      description: "The content of the tag",
       control: "text",
       table: {
         category: "Props",
@@ -32,8 +26,8 @@ const meta = {
     },
 
     variant: {
-      options: ["solid", "outline", "ghost"],
-      description: "The type of button",
+      options: ["solid", "outline", "subtle"],
+      description: "The type of tag",
       control: {
         type: "inline-radio",
       },
@@ -47,32 +41,20 @@ const meta = {
         },
       },
     },
-    "?disabled": {
-      description: "When true gives the button a disabled apparence",
-      control: {
-        type: "boolean",
-      },
-      table: {
-        category: "Props",
-        defaultValue: { summary: false },
-        type: { summary: "boolean" },
-      },
-    },
-    "@click": genericEvents["@click"],
     ...baseArgsTypes,
   },
-} satisfies Meta<ButtonWithLabel>;
+} satisfies Meta<TagWithLabel>;
 
 export default meta;
 
-type Story = StoryObj<ButtonWithLabel>;
+type Story = StoryObj<TagWithLabel>;
 
 // More on writing stories with args: https://storybook.js.org/docs/web-components/writing-stories/args
-export const SolidButton: Story = {
+export const SolidTag: Story = {
   args: {
     variant: "solid",
     size: "md",
-    label: "solid button",
+    label: "solid tag",
   },
   parameters: {
     design: {
@@ -82,10 +64,10 @@ export const SolidButton: Story = {
   },
 };
 
-export const OutlineButton: Story = {
+export const OutlineTag: Story = {
   args: {
     variant: "outline",
-    label: "Outline Button",
+    label: "Outline Tag",
   },
   parameters: {
     design: {
@@ -95,10 +77,10 @@ export const OutlineButton: Story = {
   },
 };
 
-export const GhostButton: Story = {
+export const SubtleTag: Story = {
   args: {
-    variant: "ghost",
-    label: "Ghost Button",
+    variant: "subtle",
+    label: "Ghost Tag",
   },
   parameters: {
     design: {

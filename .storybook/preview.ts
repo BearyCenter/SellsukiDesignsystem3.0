@@ -3,6 +3,12 @@ import { html } from "lit";
 import "../src/contexts/i18n";
 import { IdbI18nStore } from "../src/contexts/i18n/idb";
 import "../src/contexts/theme";
+import "../src/contexts/toast";
+import { ToastStore } from "../src/contexts/toast";
+import InMemoryToastStore from "../src/contexts/toast/in-memory";
+
+window.__SSK_I18N_STORE__ = new IdbI18nStore("storybook-i18n-store"); // isolate the store from the app
+window.__SSK_TOAST_STORE__ = new InMemoryToastStore();
 
 const preview: Preview = {
   parameters: {
@@ -19,11 +25,12 @@ const preview: Preview = {
       // in real environment, the store should be created in the app
       // do not need to set to global
       // __SSK_I18N_STORE__ need to be access  in another story (./stories/I18n/provider.stories.ts)
-      window.__SSK_I18N_STORE__ = new IdbI18nStore("storybook-i18n-store"); // isolate the store from the app
 
       const h = html`<ssk-theme-provider>
         <ssk-i18n-provider .store=${globalThis.__SSK_I18N_STORE__}>
-          ${story()}
+          <ssk-toast-provider .toast=${window.__SSK_TOAST_STORE__}
+            >${story()}</ssk-toast-provider
+          >
         </ssk-i18n-provider>
       </ssk-theme-provider>`;
 
@@ -36,6 +43,7 @@ const preview: Preview = {
 declare global {
   interface Window {
     __SSK_I18N_STORE__: IdbI18nStore;
+    __SSK_TOAST_STORE__: ToastStore;
   }
 }
 

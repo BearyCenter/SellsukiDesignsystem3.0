@@ -14,7 +14,6 @@ import {
   Theme,
   cssVar,
   parseThemeToCssVariables,
-  parseAtRuleThemeValue,
   parseVariables,
 } from "../../types/theme";
 import { themeContext } from "../../contexts/theme";
@@ -79,15 +78,15 @@ export class Icon extends LitElement implements ThemeValue {
   @property({ type: Boolean })
   hidden = false;
 
+  @property({ type: String})
+  cursor?: string | undefined;
+
   // Event
   @property({ attribute: false })
   onClick?: () => void;
 
   @property({ type: String })
   name: string = "";
-
-  @property({ type: Boolean })
-  spin = false;
 
   static svgs: Record<string, TemplateResult> = {
     "solid-x-mark": svg`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1971,29 +1970,26 @@ export class Icon extends LitElement implements ThemeValue {
       return nothing;
     }
 
-    const keyframes = parseAtRuleThemeValue(this.theme).join("\n")
-    let spinCss = ``;
-    if (this.spin) {
-      spinCss = `
-      animation: var(--ssk-animation-spin);
-    `;
-    }
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.icon, "svg")}
 
       <style>
         :host {
           display: inherit;
+          cursor: ${parseVariables(
+            cssVar("cursor", this.cursor),
+            this.cursor,
+            "inherit"
+          )};
         }
-        ${keyframes}
         
         svg {
-          ${spinCss}
           color: ${parseVariables(
             cssVar("colors", this.color),
             cssVar("colors", this.color, 500),
             this.color,
             cssVar("colors", this.themeColor, 500),
+            "inherit"
           )};
 
           background-color: ${parseVariables(

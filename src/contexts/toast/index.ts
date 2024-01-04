@@ -1,0 +1,102 @@
+import { createContext, provide } from "@lit-labs/context";
+import { LitElement, css, html } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import "../../components/toast";
+
+export type ToastData = {
+  id: string;
+  title: string;
+  message: string;
+  type: "success" | "error" | "info" | "warning";
+  timeout: number;
+};
+
+export interface ToastStore {
+  addToast: (toast: Partial<ToastData>) => string;
+  removeToast: (id: string) => void;
+  toasts: ToastData[];
+  clearToasts: () => void;
+}
+
+export const toastContext = createContext<ToastStore>("ssk-toast-context");
+
+@customElement("ssk-toast-provider")
+export class ToastProvider extends LitElement {
+  @provide({ context: toastContext })
+  @property({ attribute: false })
+  toast: ToastStore = {
+    toasts: [],
+    addToast: () => "",
+    removeToast: () => {},
+    clearToasts: () => {},
+  };
+
+  private poller?: NodeJS.Timer;
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    this.poller = setInterval(() => {
+      this.requestUpdate();
+    }, 100);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+
+    if (this.poller) {
+      clearInterval(this.poller);
+    }
+  }
+
+  render() {
+    return html`
+      <slot></slot>
+      <div id="toasts-container">
+        ${this.toast.toasts.map(
+          (toast) => html`
+            <ssk-toast
+              heading=${toast.title}
+              content=${toast.message}
+              type=${toast.type}
+              @close=${() => {
+                this.toast.removeToast(toast.id);
+                this.requestUpdate();
+              }}
+              width="60dvw"
+            ></ssk-toast>
+          `
+        )}
+      </div>
+    `;
+  }
+
+  static styles = css`
+    #toasts-container {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      background-color: transparent;
+      width: 60dvw;
+      height: 100dvh;
+      pointer-events: none;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    ssk-toast {
+      pointer-events: auto;
+    }
+  `;
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "ssk-toast-provider": ToastProvider;
+  }
+}

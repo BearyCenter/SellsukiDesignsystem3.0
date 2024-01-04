@@ -1,18 +1,18 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/elements/input";
-import { Input } from "../../../src/elements/input";
+import "../../../src/elements/textarea";
+import { Textarea } from "../../../src/elements/textarea";
 import { baseArgsTypes } from "../helper";
 
-type InputWithLabel = Omit<Input, "disabled" | "size"> & {
+type TextareaWithLabel = Omit<Textarea, "disabled" | "size"> & {
   label: string;
 };
 
-const size: Input["size"][] = ["lg", "md", "sm"];
+const size: Textarea["size"][] = ["lg", "md", "sm"];
 
 const meta = {
-  title: "Example/Input",
+  title: "Example/Textarea",
   tags: [],
   render: ({ ...args }) => {
     return html`<style>
@@ -32,8 +32,8 @@ const meta = {
 
         div.row {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 0.5em;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 3em;
         }
       </style>
       <main class="showcase">
@@ -41,23 +41,23 @@ const meta = {
           (s) => html`<section class="size">
             <label>Size: ${s}</label>
             <div class="row">
-              <ssk-input
-                testId=${`input-${s}`}
+              <ssk-textarea
+                testId=${`textarea-${s}`}
                 ${spread({ ...args })}
                 size=${s}
-              ></ssk-input>
-              <ssk-input
-                testId=${`input-${s}-disabled`}
+              ></ssk-textarea>
+              <ssk-textarea
+                testId=${`textarea-${s}-disabled`}
                 ${spread({ ...args })}
                 size=${s}
                 disabled
-              ></ssk-input>
-              <ssk-input
-                testId=${`input-${s}-error`}
+              ></ssk-textarea>
+              <ssk-textarea
+                testId=${`textarea-${s}-error`}
                 ${spread({ ...args })}
                 size=${s}
                 error
-              ></ssk-input>
+              ></ssk-textarea>
             </div>
           </section>`
         )}
@@ -65,7 +65,7 @@ const meta = {
   },
   argTypes: {
     label: {
-      description: "The content of the input",
+      description: "The content of the textarea",
       control: "text",
     },
     helperText: {
@@ -81,21 +81,32 @@ const meta = {
       description: "",
       control: "text",
     },
+    limit: {
+      description: "",
+      control: "number",
+    },
+    error: {
+      control: {
+        type: "boolean",
+      },
+    },
+
     ...baseArgsTypes,
   },
-} satisfies Meta<InputWithLabel>;
+} satisfies Meta<TextareaWithLabel>;
 
 export default meta;
 
-type Story = StoryObj<InputWithLabel>;
+type Story = StoryObj<TextareaWithLabel>;
 
 export const ShowCase: Story = {
   args: {
     themeColor: "primary",
-    label: "Input",
+    label: "Textarea",
     placeholder: "Placeholder",
     helperText: "Helper text",
     value: "",
+    limit: 69,
   },
   parameters: {
     design: {
