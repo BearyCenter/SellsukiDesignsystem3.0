@@ -78,6 +78,9 @@ export class Icon extends LitElement implements ThemeValue {
   @property({ type: Boolean })
   hidden = false;
 
+  @property({ type: String})
+  cursor?: string | undefined;
+
   // Event
   @property({ attribute: false })
   onClick?: () => void;
@@ -1973,6 +1976,11 @@ export class Icon extends LitElement implements ThemeValue {
       <style>
         :host {
           display: inherit;
+          cursor: ${parseVariables(
+            cssVar("cursor", this.cursor),
+            this.cursor,
+            "inherit"
+          )};
         }
         
         svg {
