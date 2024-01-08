@@ -222,6 +222,7 @@ export type Theme = {
     tag?: Partial<ThemeField>;
     container?: Partial<ThemeField>;
     textarea?: Partial<ThemeField>;
+    dropdown?: Partial<ThemeField>;
   };
 } & ThemeField;
 

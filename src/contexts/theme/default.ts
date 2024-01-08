@@ -1112,6 +1112,38 @@ export const defaultTheme: Theme = {
         "4xl": "10px",
       },
     },
+    dropdown: {
+      padding: {
+        xs: "1px 0px",
+        sm: "2px 0px",
+        md: "4px 0px",
+        lg: "8px 0px",
+        xl: "12px 0px",
+        "2xl": "16px 0px",
+        "3xl": "24px 0px",
+        "4xl": "32px 0px",
+      },
+      margin: {
+        xs: "1px 0px",
+        sm: "2px 0px",
+        md: "4px 0px",
+        lg: "8px 0px",
+        xl: "12px 0px",
+        "2xl": "16px 0px",
+        "3xl": "24px 0px",
+        "4xl": "32px 0px",
+      },
+      rounded: {
+        xs: "6px",
+        sm: "7px",
+        md: "8px",
+        lg: "8px",
+        xl: "9px",
+        "2xl": "10px",
+        "3xl": "10px",
+        "4xl": "10px",
+      },
+    },
   },
 };
 
