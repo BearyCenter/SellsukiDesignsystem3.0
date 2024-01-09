@@ -1,3 +1,4 @@
+import { spread } from "@open-wc/lit-helpers";
 import { action } from "@storybook/addon-actions";
 import { useArgs } from "@storybook/client-api";
 import type { Meta, StoryObj } from "@storybook/web-components";
@@ -116,6 +117,7 @@ const meta = {
                   action("@change")(e);
                   updateArgs({ value: e.target.value });
                 }}
+                ${spread({ ...args })}
               >
                 <ssk-dropdown-preview
                   value=${ifDefined(args["value"])}
@@ -144,6 +146,7 @@ const meta = {
                   action("@change")(e);
                   updateArgs({ value: e.target.value });
                 }}
+                ${spread({ ...args })}
               >
                 <ssk-dropdown-preview
                   value=${ifDefined(args["value"])}
@@ -162,8 +165,8 @@ const meta = {
                     slot="prefix"
                   >
                     <ssk-icon name=${option}></ssk-icon>
-                    ${option}</ssk-dropdown-option
-                  >`;
+                    ${option}
+                  </ssk-dropdown-option>`;
                 })}
               </ssk-dropdown>
 
@@ -175,6 +178,7 @@ const meta = {
                   action("@change")(e);
                   updateArgs({ value: e.target.value });
                 }}
+                ${spread({ ...args })}
               >
                 <ssk-dropdown-preview
                   value=${ifDefined(args["value"])}
@@ -188,13 +192,10 @@ const meta = {
                   ${args["value"] || args["placeholder"]}
                 </ssk-dropdown-preview>
                 ${options.map((option) => {
-                  return html`<ssk-dropdown-option
-                    value=${option}
-                    slot="prefix"
-                  >
+                  return html`<ssk-dropdown-option value=${option}>
                     <ssk-icon name=${option}></ssk-icon>
-                    ${option}</ssk-dropdown-option
-                  >`;
+                    ${option}
+                  </ssk-dropdown-option>`;
                 })}
               </ssk-dropdown>
             </div>
