@@ -1,20 +1,88 @@
-import { spread } from "@open-wc/lit-helpers";
+import { action } from "@storybook/addon-actions";
+import { useArgs } from "@storybook/client-api";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 import "../../../src/components/dropdown";
 import { Dropdown } from "../../../src/components/dropdown";
-import { baseArgsTypes } from "../helper";
+import { AutoLitProperty, baseArgsTypes } from "../helper";
 
-type DropdownWithLabel = Omit<Dropdown, "disabled" | "size"> & {
-  label: string;
+type DropdownWithLabel = AutoLitProperty<
+  Omit<Dropdown, "disabled" | "size">
+> & {
+  placeholder: string;
 };
 
 const size: Dropdown["size"][] = ["lg", "md", "sm"];
+
+const options = [
+  "outline-academic-cap",
+  "outline-briefcase",
+  "outline-ellipsis-horizontal",
+  "outline-phone",
+  "solid-adjustments-horizontal",
+  "solid-bug-ant",
+  "solid-ellipsis-vertical",
+  "solid-photo",
+  "outline-adjustments-vertical",
+  "solid-building-library",
+  "outline-envelope-open",
+  "solid-play-circle",
+  "solid-archive-box-arrow-down",
+  "solid-building-office-2",
+  "outline-envelope",
+  "solid-play-pause",
+  "solid-archive-box-x-mark",
+  "solid-building-office",
+  "outline-exclamation-circle",
+  "solid-play",
+  "solid-archive-box",
+  "solid-building-storefront",
+  "outline-exclamation-triangle",
+  "solid-plus-circle",
+  "outline-arrow-down-circle",
+  "outline-cake",
+  "outline-eye-dropper",
+  "solid-plus-small",
+  "outline-arrow-down-left",
+  "solid-calculator",
+  "outline-eye-slash",
+  "solid-plus",
+  "solid-arrow-down-on-square-stack",
+  "outline-calendar-days",
+  "outline-eye",
+  "outline-point-3x3",
+  "solid-arrow-down-on-square",
+  "solid-calendar",
+  "outline-face-frown",
+  "solid-power",
+  "outline-archive-box-x-mark",
+  "solid-calendar",
+  "outline-eye",
+  "outline-point-3x3",
+  "outline-arrow-down-right",
+  "solid-camera",
+  "outline-face-smile",
+  "solid-presentation-chart-bar",
+  "outline-arrow-down-tray",
+  "solid-chart-bar-square",
+  "solid-film",
+  "solid-presentation-chart-line",
+  "outline-arrow-down",
+  "solid-chart-bar",
+  "solid-finger-print",
+  "solid-printer",
+  "outline-arrow-left-circle",
+  "solid-chart-pie",
+  "solid-fire",
+  "solid-puzzle-piece",
+];
 
 const meta = {
   title: "Example/Dropdown",
   tags: [],
   render: ({ ...args }) => {
+    const [{}, updateArgs] = useArgs();
     return html`<style>
         main.showcase {
           display: flex;
@@ -43,21 +111,92 @@ const meta = {
             <div class="row">
               <ssk-dropdown
                 testId=${`dropdown-${s}`}
-                ${spread({ ...args })}
-                size=${s}
-              ></ssk-dropdown>
+                size="${s}"
+                @change=${(e: any) => {
+                  action("@change")(e);
+                  updateArgs({ value: e.target.value });
+                }}
+              >
+                <ssk-dropdown-preview
+                  value=${ifDefined(args["value"])}
+                  slot="selected"
+                >
+                  <ssk-icon
+                    name=${ifDefined(args["value"])}
+                    slot="prefix"
+                    size=${s}
+                  ></ssk-icon>
+                  ${args["value"] || args["placeholder"]}
+                </ssk-dropdown-preview>
+                ${options.map((option) => {
+                  return html`<ssk-dropdown-option value=${option}>
+                    <ssk-icon name=${option} slot="prefix"></ssk-icon>
+                    ${option}</ssk-dropdown-option
+                  >`;
+                })}
+              </ssk-dropdown>
+
               <ssk-dropdown
                 testId=${`dropdown-${s}-disabled`}
-                ${spread({ ...args })}
                 size=${s}
                 disabled
-              ></ssk-dropdown>
+                @change=${(e: any) => {
+                  action("@change")(e);
+                  updateArgs({ value: e.target.value });
+                }}
+              >
+                <ssk-dropdown-preview
+                  value=${ifDefined(args["value"])}
+                  slot="selected"
+                >
+                  <ssk-icon
+                    name=${ifDefined(args["value"])}
+                    slot="prefix"
+                    size=${s}
+                  ></ssk-icon>
+                  ${args["value"] || args["placeholder"]}
+                </ssk-dropdown-preview>
+                ${options.map((option) => {
+                  return html`<ssk-dropdown-option
+                    value=${option}
+                    slot="prefix"
+                  >
+                    <ssk-icon name=${option}></ssk-icon>
+                    ${option}</ssk-dropdown-option
+                  >`;
+                })}
+              </ssk-dropdown>
+
               <ssk-dropdown
                 testId=${`dropdown-${s}-error`}
-                ${spread({ ...args })}
                 size=${s}
                 error
-              ></ssk-dropdown>
+                @change=${(e: any) => {
+                  action("@change")(e);
+                  updateArgs({ value: e.target.value });
+                }}
+              >
+                <ssk-dropdown-preview
+                  value=${ifDefined(args["value"])}
+                  slot="selected"
+                >
+                  <ssk-icon
+                    name=${ifDefined(args["value"])}
+                    slot="prefix"
+                    size=${s}
+                  ></ssk-icon>
+                  ${args["value"] || args["placeholder"]}
+                </ssk-dropdown-preview>
+                ${options.map((option) => {
+                  return html`<ssk-dropdown-option
+                    value=${option}
+                    slot="prefix"
+                  >
+                    <ssk-icon name=${option}></ssk-icon>
+                    ${option}</ssk-dropdown-option
+                  >`;
+                })}
+              </ssk-dropdown>
             </div>
           </section>`
         )}

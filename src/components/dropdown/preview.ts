@@ -13,9 +13,9 @@ import {
 } from "../../types/theme";
 import { Value, valueContext } from "./value";
 
-@customElement("ssk-dropdown-option")
-export class DropdownOption extends LitElement {
-  static registeredName = "ssk-dropdown-option";
+@customElement("ssk-dropdown-preview")
+export class DropdownPreview extends LitElement {
+  static registeredName = "ssk-dropdown-preview";
 
   @consume({ context: valueContext, subscribe: true })
   @property({ attribute: false })
@@ -45,11 +45,7 @@ export class DropdownOption extends LitElement {
   fontWeight: FontWeight = "normal";
 
   @property({ type: String })
-  value: string = "";
-
-  private handleClick = () => {
-    this.vault?.setValue(this.value, this);
-  };
+  value?: string = "";
 
   render() {
     if (this.hidden) {
@@ -59,11 +55,7 @@ export class DropdownOption extends LitElement {
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.dropdown, ":host")}
 
-      <span
-        class="container"
-        @click=${this.handleClick}
-        data-testid=${this.testId || nothing}
-      >
+      <span class="container" data-testid=${this.testId || nothing}>
         <slot name="prefix"></slot>
         <span class="label">
           <slot></slot>
@@ -77,7 +69,7 @@ export class DropdownOption extends LitElement {
       display: grid;
       grid-template-columns: auto 1fr;
       grid-gap: 0.5em;
-      padding: 0.25em 0.5em;
+      padding: 0;
 
       color: var(--color);
 
@@ -85,16 +77,6 @@ export class DropdownOption extends LitElement {
       font-family: var(--font-family);
       font-weight: var(--font-weight);
       line-height: var(--line-height);
-
-      border-radius: var(--rounded);
-
-      cursor: pointer;
-
-      transition: background-color 0.2s ease-in-out;
-    }
-
-    .container:hover {
-      background-color: var(--background-color-hover);
     }
 
     .label {
@@ -107,6 +89,6 @@ export class DropdownOption extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ssk-dropdown-option": DropdownOption;
+    "ssk-dropdown-preview": DropdownPreview;
   }
 }

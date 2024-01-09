@@ -1,8 +1,7 @@
-import { consume, createContext, provide } from "@lit-labs/context";
+import { consume, provide } from "@lit-labs/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
-import "../../contexts/value";
 import "../../elements/icon";
 import {
   ColorName,
@@ -16,29 +15,27 @@ import {
   parseVariables,
 } from "../../types/theme";
 import "./option";
-import { DropdownOption } from "./option";
-
-export type Value = {
-  setValue: (value: string) => void;
-};
+import "./preview";
+import { Value, valueContext } from "./value";
 
 @customElement("ssk-dropdown")
 export class Dropdown extends LitElement {
   static registeredName = "ssk-dropdown";
 
-  @provide({ context: createContext<Value>("ssk-value-context") })
+  @provide({ context: valueContext })
   @property({ attribute: false })
   vault: Value = {
     setValue: (value: string) => {
+      if (this.value === value) {
+        return;
+      }
+
       this.value = value;
+      this.showOptions = false;
+
       this.requestUpdate();
-      this.dispatchEvent(
-        new CustomEvent("change", {
-          detail: {
-            value: value,
-          },
-        })
-      );
+
+      this.dispatchEvent(new Event("change"));
     },
   };
 
@@ -84,9 +81,6 @@ export class Dropdown extends LitElement {
   value: string | undefined;
 
   @property({ type: String })
-  placeholder: string | undefined;
-
-  @property({ type: String })
   status: "error" | "success" | undefined;
 
   @property({ type: Boolean })
@@ -106,22 +100,37 @@ export class Dropdown extends LitElement {
     console.log(input.value);
   };
 
-  private onOptionClick = (e: Event) => {
-    const slots = this.shadowRoot
-      ?.querySelectorAll("slot")
-      ?.item(0)
-      ?.assignedElements();
+  private showOptions = false;
 
-    if (!slots) {
+  private setupOnClickContainer = (e: MouseEvent) => {
+    e.stopPropagation();
+
+    if (this.disabled || this.showOptions) {
       return;
     }
 
-    const options = slots.filter(
-      (slot) => slot.tagName.toLowerCase() === "ssk-dropdown-option"
-    ) as DropdownOption[];
-
-    console.log(options.map((option) => option.value));
+    this.showOptions = true;
+    this.requestUpdate();
   };
+
+  private setupClickOutside = (_e: MouseEvent) => {
+    this.showOptions = false;
+    this.requestUpdate();
+  };
+
+  firstUpdated() {
+    window.addEventListener("click", this.setupClickOutside);
+    this.shadowRoot
+      ?.getElementById("dropdown")
+      ?.addEventListener("click", this.setupOnClickContainer);
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener("click", this.setupClickOutside);
+    this.shadowRoot
+      ?.getElementById("dropdown")
+      ?.removeEventListener("click", this.setupOnClickContainer);
+  }
 
   render() {
     if (this.hidden) {
@@ -202,36 +211,33 @@ export class Dropdown extends LitElement {
         }
       </style>
 
-      <ssk-value-provider>
-        <div
-          class="container ${this.error ? "error" : ""}"
-          @click=${this.onOptionClick}
-        >
-          <label>${this.label}</label>
-          <div class=${`dropdown-container ${this.disabled ? "disabled" : ""}`}>
-            <!-- <input
-            placeholder=${this.placeholder || ""}
-            ?disabled=${this.disabled}
-            @input=${this.onSearch}
-          /> -->
-            <span class="label" data-testid=${this.testId || nothing}>aaa</span>
+      <div class="container ${this.error ? "error" : ""}" id="container">
+        <label>${this.label}</label>
+        <div class="dropdown-container">
+          <div
+            id="dropdown"
+            class=${`dropdown ${this.disabled ? "disabled" : ""}`}
+          >
+            <span class="label-value" data-testid=${this.testId || nothing}>
+              <slot name="selected"></slot>
+            </span>
             <ssk-icon name="outline-chevron-down"></ssk-icon>
-            <div class="options-container">
-              <slot></slot>
-            </div>
           </div>
-          ${this.helperText
-            ? html`<label class="helper">${this.helperText}</label>`
-            : nothing}
+
+          <div class="options-container ${this.showOptions ? "show" : ""}">
+            <slot></slot>
+          </div>
         </div>
-      </ssk-value-provider>
+        ${this.helperText
+          ? html`<label class="helper">${this.helperText}</label>`
+          : nothing}
+      </div>
     `;
   }
 
   static styles = css`
     div,
-    label,
-    input {
+    label {
       color: var(--color);
       font-size: var(--font-size);
       font-family: var(--font-family);
@@ -248,7 +254,9 @@ export class Dropdown extends LitElement {
 
     div.dropdown-container {
       position: relative;
+    }
 
+    div.dropdown {
       display: grid;
       grid-template-columns: 1fr auto;
       /* overflow: hidden; */
@@ -263,30 +271,21 @@ export class Dropdown extends LitElement {
       padding: 0 0.5em;
 
       gap: var(--gap);
+      cursor: pointer;
     }
 
-    input {
-      position: absolute;
-      z-index: 2;
-    }
-
-    .label,
-    ssk-icon {
-      z-index: 3;
-    }
-
-    div.dropdown-container.disabled {
+    div.dropdown.disabled {
       background-color: var(--background-color-disabled);
       border-color: var(--border-color-disabled);
       color: var(--color-disabled);
     }
 
-    div.dropdown-container:focus-within {
+    div.dropdown:focus-within {
       border-color: var(--border-color-active);
       outline: 4px solid var(--outline-color-active);
     }
 
-    span.label {
+    span.label-value {
       display: flex;
       align-items: baseline;
       justify-content: start;
@@ -299,7 +298,7 @@ export class Dropdown extends LitElement {
       margin: 0;
     }
 
-    span.label.disabled {
+    span.label-value.disabled {
       background-color: var(--background-color-disabled);
       border-color: var(--border-color-disabled);
       cursor: not-allowed;
@@ -307,14 +306,12 @@ export class Dropdown extends LitElement {
     }
 
     div.options-container {
+      display: none;
       box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      gap: 0.125em;
 
       position: absolute;
       z-index: 4;
-      top: 100%;
+      top: 50px;
       left: 0;
       width: 100%;
       background-color: var(--background-color);
@@ -325,6 +322,13 @@ export class Dropdown extends LitElement {
 
       color: var(--color);
 
+      max-height: 0px;
+    }
+
+    div.options-container.show {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125em;
       max-height: 344px;
     }
 
@@ -336,7 +340,7 @@ export class Dropdown extends LitElement {
     }
 
     .error {
-      div.dropdown-container {
+      div.dropdown {
         border-color: var(--border-color-error);
         outline: 4px solid var(--outline-color-error);
       }

@@ -1,12 +1,17 @@
 import { spread } from "@open-wc/lit-helpers";
+import { action } from "@storybook/addon-actions";
+import { useArgs } from "@storybook/client-api";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 import "../../../src/components/dropdown";
 import { Dropdown } from "../../../src/components/dropdown";
 import "../../../src/elements/icon";
-import { baseArgsTypes } from "../helper";
+import { AutoLitProperty, baseArgsTypes } from "../helper";
 
-type DropdownWithLabel = Dropdown & { label: string };
+type DropdownWithLabel = AutoLitProperty<Dropdown> & {
+  placeholder: string;
+};
 
 const options = [
   "outline-academic-cap",
@@ -76,16 +81,36 @@ const meta = {
   title: "Example/Dropdown",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html`<ssk-dropdown ${spread({ ...args })}>
+    const [{}, updateArgs] = useArgs();
+
+    return html`<ssk-dropdown
+      ${spread({ ...args })}
+      @change=${(e: any) => {
+        action("@change")(e);
+        updateArgs({ value: e.target.value });
+      }}
+    >
+      <ssk-dropdown-preview value=${ifDefined(args["value"])} slot="selected">
+        <ssk-icon slot="prefix" name=${ifDefined(args["value"])}></ssk-icon>
+        ${args["value"] || args["placeholder"]}
+      </ssk-dropdown-preview>
       ${options.map((option) => {
         return html`<ssk-dropdown-option value=${option}>
-          <ssk-icon name=${option}></ssk-icon>
-          ${option}</ssk-dropdown-option
-        >`;
+          <ssk-icon name=${option} slot="prefix"></ssk-icon>
+          ${option}
+        </ssk-dropdown-option>`;
       })}
     </ssk-dropdown>`;
   },
   argTypes: {
+    ...baseArgsTypes,
+    value: {
+      description: "The value of the dropdown",
+      control: {
+        type: "select",
+      },
+      options: options,
+    },
     label: {
       description: "The content of the dropdown",
       control: "text",
@@ -100,11 +125,6 @@ const meta = {
         type: "boolean",
       },
     },
-    value: {
-      description: "",
-      control: "text",
-    },
-    ...baseArgsTypes,
   },
 } satisfies Meta<DropdownWithLabel>;
 
