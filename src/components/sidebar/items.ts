@@ -1,216 +1,58 @@
 import { consume } from "@lit-labs/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
-import { themeContext } from "../../contexts/theme";
-import { redispatchEvents } from "../../helpers/lit";
-import { ThemeValue } from "../../types/base-attributes";
-import {
-  ColorName,
-  ColorRole,
-  FontFamilyGroup,
-  FontWeight,
-  MenuVariants,
-  Size,
-  Theme,
-  cssVar,
-  parseThemeToCssVariables,
-  parseVariables,
-} from "../../types/theme";
-import { SidebarAttributes } from "./types";
+import { customElement, property } from "lit/decorators.js";
+import { State, stateContext } from "./types";
 
-@customElement("ssk-sidebar-items")
-export class SidebarItems
-  extends LitElement
-  implements ThemeValue, SidebarAttributes
-{
-  static registeredName = "ssk-sidebar-items";
+@customElement("ssk-sidebar-item")
+export class SidebarItems extends LitElement {
+  static registeredName = "ssk-sidebar-item";
 
-  @consume({ context: themeContext, subscribe: true })
+  @consume({ context: stateContext, subscribe: true })
   @property({ attribute: false })
-  public theme?: Theme;
+  private state?: State;
 
   // BaseAttributes
   @property({ type: String })
   testId?: string;
 
-  // ThemeValue
   @property({ type: String })
-  size: Size = "md";
-  @property({ type: String })
-  themeColor: string = "primary";
-  @property({ type: String })
-  margin?: string;
-  @property({ type: String })
-  width?: string | undefined;
-  @property({ type: String })
-  height?: string | undefined;
-  @property({ type: String })
-  gap?: string | undefined;
-  @property({ type: String })
-  rounded?: string | undefined;
-  @property({ type: String })
-  color?: ColorRole | ColorName = "black";
-  @property({ type: String })
-  fontSize?: string | undefined;
-  @property({ type: String })
-  padding?: string;
-
-  // font
-  @property({ type: String })
-  fontFamilyGroup: FontFamilyGroup = "sans";
-  @property({ type: String })
-  fontWeight: FontWeight = "normal";
+  key: string = "";
 
   @property({ type: String })
   label?: string | undefined;
   @property({ type: Boolean })
   disabled = false;
-  @property({ type: Boolean })
-  active = false;
-  @property({ type: String })
-  variant: MenuVariants = "outline";
-  @property({ type: Boolean })
-  collapsed = false;
-  @property({ type: Boolean })
-  hidden = false;
-
-  @state()
-  _isActive: boolean = false;
-
-  updated(changedProperties: Map<PropertyKey, unknown>) {
-    super.updated(changedProperties);
-
-    if (changedProperties.has("active")) {
-      // Update the local state when the 'active' property changes
-      this._isActive = this.active;
-    }
-  }
 
   render() {
-    if (this.hidden) {
-      return null;
-    }
-
-    let additionalCss = `
-    --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
-    --font-size: ${parseVariables(
-      cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size),
-    )};
-    --padding: ${parseVariables(
-      cssVar("padding", this.padding),
-      cssVar("padding", this.size),
-    )};
-    --margin: ${parseVariables(cssVar("margin", this.margin))};
-    --gap: ${parseVariables(
-      cssVar("spacing", this.gap),
-      cssVar("spacing", this.size),
-    )};
-
-    --rounded: ${parseVariables(
-      cssVar("rounded", this.rounded),
-      cssVar("rounded", this.size),
-    )};
-
-    --background-color: transparent;
-    --background-color-hover: ${parseVariables(
-      cssVar("colors", this.themeColor, 100),
-    )};
-    --background-color-disabled: ${parseVariables(
-      cssVar("colors", "gray", 100),
-    )};
-    --color: ${parseVariables(cssVar("colors", this.color, 900))};
-    --color-prefix: ${parseVariables(cssVar("colors", this.color, 400))};
-    --color-hover: var(--color);
-   
-    --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
-
-    --border-color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
-    --border-color-disabled: var(--background-color-disabled);
-    --border-width: 0px;
-    `;
-
-    switch (this.variant) {
-      case "solid":
-        additionalCss += `
-        --background-color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600),
-        )};
-        --color-active:  ${parseVariables(
-          cssVar("colors", this.color),
-          cssVar("colors", this.color),
-          this.color,
-          cssVar("colors", "white", 200),
-        )};
-       `;
-        break;
-
-      case "outline":
-        additionalCss += `
-        --background-color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 100),
-        )};
-        --color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600),
-        )};
-          `;
-        break;
-    }
+    const isActive = this.state?.selectedItems.includes(this.key);
 
     return html`
-      ${parseThemeToCssVariables(
-        this.theme?.components?.sidebar,
-        ".sidebar-menu-container",
-      )}
-      <style>
-        .sidebar-menu-container {
-          ${additionalCss};
-        }
-      </style>
-
       <div
-        class="sidebar-menu-container ${this._isActive ? "active" : ""} ${this
+        class="sidebar-menu-container ${isActive ? "active" : ""} ${this
           .disabled
           ? "disabled"
           : ""} 
         "
         data-testid=${this.testId || nothing}
-        @click=${(e: Event) => this._onClick(e)}
+        @click=${(e: Event) => this.handleClick(e)}
       >
-        ${this.collapsed
-          ? html` <div class="collapsed-content">
-              <slot name="prefix"></slot>
-              <slot name="badge"></slot>
-            </div>`
-          : html`
-              <div class="prefix">
-                <slot name="prefix"></slot>
-              </div>
-              <slot></slot>
-              <div class="postfix">
-                <slot name="badge"></slot>
-                <slot name="postfix"></slot>
-              </div>
-            `}
+        <div class="prefix">
+          <slot name="prefix"></slot>
+        </div>
+        ${this.state?.expanded ? html`<slot></slot>` : nothing}
       </div>
     `;
   }
 
-  private _onClick(e: Event) {
-    if (this._isActive) {
-      redispatchEvents(e, this);
+  private handleClick(_e: Event) {
+    if (this.disabled) {
       return;
     }
 
-    const sidebarItems = document.querySelectorAll("ssk-sidebar-items");
-    sidebarItems.forEach((item) => {
-      if (item !== this) {
-        item._isActive = false;
-      }
-    });
-
-    this._isActive = !this._isActive;
-    redispatchEvents(e, this);
+    this.state?.setSelectedItem(
+      this.key,
+      !this.state.selectedItems.includes(this.key)
+    );
   }
 
   static styles = css`
@@ -299,6 +141,6 @@ export class SidebarItems
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ssk-sidebar-items": SidebarItems;
+    "ssk-sidebar-item": SidebarItems;
   }
 }

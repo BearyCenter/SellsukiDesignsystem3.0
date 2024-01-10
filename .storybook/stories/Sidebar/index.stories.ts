@@ -3,20 +3,20 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { Sidebar } from "../../../src/components/sidebar";
 import "../../../src/components/sidebar/group";
+import "../../../src/components/sidebar/header";
 import "../../../src/components/sidebar/index";
 import "../../../src/components/sidebar/items";
-import "../../../src/components/sidebar/list";
 import "../../../src/elements/avatar";
 import "../../../src/elements/icon";
-import { baseArgsTypes, genericEvents } from "../helper";
+import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
 
-type SidebarArgs = {} & Sidebar;
+type SidebarArgs = AutoLitProperty<Sidebar>;
 
 const meta = {
   title: "Example/Sidebar/Sidebar",
   tags: ["autodocs"],
   argTypes: {
-    "?collapsed": {
+    "?expanded": {
       description: "When true gives the sidebar a collapsed apparence",
       table: {
         category: "Props Sidebar",
@@ -43,7 +43,7 @@ type Story = StoryObj<SidebarArgs>;
 
 export const Default: Story = {
   args: {
-    "?collapsed": false,
+    "?expanded": false,
     size: "md",
   },
   parameters: {
@@ -55,7 +55,7 @@ export const Default: Story = {
   render: ({ ...agrs }) => {
     return html`
       <ssk-sidebar ${spread(agrs)}>
-        <ssk-sidebar-list
+        <ssk-sidebar-header
           slot="header"
           label1="Sellsuki company"
           label2="สาขา รัชดาภิเษก"
@@ -66,64 +66,64 @@ export const Default: Story = {
             shape="circle"
             slot="prefix"
           ></ssk-avatar>
-        </ssk-sidebar-list>
+        </ssk-sidebar-header>
         </ssk-sidebar-group>
 
         <div>
-          <ssk-sidebar-group label="Dashboard" slot="header" size="sm">
-            <ssk-sidebar-items size="md">
+          <ssk-sidebar-group label="Dashboard" key="dashboard" slot="header" size="sm">
+            <ssk-sidebar-item size="md" key="dashboard-item-1">
               <ssk-icon
                 slot="prefix"
                 name="outline-building-storefront"
                 size="md"
               ></ssk-icon>
               item
-            </ssk-sidebar-items>
-            <ssk-sidebar-items size="md" active>
+            </ssk-sidebar-item>
+            <ssk-sidebar-item size="md"  key="dashboard-item-2">
               <ssk-icon
                 slot="prefix"
                 name="outline-inbox-stack"
                 size="md"
               ></ssk-icon>
-              item
-            </ssk-sidebar-items>
+              item 2
+            </ssk-sidebar-item>
           </ssk-sidebar-group>
-          <ssk-sidebar-group label="Product" slot="header" size="sm">
-            <ssk-sidebar-items size="md">
+          <ssk-sidebar-group label="Product" key="product" slot="header" size="sm">
+            <ssk-sidebar-item size="md" key="product-item-1">
               <ssk-icon
                 slot="prefix"
                 name="outline-shopping-bag"
                 size="md"
               ></ssk-icon>
-              item
-            </ssk-sidebar-items>
-            <ssk-sidebar-items size="md">
+              item 1
+            </ssk-sidebar-item>
+            <ssk-sidebar-item size="md" key="product-item-2">
               <ssk-icon
                 slot="prefix"
                 name="outline-squares-plus"
                 size="md"
               ></ssk-icon>
-              item
-            </ssk-sidebar-items>
+              item 2
+            </ssk-sidebar-item>
           </ssk-sidebar-group>
         </div>
 
-        <ssk-sidebar-items slot="footer" size="md">
+        <ssk-sidebar-item slot="footer" size="md">
           <ssk-icon
             slot="prefix"
             name="outline-user-group"
             size="md"
           ></ssk-icon>
           Support
-        </ssk-sidebar-items>
-        <ssk-sidebar-items slot="footer" size="md">
+        </ssk-sidebar-item>
+        <ssk-sidebar-item slot="footer" size="md">
           <ssk-icon
             slot="prefix"
             name="outline-cog-8-tooth"
             size="md"
           ></ssk-icon>
           Setting
-        </ssk-sidebar-items>
+        </ssk-sidebar-item>
       </ssk-sidebar>
     `;
   },

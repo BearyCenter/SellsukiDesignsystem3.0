@@ -239,10 +239,16 @@ export const parseThemeToCssVariables = (
   // base theme
   cssKV = deepFlattenCssVar(theme);
 
+  return html`${parseKvToCssVariables(cssKV, scope)}<style>
+      ${parseAtRuleThemeValue(theme).join("\n")}
+    </style>`;
+};
+
+export const parseKvToCssVariables = (kv: kv, scope: string = ":host") => {
   return html`<style>
-    ${scope} {${Object.entries(cssKV)
+    ${scope} {${Object.entries(kv)
       .map(([k, v]) => `--ssk-${k}: ${v};`)
-      .join(" ")}}${parseAtRuleThemeValue(theme).join("\n")}
+      .join("")};}
   </style>`;
 };
 
