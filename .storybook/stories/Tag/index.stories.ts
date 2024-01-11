@@ -3,11 +3,9 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/tag";
 import { Tag } from "../../../src/elements/tag";
-import { addPrefixToObject, baseArgsTypes } from "../helper";
+import { AutoLitProperty, baseArgsTypes } from "../helper";
 
-type TagWithLabel = Tag &
-  addPrefixToObject<Tag, "?"> &
-  addPrefixToObject<Tag, "@"> & { label: string };
+type TagWithLabel = AutoLitProperty<Tag> & { label: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {

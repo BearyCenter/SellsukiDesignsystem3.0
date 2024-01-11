@@ -1,3 +1,4 @@
+import { createContext } from "@lit-labs/context";
 import { MenuVariants } from "../../types/theme";
 
 export type SidebarAttributes = {
@@ -5,7 +6,18 @@ export type SidebarAttributes = {
   disabled?: boolean;
   active?: boolean;
   variant?: MenuVariants;
-  collapsed: boolean;
+  expanded: boolean;
   isOpen?: boolean;
   hiddenIcon?: boolean;
 };
+
+export type State = {
+  expanded: boolean; // sidebar expanded to show labels
+  selectedItems: string[]; // selected items
+  expandedGroups: string[]; // collapsed groups
+  setExpanded: (expanded: boolean) => void;
+  setSelectedItem: (key: string, selected: boolean) => void;
+  setExpandedGroup: (key: string, collapsed: boolean) => void;
+};
+
+export const stateContext = createContext<State>("ssk-sidebar-state-context");

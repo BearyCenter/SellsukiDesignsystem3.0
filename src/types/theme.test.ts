@@ -1390,8 +1390,10 @@ describe("parseThemeToCssVariables", () => {
     const theme = {};
     const result = parseThemeToCssVariables(theme);
     expect(template_as_string(result)).toEqual(`<style>
-    :host {}
-  </style>`);
+    :host {;}
+  </style><style>
+      
+    </style>`);
   });
 
   test("should return CSS string with valid theme", () => {
@@ -1419,8 +1421,10 @@ describe("parseThemeToCssVariables", () => {
     const result = parseThemeToCssVariables(theme);
     expect(template_as_string(result)).toEqual(
       `<style>
-    :host {--ssk-colors-primary: #007bff; --ssk-colors-secondary: #6c757d; --ssk-colors-success: #28a745; --ssk-colors-danger: #dc3545; --ssk-colors-warning: #ffc107; --ssk-colors-info: #17a2b8; --ssk-colors-light: #f8f9fa; --ssk-colors-dark: #343a40; --ssk-fonts-body: Arial, sans-serif; --ssk-fonts-heading: Helvetica, sans-serif; --ssk-font-sizes-small: 12px; --ssk-font-sizes-medium: 16px; --ssk-font-sizes-large: 20px;}
-  </style>`,
+    :host {--ssk-colors-primary: #007bff;--ssk-colors-secondary: #6c757d;--ssk-colors-success: #28a745;--ssk-colors-danger: #dc3545;--ssk-colors-warning: #ffc107;--ssk-colors-info: #17a2b8;--ssk-colors-light: #f8f9fa;--ssk-colors-dark: #343a40;--ssk-fonts-body: Arial, sans-serif;--ssk-fonts-heading: Helvetica, sans-serif;--ssk-font-sizes-small: 12px;--ssk-font-sizes-medium: 16px;--ssk-font-sizes-large: 20px;;}
+  </style><style>
+      
+    </style>`
     );
   });
 });

@@ -1,8 +1,9 @@
-import { LitElement, css, html, nothing } from "lit";
-import { ThemeValue } from "../../types/base-attributes";
-import { themeContext } from "../../contexts/theme";
-import { customElement, property } from "lit/decorators.js";
 import { consume } from "@lit-labs/context";
+import { LitElement, css, html, nothing } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { themeContext } from "../../contexts/theme";
+import { ThemeValue } from "../../types/base-attributes";
 import {
   FontFamilyGroup,
   FontWeight,
@@ -12,7 +13,6 @@ import {
   parseThemeToCssVariables,
   parseVariables,
 } from "../../types/theme";
-import { ifDefined } from "lit/directives/if-defined.js";
 
 @customElement("ssk-avatar")
 export class Avatar extends LitElement implements ThemeValue {
@@ -28,26 +28,10 @@ export class Avatar extends LitElement implements ThemeValue {
   @property({ type: String })
   themeColor: string = "primary";
   @property({ type: String })
-  color?: string;
-  @property({ type: String })
-  backgroundColor?: string;
-  @property({ type: String })
-  borderColor?: string;
-  @property({ type: String })
-  margin?: string;
+  color?: string = "white";
   @property({ type: String })
   padding?: Size;
-  @property({ type: String })
-  rounded?: string;
-  @property({ type: String })
-  borderWidth?: string;
-  @property({ type: String })
-  width?: string | undefined;
-  @property({ type: String })
-  height?: string | undefined;
 
-  @property({ type: String })
-  boxSize?: string | undefined;
   @property({ type: Boolean })
   hidden = false;
 
@@ -71,74 +55,71 @@ export class Avatar extends LitElement implements ThemeValue {
   @property({ type: String })
   objectFit?: "fill" | "contain" | "cover" | "none" | "scale-down" | undefined;
 
+  private initialism = (label?: string) => {
+    if (!label) {
+      return "?";
+    }
+
+    if (label.length <= 2) {
+      return label.toUpperCase();
+    }
+
+    // Get the initials of each word
+    const initials = label
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase());
+
+    // Concatenate the initials to form the shortened name
+    const shortenedName = initials.join("");
+
+    return shortenedName;
+  };
+
   render() {
     if (this.hidden) {
       return nothing;
     }
 
-    let additionalCss = `
-    --padding: ${parseVariables(
-      cssVar("padding", this.padding),
-      cssVar("padding", this.size),
-    )};
-    --font-family: ${parseVariables(
-      cssVar("font-family", this.fontFamilyGroup),
-    )};
-    --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
-    --font-size: ${parseVariables(
-      cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size),
-    )};
-    --color: ${parseVariables(cssVar("colors", this.color), this.color)};
-    --background-color: ${parseVariables(
-      cssVar("colors", this.backgroundColor),
-      this.backgroundColor,
-    )};
-    width: ${parseVariables(
-      cssVar("width", this.width),
-      cssVar("width", this.size),
-      this.width,
-      this.boxSize,
-      "auto",
-    )};
-    height: ${parseVariables(
-      cssVar("height", this.height),
-      cssVar("height", this.size),
-      this.height,
-      this.boxSize,
-      "auto",
-    )};
-    --margin: ${parseVariables(cssVar("margin", this.margin))};
-    border-radius: ${
-      this.shape === "circle"
-        ? "50%"
-        : parseVariables(cssVar("rounded", this.rounded), "8px")
-    };
-    border-width:  ${parseVariables(
-      cssVar("border-width", this.borderWidth),
-      this.borderWidth,
-      "0px",
-    )};
-    border-color: ${parseVariables(
-      cssVar("border-color", this.borderColor),
-      this.borderColor,
-      "transparent",
-    )};
-    object-fit: ${this.objectFit};
-    `;
-
     return html`
-      ${parseThemeToCssVariables(this.theme?.components?.avatar, "img,div")}
+      ${parseThemeToCssVariables(this.theme?.components?.avatar, ":host")}
       <style>
-        img,div{
-          ${additionalCss};
+        :host {
+          --padding: ${parseVariables(
+            cssVar("padding", this.padding),
+            this.padding,
+            cssVar("padding", this.size)
+          )};
+
+          --font-family: ${parseVariables(
+            cssVar("font-family", this.fontFamilyGroup)
+          )};
+          --font-weight: ${parseVariables(
+            cssVar("font-weight", this.fontWeight)
+          )};
+          --font-size: ${parseVariables(
+            cssVar("font-size", this.fontSize),
+            cssVar("font-size", this.size)
+          )};
+
+          --color: ${parseVariables(cssVar("colors", this.color), this.color)};
+          --background-color: ${parseVariables(
+            cssVar("colors", this.themeColor, 500)
+          )};
+          --width: ${parseVariables(cssVar("width", this.size), "auto")};
+
+          --border-radius: ${this.shape === "circle" ? "50%" : "8px"};
+
+          --object-fit: ${this.objectFit};
         }
       </style>
-      ${this.src
-        ? html`
-            <img src="${ifDefined(this.src)}" alt="${ifDefined(this.alt)}" />
-          `
-        : html` <div>${this.label}</div>`}
+      <span>
+        ${this.src
+          ? html`<img
+              src="${ifDefined(this.src)}"
+              alt="${ifDefined(this.alt)}"
+            />`
+          : html`<div>${this.initialism(this.label)}</div>`}
+      </span>
     `;
   }
 
@@ -148,28 +129,35 @@ export class Avatar extends LitElement implements ThemeValue {
       overflow: hidden;
     }
 
+    span {
+      display: inline-block;
+      overflow: hidden;
+      aspect-ratio: auto 1/1;
+      width: var(--width);
+      padding: var(--padding);
+      border-radius: var(--border-radius);
+    }
+
     img,
     div {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+      width: 100%;
+      height: 100%;
     }
 
     img {
-      margin: var(--margin);
-      color: var(--color);
+      object-fit: var(--object-fit);
     }
 
     div {
-      padding: var(--padding);
-      text-align: center;
+      display: grid;
+      place-items: center;
       background-color: var(--background-color);
       color: var(--color);
       font-size: var(--font-size);
       font-family: var(--font-family);
       font-weight: var(--font-weight);
       word-wrap: break-word;
+      text-overflow: clip;
     }
   `;
 }
