@@ -28,10 +28,10 @@ export class SidebarItems extends LitElement {
 
     return html`
       <div
-        class="sidebar-menu-container ${isActive ? "active" : ""} ${this
+        class="sidebar-item-container ${isActive ? "active" : ""} ${this
           .disabled
           ? "disabled"
-          : ""} 
+          : ""} ${this.state?.expanded ? "expanded" : ""}
         "
         data-testid=${this.testId || nothing}
         @click=${(e: Event) => this.handleClick(e)}
@@ -56,85 +56,46 @@ export class SidebarItems extends LitElement {
   }
 
   static styles = css`
-    .sidebar-menu-container {
-      display: flex;
+    .sidebar-item-container {
+      display: grid;
+      grid-template-columns: auto;
       align-items: center;
-      justify-content: center;
+
+      padding: 12px 16px;
       cursor: pointer;
-      transition: background-color 0.2s ease-in-out;
-      background-color: var(--background-color);
-      color: var(--color);
-      font-size: var(--font-size);
-      font-family: var(--font-family);
-      font-weight: var(--font-weight);
-      line-height: var(--line-height);
-      padding: var(--padding);
-      margin: var(--margin);
-      gap: var(--gap);
-      border-radius: var(--rounded);
-      border-color: var(--border-color);
-      border-width: var(--border-width);
+      border-radius: 8px;
     }
 
-    .sidebar-menu-container:hover {
-      background-color: var(--background-color-hover);
+    .sidebar-item-container.expanded {
+      grid-template-columns: 24px auto;
+      gap: 12px;
+    }
+
+    .sidebar-item-container:hover {
+      background-color: var(--ssk-colors-theme-100);
       color: var(--color-hover);
     }
 
-    .sidebar-menu-container.active {
-      background-color: var(--background-color-active);
-      color: var(--color-active);
+    .sidebar-item-container.active {
+      background-color: var(--ssk-colors-theme-100);
+      color: var(--ssk-colors-theme-500);
     }
 
-    .sidebar-menu-container.disabled {
+    .sidebar-item-container.disabled {
       cursor: not-allowed;
-      background-color: var(--background-color-disabled);
-      color: var(--color-disabled);
-      border-color: var(--border-color-disabled);
+      background-color: var(--ssk-colors-gray-100);
+      color: var(--ssk-colors-gray-500);
+      border-color: var(--ssk-colors-gray-500);
+
+      .prefix {
+        color: var(--ssk-colors-gray-500);
+      }
     }
 
-    .sidebar-menu-container .prefix,
-    .sidebar-menu-container .postfix,
-    .sidebar-menu-container slot {
-      display: flex;
-      align-items: center;
-    }
-
-    .sidebar-menu-container slot {
-      margin-right: auto;
-    }
-
-    .sidebar-menu-container .prefix {
-      width: auto;
-
-      color: var(--color-prefix);
-    }
-
-    .sidebar-menu-container.active .prefix {
-      width: auto;
-
-      color: var(--color-active);
-    }
-
-    .collapsed-content {
-      display: inline-flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
-
-    .collapsed-content .prefix {
-      align-items: center;
-      position: relative;
-    }
-
-    .collapsed-content .badge {
-      display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
-      overflow: hidden;
-      position: absolute;
-      top: 0;
-      right: 0;
+    .prefix {
+      display: grid;
+      place-items: center;
+      color: var(--ssk-colors-text-400);
     }
   `;
 }

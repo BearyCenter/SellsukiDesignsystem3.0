@@ -1,8 +1,9 @@
-import { LitElement, css, html, nothing } from "lit";
-import { ThemeValue } from "../../types/base-attributes";
-import { themeContext } from "../../contexts/theme";
-import { customElement, property } from "lit/decorators.js";
 import { consume } from "@lit-labs/context";
+import { LitElement, css, html, nothing } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { themeContext } from "../../contexts/theme";
+import { ThemeValue } from "../../types/base-attributes";
 import {
   FontFamilyGroup,
   FontWeight,
@@ -12,7 +13,6 @@ import {
   parseThemeToCssVariables,
   parseVariables,
 } from "../../types/theme";
-import { ifDefined } from "lit/directives/if-defined.js";
 
 @customElement("ssk-avatar")
 export class Avatar extends LitElement implements ThemeValue {
@@ -79,34 +79,35 @@ export class Avatar extends LitElement implements ThemeValue {
     let additionalCss = `
     --padding: ${parseVariables(
       cssVar("padding", this.padding),
-      cssVar("padding", this.size),
+      this.padding,
+      cssVar("padding", this.size)
     )};
     --font-family: ${parseVariables(
-      cssVar("font-family", this.fontFamilyGroup),
+      cssVar("font-family", this.fontFamilyGroup)
     )};
     --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
     --font-size: ${parseVariables(
       cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size),
+      cssVar("font-size", this.size)
     )};
     --color: ${parseVariables(cssVar("colors", this.color), this.color)};
     --background-color: ${parseVariables(
       cssVar("colors", this.backgroundColor),
-      this.backgroundColor,
+      this.backgroundColor
     )};
     width: ${parseVariables(
       cssVar("width", this.width),
       cssVar("width", this.size),
       this.width,
       this.boxSize,
-      "auto",
+      "auto"
     )};
     height: ${parseVariables(
       cssVar("height", this.height),
       cssVar("height", this.size),
       this.height,
       this.boxSize,
-      "auto",
+      "auto"
     )};
     --margin: ${parseVariables(cssVar("margin", this.margin))};
     border-radius: ${
@@ -117,12 +118,12 @@ export class Avatar extends LitElement implements ThemeValue {
     border-width:  ${parseVariables(
       cssVar("border-width", this.borderWidth),
       this.borderWidth,
-      "0px",
+      "0px"
     )};
     border-color: ${parseVariables(
       cssVar("border-color", this.borderColor),
       this.borderColor,
-      "transparent",
+      "transparent"
     )};
     object-fit: ${this.objectFit};
     `;
@@ -159,10 +160,10 @@ export class Avatar extends LitElement implements ThemeValue {
     img {
       margin: var(--margin);
       color: var(--color);
+      padding: var(--padding);
     }
 
     div {
-      padding: var(--padding);
       text-align: center;
       background-color: var(--background-color);
       color: var(--color);

@@ -49,11 +49,7 @@ export class Dropdown extends LitElement {
 
   // ThemeValue
   @property({ type: String })
-  themeColor: ColorRole | ColorName = "primary";
-  @property({ type: String })
-  color?: ColorRole | ColorName;
-  @property({ type: String })
-  backgroundColor?: string | undefined;
+  themeColor: ColorRole | ColorName = "background";
 
   @property({ type: String })
   size: Size = "md";
@@ -94,11 +90,6 @@ export class Dropdown extends LitElement {
 
   @property({ type: Boolean })
   search = false;
-
-  private onSearch = (e: Event) => {
-    const input = e.target as HTMLInputElement;
-    console.log(input.value);
-  };
 
   private showOptions = false;
 
@@ -142,25 +133,17 @@ export class Dropdown extends LitElement {
 
       <style>
         :host {
-          --color: ${parseVariables(
-            cssVar("colors", this.color),
-            cssVar("colors", this.color, 500),
-            this.color,
-            cssVar("colors", "text", 500)
-          )};
+          --color: ${parseVariables(cssVar("colors", "text", 500))};
           --color-disabled: ${parseVariables(cssVar("colors", "text", 300))};
 
-          --color-helper: ${parseVariables(
-            cssVar("colors", this.color),
-            cssVar("colors", this.color, 300),
-            this.color,
-            cssVar("colors", "text", 300)
+          --color-helper: ${parseVariables(cssVar("colors", "text", 300))};
+
+          --options-background-color: ${parseVariables(
+            cssVar("colors", "background", 50)
           )};
 
           --background-color: ${parseVariables(
-            cssVar("colors", this.backgroundColor),
-            cssVar("colors", this.backgroundColor, 50),
-            this.backgroundColor,
+            cssVar("colors", this.themeColor, 50),
             cssVar("colors", "background", 50)
           )};
 
@@ -172,7 +155,9 @@ export class Dropdown extends LitElement {
             cssVar("colors", "border", 50)
           )};
 
-          --border-color: ${parseVariables(cssVar("colors", "border", 100))};
+          --border-color: ${parseVariables(
+            cssVar("colors", this.themeColor, 100)
+          )};
           --border-color-active: ${parseVariables(
             cssVar("colors", this.themeColor, 600)
           )};
@@ -207,7 +192,11 @@ export class Dropdown extends LitElement {
             cssVar("colors", "error", 300)
           )};
 
-          --width: ${parseVariables(cssVar("width", this.width), "auto")};
+          --width: ${parseVariables(
+            cssVar("width", this.width),
+            this.width,
+            "auto"
+          )};
         }
       </style>
 
@@ -216,7 +205,9 @@ export class Dropdown extends LitElement {
         <div class="dropdown-container">
           <div
             id="dropdown"
-            class=${`dropdown ${this.disabled ? "disabled" : ""}`}
+            class=${`dropdown ${this.disabled ? "disabled" : ""} ${
+              this.showOptions ? "active" : ""
+            }`}
           >
             <span class="label-value" data-testid=${this.testId || nothing}>
               <slot name="selected"></slot>
@@ -245,7 +236,8 @@ export class Dropdown extends LitElement {
       line-height: var(--line-height);
     }
 
-    div.container {
+    div.container,
+    :host {
       display: flex;
       flex-direction: column;
       width: var(--width);
@@ -280,7 +272,7 @@ export class Dropdown extends LitElement {
       color: var(--color-disabled);
     }
 
-    div.dropdown:focus-within {
+    div.dropdown.active {
       border-color: var(--border-color-active);
       outline: 4px solid var(--outline-color-active);
     }
@@ -311,10 +303,10 @@ export class Dropdown extends LitElement {
 
       position: absolute;
       z-index: 4;
-      top: 50px;
+      top: calc(100% + 6px);
       left: 0;
       width: 100%;
-      background-color: var(--background-color);
+      background-color: var(--options-background-color);
       border-radius: var(--rounded);
       border: 1px solid var(--border-color);
       padding: 0.5em 0.25em;

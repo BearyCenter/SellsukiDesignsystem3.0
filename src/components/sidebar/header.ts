@@ -21,11 +21,6 @@ export class SidebarList extends LitElement {
   @property({ type: String })
   testId?: string;
 
-  @property({ type: String })
-  label1?: string | undefined;
-  @property({ type: String })
-  label2?: string | undefined;
-
   render() {
     if (this.hidden) {
       return null;
@@ -38,18 +33,9 @@ export class SidebarList extends LitElement {
         class="sidebar-header-container"
         data-testid=${this.testId || nothing}
       >
-        <div class="prefix">
-          <slot name="prefix"></slot>
-        </div>
-
         ${this.state?.expanded
-          ? html`
-              <div class="content">
-                <div class="label1">${this.label1}</div>
-                <div class="label2">${this.label2}</div>
-              </div>
-            `
-          : nothing}
+          ? html` <slot></slot> `
+          : html` <slot name="mini"></slot> `}
       </div>
     `;
   }
@@ -61,16 +47,13 @@ export class SidebarList extends LitElement {
       justify-content: center;
       cursor: pointer;
       transition: background-color 0.2s ease-in-out;
-      background-color: var(--ssk-colors-theme-200);
       color: var(--color);
       font-size: var(--font-size);
       font-family: var(--font-family);
       font-weight: var(--font-weight);
       line-height: var(--line-height);
 
-      padding: var(--padding);
-      margin: var(--margin);
-
+      padding: 0;
       gap: 8px;
       border-radius: 8px;
       border-color: var(--border-color);

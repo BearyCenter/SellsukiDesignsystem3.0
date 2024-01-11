@@ -58,67 +58,71 @@ export class Sidebar
     selectedItems: this.selectedItems,
     expandedGroups: this.expandedGroups,
     setExpanded: (expanded: boolean) => {
-      this.state = {
-        ...this.state,
-        expanded,
-      };
-      this.expanded = expanded;
+      // this.state = {
+      //   ...this.state,
+      //   expanded,
+      // };
+      // this.expanded = expanded;
 
       this.dispatchEvent(
         new CustomEvent("expanded-changed", {
-          detail: this.state,
+          detail: expanded,
           bubbles: true,
           composed: true,
         })
       );
     },
     setSelectedItem: (key: string, selected: boolean) => {
-      if (selected) {
-        this.state.selectedItems.push(key);
-      } else {
-        this.state.selectedItems = this.state.selectedItems.filter(
-          (item) => item !== key
-        );
-      }
+      // if (selected) {
+      //   this.state.selectedItems.push(key);
+      // } else {
+      //   this.state.selectedItems = this.state.selectedItems.filter(
+      //     (item) => item !== key
+      //   );
+      // }
 
-      this.state = {
-        ...this.state,
-        selectedItems: [...new Set(this.state.selectedItems)],
-      };
-      this.selectedItems = this.state.selectedItems;
+      // this.state = {
+      //   ...this.state,
+      //   selectedItems: [...new Set(this.state.selectedItems)],
+      // };
+      // this.selectedItems = this.state.selectedItems;
 
       this.dispatchEvent(
-        new CustomEvent("selected-changed", {
-          detail: this.state,
+        new CustomEvent("selected-items-changed", {
+          detail: {
+            key,
+            selected,
+          },
           bubbles: true,
           composed: true,
         })
       );
     },
-    setExpandedGroup: (key: string, collapsed: boolean) => {
-      if (collapsed) {
-        this.state.expandedGroups.push(key);
-      } else {
-        this.state.expandedGroups = this.state.expandedGroups.filter(
-          (item) => item !== key
-        );
-      }
+    setExpandedGroup: (key: string, expanded: boolean) => {
+      // if (collapsed) {
+      //   this.state.expandedGroups.push(key);
+      // } else {
+      //   this.state.expandedGroups = this.state.expandedGroups.filter(
+      //     (item) => item !== key
+      //   );
+      // }
 
-      this.state = {
-        ...this.state,
-        expandedGroups: [...new Set(this.state.expandedGroups)],
-      };
-      this.expandedGroups = this.state.expandedGroups;
+      // this.state = {
+      //   ...this.state,
+      //   expandedGroups: [...new Set(this.state.expandedGroups)],
+      // };
+      // this.expandedGroups = this.state.expandedGroups;
 
       this.dispatchEvent(
-        new CustomEvent("collapsed-changed", {
-          detail: this.state,
+        new CustomEvent("expanded-groups-changed", {
+          detail: {
+            key,
+            expanded,
+          },
           bubbles: true,
           composed: true,
         })
       );
-
-      console.log(this.state);
     },
   };
 
@@ -129,8 +133,8 @@ export class Sidebar
     this.state = {
       ...this.state,
       expanded: this.expanded,
-      selectedItems: this.selectedItems,
-      expandedGroups: this.expandedGroups,
+      selectedItems: this.selectedItems || [],
+      expandedGroups: this.expandedGroups || [],
     };
   }
 
@@ -174,6 +178,10 @@ export class Sidebar
   }
 
   static styles = css`
+    :host {
+      display: block;
+    }
+
     .sidebar {
       display: grid;
       grid-template-rows: auto 1fr auto;
@@ -181,9 +189,8 @@ export class Sidebar
       width: 256px;
       box-sizing: border-box;
       overflow-x: hidden;
-      padding: var(--padding);
-      transition: width 0.3s ease;
-      gap: 0.5em;
+      padding: 12px 18px;
+      gap: 8px;
       border-right: 1px solid var(--border-color);
       background-color: var(--ssk-colors-background-50);
     }
