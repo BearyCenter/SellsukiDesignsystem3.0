@@ -42,7 +42,7 @@ const meta = {
               (v) => html`<section>
                 <div class="container">
                   ${size.map(
-                    (w) => html` <ssk-avatar
+                    (w) => html`<ssk-avatar
                       ${spread({ ...args, shape: v, size: w })}
                     ></ssk-avatar>`
                   )}

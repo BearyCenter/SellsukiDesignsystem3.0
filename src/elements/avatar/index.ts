@@ -56,6 +56,10 @@ export class Avatar extends LitElement implements ThemeValue {
   objectFit?: "fill" | "contain" | "cover" | "none" | "scale-down" | undefined;
 
   private initialism = (label: string) => {
+    if (!label) {
+      return "?";
+    }
+
     if (label.length <= 2) {
       return label.toUpperCase();
     }
