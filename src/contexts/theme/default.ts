@@ -1144,6 +1144,29 @@ export const defaultTheme: Theme = {
         "4xl": "10px",
       },
     },
+    avatar: {
+      padding: {
+        xs: "0px",
+        sm: "0px",
+        md: "0px",
+        lg: "0px",
+        xl: "0px",
+      },
+      width: {
+        xs: "20px",
+        sm: "24px",
+        md: "40px",
+        lg: "56px",
+        xl: "72px",
+      },
+      fontSize: {
+        xs: "10px",
+        sm: "12px",
+        md: "20px",
+        lg: "28px",
+        xl: "36px",
+      },
+    },
   },
 };
 
