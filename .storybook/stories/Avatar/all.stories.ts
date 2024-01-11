@@ -63,7 +63,6 @@ const meta = {
                         shape: v,
                         size: s,
                         src: "",
-                        label: "ww",
                       })}
                     ></ssk-avatar>`
                   )}
@@ -85,10 +84,10 @@ type Story = StoryObj<AvatarArgs>;
 
 export const ShowCase: Story = {
   args: {
-    src: "https://placehold.co/400x400",
+    src: "/public/Avatar.png",
     alt: "demo avatar",
-    backgroundColor: "#32A9FF",
-    color: "white",
+    themeColor: "primary",
+    label: "william wilson",
   },
   parameters: {
     design: {

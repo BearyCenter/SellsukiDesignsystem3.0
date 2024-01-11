@@ -28,7 +28,7 @@ export class Avatar extends LitElement implements ThemeValue {
   @property({ type: String })
   themeColor: string = "primary";
   @property({ type: String })
-  color?: string;
+  color?: string = "white";
   @property({ type: String })
   padding?: Size;
 
@@ -55,7 +55,7 @@ export class Avatar extends LitElement implements ThemeValue {
   @property({ type: String })
   objectFit?: "fill" | "contain" | "cover" | "none" | "scale-down" | undefined;
 
-  private initialism = (label: string) => {
+  private initialism = (label?: string) => {
     if (!label) {
       return "?";
     }
@@ -64,11 +64,10 @@ export class Avatar extends LitElement implements ThemeValue {
       return label.toUpperCase();
     }
 
-    // Split the name into words
-    const words = name.split(" ");
-
     // Get the initials of each word
-    const initials = words.map((word) => word.charAt(0).toUpperCase());
+    const initials = label
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase());
 
     // Concatenate the initials to form the shortened name
     const shortenedName = initials.join("");

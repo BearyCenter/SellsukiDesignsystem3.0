@@ -31,11 +31,6 @@ const meta = {
         type: "text",
       },
     },
-    boxSize: {
-      control: {
-        type: "text",
-      },
-    },
     objectFit: {
       options: ["fill", "contain", "cover", "none", "scale-down"],
       control: {
@@ -57,7 +52,7 @@ type Story = StoryObj<AvatarArgs>;
 
 export const Default: Story = {
   args: {
-    src: "https://placehold.co/72x72",
+    src: "/public/Avatar.png",
     alt: "demo avatar",
   },
   parameters: {
@@ -70,9 +65,11 @@ export const Default: Story = {
 
 export const Circle: Story = {
   args: {
-    src: "https://placehold.co/72x72",
-    alt: "demo avatar",
     shape: "circle",
+    src: "/public/Avatar.png",
+    alt: "demo avatar",
+    themeColor: "primary",
+    label: "william wilson",
   },
   parameters: {
     design: {
@@ -84,9 +81,8 @@ export const Circle: Story = {
 
 export const InitialDefault: Story = {
   args: {
-    label: "WW",
-    backgroundColor: "#32A9FF",
-    color: "white",
+    themeColor: "primary",
+    label: "william wilson",
   },
   parameters: {
     design: {
@@ -98,9 +94,8 @@ export const InitialDefault: Story = {
 
 export const InitialCircle: Story = {
   args: {
-    label: "WW",
-    backgroundColor: "#32A9FF",
-    color: "white",
+    themeColor: "primary",
+    label: "william wilson",
     shape: "circle",
   },
   parameters: {
