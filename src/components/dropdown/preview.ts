@@ -67,8 +67,8 @@ export class DropdownPreview extends LitElement {
   static styles = css`
     .container {
       display: grid;
-      grid-template-columns: auto 1fr;
-      grid-gap: 0.5em;
+      grid-auto-flow: column;
+      gap: 0.5em;
       padding: 0;
 
       color: var(--color);

@@ -91,6 +91,9 @@ export class Dropdown extends LitElement {
   @property({ type: Boolean })
   search = false;
 
+  @property({ type: Boolean })
+  hideChevron = false;
+
   private showOptions = false;
 
   private setupOnClickContainer = (e: MouseEvent) => {
@@ -178,7 +181,7 @@ export class Dropdown extends LitElement {
           --font-size: ${parseVariables(cssVar("font-size", this.size))};
           --line-height: ${parseVariables(cssVar("font-size", this.size))};
 
-          --gap: ${parseVariables(cssVar("spacing", this.size))};
+          --gap: ${parseVariables(cssVar("spacing", this.size), "1em")};
           --rounded: ${parseVariables(cssVar("rounded", this.size))};
 
           --color-error: ${parseVariables(cssVar("colors", "error", 600))};
@@ -212,7 +215,9 @@ export class Dropdown extends LitElement {
             <span class="label-value" data-testid=${this.testId || nothing}>
               <slot name="selected"></slot>
             </span>
-            <ssk-icon name="outline-chevron-down"></ssk-icon>
+            ${this.hideChevron
+              ? nothing
+              : html`<ssk-icon name="outline-chevron-down"></ssk-icon>`}
           </div>
 
           <div class="options-container ${this.showOptions ? "show" : ""}">
@@ -249,8 +254,8 @@ export class Dropdown extends LitElement {
     }
 
     div.dropdown {
-      display: grid;
-      grid-template-columns: 1fr auto;
+      display: flex;
+      justify-content: space-between;
       /* overflow: hidden; */
       align-items: center;
 

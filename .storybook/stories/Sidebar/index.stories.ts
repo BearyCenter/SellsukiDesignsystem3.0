@@ -68,6 +68,34 @@ export const Default: Story = {
     const [{}, updateArgs] = useArgs();
 
     return html`
+      <style>
+        .company-header {
+          display: grid;
+          grid-template-areas: "avatar name" "avatar branch";
+          grid-template-columns: min-content 1fr;
+          align-items: center;
+          gap: 0 12px;
+        }
+
+        .company-header .avatar {
+          grid-area: avatar;
+        }
+
+        .company-header .name {
+          grid-area: name;
+          font-size: 24px;
+          color: var(--ssk-colors-text-900);
+          text-align: start;
+        }
+
+        .company-header .branch {
+          grid-area: branch;
+          font-size: 20px;
+          color: var(--ssk-colors-primary-500);
+          text-align: start;
+        }
+      </style>
+
       <ssk-sidebar
         ${spread(args)}
         @expanded-changed=${(e: CustomEvent) => {
@@ -94,11 +122,7 @@ export const Default: Story = {
           }
         }}
       >
-        <ssk-sidebar-header
-          slot="header"
-          label1="Sellsuki company"
-          label2="สาขา รัชดาภิเษก"
-        >
+        <ssk-sidebar-header slot="header">
           <ssk-avatar
             src="/public/Avatar.png"
             alt="demo avatar"
@@ -107,14 +131,18 @@ export const Default: Story = {
             slot="mini"
           ></ssk-avatar>
           <!-- Expanded -->
-          <ssk-dropdown themeColor="primary" width="full">
+          <ssk-dropdown themeColor="primary" width="full" hideChevron>
             <ssk-dropdown-preview slot="selected">
-              <ssk-avatar
-                src="/public/Avatar.png"
-                alt="demo avatar"
-                shape="circle"
-              ></ssk-avatar>
-              hello
+              <div class="company-header">
+                <ssk-avatar
+                  class="avatar"
+                  src="/public/Avatar.png"
+                  alt="demo avatar"
+                  shape="circle"
+                ></ssk-avatar>
+                <label class="name">Sellsuki company</label>
+                <label class="branch">สาขา รัชดาภิเษก</label>
+              </div>
             </ssk-dropdown-preview>
 
             <ssk-dropdown-item>item 1</ssk-dropdown-item>
