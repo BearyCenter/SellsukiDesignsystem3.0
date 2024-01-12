@@ -1,8 +1,7 @@
-import { createContext, provide } from "@lit-labs/context";
+import { createContext, provide } from "@lit/context";
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "../../components/toast";
-
 export type ToastData = {
   id: string;
   title: string;
@@ -31,7 +30,7 @@ export class ToastProvider extends LitElement {
     clearToasts: () => {},
   };
 
-  private poller?: NodeJS.Timer;
+  private poller?: NodeJS.Timeout;
 
   connectedCallback() {
     super.connectedCallback();

@@ -1,4 +1,4 @@
-import { consume } from "@lit-labs/context";
+import { consume } from "@lit/context";
 import { LitElement, TemplateResult, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
@@ -121,25 +121,25 @@ export class Heading extends LitElement implements ThemeValue {
 
     let additionalCss = `
     --font-family: ${parseVariables(
-      cssVar("font-family", this.fontFamilyGroup),
+      cssVar("font-family", this.fontFamilyGroup)
     )};
     --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
     --font-size: ${parseVariables(
       cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size),
+      cssVar("font-size", this.size)
     )};
     --line-height: ${parseVariables(
       cssVar("line-height", this.lineHeight),
-      cssVar("font-size", this.size),
+      cssVar("font-size", this.size)
     )};
 
     --padding: ${parseVariables(
       cssVar("padding", this.padding),
-      cssVar("padding", this.size),
+      cssVar("padding", this.size)
     )};
     --margin: ${parseVariables(
       cssVar("margin", this.margin),
-      cssVar("margin", this.size),
+      cssVar("margin", this.size)
     )};
     `;
 
@@ -171,7 +171,7 @@ export class Heading extends LitElement implements ThemeValue {
     return html`
       ${parseThemeToCssVariables(
         this.theme?.components?.heading,
-        "h1, h2, h3, h4, h5",
+        "h1, h2, h3, h4, h5"
       )}
 
       <style>

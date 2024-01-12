@@ -1,20 +1,20 @@
-import { LitElement, html, css, nothing, TemplateResult, svg } from "lit";
-import { ThemeValue } from "../../types/base-attributes";
-import { themeContext } from "../../contexts/theme";
+import { consume } from "@lit/context";
+import { LitElement, TemplateResult, css, html, nothing, svg } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { consume } from "@lit-labs/context";
+import { themeContext } from "../../contexts/theme";
+import { redispatchEvents } from "../../helpers/lit";
+import { ThemeValue } from "../../types/base-attributes";
 import {
-  Theme,
+  ColorName,
+  ColorRole,
+  FontFamilyGroup,
+  FontWeight,
   Size,
+  Theme,
   cssVar,
   parseThemeToCssVariables,
   parseVariables,
-  ColorRole,
-  ColorName,
-  FontFamilyGroup,
-  FontWeight,
 } from "../../types/theme";
-import { redispatchEvents } from "../../helpers/lit";
 
 @customElement("ssk-menu-group")
 export class MenuGroup extends LitElement implements ThemeValue {
@@ -86,21 +86,21 @@ export class MenuGroup extends LitElement implements ThemeValue {
     --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
     --font-size: ${parseVariables(
       cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size),
+      cssVar("font-size", this.size)
     )};
     --padding: ${parseVariables(
       cssVar("padding", this.padding),
-      cssVar("padding", this.size),
+      cssVar("padding", this.size)
     )};
     --margin: ${parseVariables(cssVar("margin", this.margin))};
     --gap: ${parseVariables(
       cssVar("spacing", this.gap),
-      cssVar("padding", this.size),
+      cssVar("padding", this.size)
     )};
 
     --rounded: ${parseVariables(
       cssVar("rounded", this.rounded),
-      cssVar("rounded", this.size),
+      cssVar("rounded", this.size)
     )};
 
     --background-color: transparent;

@@ -1,7 +1,8 @@
-import { createContext, provide } from "@lit-labs/context";
+import { createContext, provide } from "@lit/context";
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { IdbI18nStore } from "./idb";
+;
 
 export type I18nData = {
   [key: string]: { [lang: string]: string };

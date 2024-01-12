@@ -1,21 +1,21 @@
-import { LitElement, html, css, nothing } from "lit";
-import { ThemeValue } from "../../types/base-attributes";
-import { themeContext } from "../../contexts/theme";
+import { consume } from "@lit/context";
+import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { consume } from "@lit-labs/context";
+import { themeContext } from "../../contexts/theme";
+import { redispatchEvents } from "../../helpers/lit";
+import { ThemeValue } from "../../types/base-attributes";
 import {
-  Theme,
-  Size,
-  cssVar,
-  parseThemeToCssVariables,
-  parseVariables,
-  ColorRole,
   ColorName,
+  ColorRole,
   FontFamilyGroup,
   FontWeight,
   MenuVariants,
+  Size,
+  Theme,
+  cssVar,
+  parseThemeToCssVariables,
+  parseVariables,
 } from "../../types/theme";
-import { redispatchEvents } from "../../helpers/lit";
 
 @customElement("ssk-menu-items")
 export class MenuItems extends LitElement implements ThemeValue {
@@ -78,29 +78,29 @@ export class MenuItems extends LitElement implements ThemeValue {
     --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
     --font-size: ${parseVariables(
       cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size),
+      cssVar("font-size", this.size)
     )};
     --padding: ${parseVariables(
       cssVar("padding", this.padding),
-      cssVar("padding", this.size),
+      cssVar("padding", this.size)
     )};
     --margin: ${parseVariables(cssVar("margin", this.margin))};
     --gap: ${parseVariables(
       cssVar("spacing", this.gap),
-      cssVar("spacing", this.size),
+      cssVar("spacing", this.size)
     )};
 
     --rounded: ${parseVariables(
       cssVar("rounded", this.rounded),
-      cssVar("rounded", this.size),
+      cssVar("rounded", this.size)
     )};
 
     --background-color: transparent;
     --background-color-hover: ${parseVariables(
-      cssVar("colors", this.themeColor, 100),
+      cssVar("colors", this.themeColor, 100)
     )};
     --background-color-disabled: ${parseVariables(
-      cssVar("colors", "gray", 100),
+      cssVar("colors", "gray", 100)
     )};
     --color: var(--color);
     --color-hover: var(--color);
@@ -116,13 +116,13 @@ export class MenuItems extends LitElement implements ThemeValue {
       case "solid":
         additionalCss += `
         --background-color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600),
+          cssVar("colors", this.themeColor, 600)
         )};
         --color-active:  ${parseVariables(
           cssVar("colors", this.color),
           cssVar("colors", this.color),
           this.color,
-          cssVar("colors", "white", 200),
+          cssVar("colors", "white", 200)
         )};
        `;
         break;
@@ -130,10 +130,10 @@ export class MenuItems extends LitElement implements ThemeValue {
       case "outline":
         additionalCss += `
         --background-color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 100),
+          cssVar("colors", this.themeColor, 100)
         )};
         --color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600),
+          cssVar("colors", this.themeColor, 600)
         )};
           `;
         break;
@@ -142,7 +142,7 @@ export class MenuItems extends LitElement implements ThemeValue {
     return html`
       ${parseThemeToCssVariables(
         this.theme?.components?.menu,
-        ".menu-container",
+        ".menu-container"
       )}
       <style>
         .menu-container {

@@ -1,4 +1,4 @@
-import { consume } from "@lit-labs/context";
+import { consume } from "@lit/context";
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
@@ -47,21 +47,21 @@ export class TopNavbar extends LitElement implements ThemeValue {
     let additionalCss = `
     --color: ${parseVariables(cssVar("colors", this.color), this.color)};
     --font-family: ${parseVariables(
-      cssVar("font-family", this.fontFamilyGroup),
+      cssVar("font-family", this.fontFamilyGroup)
     )};
     --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
     --font-size: ${parseVariables(
       cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size),
+      cssVar("font-size", this.size)
     )};
     --padding: ${parseVariables(
       cssVar("padding", this.padding),
-      cssVar("padding", this.size),
+      cssVar("padding", this.size)
     )};
     --margin: ${parseVariables(cssVar("margin", this.margin))};
     --gap: ${parseVariables(
       cssVar("spacing", this.gap),
-      cssVar("padding", this.size),
+      cssVar("padding", this.size)
     )};
 
     --border-color: ${parseVariables(cssVar("colors", "gray", 200))};
