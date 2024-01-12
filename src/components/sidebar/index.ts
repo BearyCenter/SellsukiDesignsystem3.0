@@ -14,12 +14,12 @@ import {
   parseThemeToCssVariables,
   parseVariables,
 } from "../../types/theme";
+import "./group";
+import "./header";
+import "./item";
+import "./list";
+import "./types";
 import { SidebarAttributes, State, stateContext } from "./types";
-export * from "./group";
-export * from "./header";
-export * from "./item";
-export * from "./list";
-export * from "./types";
 
 @customElement("ssk-sidebar")
 export class Sidebar
