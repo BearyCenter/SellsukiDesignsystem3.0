@@ -56,7 +56,7 @@ export const Default: Story = {
     "?expanded": false,
     size: "md",
     ".selectedItems": [],
-    ".expandedGroups": [],
+    ".expandedGroups": ["product", "dashboard"],
   },
   parameters: {
     design: {
@@ -127,7 +127,7 @@ export const Default: Story = {
             src="/public/Avatar.png"
             alt="demo avatar"
             shape="circle"
-            padding="12px 0"
+            padding="16px 0"
             slot="mini"
           ></ssk-avatar>
           <!-- Expanded -->
@@ -151,73 +151,42 @@ export const Default: Story = {
           </ssk-dropdown>
         </ssk-sidebar-header>
 
-        <div>
-          <ssk-sidebar-group
-            label="Dashboard"
-            key="dashboard"
-            slot="header"
-            size="sm"
-          >
-            <ssk-sidebar-item size="md" key="dashboard-item-1">
+        <ssk-sidebar-list>
+          <ssk-sidebar-group label="Dashboard" key="dashboard">
+            <ssk-sidebar-item key="dashboard-item-1">
               <ssk-icon
                 slot="prefix"
                 name="outline-building-storefront"
-                size="md"
               ></ssk-icon>
               item
             </ssk-sidebar-item>
-            <ssk-sidebar-item size="md" key="dashboard-item-2">
-              <ssk-icon
-                slot="prefix"
-                name="outline-inbox-stack"
-                size="md"
-              ></ssk-icon>
+            <ssk-sidebar-item key="dashboard-item-2">
+              <ssk-icon slot="prefix" name="outline-inbox-stack"></ssk-icon>
               item 2
             </ssk-sidebar-item>
-            <ssk-sidebar-item size="md" key="dashboard-item-3" disabled>
-              <ssk-icon slot="prefix" name="solid-signal" size="md"></ssk-icon>
+            <ssk-sidebar-item key="dashboard-item-3" disabled>
+              <ssk-icon slot="prefix" name="solid-signal"></ssk-icon>
               item 3
             </ssk-sidebar-item>
           </ssk-sidebar-group>
-          <ssk-sidebar-group
-            label="Product"
-            key="product"
-            slot="header"
-            size="sm"
-          >
-            <ssk-sidebar-item size="md" key="product-item-1">
-              <ssk-icon
-                slot="prefix"
-                name="outline-shopping-bag"
-                size="md"
-              ></ssk-icon>
+          <ssk-sidebar-group label="Product" key="product">
+            <ssk-sidebar-item key="product-item-1">
+              <ssk-icon slot="prefix" name="outline-shopping-bag"></ssk-icon>
               item 1
             </ssk-sidebar-item>
-            <ssk-sidebar-item size="md" key="product-item-2">
-              <ssk-icon
-                slot="prefix"
-                name="outline-squares-plus"
-                size="md"
-              ></ssk-icon>
+            <ssk-sidebar-item key="product-item-2">
+              <ssk-icon slot="prefix" name="outline-squares-plus"></ssk-icon>
               item 2
             </ssk-sidebar-item>
           </ssk-sidebar-group>
-        </div>
+        </ssk-sidebar-list>
 
-        <ssk-sidebar-item slot="footer" size="md">
-          <ssk-icon
-            slot="prefix"
-            name="outline-user-group"
-            size="md"
-          ></ssk-icon>
+        <ssk-sidebar-item slot="footer">
+          <ssk-icon slot="prefix" name="outline-user-group"></ssk-icon>
           Support
         </ssk-sidebar-item>
-        <ssk-sidebar-item slot="footer" size="md">
-          <ssk-icon
-            slot="prefix"
-            name="outline-cog-8-tooth"
-            size="md"
-          ></ssk-icon>
+        <ssk-sidebar-item slot="footer">
+          <ssk-icon slot="prefix" name="outline-cog-8-tooth"></ssk-icon>
           Setting
         </ssk-sidebar-item>
       </ssk-sidebar>

@@ -125,7 +125,8 @@ export class Avatar extends LitElement implements ThemeValue {
 
   static styles = css`
     :host {
-      display: inline-block;
+      display: inherit;
+
       overflow: hidden;
     }
 

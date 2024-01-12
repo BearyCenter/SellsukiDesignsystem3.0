@@ -17,7 +17,8 @@ import {
 import { SidebarAttributes, State, stateContext } from "./types";
 export * from "./group";
 export * from "./header";
-export * from "./items";
+export * from "./item";
+export * from "./list";
 export * from "./types";
 
 @customElement("ssk-sidebar")
@@ -193,6 +194,7 @@ export class Sidebar
       gap: 8px;
       border-right: 1px solid var(--border-color);
       background-color: var(--ssk-colors-background-50);
+      transition: width 0.2s ease-out;
     }
 
     .sidebar.collapsed {
