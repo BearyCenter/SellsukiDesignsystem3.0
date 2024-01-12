@@ -1,7 +1,7 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { State, stateContext } from "./types";
+import { State, stateContext } from "./sidebar";
 
 @customElement("ssk-sidebar-item")
 export class SidebarItems extends LitElement {
@@ -79,6 +79,10 @@ export class SidebarItems extends LitElement {
     .sidebar-item-container.active {
       background-color: var(--ssk-colors-theme-100);
       color: var(--ssk-colors-theme-500);
+
+      .prefix {
+        color: var(--ssk-colors-theme-500);
+      }
     }
 
     .sidebar-item-container.disabled {

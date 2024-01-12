@@ -1,7 +1,7 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { State, stateContext } from "./types";
+import { State, stateContext } from "./sidebar";
 
 @customElement("ssk-sidebar-group")
 export class SidebarGroup extends LitElement {
