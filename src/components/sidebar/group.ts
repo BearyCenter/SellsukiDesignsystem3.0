@@ -21,8 +21,15 @@ export class SidebarGroup extends LitElement {
   @property({ type: String })
   label?: string | undefined;
 
+  @property({ type: Boolean })
+  expanded?: boolean = undefined;
+
   render() {
-    const isOpen = this.state?.expandedGroups.includes(this.key);
+    let isOpen = this.state?.expandedGroups.includes(this.key);
+
+    if (this.expanded !== undefined) {
+      isOpen = this.expanded;
+    }
 
     return html`
       ${this.state?.expanded

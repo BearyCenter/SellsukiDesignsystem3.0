@@ -23,8 +23,15 @@ export class SidebarItems extends LitElement {
   @property({ type: Boolean })
   disabled = false;
 
+  @property({ type: Boolean })
+  actived?: boolean = undefined;
+
   render() {
-    const isActive = this.state?.selectedItems.includes(this.key);
+    let isActive = this.state?.selectedItems.includes(this.key);
+
+    if (this.actived !== undefined) {
+      isActive = this.actived;
+    }
 
     return html`
       <div

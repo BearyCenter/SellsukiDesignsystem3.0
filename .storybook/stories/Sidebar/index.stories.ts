@@ -179,6 +179,17 @@ export const Default: Story = {
               item 2
             </ssk-sidebar-item>
           </ssk-sidebar-group>
+
+          <ssk-sidebar-group label="Overide by Atribute" key="demo" expanded>
+            <ssk-sidebar-item key="demo-item-1" actived>
+              <ssk-icon slot="prefix" name="outline-shopping-bag"></ssk-icon>
+              item 1
+            </ssk-sidebar-item>
+            <ssk-sidebar-item key="demo-item-2" .actived=${false}>
+              <ssk-icon slot="prefix" name="outline-squares-plus"></ssk-icon>
+              item 2
+            </ssk-sidebar-item>
+          </ssk-sidebar-group>
         </ssk-sidebar-list>
 
         <ssk-sidebar-item slot="footer">
