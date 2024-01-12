@@ -55,7 +55,7 @@ export class Sidebar
   @provide({ context: stateContext })
   @property({ attribute: false })
   state: State = {
-    expanded: false,
+    expanded: !!this.expanded,
     selectedItems: this.selectedItems,
     expandedGroups: this.expandedGroups,
     setExpanded: (expanded: boolean) => {
@@ -199,6 +199,12 @@ export class Sidebar
 
     .sidebar.collapsed {
       width: 92px;
+    }
+
+    .content,
+    .footer {
+      display: flex;
+      flex-direction: column;
     }
 
     .footer {

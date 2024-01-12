@@ -17,8 +17,8 @@ export class SidebarList extends LitElement {
     .list {
       display: grid;
       grid-auto-flow: row;
-      gap: 0.5em;
-      padding: 0.5em 0;
+      gap: 4px;
+      padding: 0;
     }
   `;
 }

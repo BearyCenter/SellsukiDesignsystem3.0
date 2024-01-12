@@ -53,7 +53,7 @@ type Story = StoryObj<SidebarArgs>;
 
 export const Default: Story = {
   args: {
-    "?expanded": false,
+    "?expanded": true,
     size: "md",
     ".selectedItems": [],
     ".expandedGroups": ["product", "dashboard"],
