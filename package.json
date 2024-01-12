@@ -30,12 +30,12 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lit-labs/context": "^0.4.0",
+    "@lit-labs/context": "^0.5.1",
     "@open-wc/lit-helpers": "^0.6.0",
-    "change-case": "^5.0.2",
+    "change-case": "^5.4.1",
     "glob": "^10.3.3",
     "idb": "^7.1.1",
-    "lit": "^2.7.6",
+    "lit": "^3.1.1",
     "mustache": "^4.2.0"
   },
   "devDependencies": {
