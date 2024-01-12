@@ -1,17 +1,17 @@
-import { LitElement, html, nothing, css } from "lit";
-import { ThemeValue } from "../../types/base-attributes";
+import { consume } from "@lit/context";
+import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { consume } from "@lit-labs/context";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
+import { ThemeValue } from "../../types/base-attributes";
 
 import {
+  FontFamilyGroup,
   Size,
   Theme,
-  FontFamilyGroup,
+  cssVar,
   parseThemeToCssVariables,
   parseVariables,
-  cssVar,
 } from "../../types/theme";
 
 export type Type = "default" | "info" | "error" | "warning" | "success";
@@ -60,21 +60,21 @@ export class Alert extends LitElement implements ThemeValue {
     --padding: ${parseVariables(cssVar("padding", this.padding), "0.75em")};
     --border-color: ${parseVariables(
       cssVar("border-color", this.type, 500),
-      cssVar("border-color", "gray", 200),
+      cssVar("border-color", "gray", 200)
     )};
     --width: ${parseVariables(cssVar("width", this.width), "auto")};
     --rounded: ${parseVariables(cssVar("rounded", this.rounded), "8px")};
     --background-color: ${parseVariables(
       cssVar("border-color", this.type, 50),
-      "#fff",
+      "#fff"
     )};
     --color: ${parseVariables(cssVar("colors", "gray", 500))};
     --font-family: ${parseVariables(
-      cssVar("font-family", this.fontFamilyGroup),
+      cssVar("font-family", this.fontFamilyGroup)
     )};
     --font-size: ${parseVariables(
       cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size),
+      cssVar("font-size", this.size)
     )};
     `;
 

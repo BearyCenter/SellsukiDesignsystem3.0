@@ -1,9 +1,9 @@
+import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
-import { ThemeValue } from "../../types/base-attributes";
-import { consume } from "@lit-labs/context";
 import { redispatchEvents } from "../../helpers/lit";
+import { ThemeValue } from "../../types/base-attributes";
 import {
   ColorName,
   ColorRole,
@@ -60,7 +60,7 @@ export class Toggle extends LitElement implements ThemeValue {
     let additionalCss = `
       --font-size: ${parseVariables(
         cssVar("font-size", this.fontSize),
-        cssVar("font-size", this.size),
+        cssVar("font-size", this.size)
       )};
 
       --margin: ${parseVariables(cssVar("margin", this.margin), this.margin)};
@@ -68,33 +68,33 @@ export class Toggle extends LitElement implements ThemeValue {
       --background-color: ${parseVariables(cssVar("colors", "gray", 200))};
 
       --background-color-hover: ${parseVariables(
-        cssVar("colors", "gray", 300),
+        cssVar("colors", "gray", 300)
       )};
 
       --background-color-disabled: ${parseVariables(
-        cssVar("colors", "gray", 200),
+        cssVar("colors", "gray", 200)
       )};
 
       --background-color-active: ${parseVariables(
         cssVar("colors", this.backgroundColor),
         this.backgroundColor,
-        cssVar("colors", this.themeColor, 500),
+        cssVar("colors", this.themeColor, 500)
       )};
 
       --background-color-active-hover: ${parseVariables(
         cssVar("colors", this.backgroundColor),
         this.backgroundColor,
-        cssVar("colors", this.themeColor, 600),
+        cssVar("colors", this.themeColor, 600)
       )};
 
       --background-color-active-disabled: ${parseVariables(
-        cssVar("colors", "gray", 600),
+        cssVar("colors", "gray", 600)
       )};
 
       --color: ${parseVariables(
         cssVar("colors", this.color, 200),
         cssVar("colors", "white", 200),
-        this.color,
+        this.color
       )}
     `;
 

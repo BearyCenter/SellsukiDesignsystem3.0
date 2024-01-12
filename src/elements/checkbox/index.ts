@@ -1,4 +1,4 @@
-import { consume } from "@lit-labs/context";
+import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
@@ -114,7 +114,7 @@ export class Checkbox extends LitElement implements ThemeValue {
                   @change=${(e: Event) => this._onChangeGroup(e)}
                 />
                 <label for="checkbox">${g.label}</label>
-              </div>`,
+              </div>`
             )}
           </div>
         `
@@ -127,23 +127,23 @@ export class Checkbox extends LitElement implements ThemeValue {
         div,
         input {
           --active-100: ${parseVariables(
-            cssVar("colors", this.themeColor, 100),
+            cssVar("colors", this.themeColor, 100)
           )};
           --active-500: ${parseVariables(
-            cssVar("colors", this.themeColor, 500),
+            cssVar("colors", this.themeColor, 500)
           )};
           --disabled-200: ${parseVariables(cssVar("colors", "gray", 200))};
           --disabled-300: ${parseVariables(cssVar("colors", "gray", 300))};
           --disabled-400: ${parseVariables(cssVar("colors", "gray", 400))};
           --border-radius: ${parseVariables(
             cssVar("rounded", this.rounded),
-            "20%",
+            "20%"
           )};
           --width: 0.7085em;
           --height: 0.7085em;
           --font-size: ${parseVariables(
             cssVar("font-size", this.fontSize),
-            cssVar("font-size", this.size),
+            cssVar("font-size", this.size)
           )};
         }
       </style>
@@ -193,7 +193,7 @@ export class Checkbox extends LitElement implements ThemeValue {
   private _onChangeGroup(e: Event) {
     const groupCheckList = this._filterCheckedList(
       (e.target as HTMLInputElement).value,
-      (e.target as HTMLInputElement).checked,
+      (e.target as HTMLInputElement).checked
     );
 
     this._setGroupChecked(groupCheckList);

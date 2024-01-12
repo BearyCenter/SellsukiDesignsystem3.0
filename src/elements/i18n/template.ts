@@ -1,4 +1,4 @@
-import { consume } from "@lit-labs/context";
+import { consume } from "@lit/context";
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { until } from "lit/directives/until.js";
@@ -27,7 +27,7 @@ export class Template extends LitElement {
 
   render() {
     return html`${until(
-      this.i18n?.render(this.key, this.lang, this.data, this.fallbackLang),
+      this.i18n?.render(this.key, this.lang, this.data, this.fallbackLang)
     )}`;
   }
 }

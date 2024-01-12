@@ -1,5 +1,6 @@
-import { createContext } from "@lit-labs/context";
+import { createContext } from "@lit/context";
 import { MenuVariants } from "../../types/theme";
+;
 
 export type SidebarAttributes = {
   label?: string;

@@ -1,8 +1,9 @@
+import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { ThemeValue } from "../../types/base-attributes";
-import { themeContext } from "../../contexts/theme";
 import { customElement, property } from "lit/decorators.js";
-import { consume } from "@lit-labs/context";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { themeContext } from "../../contexts/theme";
+import { ThemeValue } from "../../types/base-attributes";
 import {
   Size,
   Theme,
@@ -10,7 +11,6 @@ import {
   parseThemeToCssVariables,
   parseVariables,
 } from "../../types/theme";
-import { ifDefined } from "lit/directives/if-defined.js";
 
 @customElement("ssk-logo")
 export class Logo extends LitElement implements ThemeValue {
@@ -67,29 +67,29 @@ export class Logo extends LitElement implements ThemeValue {
       cssVar("width", this.size),
       this.width,
       this.boxSize,
-      "auto",
+      "auto"
     )};
     height: ${parseVariables(
       cssVar("height", this.height),
       cssVar("height", this.size),
       this.height,
       this.boxSize,
-      "auto",
+      "auto"
     )};
     --margin: ${parseVariables(cssVar("margin", this.margin))};
     --gap: ${parseVariables(
       cssVar("spacing", this.gap),
-      cssVar("spacing", this.size),
+      cssVar("spacing", this.size)
     )};
     border-width:  ${parseVariables(
       cssVar("border-width", this.borderWidth),
       this.borderWidth,
-      "0px",
+      "0px"
     )};
     border-color: ${parseVariables(
       cssVar("border-color", this.borderColor),
       this.borderColor,
-      "transparent",
+      "transparent"
     )};
     `;
 
