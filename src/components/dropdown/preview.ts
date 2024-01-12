@@ -11,7 +11,7 @@ import {
   Theme,
   parseThemeToCssVariables,
 } from "../../types/theme";
-import { Value, valueContext } from "./value";
+import { Value, valueContext } from "./dropdown";
 
 @customElement("ssk-dropdown-preview")
 export class DropdownPreview extends LitElement {
