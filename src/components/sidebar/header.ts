@@ -6,7 +6,7 @@ import { Theme, parseThemeToCssVariables } from "../../types/theme";
 import { State, stateContext } from "./types";
 
 @customElement("ssk-sidebar-header")
-export class SidebarList extends LitElement {
+export class SidebarHeader extends LitElement {
   static registeredName = "ssk-sidebar-header";
 
   @consume({ context: stateContext, subscribe: true })
@@ -80,6 +80,6 @@ export class SidebarList extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ssk-sidebar-header": SidebarList;
+    "ssk-sidebar-header": SidebarHeader;
   }
 }
