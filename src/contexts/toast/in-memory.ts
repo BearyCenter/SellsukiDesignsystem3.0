@@ -8,7 +8,7 @@ export const defaultToast: ToastData = {
   timeout: 5000,
 };
 
-export default class InMemoryToastStore implements ToastStore {
+export class InMemoryToastStore implements ToastStore {
   public toasts: ToastData[] = [];
 
   public addToast(toast: Partial<ToastData>): string {
