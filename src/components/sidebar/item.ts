@@ -76,6 +76,9 @@ export class SidebarItems extends LitElement {
     .sidebar-item-container.expanded {
       grid-template-columns: 24px auto;
       gap: 12px;
+      white-space: nowrap;
+      text-overflow: clip;
+      overflow: hidden;
     }
 
     .sidebar-item-container:hover {
