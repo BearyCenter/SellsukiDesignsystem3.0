@@ -44,30 +44,6 @@ export class TopNavbar extends LitElement implements ThemeValue {
   fontSize?: string | undefined;
 
   render() {
-    let additionalCss = `
-    --color: ${parseVariables(cssVar("colors", this.color), this.color)};
-    --font-family: ${parseVariables(
-      cssVar("font-family", this.fontFamilyGroup)
-    )};
-    --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
-    --font-size: ${parseVariables(
-      cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size)
-    )};
-    --padding: ${parseVariables(
-      cssVar("padding", this.padding),
-      cssVar("padding", this.size)
-    )};
-    --margin: ${parseVariables(cssVar("margin", this.margin))};
-    --gap: ${parseVariables(
-      cssVar("spacing", this.gap),
-      cssVar("padding", this.size)
-    )};
-
-    --border-color: ${parseVariables(cssVar("colors", "gray", 200))};
-    --gap: ${parseVariables(cssVar("spacing", this.gap))};
-    `;
-
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.topNavbar, ":host")}
       <style>
@@ -77,7 +53,30 @@ export class TopNavbar extends LitElement implements ThemeValue {
           height: 100%;
           justify-content: space-between;
           align-items: center;
-          ${additionalCss};
+
+          --color: ${parseVariables(cssVar("colors", this.color), this.color)};
+          --font-family: ${parseVariables(
+            cssVar("font-family", this.fontFamilyGroup)
+          )};
+          --font-weight: ${parseVariables(
+            cssVar("font-weight", this.fontWeight)
+          )};
+          --font-size: ${parseVariables(
+            cssVar("font-size", this.fontSize),
+            cssVar("font-size", this.size)
+          )};
+          --padding: ${parseVariables(
+            cssVar("padding", this.padding),
+            cssVar("padding", this.size)
+          )};
+          --margin: ${parseVariables(cssVar("margin", this.margin))};
+          --gap: ${parseVariables(
+            cssVar("spacing", this.gap),
+            cssVar("padding", this.size)
+          )};
+
+          --border-color: ${parseVariables(cssVar("colors", "gray", 200))};
+          --gap: ${parseVariables(cssVar("spacing", this.gap))};
         }
       </style>
 
@@ -105,6 +104,11 @@ export class TopNavbar extends LitElement implements ThemeValue {
       font-weight: var(--font-weight);
 
       border-bottom: 1px solid var(--border-color);
+    }
+
+    span {
+      display: flex;
+      align-items: center;
     }
   `;
 }
