@@ -65,10 +65,6 @@ export class TopNavbar extends LitElement implements ThemeValue {
             cssVar("font-size", this.fontSize),
             cssVar("font-size", this.size)
           )};
-          --padding: ${parseVariables(
-            cssVar("padding", this.padding),
-            cssVar("padding", this.size)
-          )};
           --margin: ${parseVariables(cssVar("margin", this.margin))};
           --gap: ${parseVariables(
             cssVar("spacing", this.gap),
@@ -95,7 +91,7 @@ export class TopNavbar extends LitElement implements ThemeValue {
 
       width: 100%;
       gap: var(--gap);
-      padding: var(--padding);
+      padding: 12px;
       margin: var(--margin);
       gap: var(--gap);
       color: var(--color);

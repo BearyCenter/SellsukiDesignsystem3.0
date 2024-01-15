@@ -16,32 +16,20 @@ import {
 } from "../../types/theme";
 
 import { createContext } from "@lit/context";
-export type Value = {
+export type DropdownState = {
   setValue: (value: string, el: HTMLElement) => void;
+  isOpened?: boolean;
+  disabled?: boolean;
+  isError?: boolean;
 };
 
-export const valueContext = createContext<Value>("ssk-dropdown-value-context");
+export const valueContext = createContext<DropdownState>(
+  "ssk-dropdown-context"
+);
 
 @customElement("ssk-dropdown")
 export class Dropdown extends LitElement {
   static registeredName = "ssk-dropdown";
-
-  @provide({ context: valueContext })
-  @property({ attribute: false })
-  vault: Value = {
-    setValue: (value: string) => {
-      if (this.value === value) {
-        return;
-      }
-
-      this.value = value;
-      this.showOptions = false;
-
-      this.requestUpdate();
-
-      this.dispatchEvent(new Event("change"));
-    },
-  };
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
@@ -95,39 +83,69 @@ export class Dropdown extends LitElement {
   @property({ type: Boolean })
   search = false;
 
-  @property({ type: Boolean })
-  hideChevron = false;
+  @property({ type: String })
+  optionsAnchor: "top" | "bottom" = "bottom";
 
-  private showOptions = false;
+  @property({ type: String })
+  optionsAlign: "left" | "right" = "right";
+
+  @property({ type: String })
+  optionsWidth: "auto" | "fit" = "fit";
+
+  @provide({ context: valueContext })
+  @property({ attribute: false })
+  state: DropdownState = {
+    setValue: (value: string) => {
+      if (this.value === value) {
+        return;
+      }
+
+      this.value = value;
+      this.state.isOpened = false;
+
+      this.requestUpdate();
+
+      this.dispatchEvent(new Event("change"));
+    },
+    isOpened: false,
+    disabled: this.disabled,
+    isError: this.error,
+  };
+
+  protected willUpdate(
+    changedProperties: Map<string | number | symbol, unknown>
+  ): void {
+    if (changedProperties.has("disabled")) {
+      this.state.disabled = this.disabled;
+    }
+
+    if (changedProperties.has("error")) {
+      this.state.isError = this.error;
+    }
+  }
 
   private setupOnClickContainer = (e: MouseEvent) => {
     e.stopPropagation();
 
-    if (this.disabled || this.showOptions) {
+    if (this.disabled || this.state.isOpened) {
       return;
     }
 
-    this.showOptions = true;
+    this.state.isOpened = true;
     this.requestUpdate();
   };
 
   private setupClickOutside = (_e: MouseEvent) => {
-    this.showOptions = false;
+    this.state.isOpened = false;
     this.requestUpdate();
   };
 
   firstUpdated() {
     window.addEventListener("click", this.setupClickOutside);
-    this.shadowRoot
-      ?.getElementById("dropdown")
-      ?.addEventListener("click", this.setupOnClickContainer);
   }
 
   disconnectedCallback() {
     window.removeEventListener("click", this.setupClickOutside);
-    this.shadowRoot
-      ?.getElementById("dropdown")
-      ?.removeEventListener("click", this.setupOnClickContainer);
   }
 
   render() {
@@ -210,21 +228,12 @@ export class Dropdown extends LitElement {
       <div class="container ${this.error ? "error" : ""}" id="container">
         <label>${this.label}</label>
         <div class="dropdown-container">
-          <div
-            id="dropdown"
-            class=${`dropdown ${this.disabled ? "disabled" : ""} ${
-              this.showOptions ? "active" : ""
-            }`}
-          >
-            <span class="label-value" data-testid=${this.testId || nothing}>
-              <slot name="selected"></slot>
-            </span>
-            ${this.hideChevron
-              ? nothing
-              : html`<ssk-icon name="outline-chevron-down"></ssk-icon>`}
-          </div>
+          <slot name="selected" @click=${this.setupOnClickContainer}></slot>
 
-          <div class="options-container ${this.showOptions ? "show" : ""}">
+          <div
+            class="options-container ${this.state.isOpened ? "show" : ""} ${this
+              .optionsAnchor} ${this.optionsAlign} ${this.optionsWidth}"
+          >
             <slot></slot>
           </div>
         </div>
@@ -255,55 +264,7 @@ export class Dropdown extends LitElement {
 
     div.dropdown-container {
       position: relative;
-    }
-
-    div.dropdown {
-      display: flex;
-      justify-content: space-between;
-      /* overflow: hidden; */
-      align-items: center;
-
-      border-style: solid;
-      transition: background-color 0.2s ease-in-out;
-      background-color: var(--background-color);
-
-      border-radius: var(--rounded);
-      border: 1px solid var(--border-color);
-      padding: 0 0.5em;
-
-      gap: var(--gap);
       cursor: pointer;
-    }
-
-    div.dropdown.disabled {
-      background-color: var(--background-color-disabled);
-      border-color: var(--border-color-disabled);
-      color: var(--color-disabled);
-    }
-
-    div.dropdown.active {
-      border-color: var(--border-color-active);
-      outline: 4px solid var(--outline-color-active);
-    }
-
-    span.label-value {
-      display: flex;
-      align-items: baseline;
-      justify-content: start;
-
-      /* remove all style */
-      border: none;
-      outline: none;
-      background-color: transparent;
-      padding: 0.25em 0;
-      margin: 0;
-    }
-
-    span.label-value.disabled {
-      background-color: var(--background-color-disabled);
-      border-color: var(--border-color-disabled);
-      cursor: not-allowed;
-      color: var(--color-disabled);
     }
 
     div.options-container {
@@ -312,18 +273,44 @@ export class Dropdown extends LitElement {
 
       position: absolute;
       z-index: 4;
-      top: calc(100% + 6px);
       left: 0;
-      width: 100%;
       background-color: var(--options-background-color);
       border-radius: var(--rounded);
       border: 1px solid var(--border-color);
       padding: 0.5em 0.25em;
       overflow-x: hidden;
 
+      width: 100%;
+
       color: var(--color);
 
       max-height: 0px;
+    }
+
+    div.options-container.bottom {
+      top: calc(100% + 6px);
+    }
+
+    div.options-container.top {
+      bottom: calc(100% + 6px);
+    }
+
+    div.options-container.left {
+      left: 0;
+      right: auto;
+    }
+
+    div.options-container.right {
+      right: 0;
+      left: auto;
+    }
+
+    div.options-container.auto {
+      width: max-content;
+    }
+
+    div.options-container.fit {
+      width: 100%;
     }
 
     div.options-container.show {
@@ -341,11 +328,6 @@ export class Dropdown extends LitElement {
     }
 
     .error {
-      div.dropdown {
-        border-color: var(--border-color-error);
-        outline: 4px solid var(--outline-color-error);
-      }
-
       label.helper {
         color: var(--color-helper-error);
       }

@@ -11,7 +11,7 @@ import {
   Theme,
   parseThemeToCssVariables,
 } from "../../types/theme";
-import { Value, valueContext } from "./dropdown";
+import { DropdownState, valueContext } from "./dropdown";
 
 @customElement("ssk-dropdown-preview")
 export class DropdownPreview extends LitElement {
@@ -19,7 +19,7 @@ export class DropdownPreview extends LitElement {
 
   @consume({ context: valueContext, subscribe: true })
   @property({ attribute: false })
-  public vault?: Value;
+  public vault?: DropdownState;
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })

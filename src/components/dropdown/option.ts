@@ -11,7 +11,7 @@ import {
   Theme,
   parseThemeToCssVariables,
 } from "../../types/theme";
-import { Value, valueContext } from "./dropdown";
+import { DropdownState, valueContext } from "./dropdown";
 
 @customElement("ssk-dropdown-option")
 export class DropdownOption extends LitElement {
@@ -19,7 +19,7 @@ export class DropdownOption extends LitElement {
 
   @consume({ context: valueContext, subscribe: true })
   @property({ attribute: false })
-  public vault?: Value;
+  public state?: DropdownState;
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
@@ -48,7 +48,7 @@ export class DropdownOption extends LitElement {
   value: string = "";
 
   private handleClick = () => {
-    this.vault?.setValue(this.value, this);
+    this.state?.setValue(this.value, this);
   };
 
   render() {
