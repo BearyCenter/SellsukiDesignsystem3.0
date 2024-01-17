@@ -2,7 +2,6 @@ import { consume } from "@lit/context";
 import { LitElement, TemplateResult, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
-import { ThemeValue } from "../../types/base-attributes";
 import {
   ColorName,
   ColorRole,
@@ -28,7 +27,7 @@ const levelToSize: Record<1 | 2 | 3 | 4 | 5, Size> = {
  * @csspart text
  */
 @customElement("ssk-heading")
-export class Heading extends LitElement implements ThemeValue {
+export class Heading extends LitElement {
   static registeredName = "ssk-heading";
 
   @consume({ context: themeContext, subscribe: true })
@@ -39,10 +38,6 @@ export class Heading extends LitElement implements ThemeValue {
   themeColor: ColorRole | ColorName = "";
   @property({ type: String })
   color?: ColorRole | ColorName = "black.900";
-  @property({ type: String })
-  backgroundColor?: string | undefined;
-  @property({ type: String })
-  borderColor?: string | undefined;
 
   @property({ type: String })
   size: Size = "md";
@@ -53,10 +48,6 @@ export class Heading extends LitElement implements ThemeValue {
   @property({ type: String })
   lineHeight?: string | undefined;
   @property({ type: String })
-  gap?: string | undefined;
-  @property({ type: String })
-  rounded?: string | undefined;
-  @property({ type: String })
   margin?: string | undefined;
 
   // font
@@ -64,25 +55,6 @@ export class Heading extends LitElement implements ThemeValue {
   fontFamilyGroup: FontFamilyGroup = "sans";
   @property({ type: String })
   fontWeight: FontWeight = "normal";
-
-  @property({ type: String })
-  borderWidth?: string | undefined;
-  @property({ type: String })
-  boxShadow?: string | undefined;
-  @property({ type: String })
-  dropShadow?: string | undefined;
-  @property({ type: String })
-  width?: string | undefined;
-  @property({ type: String })
-  height?: string | undefined;
-  @property({ type: String })
-  minWidth?: string | undefined;
-  @property({ type: String })
-  minHeight?: string | undefined;
-  @property({ type: String })
-  maxWidth?: string | undefined;
-  @property({ type: String })
-  maxHeight?: string | undefined;
 
   // text specific
   @property({ type: Boolean })
@@ -190,7 +162,6 @@ export class Heading extends LitElement implements ThemeValue {
     h3,
     h4,
     h5 {
-      background-color: var(--background-color);
       color: var(--color);
       font-family: var(--font-family);
       font-weight: var(--font-weight);
