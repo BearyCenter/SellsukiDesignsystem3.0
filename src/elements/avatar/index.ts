@@ -32,6 +32,9 @@ export class Avatar extends LitElement implements ThemeValue {
   @property({ type: String })
   padding?: Size;
 
+  @property({ type: String })
+  boxsize?: Size;
+
   @property({ type: Boolean })
   hidden = false;
 
@@ -105,7 +108,12 @@ export class Avatar extends LitElement implements ThemeValue {
           --background-color: ${parseVariables(
             cssVar("colors", this.themeColor, 500)
           )};
-          --width: ${parseVariables(cssVar("width", this.size), "auto")};
+          --width: ${parseVariables(
+            cssVar("width", this.size),
+            cssVar("width", this.boxsize),
+            this.boxsize,
+            "auto"
+          )};
 
           --border-radius: ${this.shape === "circle" ? "50%" : "8px"};
 
