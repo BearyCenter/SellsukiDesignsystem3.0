@@ -34,7 +34,7 @@ export class Icon extends LitElement {
   padding?: Size;
   @property({ type: String })
   margin?: string | undefined;
-
+ 
   @property({ type: String })
   width?: string | undefined;
   @property({ type: String })
@@ -101,8 +101,11 @@ export class Icon extends LitElement {
           )};
 
           width: ${parseVariables(cssVar("width", this.width), this.width)};
-
           height: ${parseVariables(cssVar("height", this.height), this.height)};
+          font-size: ${parseVariables(
+            cssVar("font-size", this.size),
+            this.size
+          )};
         }
       </style>
 
