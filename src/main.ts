@@ -23,6 +23,7 @@ export * from "./elements/tag";
 export * from "./elements/text";
 export * from "./elements/toggle";
 export * from "./elements/top-navbar";
+export * from "./elements/textarea";
 
 export * from "./components/dropdown";
 export * from "./components/modal";
