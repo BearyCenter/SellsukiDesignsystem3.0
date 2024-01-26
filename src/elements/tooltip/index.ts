@@ -66,8 +66,21 @@ export class Tooltip extends LitElement implements ThemeValue {
     }
 
     let additionalCss = `
-    --content-visible: visible;
+    --content-visible: hidden;
+    --content-bg-color: ${parseVariables(
+      cssVar("colors", this.themeColor, 500),
+      "#111827",
+    )};
+    --content-color: ${parseVariables(
+      cssVar("colors", this.color),
+      this.color,
+    )};
+
+    --padding: ${parseVariables(cssVar("padding", this.size))};
+
     --arrow-visible: var(--content-visible);
+
+
     `;
 
     if (this.hideArrow) {
@@ -153,12 +166,10 @@ export class Tooltip extends LitElement implements ThemeValue {
       </style>
 
       <div class="tooltip">
-        <div class="arrow"></div>
         <div class="tooltip-content">
+          <div class="arrow"></div>
           <slot name="content"></slot>
         </div>
-      </div>
-      <div class="ss">
         <slot></slot>
       </div>
     `;
@@ -171,28 +182,37 @@ export class Tooltip extends LitElement implements ThemeValue {
     }
 
     .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip:hover .tooltip-content {
+      --content-visible: visible;
+    }
+
+    .tooltip:hover .arrow {
+      --content-visible: visible;
+    }
+
+    .tooltip .tooltip-content {
       visibility: var(--content-visible);
 
       position: absolute;
-      background-color: #333;
-      color: #fff;
-      padding: 8px;
+      background-color: var(--content-bg-color);
+      color: var(--content-color);
       border-radius: 4px;
       z-index: 1;
       display: flex;
+      padding: var(--padding);
       flex-direction: column;
       align-items: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 
       top: var(--content-top);
       bottom: var(--content-bottom);
       left: var(--content-left);
       right: var(--content-right);
       transform: var(--content-transform);
-    }
-
-    .ss:hover .tooltip {
-      --content-visible: visible;
-      background: red;
     }
 
     .arrow {
@@ -206,7 +226,7 @@ export class Tooltip extends LitElement implements ThemeValue {
       height: 16px;
       overflow: hidden;
 
-      background: red;
+      background: var(--content-bg-color);
       width: 16px;
       height: 8px;
       clip-path: path(
