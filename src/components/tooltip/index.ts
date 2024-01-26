@@ -1,7 +1,8 @@
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, eventOptions, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
+import { redispatchEvents } from "../../helpers/lit";
 import { consume } from "@lit-labs/context";
 import {
   ColorName,
@@ -13,7 +14,7 @@ import {
   cssVar,
 } from "../../types/theme";
 
-type Placement =
+export type Placement =
   | "top"
   | "bottom"
   | "left"
@@ -44,7 +45,7 @@ export class Tooltip extends LitElement implements ThemeValue {
   @property({ type: String })
   size: Size = "md";
   @property({ type: String })
-  themeColor: string = "primary";
+  themeColor: string = "#fff";
   @property({ type: String })
   color?: ColorRole | ColorName = "white";
   @property({ type: Boolean })
@@ -56,9 +57,12 @@ export class Tooltip extends LitElement implements ThemeValue {
   @property({ type: Boolean })
   hideArrow = false;
   @property({ type: Boolean })
-  hideCloseButton = true;
-  @property({ type: String })
-  trigger: Trigger = "hover";
+  hideCloseButton = false;
+
+  @eventOptions({ capture: false, once: false, passive: true })
+  private close(e: Event) {
+    redispatchEvents(e, this, "close");
+  }
 
   render() {
     if (this.hidden) {
@@ -66,7 +70,7 @@ export class Tooltip extends LitElement implements ThemeValue {
     }
 
     let additionalCss = `
-    --content-visible: visible;
+    --content-visible: hidden;
     --content-bg-color: ${parseVariables(
       cssVar("colors", this.themeColor, 500),
       "#111827",
@@ -114,7 +118,7 @@ export class Tooltip extends LitElement implements ThemeValue {
   
           --arrow-top: none;
           --arrow-bottom: 0px;
-          --arrow-left: 90%;
+          --arrow-left: 85%;
           --arrow-right: none;
           --arrow-transform: translateY(100%) translateX(-50%) rotate(180deg);
           `;
@@ -131,7 +135,7 @@ export class Tooltip extends LitElement implements ThemeValue {
           --arrow-top: none;
           --arrow-bottom: 0px;
           --arrow-left: none;
-          --arrow-right: 90%;
+          --arrow-right: 85%;
           --arrow-transform: translateY(100%) translateX(50%) rotate(180deg);
             `;
         break;
@@ -193,7 +197,7 @@ export class Tooltip extends LitElement implements ThemeValue {
           --arrow-top: 50%;
           --arrow-bottom: none;
           --arrow-left: none;
-          --arrow-right: 2%;
+          --arrow-right: 0.3rem;
           --arrow-transform: translateY(-50%) translateX(100%) rotate(90deg);
         `;
         break;
@@ -209,7 +213,7 @@ export class Tooltip extends LitElement implements ThemeValue {
           --arrow-top: none;
           --arrow-bottom: 85%;
           --arrow-left: none;
-          --arrow-right: 2%;
+          --arrow-right: 0.3rem;
           --arrow-transform: translateX(100%) rotate(90deg);
         `;
         break;
@@ -224,7 +228,7 @@ export class Tooltip extends LitElement implements ThemeValue {
           --arrow-top: 90%;
           --arrow-bottom: none;
           --arrow-left: none;
-          --arrow-right: 2%;
+          --arrow-right: 0.3rem;
           --arrow-transform: translateY(-50%) translateX(100%) rotate(90deg);
           `;
         break;
@@ -238,7 +242,7 @@ export class Tooltip extends LitElement implements ThemeValue {
 
           --arrow-top: 50%;
           --arrow-bottom: none;
-          --arrow-left: -5%;
+          --arrow-left: -0.7rem;
           --arrow-right: none;
           --arrow-transform: translateY(-50%) rotate(-90deg);
         `;
@@ -254,7 +258,7 @@ export class Tooltip extends LitElement implements ThemeValue {
 
           --arrow-top: none;
           --arrow-bottom: 90%;
-          --arrow-left: -5%;
+          --arrow-left: -0.7rem;
           --arrow-right: none;
           --arrow-transform: translateY(100%) rotate(-90deg);
           `;
@@ -268,9 +272,9 @@ export class Tooltip extends LitElement implements ThemeValue {
           --content-right: none;
           --content-transform: translateY(-90%) translateX(10%);
 
-          --arrow-top: 85%;
+          --arrow-top: 80%;
           --arrow-bottom: none;
-          --arrow-left: -5%;
+          --arrow-left: -0.7rem;
           --arrow-right: none;
           --arrow-transform: translateY(50%) rotate(-90deg);
           `;
@@ -293,6 +297,11 @@ export class Tooltip extends LitElement implements ThemeValue {
         <div class="tooltip-content">
           <div class="arrow"></div>
           <slot name="content"></slot>
+          <ssk-icon
+            ?hidden=${this.hideCloseButton}
+            name="outline-x-mark"
+            @click=${this.close}
+          ></ssk-icon>
         </div>
         <slot></slot>
       </div>
@@ -328,8 +337,7 @@ export class Tooltip extends LitElement implements ThemeValue {
       z-index: 1;
       display: flex;
       padding: var(--padding);
-      flex-direction: column;
-      align-items: center;
+      flex-direction: row;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 
       top: var(--content-top);
@@ -346,8 +354,7 @@ export class Tooltip extends LitElement implements ThemeValue {
       z-index: 1;
       display: block;
       pointer-events: none;
-      width: 16px;
-      height: 16px;
+
       overflow: hidden;
 
       background: var(--content-bg-color);
