@@ -1112,6 +1112,13 @@ export const defaultTheme: Theme = {
         "4xl": "10px",
       },
     },
+    tooltip: {
+      height: {
+        sm: "24px",
+        md: "26px",
+        lg: "28px",
+      },
+    },
   },
 };
 
@@ -1132,7 +1139,7 @@ const deepMerge = <T = object | any[]>(src: T, target: T): T => {
               ? deepMerge((src as any)[key], (target as any)[key])
               : (target as any)[key],
         }),
-        {}
+        {},
       ),
     };
   }

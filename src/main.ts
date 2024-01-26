@@ -17,6 +17,8 @@ export * from "./elements/text";
 export * from "./elements/toggle";
 export * from "./elements/top-navbar";
 
+export * from "./elements/tooltip";
+
 export * from "./components/modal";
 export * from "./components/sidebar";
 

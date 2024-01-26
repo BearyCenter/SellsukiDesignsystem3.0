@@ -222,6 +222,7 @@ export type Theme = {
     tag?: Partial<ThemeField>;
     container?: Partial<ThemeField>;
     textarea?: Partial<ThemeField>;
+    tooltip?: Partial<ThemeField>;
   };
 } & ThemeField;
 
@@ -229,7 +230,7 @@ type kv = { [key: string]: string };
 
 export const parseThemeToCssVariables = (
   theme: Partial<ThemeField> | undefined,
-  scope: string = ":host"
+  scope: string = ":host",
 ): TemplateResult => {
   let cssKV: kv = {};
 
@@ -287,7 +288,7 @@ export const deepFlattenCssVar = (t: any, prefix = "", kv: kv = {}): kv => {
 };
 
 export const parseAtRuleThemeValue = (
-  theme: Partial<ThemeField> | undefined
+  theme: Partial<ThemeField> | undefined,
 ): string[] => {
   let atRules: string[] = [];
 
@@ -301,9 +302,9 @@ export const parseAtRuleThemeValue = (
           ([r, styles]) =>
             `${r} { ${Object.entries(styles)
               .map(([k, v]) => `${kebabCase(k)}: ${v};`)
-              .join(" ")} }`
+              .join(" ")} }`,
         )
-        .join(" ")} }`
+        .join(" ")} }`,
     );
   }
   return atRules;
