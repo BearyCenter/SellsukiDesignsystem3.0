@@ -66,7 +66,7 @@ export class Tooltip extends LitElement implements ThemeValue {
     }
 
     let additionalCss = `
-    --content-visible: hidden;
+    --content-visible: visible;
     --content-bg-color: ${parseVariables(
       cssVar("colors", this.themeColor, 500),
       "#111827",
@@ -79,8 +79,6 @@ export class Tooltip extends LitElement implements ThemeValue {
     --padding: ${parseVariables(cssVar("padding", this.size))};
 
     --arrow-visible: var(--content-visible);
-
-
     `;
 
     if (this.hideArrow) {
@@ -92,18 +90,50 @@ export class Tooltip extends LitElement implements ThemeValue {
     switch (this.placement) {
       case "top":
         additionalCss += `
-        --content-top: none;
-        --content-bottom: 140%;
-        --content-left: 50%;
-        --content-right: none;
-        --content-transform: translateX(-50%);
+          --content-top: none;
+          --content-bottom: 140%;
+          --content-left: 50%;
+          --content-right: none;
+          --content-transform: translateX(-50%);
 
-        --arrow-top: none;
-        --arrow-bottom: 0px;
-        --arrow-left: 50%;
-        --arrow-right: none;
-        --arrow-transform: translateY(100%) translateX(-50%) rotate(180deg);
+          --arrow-top: none;
+          --arrow-bottom: 0px;
+          --arrow-left: 50%;
+          --arrow-right: none;
+          --arrow-transform: translateY(100%) translateX(-50%) rotate(180deg);
         `;
+        break;
+
+      case "topright":
+        additionalCss += `
+          --content-top: none;
+          --content-bottom: 140%;
+          --content-left: 0;
+          --content-right: none;
+          --content-transform: translateX(-50%);
+  
+          --arrow-top: none;
+          --arrow-bottom: 0px;
+          --arrow-left: 90%;
+          --arrow-right: none;
+          --arrow-transform: translateY(100%) translateX(-50%) rotate(180deg);
+          `;
+        break;
+
+      case "topleft":
+        additionalCss += `
+          --content-top: none;
+          --content-bottom: 140%;
+          --content-left: none;
+          --content-right: 0;
+          --content-transform: translateX(50%);
+  
+          --arrow-top: none;
+          --arrow-bottom: 0px;
+          --arrow-left: none;
+          --arrow-right: 90%;
+          --arrow-transform: translateY(100%) translateX(50%) rotate(180deg);
+            `;
         break;
 
       case "bottom":
@@ -121,35 +151,129 @@ export class Tooltip extends LitElement implements ThemeValue {
           --arrow-transform: translateY(-100%) translateX(-50%) rotate(0deg);
           `;
         break;
+
+      case "bottomright":
+        additionalCss += `
+          --content-top: 140%;
+          --content-bottom: none;
+          --content-left: 0;
+          --content-right: none;
+          --content-transform: translateX(-50%);
+  
+          --arrow-top: 0px;
+          --arrow-bottom: none;
+          --arrow-left: 90%;
+          --arrow-right: none;
+          --arrow-transform: translateY(-100%) translateX(-50%) rotate(0deg);
+            `;
+        break;
+      case "bottomleft":
+        additionalCss += `
+          --content-top: 140%;
+          --content-bottom: none;
+          --content-left: none;
+          --content-right: 0;
+          --content-transform: translateX(50%);
+  
+          --arrow-top: 0px;
+          --arrow-bottom: none;
+          --arrow-left: none;
+          --arrow-right: 90%;
+          --arrow-transform: translateY(-100%) translateX(50%) rotate(0deg);
+        `;
+        break;
       case "left":
         additionalCss += `
-            --content-top: 50%;
-            --content-bottom: none;
-            --content-left: none;
-            --content-right: 100%;
-            --content-transform: translateY(-50%) translateX(-10%);
-        
-            --arrow-top: 50%;
-            --arrow-bottom: none;
-            --arrow-left: none;
-            --arrow-right: 2%;
-            --arrow-transform: translateY(-50%) translateX(100%) rotate(90deg);
-            `;
+          --content-top: 50%;
+          --content-bottom: none;
+          --content-left: none;
+          --content-right: 100%;
+          --content-transform: translateY(-50%) translateX(-10%);
+      
+          --arrow-top: 50%;
+          --arrow-bottom: none;
+          --arrow-left: none;
+          --arrow-right: 2%;
+          --arrow-transform: translateY(-50%) translateX(100%) rotate(90deg);
+        `;
+        break;
+
+      case "lefttop":
+        additionalCss += `
+          --content-top: none;
+          --content-bottom: none;
+          --content-left: none;
+          --content-right: 100%;
+          --content-transform: translateY(-5%) translateX(-10%);
+      
+          --arrow-top: none;
+          --arrow-bottom: 85%;
+          --arrow-left: none;
+          --arrow-right: 2%;
+          --arrow-transform: translateX(100%) rotate(90deg);
+        `;
+        break;
+      case "leftbottom":
+        additionalCss += `
+          --content-top: 50%;
+          --content-bottom: none;
+          --content-left: none;
+          --content-right: 100%;
+          --content-transform: translateY(-90%) translateX(-10%);
+      
+          --arrow-top: 90%;
+          --arrow-bottom: none;
+          --arrow-left: none;
+          --arrow-right: 2%;
+          --arrow-transform: translateY(-50%) translateX(100%) rotate(90deg);
+          `;
         break;
       case "right":
         additionalCss += `
-              --content-top: 50%;
-              --content-bottom: none;
-              --content-left: 100%;
-              --content-right: none;
-              --content-transform: translateY(-50%) translateX(10%);
+          --content-top: 50%;
+          --content-bottom: none;
+          --content-left: 100%;
+          --content-right: none;
+          --content-transform: translateY(-50%) translateX(10%);
 
-              --arrow-top: 50%;
-              --arrow-bottom: none;
-              --arrow-left: -5%;
-              --arrow-right: none;
-              --arrow-transform: translateY(-50%) translateX(0%) rotate(-90deg);
-              `;
+          --arrow-top: 50%;
+          --arrow-bottom: none;
+          --arrow-left: -5%;
+          --arrow-right: none;
+          --arrow-transform: translateY(-50%) rotate(-90deg);
+        `;
+        break;
+
+      case "righttop":
+        additionalCss += `
+          --content-top: none;
+          --content-bottom: none;
+          --content-left: 100%;
+          --content-right: none;
+          --content-transform: translateY(-5%) translateX(10%);
+
+          --arrow-top: none;
+          --arrow-bottom: 90%;
+          --arrow-left: -5%;
+          --arrow-right: none;
+          --arrow-transform: translateY(100%) rotate(-90deg);
+          `;
+        break;
+
+      case "rightbottom":
+        additionalCss += `
+          --content-top: 50%;
+          --content-bottom: none;
+          --content-left: 100%;
+          --content-right: none;
+          --content-transform: translateY(-90%) translateX(10%);
+
+          --arrow-top: 85%;
+          --arrow-bottom: none;
+          --arrow-left: -5%;
+          --arrow-right: none;
+          --arrow-transform: translateY(50%) rotate(-90deg);
+          `;
         break;
 
       default:
@@ -206,7 +330,7 @@ export class Tooltip extends LitElement implements ThemeValue {
       padding: var(--padding);
       flex-direction: column;
       align-items: center;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 
       top: var(--content-top);
       bottom: var(--content-bottom);

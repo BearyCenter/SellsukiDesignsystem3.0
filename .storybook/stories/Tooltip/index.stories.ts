@@ -25,7 +25,7 @@ const meta = {
 
       <div class="container">
         <ssk-tooltip ${spread(args)}>
-          <ssk-text>Hover me naja eieie</ssk-text>
+          <ssk-text>Hover me naja eieiei</ssk-text>
           <ssk-text slot="content">
             yeahhh!! djshfksljdhfkjsdhfjkdshfkj ikdfjdikslfhlsdf
             sdjfhksjdfhdjksfhjsdf sdlofhjksdfhjksdfhjksfghkjdsf dsfhsjkdhf
