@@ -27,7 +27,6 @@ export type Placement =
   | "leftbottom"
   | "righttop"
   | "rightbottom";
-type Trigger = "click" | "hover";
 
 @customElement("ssk-tooltip")
 export class Tooltip extends LitElement implements ThemeValue {
@@ -46,8 +45,6 @@ export class Tooltip extends LitElement implements ThemeValue {
   size: Size = "md";
   @property({ type: String })
   themeColor: string = "#fff";
-  @property({ type: String })
-  color?: ColorRole | ColorName = "white";
   @property({ type: Boolean })
   hidden = false;
 
@@ -74,10 +71,6 @@ export class Tooltip extends LitElement implements ThemeValue {
     --content-bg-color: ${parseVariables(
       cssVar("colors", this.themeColor, 500),
       "#111827",
-    )};
-    --content-color: ${parseVariables(
-      cssVar("colors", this.color),
-      this.color,
     )};
 
     --padding: ${parseVariables(cssVar("padding", this.size))};
