@@ -60,20 +60,6 @@ const meta = {
         },
       },
     },
-    trigger: {
-      options: ["hover", "click"],
-      description: "The type of trigger when show tooltip",
-      control: "select",
-      table: {
-        category: "Props",
-        defaultValue: {
-          summary: "hover",
-        },
-        type: {
-          summary: "string",
-        },
-      },
-    },
     "?hideArrow": {
       description: "When true gives the arrow of tooltips disapparence",
       table: {
