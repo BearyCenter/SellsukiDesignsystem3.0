@@ -5,8 +5,6 @@ import { ThemeValue } from "../../types/base-attributes";
 import { redispatchEvents } from "../../helpers/lit";
 import { consume } from "@lit-labs/context";
 import {
-  ColorName,
-  ColorRole,
   Size,
   Theme,
   parseThemeToCssVariables,
