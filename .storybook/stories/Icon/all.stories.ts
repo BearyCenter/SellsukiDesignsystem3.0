@@ -29,6 +29,7 @@ const meta = {
           padding: 0.5em;
           border-radius: 8px;
           transition: transform 0.1s ease-in-out;
+          background-color: #fff;
         }
 
         .icon-container:hover {

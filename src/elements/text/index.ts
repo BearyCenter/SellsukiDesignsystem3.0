@@ -1,8 +1,7 @@
-import { consume } from "@lit-labs/context";
+import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
-import { ThemeValue } from "../../types/base-attributes";
 import {
   ColorName,
   ColorRole,
@@ -20,7 +19,7 @@ import {
  * @csspart text
  */
 @customElement("ssk-text")
-export class Text extends LitElement implements ThemeValue {
+export class Text extends LitElement {
   static registeredName = "ssk-text";
 
   @consume({ context: themeContext, subscribe: true })
@@ -31,10 +30,6 @@ export class Text extends LitElement implements ThemeValue {
   themeColor: ColorRole | ColorName = "";
   @property({ type: String })
   color?: ColorRole | ColorName = "black.900";
-  @property({ type: String })
-  backgroundColor?: string | undefined;
-  @property({ type: String })
-  borderColor?: string | undefined;
 
   @property({ type: String })
   size: Size = "md";
@@ -45,10 +40,6 @@ export class Text extends LitElement implements ThemeValue {
   @property({ type: String })
   lineHeight?: string | undefined;
   @property({ type: String })
-  gap?: string | undefined;
-  @property({ type: String })
-  rounded?: string | undefined;
-  @property({ type: String })
   margin?: string | undefined;
 
   // font
@@ -56,25 +47,6 @@ export class Text extends LitElement implements ThemeValue {
   fontFamilyGroup: FontFamilyGroup = "sans";
   @property({ type: String })
   fontWeight: FontWeight = "normal";
-
-  @property({ type: String })
-  borderWidth?: string | undefined;
-  @property({ type: String })
-  boxShadow?: string | undefined;
-  @property({ type: String })
-  dropShadow?: string | undefined;
-  @property({ type: String })
-  width?: string | undefined;
-  @property({ type: String })
-  height?: string | undefined;
-  @property({ type: String })
-  minWidth?: string | undefined;
-  @property({ type: String })
-  minHeight?: string | undefined;
-  @property({ type: String })
-  maxWidth?: string | undefined;
-  @property({ type: String })
-  maxHeight?: string | undefined;
 
   // text specific
   @property({ type: Boolean })
@@ -102,25 +74,25 @@ export class Text extends LitElement implements ThemeValue {
 
     let additionalCss = `
     --font-family: ${parseVariables(
-      cssVar("font-family", this.fontFamilyGroup),
+      cssVar("font-family", this.fontFamilyGroup)
     )};
     --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
     --font-size: ${parseVariables(
       cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size),
+      cssVar("font-size", this.size)
     )};
     --line-height: ${parseVariables(
       cssVar("line-height", this.lineHeight),
-      cssVar("font-size", this.size),
+      cssVar("font-size", this.size)
     )};
 
     --padding: ${parseVariables(
       cssVar("padding", this.padding),
-      cssVar("padding", this.size),
+      cssVar("padding", this.size)
     )};
     --margin: ${parseVariables(
       cssVar("margin", this.margin),
-      cssVar("margin", this.size),
+      cssVar("margin", this.size)
     )};
     `;
 
@@ -161,7 +133,6 @@ export class Text extends LitElement implements ThemeValue {
 
   static styles = css`
     p {
-      background-color: var(--background-color);
       color: var(--color);
       font-size: var(--font-size);
       font-family: var(--font-family);

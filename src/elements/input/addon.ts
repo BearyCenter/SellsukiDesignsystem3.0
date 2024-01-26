@@ -1,4 +1,4 @@
-import { consume } from "@lit-labs/context";
+import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
@@ -38,7 +38,7 @@ export class InputAddon
 
   @property({ type: String })
   size: Size = "md";
- 
+
   // font
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
@@ -106,13 +106,8 @@ export class InputAddon
           --font-weight: ${parseVariables(
             cssVar("font-weight", this.fontWeight)
           )};
-          --font-size: ${parseVariables(
-            cssVar("font-size", this.size)
-          )};
-          --line-height: ${parseVariables(
-            cssVar("font-size", this.size)
-          )};
-   
+          --font-size: ${parseVariables(cssVar("font-size", this.size))};
+          --line-height: ${parseVariables(cssVar("font-size", this.size))};
         }
       </style>
 

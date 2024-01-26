@@ -1,139 +1,55 @@
-import { consume } from "@lit-labs/context";
+import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { themeContext } from "../../contexts/theme";
-import { redispatchEvents } from "../../helpers/lit";
-import {
-  ColorName,
-  ColorRole,
-  FontFamilyGroup,
-  FontWeight,
-  Size,
-  Theme,
-  cssVar,
-  parseThemeToCssVariables,
-  parseVariables,
-} from "../../types/theme";
-import { SidebarAttributes } from "./types";
+import { State, stateContext } from "./sidebar";
 
 @customElement("ssk-sidebar-group")
-export class SidebarGroup extends LitElement implements SidebarAttributes {
+export class SidebarGroup extends LitElement {
   static registeredName = "ssk-sidebar-group";
 
-  @consume({ context: themeContext, subscribe: true })
+  @consume({ context: stateContext, subscribe: true })
   @property({ attribute: false })
-  public theme?: Theme;
+  private state?: State;
 
   // BaseAttributes
   @property({ type: String })
   testId?: string;
 
-  // ThemeValue
   @property({ type: String })
-  size: Size = "md";
-  @property({ type: String })
-  themeColor: string = "primary";
-  @property({ type: String })
-  margin?: string;
-  @property({ type: String })
-  width?: string | undefined;
-  @property({ type: String })
-  height?: string | undefined;
-  @property({ type: String })
-  gap?: string | undefined;
-  @property({ type: String })
-  rounded?: string | undefined;
-  @property({ type: String })
-  color?: ColorRole | ColorName;
-  @property({ type: String })
-  fontSize?: string | undefined;
-  @property({ type: String })
-  padding?: string;
-
-  // font
-  @property({ type: String })
-  fontFamilyGroup: FontFamilyGroup = "sans";
-  @property({ type: String })
-  fontWeight: FontWeight = "normal";
+  key: string = "";
 
   @property({ type: String })
   label?: string | undefined;
+
   @property({ type: Boolean })
-  isOpen = false;
-  @property({ type: Boolean })
-  collapsed = false;
-  @property({ type: Boolean })
-  hiddenIcon = false;
-  @property({ type: Boolean })
-  hidden = false;
+  expanded?: boolean = undefined;
 
   render() {
-    if (this.hidden) {
-      return null;
+    let isOpen = this.state?.expandedGroups.includes(this.key);
+
+    if (this.expanded !== undefined) {
+      isOpen = this.expanded;
     }
-    let additionalCss = `
-    --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
-    --font-size: ${parseVariables(
-      cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size),
-    )};
-    --padding: ${parseVariables(
-      cssVar("padding", this.padding),
-      cssVar("padding", this.size),
-    )};
-    --margin: ${parseVariables(cssVar("margin", this.margin))};
-    --gap: ${parseVariables(
-      cssVar("spacing", this.gap),
-      cssVar("padding", this.size),
-    )};
-
-    --rounded: ${parseVariables(
-      cssVar("rounded", this.rounded),
-      cssVar("rounded", this.size),
-    )};
-
-    --background-color: transparent;
-    --color: ${parseVariables(cssVar("colors", this.color))};
-    --border-color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
-    --border-width: 0px;
-    `;
 
     return html`
-      ${parseThemeToCssVariables(
-        this.theme?.components?.sidebar,
-        ".sidebar-group-header",
-      )}
-      <style>
-        .sidebar-group-header {
-          ${additionalCss};
-        }
-      </style>
-
-      ${this.collapsed
-        ? html`<slot></slot>`
-        : html`
+      ${this.state?.expanded
+        ? html`
             <div
               class="sidebar-group-header"
-              @click=${(e: Event) => {
-                this.isOpen = !this.isOpen;
-                redispatchEvents(e, this);
+              @click=${(_e: Event) => {
+                this.state?.setExpandedGroup(this.key, !isOpen);
               }}
             >
               <div class="header-content">${this.label}</div>
-              ${!this.hiddenIcon
-                ? this.isOpen
-                  ? html`<ssk-icon
-                      name="solid-chevron-up"
-                      size="${this.size}"
-                    ></ssk-icon>`
-                  : html`<ssk-icon
-                      name="solid-chevron-down"
-                      size="${this.size}"
-                    ></ssk-icon>`
-                : nothing}
+              <ssk-icon
+                name=${isOpen ? "solid-chevron-up" : "solid-chevron-down"}
+                size="1em"
+              ></ssk-icon>
             </div>
-            ${this.isOpen ? html` <slot></slot> ` : nothing}
-          `}
+
+            ${isOpen ? html`<slot></slot>` : nothing}
+          `
+        : html`<slot></slot>`}
     `;
   }
 
@@ -142,12 +58,12 @@ export class SidebarGroup extends LitElement implements SidebarAttributes {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: var(--font-size);
+      font-size: 18px;
       font-family: var(--font-family);
       font-weight: var(--font-weight);
       line-height: var(--line-height);
       background-color: var(--background-color);
-      color: var(--color);
+      color: var(--ssk-colors-text-400);
       cursor: pointer;
       padding: var(--padding);
       margin: var(--margin);
@@ -160,12 +76,6 @@ export class SidebarGroup extends LitElement implements SidebarAttributes {
 
     .header-content {
       flex: 1;
-    }
-
-    svg {
-      height: 1em;
-      width: 1em;
-      margin-right: auto;
     }
   `;
 }

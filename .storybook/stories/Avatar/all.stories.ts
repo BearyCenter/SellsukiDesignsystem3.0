@@ -7,7 +7,6 @@ import { baseArgsTypes } from "../helper";
 
 type AvatarArgs = {} & Avatar;
 const shape: Avatar["shape"][] = ["circle", "rounded"];
-const width: Avatar["width"][] = ["24px", "40px", "56px", "72px"];
 const size: Avatar["size"][] = ["xl", "lg", "md", "sm"];
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
@@ -42,13 +41,13 @@ const meta = {
             ${shape.map(
               (v) => html`<section>
                 <div class="container">
-                  ${width.map(
-                    (w) => html` <ssk-avatar
-                      ${spread({ ...args, shape: v, width: w })}
-                    ></ssk-avatar>`,
+                  ${size.map(
+                    (w) => html`<ssk-avatar
+                      ${spread({ ...args, shape: v, size: w })}
+                    ></ssk-avatar>`
                   )}
                 </div>
-              </section>`,
+              </section>`
             )}
           </div>
         </section>
@@ -64,12 +63,11 @@ const meta = {
                         shape: v,
                         size: s,
                         src: "",
-                        label: "ww",
                       })}
-                    ></ssk-avatar>`,
+                    ></ssk-avatar>`
                   )}
                 </div>
-              </section>`,
+              </section>`
             )}
           </div>
         </section>
@@ -86,10 +84,10 @@ type Story = StoryObj<AvatarArgs>;
 
 export const ShowCase: Story = {
   args: {
-    src: "https://placehold.co/400x400",
+    src: "/public/Avatar.png",
     alt: "demo avatar",
-    backgroundColor: "#32A9FF",
-    color: "white",
+    themeColor: "primary",
+    label: "william wilson",
   },
   parameters: {
     design: {

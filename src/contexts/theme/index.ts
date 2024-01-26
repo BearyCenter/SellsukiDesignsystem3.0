@@ -1,8 +1,9 @@
-import { createContext, provide } from "@lit-labs/context";
+import { createContext, provide } from "@lit/context";
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Theme, parseThemeToCssVariables } from "../../types/theme";
 import { defaultTheme } from "./default";
+;
 export * from "./default";
 
 export const themeContext = createContext<Theme>("ssk-theme-context");
@@ -20,6 +21,7 @@ export class ThemeProvider extends LitElement {
   static styles = css`
     :host {
       font-family: var(--ssk-font-family-sans);
+      display: inherit;
     }
   `;
 }

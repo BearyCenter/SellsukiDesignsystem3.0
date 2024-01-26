@@ -3,7 +3,7 @@ import { customElement, eventOptions, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
 import { redispatchEvents } from "../../helpers/lit";
-import { consume } from "@lit-labs/context";
+import { consume } from "@lit/context";
 import {
   Size,
   Theme,

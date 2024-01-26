@@ -5,7 +5,7 @@ import { IdbI18nStore } from "../src/contexts/i18n/idb";
 import "../src/contexts/theme";
 import "../src/contexts/toast";
 import { ToastStore } from "../src/contexts/toast";
-import InMemoryToastStore from "../src/contexts/toast/in-memory";
+import { InMemoryToastStore } from "../src/contexts/toast/in-memory";
 
 window.__SSK_I18N_STORE__ = new IdbI18nStore("storybook-i18n-store"); // isolate the store from the app
 window.__SSK_TOAST_STORE__ = new InMemoryToastStore();
@@ -26,13 +26,29 @@ const preview: Preview = {
       // do not need to set to global
       // __SSK_I18N_STORE__ need to be access  in another story (./stories/I18n/provider.stories.ts)
 
-      const h = html`<ssk-theme-provider>
-        <ssk-i18n-provider .store=${globalThis.__SSK_I18N_STORE__}>
-          <ssk-toast-provider .toast=${window.__SSK_TOAST_STORE__}
-            >${story()}</ssk-toast-provider
-          >
-        </ssk-i18n-provider>
-      </ssk-theme-provider>`;
+      const h = html`<style>
+          body.sb-main-padded.sb-show-main {
+            /* margin: 0;
+            padding: 0; */
+            background: repeating-conic-gradient(
+                #d3d3d3 0% 25%,
+                transparent 0% 50%
+              )
+              50% / 20px 20px;
+          }
+
+          #main-container {
+            min-height: 100dvh;
+          }
+        </style>
+
+        <ssk-theme-provider>
+          <ssk-i18n-provider .store=${globalThis.__SSK_I18N_STORE__}>
+            <ssk-toast-provider .toast=${window.__SSK_TOAST_STORE__}>
+              <div id="main-container">${story()}</div>
+            </ssk-toast-provider>
+          </ssk-i18n-provider>
+        </ssk-theme-provider>`;
 
       return h;
     },

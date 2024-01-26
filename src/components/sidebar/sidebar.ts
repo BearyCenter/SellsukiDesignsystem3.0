@@ -1,28 +1,32 @@
-import { consume } from "@lit-labs/context";
-import { LitElement, css, html, nothing } from "lit";
+import { consume, createContext, provide } from "@lit/context";
+import { LitElement, PropertyValueMap, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
-import { BaseAttributes, ThemeValue } from "../../types/base-attributes";
 import {
   ColorName,
   ColorRole,
-  FontFamilyGroup,
-  FontWeight,
   Size,
   Theme,
   cssVar,
+  deepFlattenCssVar,
+  parseKvToCssVariables,
   parseThemeToCssVariables,
   parseVariables,
 } from "../../types/theme";
-import { SidebarGroup } from "./group";
-import { SidebarItems } from "./items";
-import { SidebarAttributes } from "./types";
+
+export type State = {
+  expanded: boolean; // sidebar expanded to show labels
+  selectedItems: string[]; // selected items
+  expandedGroups: string[]; // collapsed groups
+  setExpanded: (expanded: boolean) => void;
+  setSelectedItem: (key: string, selected: boolean) => void;
+  setExpandedGroup: (key: string, collapsed: boolean) => void;
+};
+
+export const stateContext = createContext<State>("ssk-sidebar-state-context");
 
 @customElement("ssk-sidebar")
-export class Sidebar
-  extends LitElement
-  implements ThemeValue, BaseAttributes, SidebarAttributes
-{
+export class Sidebar extends LitElement {
   static registeredName = "ssk-sidebar";
 
   @consume({ context: themeContext, subscribe: true })
@@ -36,52 +40,104 @@ export class Sidebar
   // ThemeValue
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
-  @property({ type: String })
-  color?: ColorRole | ColorName;
-  @property({ type: String })
-  backgroundColor?: string | undefined;
-  @property({ type: String })
-  borderColor?: string | undefined;
-  @property({ type: String })
-  fontFamilyGroup: FontFamilyGroup = "sans";
-  @property({ type: String })
-  fontSize?: string | undefined;
-  @property({ type: String })
-  fontWeight: FontWeight = "normal";
+
   @property({ type: String })
   padding?: Size;
 
   @property({ type: Boolean })
-  collapsed: boolean = false;
+  expanded: boolean = false;
 
-  updated(changedProperties: Map<string | number | symbol, unknown>) {
-    super.updated(changedProperties);
+  @property({ type: Array })
+  selectedItems: string[] = [];
 
-    if (changedProperties.has("collapsed")) {
-      const isCollapsed = this.collapsed;
-      console.log(isCollapsed);
+  @property({ type: Array })
+  expandedGroups: string[] = [];
 
-      const groups = Array.from(
-        this.querySelectorAll("ssk-sidebar-group"),
-      ) as SidebarGroup[];
-      groups.forEach((group) => {
-        group.collapsed = isCollapsed;
-      });
+  @provide({ context: stateContext })
+  @property({ attribute: false })
+  state: State = {
+    expanded: this.expanded,
+    selectedItems: this.selectedItems,
+    expandedGroups: this.expandedGroups,
+    setExpanded: (expanded: boolean) => {
+      // this.state = {
+      //   ...this.state,
+      //   expanded,
+      // };
+      // this.expanded = expanded;
 
-      const items = Array.from(
-        this.querySelectorAll("ssk-sidebar-items"),
-      ) as SidebarItems[];
-      items.forEach((item) => {
-        item.collapsed = isCollapsed;
-      });
+      this.dispatchEvent(
+        new CustomEvent("expanded-changed", {
+          detail: expanded,
+          bubbles: true,
+          composed: true,
+        })
+      );
+    },
+    setSelectedItem: (key: string, selected: boolean) => {
+      // if (selected) {
+      //   this.state.selectedItems.push(key);
+      // } else {
+      //   this.state.selectedItems = this.state.selectedItems.filter(
+      //     (item) => item !== key
+      //   );
+      // }
 
-      const lists = Array.from(
-        this.querySelectorAll("ssk-sidebar-list"),
-      ) as SidebarGroup[];
-      lists.forEach((list) => {
-        list.collapsed = isCollapsed;
-      });
-    }
+      // this.state = {
+      //   ...this.state,
+      //   selectedItems: [...new Set(this.state.selectedItems)],
+      // };
+      // this.selectedItems = this.state.selectedItems;
+
+      this.dispatchEvent(
+        new CustomEvent("selected-items-changed", {
+          detail: {
+            key,
+            selected,
+          },
+          bubbles: true,
+          composed: true,
+        })
+      );
+    },
+    setExpandedGroup: (key: string, expanded: boolean) => {
+      // if (collapsed) {
+      //   this.state.expandedGroups.push(key);
+      // } else {
+      //   this.state.expandedGroups = this.state.expandedGroups.filter(
+      //     (item) => item !== key
+      //   );
+      // }
+
+      // this.state = {
+      //   ...this.state,
+      //   expandedGroups: [...new Set(this.state.expandedGroups)],
+      // };
+      // this.expandedGroups = this.state.expandedGroups;
+
+      this.dispatchEvent(
+        new CustomEvent("expanded-groups-changed", {
+          detail: {
+            key,
+            expanded,
+          },
+          bubbles: true,
+          composed: true,
+        })
+      );
+    },
+  };
+
+  protected willUpdate(
+    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
+  ): void {
+    super.willUpdate(_changedProperties);
+    this.state = {
+      ...this.state,
+      expanded: this.expanded,
+      selectedItems: this.selectedItems || [],
+      expandedGroups: this.expandedGroups || [],
+    };
   }
 
   render() {
@@ -89,34 +145,25 @@ export class Sidebar
       return nothing;
     }
 
-    let additionalCss = `
-    --font-family: ${parseVariables(
-      cssVar("font-family", this.fontFamilyGroup),
-    )};
-    --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
-    --font-size: ${parseVariables(
-      cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size),
-    )};
-
-    --padding: ${parseVariables(
-      cssVar("padding", this.padding),
-      cssVar("padding", this.size),
-    )};
-    
-    --border-color: ${parseVariables(cssVar("colors", "gray", 200))};
-    `;
-
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.sidebar, ".sidebar")}
+      ${parseKvToCssVariables(
+        deepFlattenCssVar(this.theme?.colors[this.themeColor], "colors-theme"),
+        ":host"
+      )}
 
       <style>
-        .sidebar {
-          ${additionalCss};
+        :host {
+          --padding: ${parseVariables(
+            cssVar("padding", this.padding),
+            cssVar("padding", this.size)
+          )};
+
+          --border-color: ${parseVariables(cssVar("colors", "gray", 200))};
         }
       </style>
 
-      <div class="sidebar ${this.collapsed ? "collapsed" : ""}">
+      <div class="sidebar ${this.expanded ? "" : "collapsed"}">
         <div class="header">
           <slot name="header"></slot>
         </div>
@@ -133,21 +180,32 @@ export class Sidebar
   }
 
   static styles = css`
+    :host {
+      display: block;
+    }
+
     .sidebar {
       display: grid;
       grid-template-rows: auto 1fr auto;
       height: 100%;
-      width: 100%;
+      width: 256px;
       box-sizing: border-box;
       overflow-x: hidden;
-      padding: var(--padding);
-      transition: width 0.3s ease;
-      gap: 0.5em;
+      padding: 12px 18px;
+      gap: 8px;
       border-right: 1px solid var(--border-color);
+      background-color: var(--ssk-colors-background-50);
+      transition: width 0.2s ease-out;
     }
 
     .sidebar.collapsed {
-      width: 6em;
+      width: 92px;
+    }
+
+    .content,
+    .footer {
+      display: flex;
+      flex-direction: column;
     }
 
     .footer {
