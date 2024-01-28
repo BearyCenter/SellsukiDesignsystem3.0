@@ -80,6 +80,7 @@ export class Tooltip extends LitElement implements ThemeValue {
     )};
 
     --padding: ${parseVariables(cssVar("padding", this.size))};
+    --rounded: ${parseVariables(cssVar("rounded", this.size))};
 
     --arrow-visible: var(--content-visible);
     `;
@@ -294,13 +295,13 @@ export class Tooltip extends LitElement implements ThemeValue {
 
       <div class="tooltip">
         <div class="tooltip-content">
-          <div class="arrow"></div>
-          <slot name="content"></slot>
           <ssk-icon
             ?hidden=${this.hideCloseButton}
             name="outline-x-mark"
             @click=${this.close}
           ></ssk-icon>
+          <div class="arrow"></div>
+          <slot name="content"></slot>
         </div>
         <slot></slot>
       </div>
@@ -329,14 +330,13 @@ export class Tooltip extends LitElement implements ThemeValue {
     .tooltip .tooltip-content {
       visibility: var(--content-visible);
 
+      min-width: 6rem;
       position: absolute;
       background-color: var(--content-bg-color);
       color: var(--content-color);
-      border-radius: 4px;
+      border-radius: var(--rounded);
       z-index: 1;
-      display: flex;
       padding: var(--padding);
-      flex-direction: row;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 
       top: var(--content-top);
@@ -368,6 +368,13 @@ export class Tooltip extends LitElement implements ThemeValue {
       left: var(--arrow-left);
       right: var(--arrow-right);
       transform: var(--arrow-transform);
+    }
+
+    ssk-icon {
+      cursor: pointer;
+      float: right;
+      top: var(--padding);
+      right: var(--padding);
     }
   `;
 }
