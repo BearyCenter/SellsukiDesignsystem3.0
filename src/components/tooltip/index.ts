@@ -69,7 +69,7 @@ export class Tooltip extends LitElement implements ThemeValue {
     }
 
     let additionalCss = `
-    --content-visible: visible;
+    --content-visible: hidden;
     --content-bg-color: ${parseVariables(
       cssVar("colors", this.themeColor, 500),
       "#111827",
