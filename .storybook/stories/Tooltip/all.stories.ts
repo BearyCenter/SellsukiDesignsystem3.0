@@ -90,6 +90,22 @@ const meta = {
         type: "boolean",
       },
     },
+    trigger: {
+      options: ["hover", "click"],
+      description: "The type of trigger for show tooltip",
+      control: {
+        type: "inline-radio",
+      },
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "hover",
+        },
+        type: {
+          summary: "string",
+        },
+      },
+    },
     themeColor: baseArgsTypes.themeColor,
     color: baseArgsTypes.color,
     size: baseArgsTypes.size,

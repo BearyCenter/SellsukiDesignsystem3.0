@@ -84,8 +84,13 @@ export class Textarea extends LitElement {
   @property({ type: String })
   private _value = "";
 
+  @property({ type: String })
+  minHeight?: string | undefined;
+  @property({ type: String })
+  minWidth?: string | undefined;
+
   protected shouldUpdate(
-    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
+    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>,
   ): boolean {
     if (_changedProperties.has("value")) {
       this._value = this.value || "";
@@ -108,7 +113,7 @@ export class Textarea extends LitElement {
             cssVar("colors", this.color),
             cssVar("colors", this.color, 700),
             this.color,
-            cssVar("colors", "text", 700)
+            cssVar("colors", "text", 700),
           )};
           --color-disabled: ${parseVariables(cssVar("colors", "text", 300))};
 
@@ -116,30 +121,30 @@ export class Textarea extends LitElement {
             cssVar("colors", this.color),
             cssVar("colors", this.color, 300),
             this.color,
-            cssVar("colors", "text", 300)
+            cssVar("colors", "text", 300),
           )};
 
           --background-color-disabled: ${parseVariables(
-            cssVar("colors", "border", 50)
+            cssVar("colors", "border", 50),
           )};
 
           --border-color: ${parseVariables(cssVar("colors", "border", 100))};
           --border-color-active: ${parseVariables(
-            cssVar("colors", this.themeColor, 600)
+            cssVar("colors", this.themeColor, 600),
           )};
           --border-color-disabled: ${parseVariables(
-            cssVar("colors", "border", 100)
+            cssVar("colors", "border", 100),
           )};
 
           --outline-color-active: ${parseVariables(
-            cssVar("colors", this.themeColor, 200)
+            cssVar("colors", this.themeColor, 200),
           )};
 
           --font-family: ${parseVariables(
-            cssVar("font-family", this.fontFamilyGroup)
+            cssVar("font-family", this.fontFamilyGroup),
           )};
           --font-weight: ${parseVariables(
-            cssVar("font-weight", this.fontWeight)
+            cssVar("font-weight", this.fontWeight),
           )};
           --font-size: ${parseVariables(cssVar("font-size", this.size))};
           --line-height: ${parseVariables(cssVar("font-size", this.size))};
@@ -151,14 +156,16 @@ export class Textarea extends LitElement {
 
           --color-error: ${parseVariables(cssVar("colors", "error", 600))};
           --color-helper-error: ${parseVariables(
-            cssVar("colors", "error", 600)
+            cssVar("colors", "error", 600),
           )};
           --border-color-error: ${parseVariables(
-            cssVar("colors", "error", 600)
+            cssVar("colors", "error", 600),
           )};
           --outline-color-error: ${parseVariables(
-            cssVar("colors", "error", 300)
+            cssVar("colors", "error", 300),
           )};
+          --min-height: ${parseVariables(cssVar("min-height", this.minHeight))};
+          --min-width: ${parseVariables(cssVar("min-width", this.minWidth))};
         }
       </style>
 
@@ -226,6 +233,8 @@ export class Textarea extends LitElement {
       border: 1px solid var(--border-color);
 
       gap: var(--gap);
+      min-height: var(--min-height);
+      min-width: var(--min-width);
     }
 
     textarea:disabled {
