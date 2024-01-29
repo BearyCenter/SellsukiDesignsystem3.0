@@ -69,7 +69,7 @@ export class DropdownPreview extends LitElement {
       display: grid;
       grid-auto-flow: column;
       gap: 0.5em;
-      padding: 0;
+      padding: 0.25em;
 
       color: var(--color);
 
