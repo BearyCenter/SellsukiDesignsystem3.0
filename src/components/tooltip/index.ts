@@ -1,8 +1,7 @@
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, eventOptions, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
-import { redispatchEvents } from "../../helpers/lit";
 import { consume } from "@lit/context";
 import {
   ColorName,
@@ -28,6 +27,7 @@ export type Placement =
   | "righttop"
   | "rightbottom";
 
+export type Trigger = "hover" | "click";
 @customElement("ssk-tooltip")
 export class Tooltip extends LitElement implements ThemeValue {
   static registeredName = "ssk-tooltip";
@@ -57,10 +57,24 @@ export class Tooltip extends LitElement implements ThemeValue {
   hideArrow = false;
   @property({ type: Boolean })
   hideCloseButton = false;
+  @property({ type: String })
+  trigger: Trigger = "hover";
 
-  @eventOptions({ capture: false, once: false, passive: true })
-  private close(e: Event) {
-    redispatchEvents(e, this, "close");
+  @state()
+  _isOpen: boolean = false;
+
+  private _handleVisibleTooltip(): string {
+    if (this.trigger === "hover") return "hidden";
+    return this._isOpen ? "visible" : "hidden";
+  }
+
+  private _handleClickable() {
+    if (this.trigger === "click" && !this._isOpen) this._isOpen = true;
+  }
+
+  private _close(e: Event) {
+    e.stopPropagation();
+    this._isOpen = false;
   }
 
   render() {
@@ -69,7 +83,8 @@ export class Tooltip extends LitElement implements ThemeValue {
     }
 
     let additionalCss = `
-    --content-visible: hidden;
+    --min-width: ${this.hideCloseButton ? "none" : "6rem"};
+    --content-visible: ${this._handleVisibleTooltip()};
     --content-bg-color: ${parseVariables(
       cssVar("colors", this.themeColor, 500),
       "#111827",
@@ -293,12 +308,12 @@ export class Tooltip extends LitElement implements ThemeValue {
         }
       </style>
 
-      <div class="tooltip">
+      <div class="tooltip ${this.trigger}" @click=${this._handleClickable}>
         <div class="tooltip-content">
           <ssk-icon
             ?hidden=${this.hideCloseButton}
             name="outline-x-mark"
-            @click=${this.close}
+            @click=${this._close}
           ></ssk-icon>
           <div class="arrow"></div>
           <slot name="content"></slot>
@@ -319,18 +334,18 @@ export class Tooltip extends LitElement implements ThemeValue {
       display: inline-block;
     }
 
-    .tooltip:hover .tooltip-content {
+    .tooltip.hover:hover .tooltip-content {
       --content-visible: visible;
     }
 
-    .tooltip:hover .arrow {
+    .tooltip.hover:hover .arrow {
       --content-visible: visible;
     }
 
     .tooltip .tooltip-content {
       visibility: var(--content-visible);
 
-      min-width: 6rem;
+      min-width: var(--min-width);
       position: absolute;
       background-color: var(--content-bg-color);
       color: var(--content-color);
