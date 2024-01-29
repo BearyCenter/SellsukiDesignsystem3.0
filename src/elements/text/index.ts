@@ -74,26 +74,27 @@ export class Text extends LitElement {
 
     let additionalCss = `
     --font-family: ${parseVariables(
-      cssVar("font-family", this.fontFamilyGroup)
+      cssVar("font-family", this.fontFamilyGroup),
     )};
     --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
     --font-size: ${parseVariables(
       cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size)
+      cssVar("font-size", this.size),
     )};
     --line-height: ${parseVariables(
       cssVar("line-height", this.lineHeight),
-      cssVar("font-size", this.size)
+      cssVar("font-size", this.size),
     )};
 
     --padding: ${parseVariables(
       cssVar("padding", this.padding),
-      cssVar("padding", this.size)
+      cssVar("padding", this.size),
     )};
     --margin: ${parseVariables(
       cssVar("margin", this.margin),
-      cssVar("margin", this.size)
+      cssVar("margin", this.size),
     )};
+    --color: ${parseVariables(cssVar("colors", this.color, 500), this.color)};
     `;
 
     if (this.italic) {
