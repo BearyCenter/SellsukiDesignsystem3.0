@@ -89,6 +89,9 @@ export class Textarea extends LitElement {
   @property({ type: String })
   minWidth?: string | undefined;
 
+  @property({ type: String })
+  resize: "none" | "both" | "horizontal" | "vertical" = "both";
+
   protected shouldUpdate(
     _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>,
   ): boolean {
@@ -166,6 +169,7 @@ export class Textarea extends LitElement {
           )};
           --min-height: ${parseVariables(cssVar("min-height", this.minHeight))};
           --min-width: ${parseVariables(cssVar("min-width", this.minWidth))};
+          --resize: ${this.resize};
         }
       </style>
 
@@ -221,7 +225,6 @@ export class Textarea extends LitElement {
       grid-template-columns: auto 1fr auto;
       overflow: hidden;
       align-items: center;
-
       padding: 0.25em 0.5em;
       /* margin: 0.125em 0; */
 
@@ -235,6 +238,7 @@ export class Textarea extends LitElement {
       gap: var(--gap);
       min-height: var(--min-height);
       min-width: var(--min-width);
+      resize: var(--resize);
     }
 
     textarea:disabled {

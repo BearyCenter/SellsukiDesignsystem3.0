@@ -59,7 +59,7 @@ const meta = {
                 error
               ></ssk-textarea>
             </div>
-          </section>`
+          </section>`,
         )}
       </main>`;
   },
@@ -90,7 +90,13 @@ const meta = {
         type: "boolean",
       },
     },
-
+    resize: {
+      description: "The resize textarea",
+      options: ["none", "both", "horizontal", "vertical"],
+      control: {
+        type: "select",
+      },
+    },
     ...baseArgsTypes,
   },
 } satisfies Meta<TextareaWithLabel>;
