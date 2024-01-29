@@ -94,7 +94,11 @@ export class Text extends LitElement {
       cssVar("margin", this.margin),
       cssVar("margin", this.size),
     )};
-    --color: ${parseVariables(cssVar("colors", this.color, 500), this.color)};
+    --color: ${parseVariables(
+      cssVar("colors", this.color, 500),
+      cssVar("colors", this.color),
+      this.color,
+    )};
     `;
 
     if (this.italic) {
