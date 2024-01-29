@@ -331,7 +331,6 @@ export class Tooltip extends LitElement implements ThemeValue {
 
     .tooltip {
       position: relative;
-      display: inline-block;
     }
 
     .tooltip.hover:hover .tooltip-content {
