@@ -34,6 +34,13 @@ const meta = {
       description: "",
       control: "text",
     },
+    resize: {
+      description: "The resize textarea",
+      options: ["none", "both", "horizontal", "vertical"],
+      control: {
+        type: "select",
+      },
+    },
     ...baseArgsTypes,
   },
 } satisfies Meta<TextareaWithLabel>;
