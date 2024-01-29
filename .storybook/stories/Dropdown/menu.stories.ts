@@ -1,12 +1,13 @@
 import { spread } from "@open-wc/lit-helpers";
-import { action } from "@storybook/addon-actions";
 import { useArgs } from "@storybook/client-api";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 import "../../../src/components/dropdown";
 import { Dropdown } from "../../../src/components/dropdown";
+import "../../../src/elements/avatar";
+import "../../../src/elements/divider";
 import "../../../src/elements/icon";
+import "../../../src/elements/text";
 import { AutoLitProperty, baseArgsTypes } from "../helper";
 
 type DropdownWithLabel = AutoLitProperty<Dropdown> & {
@@ -78,30 +79,37 @@ const options = [
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Dropdown",
+  title: "Example/Dropdown/Menu",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     const [{}, updateArgs] = useArgs();
 
     return html`<ssk-dropdown
+      themeColor="primary"
+      optionsWidth="auto"
       ${spread({ ...args })}
-      @change=${(e: any) => {
-        action("@change")(e);
-        updateArgs({ value: e.target.value });
-      }}
     >
-      <ssk-dropdown-button slot="selected">
-        <ssk-dropdown-preview value=${ifDefined(args["value"])}>
-          <ssk-icon slot="prefix" name=${ifDefined(args["value"])}></ssk-icon>
-          ${args["value"] || args["placeholder"]}
-        </ssk-dropdown-preview>
-      </ssk-dropdown-button>
-      ${options.map((option) => {
-        return html`<ssk-dropdown-option value=${option}>
-          <ssk-icon name=${option} slot="prefix"></ssk-icon>
-          ${option}
-        </ssk-dropdown-option>`;
-      })}
+      <ssk-avatar
+        slot="selected"
+        src="/Avatar.png"
+        alt="demo avatar"
+        shape="circle"
+        boxsize="40px"
+      ></ssk-avatar>
+      Account
+      <ssk-dropdown-option>
+        <ssk-icon slot="prefix" size="sm" name="outline-envelope"></ssk-icon>
+        <ssk-text size="sm">{userProfile?.data?.email}</ssk-text>
+      </ssk-dropdown-option>
+      <ssk-divider size="xs"></ssk-divider>
+      <ssk-dropdown-option>
+        <ssk-icon
+          slot="prefix"
+          size="sm"
+          name="solid-arrow-right-on-rectangle"
+        ></ssk-icon>
+        <ssk-text size="sm">Sign out</ssk-text>
+      </ssk-dropdown-option>
     </ssk-dropdown>`;
   },
   argTypes: {
@@ -135,43 +143,10 @@ export default meta;
 type Story = StoryObj<DropdownWithLabel>;
 
 // More on writing stories with args: https://storybook.js.org/docs/web-components/writing-stories/args
-export const Medium: Story = {
+export const Menu: Story = {
   args: {
     size: "md",
-    label: "Dropdown",
-    placeholder: "Placeholder",
-    helperText: "Helper text",
     value: "",
-  },
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1123-65244",
-    },
-  },
-};
-
-export const Large: Story = {
-  args: {
-    size: "lg",
-    label: "Dropdown",
-    placeholder: "Placeholder",
-    helperText: "Helper text",
-  },
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1123-65244",
-    },
-  },
-};
-
-export const Small: Story = {
-  args: {
-    size: "sm",
-    label: "Dropdown",
-    placeholder: "Placeholder",
-    helperText: "Helper text",
   },
   parameters: {
     design: {

@@ -119,17 +119,16 @@ const meta = {
                 }}
                 ${spread({ ...args })}
               >
-                <ssk-dropdown-preview
-                  value=${ifDefined(args["value"])}
-                  slot="selected"
-                >
-                  <ssk-icon
-                    name=${ifDefined(args["value"])}
-                    slot="prefix"
-                    size=${s}
-                  ></ssk-icon>
-                  ${args["value"] || args["placeholder"]}
-                </ssk-dropdown-preview>
+                <ssk-dropdown-button slot="selected">
+                  <ssk-dropdown-preview value=${ifDefined(args["value"])}>
+                    <ssk-icon
+                      name=${ifDefined(args["value"])}
+                      slot="prefix"
+                      size=${s}
+                    ></ssk-icon>
+                    ${args["value"] || args["placeholder"]}
+                  </ssk-dropdown-preview>
+                </ssk-dropdown-button>
                 ${options.map((option) => {
                   return html`<ssk-dropdown-option value=${option}>
                     <ssk-icon name=${option} slot="prefix"></ssk-icon>
@@ -148,9 +147,9 @@ const meta = {
                 }}
                 ${spread({ ...args })}
               >
+                <ssk-dropdown-button slot="selected">
                 <ssk-dropdown-preview
                   value=${ifDefined(args["value"])}
-                  slot="selected"
                 >
                   <ssk-icon
                     name=${ifDefined(args["value"])}
@@ -158,6 +157,7 @@ const meta = {
                     size=${s}
                   ></ssk-icon>
                   ${args["value"] || args["placeholder"]}
+                </ssk-dropdown-button>
                 </ssk-dropdown-preview>
                 ${options.map((option) => {
                   return html`<ssk-dropdown-option
@@ -180,9 +180,9 @@ const meta = {
                 }}
                 ${spread({ ...args })}
               >
+                <ssk-dropdown-button slot="selected">
                 <ssk-dropdown-preview
                   value=${ifDefined(args["value"])}
-                  slot="selected"
                 >
                   <ssk-icon
                     name=${ifDefined(args["value"])}
@@ -191,6 +191,7 @@ const meta = {
                   ></ssk-icon>
                   ${args["value"] || args["placeholder"]}
                 </ssk-dropdown-preview>
+                </ssk-dropdown-button>
                 ${options.map((option) => {
                   return html`<ssk-dropdown-option value=${option}>
                     <ssk-icon name=${option}></ssk-icon>
