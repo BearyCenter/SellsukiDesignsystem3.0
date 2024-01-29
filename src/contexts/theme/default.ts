@@ -1112,6 +1112,38 @@ export const defaultTheme: Theme = {
         "4xl": "10px",
       },
     },
+    tooltip: {
+      padding: {
+        xs: "2px",
+        sm: "4px",
+        md: "8px",
+        lg: "12px",
+        xl: "16px",
+        "2xl": "24px",
+        "3xl": "32px",
+        "4xl": "40px",
+      },
+      margin: {
+        xs: "2px",
+        sm: "4px",
+        md: "8px",
+        lg: "12px",
+        xl: "16px",
+        "2xl": "24px",
+        "3xl": "32px",
+        "4xl": "40px",
+      },
+      rounded: {
+        xs: "6px",
+        sm: "7px",
+        md: "8px",
+        lg: "8px",
+        xl: "9px",
+        "2xl": "10px",
+        "3xl": "10px",
+        "4xl": "10px",
+      },
+    },
     dropdown: {
       padding: {
         xs: "1px 0px",
@@ -1187,7 +1219,7 @@ const deepMerge = <T = object | any[]>(src: T, target: T): T => {
               ? deepMerge((src as any)[key], (target as any)[key])
               : (target as any)[key],
         }),
-        {}
+        {},
       ),
     };
   }
