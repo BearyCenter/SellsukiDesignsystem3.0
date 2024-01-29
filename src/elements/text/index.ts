@@ -101,7 +101,7 @@ export class Text extends LitElement {
             cssVar("colors", this.color),
             this.color,
           )};`
-        : ""
+        : "--color: currentColor;"
     }
     `;
 
