@@ -38,10 +38,6 @@ export class Modal extends LitElement {
   }
 
   render() {
-    if (this.hidden) {
-      return nothing;
-    }
-
     let additionalCss = html`
       <style>
         :host {
