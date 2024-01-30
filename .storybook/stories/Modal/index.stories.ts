@@ -14,21 +14,18 @@ const meta: Meta<ModalWithLabel> = {
   tags: ["autodocs"],
   render: ({ label, ...args }) => {
     return html`
-      <style>
-        .footer {
-          padding: 16px;
-          background-color: var(--background-color-footer);
-          display: flex;
-          justify-content: flex-end;
-          gap: 0.5rem;
-        }
-      </style>
       <ssk-modal ${spread(args)}>
         <div slot="header">${label}</div>
         <div slot="body">Modal Content Goes Here</div>
-        <div slot="footer" class="footer">
-          <ssk-button @click=${args["@close"]}> Close </ssk-button>
-          <ssk-button @click=${args["@close"]}> Save Changes </ssk-button>
+        <div slot="footer">
+          <ssk-button slot="footer" @click=${args["@close"]}>
+            Close
+          </ssk-button>
+        </div>
+        <div slot="footer">
+          <ssk-button slot="footer" @click=${args["@close"]}>
+            Save Changes
+          </ssk-button>
         </div>
       </ssk-modal>
     `;
@@ -104,18 +101,18 @@ export const GridModal: Story = {
   render: ({ label, ...args }) => {
     return html`
       <style>
-        .footer {
-          padding: 16px;
-          background-color: var(--background-color-footer);
-          display: grid;
-          gap: 0.5rem;
+        ssk-modal {
+          --footer-display: grid;
+          --footer-justify-content: normal;
         }
       </style>
       <ssk-modal ${spread(args)}>
         <div slot="header">${label}</div>
         <div slot="body">Modal Content Goes Here</div>
-        <div slot="footer" class="footer">
+        <div slot="footer">
           <ssk-button width="full" @click=${args["@close"]}> Close </ssk-button>
+        </div>
+        <div slot="footer">
           <ssk-button width="full" @click=${args["@close"]}>
             Save Changes
           </ssk-button>
