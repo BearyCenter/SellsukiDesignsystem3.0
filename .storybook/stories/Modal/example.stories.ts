@@ -35,6 +35,7 @@ const meta: Meta<ModalWithLabel> = {
         <div slot="body">Modal Content Goes Here</div>
         <div slot="footer">
           <ssk-button
+            width="full"
             @click=${() => {
               updateArgs({ "?hidden": true });
             }}
@@ -44,6 +45,7 @@ const meta: Meta<ModalWithLabel> = {
         </div>
         <div slot="footer">
           <ssk-button
+            width="full"
             @click=${() => {
               updateArgs({ "?hidden": true });
             }}
@@ -71,7 +73,17 @@ const meta: Meta<ModalWithLabel> = {
     },
     footerContent: {
       description: "The Justify Content slot footer",
-      options: ["center", "flex-start", "flex-end"],
+      options: ["normal", "center", "flex-start", "flex-end"],
+      control: {
+        type: "select",
+      },
+      table: {
+        category: "Props",
+      },
+    },
+    footerDisplay: {
+      description: "The Display slot footer",
+      options: ["grid", "flex"],
       control: {
         type: "select",
       },

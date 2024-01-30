@@ -27,7 +27,10 @@ export class Modal extends LitElement {
   width?: string | undefined;
 
   @property({ type: String })
-  footerContent: "center" | "flex-start" | "flex-end" = "flex-end";
+  footerContent: "normal" | "center" | "flex-start" | "flex-end" = "flex-end";
+
+  @property({ type: String })
+  footerDisplay: "grid" | "flex" = "flex";
 
   @property({ type: Boolean })
   hidden = false;
@@ -65,6 +68,7 @@ export class Modal extends LitElement {
           )};
 
           --footer-content: ${this.footerContent};
+          --footer-display: ${this.footerDisplay};
         }
       </style>
     `;
@@ -162,7 +166,7 @@ export class Modal extends LitElement {
     .footer {
       padding: 16px;
       background-color: var(--background-color-footer);
-      display: flex;
+      display: var(--footer-display);
       justify-content: var(--footer-content);
       gap: 0.5rem;
     }
