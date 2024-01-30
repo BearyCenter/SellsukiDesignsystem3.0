@@ -26,6 +26,9 @@ export class Modal extends LitElement {
   @property({ type: String })
   width?: string | undefined;
 
+  @property({ type: String })
+  footerContent: "center" | "flex-start" | "flex-end" = "flex-end";
+
   @property({ type: Boolean })
   hidden = false;
 
@@ -48,21 +51,25 @@ export class Modal extends LitElement {
           --width: ${parseVariables(
             cssVar("width", this.width),
             this.width,
-            "100%"
+            "100%",
           )};
 
           --background-color-footer: ${parseVariables(
             cssVar("colors", "background", 200),
-            "#fff"
+            "#fff",
           )};
 
           --border-color: ${parseVariables(
             cssVar("colors", "border", 100),
-            "#ddd"
+            "#ddd",
           )};
+
+          --footer-content: ${this.footerContent};
         }
       </style>
     `;
+
+    const footerSlotExists = this.querySelector('[slot="footer"]');
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.container, ":host")}
@@ -83,9 +90,9 @@ export class Modal extends LitElement {
           <div class="body">
             <slot name="body"></slot>
           </div>
-          <div class="footer">
-            <slot name="footer"></slot>
-          </div>
+          ${footerSlotExists
+            ? html`<div class="footer"><slot name="footer"></slot></div>`
+            : nothing}
         </div>
       </div>
     `;
@@ -156,7 +163,8 @@ export class Modal extends LitElement {
       padding: 16px;
       background-color: var(--background-color-footer);
       display: flex;
-      justify-content: flex-end;
+      justify-content: var(--footer-content);
+      gap: 0.5rem;
     }
 
     ssk-icon {

@@ -42,6 +42,15 @@ const meta: Meta<ModalWithLabel> = {
             Close
           </ssk-button>
         </div>
+        <div slot="footer">
+          <ssk-button
+            @click=${() => {
+              updateArgs({ "?hidden": true });
+            }}
+          >
+            Save Changes
+          </ssk-button>
+        </div>
       </ssk-modal>
     `;
   },
@@ -53,9 +62,19 @@ const meta: Meta<ModalWithLabel> = {
         category: "Props",
       },
     },
-    width: {
-      description: "The width of the modal",
-      control: "text",
+    "?hideCloseButton": {
+      description: "Hide button top close",
+      control: "boolean",
+      table: {
+        category: "Props",
+      },
+    },
+    footerContent: {
+      description: "The Justify Content slot footer",
+      options: ["center", "flex-start", "flex-end"],
+      control: {
+        type: "select",
+      },
       table: {
         category: "Props",
       },
