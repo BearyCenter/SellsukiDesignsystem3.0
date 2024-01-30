@@ -56,6 +56,15 @@ export class Modal extends LitElement {
             cssVar("colors", "border", 100),
             "#ddd",
           )};
+
+          --header-display: flex;
+          --header-justify-content: space-between;
+
+          --body-display: flex;
+          --body-justify-content: flex-start;
+
+          --footer-display: flex;
+          --footer-justify-content: flex-end;
         }
       </style>
     `;
@@ -81,7 +90,9 @@ export class Modal extends LitElement {
           <div class="body">
             <slot name="body"></slot>
           </div>
-          ${footerSlotExists ? html`<slot name="footer"></slot>` : nothing}
+          ${footerSlotExists
+            ? html`<div class="footer"><slot name="footer"></slot></div>`
+            : nothing}
         </div>
       </div>
     `;
@@ -131,8 +142,8 @@ export class Modal extends LitElement {
     .header {
       padding: 16px;
       border-bottom: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
+      display: var(--header-display);
+      justify-content: var(--header-justify-content);
       align-items: center;
       gap: 1em;
     }
@@ -146,6 +157,16 @@ export class Modal extends LitElement {
       padding: 16px;
       font-size: 24px;
       font-weight: 400;
+      display: var(--body-display);
+      justify-content: var(--body-justify-content);
+    }
+
+    .footer {
+      padding: 16px;
+      background-color: var(--background-color-footer);
+      display: var(--footer-display);
+      justify-content: var(--footer-justify-content);
+      gap: 0.5rem;
     }
 
     ssk-icon {

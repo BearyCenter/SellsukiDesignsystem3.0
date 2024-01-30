@@ -17,15 +17,6 @@ const meta: Meta<ModalWithLabel> = {
     const [{}, updateArgs] = useArgs();
 
     return html`
-      <style>
-        .footer {
-          padding: 16px;
-          background-color: var(--background-color-footer);
-          display: flex;
-          justify-content: flex-end;
-          gap: 0.5rem;
-        }
-      </style>
       <ssk-button
         @click=${() => {
           updateArgs({ "?hidden": false });
@@ -42,7 +33,7 @@ const meta: Meta<ModalWithLabel> = {
       >
         <div slot="header">${label}</div>
         <div slot="body">Modal Content Goes Here</div>
-        <div slot="footer" class="footer">
+        <div slot="footer">
           <ssk-button
             @click=${() => {
               updateArgs({ "?hidden": true });
@@ -50,6 +41,8 @@ const meta: Meta<ModalWithLabel> = {
           >
             Close
           </ssk-button>
+        </div>
+        <div slot="footer">
           <ssk-button
             @click=${() => {
               updateArgs({ "?hidden": true });
