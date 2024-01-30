@@ -69,6 +69,8 @@ export class Modal extends LitElement {
       </style>
     `;
 
+    const footerSlotExists = this.querySelector('[slot="footer"]');
+
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.container, ":host")}
       ${additionalCss}
@@ -88,9 +90,9 @@ export class Modal extends LitElement {
           <div class="body">
             <slot name="body"></slot>
           </div>
-          <div class="footer">
-            <slot name="footer"></slot>
-          </div>
+          ${footerSlotExists
+            ? html`<div class="footer"><slot name="footer"></slot></div>`
+            : nothing}
         </div>
       </div>
     `;
