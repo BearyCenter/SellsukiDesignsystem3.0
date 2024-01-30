@@ -11,6 +11,7 @@ type ModalWithLabel = AutoLitProperty<Modal> & { label: string };
 
 const meta: Meta<ModalWithLabel> = {
   title: "Example/Modal",
+  tags: ["autodocs"],
   render: ({ label, ...args }) => {
     return html`
       <ssk-modal ${spread(args)}>
@@ -18,6 +19,9 @@ const meta: Meta<ModalWithLabel> = {
         <div slot="body">Modal Content Goes Here</div>
         <div slot="footer">
           <ssk-button @click=${args["@close"]}> Close </ssk-button>
+        </div>
+        <div slot="footer">
+          <ssk-button @click=${args["@close"]}> Save Changes </ssk-button>
         </div>
       </ssk-modal>
     `;
@@ -30,9 +34,19 @@ const meta: Meta<ModalWithLabel> = {
         category: "Props",
       },
     },
-    width: {
-      description: "The width of the modal",
-      control: "text",
+    "?hideCloseButton": {
+      description: "Hide button top close",
+      control: "boolean",
+      table: {
+        category: "Props",
+      },
+    },
+    footerContent: {
+      description: "The Justify Content slot footer",
+      options: ["center", "flex-start", "flex-end"],
+      control: {
+        type: "select",
+      },
       table: {
         category: "Props",
       },
