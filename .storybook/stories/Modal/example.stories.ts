@@ -17,6 +17,15 @@ const meta: Meta<ModalWithLabel> = {
     const [{}, updateArgs] = useArgs();
 
     return html`
+      <style>
+        .footer {
+          padding: 16px;
+          background-color: var(--background-color-footer);
+          display: flex;
+          justify-content: flex-end;
+          gap: 0.5rem;
+        }
+      </style>
       <ssk-button
         @click=${() => {
           updateArgs({ "?hidden": false });
@@ -33,7 +42,7 @@ const meta: Meta<ModalWithLabel> = {
       >
         <div slot="header">${label}</div>
         <div slot="body">Modal Content Goes Here</div>
-        <div slot="footer">
+        <div slot="footer" class="footer">
           <ssk-button
             @click=${() => {
               updateArgs({ "?hidden": true });
@@ -41,8 +50,6 @@ const meta: Meta<ModalWithLabel> = {
           >
             Close
           </ssk-button>
-        </div>
-        <div slot="footer">
           <ssk-button
             @click=${() => {
               updateArgs({ "?hidden": true });
@@ -65,16 +72,6 @@ const meta: Meta<ModalWithLabel> = {
     "?hideCloseButton": {
       description: "Hide button top close",
       control: "boolean",
-      table: {
-        category: "Props",
-      },
-    },
-    footerContent: {
-      description: "The Justify Content slot footer",
-      options: ["center", "flex-start", "flex-end"],
-      control: {
-        type: "select",
-      },
       table: {
         category: "Props",
       },
@@ -116,7 +113,7 @@ export const ExampleModal: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=1253%3A77658&mode=dev",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1253-75169&mode=design&t=pTwjadNPUzRZF6jG-0",
     },
   },
 };
