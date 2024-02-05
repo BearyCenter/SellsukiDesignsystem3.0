@@ -172,7 +172,7 @@ export class Input extends LitElement {
     `;
   }
 
-  updateValue(e) {
+  updateValue(e: any) {
     this.value = e.srcElement.value;
   }
 
