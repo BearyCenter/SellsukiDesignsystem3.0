@@ -92,7 +92,7 @@ export class Input extends LitElement {
             cssVar("colors", this.color),
             cssVar("colors", this.color, 700),
             this.color,
-            cssVar("colors", "text", 700)
+            cssVar("colors", "text", 700),
           )};
           --color-disabled: ${parseVariables(cssVar("colors", "text", 300))};
 
@@ -100,30 +100,30 @@ export class Input extends LitElement {
             cssVar("colors", this.color),
             cssVar("colors", this.color, 300),
             this.color,
-            cssVar("colors", "text", 300)
+            cssVar("colors", "text", 300),
           )};
 
           --background-color-disabled: ${parseVariables(
-            cssVar("colors", "border", 50)
+            cssVar("colors", "border", 50),
           )};
 
           --border-color: ${parseVariables(cssVar("colors", "border", 100))};
           --border-color-active: ${parseVariables(
-            cssVar("colors", this.themeColor, 600)
+            cssVar("colors", this.themeColor, 600),
           )};
           --border-color-disabled: ${parseVariables(
-            cssVar("colors", "border", 100)
+            cssVar("colors", "border", 100),
           )};
 
           --outline-color-active: ${parseVariables(
-            cssVar("colors", this.themeColor, 200)
+            cssVar("colors", this.themeColor, 200),
           )};
 
           --font-family: ${parseVariables(
-            cssVar("font-family", this.fontFamilyGroup)
+            cssVar("font-family", this.fontFamilyGroup),
           )};
           --font-weight: ${parseVariables(
-            cssVar("font-weight", this.fontWeight)
+            cssVar("font-weight", this.fontWeight),
           )};
           --font-size: ${parseVariables(cssVar("font-size", this.size))};
           --line-height: ${parseVariables(cssVar("font-size", this.size))};
@@ -133,13 +133,13 @@ export class Input extends LitElement {
 
           --color-error: ${parseVariables(cssVar("colors", "error", 600))};
           --color-helper-error: ${parseVariables(
-            cssVar("colors", "error", 600)
+            cssVar("colors", "error", 600),
           )};
           --border-color-error: ${parseVariables(
-            cssVar("colors", "error", 600)
+            cssVar("colors", "error", 600),
           )};
           --outline-color-error: ${parseVariables(
-            cssVar("colors", "error", 300)
+            cssVar("colors", "error", 300),
           )};
 
           --width: ${parseVariables(cssVar("width", this.width), "auto")};
@@ -155,7 +155,7 @@ export class Input extends LitElement {
             data-testid=${this.testId || nothing}
             placeholder=${this.placeholder || ""}
             name=${this.name || ""}
-            .value=${this.value || ""}
+            value=${this.value || ""}
             ?disabled=${this.disabled}
             .type=${this.type}
             @input=${(e: Event) => redispatchEvents(e, this)}
