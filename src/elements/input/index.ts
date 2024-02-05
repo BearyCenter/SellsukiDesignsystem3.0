@@ -2,6 +2,7 @@ import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
+import { redispatchEvents } from "../../helpers/lit";
 import {
   ColorName,
   ColorRole,
@@ -78,7 +79,7 @@ export class Input extends LitElement {
   error = false;
 
   @property({ type: Number })
-  maxlength?: number | undefined;
+  maxlength: number | undefined;
 
   render() {
     if (this.hidden) {
@@ -161,6 +162,7 @@ export class Input extends LitElement {
             value=${this.value || ""}
             ?disabled=${this.disabled}
             .type=${this.type}
+            @input=${this.updateValue}
             @change=${this.updateValue}
           />
           <slot name="postfix" class="postfix-control"></slot>
@@ -174,6 +176,7 @@ export class Input extends LitElement {
 
   updateValue(e: any) {
     this.value = e.srcElement.value;
+    redispatchEvents(e, this);
   }
 
   static styles = css`
