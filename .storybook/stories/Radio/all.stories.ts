@@ -1,8 +1,8 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/elements/Radio";
-import { Radio } from "../../../src/elements/Radio";
+import "../../../src/elements/radio";
+import { Radio } from "../../../src/elements/radio";
 
 type RadioArgs = {} & Omit<Radio, "level">;
 const size: Radio["size"][] = [
