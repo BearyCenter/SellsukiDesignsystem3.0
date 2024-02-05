@@ -224,6 +224,7 @@ export type Theme = {
     textarea?: Partial<ThemeField>;
     tooltip?: Partial<ThemeField>;
     dropdown?: Partial<ThemeField>;
+    radio?: Partial<ThemeField>;
   };
 } & ThemeField;
 

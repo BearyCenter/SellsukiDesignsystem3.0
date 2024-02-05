@@ -59,7 +59,7 @@ export class Radio extends LitElement implements ThemeValue {
   @property({ type: String })
   height?: string | undefined;
 
-  // checkbox specific
+  // radio specific
   @property({ type: Boolean })
   hidden = false;
   @property({ type: String })
@@ -73,9 +73,9 @@ export class Radio extends LitElement implements ThemeValue {
   @property({ type: Object })
   group?: GroupRadio | undefined;
 
-  // checkbox state
+  // radio state
   @state()
-  _isGroupCheckbox: boolean = false;
+  _isGroupRadio: boolean = false;
   @state()
   _checked: boolean = false;
   @state()
@@ -84,7 +84,7 @@ export class Radio extends LitElement implements ThemeValue {
   firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
     super.firstUpdated(changedProperties);
 
-    this._isGroupCheckbox = !!this.group;
+    this._isGroupRadio = !!this.group;
     this._checked = this.checked;
     if (this.group?.defaultValue) {
       this._setGroupChecked(this.group?.defaultValue);
@@ -125,7 +125,7 @@ export class Radio extends LitElement implements ThemeValue {
       : nothing;
 
     return html`
-      ${parseThemeToCssVariables(this.theme?.components?.checkbox, "input")}
+      ${parseThemeToCssVariables(this.theme?.components?.radio, "input")}
 
       <style>
         div,
@@ -166,18 +166,18 @@ export class Radio extends LitElement implements ThemeValue {
   }
 
   private _updateRadioState() {
-    const checkbox = this.shadowRoot?.querySelector("input");
+    const radio = this.shadowRoot?.querySelector("input");
 
     const isCheckedAll = this._groupOptions.every((o) => o.checked);
     const isNotCheck = this._groupOptions.every((o) => !o.checked);
 
-    let checked = this._isGroupCheckbox ? isCheckedAll : this.checked;
-    let indeterminate = this._isGroupCheckbox
+    let checked = this._isGroupRadio ? isCheckedAll : this.checked;
+    let indeterminate = this._isGroupRadio
       ? !isCheckedAll && !isNotCheck
       : this.indeterminate;
-    if (checkbox) {
-      if (this._isGroupCheckbox) this._checked = checked;
-      checkbox.indeterminate = indeterminate;
+    if (radio) {
+      if (this._isGroupRadio) this._checked = checked;
+      radio.indeterminate = indeterminate;
     }
   }
 
@@ -283,7 +283,7 @@ export class Radio extends LitElement implements ThemeValue {
         --checked-color: var(--disabled-400);
         --active-500: var(--disabled-300);
       }
-      
+
       .radio-wrapper input[type="radio"]:disabled + label {
         cursor: not-allowed;
       }
