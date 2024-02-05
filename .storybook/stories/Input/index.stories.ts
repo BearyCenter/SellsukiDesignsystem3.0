@@ -35,6 +35,10 @@ const meta = {
       description: "",
       control: "text",
     },
+    maxlength: {
+      description: "",
+      control: "number",
+    },
     type: {
       options: ["text", "number", "password", "email", "tel", "url"],
       control: {
