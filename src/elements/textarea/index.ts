@@ -183,7 +183,7 @@ export class Textarea extends LitElement {
           .value=${this.value || ""}
           ?disabled=${this.disabled}
           @input=${(e: Event) => {
-            this.value = (e.target as HTMLInputElement).value;
+            this._value = (e.target as HTMLInputElement).value;
             redispatchEvents(e, this);
           }}
           @change=${(e: Event) => redispatchEvents(e, this)}
