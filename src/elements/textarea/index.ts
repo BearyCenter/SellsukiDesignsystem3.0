@@ -189,7 +189,7 @@ export class Textarea extends LitElement {
           @change=${(e: Event) => redispatchEvents(e, this)}
           rows=${this.rows}
           maxlength=${this.limit!}
-        ></textarea>
+        >${this._value}</textarea>
         <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
           <label class="helper">${this.helperText}</label>
           <label class="helper ${this.limit ? "" : "hidden"}">
