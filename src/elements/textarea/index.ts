@@ -1,5 +1,5 @@
 import { consume } from "@lit/context";
-import { LitElement, css, html, nothing } from "lit";
+import { LitElement, PropertyValueMap, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
@@ -82,12 +82,25 @@ export class Textarea extends LitElement {
   error = false;
 
   @property({ type: String })
+  private _value = "";
+
+  @property({ type: String })
   minHeight?: string | undefined;
   @property({ type: String })
   minWidth?: string | undefined;
 
   @property({ type: String })
   resize: "none" | "both" | "horizontal" | "vertical" = "both";
+
+  protected shouldUpdate(
+    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>,
+  ): boolean {
+    if (_changedProperties.has("value")) {
+      this._value = this.value || "";
+    }
+
+    return true;
+  }
 
   render() {
     if (this.hidden) {
@@ -167,10 +180,10 @@ export class Textarea extends LitElement {
           data-testid=${this.testId || nothing}
           placeholder=${this.placeholder || ""}
           name=${this.name || ""}
-          value=${this.value || ""}
+          value=${this._value || ""}
           ?disabled=${this.disabled}
           @input=${(e: Event) => {
-            this.value = (e.target as HTMLInputElement).value;
+            this._value = (e.target as HTMLInputElement).value;
             redispatchEvents(e, this);
           }}
           @change=${(e: Event) => redispatchEvents(e, this)}
@@ -180,7 +193,7 @@ export class Textarea extends LitElement {
         <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
           <label class="helper">${this.helperText}</label>
           <label class="helper ${this.limit ? "" : "hidden"}">
-            (${this.value?.length || 0}/${this.limit})
+            (${this._value?.length || 0}/${this.limit})
           </label>
         </div>
       </div>
