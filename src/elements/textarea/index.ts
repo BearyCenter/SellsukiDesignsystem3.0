@@ -1,5 +1,5 @@
 import { consume } from "@lit/context";
-import { LitElement, PropertyValueMap, css, html, nothing } from "lit";
+import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
