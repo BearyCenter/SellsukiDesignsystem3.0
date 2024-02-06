@@ -79,7 +79,13 @@ export class Input extends LitElement {
   error = false;
 
   @property({ type: Number })
-  maxlength: number | undefined;
+  limit: number | undefined;
+
+  @property({ type: Boolean })
+  showLimit = false;
+
+  @property({ type: Boolean })
+  required = false;
 
   render() {
     if (this.hidden) {
@@ -150,13 +156,15 @@ export class Input extends LitElement {
       </style>
 
       <div class="container ${this.error ? "error" : ""}">
-        <label for="input">${this.label}</label>
+        <label for="input">
+          ${this.label} ${this.required ? html`<span>*</span>` : nothing}</label
+        >
         <div class=${`input-container ${this.disabled ? "disabled" : ""}`}>
           <slot name="prefix" class="prefix-control"></slot>
           <input
             id="input"
             data-testid=${this.testId || nothing}
-            maxlength=${this.maxlength}
+            maxlength=${this.limit}
             placeholder=${this.placeholder || ""}
             name=${this.name || ""}
             value=${this.value || ""}
@@ -167,9 +175,18 @@ export class Input extends LitElement {
           />
           <slot name="postfix" class="postfix-control"></slot>
         </div>
-        ${this.helperText
-          ? html`<label class="helper">${this.helperText}</label>`
-          : nothing}
+        <div
+          class="footer ${this.helperText || this.showLimit ? "" : "hidden"}"
+        >
+          ${this.helperText
+            ? html`<label class="helper">${this.helperText}</label>`
+            : nothing}
+          ${this.showLimit
+            ? html`<label class="helper"
+                >(${this.value?.length || 0}/${this.limit})</label
+              >`
+            : nothing}
+        </div>
       </div>
     `;
   }
@@ -252,6 +269,15 @@ export class Input extends LitElement {
       border-color: var(--border-color-disabled);
       cursor: not-allowed;
       color: var(--color-disabled);
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    div.container > label > span {
+      color: red;
     }
 
     label.helper {
