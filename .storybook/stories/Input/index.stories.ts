@@ -21,12 +21,27 @@ const meta = {
       description: "The content of the input",
       control: "text",
     },
-    disabled: {
+    "?disabled": {
       control: {
         type: "boolean",
       },
     },
-    hidden: {
+    "?hidden": {
+      control: {
+        type: "boolean",
+      },
+    },
+    "?required": {
+      control: {
+        type: "boolean",
+      },
+    },
+    "?showLimit": {
+      control: {
+        type: "boolean",
+      },
+    },
+    "?error": {
       control: {
         type: "boolean",
       },
@@ -35,7 +50,7 @@ const meta = {
       description: "",
       control: "text",
     },
-    maxlength: {
+    limit: {
       description: "",
       control: "number",
     },
@@ -96,6 +111,22 @@ export const Small: Story = {
     design: {
       type: "figma",
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1123-65244",
+    },
+  },
+};
+export const WithRequired: Story = {
+  args: {
+    size: "md",
+    label: "Input",
+    placeholder: "Placeholder",
+    helperText: "Helper text",
+    value: "",
+    required: true,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=585%3A57607&mode=dev",
     },
   },
 };

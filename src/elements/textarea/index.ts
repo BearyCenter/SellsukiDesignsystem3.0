@@ -82,25 +82,12 @@ export class Textarea extends LitElement {
   error = false;
 
   @property({ type: String })
-  private _value = "";
-
-  @property({ type: String })
   minHeight?: string | undefined;
   @property({ type: String })
   minWidth?: string | undefined;
 
   @property({ type: String })
   resize: "none" | "both" | "horizontal" | "vertical" = "both";
-
-  protected shouldUpdate(
-    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>,
-  ): boolean {
-    if (_changedProperties.has("value")) {
-      this._value = this.value || "";
-    }
-
-    return true;
-  }
 
   render() {
     if (this.hidden) {
@@ -180,10 +167,10 @@ export class Textarea extends LitElement {
           data-testid=${this.testId || nothing}
           placeholder=${this.placeholder || ""}
           name=${this.name || ""}
-          .value=${this.value || ""}
+          value=${this.value || ""}
           ?disabled=${this.disabled}
           @input=${(e: Event) => {
-            this._value = (e.target as HTMLInputElement).value;
+            this.value = (e.target as HTMLInputElement).value;
             redispatchEvents(e, this);
           }}
           @change=${(e: Event) => redispatchEvents(e, this)}
@@ -194,7 +181,7 @@ export class Textarea extends LitElement {
         <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
           <label class="helper">${this.helperText}</label>
           <label class="helper ${this.limit ? "" : "hidden"}">
-            (${this._value?.length || 0}/${this.limit})
+            (${this.value?.length || 0}/${this.limit})
           </label>
         </div>
       </div>
