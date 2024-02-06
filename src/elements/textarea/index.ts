@@ -81,6 +81,9 @@ export class Textarea extends LitElement {
   @property({ type: Boolean })
   error = false;
 
+  @property({ type: Boolean })
+  required = false;
+
   @property({ type: String })
   private _value = "";
 
@@ -174,7 +177,9 @@ export class Textarea extends LitElement {
       </style>
 
       <div class="container ${this.error ? "error" : ""}">
-        <label for="textarea">${this.label}</label>
+        <label for="textarea">
+          ${this.label} ${this.required ? html`<span>*</span>` : nothing}
+        </label>
         <textarea
           id="textarea"
           data-testid=${this.testId || nothing}
@@ -189,7 +194,7 @@ export class Textarea extends LitElement {
           @change=${(e: Event) => redispatchEvents(e, this)}
           rows=${this.rows}
           maxlength=${this.limit!}
-        >${this._value}</textarea>
+        ></textarea>
         <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
           <label class="helper">${this.helperText}</label>
           <label class="helper ${this.limit ? "" : "hidden"}">
@@ -216,6 +221,10 @@ export class Textarea extends LitElement {
       flex-direction: column;
       width: var(--width);
       gap: 0.25em;
+    }
+
+    div.container > label > span {
+      color: red;
     }
 
     textarea {
