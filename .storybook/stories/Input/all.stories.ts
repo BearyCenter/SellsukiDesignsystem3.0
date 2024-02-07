@@ -59,7 +59,7 @@ const meta = {
                 error
               ></ssk-input>
             </div>
-          </section>`
+          </section>`,
         )}
       </main>`;
   },
@@ -80,6 +80,12 @@ const meta = {
     value: {
       description: "",
       control: "text",
+    },
+    autoComplete: {
+      options: ["on", "off"],
+      control: {
+        type: "select",
+      },
     },
     ...baseArgsTypes,
   },

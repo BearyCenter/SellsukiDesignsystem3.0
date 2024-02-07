@@ -60,6 +60,12 @@ const meta = {
         type: "select",
       },
     },
+    autoComplete: {
+      options: ["on", "off"],
+      control: {
+        type: "select",
+      },
+    },
     ...baseArgsTypes,
   },
 } satisfies Meta<InputWithLabel>;

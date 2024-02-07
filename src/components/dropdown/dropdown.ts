@@ -24,7 +24,7 @@ export type DropdownState = {
 };
 
 export const valueContext = createContext<DropdownState>(
-  "ssk-dropdown-context"
+  "ssk-dropdown-context",
 );
 
 @customElement("ssk-dropdown")
@@ -92,6 +92,9 @@ export class Dropdown extends LitElement {
   @property({ type: String })
   optionsWidth: "auto" | "fit" = "fit";
 
+  @property({ type: Boolean })
+  required = false;
+
   @provide({ context: valueContext })
   @property({ attribute: false })
   state: DropdownState = {
@@ -113,7 +116,7 @@ export class Dropdown extends LitElement {
   };
 
   protected willUpdate(
-    changedProperties: Map<string | number | symbol, unknown>
+    changedProperties: Map<string | number | symbol, unknown>,
   ): void {
     if (changedProperties.has("disabled")) {
       this.state.disabled = this.disabled;
@@ -164,41 +167,41 @@ export class Dropdown extends LitElement {
           --color-helper: ${parseVariables(cssVar("colors", "text", 300))};
 
           --options-background-color: ${parseVariables(
-            cssVar("colors", "background", 50)
+            cssVar("colors", "background", 50),
           )};
 
           --background-color: ${parseVariables(
             cssVar("colors", this.themeColor, 50),
-            cssVar("colors", "background", 50)
+            cssVar("colors", "background", 50),
           )};
 
           --background-color-hover: ${parseVariables(
-            cssVar("colors", this.themeColor, 50)
+            cssVar("colors", this.themeColor, 50),
           )};
 
           --background-color-disabled: ${parseVariables(
-            cssVar("colors", "border", 50)
+            cssVar("colors", "border", 50),
           )};
 
           --border-color: ${parseVariables(
-            cssVar("colors", this.themeColor, 100)
+            cssVar("colors", this.themeColor, 100),
           )};
           --border-color-active: ${parseVariables(
-            cssVar("colors", this.themeColor, 600)
+            cssVar("colors", this.themeColor, 600),
           )};
           --border-color-disabled: ${parseVariables(
-            cssVar("colors", "border", 100)
+            cssVar("colors", "border", 100),
           )};
 
           --outline-color-active: ${parseVariables(
-            cssVar("colors", this.themeColor, 200)
+            cssVar("colors", this.themeColor, 200),
           )};
 
           --font-family: ${parseVariables(
-            cssVar("font-family", this.fontFamilyGroup)
+            cssVar("font-family", this.fontFamilyGroup),
           )};
           --font-weight: ${parseVariables(
-            cssVar("font-weight", this.fontWeight)
+            cssVar("font-weight", this.fontWeight),
           )};
           --font-size: ${parseVariables(cssVar("font-size", this.size))};
           --line-height: ${parseVariables(cssVar("font-size", this.size))};
@@ -208,25 +211,30 @@ export class Dropdown extends LitElement {
 
           --color-error: ${parseVariables(cssVar("colors", "error", 600))};
           --color-helper-error: ${parseVariables(
-            cssVar("colors", "error", 600)
+            cssVar("colors", "error", 600),
           )};
           --border-color-error: ${parseVariables(
-            cssVar("colors", "error", 600)
+            cssVar("colors", "error", 600),
           )};
           --outline-color-error: ${parseVariables(
-            cssVar("colors", "error", 300)
+            cssVar("colors", "error", 300),
           )};
 
           --width: ${parseVariables(
             cssVar("width", this.width),
             this.width,
-            "auto"
+            "auto",
           )};
         }
       </style>
 
       <div class="container ${this.error ? "error" : ""}" id="container">
-        <label>${this.label}</label>
+        ${this.label
+          ? html` <label
+              >${this.label}
+              ${this.required ? html`<span>*</span>` : nothing}</label
+            >`
+          : nothing}
         <div class="dropdown-container">
           <slot name="selected" @click=${this.setupOnClickContainer}></slot>
 
@@ -331,6 +339,10 @@ export class Dropdown extends LitElement {
       label.helper {
         color: var(--color-helper-error);
       }
+    }
+
+    div.container > label > span {
+      color: red;
     }
   `;
 }

@@ -87,6 +87,9 @@ export class Input extends LitElement {
   @property({ type: Boolean })
   required = false;
 
+  @property({ type: String })
+  autoComplete: "on" | "off" = "on";
+
   render() {
     if (this.hidden) {
       return nothing;
@@ -169,6 +172,7 @@ export class Input extends LitElement {
             name=${this.name || ""}
             value=${this.value || ""}
             ?disabled=${this.disabled}
+            autocomplete=${this.autoComplete}
             .type=${this.type}
             @input=${this.updateValue}
             @change=${this.updateValue}
