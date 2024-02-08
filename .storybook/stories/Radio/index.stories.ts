@@ -2,6 +2,7 @@ import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/radio";
+import "../../../src/elements/radio/group";
 import { Radio } from "../../../src/elements/radio";
 import { baseArgsTypes, genericEvents } from "../helper";
 
@@ -94,23 +95,23 @@ export const Default: Story = {
   },
 };
 
-export const RadioWithChild: Story = {
+export const RadioWithGroup: Story = {
   args: {
-    label: "Parent Radio",
-    indeterminate: true,
+    label: "Radio Group",
+    indeterminate: false,
     "@change": () => {
-      console.log("change naja");
+      console.log("change item");
     },
     ".group": {
-      defaultValue: ["cc2"],
+      defaultValue: ["c1"],
       options: [
         {
-          label: "Child radio1",
-          value: "cc1",
+          label: "radio1",
+          value: "c1",
         },
         {
-          label: "Child radio2",
-          value: "cc2",
+          label: "radio2",
+          value: "c2",
         },
       ],
     },
@@ -124,7 +125,7 @@ export const RadioWithChild: Story = {
   render: ({ ...agrs }) => {
     return html`
       <div>
-        <ssk-radio ${spread(agrs)}> </ssk-radio>
+        <ssk-radio-group ${spread(agrs)}> </ssk-radio-group>
       </div>
     `;
   },

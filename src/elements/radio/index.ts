@@ -26,6 +26,7 @@ export type radioOptions = {
   value: string;
 };
 @customElement("ssk-radio")
+
 export class Radio extends LitElement implements ThemeValue {
   static registeredName = "ssk-radio";
 
@@ -84,11 +85,7 @@ export class Radio extends LitElement implements ThemeValue {
   firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
     super.firstUpdated(changedProperties);
 
-    this._isGroupRadio = !!this.group;
     this._checked = this.checked;
-    if (this.group?.defaultValue) {
-      this._setGroupChecked(this.group?.defaultValue);
-    }
   }
 
   updated(changedProperties: Map<PropertyKey, unknown>) {
@@ -102,54 +99,34 @@ export class Radio extends LitElement implements ThemeValue {
       return nothing;
     }
 
-    const isRenderGroupRadio = this.group
-      ? html`
-          <div class="group-radio">
-            ${this._groupOptions.map(
-              (g) => html`<div class="radio-wrapper">
-                <input
-                  type="radio"
-                  data-testid=${this.testId
-                    ? this.testId + "-" + g.value
-                    : nothing}
-                  .disabled=${!!g.disabled}
-                  .checked=${!!g.checked}
-                  value=${g.value}
-                  @change=${(e: Event) => this._onChangeGroup(e)}
-                />
-                <label for="radio">${g.label}</label>
-              </div>`
-            )}
-          </div>
-        `
-      : nothing;
+    let additionalCss = `
+    --active-100: ${parseVariables(
+      cssVar("colors", this.themeColor, 100)
+    )};
+    --active-500: ${parseVariables(
+      cssVar("colors", this.themeColor, 500)
+    )};
+    --disabled-200: ${parseVariables(cssVar("colors", "gray", 200))};
+    --disabled-300: ${parseVariables(cssVar("colors", "gray", 300))};
+    --disabled-400: ${parseVariables(cssVar("colors", "gray", 400))};
+    --border-radius: ${parseVariables(
+      cssVar("rounded", this.rounded),
+      "50%"
+    )};
+    --border-radius: 50%;
+    --width: 0.5em;
+    --height: 0.5em;
+    --gap: ${parseVariables(cssVar("spacing", this.size), "1em")};
+    --font-size: ${parseVariables(cssVar("font-size", this.size))};
+    `;
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.radio, "input")}
-
       <style>
-        div,
-        input {
-          --active-100: ${parseVariables(
-            cssVar("colors", this.themeColor, 100)
-          )};
-          --active-500: ${parseVariables(
-            cssVar("colors", this.themeColor, 500)
-          )};
-          --disabled-200: ${parseVariables(cssVar("colors", "gray", 200))};
-          --disabled-300: ${parseVariables(cssVar("colors", "gray", 300))};
-          --disabled-400: ${parseVariables(cssVar("colors", "gray", 400))};
-          --border-radius: ${parseVariables(
-            cssVar("rounded", this.rounded),
-            "50%"
-          )};
-          --border-radius: 50%;
-          --width: 0.5em;
-          --height: 0.5em;
-          --gap: ${parseVariables(cssVar("spacing", this.size), "1em")};
-          --font-size: ${parseVariables(cssVar("font-size", this.size))};
+      div,
+      input {
+          ${additionalCss};
         }
-
       </style>
       <div class="radio-wrapper">
         <input
@@ -161,7 +138,6 @@ export class Radio extends LitElement implements ThemeValue {
         />
         <label for="radio">${this.label}</label>
       </div>
-      ${isRenderGroupRadio}
     `;
   }
 
@@ -180,44 +156,10 @@ export class Radio extends LitElement implements ThemeValue {
       radio.indeterminate = indeterminate;
     }
   }
-
-  private _setGroupChecked(value: string[]) {
-    if (this.group) {
-      this._groupOptions = this.group?.options.map((o) => {
-        const checked = value.includes(o.value) ? true : false;
-
-        return {
-          ...o,
-          checked,
-        };
-      });
-    }
-  }
-
-  private _onChangeGroup(e: Event) {
-    const groupCheckList = this._filterCheckedList(
-      (e.target as HTMLInputElement).value,
-      (e.target as HTMLInputElement).checked
-    );
-
-    this._setGroupChecked(groupCheckList);
-  }
-
+  
   private _onChange(e: Event) {
     this._checked = (e.target as HTMLInputElement).checked;
-    const groupList = this._groupOptions.map((o) => o.value);
-    this._setGroupChecked(this._checked ? groupList : []);
-
     redispatchEvents(e, this);
-  }
-
-  private _filterCheckedList(value: string, checked: boolean): string[] {
-    const list = this._groupOptions
-      .map((o) => (o.value === value ? { ...o, checked } : o))
-      .filter((o) => o.checked)
-      .map((o) => o.value);
-
-    return list;
   }
 
   static styles = css`
@@ -294,9 +236,6 @@ export class Radio extends LitElement implements ThemeValue {
     .radio-wrapper *:before,
     .radio-wrapper *:after {
       box-sizing: inherit;
-    }
-    .group-radio {
-      margin-left: 2em;
     }
   `;
 }
