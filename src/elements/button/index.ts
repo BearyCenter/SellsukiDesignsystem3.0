@@ -169,11 +169,16 @@ export class Button extends LitElement {
 
       case "outline":
         additionalCss += `
-        --background-color: ${parseVariables(cssVar("colors", "white", 200))};
+        --background-color: ${parseVariables(
+          cssVar("colors", this.backgroundColor, 100),
+          cssVar("colors", "white", 200),
+        )};
         --background-color-hover: ${parseVariables(
+          cssVar("colors", this.backgroundColor, 200),
           cssVar("colors", "white", 200),
         )};
         --background-color-active: ${parseVariables(
+          cssVar("colors", this.backgroundColor, 100),
           cssVar("colors", "white", 200),
         )};
         --background-color-disabled: ${parseVariables(
