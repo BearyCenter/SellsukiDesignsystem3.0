@@ -95,6 +95,9 @@ export class Dropdown extends LitElement {
   @property({ type: Boolean })
   required = false;
 
+  @property({ type: Boolean })
+  hideOptions = false;
+
   @provide({ context: valueContext })
   @property({ attribute: false })
   state: DropdownState = {
@@ -238,12 +241,16 @@ export class Dropdown extends LitElement {
         <div class="dropdown-container">
           <slot name="selected" @click=${this.setupOnClickContainer}></slot>
 
-          <div
-            class="options-container ${this.state.isOpened ? "show" : ""} ${this
-              .optionsAnchor} ${this.optionsAlign} ${this.optionsWidth}"
-          >
-            <slot></slot>
-          </div>
+          ${this.hideOptions
+            ? nothing
+            : html` <div
+                class="options-container ${this.state.isOpened
+                  ? "show"
+                  : ""} ${this.optionsAnchor} ${this.optionsAlign} ${this
+                  .optionsWidth}"
+              >
+                <slot></slot>
+              </div>`}
         </div>
         ${this.helperText
           ? html`<label class="helper">${this.helperText}</label>`
