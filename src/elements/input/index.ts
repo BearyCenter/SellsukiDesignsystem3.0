@@ -170,7 +170,7 @@ export class Input extends LitElement {
             maxlength=${this.limit}
             placeholder=${this.placeholder || ""}
             name=${this.name || ""}
-            value=${this.value || ""}
+            .value=${this.value || ""}
             ?disabled=${this.disabled}
             autocomplete=${this.autoComplete}
             .type=${this.type}
