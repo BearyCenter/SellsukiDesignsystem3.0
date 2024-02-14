@@ -98,7 +98,7 @@ export class DropdownOption extends LitElement {
     }
 
     .label {
-      white-space: nowrap;
+      white-space: var(--white-space, nowrap);
       overflow: hidden;
       text-overflow: ellipsis;
     }
