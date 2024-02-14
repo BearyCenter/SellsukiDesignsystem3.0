@@ -131,6 +131,7 @@ export class Radio extends LitElement implements ThemeValue {
       <div class="radio-wrapper">
         <input
           type="radio"
+          id="radio"
           data-testid=${this.testId || nothing}
           .disabled=${this.disabled}
           .checked=${this._checked}
