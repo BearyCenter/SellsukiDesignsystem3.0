@@ -135,6 +135,7 @@ export class RadioGroup extends LitElement implements ThemeValue {
             (g) => html`<div class="radio-wrapper">
                 <input
                     type="radio"
+                    id="radio"
                     name="radioGroup"
                     data-testid=${this.testId
                         ? this.testId + "-" + g.value
