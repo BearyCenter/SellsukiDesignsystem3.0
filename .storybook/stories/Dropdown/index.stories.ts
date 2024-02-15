@@ -117,12 +117,17 @@ const meta = {
       description: "The content of the dropdown",
       control: "text",
     },
-    disabled: {
+    "?disabled": {
       control: {
         type: "boolean",
       },
     },
-    hidden: {
+    "?hidden": {
+      control: {
+        type: "boolean",
+      },
+    },
+    "?required": {
       control: {
         type: "boolean",
       },
