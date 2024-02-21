@@ -102,6 +102,7 @@ export const ExampleModal: Story = {
   args: {
     label: "Example Modal",
     width: "500px",
+    "?show": true,
   },
   parameters: {
     design: {
