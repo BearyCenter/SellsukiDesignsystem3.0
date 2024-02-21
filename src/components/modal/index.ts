@@ -27,7 +27,7 @@ export class Modal extends LitElement {
   width?: string | undefined;
 
   @property({ type: Boolean })
-  hidden = false;
+  show = false;
 
   @property({ type: Boolean })
   hideCloseButton = false;
@@ -99,9 +99,7 @@ export class Modal extends LitElement {
   }
 
   static styles = css`
-    :host {
-      display: block;
-      position: fixed;
+    :host([show]) {
       top: 0;
       left: 0;
       width: 100%;
@@ -113,9 +111,11 @@ export class Modal extends LitElement {
       transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
     }
 
-    :host([hidden]) {
+    :host {
       opacity: 0;
       visibility: hidden;
+      display: block;
+      position: fixed;
     }
 
     .backdrop {
