@@ -95,6 +95,7 @@ export class DropdownOption extends LitElement {
 
     .container:hover {
       background-color: var(--background-color-hover);
+      color: var(--color-hover);
     }
 
     .label {

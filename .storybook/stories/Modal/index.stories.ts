@@ -45,8 +45,8 @@ const meta: Meta<ModalWithLabel> = {
         category: "Props",
       },
     },
-    "?hidden": {
-      description: "Whether the modal is initially hidden",
+    "?show": {
+      description: "Whether the modal is initially show",
       control: "boolean",
       table: {
         category: "Props",
@@ -78,6 +78,7 @@ export const BasicModal: Story = {
   args: {
     label: "Example Modal",
     width: "500px",
+    "?show": true,
   },
   parameters: {
     design: {
@@ -91,6 +92,7 @@ export const GridModal: Story = {
   args: {
     label: "Example Modal",
     width: "500px",
+    "?show": true,
   },
   parameters: {
     design: {

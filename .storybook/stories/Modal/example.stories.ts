@@ -19,7 +19,7 @@ const meta: Meta<ModalWithLabel> = {
     return html`
       <ssk-button
         @click=${() => {
-          updateArgs({ "?hidden": false });
+          updateArgs({ "?show": true });
         }}
       >
         Show Modal
@@ -27,7 +27,7 @@ const meta: Meta<ModalWithLabel> = {
       <ssk-modal
         ${spread(args)}
         @close=${() => {
-          updateArgs({ "?hidden": true });
+          updateArgs({ "?show": false });
           action("@close")(); // Triggering the @close event
         }}
       >
@@ -36,7 +36,7 @@ const meta: Meta<ModalWithLabel> = {
         <div slot="footer">
           <ssk-button
             @click=${() => {
-              updateArgs({ "?hidden": true });
+              updateArgs({ "?show": false });
             }}
           >
             Close
@@ -45,7 +45,7 @@ const meta: Meta<ModalWithLabel> = {
         <div slot="footer">
           <ssk-button
             @click=${() => {
-              updateArgs({ "?hidden": true });
+              updateArgs({ "?show": false });
             }}
           >
             Save Changes
@@ -69,8 +69,8 @@ const meta: Meta<ModalWithLabel> = {
         category: "Props",
       },
     },
-    "?hidden": {
-      description: "Whether the modal is initially hidden",
+    "?show": {
+      description: "Whether the modal is initially show",
       control: "boolean",
       table: {
         category: "Props",
