@@ -26,7 +26,6 @@ export type radioOptions = {
   value: string;
 };
 @customElement("ssk-radio")
-
 export class Radio extends LitElement implements ThemeValue {
   static registeredName = "ssk-radio";
 
@@ -78,15 +77,7 @@ export class Radio extends LitElement implements ThemeValue {
   @state()
   _isGroupRadio: boolean = false;
   @state()
-  _checked: boolean = false;
-  @state()
   _groupOptions: radioOptions[] = [];
-
-  firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
-    super.firstUpdated(changedProperties);
-
-    this._checked = this.checked;
-  }
 
   updated(changedProperties: Map<PropertyKey, unknown>) {
     super.updated(changedProperties);
@@ -100,19 +91,12 @@ export class Radio extends LitElement implements ThemeValue {
     }
 
     let additionalCss = `
-    --active-100: ${parseVariables(
-      cssVar("colors", this.themeColor, 100)
-    )};
-    --active-500: ${parseVariables(
-      cssVar("colors", this.themeColor, 500)
-    )};
+    --active-100: ${parseVariables(cssVar("colors", this.themeColor, 100))};
+    --active-500: ${parseVariables(cssVar("colors", this.themeColor, 500))};
     --disabled-200: ${parseVariables(cssVar("colors", "gray", 200))};
     --disabled-300: ${parseVariables(cssVar("colors", "gray", 300))};
     --disabled-400: ${parseVariables(cssVar("colors", "gray", 400))};
-    --border-radius: ${parseVariables(
-      cssVar("rounded", this.rounded),
-      "50%"
-    )};
+    --border-radius: ${parseVariables(cssVar("rounded", this.rounded), "50%")};
     --border-radius: 50%;
     --width: 0.5em;
     --height: 0.5em;
@@ -123,10 +107,10 @@ export class Radio extends LitElement implements ThemeValue {
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.radio, "input")}
       <style>
-      div,
-      input {
-          ${additionalCss};
-        }
+        div,
+        input {
+            ${additionalCss};
+          }
       </style>
       <div class="radio-wrapper">
         <input
@@ -134,7 +118,7 @@ export class Radio extends LitElement implements ThemeValue {
           id="radio"
           data-testid=${this.testId || nothing}
           .disabled=${this.disabled}
-          .checked=${this._checked}
+          .checked=${this.checked}
           @change=${(e: Event) => this._onChange(e)}
         />
         <label for="radio">${this.label}</label>
@@ -153,13 +137,13 @@ export class Radio extends LitElement implements ThemeValue {
       ? !isCheckedAll && !isNotCheck
       : this.indeterminate;
     if (radio) {
-      if (this._isGroupRadio) this._checked = checked;
+      if (this._isGroupRadio) this.checked = checked;
       radio.indeterminate = indeterminate;
     }
   }
-  
+
   private _onChange(e: Event) {
-    this._checked = (e.target as HTMLInputElement).checked;
+    this.checked = (e.target as HTMLInputElement).checked;
     redispatchEvents(e, this);
   }
 
@@ -184,7 +168,7 @@ export class Radio extends LitElement implements ThemeValue {
         background-color: var(--background-color);
         vertical-align: middle;
       }
-      
+
       .radio-wrapper input[type="radio"]:checked {
         --border-color: var(--active-500);
       }
@@ -209,7 +193,7 @@ export class Radio extends LitElement implements ThemeValue {
         left: 50%;
         transform: translate(-50%, -50%);
         height: calc(0.65 * var(--height));
-        width:  calc(0.65 * var(--width));
+        width: calc(0.65 * var(--width));
         background-color: var(--active-500);
         border-radius: var(--border-radius);
       }
