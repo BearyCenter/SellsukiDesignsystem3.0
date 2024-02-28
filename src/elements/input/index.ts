@@ -179,14 +179,10 @@ export class Input extends LitElement {
           />
           <slot name="postfix" class="postfix-control"></slot>
         </div>
-        <div
-          class="footer ${this.helperText || this.showLimit ? "" : "hidden"}"
-        >
-          ${this.helperText
-            ? html`<label class="helper">${this.helperText}</label>`
-            : nothing}
+        <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
+          <label class="helper">${this.helperText}</label>
           ${this.showLimit
-            ? html`<label class="helper"
+            ? html`<label class="helper ${this.limit ? "" : "hidden"}"
                 >(${this.value?.length || 0}/${this.limit})</label
               >`
             : nothing}
@@ -248,10 +244,14 @@ export class Input extends LitElement {
 
     slot[name="prefix"] {
       grid-area: prefix;
+      display: flex;
+      justify-content:start;
     }
 
     slot[name="postfix"] {
       grid-area: postfix;
+      display: flex;
+      justify-content:end;
     }
 
     input {

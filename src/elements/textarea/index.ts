@@ -187,11 +187,8 @@ export class Textarea extends LitElement {
           name=${this.name || ""}
           .value=${this._value || ""}
           ?disabled=${this.disabled}
-          @input=${(e: Event) => {
-            this._value = (e.target as HTMLInputElement).value;
-            redispatchEvents(e, this);
-          }}
-          @change=${(e: Event) => redispatchEvents(e, this)}
+          @input=${this.updateValue}
+          @change=${this.updateValue}
           rows=${this.rows}
           maxlength=${this.limit!}
         >${this._value}</textarea>
@@ -203,6 +200,11 @@ export class Textarea extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  updateValue(e: any) {
+    this._value = e.srcElement.value;
+    redispatchEvents(e, this);
   }
 
   static styles = css`
