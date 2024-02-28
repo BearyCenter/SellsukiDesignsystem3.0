@@ -14,17 +14,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-export type GroupRadio = {
-  defaultValue?: string[];
-  options: radioOptions[];
-};
-
-export type radioOptions = {
-  label: string;
-  checked?: boolean;
-  disabled?: boolean;
-  value: string;
-};
 @customElement("ssk-radio")
 export class Radio extends LitElement implements ThemeValue {
   static registeredName = "ssk-radio";
@@ -70,14 +59,10 @@ export class Radio extends LitElement implements ThemeValue {
   indeterminate = false;
   @property({ type: Boolean })
   disabled = false;
-  @property({ type: Object })
-  group?: GroupRadio | undefined;
 
   // radio state
   @state()
   _isGroupRadio: boolean = false;
-  @state()
-  _groupOptions: radioOptions[] = [];
 
   updated(changedProperties: Map<PropertyKey, unknown>) {
     super.updated(changedProperties);
