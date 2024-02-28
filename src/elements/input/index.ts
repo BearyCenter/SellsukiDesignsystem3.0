@@ -180,14 +180,10 @@ export class Input extends LitElement {
           <slot name="prefix"></slot>
           <slot name="postfix"></slot>
         </div>
-        <div
-          class="footer ${this.helperText || this.showLimit ? "" : "hidden"}"
-        >
-          ${this.helperText
-            ? html`<label class="helper">${this.helperText}</label>`
-            : nothing}
+        <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
+          <label class="helper">${this.helperText}</label>
           ${this.showLimit
-            ? html`<label class="helper"
+            ? html`<label class="helper ${this.limit ? "" : "hidden"}"
                 >(${this.value?.length || 0}/${this.limit})</label
               >`
             : nothing}
@@ -225,7 +221,6 @@ export class Input extends LitElement {
       grid-template-columns: auto 1fr auto;
       overflow: hidden;
       align-items: center;
-
       border-style: solid;
       transition: background-color 0.2s ease-in-out;
       background-color: var(--background-color);
@@ -249,6 +244,7 @@ export class Input extends LitElement {
 
     ::slotted([slot="prefix"]) {
       grid-area: prefix;
+      
     }
 
     ::slotted([slot="postfix"]) {
