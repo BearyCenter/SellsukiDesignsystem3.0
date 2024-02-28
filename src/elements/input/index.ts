@@ -219,7 +219,7 @@ export class Input extends LitElement {
       grid-template-areas: "prefix input postfix";
       grid-template-columns: auto 1fr auto;
       overflow: hidden;
-
+      align-items: center;
       border-style: solid;
       transition: background-color 0.2s ease-in-out;
       background-color: var(--background-color);
@@ -243,14 +243,11 @@ export class Input extends LitElement {
 
     slot[name="prefix"] {
       grid-area: prefix;
-      display: flex;
-      justify-content:start;
+      
     }
 
     slot[name="postfix"] {
       grid-area: postfix;
-      display: flex;
-      justify-content:end;
     }
 
     input {
