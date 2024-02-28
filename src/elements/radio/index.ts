@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
 import { ThemeValue } from "../../types/base-attributes";
@@ -14,17 +14,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-export type GroupRadio = {
-  defaultValue?: string[];
-  options: radioOptions[];
-};
-
-export type radioOptions = {
-  label: string;
-  checked?: boolean;
-  disabled?: boolean;
-  value: string;
-};
 @customElement("ssk-radio")
 export class Radio extends LitElement implements ThemeValue {
   static registeredName = "ssk-radio";
@@ -70,20 +59,6 @@ export class Radio extends LitElement implements ThemeValue {
   indeterminate = false;
   @property({ type: Boolean })
   disabled = false;
-  @property({ type: Object })
-  group?: GroupRadio | undefined;
-
-  // radio state
-  @state()
-  _isGroupRadio: boolean = false;
-  @state()
-  _groupOptions: radioOptions[] = [];
-
-  updated(changedProperties: Map<PropertyKey, unknown>) {
-    super.updated(changedProperties);
-
-    this._updateRadioState();
-  }
 
   render() {
     if (this.hidden) {
@@ -124,22 +99,6 @@ export class Radio extends LitElement implements ThemeValue {
         <label for="radio">${this.label}</label>
       </div>
     `;
-  }
-
-  private _updateRadioState() {
-    const radio = this.shadowRoot?.querySelector("input");
-
-    const isCheckedAll = this._groupOptions.every((o) => o.checked);
-    const isNotCheck = this._groupOptions.every((o) => !o.checked);
-
-    let checked = this._isGroupRadio ? isCheckedAll : this.checked;
-    let indeterminate = this._isGroupRadio
-      ? !isCheckedAll && !isNotCheck
-      : this.indeterminate;
-    if (radio) {
-      if (this._isGroupRadio) this.checked = checked;
-      radio.indeterminate = indeterminate;
-    }
   }
 
   private _onChange(e: Event) {
