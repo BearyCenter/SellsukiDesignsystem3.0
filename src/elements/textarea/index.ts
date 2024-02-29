@@ -196,11 +196,6 @@ export class Textarea extends LitElement {
     `;
   }
 
-  updateValue(e: any) {
-    this._value = e.srcElement.value;
-    redispatchEvents(e, this);
-  }
-
   static styles = css`
     div,
     label,
