@@ -175,7 +175,7 @@ export class Input extends LitElement {
             autocomplete=${this.autoComplete}
             .type=${this.type}
             @input=${this.updateValue}
-            @change=${this.updateValue}
+            @change=${(e: any) => this.updateValue(e, true)}
           />
           <slot name="prefix"></slot>
           <slot name="postfix"></slot>
@@ -192,9 +192,11 @@ export class Input extends LitElement {
     `;
   }
 
-  updateValue(e: any) {
+  updateValue(e: any, redispatch: boolean = false) {
     this.value = e.srcElement.value;
-    redispatchEvents(e, this);
+    if (redispatch) {
+      redispatchEvents(e, this);
+    }
   }
 
   static styles = css`

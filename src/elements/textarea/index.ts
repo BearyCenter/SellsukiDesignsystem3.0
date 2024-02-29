@@ -1,5 +1,5 @@
 import { consume } from "@lit/context";
-import { LitElement, PropertyValueMap, css, html, nothing } from "lit";
+import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
@@ -85,9 +85,6 @@ export class Textarea extends LitElement {
   required = false;
 
   @property({ type: String })
-  private _value = "";
-
-  @property({ type: String })
   minHeight?: string | undefined;
   @property({ type: String })
   minWidth?: string | undefined;
@@ -95,14 +92,11 @@ export class Textarea extends LitElement {
   @property({ type: String })
   resize: "none" | "both" | "horizontal" | "vertical" = "both";
 
-  protected shouldUpdate(
-    _changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>,
-  ): boolean {
-    if (_changedProperties.has("value")) {
-      this._value = this.value || "";
+  updateValue(e: any, redispatch: boolean = false) {
+    this.value = e.srcElement.value;
+    if (redispatch) {
+      redispatchEvents(e, this);
     }
-
-    return true;
   }
 
   render() {
@@ -119,7 +113,7 @@ export class Textarea extends LitElement {
             cssVar("colors", this.color),
             cssVar("colors", this.color, 700),
             this.color,
-            cssVar("colors", "text", 700),
+            cssVar("colors", "text", 700)
           )};
           --color-disabled: ${parseVariables(cssVar("colors", "text", 300))};
 
@@ -127,30 +121,30 @@ export class Textarea extends LitElement {
             cssVar("colors", this.color),
             cssVar("colors", this.color, 300),
             this.color,
-            cssVar("colors", "text", 300),
+            cssVar("colors", "text", 300)
           )};
 
           --background-color-disabled: ${parseVariables(
-            cssVar("colors", "border", 50),
+            cssVar("colors", "border", 50)
           )};
 
           --border-color: ${parseVariables(cssVar("colors", "border", 100))};
           --border-color-active: ${parseVariables(
-            cssVar("colors", this.themeColor, 600),
+            cssVar("colors", this.themeColor, 600)
           )};
           --border-color-disabled: ${parseVariables(
-            cssVar("colors", "border", 100),
+            cssVar("colors", "border", 100)
           )};
 
           --outline-color-active: ${parseVariables(
-            cssVar("colors", this.themeColor, 200),
+            cssVar("colors", this.themeColor, 200)
           )};
 
           --font-family: ${parseVariables(
-            cssVar("font-family", this.fontFamilyGroup),
+            cssVar("font-family", this.fontFamilyGroup)
           )};
           --font-weight: ${parseVariables(
-            cssVar("font-weight", this.fontWeight),
+            cssVar("font-weight", this.fontWeight)
           )};
           --font-size: ${parseVariables(cssVar("font-size", this.size))};
           --line-height: ${parseVariables(cssVar("font-size", this.size))};
@@ -162,13 +156,13 @@ export class Textarea extends LitElement {
 
           --color-error: ${parseVariables(cssVar("colors", "error", 600))};
           --color-helper-error: ${parseVariables(
-            cssVar("colors", "error", 600),
+            cssVar("colors", "error", 600)
           )};
           --border-color-error: ${parseVariables(
-            cssVar("colors", "error", 600),
+            cssVar("colors", "error", 600)
           )};
           --outline-color-error: ${parseVariables(
-            cssVar("colors", "error", 300),
+            cssVar("colors", "error", 300)
           )};
           --min-height: ${parseVariables(cssVar("min-height", this.minHeight))};
           --min-width: ${parseVariables(cssVar("min-width", this.minWidth))};
@@ -185,17 +179,17 @@ export class Textarea extends LitElement {
           data-testid=${this.testId || nothing}
           placeholder=${this.placeholder || ""}
           name=${this.name || ""}
-          .value=${this._value || ""}
+          .value=${this.value || ""}
           ?disabled=${this.disabled}
           @input=${this.updateValue}
-          @change=${this.updateValue}
+          @change=${(e: any) => this.updateValue(e, true)}
           rows=${this.rows}
           maxlength=${this.limit!}
-        >${this._value}</textarea>
+        ></textarea>
         <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
           <label class="helper">${this.helperText}</label>
           <label class="helper ${this.limit ? "" : "hidden"}">
-            (${this._value?.length || 0}/${this.limit})
+            (${this.value?.length || 0}/${this.limit})
           </label>
         </div>
       </div>

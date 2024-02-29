@@ -5,9 +5,9 @@ import "../../../src/elements/icon";
 import "../../../src/elements/input";
 import { Input } from "../../../src/elements/input";
 import "../../../src/elements/input/addon";
-import { baseArgsTypes } from "../helper";
+import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
 
-type InputWithLabel = Input & { label: string };
+type InputWithLabel = AutoLitProperty<Input> & { label: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
@@ -66,6 +66,9 @@ const meta = {
         type: "select",
       },
     },
+    "@click": genericEvents["@click"],
+    "@input": genericEvents["@input"],
+    "@change": genericEvents["@change"],
     ...baseArgsTypes,
   },
 } satisfies Meta<InputWithLabel>;

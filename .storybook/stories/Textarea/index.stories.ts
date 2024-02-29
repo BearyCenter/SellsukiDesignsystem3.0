@@ -4,9 +4,9 @@ import { html } from "lit";
 import "../../../src/elements/icon";
 import "../../../src/elements/textarea";
 import { Textarea } from "../../../src/elements/textarea";
-import { baseArgsTypes } from "../helper";
+import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
 
-type TextareaWithLabel = Textarea & { label: string };
+type TextareaWithLabel = AutoLitProperty<Textarea> & { label: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
@@ -41,6 +41,9 @@ const meta = {
         type: "select",
       },
     },
+    "@click": genericEvents["@click"],
+    "@input": genericEvents["@input"],
+    "@change": genericEvents["@change"],
     ...baseArgsTypes,
   },
 } satisfies Meta<TextareaWithLabel>;
