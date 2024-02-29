@@ -15,14 +15,15 @@ const meta = {
   tags: [],
   render: ({ content, ...args }) => {
     return html`<div>
-      <ssk-text ${spread(args)} size="4xl">${content}</ssk-text>
-      <ssk-text ${spread(args)} size="3xl">${content}</ssk-text>
-      <ssk-text ${spread(args)} size="2xl">${content}</ssk-text>
-      <ssk-text ${spread(args)} size="xl">${content}</ssk-text>
-      <ssk-text ${spread(args)} size="lg">${content}</ssk-text>
-      <ssk-text ${spread(args)} size="md">${content}</ssk-text>
-      <ssk-text ${spread(args)} size="sm">${content}</ssk-text>
-      <ssk-text ${spread(args)} size="xs">${content}</ssk-text>
+      <ssk-text ${spread(args)} size="5xl">5XL: ${content} </ssk-text>
+      <ssk-text ${spread(args)} size="4xl">4XL: ${content}</ssk-text>
+      <ssk-text ${spread(args)} size="3xl">3XL: ${content}</ssk-text>
+      <ssk-text ${spread(args)} size="2xl">2XL: ${content}</ssk-text>
+      <ssk-text ${spread(args)} size="xl">XL: ${content}</ssk-text>
+      <ssk-text ${spread(args)} size="lg">LG: ${content}</ssk-text>
+      <ssk-text ${spread(args)} size="md">MD: ${content}</ssk-text>
+      <ssk-text ${spread(args)} size="sm">SM: ${content}</ssk-text>
+      <ssk-text ${spread(args)} size="xs">XS: ${content}</ssk-text>
     </div>`;
   },
   argTypes: {
