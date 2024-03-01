@@ -2,6 +2,7 @@ import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
+import { redispatchEvents } from "../../helpers/lit";
 import { ThemeValue } from "../../types/base-attributes";
 import {
     ColorName,
@@ -189,6 +190,7 @@ export class RadioGroup extends LitElement implements ThemeValue {
         );
         console.log(groupCheckList);
         this._setGroupChecked(groupCheckList);
+        redispatchEvents(e, this);
     }
 
     private _filterCheckedList(value: string, checked: boolean): string[] {
