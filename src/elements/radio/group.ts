@@ -156,7 +156,6 @@ export class RadioGroup extends LitElement implements ThemeValue {
             ...option,
             checked: option.value === selectedValue,
         }));
-        console.log(this._groupOptions);
         redispatchEvents(e, this);
       }
 
@@ -180,7 +179,6 @@ export class RadioGroup extends LitElement implements ThemeValue {
         if (this.group) {
             this._groupOptions = this.group?.options.map((o) => {
                 const checked = value.includes(o.value) ? true : false;
-                console.log(this._groupOptions);
                 return {
                     ...o,
                     checked,
