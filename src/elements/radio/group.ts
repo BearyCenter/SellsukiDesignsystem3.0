@@ -72,6 +72,8 @@ export class RadioGroup extends LitElement implements ThemeValue {
     disabled = false;
     @property({ type: Object })
     group?: GroupRadio | undefined;
+    @property({ type: Boolean })
+    inline = false;
 
     // radio state
     @state()
@@ -130,7 +132,7 @@ export class RadioGroup extends LitElement implements ThemeValue {
                 ${additionalCss};
             }
         </style>
-        <div class="group-radio">
+        <div class=${`group-radio ${this.inline ? "inline" : ""}`}>
         <label>${this.label}</label>
             ${this._groupOptions.map(
             (g) => html`<div class="radio-wrapper">
@@ -266,9 +268,11 @@ export class RadioGroup extends LitElement implements ThemeValue {
       box-sizing: inherit;
     }
     .group-radio {
+        margin-left: 2em;
+    }
+    .inline {
         display: flex;
         align-items: center;
-        margin-left: 2em;
     }
   `;
 }

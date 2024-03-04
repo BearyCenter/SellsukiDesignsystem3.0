@@ -98,10 +98,10 @@ export const Default: Story = {
 export const RadioWithGroup: Story = {
   args: {
     label: "Radio Group",
-    indeterminate: false,
     "@change": () => {
       console.log("change item");
     },
+    ".inline": false,
     ".group": {
       defaultValue: ["c1"],
       options: [
