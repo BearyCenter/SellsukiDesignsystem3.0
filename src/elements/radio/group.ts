@@ -142,7 +142,7 @@ export class RadioGroup extends LitElement implements ThemeValue {
                     .disabled=${!!g.disabled}
                     .checked=${!!g.checked}
                     value=${g.value}
-                    @change=${(e: any) => this.updateValue(e, true)}
+                    @change=${(e: any) => this._onChangeGroup(e)}
                 />
                 <label for="radio">${g.label}</label>
             </div>`
@@ -150,17 +150,14 @@ export class RadioGroup extends LitElement implements ThemeValue {
         </div>
     `;
     }
-    updateValue(e: any, redispatch: boolean = false) {
+    private _onChangeGroup(e: any) {
         const selectedValue = e.srcElement.value;
         this._groupOptions = this._groupOptions.map((option) => ({
             ...option,
             checked: option.value === selectedValue,
         }));
         console.log(this._groupOptions);
-        console.log(redispatch);
-        if (redispatch) {
-            redispatchEvents(e, this);
-        }
+        redispatchEvents(e, this);
       }
 
     private _updateRadioState() {
