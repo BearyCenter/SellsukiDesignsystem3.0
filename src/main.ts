@@ -32,5 +32,6 @@ export * from "./components/tooltip";
 export * from "./components/dropdown";
 export * from "./components/modal";
 export * from "./components/sidebar";
+export * from "./components/tabs";
 
 import "./assets/fonts.css";

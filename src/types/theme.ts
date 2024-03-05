@@ -124,6 +124,10 @@ export type BadgeVariants = "solid" | "outline" | "subtle";
 
 export type MenuVariants = "solid" | "outline";
 
+export type TabVariants = "primary" | "secondary";
+
+export type TabSize = "md" | "sm";
+
 export type Color =
   | {
       [key: ColorScale | string]: string;
@@ -225,6 +229,7 @@ export type Theme = {
     tooltip?: Partial<ThemeField>;
     dropdown?: Partial<ThemeField>;
     radio?: Partial<ThemeField>;
+    tab?: Partial<ThemeField>;
   };
 } & ThemeField;
 
