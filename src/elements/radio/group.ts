@@ -3,6 +3,7 @@ import { LitElement, css, html, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
+import { redispatchEvents } from "../../helpers/lit";
 import {
     ColorName,
     ColorRole,
@@ -71,6 +72,8 @@ export class RadioGroup extends LitElement implements ThemeValue {
     disabled = false;
     @property({ type: Object })
     group?: GroupRadio | undefined;
+    @property({ type: Boolean })
+    inline = false;
 
     // radio state
     @state()
@@ -129,7 +132,7 @@ export class RadioGroup extends LitElement implements ThemeValue {
                 ${additionalCss};
             }
         </style>
-        <div class="group-radio">
+        <div class=${`group-radio ${this.inline ? "inline" : ""}`}>
         <label>${this.label}</label>
             ${this._groupOptions.map(
             (g) => html`<div class="radio-wrapper">
@@ -137,13 +140,11 @@ export class RadioGroup extends LitElement implements ThemeValue {
                     type="radio"
                     id="radio"
                     name="radioGroup"
-                    data-testid=${this.testId
-                        ? this.testId + "-" + g.value
-                        : nothing}
+                    data-testid=${this.testId ? this.testId + "-" + g.value: nothing}
                     .disabled=${!!g.disabled}
                     .checked=${!!g.checked}
                     value=${g.value}
-                    @change=${(e: Event) => this._onChangeGroup(e)}
+                    @change=${(e: any) => this._onChangeGroup(e)}
                 />
                 <label for="radio">${g.label}</label>
             </div>`
@@ -151,6 +152,14 @@ export class RadioGroup extends LitElement implements ThemeValue {
         </div>
     `;
     }
+    private _onChangeGroup(e: any) {
+        const selectedValue = e.srcElement.value;
+        this._groupOptions = this._groupOptions.map((option) => ({
+            ...option,
+            checked: option.value === selectedValue,
+        }));
+        redispatchEvents(e, this);
+      }
 
     private _updateRadioState() {
         const radio = this.shadowRoot?.querySelector("input");
@@ -169,11 +178,9 @@ export class RadioGroup extends LitElement implements ThemeValue {
     }
 
     private _setGroupChecked(value: string[]) {
-        console.log(this.group);
         if (this.group) {
             this._groupOptions = this.group?.options.map((o) => {
                 const checked = value.includes(o.value) ? true : false;
-                console.log(this._groupOptions);
                 return {
                     ...o,
                     checked,
@@ -182,23 +189,6 @@ export class RadioGroup extends LitElement implements ThemeValue {
         }
     }
 
-    private _onChangeGroup(e: Event) {
-        const groupCheckList = this._filterCheckedList(
-            (e.target as HTMLInputElement).value,
-            (e.target as HTMLInputElement).checked
-        );
-        console.log(groupCheckList);
-        this._setGroupChecked(groupCheckList);
-    }
-
-    private _filterCheckedList(value: string, checked: boolean): string[] {
-        const list = this._groupOptions
-            .map((o) => (o.value === value ? { ...o, checked } : o))
-            .filter((o) => o.checked)
-            .map((o) => o.value);
-
-        return list;
-    }
 
     static styles = css`
     @supports (-webkit-appearance: none) or (-moz-appearance: none) {
@@ -221,7 +211,9 @@ export class RadioGroup extends LitElement implements ThemeValue {
         background-color: var(--background-color);
         vertical-align: middle;
       }
-      
+      .radio-wrapper {
+        margin-right: 1em;
+      }
       .radio-wrapper input[type="radio"]:checked {
         --border-color: var(--active-500);
       }
@@ -276,7 +268,11 @@ export class RadioGroup extends LitElement implements ThemeValue {
       box-sizing: inherit;
     }
     .group-radio {
-      margin-left: 2em;
+        margin-left: 2em;
+    }
+    .inline {
+        display: flex;
+        align-items: center;
     }
   `;
 }
