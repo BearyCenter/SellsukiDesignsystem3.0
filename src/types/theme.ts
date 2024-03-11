@@ -124,7 +124,9 @@ export type BadgeVariants = "solid" | "outline" | "subtle";
 
 export type MenuVariants = "solid" | "outline";
 
-export type TabVariants = "primary" | "secondary";
+export type TabVariants = "inline" | "button";
+
+export type TabtWidth = "true" | "false";
 
 export type TabSize = "md" | "sm";
 

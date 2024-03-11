@@ -2,6 +2,8 @@ import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/tabs";
+import "../../../src/elements/badge";
+import "../../../src/elements/text";
 import { Tabs } from "../../../src/components/tabs";
 import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
 
@@ -15,12 +17,25 @@ const meta = {
     render: ({ ...args }) => {
         return html`
         <ssk-tabs ${spread({ ...args })}>
+            <ssk-badge slot="badge-slot-1" variant="outline">
+                2
+            </ssk-badge>
+
+        <ssk-text slot="content-slot-0">
+            content 1
+        </ssk-text>
+        <ssk-text slot="content-slot-1">
+            content 2
+        </ssk-text>
+
         </ssk-tabs>
-    `;
+        `;
     },
+
+
     argTypes: {
         variant: {
-            options: ["primary", "secondary"],
+            options: ["inline", "button"],
             description: "The type of button",
             control: {
                 type: "inline-radio",
@@ -28,7 +43,7 @@ const meta = {
             table: {
                 category: "Props",
                 defaultValue: {
-                    summary: "primary",
+                    summary: "inline",
                 },
                 type: {
                     summary: "string",
@@ -42,6 +57,16 @@ const meta = {
                 category: "Props",
             }
         },
+        widthTab: {
+            options: ["false", "true"],
+            description: "The width of tab item",
+            control: {
+                type: "boolean",
+            },
+            table: {
+                category: "Props",
+            }
+        }
     },
 } satisfies Meta<TabsWithLabel>;
 
@@ -52,7 +77,6 @@ type Story = StoryObj<TabsWithLabel>;
 export const Default: Story = {
     args: {
         ".labels": ['Tab items 1', 'Tab items 2'],
-        ".panel": ['this is content from 1', 'this is content from 2'],
     },
     parameters: {
         design: {

@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { consume } from "@lit/context";
+import "../../../src/elements/badge";
 import { themeContext } from "../../contexts/theme";
 import {
     ColorName,
@@ -9,6 +10,7 @@ import {
     FontWeight,
     Size,
     TabSize,
+    TabtWidth,
     TabVariants,
     Theme,
     cssVar,
@@ -66,11 +68,12 @@ export class Tabs extends LitElement {
     @property({ type: Array })
     labels: string[] = [];
 
-    @property({ type: Array })
-    panel: string[] = [];
+    @property({ type: String })
+    variant: TabVariants = "inline";
 
     @property({ type: String })
-    variant: TabVariants = "primary";
+    widthTab: TabtWidth = "false";
+
     @property({ type: String })
     tabSize: TabSize = "md";
 
@@ -87,18 +90,20 @@ export class Tabs extends LitElement {
 
         let additionalCss = `
                 --padding: ${parseVariables(
-                    // cssVar("padding", this.padding),
                     cssVar("padding", this.tabSize),
                 )};
                 --margin: ${parseVariables(
                     cssVar("4px"),
-                    // cssVar("margin", this.margin),
                     cssVar("margin", this.tabSize),
+                )};
+                --width: ${parseVariables(
+                    cssVar("4px"),
+                    cssVar("width", this.widthTab),
                 )};
             `;
 
         switch (this.variant) {
-            case "primary":
+            case "inline":
 
                 if (this.tabSize == 'sm') {
                     additionalCss = `
@@ -109,6 +114,13 @@ export class Tabs extends LitElement {
                     --height: 56px;
                     `;
                 }
+
+                if (this.widthTab == 'true') {
+                    additionalCss = `
+                            --width: 100%;
+                    `;
+                }
+
                 additionalCss += `
                     --color: ${parseVariables(cssVar("colors", "background", 500))};
                     --color-active: ${parseVariables(cssVar("colors", "primary", 500))};
@@ -129,7 +141,7 @@ export class Tabs extends LitElement {
                     `;
             break;
 
-            case "secondary":
+            case "button":
 
                 if (this.tabSize == 'sm') {
                     additionalCss = `
@@ -138,6 +150,12 @@ export class Tabs extends LitElement {
                 } else if (this.tabSize == 'md') {
                     additionalCss = `
                     --height: 44px;
+                    `;
+                }
+
+                if (this.widthTab == 'true') {
+                    additionalCss = `
+                            --width: 100%;
                     `;
                 }
 
@@ -182,7 +200,7 @@ export class Tabs extends LitElement {
 
             `;
     }
-    
+
     renderTabs() {
         return html`
             ${this.labels.map(
@@ -192,17 +210,20 @@ export class Tabs extends LitElement {
                     @click=${() => this.handleTabClick(index)}
                 >
                     ${title}
+                        <div class="tab-badge">
+                            <slot name="badge-slot-${index}" .index=${index}></slot>
+                        </div>
                 </div>
             `)}
         `;
     }
-
+                
     renderTabContent() {
         return html`
-                ${this.panel[this.activeIndex]}
-            `;
+            <slot name="content-slot-${this.activeIndex}" .index=${this.activeIndex}></slot>
+        `;
     }
-
+        
     handleTabClick(index: number) {
         this.activeIndex = index;
     }
@@ -249,10 +270,9 @@ export class Tabs extends LitElement {
             border-bottom: var(--border-buttom-active);
             box-shadow: var(--box-shadow);
         }
-    
-        .tab-content {
-            width: 100%;
-            background-color: #E5E7EB;
+
+        .tab-badge {
+            margin-left: 8px;
         }
     `;
 }
