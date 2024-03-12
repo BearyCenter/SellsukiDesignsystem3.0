@@ -20,23 +20,20 @@ const meta = {
             <ssk-badge slot="badge-slot-1" variant="outline">
                 2
             </ssk-badge>
-
-        <ssk-text slot="content-slot-0">
-            content 1
-        </ssk-text>
-        <ssk-text slot="content-slot-1">
-            content 2
-        </ssk-text>
-
+            <ssk-text slot="content-slot-0">
+                content 1
+            </ssk-text>
+            <ssk-text slot="content-slot-1">
+                content 2
+            </ssk-text>
         </ssk-tabs>
         `;
     },
 
-
     argTypes: {
         variant: {
             options: ["inline", "button"],
-            description: "The type of button",
+            description: "The type of tabs",
             control: {
                 type: "inline-radio",
             },
@@ -52,21 +49,39 @@ const meta = {
         },
         tabSize: {
             options: ["sm", "md"],
+            description: "The size of tabs",
             control: "select",
             table: {
                 category: "Props",
+                defaultValue: {
+                    summary: "md",
+                },
             }
         },
         widthTab: {
             options: ["false", "true"],
-            description: "The width of tab item",
+            description: "The width of tab items to fullWidth",
             control: {
                 type: "boolean",
             },
             table: {
                 category: "Props",
+                defaultValue: {
+                    summary: "false",
+                },
+                type: {
+                    summary: "boolean",
+                },
             }
-        }
+        },
+        ".labels": {
+            description: "The content of the tabs",
+            table: {
+                type: {
+                    summary: "string",
+                },
+            }
+        },
     },
 } satisfies Meta<TabsWithLabel>;
 

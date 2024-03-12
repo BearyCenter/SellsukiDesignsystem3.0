@@ -108,16 +108,25 @@ export class Tabs extends LitElement {
                 if (this.tabSize == 'sm') {
                     additionalCss = `
                     --height: 44px;
+                    --min-width: 96px;
+                    --font-size: ${parseVariables(
+                        cssVar("font-size", this.tabSize),
+                      )};
                     `;
+                    
                 } else if (this.tabSize == 'md') {
                     additionalCss = `
                     --height: 56px;
+                    --min-width: 105px;
+                    --font-size: ${parseVariables(
+                        cssVar("font-size", this.tabSize),
+                      )};
                     `;
                 }
 
                 if (this.widthTab == 'true') {
-                    additionalCss = `
-                            --width: 100%;
+                    additionalCss += `
+                        --width: 100%;
                     `;
                 }
 
@@ -146,15 +155,23 @@ export class Tabs extends LitElement {
                 if (this.tabSize == 'sm') {
                     additionalCss = `
                     --height: 36px;
+                    --min-width: 96px;
+                    --font-size: ${parseVariables(
+                        cssVar("font-size", this.tabSize),
+                      )};
                     `;
                 } else if (this.tabSize == 'md') {
                     additionalCss = `
                     --height: 44px;
+                    --min-width: 105px;
+                    --font-size: ${parseVariables(
+                        cssVar("font-size", this.tabSize),
+                      )};
                     `;
                 }
 
                 if (this.widthTab == 'true') {
-                    additionalCss = `
+                    additionalCss += `
                             --width: 100%;
                     `;
                 }
@@ -233,6 +250,7 @@ export class Tabs extends LitElement {
         .tab {
             height: var(--height);
             width: var(--width);
+            min-width: var(--min-width);
             padding: 10px;
             cursor: pointer;
             border-bottom: var(--border-buttom);
@@ -249,6 +267,7 @@ export class Tabs extends LitElement {
             padding-left: 16px;
             padding-right: 16px;
             margin: var(--margin);
+            font-size: var(--font-size);
         }
 
         .tabs {
