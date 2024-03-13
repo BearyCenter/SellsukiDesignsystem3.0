@@ -33,5 +33,6 @@ export * from "./components/dropdown";
 export * from "./components/modal";
 export * from "./components/sidebar";
 export * from "./components/tabs";
+export * from "./components/stepper";
 
 import "./assets/fonts.css";
