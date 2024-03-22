@@ -105,8 +105,8 @@ export class Stepper extends LitElement {
 
     constructor() {
         super();
-    this.percent = 60;  // Initialize here
-    this.percent = this.percent * 3.6;
+    this.percent = 100;  // Initialize here
+    // this.percent = this.percent * 2;
     }
 
     render() {
@@ -193,19 +193,21 @@ export class Stepper extends LitElement {
                     ${additionalCss};
                 }
             </style>
-                    <div class="stepper">
-                        <div class="steps">
-                            ${this.steps.map((step, index) => html`
-                                <div class="step ${index === this.currentStep ? 'active' : index < this.currentStep ? 'finished' : ''} " style="display: flex; gap: 5px;">
-                                    <div class="container">
-                                        <div class="circle-inprogress" style="--percent-deg:${this.percent}deg;">
-                                            <div class="circle-outer">
-                                            <div class="circle">
-                                                ${index < this.currentStep ? html`<ssk-icon name="solid-check" themeColor="white"></ssk-icon>` : html`<div class="title">${step.title}</div>`}
-                                            </div>
-                                            </div>
-                                        </div>
+                ${this.steps.map((step, index) => html`
+                <div class="step ${index === this.currentStep ? 'active' : index < this.currentStep ? 'finished' : ''} " style="display: flex; gap: 5px;">
+                    <div class="container">
+                        <div class="stepper">
+                            <svg class="progress-circle" style="--progress-percent:${this.percent};">
+                                <circle class="circle" cx="20" cy="26" r="16"></circle>
+                                <circle class="bar" cx="20" cy="26" r="18"></circle>
+                                <foreignObject x="4" y="10" width="32" height="32">
+                                    <div class="circle-content">
+                                    ${index < this.currentStep ? html`<ssk-icon name="solid-check" themeColor="white"></ssk-icon>` : html`<div class="title">${step.title}</div>`}
                                     </div>
+                                </foreignObject>
+                            </svg>
+                        </div>
+                    </div>
                                             <div class="text">
                                             ${index === this.currentStep ?  html`
                                             <p>
@@ -231,7 +233,6 @@ export class Stepper extends LitElement {
                                                 This is a description.
                                                 </p>`}
                                         </div>
-                                </div>
                         `)}
                         </div>
 
@@ -239,58 +240,9 @@ export class Stepper extends LitElement {
                         <button @click=${this.previousStep}>Previous</button>
                         <button @click=${this.nextStep}>Next</button>
                         </div>
+
                     </div>
                 `;
-
-                // <div class="circle ${this.currentStep === 1 ? this.status = "error" : this.currentStep === 2 ? this.status = "finished" : this.status === "waiting" }" >
-                //         <ssk-icon 
-                //             size=${iconSize}
-                //             id="myIcon" 
-                //             color=${iconColor} 
-                //             name=${iconName}/>
-                //         </ssk-icon>
-                //         <p class="label-status ${this.disabled? "disabled": ""}" > 
-                //             ${this.labels}
-                //         </p>
-                //         ${this.currentStep}
-                //     </div>
-
-
-
-                    // <div class="stepper">
-                    //     <div class="steps" style="display: flex;">
-                    //         ${this.steps.map((step, index) => html`
-                    //             <div class="step ${index === this.currentStep ? 'active' : index < this.currentStep ? 'finished' : ''}">
-                    //                     <div class="circle">
-                    //                         ${index < this.currentStep ? html`<ssk-icon name="solid-check" themeColor="white"></ssk-icon>` : html`<div class="title">${step.title}</div>`}
-                    //                     </div>
-                    //             </div>
-                    //     `)}
-                    //     </div>
-
-                    //     <div class="actions">
-                    //     <button @click=${this.previousStep}>Previous</button>
-                    //     <button @click=${this.nextStep}>Next</button>
-                    //     </div>
-                    // </div>
-
-
-                // <slot class="label" name="label-step-slot"></slot>
-
-                // --------------- version that change to show with status ----------------
-                // <div class="circle">
-                //         <ssk-icon 
-                //             size=${iconSize}
-                //             id="myIcon" 
-                //             color=${iconColor} 
-                //             name=${iconName}/>
-                //         </ssk-icon>
-                //         <p class="label-status ${this.disabled? "disabled": ""}" > 
-                //             ${this.labels}
-                //         </p>
-                //         ${this.currentStep}
-                //     </div>
-
     }
 
     handleStepClick(index: number) {
@@ -302,7 +254,7 @@ export class Stepper extends LitElement {
             this.currentStep--;
         }
     }
-    
+
     nextStep() {
         if (this.currentStep <= this.steps.length ) {
             this.currentStep++;
@@ -310,71 +262,84 @@ export class Stepper extends LitElement {
     }
 
     static styles = css`
-        .divider {
-            width: 50%;
-            border-top: 1px solid black;
-            margin: 1rem auto;
-        }
+    .progress-circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        position: relative;
+        background: transparent;    
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+    }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .circle-content{
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+        border: 1px solid #6B7280;
+        border-radius: 50%;
+        color: #9CA3AF;
+        width: 30px;
+        height: 30px;
+        font-size: 24px;
+        font-weight: 500;
+        // font-family: var(--font-family);
+    }
 
-        .circle {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 32px;
-            height: 32px;
-            border: 1px solid #6B7280;
-            border-radius: 50%;
-            background-color: white;
-        }
+    .step.active .circle-content{
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+        border: 1px solid transparent;
+        border-radius: 50%;
+        background-color: #32A9FF;
+        color: white;
+        width: 30px;
+        height: 30px;
+    }
 
-        .step.active .circle-inprogress {
-            width: 37px;
-            height: 37px;
-            display: flex;
-            border-radius: 50%;
-            background: conic-gradient(#32A9FF var(--percent-deg, 0deg), white 0deg);
-            stroke: red;
-            stroke-width: 20px;
-            justify-content: center;
-            align-items: center;
-        }
+    .step.finished .circle-content{
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+        border: 1px solid transparent;
+        border-radius: 50%;
+        background-color:  #F97316; 
+        width: 30px;
+        height: 30px;
+    }
 
-        .step.active .circle-outer{
-            width: 34px;
-            height: 34px;
-            display: flex;
-            border-radius: 50%;
-            background: white;
-            justify-content: center;
-            align-items: center;
-        }
+    .step.active .progress-circle .bar {
+        fill: none;
+        stroke: #32A9FF;
+        stroke-width: 2;
+        background: transparent;
+        stroke-dasharray: calc(var(--progress-percent) / 100 * 100.48) 1000;
+        // Todo: add ตำแหน่งของจุดเริ่ม stroke
+        // stroke-dashoffset: -76;
+    }
 
-        .step.active .circle {
-            border: 0px;
-            background-color: #32A9FF;
-            color: white;
-        }
+    .progress-circle .circle {
+        width: 30px;
+        height: 30px;
+        fill: white;
+        border: 1px solid #6B7280;
+        border-radius: 50%;
+        background-color: white;
+    }
 
-        .step.finished .circle {
-            border: 0px;
-            background-color:  #F97316; 
-        }
-        
-        .label-status {
-            color: var(--color);
-            font-size: var(--font-size);
-            font-family: var(--font-family);
-            font-weight: var(--font-weight);
-        }
-        .label-status.disabled {
-            display: none;
-        }        
+    .step.active .circle {
+        border: 0px;
+        background-color: #32A9FF;
+        color: white;
+    }
+    
+    .progress-circle .bar {
+        fill: none;
+        background: transparent;
+    }
+
     `;
 }
 
