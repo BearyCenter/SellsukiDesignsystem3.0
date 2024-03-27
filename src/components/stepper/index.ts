@@ -94,52 +94,76 @@ export class Stepper extends LitElement {
                                 <foreignObject x="4" y="10" width="32" height="32">
                                     <div class="circle-content">
                                     ${index < this.currentStep && this.errorStep == true ?
-                html`
+                                    html`
                                         <ssk-icon name="solid-x-mark" themeColor="danger"></ssk-icon>`
-                : index < this.currentStep ? html`<ssk-icon name="solid-check" themeColor="white"></ssk-icon>` : html`<div class="title">${step}</div>`}
+                                            : index < this.currentStep ? html`<ssk-icon name="solid-check" themeColor="white"></ssk-icon>` : html`<div class="title">${step}</div>`}
                                     </div>
                                 </foreignObject>
                             </svg>
                         </div>
                     </div>
                     <div class="text">
-                    
                         ${index === this.currentStep ? html`
-                        <div class="text-description">
-                            <p class ="title">
-                                In Progress
-                            </p>
-                            <div class="divider"></div>
-                            </div>
-                            <p> this is description of in progress </p>
-                        `
-                : index < this.currentStep && this.errorStep == true ?
-                    html`
-                            <div class="error">
-                                <div class="text-description">
+                        <div class="description">
+                            <div class="text-title">
+                                <div class="title-step">
                                     <p>
-                                        Error 
+                                        In Progress
                                     </p>
                                 </div>
-                                <p> this is description of error </p>
+                                <div class="divider"></div>
+                                </div>
+                                <div class="text-description">
+                                    <p> this is description of in progress </p>
+                                </div>
+                        </div>
+                        `
+                    : index < this.currentStep && this.errorStep == true ?
+                    html`
+                            <div class="error">
+                            <div class="description">
+                                <div class="text-title">
+                                    <div class="title-step">
+                                        <p>
+                                            Error
+                                        </p>
+                                    </div>
+                                    <div class="divider"></div>
+                                    </div>
+                                    <div class="text-description">
+                                        <p> this is description of error </p>
+                                    </div>
+                            </div>
                             </div>`
                     : index < this.currentStep ?
                         html`
-                        <div class="text-description">
-                            <p>
-                            Finished
-                            </p>
-                            <div class="divider"></div>
-                        </div>
-                        <p> this is description of finished</p>`
+                        <div class="description">
+                            <div class="text-title">
+                                <div class="title-step">
+                                    <p>
+                                        Finished
+                                    </p>
+                                </div>
+                                <div class="divider"></div>
+                                </div>
+                                <div class="text-description">
+                                    <p> this is description of finished </p>
+                                </div>
+                        </div>`
                         : html`
-                        <div class="text-description">
-                            <p>
-                                Waiting
-                            </p>
-                            <div class="divider"></div>
-                        </div>
-                        <p> this is description of waiting </p>`}
+                        <div class="description">
+                            <div class="text-title">
+                                <div class="title-step">
+                                    <p>
+                                        Waiting
+                                    </p>
+                                </div>
+                                <div class="divider"></div>
+                                </div>
+                                <div class="text-description">
+                                    <p> this is description of waiting </p>
+                                </div>
+                        </div>`}
                         </div>
 
                     `)}
@@ -169,19 +193,60 @@ export class Stepper extends LitElement {
     }
 
     static styles = css`
-    .text .title {
-        width: 100px;
+
+    .p {
+        margin: 0px;
+        padding: 0px;
+    }
+    .step {
+        width: 400px;
+        height: 80px;
+    }
+
+    .text {
+        display: flex; 
+        height: 10px;
+        width: 100%;
+    }
+
+    .description {
+        margin-top: 20px;
+        width: 100%;
+        display: flex; 
+        flex-direction: column;
+        font-weight: 400;
+    }
+
+    .text-title {
+        width: 100%;
+        display: flex; 
+        align-items: center;
+        font-size: 24px;
+        height: 10px;
+        color: #1F2937;
+    }
+    
+    .title-step {
+        width: 130px;
+    }
+
+    .text-description {
+        margin-top: -10px; 
+        width: 100%;
+        height: 10px;
+        font-size: 20px;
+        color: #6B7280;
     }
 
     .divider {
         width: 100%; 
         height: 2px;
-        background-color: gray; 
+        background-color: #E5E7EB; 
         margin-left: 10px;
     }
 
     .progress-circle {
-        width: 60px;
+        width: 40px;
         height: 60px;
         border-radius: 50%;
         background: transparent;    
@@ -272,12 +337,6 @@ export class Stepper extends LitElement {
 
     .text .error {
         color: #E11D48;
-    }
-
-    .text-description {
-        
-        display: flex; 
-        align-items: center;
     }
     `;
 }

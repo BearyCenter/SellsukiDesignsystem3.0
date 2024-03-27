@@ -15,14 +15,12 @@ const meta = {
     render: ({ label, ...args }) => {
         
         return html`
-            <div style="display: flex; gap: 10px;">
                 <ssk-stepper ${spread({ ...args })}>
                     <p slot="description-error-slot"> this is description of error </p>
                     <p slot="description-in-progress-slot"> this is description of in progress </p>
                     <p slot="description-finished-slot"> this is description of finished</p>
                     <p slot="description-waiting-slot"> this is description of waiting </p>
                 </ssk-stepper>
-            </div>
                 `;
             },
     argTypes: {
@@ -52,7 +50,7 @@ type Story = StoryObj<StepperWithLabel>;
 export const Default: Story = {
     args: {
         ".steps": [
-            1,2,3
+            1
         ],
         percent : 10
     },
