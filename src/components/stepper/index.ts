@@ -53,19 +53,22 @@ export class Stepper extends LitElement {
     fontWeight: FontWeight = "normal";
 
     @property({ type: Array })
-    steps: number[] = [];
+    steps: String[] = [];
 
     @property({ type: Number })
     currentStep = 0;
 
     @property({ type: Number })
     activeIndex = 0;
+    
+    @property({ type: Number  })
+    errorStep: number | undefined;
 
     @property({ type: Boolean })
     hidden = false;
 
-    @property({ type: Boolean })
-    errorStep = false;
+    // @property({ type: Boolean })
+    // errorStep = false;
 
     @property({ type: Number })
     percent: number;
@@ -73,7 +76,7 @@ export class Stepper extends LitElement {
     constructor() {
         super();
         this.percent = 0;
-        this.errorStep = false;
+        // this.errorStep = 0;
     }
 
     render() {
@@ -84,94 +87,37 @@ export class Stepper extends LitElement {
         return html`
             ${parseThemeToCssVariables(this.theme?.components?.stepper, ":host")}
 
-                ${this.steps.map((step, index) => html`
-                <div class="step ${index === this.currentStep ? 'active' : index < this.currentStep && this.errorStep ? 'error' : index < this.currentStep ? 'finished' : ''} " style="display: flex; gap: 5px;">
-                    <div class="container">
-                        <div class="stepper">
-                            <svg class="progress-circle" style="--progress-percent:${this.percent};">
-                                <circle class="circle" cx="20" cy="26" r="16"></circle>
-                                <circle class="bar" cx="20" cy="26" r="18"></circle>
-                                <foreignObject x="4" y="10" width="32" height="32">
-                                    <div class="circle-content">
-                                    ${index < this.currentStep && this.errorStep == true ?
-                                    html`
-                                        <ssk-icon name="solid-x-mark" themeColor="danger"></ssk-icon>`
-                                            : index < this.currentStep ? html`<ssk-icon name="solid-check" themeColor="white"></ssk-icon>` : html`<div class="title">${step}</div>`}
-                                    </div>
-                                </foreignObject>
-                            </svg>
-                        </div>
+            <div class="step-container"> ${this.steps.map((step, index) => html`
+                <div class="step ${index === this.currentStep ? 'active' : index < this.currentStep && this.errorStep == index ? 'error' : index < this.currentStep ? 'finished' : ''} " style="gap: 5px;">
+                <div class="container">
+                    <div class="stepper">
+                        <svg class="progress-circle" style="--progress-percent:${this.percent};">
+                            <circle class="circle" cx="20" cy="26" r="16"></circle>
+                            <circle class="bar" cx="20" cy="26" r="18"></circle>
+                            <foreignObject x="4" y="10" width="32" height="32">
+                                <div class="circle-content">
+                                ${index < this.currentStep && this.errorStep == index ?
+                                html`
+                                    <ssk-icon name="solid-x-mark" themeColor="danger"></ssk-icon>`
+                                        : index < this.currentStep ? html`<ssk-icon name="solid-check" themeColor="white"></ssk-icon>` : html`<div class="title">${index+1}</div>`}
+                                </div>
+                            </foreignObject>
+                        </svg>
                     </div>
-                    <div class="text">
-                        ${index === this.currentStep ? html`
-                        <div class="description">
-                            <div class="text-title">
-                                <div class="title-step">
-                                    <p>
-                                        In Progress
-                                    </p>
-                                </div>
-                                <div class="divider"></div>
-                                </div>
-                                <div class="text-description">
-                                    <p> this is description of in progress </p>
-                                </div>
-                        </div>
-                        `
-                    : index < this.currentStep && this.errorStep == true ?
-                    html`
-                            <div class="error">
-                            <div class="description">
-                                <div class="text-title">
-                                    <div class="title-step">
-                                        <p>
-                                            Error
-                                        </p>
-                                    </div>
-                                    <div class="divider"></div>
-                                    </div>
-                                    <div class="text-description">
-                                        <p> this is description of error </p>
-                                    </div>
-                            </div>
-                            </div>`
-                    : index < this.currentStep ?
-                        html`
-                        <div class="description">
-                            <div class="text-title">
-                                <div class="title-step">
-                                    <p>
-                                        Finished
-                                    </p>
-                                </div>
-                                <div class="divider"></div>
-                                </div>
-                                <div class="text-description">
-                                    <p> this is description of finished </p>
-                                </div>
-                        </div>`
-                        : html`
-                        <div class="description">
-                            <div class="text-title">
-                                <div class="title-step">
-                                    <p>
-                                        Waiting
-                                    </p>
-                                </div>
-                                <div class="divider"></div>
-                                </div>
-                                <div class="text-description">
-                                    <p> this is description of waiting </p>
-                                </div>
-                        </div>`}
-                        </div>
-
-                    `)}
-                    <div class="actions">
-                    <button @click=${this.previousStep}>Previous</button>
-                    <button @click=${this.nextStep}>Next</button>
                 </div>
-
+                <div class="text">
+                <div class="description">
+                        <div class="text-title">
+                            <div class="title-step">
+                            ${step}
+                            </div>
+                            <div class="divider"></div>
+                            </div>
+                            <div class="text-description">
+                            </div>
+                    </div>
+                    </div>
+                `)} </div>
             </div>
         `;
     }
@@ -194,6 +140,11 @@ export class Stepper extends LitElement {
 
     static styles = css`
 
+    .step-container { 
+        display: flex; 
+        flex-direction: row;
+    }
+
     .p {
         margin: 0px;
         padding: 0px;
@@ -201,6 +152,7 @@ export class Stepper extends LitElement {
     .step {
         width: 400px;
         height: 80px;
+        display: contents;
     }
 
     .text {

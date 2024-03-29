@@ -1,5 +1,6 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
+
 import { html } from "lit";
 import "../../../src/components/stepper";
 import { Stepper } from "../../../src/components/stepper";
@@ -16,10 +17,6 @@ const meta = {
         
         return html`
                 <ssk-stepper ${spread({ ...args })}>
-                    <p slot="description-error-slot"> this is description of error </p>
-                    <p slot="description-in-progress-slot"> this is description of in progress </p>
-                    <p slot="description-finished-slot"> this is description of finished</p>
-                    <p slot="description-waiting-slot"> this is description of waiting </p>
                 </ssk-stepper>
                 `;
             },
@@ -39,7 +36,13 @@ const meta = {
                     summary: "number",
                 },
             }
-        }
+        },
+        errorStep: {
+            description: "where of error step",
+            control: "number",
+        },
+        currentStep: { control: { type: 'number' } },
+        // errorStep: { control: { type: 'array' } },
     },
 } satisfies Meta<StepperWithLabel>;
 
@@ -50,9 +53,12 @@ type Story = StoryObj<StepperWithLabel>;
 export const Default: Story = {
     args: {
         ".steps": [
-            1
+            'prepare',
+            'doing',
+            'done'
         ],
-        percent : 10
+        percent : 10,
+        currentStep: 0,
     },
     parameters: {
         design: {
