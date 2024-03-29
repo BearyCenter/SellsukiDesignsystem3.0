@@ -53,9 +53,9 @@ type Story = StoryObj<StepperWithLabel>;
 export const Default: Story = {
     args: {
         ".steps": [
-            'prepare',
-            'doing',
-            'done'
+            { name: 'start', description: 'this is the start step' },
+            { name: 'second', description: 'this is the second step' },
+            { name: 'third', description: 'this is the third step' },
         ],
         percent : 10,
         currentStep: 0,

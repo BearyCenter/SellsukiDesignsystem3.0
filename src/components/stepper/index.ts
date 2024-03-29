@@ -13,8 +13,14 @@ import {
 } from "../../types/theme";
 import "../../../src/elements/icon";
 
+interface Step{
+    name: string;
+    description: string;
+  }
+
 @customElement("ssk-stepper")
 export class Stepper extends LitElement {
+    
     static registeredName = "ssk-stepper";
 
     @consume({ context: themeContext, subscribe: true })
@@ -53,7 +59,10 @@ export class Stepper extends LitElement {
     fontWeight: FontWeight = "normal";
 
     @property({ type: Array })
-    steps: String[] = [];
+    steps: Step[] = [
+    { name: 'start', description: 'this is the start step' },
+    { name: 'second', description: 'this is the second step' },
+    { name: 'third', description: 'this is the third step' },];
 
     @property({ type: Number })
     currentStep = 0;
@@ -105,17 +114,16 @@ export class Stepper extends LitElement {
                         </svg>
                     </div>
                 </div>
-                <div class="text">
                 <div class="description">
                         <div class="text-title">
                             <div class="title-step">
-                            ${step}
+                            ${step.name}
                             </div>
                             <div class="divider"></div>
                             </div>
                             <div class="text-description">
+                            ${step.description}
                             </div>
-                    </div>
                     </div>
                 `)} </div>
             </div>
@@ -155,18 +163,20 @@ export class Stepper extends LitElement {
         display: contents;
     }
 
-    .text {
-        display: flex; 
-        height: 10px;
-        width: 100%;
-    }
+    // .text {
+    //     display: flex; 
+    //     height: 10px;
+    //     width: 100%;
+    // }
 
     .description {
-        margin-top: 20px;
+        margin-top: 18px;
         width: 100%;
         display: flex; 
+        height: 200px;
         flex-direction: column;
         font-weight: 400;
+
     }
 
     .text-title {
@@ -176,6 +186,8 @@ export class Stepper extends LitElement {
         font-size: 24px;
         height: 10px;
         color: #1F2937;
+        padding-top: 4px;
+        padding-bottom: 4px;
     }
     
     .title-step {
@@ -183,7 +195,6 @@ export class Stepper extends LitElement {
     }
 
     .text-description {
-        margin-top: -10px; 
         width: 100%;
         height: 10px;
         font-size: 20px;
