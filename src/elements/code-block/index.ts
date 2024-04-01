@@ -1,5 +1,5 @@
 import { consume } from "@lit/context";
-import { LitElement, css, html, nothing } from "lit";
+import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
@@ -15,7 +15,7 @@ import {
   parseVariables,
 } from "../../types/theme";
 import Prism from 'prismjs';
-
+import prismStyle from 'prismjs/themes/prism.min.css?inline'
 @customElement("ssk-code-block")
 export class CodeBlock extends LitElement {
   static registeredName = "ssk-code-block";
@@ -159,7 +159,6 @@ export class CodeBlock extends LitElement {
     return html`
     ${parseThemeToCssVariables(this.theme?.components?.container, ":host")}
     ${additionalCss}
-    <link rel="stylesheet" href="node_modules/prismjs/themes/prism.min.css" />
       
       <div class="container" id="contain" data-testid=${this.testId || nothing}>
         <div class="scroll">
@@ -176,7 +175,7 @@ export class CodeBlock extends LitElement {
     await navigator.clipboard.writeText(this.innerHTML)
   }
 
-  static styles = css`
+  static styles = [css`
     pre{
       margin: 0;
     }
@@ -233,7 +232,8 @@ export class CodeBlock extends LitElement {
       right: 1.3em;
       top: 1.8em;
     }
-  `;
+  `,
+  unsafeCSS(prismStyle)];
 }
 
 declare global {
