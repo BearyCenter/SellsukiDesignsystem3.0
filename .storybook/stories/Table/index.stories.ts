@@ -16,6 +16,8 @@ const meta = {
     render: ({ ...args }) => {
         return html`
         <ssk-table ${spread({ ...args })}>
+            <template id="header-name"><span style="color:red">{{text}}</span></template>
+            <template id="content-name"><span style="color:red"><b>{{value}}</b></span></template>
         </ssk-table>
         `;
     },
@@ -48,12 +50,15 @@ export const Default: Story = {
     args: {
         ".headers": [
             {
+                name: 'name',
                 text: 'Name',
             },
             {
+                name: 'age',
                 text: 'Age',
             },
             {
+                name: 'email',
                 text: 'Email',
             }
         ],

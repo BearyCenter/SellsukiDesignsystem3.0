@@ -15,11 +15,11 @@ import {
     parseThemeToCssVariables,
     parseVariables,
 } from "../../types/theme";
-import { c } from "vitest/dist/reporters-5f784f42.js";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
 interface Header {
+    name: string;
     text: string;
-    value?: string; 
 }
 
 interface RowData {
@@ -115,64 +115,17 @@ export class Table extends LitElement {
     }
 
     renderHeader(header: Header): TemplateResult {
-        if (header.value) {
-            console.log(header.value);
-            return html`<th><slot name="${header.value}"></slot></th>`;
+        const selectedTemplate = this.querySelector(`template#header-${header.name}`)
+        const tempHTML = selectedTemplate?.innerHTML.replace("{{text}}", header.text)
+
+        if(selectedTemplate) {
+            return html`<th>${unsafeHTML(tempHTML)}</th>`;
+
         } else {
             return html`<th>${header.text}</th>`;
         }
     }
-  
 
-    //new3
-    // renderBody(row: RowData, rowIndex: number): TemplateResult[] {
-    //     const content = [
-    //         ...(this.selectEnabled ? [html`
-    //             <td>
-    //                 <input type="checkbox" .checked="${this.selectedRows.includes(rowIndex)}" @change="${() => this.toggleSelect(rowIndex)}">
-    //             </td>
-    //         `] : []),
-    //         ...this.headers.map(header => {
-    //             const key = header.value || header.text.toLowerCase();
-    //             let value = row[key];
-    //             console.log('aaa',value)
-    //             console.log('bbb',key);
-    //             // if (key === 'pricing') {
-    //             //     value = `$${parseFloat(value).toFixed(2)}`;
-    //             // }
-    //             if (key === 'id') {
-    //                 return html`<td> <slot name="${key}">${value}</slot</td>`;
-    //             }
-    //             return html`<td>${value}</td>`;
-    //         })
-    //     ];
-    //     return content;
-    // }
-    // new 4
-    // renderBody(row: RowData, rowIndex: number): TemplateResult[] {
-    //     const content = [
-    //         ...(this.selectEnabled ? [html`
-    //             <td>
-    //                 <input type="checkbox" .checked="${this.selectedRows.includes(rowIndex)}" @change="${() => this.toggleSelect(rowIndex)}">
-    //             </td>
-    //         `] : []),
-    //         ...this.headers.map(header => {
-    //             const key = header.value || header.text.toLowerCase();
-    //             let value = row[key] || '';
-    //             if (key === 'image') {
-    //                 return html`
-    //                     <td>
-    //                         <div slot="image">
-    //                             <img src="https://placehold.co/72x72" alt="Product Image">
-    //                         </div>
-    //                     </td>
-    //                 `;
-    //             }
-    //             return html`<td>${value}</td>`;
-    //         })
-    //     ];
-    //     return content;
-    // }
     renderBody(row: RowData, rowIndex: number): TemplateResult[] {
         const content = [
             ...(this.selectEnabled ? [html`
@@ -181,35 +134,20 @@ export class Table extends LitElement {
                 </td>
             `] : []),
             ...this.headers.map(header => {
-                const key = header.value || header.text.toLowerCase();
-                let value = row[key] || '';
-                if (key) {
-                    return html`
-                        <td>
-                            <slot name="${key}">${value}</slot>
-                        </td>
-                    `;
+                let value = row[header.name] || '';
+
+                const selectedTemplate = this.querySelector(`template#content-${header.name}`)
+                const tempHTML = selectedTemplate?.innerHTML.replace("{{value}}", value)
+
+                if(selectedTemplate) {
+                    return html`<td>${unsafeHTML(tempHTML)}</td>`;
+
                 } else {
                     return html`<td>${value}</td>`;
                 }
             })
         ];
         return content;
-        // ${this.itemValue.map((row, index) => html`<tr>${this.renderBody(row, index)}</tr>`)}
-    }
-    renderSlotOrContent(key: string, value: any) {
-        if (this.querySelector(`[slot="${key}"]`)) {
-            return html`<slot name="${key}">${value}</slot>`;
-        } else {
-            return html`<td>${value}</td>`;
-        }
-        // ${this.itemValue.map(i => html`
-        //     <tr>
-        //         ${Object.keys(i).map(key => html`
-        //             ${this.renderSlotOrContent(key, i[key])}
-        //         `)}
-        //     </tr>
-        // `)}
     }
 
     render() {
