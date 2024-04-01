@@ -164,7 +164,7 @@ export class CodeBlock extends LitElement {
       <div class="container" id="contain" data-testid=${this.testId || nothing}>
         <div class="scroll">
           <div class="right">
-          <ssk-button id="copyButton" variant="ghost" themeColor="black" hidden=${this.copyButton || nothing} @click=${(e: Event) => this.clickCopy(e)}><ssk-icon name="outline-document-duplicate"></ssk-icon></ssk-button>
+          <ssk-button id="copyButton" variant="ghost" themeColor="black" hidden=${this.copyButton || nothing} @click=${() => this.clickCopy()}><ssk-icon name="outline-document-duplicate"></ssk-icon></ssk-button>
           </div>
           <pre><code id="output"></code></pre>
         </div>
@@ -172,7 +172,7 @@ export class CodeBlock extends LitElement {
     `;
   }
   
-  private async clickCopy(e: Event) {
+  private async clickCopy() {
     await navigator.clipboard.writeText(this.innerHTML)
   }
 
