@@ -59,10 +59,7 @@ export class Stepper extends LitElement {
     fontWeight: FontWeight = "normal";
 
     @property({ type: Array })
-    steps: Step[] = [
-    { name: 'start', description: 'this is the start step' },
-    { name: 'second', description: 'this is the second step' },
-    { name: 'third', description: 'this is the third step' },];
+    steps: Step[] = [];
 
     @property({ type: Number })
     currentStep = 0;
@@ -76,17 +73,8 @@ export class Stepper extends LitElement {
     @property({ type: Boolean })
     hidden = false;
 
-    // @property({ type: Boolean })
-    // errorStep = false;
-
     @property({ type: Number })
-    percent: number;
-
-    constructor() {
-        super();
-        this.percent = 0;
-        // this.errorStep = 0;
-    }
+    percent: number | undefined;
 
     render() {
         if (this.hidden) {
@@ -107,14 +95,14 @@ export class Stepper extends LitElement {
                                 <div class="circle-content">
                                 ${index < this.currentStep && this.errorStep == index ?
                                 html`
-                                    <ssk-icon name="solid-x-mark" themeColor="danger"></ssk-icon>`
-                                        : index < this.currentStep ? html`<ssk-icon name="solid-check" themeColor="white"></ssk-icon>` : html`<div class="title">${index+1}</div>`}
+                                    <ssk-icon name="solid-x-mark" themeColor="danger" size="sm"></ssk-icon>`
+                                        : index < this.currentStep ? html`<ssk-icon name="solid-check" themeColor="white" size="sm"></ssk-icon>` : html`<div class="title">${index+1}</div>`}
                                 </div>
                             </foreignObject>
                         </svg>
                     </div>
                 </div>
-                <div class="description">
+                <div class="description ${index === this.currentStep ? 'active' : index < this.currentStep && this.errorStep == index ? 'error' : index < this.currentStep ? 'finished' : ''}">
                         <div class="text-title">
                             <div class="title-step">
                             ${step.name}
@@ -153,21 +141,11 @@ export class Stepper extends LitElement {
         flex-direction: row;
     }
 
-    .p {
-        margin: 0px;
-        padding: 0px;
-    }
     .step {
         width: 400px;
         height: 80px;
         display: contents;
     }
-
-    // .text {
-    //     display: flex; 
-    //     height: 10px;
-    //     width: 100%;
-    // }
 
     .description {
         margin-top: 18px;
@@ -176,7 +154,20 @@ export class Stepper extends LitElement {
         height: 200px;
         flex-direction: column;
         font-weight: 400;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
 
+    .description.error .divider {
+        background-color: transparent; 
+    }
+
+    .description.error .text-title{
+        color: #E11D48;
+    }
+
+    .description.error .text-description{
+        color: #E11D48;
     }
 
     .text-title {
@@ -188,10 +179,17 @@ export class Stepper extends LitElement {
         color: #1F2937;
         padding-top: 4px;
         padding-bottom: 4px;
+        padding-letf: 8px;
+        padding-right: 8px;
+    }
+
+    .title {
+        font-size: 24px;
     }
     
+    
     .title-step {
-        width: 130px;
+        padding-right: 16px;
     }
 
     .text-description {
@@ -205,7 +203,6 @@ export class Stepper extends LitElement {
         width: 100%; 
         height: 2px;
         background-color: #E5E7EB; 
-        margin-left: 10px;
     }
 
     .progress-circle {

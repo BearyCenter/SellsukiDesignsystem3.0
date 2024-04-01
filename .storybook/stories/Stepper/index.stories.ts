@@ -42,7 +42,6 @@ const meta = {
             control: "number",
         },
         currentStep: { control: { type: 'number' } },
-        // errorStep: { control: { type: 'array' } },
     },
 } satisfies Meta<StepperWithLabel>;
 
@@ -53,11 +52,12 @@ type Story = StoryObj<StepperWithLabel>;
 export const Default: Story = {
     args: {
         ".steps": [
-            { name: 'start', description: 'this is the start step' },
-            { name: 'second', description: 'this is the second step' },
-            { name: 'third', description: 'this is the third step' },
+            { name: 'Start', description: 'This is the start step' },
+            { name: 'Second', description: 'This is the second step' },
+            { name: 'Third', description: 'This is the third step' },
+            { name: 'Fourth', description: 'This is the fourth step' }
         ],
-        percent : 10,
+        percent : 65,
         currentStep: 0,
     },
     parameters: {
