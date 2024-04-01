@@ -1,16 +1,13 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/elements/alert";
 import "../../../src/elements/button";
-import "../../../src/elements/codeblock";
-import { CodeBlock } from "../../../src/elements/codeblock";
+import "../../../src/elements/code-block";
+import { CodeBlock } from "../../../src/elements/code-block";
 import "../../../src/elements/icon";
-import "../../../src/elements/image";
 import { AutoLitProperty, baseArgsTypes } from "../helper";
 type CodeBlockWithLabel = AutoLitProperty<CodeBlock>;
 
-// More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
   title: "Example/CodeBlock",
   tags: ["autodocs"],
@@ -21,7 +18,19 @@ const meta = {
 
       <div class="background">
         <ssk-code-block ${spread(args)}>
-        <h1>test h1</h1>
+{
+  "activity_type":{
+    "id":"41cd2194-7554-462c-be2c-6144f68ecaf8",
+    "name":"oc2plus"
+  },
+  "created_at":"2022-11-24T04:16:26Z",
+  "error":"",
+  "status":{
+    "added":50,
+    "duplicated":10
+  },
+  "token":"3ks5t9sLpSobq4ieKBA68pu49I8C7G1UQJ95WZyrLvfIGKuHz5h54yCGm1yPXeH7dazdkjGUDRsl5CCr2qxfP1btEk94HGkElput2q5StrQif3hvQHpRlJWIpj"
+}
         </ssk-code-block>
         <div></div>
       </div>`;
@@ -37,6 +46,12 @@ type Story = StoryObj<CodeBlockWithLabel>;
 
 export const BasicCodeBlock: Story = {
   args: {
-    themeColor: "background",
+    language:"json",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=8686-18641&mode=design&t=fAcmps2yqcb8lIW1-0",
+    },
   },
 };
