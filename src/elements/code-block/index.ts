@@ -159,7 +159,7 @@ export class CodeBlock extends LitElement {
     return html`
     ${parseThemeToCssVariables(this.theme?.components?.container, ":host")}
     ${additionalCss}
-    <link rel="stylesheet" href="../../../node_modules/prismjs/themes/prism.min.css" />
+    <link rel="stylesheet" href="node_modules/prismjs/themes/prism.min.css" />
       
       <div class="container" id="contain" data-testid=${this.testId || nothing}>
         <div class="scroll">
