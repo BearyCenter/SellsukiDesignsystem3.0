@@ -232,6 +232,7 @@ export type Theme = {
     dropdown?: Partial<ThemeField>;
     radio?: Partial<ThemeField>;
     tab?: Partial<ThemeField>;
+    stepper? : Partial<ThemeField>;
   };
 } & ThemeField;
 
