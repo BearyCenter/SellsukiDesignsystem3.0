@@ -13,10 +13,13 @@ import {
 } from "../../types/theme";
 import "../../../src/elements/icon";
 
-interface Step{
-    name: string;
+interface Step {
+    title: string;
     description: string;
-  }
+    status: "finish" | "process" | "wait" | "error";
+    progress?: number; // Optional for steps with progress bars
+    icon?: string;  // Optional to override the default icon  
+}
 
 @customElement("ssk-stepper")
 export class Stepper extends LitElement {
@@ -67,8 +70,8 @@ export class Stepper extends LitElement {
     @property({ type: Number })
     activeIndex = 0;
     
-    @property({ type: Number  })
-    errorStep: number | undefined;
+    @property({ type: String  })
+    errorStep = "error";
 
     @property({ type: Boolean })
     hidden = false;
@@ -87,36 +90,37 @@ export class Stepper extends LitElement {
         <div class="step-container">
             ${this.steps.map((step, index) => html`
                 <div
-                class="step ${index === this.currentStep ? 'active' : index < this.currentStep && this.errorStep === index ? 'error' : index < this.currentStep ? 'finished' : ''} "
+                class="step 
+                    ${index === this.currentStep || step.status == 'process' ? 'active' : index < this.currentStep && step.status == 'error' ? 'error' : index < this.currentStep || step.status == 'finish' ? 'finished' : ''} "
                 style="gap: 5px;"
                 @click="${() => this.handleStepClick(index)}"
                 >
                 <div class="container">
                     <div class="stepper">
-                    <svg class="progress-circle" style="--progress-percent:${this.percent};">
+                    <svg class="progress-circle" style="--progress-percent:${step.progress || 0};">
                         <circle class="circle" cx="20" cy="26" r="16"></circle>
                         <circle class="bar" cx="20" cy="26" r="18"></circle>
                         <foreignObject x="4" y="10" width="32" height="32">
                         <div class="circle-content">
-                            ${index < this.currentStep && this.errorStep === index
+                            ${index < this.currentStep && step.status == 'error'
                             ? html`<ssk-icon name="solid-x-mark" themeColor="danger" size="sm"></ssk-icon>`
-                            : index < this.currentStep
+                            : index < this.currentStep || step.status == 'finish'
                             ? html`<ssk-icon name="solid-check" themeColor="white" size="sm"></ssk-icon>`
-                            : html`<div class="title">${index + 1}</div>`}
+                            : html`${step.icon ? html`<ssk-icon name="${step.icon}" size="sm"></ssk-icon>` : html`<div class="title">${index + 1}</div>`}                            `}
                         </div>
                         </foreignObject>
                     </svg>
                     </div>
                 </div>
-                <div class="description ${index === this.currentStep ? 'active' : index < this.currentStep && this.errorStep === index ? 'error' : index < this.currentStep ? 'finished' : ''}">
+                <div class="description ${index === this.currentStep || step.status == 'process' ? 'active' : index < this.currentStep && step.status == 'error' ? 'error' : index < this.currentStep || step.status == 'finish' ? 'finished' : ''}">
                     <div class="text-title">
                     <div class="title-step">
-                        ${step.name}
+                        ${step.title}
                     </div>
                     <div class="divider"></div>
                     </div>
                     <div class="text-description">
-                    ${step.description}
+                        ${step.description}
                     </div>
                 </div>
                 </div>
@@ -125,9 +129,26 @@ export class Stepper extends LitElement {
         `;
     }
 
+    shouldUpdateStatus(step: Step): boolean {
+        return step.status !== "error";
+    }
+
     handleStepClick(index: number) {
         if (index !== this.currentStep) {
             this.currentStep = index;
+            if (this.shouldUpdateStatus(this.steps[index])) {
+                this.steps[index].status = "process";
+            }
+            for (let i = 0; i < index; i++) {
+                if (this.shouldUpdateStatus(this.steps[i])) {
+                    this.steps[i].status = "finish";
+                }
+            }
+            for (let i = index + 1; i < this.steps.length; i++) {
+                if (this.shouldUpdateStatus(this.steps[i])) {
+                    this.steps[i].status = "wait";
+                }
+            }
         }
     }
 
@@ -197,6 +218,8 @@ export class Stepper extends LitElement {
     
     
     .title-step {
+        min-width: max-content;
+        max-width: 200px;
         padding-right: 16px;
     }
 

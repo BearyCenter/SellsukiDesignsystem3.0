@@ -22,26 +22,8 @@ const meta = {
             },
     argTypes: {
         ".steps": {
-            description: "Number of step",
-            table: {
-                type: {
-                    summary: "number",
-                },
-            }
+            description: "All step",
         },
-        percent: {
-            description: "Number of percent",
-            table: {
-                type: {
-                    summary: "number",
-                },
-            }
-        },
-        errorStep: {
-            description: "where of error step",
-            control: "number",
-        },
-        currentStep: { control: { type: 'number' } },
     },
 } satisfies Meta<StepperWithLabel>;
 
@@ -52,13 +34,32 @@ type Story = StoryObj<StepperWithLabel>;
 export const Default: Story = {
     args: {
         ".steps": [
-            { name: 'Start', description: 'This is the start step' },
-            { name: 'Second', description: 'This is the second step' },
-            { name: 'Third', description: 'This is the third step' },
-            { name: 'Fourth', description: 'This is the fourth step' }
+            {
+                "title": "Start",
+                "description": "This is the start step",
+                "status" : "wait",
+                "progress": 15,
+            },
+            {
+                "title": "Step 2",
+                "description": "This is the 2nd step with icon",
+                "status" : "finish",
+                "progress": 70,
+                "icon": "solid-wallet"
+            },
+            {
+                "title": "Step 3",
+                "description": "This is the 3rd step error with icon",
+                "status" : "error",
+                "progress": 50,
+            },
+            {
+                "title": "Step final",
+                "description": "This is the final step",
+                "status" : "wait",
+                "progress": 100,
+            }
         ],
-        percent : 65,
-        currentStep: 0,
     },
     parameters: {
         design: {
