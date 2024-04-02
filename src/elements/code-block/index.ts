@@ -1,6 +1,10 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import Prism from "prismjs";
+import "prismjs/components/prism-json";
+import prismStyle from "prismjs/themes/prism.min.css?inline";
 import { themeContext } from "../../contexts/theme";
 import {
   BadgeVariants,
@@ -14,8 +18,6 @@ import {
   parseThemeToCssVariables,
   parseVariables,
 } from "../../types/theme";
-import Prism from 'prismjs';
-import prismStyle from 'prismjs/themes/prism.min.css?inline'
 @customElement("ssk-code-block")
 export class CodeBlock extends LitElement {
   static registeredName = "ssk-code-block";
@@ -72,26 +74,22 @@ export class CodeBlock extends LitElement {
   @property({ type: Boolean })
   copyButton = false;
 
-  async firstUpdated() {
-    await this.__loadLanguage();
+  @property({ type: String })
+  code: string = "";
 
-    const codeClean = this.innerHTML.replace(/^\s+|\s+$/g, "");
-    const highlight = Prism.highlight(
-      codeClean,
-      Prism.languages[this.language || ''],
-      this.language || ''
-    );
-
-    const code = this.shadowRoot?.querySelector("#output")
-    if (code != undefined) {
-      code.innerHTML = highlight
+  private highlight() {
+    try {
+      return unsafeHTML(
+        Prism.highlight(
+          this.code,
+          Prism.languages[this.language || ""],
+          this.language || ""
+        )
+      );
+    } catch (error) {
+      console.warn("Language not supported by PrismJS", error);
+      return html`${this.code}`;
     }
-  }
-
-  async __loadLanguage() {
-    await import(
-      `../../../node_modules/prismjs/components/prism-${this.language}.min.js`
-    );
   }
 
   render() {
@@ -151,89 +149,98 @@ export class CodeBlock extends LitElement {
             this.color,
             "inherit"
           )};
-
         }
       </style>
     `;
 
     return html`
-    ${parseThemeToCssVariables(this.theme?.components?.container, ":host")}
-    ${additionalCss}
-      
+      ${parseThemeToCssVariables(this.theme?.components?.container, ":host")}
+      ${additionalCss}
+
       <div class="container" id="contain" data-testid=${this.testId || nothing}>
         <div class="scroll">
           <div class="right">
-          <ssk-button id="copyButton" variant="ghost" themeColor="black" hidden=${this.copyButton || nothing} @click=${() => this.clickCopy()}><ssk-icon name="outline-document-duplicate"></ssk-icon></ssk-button>
+            <ssk-button
+              id="copyButton"
+              variant="ghost"
+              themeColor="black"
+              .hidden=${this.copyButton}
+              @click=${() => this.clickCopy()}
+              ><ssk-icon name="outline-document-duplicate"></ssk-icon
+            ></ssk-button>
           </div>
-          <pre><code id="output"></code></pre>
+          <pre><code>${this.highlight()}</code></pre>
         </div>
       </div>
     `;
   }
-  
+
   private async clickCopy() {
-    await navigator.clipboard.writeText(this.innerHTML)
+    await navigator.clipboard.writeText(this.innerHTML);
   }
 
-  static styles = [css`
-    pre{
-      margin: 0;
-    }
+  static styles = [
+    css`
+      pre {
+        margin: 0;
+      }
 
-    code{
-      font-size: var(--font-size);
-      font-family: var(--font-family);
-    }
+      code {
+        font-size: var(--font-size);
+        font-family: var(--font-family);
+        white-space: pre-wrap;
+      }
 
-    .container {
-      flex-direction: column;
-      justify-content: center;
+      .container {
+        flex-direction: column;
+        justify-content: center;
 
-      background-color: var(--background-color); 
-      color: var(--color);
+        background-color: var(--background-color);
+        color: var(--color);
 
-      font-size: var(--font-size);
-      font-family: var(--font-family);
-      font-weight: var(--font-weight);
-      line-height: var(--line-height);
+        font-size: var(--font-size);
+        font-family: var(--font-family);
+        font-weight: var(--font-weight);
+        line-height: var(--line-height);
 
-      border-style: var(--border-style);
-      border-radius: var(--rounded);
-      border-color: var(--border-color);
-      border-width: var(--border-width);
+        border-style: var(--border-style);
+        border-radius: var(--rounded);
+        border-color: var(--border-color);
+        border-width: var(--border-width);
 
-      width: var(--width);
-      height: var(--height);
+        width: var(--width);
+        height: var(--height);
 
-      padding: var(--padding);
-    }
+        padding: var(--padding);
+      }
 
-    .scroll{
-      overflow-x: scroll;
-    }
-    
-    .scroll::-webkit-scrollbar {
+      .scroll {
+        overflow-x: scroll;
+      }
+
+      .scroll::-webkit-scrollbar {
         height: 4px;
-    }
-    
-    .scroll::-webkit-scrollbar-track {
+      }
+
+      .scroll::-webkit-scrollbar-track {
         border-radius: 4px;
         background-color: #d9d9d9;
-    }
-    
-    .scroll::-webkit-scrollbar-thumb {
+      }
+
+      .scroll::-webkit-scrollbar-thumb {
         background: #6b7280;
         border-radius: 4px;
-    }
+      }
 
-    .right {
-      position: fixed;
-      float: right;
-      right: 1.3em;
-      top: 1.8em;
-    }
-  `,
-  unsafeCSS(prismStyle)];
+      .right {
+        position: fixed;
+        float: right;
+        right: 1.3em;
+        top: 1.8em;
+      }
+    `,
+    unsafeCSS(prismStyle),
+  ];
 }
 
 declare global {
