@@ -82,44 +82,53 @@ export class Stepper extends LitElement {
         }
 
         return html`
-            ${parseThemeToCssVariables(this.theme?.components?.stepper, ":host")}
-
-            <div class="step-container"> ${this.steps.map((step, index) => html`
-                <div class="step ${index === this.currentStep ? 'active' : index < this.currentStep && this.errorStep == index ? 'error' : index < this.currentStep ? 'finished' : ''} " style="gap: 5px;">
+        ${parseThemeToCssVariables(this.theme?.components?.stepper, ":host")}
+    
+        <div class="step-container">
+            ${this.steps.map((step, index) => html`
+                <div
+                class="step ${index === this.currentStep ? 'active' : index < this.currentStep && this.errorStep === index ? 'error' : index < this.currentStep ? 'finished' : ''} "
+                style="gap: 5px;"
+                @click="${() => this.handleStepClick(index)}"
+                >
                 <div class="container">
                     <div class="stepper">
-                        <svg class="progress-circle" style="--progress-percent:${this.percent};">
-                            <circle class="circle" cx="20" cy="26" r="16"></circle>
-                            <circle class="bar" cx="20" cy="26" r="18"></circle>
-                            <foreignObject x="4" y="10" width="32" height="32">
-                                <div class="circle-content">
-                                ${index < this.currentStep && this.errorStep == index ?
-                                html`
-                                    <ssk-icon name="solid-x-mark" themeColor="danger" size="sm"></ssk-icon>`
-                                        : index < this.currentStep ? html`<ssk-icon name="solid-check" themeColor="white" size="sm"></ssk-icon>` : html`<div class="title">${index+1}</div>`}
-                                </div>
-                            </foreignObject>
-                        </svg>
+                    <svg class="progress-circle" style="--progress-percent:${this.percent};">
+                        <circle class="circle" cx="20" cy="26" r="16"></circle>
+                        <circle class="bar" cx="20" cy="26" r="18"></circle>
+                        <foreignObject x="4" y="10" width="32" height="32">
+                        <div class="circle-content">
+                            ${index < this.currentStep && this.errorStep === index
+                            ? html`<ssk-icon name="solid-x-mark" themeColor="danger" size="sm"></ssk-icon>`
+                            : index < this.currentStep
+                            ? html`<ssk-icon name="solid-check" themeColor="white" size="sm"></ssk-icon>`
+                            : html`<div class="title">${index + 1}</div>`}
+                        </div>
+                        </foreignObject>
+                    </svg>
                     </div>
                 </div>
-                <div class="description ${index === this.currentStep ? 'active' : index < this.currentStep && this.errorStep == index ? 'error' : index < this.currentStep ? 'finished' : ''}">
-                        <div class="text-title">
-                            <div class="title-step">
-                            ${step.name}
-                            </div>
-                            <div class="divider"></div>
-                            </div>
-                            <div class="text-description">
-                            ${step.description}
-                            </div>
+                <div class="description ${index === this.currentStep ? 'active' : index < this.currentStep && this.errorStep === index ? 'error' : index < this.currentStep ? 'finished' : ''}">
+                    <div class="text-title">
+                    <div class="title-step">
+                        ${step.name}
                     </div>
-                `)} </div>
+                    <div class="divider"></div>
+                    </div>
+                    <div class="text-description">
+                    ${step.description}
+                    </div>
+                </div>
+                </div>
+            `)}
             </div>
         `;
     }
 
     handleStepClick(index: number) {
-        this.activeIndex = index;
+        if (index !== this.currentStep) {
+            this.currentStep = index;
+        }
     }
 
     previousStep() {
@@ -151,7 +160,6 @@ export class Stepper extends LitElement {
         margin-top: 18px;
         width: 100%;
         display: flex; 
-        height: 200px;
         flex-direction: column;
         font-weight: 400;
         padding-left: 8px;
