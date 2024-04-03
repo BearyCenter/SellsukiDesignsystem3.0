@@ -5,38 +5,18 @@ import "../../../src/elements/button";
 import "../../../src/elements/code-block";
 import { CodeBlock } from "../../../src/elements/code-block";
 import "../../../src/elements/icon";
-import { AutoLitProperty, baseArgsTypes } from "../helper";
+import { AutoLitProperty } from "../helper";
 type CodeBlockWithLabel = AutoLitProperty<CodeBlock>;
 
 const meta = {
   title: "Example/CodeBlock",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html` <style>
-       
-      </style>
+    return html` <style></style>
 
       <div class="background">
-        <ssk-code-block ${spread(args)}>
-{
-  "activity_type":{
-    "id":"41cd2194-7554-462c-be2c-6144f68ecaf8",
-    "name":"oc2plus"
-  },
-  "created_at":"2022-11-24T04:16:26Z",
-  "error":"",
-  "status":{
-    "added":50,
-    "duplicated":10
-  },
-  "token":"3ks5t9sLpSobq4ieKBA68pu49I8C7G1UQJ95WZyrLvfIGKuHz5h54yCGm1yPXeH7dazdkjGUDRsl5CCr2qxfP1btEk94HGkElput2q5StrQif3hvQHpRlJWIpj"
-}
-        </ssk-code-block>
-        <div></div>
+        <ssk-code-block ${spread(args)}></ssk-code-block>
       </div>`;
-  },
-  argTypes: {
-    ...baseArgsTypes,
   },
 } satisfies Meta<CodeBlockWithLabel>;
 
@@ -46,7 +26,20 @@ type Story = StoryObj<CodeBlockWithLabel>;
 
 export const BasicCodeBlock: Story = {
   args: {
-    language:"json",
+    language: "json",
+    code: `{
+      "activity_type": {
+        "id": "41cd2194-7554-462c-be2c-6144f68ecaf8",
+        "name": "oc2plus"
+      },
+      "created_at": "2022-11-24T04:16:26Z",
+      "error": "",
+      "status": {
+        "added": 50,
+        "duplicated": 10
+      },
+      "token": "3ks5t9sLpSobq4ieKBA68pu49I8C7G1UQJ95WZyrLvfIGKuHz5h54yCGm1yPXeH7dazdkjGUDRsl5CCr2qxfP1btEk94HGkElput2q5StrQif3hvQHpRlJWIpj"
+    }`,
   },
   parameters: {
     design: {
