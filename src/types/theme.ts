@@ -233,6 +233,8 @@ export type Theme = {
     radio?: Partial<ThemeField>;
     tab?: Partial<ThemeField>;
     stepper? : Partial<ThemeField>;
+    table?: Partial<ThemeField>;
+    pagination?: Partial<ThemeField>;
   };
 } & ThemeField;
 
