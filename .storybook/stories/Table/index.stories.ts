@@ -4,6 +4,8 @@ import { html } from "lit";
 import "../../../src/components/table";
 import "../../../src/elements/tag";
 import "../../../src/elements/text";
+import "../../../src/elements/button";
+import "../../../src/elements/icon";
 import { Table } from "../../../src/components/table";
 import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
 
@@ -150,7 +152,6 @@ export const TableWithHeader: Story = {
     },
   },
   render: ({ ...args }) => {
-    console.log(args[".itemValue"]);
     return html`
       <ssk-table ${spread({ ...args })}>
         <template id="header-id">
@@ -215,6 +216,54 @@ export const TableWithBody: Story = {
         button: "Button",
         action: "",
       },
+      {
+        id: "SSKU0011A4",
+        image: "img",
+        product: "SSK Pay",
+        price: "1,000 THB",
+        payment: "complete",
+        date: "18/09/2023",
+        status: "Active",
+        copy: "",
+        button: "Button",
+        action: "",
+      },
+      {
+        id: "SSKU0012A5",
+        image: "img2",
+        product: "LINE Official",
+        price: "767 THB",
+        payment: "pading",
+        date: "06/05/2023",
+        status: "Inactive",
+        copy: "",
+        button: "Button",
+        action: "",
+      },
+      {
+        id: "SSKU0011A6",
+        image: "img",
+        product: "SSK Pay",
+        price: "1,000 THB",
+        payment: "complete",
+        date: "18/09/2023",
+        status: "Active",
+        copy: "",
+        button: "Button",
+        action: "",
+      },
+      {
+        id: "SSKU0012A7",
+        image: "img2",
+        product: "LINE Official",
+        price: "767 THB",
+        payment: "pading",
+        date: "06/05/2023",
+        status: "Inactive",
+        copy: "",
+        button: "Button",
+        action: "",
+      },
     ],
   },
   parameters: {
@@ -248,7 +297,21 @@ export const TableWithBody: Story = {
             <ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>
           </div>
         </template>
-      </ssk-table>
+        <template id="content-button">
+          <ssk-button
+            padding="sm"
+            variant="outline"
+            slot="ok-button-slot"
+          >
+            <ssk-icon
+                slot="prefix"
+                size="sm"
+                name="outline-ellipsis-horizontal-circle"
+                size="md"
+            ></ssk-icon>
+            {{value}}
+          </ssk-button>
+        </template>
     `;
   },
 };
@@ -301,7 +364,6 @@ export const TableWithSelect: Story = {
     },
   },
   render: ({ ...args }) => {
-    console.log(args[".itemValue"]);
     return html`
       <ssk-table ${spread({ ...args })}>
         <div slot="copy">

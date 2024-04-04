@@ -325,7 +325,7 @@ export class Table extends LitElement {
     .show {
       text-align: center;
       border-top: 1px solid var(--border-color);
-      width: 99%;
+      width: calc(100% - 10px);
       box-sizing: border-box;
     }
   `;
