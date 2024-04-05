@@ -19,11 +19,13 @@ const meta = {
 
   argTypes: {
     currentPage: {
+      description: "Show the current page list",
       control: {
         type: "number",
       },
     },
     totalPages: {
+      description: "Show total number of pages",
       control: {
         type: "number",
       },
@@ -67,6 +69,8 @@ const meta = {
         type: "boolean",
       },
     },
+    "@click": genericEvents["@click"],
+    ...baseArgsTypes,
   },
 } satisfies Meta<PaginationDefault>;
 

@@ -61,6 +61,8 @@ const meta = {
         type: "boolean",
       },
     },
+    "@click": genericEvents["@click"],
+    ...baseArgsTypes,
   },
 } satisfies Meta<TableWithData>;
 
@@ -201,19 +203,7 @@ export const TableWithBody: Story = {
         date: "18/09/2023",
         status: "Active",
         copy: "",
-        button: "Button",
-        action: "",
-      },
-      {
-        id: "SSKU0012A",
-        image: "img212",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
+        button: "Button1",
         action: "",
       },
       {
@@ -225,7 +215,7 @@ export const TableWithBody: Story = {
         date: "18/09/2023",
         status: "Active",
         copy: "",
-        button: "Button",
+        button: "Button2",
         action: "",
       },
       {
@@ -237,7 +227,7 @@ export const TableWithBody: Story = {
         date: "06/05/2023",
         status: "Inactive",
         copy: "",
-        button: "Button",
+        button: "Button3",
         action: "",
       },
       {
@@ -249,7 +239,7 @@ export const TableWithBody: Story = {
         date: "18/09/2023",
         status: "Active",
         copy: "",
-        button: "Button",
+        button: "Button4",
         action: "",
       },
       {
@@ -261,7 +251,19 @@ export const TableWithBody: Story = {
         date: "06/05/2023",
         status: "Inactive",
         copy: "",
-        button: "Button",
+        button: "Button5",
+        action: "",
+      },
+      {
+        id: "SSKU0012A",
+        image: "img212",
+        product: "LINE Official",
+        price: "767 THB",
+        payment: "pading",
+        date: "06/05/2023",
+        status: "Inactive",
+        copy: "",
+        button: "Button6",
         action: "",
       },
     ],
@@ -274,7 +276,6 @@ export const TableWithBody: Story = {
   },
   render: ({ ...args }) => {
     const { ".headers": headers, ".itemValue": itemValue } = args;
-
     return html`
       <ssk-table .headers="${headers}" .itemValue="${itemValue}">
         <template id="content-payment">

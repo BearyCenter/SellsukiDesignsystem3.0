@@ -89,15 +89,16 @@ export class Pagination extends LitElement {
 
     renderPageNumbers() {
         const pages: Array<number | string> = [];
+        const numVisiblePages = 7;
 
-        let startPage = Math.max(1, this.currentPage - 4);
+        let startPage = Math.max(1, this.currentPage - Math.floor(numVisiblePages / 2));
 
-        let endPage = Math.min(Math.max(startPage + 7), this.totalPages);
+        let endPage = Math.min(startPage + numVisiblePages - 1, this.totalPages);
 
         if (startPage === 1) {
-            endPage = Math.min(6, this.totalPages);
+            endPage = Math.min(numVisiblePages, this.totalPages);
         } else if (endPage === this.totalPages) {
-            startPage = Math.max(1, this.totalPages - 5);
+            startPage = Math.max(1, this.totalPages - numVisiblePages + 1);
         }
 
         if (startPage > 1) {
@@ -139,7 +140,7 @@ export class Pagination extends LitElement {
         `;
             }
         });
-    }
+    }      
 
     changePage(page: number) {
         if (page !== this.currentPage && page >= 1 && page <= this.totalPages) {
@@ -279,9 +280,9 @@ export class Pagination extends LitElement {
                 </ssk-dropdown-preview>
               </ssk-dropdown-button>
               <ssk-dropdown-option value="10"> 10 </ssk-dropdown-option>
-              <ssk-dropdown-option value="15"> 15 </ssk-dropdown-option>
               <ssk-dropdown-option value="20"> 20 </ssk-dropdown-option>
-              <ssk-dropdown-option value="all"> All </ssk-dropdown-option>
+              <ssk-dropdown-option value="50"> 50 </ssk-dropdown-option>
+              <ssk-dropdown-option value="100"> 100 </ssk-dropdown-option>
             </ssk-dropdown>
           </div>
         </div>
