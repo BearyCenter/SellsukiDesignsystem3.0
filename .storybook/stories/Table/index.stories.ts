@@ -61,6 +61,45 @@ const meta = {
         type: "boolean",
       },
     },
+    "?showRowPerPage":{
+      description: "When true gives the menu a active apparence",
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: {
+          summary: "boolean",
+        },
+      },
+      control: {
+        type: "boolean",
+      },
+    },
+    "?showBtnPage":{
+      description: "When true gives the menu a active apparence",
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: {
+          summary: "boolean",
+        },
+      },
+      control: {
+        type: "boolean",
+      },
+    },
+    "?showGoToPage":{
+      description: "When true gives the menu a active apparence",
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: {
+          summary: "boolean",
+        },
+      },
+      control: {
+        type: "boolean",
+      },
+    },
     "@click": genericEvents["@click"],
     ...baseArgsTypes,
   },

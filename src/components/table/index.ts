@@ -95,6 +95,15 @@ export class Table extends LitElement {
   currentPage: number = 1;
 
   @property({ type: Boolean })
+  showRowPerPage: boolean = false;
+
+  @property({ type: Boolean })
+  showBtnPage: boolean = false;
+  
+  @property({ type: Boolean })
+  showGoToPage: boolean = false;
+
+  @property({ type: Boolean })
   min = false;
 
   @property({ type: Boolean })
@@ -156,7 +165,7 @@ export class Table extends LitElement {
               <td>
                 <ssk-checkbox
                   .checked="${this.selectedRows.includes(rowIndex)}"
-                  @change="${() => this.toggleSelect(rowIndex)}"
+                  @change="${() => this.toggleSelect(rowIndex)}">
                 </ssk-checkbox>
               </td>
             `,
@@ -202,9 +211,9 @@ export class Table extends LitElement {
         allItems="${this.itemValue.length}"
         @page-changed="${this.handlePageChanged}"
         @rows-per-page-changed="${this.updatedPage}"
-        ?showBtnPage="${totalPages > 100 ? true : false}"
-        ?showrowsperpage="${totalPages > 500 ? true : false}"
-        ?showGoToPage="${totalPages > 500 ? true : false}"
+        ?showBtnPage="${this.showBtnPage}"
+        ?showrowsperpage="${this.showRowPerPage}"
+        ?showGoToPage="${this.showGoToPage}"
       ></ssk-pagination>
     `;
   }
