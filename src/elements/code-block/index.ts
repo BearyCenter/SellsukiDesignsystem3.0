@@ -3,7 +3,6 @@ import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import Prism from "prismjs";
-import "prismjs/components/prism-json";
 import prismStyle from "prismjs/themes/prism.min.css?inline";
 import { themeContext } from "../../contexts/theme";
 import {
@@ -78,6 +77,7 @@ export class CodeBlock extends LitElement {
   code: string = "";
 
   private highlight() {
+    this.__loadLanguage();
     try {
       return unsafeHTML(
         Prism.highlight(
@@ -90,6 +90,12 @@ export class CodeBlock extends LitElement {
       console.warn("Language not supported by PrismJS", error);
       return html`${this.code}`;
     }
+  }
+
+  private async __loadLanguage() {
+    await import(
+      `../../../node_modules/prismjs/components/prism-${this.language}.min.js`
+    );
   }
 
   render() {
