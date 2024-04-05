@@ -37,7 +37,7 @@ export class Pagination extends LitElement {
     backgroundColor?: string | undefined;
 
     @property({ type: String })
-    size: Size = "md";
+    size: Size = "sm";
     @property({ type: String })
     padding?: Size;
     @property({ type: String })
@@ -74,6 +74,9 @@ export class Pagination extends LitElement {
     @property({ type: Number })
     allItems = 100;
 
+    @property({ type: Array })
+    selectedItems: number[] = [10, 20, 50, 100];
+
     @property({ type: Boolean })
     showRowsPerPage: boolean = false;
     @property({ type: Boolean })
@@ -89,15 +92,16 @@ export class Pagination extends LitElement {
 
     renderPageNumbers() {
         const pages: Array<number | string> = [];
+        const numVisiblePages = 7;
 
-        let startPage = Math.max(1, this.currentPage - 4);
+        let startPage = Math.max(1, this.currentPage - Math.floor(numVisiblePages / 2));
 
-        let endPage = Math.min(Math.max(startPage + 7), this.totalPages);
+        let endPage = Math.min(startPage + numVisiblePages - 1, this.totalPages);
 
         if (startPage === 1) {
-            endPage = Math.min(6, this.totalPages);
+            endPage = Math.min(numVisiblePages, this.totalPages);
         } else if (endPage === this.totalPages) {
-            startPage = Math.max(1, this.totalPages - 5);
+            startPage = Math.max(1, this.totalPages - numVisiblePages + 1);
         }
 
         if (startPage > 1) {
@@ -227,10 +231,7 @@ export class Pagination extends LitElement {
             --font-weight: ${parseVariables(
             cssVar("font-weight", this.fontWeight)
         )};
-            --font-size: ${parseVariables(
-            cssVar("font-size", this.fontSize),
-            cssVar("font-size", this.size)
-        )};
+        --font-size: ${parseVariables(cssVar("font-size", this.size))};
 
             --color: ${parseVariables(
             cssVar("colors", this.color),
@@ -278,10 +279,9 @@ export class Pagination extends LitElement {
                   ${this.rowsPerPage}
                 </ssk-dropdown-preview>
               </ssk-dropdown-button>
-              <ssk-dropdown-option value="10"> 10 </ssk-dropdown-option>
-              <ssk-dropdown-option value="15"> 15 </ssk-dropdown-option>
-              <ssk-dropdown-option value="20"> 20 </ssk-dropdown-option>
-              <ssk-dropdown-option value="all"> All </ssk-dropdown-option>
+              ${this.selectedItems?.map(value => html`
+              <ssk-dropdown-option .value="${value}"> ${value} </ssk-dropdown-option>
+          `)}
             </ssk-dropdown>
           </div>
         </div>
@@ -292,23 +292,23 @@ export class Pagination extends LitElement {
             @click="${this.goToFirstPage}"
             ?disabled="${this.currentPage === 1}"
           >
-            <ssk-icon name="outline-chevron-double-left" size="xs"></ssk-icon>
+            <ssk-icon class="icon-double" name="outline-chevron-double-left" size="sm"></ssk-icon>
           </button>
           <button class="button" @click="${this.goToPreviousPage}">
-            <ssk-icon name="outline-chevron-left" size="xs"></ssk-icon>
+            <ssk-icon name="outline-chevron-left" size="sm"></ssk-icon>
           </button>
           <ul class="pagination">
             ${this.renderPageNumbers()}
           </ul>
           <button class="button" @click="${this.goToNextPage}">
-            <ssk-icon name="outline-chevron-right" size="xs"></ssk-icon>
+            <ssk-icon name="outline-chevron-right" size="sm"></ssk-icon>
           </button>
           <button
             class="${this.showBtnPage ? "button-page" : "noRowsPerPage"}"
             @click="${this.goToLastPage}"
             ?disabled="${this.currentPage === this.totalPages}"
           >
-            <ssk-icon name="outline-chevron-double-right" size="xs"></ssk-icon>
+            <ssk-icon class="icon-double" name="outline-chevron-double-right" size="sm"></ssk-icon>
           </button>
         </div>
         <div class="${this.showGoToPage ? "input-container" : "noRowsPerPage"}">
@@ -317,7 +317,7 @@ export class Pagination extends LitElement {
           <ssk-icon
             class="go-icon"
             name="outline-arrow-right"
-            size="xs"
+            size="sm"
             @click="${this.goToPage}"
           ></ssk-icon>
         </div>
@@ -413,6 +413,7 @@ export class Pagination extends LitElement {
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: var(--font-size);
     }
 
     .pagination li a.active {
@@ -436,15 +437,15 @@ export class Pagination extends LitElement {
 
     .showing-item {
         margin-right: 20px;
-        font-size: 20px;
+        font-size: var(--font-size);
     }
     .input-container{ 
         display: flex;
         align-items: center;
-        font-size: 20px;
+        font-size: var(--font-size);
     }
     #myInput {
-        font-size: 18px;
+        font-size: var(--font-size);
         padding: 5px;
         border: 1px solid var(--color-border);
         border-top-left-radius: 5px;
@@ -470,7 +471,7 @@ export class Pagination extends LitElement {
     }
     .showRowsPerPages{
         display: flex;
-        font-size:20px;
+        font-size: var(--font-size);
     }
     .noRowsPerPage{
         display: none;
@@ -481,7 +482,9 @@ export class Pagination extends LitElement {
         box-sizing: border-box;
         margin-left: 5px;
     }
-    .
+    .icon-double{
+        margin-top: 4px;
+    }
   `;
 }
 
