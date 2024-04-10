@@ -18,12 +18,14 @@ const meta = {
           display: flex;
           justify-content: space-between;
           align-items: start;
+          gap: 1rem;
         }
 
         section.size {
           display: flex;
           flex-direction: column;
           width: 100%;
+          gap: 10px;
         }
 
       </style>

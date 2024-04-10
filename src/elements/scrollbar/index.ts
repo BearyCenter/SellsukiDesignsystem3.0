@@ -57,6 +57,7 @@ export class Scrollbar extends LitElement {
         }
       </style>
       <div id="scrollbar" class="scrollbar">
+        <div class="content">
           <slot class="ss"></slot>
         </div>
       </div>
@@ -69,6 +70,10 @@ export class Scrollbar extends LitElement {
       overflow: auto;
       width: var(--content-width);
       height: var(--content-height);
+    }
+
+    .content {
+      min-width: fit-content;
     }
 
     ::-webkit-scrollbar {
