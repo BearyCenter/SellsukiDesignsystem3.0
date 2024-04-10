@@ -1,15 +1,9 @@
-import { AutoLitProperty, baseArgsTypes } from "../helper";
-import { Scrollbar } from "../../../src/elements/scrollbar";
 import { html } from "lit";
-import "../../../src/elements/scrollbar";
-import { spread } from "@open-wc/lit-helpers";
 import { Meta, StoryObj } from "@storybook/web-components";
-
-type ScrollbarArgs = AutoLitProperty<Scrollbar>;
 
 const meta = {
   title: "Example/Scrollbar",
-  tags: ["autodocs"],
+  tags: [],
   render: ({ ...args }) => {
     return html`<style>
         div.container {
@@ -19,10 +13,17 @@ const meta = {
           justify-content: center;
         }
 
+        .demo-scrollbar {
+          width: 200px;
+          height: 200px;
+          overflow: auto;
+        }
+
         .grid-container {
           display: grid;
           grid-template-columns: auto auto auto auto;
           background-color: #2196f3;
+          min-width: fit-content;
           padding: 10px;
         }
         .grid-item {
@@ -35,7 +36,7 @@ const meta = {
       </style>
 
       <div class="container">
-        <ssk-scrollbar ${spread(args)}>
+        <div class="demo-scrollbar">
           <div class="grid-container">
             <div class="grid-item">1</div>
             <div class="grid-item">2</div>
@@ -50,24 +51,16 @@ const meta = {
             <div class="grid-item">11</div>
             <div class="grid-item">12</div>
           </div>
-        </ssk-scrollbar>
+        </div>
       </div>`;
   },
-  argTypes: {
-    size: baseArgsTypes.size,
-  },
-} satisfies Meta<ScrollbarArgs>;
+} satisfies Meta;
 
 export default meta;
 
-type Story = StoryObj<ScrollbarArgs>;
+type Story = StoryObj;
 
 export const Default: Story = {
-  args: {
-    size: "md",
-    width: "200px",
-    height: "200px",
-  },
   parameters: {
     design: {
       type: "figma",
