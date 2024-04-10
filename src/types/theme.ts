@@ -235,7 +235,6 @@ export type Theme = {
     stepper?: Partial<ThemeField>;
     table?: Partial<ThemeField>;
     pagination?: Partial<ThemeField>;
-    scrollbar?: Partial<ThemeField>;
   };
 } & ThemeField;
 

@@ -1207,15 +1207,6 @@ export const defaultTheme: Theme = {
         xl: "36px",
       },
     },
-    scrollbar: {
-      width: {
-        xs: "2px",
-        sm: "4px",
-        md: "6px",
-        lg: "8px",
-        xl: "10px",
-      },
-    },
   },
 };
 
