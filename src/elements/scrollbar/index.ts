@@ -57,8 +57,7 @@ export class Scrollbar extends LitElement {
         }
       </style>
       <div id="scrollbar" class="scrollbar">
-        <div class="content">
-          <slot></slot>
+          <slot class="ss"></slot>
         </div>
       </div>
     `;
@@ -66,11 +65,8 @@ export class Scrollbar extends LitElement {
 
   static styles = css`
     .scrollbar {
-      position: absolute;
+      position: relative;
       overflow: auto;
-    }
-
-    .content {
       width: var(--content-width);
       height: var(--content-height);
     }

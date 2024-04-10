@@ -7,7 +7,7 @@ import { Meta, StoryObj } from "@storybook/web-components";
 
 type ScrollbarArgs = AutoLitProperty<Scrollbar>;
 
-const size: Scrollbar["size"][] = ["md", "sm"];
+const size: Scrollbar["size"][] = ["xl", "lg", "md", "sm", "xs"];
 
 const meta = {
   title: "Example/Scrollbar",
