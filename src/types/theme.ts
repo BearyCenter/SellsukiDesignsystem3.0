@@ -232,9 +232,10 @@ export type Theme = {
     dropdown?: Partial<ThemeField>;
     radio?: Partial<ThemeField>;
     tab?: Partial<ThemeField>;
-    stepper? : Partial<ThemeField>;
+    stepper?: Partial<ThemeField>;
     table?: Partial<ThemeField>;
     pagination?: Partial<ThemeField>;
+    scrollbar?: Partial<ThemeField>;
   };
 } & ThemeField;
 
