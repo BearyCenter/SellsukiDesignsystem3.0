@@ -28,6 +28,7 @@ export * from "./elements/checkbox";
 export * from "./elements/radio";
 export * from "./elements/radio/group";
 export * from "./elements/code-block";
+export * from "./elements/pin-code";
 
 export * from "./components/tooltip";
 export * from "./components/dropdown";

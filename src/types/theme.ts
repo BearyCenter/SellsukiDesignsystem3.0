@@ -235,6 +235,7 @@ export type Theme = {
     stepper?: Partial<ThemeField>;
     table?: Partial<ThemeField>;
     pagination?: Partial<ThemeField>;
+    pinCode?: Partial<ThemeField>;
   };
 } & ThemeField;
 
