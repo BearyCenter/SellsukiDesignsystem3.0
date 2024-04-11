@@ -60,7 +60,7 @@ export class PinCode extends LitElement {
   value: string = "";
 
   @property({ type: String })
-  placeholder: string | undefined = "0";
+  placeholder: string | undefined;
 
   @property({ type: Boolean })
   disabled = false;
@@ -266,6 +266,10 @@ export class PinCode extends LitElement {
 
     input:focus {
       outline: none;
+    }
+
+    input:focus::placeholder {
+      color: transparent;
     }
 
     input.error {
