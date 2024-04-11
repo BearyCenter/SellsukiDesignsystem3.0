@@ -46,7 +46,6 @@ const meta = {
         "Text to display in each pin code input field when no value is entered",
       table: {
         category: "Props",
-        defaultValue: { summary: "0" },
         type: {
           summary: "text",
         },
