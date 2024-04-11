@@ -1,4 +1,4 @@
-import { html } from "lit";
+import { html, nothing } from "lit";
 import { spread } from "@open-wc/lit-helpers";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "../../../src/elements/pin-code";
@@ -11,20 +11,25 @@ const meta = {
   title: "Example/PinCode",
   tags: ["autodocs"],
   render: ({ ...args }) => {
+    const pinCode = document.querySelector<PinCode>("ssk-pin-code");
+    console.log(pinCode?.value);
+
     const updatePinCodeValue = (event: Event) => {
-      const code = (event.target as PinCode).Value;
-      const pinCodeValue = document.getElementById("showValue");
-      if (pinCodeValue) {
-        pinCodeValue.textContent = `Pin Code Value: ${code}`;
+      if (pinCode) {
+        console.log("pin : ", pinCode.value);
+
+        pinCode.value = (event.target as PinCode).value;
+
+        console.log("pin af : ", pinCode.value);
       }
     };
 
     return html`<div>
       <ssk-pin-code
         ${spread({ ...args })}
-        @input=${updatePinCodeValue}
+        @change=${updatePinCodeValue}
       ></ssk-pin-code>
-      <p id="showValue">Pin Code Value:</p>
+      <p id="showValue">Pin Code Value: ${pinCode?.value}</p>
     </div>`;
   },
   argTypes: {
@@ -44,6 +49,18 @@ const meta = {
     placeholder: {
       description:
         "Text to display in each pin code input field when no value is entered",
+      table: {
+        category: "Props",
+        type: {
+          summary: "text",
+        },
+      },
+      control: {
+        type: "text",
+      },
+    },
+    value: {
+      description: "The value of the pin code",
       table: {
         category: "Props",
         type: {
@@ -105,7 +122,6 @@ const meta = {
     rounded: baseArgsTypes.rounded,
     borderColor: baseArgsTypes.borderColor,
     "?hidden": baseArgsTypes["?hidden"],
-    "@input": genericEvents["@input"],
     "@change": genericEvents["@change"],
   },
 } satisfies Meta<PinCodeProps>;

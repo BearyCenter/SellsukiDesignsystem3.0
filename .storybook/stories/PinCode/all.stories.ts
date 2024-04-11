@@ -13,8 +13,8 @@ const meta = {
   title: "Example/PinCode",
   tags: [],
   render: ({ ...args }) => {
-    const updatePinCodeValue = (event: Event) => {
-      const code = (event.target as PinCode).Value;
+    const updatePinCodeValue = (event: CustomEvent) => {
+      const code = (event.target as PinCode).value;
       const targetElement = event.target as HTMLElement;
       const pinCodeValue =
         targetElement.parentElement?.querySelector(".showValue");
@@ -105,6 +105,32 @@ const meta = {
         type: "text",
       },
     },
+    value: {
+      description: "The value of the pin code",
+      table: {
+        category: "Props",
+        type: {
+          summary: "text",
+        },
+      },
+      control: {
+        type: "text",
+      },
+    },
+    type: {
+      options: ["text", "number"],
+      description: "Type of input (text or number)",
+      table: {
+        category: "Props",
+        defaultValue: { summary: "number" },
+        type: {
+          summary: "select",
+        },
+      },
+      control: {
+        type: "select",
+      },
+    },
     "?error": {
       description:
         "Indicates whether the pin code input field is in an error state",
@@ -142,7 +168,6 @@ const meta = {
     rounded: baseArgsTypes.rounded,
     borderColor: baseArgsTypes.borderColor,
     "?hidden": baseArgsTypes["?hidden"],
-    "@input": genericEvents["@input"],
     "@change": genericEvents["@change"],
   },
 } satisfies Meta<PinCodeProps>;

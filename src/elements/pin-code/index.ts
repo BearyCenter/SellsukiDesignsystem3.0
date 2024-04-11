@@ -71,10 +71,6 @@ export class PinCode extends LitElement {
   @property({ type: Boolean })
   error = false;
 
-  get Value() {
-    return this.value;
-  }
-
   render() {
     if (this.hidden) {
       return nothing;
@@ -131,17 +127,25 @@ export class PinCode extends LitElement {
         }
       </style>
 
-      <input id="code" hidden .value=${this.value} @input=${this.updateValue} />
+      <input
+        id="code"
+        hidden
+        .value=${this.value}
+        @input=${this.updateValue}
+        @change=${this.updateValue}
+      />
       <div class="container">
         ${Array(this.length)
           .fill(0)
           .map((_, index) => {
             const inputId = `code-${index}`;
+
             return html`
               <input
                 id=${inputId}
                 data-testid=${this.testId || nothing}
                 .type=${this.type}
+                .value=${this.value.split("")[index] || ""}
                 placeholder=${this.placeholder || ""}
                 maxlength="1"
                 minlength="1"
@@ -149,7 +153,6 @@ export class PinCode extends LitElement {
                 ?disabled=${this.disabled}
                 @input=${this.handleInput}
                 @keydown=${this.handleKeyDown}
-                @change=${(e: any) => this.updateValue(e, true)}
                 @paste=${this.handlePaste}
               />
             `;
@@ -162,7 +165,10 @@ export class PinCode extends LitElement {
     const Inputs =
       this.shadowRoot!.querySelectorAll<HTMLInputElement>('[id^="code-"]');
     Inputs.forEach((input) => (newValue += input.value));
+
     this.value = newValue;
+
+    this.dispatchEvent(new CustomEvent("change", { detail: this.value }));
 
     if (redispatch) {
       redispatchEvents(e, this);
