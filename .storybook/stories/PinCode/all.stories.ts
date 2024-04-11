@@ -4,6 +4,8 @@ import { Meta, StoryObj } from "@storybook/web-components";
 import "../../../src/elements/pin-code";
 import { PinCode } from "../../../src/elements/pin-code";
 import { baseArgsTypes, genericEvents } from "../helper";
+import { useArgs } from "@storybook/client-api";
+import { action } from "@storybook/addon-actions";
 
 type PinCodeProps = Omit<PinCode, "size">;
 
@@ -13,15 +15,7 @@ const meta = {
   title: "Example/PinCode",
   tags: [],
   render: ({ ...args }) => {
-    const updatePinCodeValue = (event: CustomEvent) => {
-      const code = (event.target as PinCode).value;
-      const targetElement = event.target as HTMLElement;
-      const pinCodeValue =
-        targetElement.parentElement?.querySelector(".showValue");
-      if (pinCodeValue) {
-        pinCodeValue.textContent = `Pin Code Value: ${code}`;
-      }
-    };
+    const [{}, updateArgs] = useArgs();
 
     return html` <style>
         main.showcase {
@@ -54,9 +48,14 @@ const meta = {
                     size=${s}
                     testId=${`pin-code-${s}`}
                     ${spread({ ...args })}
-                    @input=${updatePinCodeValue}
+                    @change=${(e: any) => {
+                      action("@change")(e);
+                      updateArgs({ value: e.target.value });
+                    }}
                   ></ssk-pin-code>
-                  <p class="showValue" id="showValue-${s}">Pin Code Value:</p>
+                  <p class="showValue" id="showValue-${s}">
+                    Pin Code Value: ${args.value}
+                  </p>
                 </div>
               </div>
               <div class="row">
@@ -65,11 +64,14 @@ const meta = {
                     size=${s}
                     testId=${`pin-code-${s}`}
                     ${spread({ ...args })}
-                    @input=${updatePinCodeValue}
+                    @change=${(e: any) => {
+                      action("@change")(e);
+                      updateArgs({ value: e.target.value });
+                    }}
                     error
                   ></ssk-pin-code>
                   <p class="showValue" id="showValue-${s}-error">
-                    Pin Code Value:
+                    Pin Code Value: ${args.value}
                   </p>
                 </div>
               </div>

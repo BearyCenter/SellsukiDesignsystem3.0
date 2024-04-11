@@ -1,9 +1,11 @@
-import { html, nothing } from "lit";
+import { html } from "lit";
 import { spread } from "@open-wc/lit-helpers";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "../../../src/elements/pin-code";
 import { PinCode } from "../../../src/elements/pin-code";
 import { baseArgsTypes, genericEvents } from "../helper";
+import { action } from "@storybook/addon-actions";
+import { useArgs } from "@storybook/client-api";
 
 type PinCodeProps = Partial<PinCode>;
 
@@ -11,25 +13,17 @@ const meta = {
   title: "Example/PinCode",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    const pinCode = document.querySelector<PinCode>("ssk-pin-code");
-    console.log(pinCode?.value);
-
-    const updatePinCodeValue = (event: Event) => {
-      if (pinCode) {
-        console.log("pin : ", pinCode.value);
-
-        pinCode.value = (event.target as PinCode).value;
-
-        console.log("pin af : ", pinCode.value);
-      }
-    };
+    const [{}, updateArgs] = useArgs();
 
     return html`<div>
       <ssk-pin-code
         ${spread({ ...args })}
-        @change=${updatePinCodeValue}
+        @change=${(e: any) => {
+          action("@change")(e);
+          updateArgs({ value: e.target.value });
+        }}
       ></ssk-pin-code>
-      <p id="showValue">Pin Code Value: ${pinCode?.value}</p>
+      <p id="showValue">Pin Code Value: ${args.value}</p>
     </div>`;
   },
   argTypes: {
