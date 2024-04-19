@@ -240,18 +240,18 @@ export class Button extends LitElement {
       </style>
 
       <button data-testid=${this.testId || nothing} .disabled=${this.disabled}>
-        <slot name="prefix"></slot>
-        <slot></slot>
-        <slot name="postfix"></slot>
+        <div>
+          <slot name="prefix"></slot>
+          <slot></slot>
+          <slot name="postfix"></slot>
+        </div>
       </button>
     `;
   }
 
   static styles = css`
     button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: inline-block;
       border-style: solid;
       cursor: pointer;
       transition: background-color 0.2s ease-in-out;
@@ -263,11 +263,17 @@ export class Button extends LitElement {
       line-height: var(--line-height);
       padding: var(--padding);
       margin: var(--margin);
-      gap: var(--gap);
       border-radius: var(--rounded);
       border-color: var(--border-color);
       border-width: var(--border-width);
       width: var(--width);
+    }
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--gap);
     }
 
     button:hover:enabled {
