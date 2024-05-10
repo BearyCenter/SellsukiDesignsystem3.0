@@ -36,5 +36,6 @@ export * from "./components/modal";
 export * from "./components/sidebar";
 export * from "./components/tabs";
 export * from "./components/stepper";
+export * from "./components/pagination"
 
 import "./assets/fonts.css";
