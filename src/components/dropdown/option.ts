@@ -68,6 +68,7 @@ export class DropdownOption extends LitElement {
         <span class="label">
           <slot></slot>
         </span>
+        <slot name="postfix"></slot>
       </span>
     `;
   }
@@ -75,7 +76,7 @@ export class DropdownOption extends LitElement {
   static styles = css`
     .container {
       display: grid;
-      grid-template-columns: auto 1fr;
+      grid-template-columns: auto 1fr auto;
       grid-gap: 0.5em;
       padding: 0.25em 0.5em;
 
