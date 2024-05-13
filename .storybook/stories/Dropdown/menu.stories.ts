@@ -109,6 +109,7 @@ const meta = {
           name="solid-arrow-right-on-rectangle"
         ></ssk-icon>
         <ssk-text size="sm">Sign out</ssk-text>
+        <ssk-icon slot="postfix" size="sm" name="solid-arrow-right"></ssk-icon>
       </ssk-dropdown-option>
     </ssk-dropdown>`;
   },
