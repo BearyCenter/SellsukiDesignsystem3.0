@@ -48,8 +48,7 @@ export class Modal extends LitElement {
           )};
 
           --background-color-footer: ${parseVariables(
-            cssVar("colors", "background", 200),
-            "#fff",
+            cssVar("colors", "white", 200),
           )};
 
           --border-color: ${parseVariables(
@@ -141,7 +140,6 @@ export class Modal extends LitElement {
 
     .header {
       padding: 16px;
-      border-bottom: 1px solid var(--border-color);
       display: var(--header-display);
       justify-content: var(--header-justify-content);
       align-items: center;
