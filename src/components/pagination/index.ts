@@ -433,16 +433,19 @@ export class Pagination extends LitElement {
         align-items: center;
         justify-content: flex-end;
         flex-grow: 1;
+        padding-right: 10px;
     }
 
     .showing-item {
         margin-right: 20px;
         font-size: var(--font-size);
+        padding-left: 10px;
     }
     .input-container{ 
         display: flex;
         align-items: center;
         font-size: var(--font-size);
+        padding-right: 11px;
     }
     #myInput {
         font-size: var(--font-size);
