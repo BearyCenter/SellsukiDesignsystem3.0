@@ -336,13 +336,12 @@ export class Pagination extends LitElement {
         justify-content: center;
     }
     .container {
-        padding: 5px;
-        padding-bottom: 0px;
-        padding-top: 0px;
+        padding: 0 16px;
         border-radius: 1px;
         column-gap: 5px;
         background-color: #fff;
         width: 100%;
+        box-sizing: border-box;
     }
     .button, .button-page {
         border: none;
@@ -438,6 +437,7 @@ export class Pagination extends LitElement {
     .showing-item {
         margin-right: 20px;
         font-size: var(--font-size);
+        
     }
     .input-container{ 
         display: flex;
