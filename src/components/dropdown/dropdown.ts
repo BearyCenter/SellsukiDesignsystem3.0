@@ -210,9 +210,9 @@ export class Dropdown extends LitElement {
           )};
 
           --background-color-disabled: ${parseVariables(
-            cssVar("colors", this.themeColor, 50),
-            cssVar("colors", "background", 50)
+            cssVar("colors", "border", 50)
           )};
+
           --border-color: ${borderColor};
           --font-color: ${fontColor};
           --border-color-active: ${parseVariables(
