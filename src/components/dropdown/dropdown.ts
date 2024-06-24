@@ -75,6 +75,9 @@ export class Dropdown extends LitElement {
   disabled = false;
 
   @property({ type: Boolean })
+  hover = false;
+
+  @property({ type: Boolean })
   hidden = false;
 
   @property({ type: Boolean })
@@ -154,7 +157,34 @@ export class Dropdown extends LitElement {
     window.removeEventListener("click", this.setupClickOutside);
   }
 
+  getBackgroundColor() {
+    return this.hover
+      ? parseVariables(cssVar("colors", "background", 50))
+      : parseVariables(
+          cssVar("colors", this.themeColor, 50),
+          cssVar("colors", "background", 50)
+        );
+  }
+  getBorderColor() {
+    return this.hover
+      ? parseVariables(cssVar("colors", "border", 50))
+      : parseVariables(
+          cssVar("colors", this.themeColor, 100)
+        );
+  }
+  getFontColor() {
+    return this.hover
+      ? parseVariables(cssVar("colors", this.themeColor, 500))
+      : parseVariables(
+          cssVar("colors", "text", 500)
+        );
+  }
+
   render() {
+    const backgroundColor = this.getBackgroundColor();
+    const borderColor = this.getBorderColor();
+    const fontColor = this.getFontColor();
+
     if (this.hidden) {
       return nothing;
     }
@@ -173,22 +203,18 @@ export class Dropdown extends LitElement {
             cssVar("colors", "background", 50)
           )};
 
-          --background-color: ${parseVariables(
-            cssVar("colors", this.themeColor, 50),
-            cssVar("colors", "background", 50)
-          )};
+          --background-color: ${backgroundColor};
 
           --background-color-hover: ${parseVariables(
             cssVar("colors", this.themeColor, 50)
           )};
 
           --background-color-disabled: ${parseVariables(
-            cssVar("colors", "border", 50)
+            cssVar("colors", this.themeColor, 50),
+            cssVar("colors", "background", 50)
           )};
-
-          --border-color: ${parseVariables(
-            cssVar("colors", this.themeColor, 100)
-          )};
+          --border-color: ${borderColor};
+          --font-color: ${fontColor};
           --border-color-active: ${parseVariables(
             cssVar("colors", this.themeColor, 600)
           )};

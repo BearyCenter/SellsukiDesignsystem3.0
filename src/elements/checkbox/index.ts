@@ -60,7 +60,7 @@ export class Checkbox extends LitElement implements ThemeValue {
   hidden = false;
   @property({ type: String })
   label?: string | undefined;
-  @property({ type: Boolean })
+  @property({ type: Boolean , reflect: true})
   checked = false;
   @property({ type: Boolean })
   indeterminate = false;
@@ -91,6 +91,9 @@ export class Checkbox extends LitElement implements ThemeValue {
     super.updated(changedProperties);
 
     this._updateCheckboxState();
+    if (changedProperties.has('checked')) {
+      this._checked = this.checked;
+    }
   }
 
   render() {
@@ -201,6 +204,7 @@ export class Checkbox extends LitElement implements ThemeValue {
 
   private _onChange(e: Event) {
     this._checked = (e.target as HTMLInputElement).checked;
+    this.checked = this._checked;
     const groupList = this._groupOptions.map((o) => o.value);
     this._setGroupChecked(this._checked ? groupList : []);
 
