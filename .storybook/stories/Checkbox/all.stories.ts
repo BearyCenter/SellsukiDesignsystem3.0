@@ -42,32 +42,40 @@ const meta = {
         <section class="show-checked">
           <ssk-checkbox
             ${spread(args)}
-            disabled="true"
+            .disabled=${true}
             label="Checkbox disabled"
           >
           </ssk-checkbox>
-          <ssk-checkbox ${spread(args)} checked="true" label="Checkbox checked">
+          <ssk-checkbox 
+            ${spread(args)}
+            .checked=${false}
+            .label=${"Checkbox unchecked"}>
           </ssk-checkbox>
+          <ssk-checkbox 
+          ${spread(args)}
+          .checked=${true}
+          .label=${"Checkbox checked"}>
+        </ssk-checkbox>
           <ssk-checkbox
             ${spread(args)}
-            disabled="true"
-            checked="true"
-            label="Checkbox checked disabled"
+            .disabled=${true}
+            .checked=${true}
+            .label=${"Checkbox checked disabled"}
           >
           </ssk-checkbox>
         </section>
         <section class="show-indeterminate">
           <ssk-checkbox
             ${spread(args)}
-            indeterminate="true"
-            label="Checkbox indeterminate"
+            .indeterminate=${true}
+            .label=${"Checkbox indeterminate"}
           >
           </ssk-checkbox>
           <ssk-checkbox
             ${spread(args)}
-            disabled="true"
-            indeterminate="true"
-            label="Checkbox indeterminate disabled"
+            .disabled=${true}
+            .indeterminate=${true}
+            .label=${"Checkbox indeterminate disabled"}
           >
           </ssk-checkbox>
         </section>
@@ -76,8 +84,8 @@ const meta = {
             (sz) => html`
               <ssk-checkbox
                 ${spread(args)}
-                size=${sz}
-                label="Checkbox size ${sz}"
+                .size=${sz}
+                .label=${`Checkbox size ${sz}`}
               >
               </ssk-checkbox>
             `,

@@ -132,6 +132,11 @@ const meta = {
         type: "boolean",
       },
     },
+    "?hover": {
+      control: {
+        type: "boolean",
+      }
+    }
   },
 } satisfies Meta<DropdownWithLabel>;
 
