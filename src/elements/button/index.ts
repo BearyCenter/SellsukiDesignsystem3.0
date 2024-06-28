@@ -97,40 +97,42 @@ export class Button extends LitElement {
     let additionalCss = `
       --width:${parseVariables(cssVar("width", this.width))};
       --font-family: ${parseVariables(
-        cssVar("font-family", this.fontFamilyGroup),
+        cssVar("font-family", this.fontFamilyGroup)
       )};
       --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
       --font-size: ${parseVariables(
         cssVar("font-size", this.fontSize),
-        cssVar("font-size", this.size),
+        cssVar("font-size", this.size)
       )};
       --line-height: ${parseVariables(
         cssVar("line-height", this.lineHeight),
-        cssVar("font-size", this.size),
+        cssVar("font-size", this.size)
       )};
 
       --gap: ${parseVariables(
         cssVar("spacing", this.gap),
-        cssVar("spacing", this.size),
+        cssVar("spacing", this.size)
       )};
       --padding: ${parseVariables(
         cssVar("padding", this.padding),
-        cssVar("padding", this.size),
+        cssVar("padding", this.size)
       )};
       --margin: ${parseVariables(
         cssVar("margin", this.margin),
-        cssVar("margin", this.size),
+        cssVar("margin", this.size)
       )};
 
       --rounded: ${parseVariables(
         cssVar("rounded", this.rounded),
-        cssVar("rounded", this.size),
+        cssVar("rounded", this.size)
       )};
 
       --border-width: ${parseVariables(
         cssVar("border-width", this.borderWidth),
-        "1px",
+        "1px"
       )};
+
+      --main-color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
 
     `;
 
@@ -138,32 +140,34 @@ export class Button extends LitElement {
       case "solid":
         additionalCss += `
         --background-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
+          cssVar("colors", this.themeColor, 500)
         )};
         --background-color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 700),
+          cssVar("colors", this.themeColor, 600)
         )};
         --background-color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600),
+          cssVar("colors", this.themeColor, 500)
         )};
         --background-color-disabled: ${parseVariables(
-          cssVar("colors", "gray", 100),
+          cssVar("colors", this.themeColor, 500)
         )};
         --color: ${parseVariables(
           cssVar("colors", this.color, 200),
           cssVar("colors", this.color),
           this.color,
-          cssVar("colors", "white", 200),
+          cssVar("colors", "white", 200)
         )};
         --color-hover: var(--color);
         --color-active: var(--color);
-        --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
+        --color-disabled: var(--color);
 
         --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
+          cssVar("colors", this.themeColor, 500)
         )};
         --border-color-disabled: var(--background-color-disabled);
         --border-width: 0px;
+        --opacity-disabled: 0.5;
+
           `;
         break;
 
@@ -171,30 +175,31 @@ export class Button extends LitElement {
         additionalCss += `
         --background-color: ${parseVariables(cssVar("colors", "white", 200))};
         --background-color-hover: ${parseVariables(
-          cssVar("colors", "white", 200),
+          cssVar("colors", "white", 200)
         )};
         --background-color-active: ${parseVariables(
-          cssVar("colors", "white", 200),
+          cssVar("colors", "white", 200)
         )};
         --background-color-disabled: ${parseVariables(
-          cssVar("colors", "white", 200),
+          cssVar("colors", "white", 200)
         )};
         --color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
         --color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 700),
+          cssVar("colors", this.themeColor, 700)
         )};
         --color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600),
+          cssVar("colors", this.themeColor, 600)
         )};
         --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
 
         --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
+          cssVar("colors", this.themeColor, 500)
         )};
         --border-color-disabled: ${parseVariables(
-          cssVar("colors", "gray", 400),
+          cssVar("colors", "gray", 400)
         )};
         --border-width: 1px;
+        --opacity-disabled: 1;
           `;
         break;
 
@@ -202,30 +207,31 @@ export class Button extends LitElement {
         additionalCss += `
         --background-color: transparent;
         --background-color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 200),
+          cssVar("colors", this.themeColor, 200)
         )};
         --background-color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 100),
+          cssVar("colors", this.themeColor, 100)
         )};
         --background-color-disabled: ${parseVariables(
-          cssVar("colors", "white", 200),
+          cssVar("colors", "white", 200)
         )};
         --color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
         --color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 700),
+          cssVar("colors", this.themeColor, 700)
         )};
         --color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600),
+          cssVar("colors", this.themeColor, 600)
         )};
         --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
 
         --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
+          cssVar("colors", this.themeColor, 500)
         )};
         --border-color-disabled: ${parseVariables(
-          cssVar("colors", "gray", 400),
+          cssVar("colors", "gray", 400)
         )};
         --border-width: 0px;
+        --opacity-disabled: 1;
           `;
         break;
     }
@@ -284,6 +290,7 @@ export class Button extends LitElement {
     button:active:enabled {
       background-color: var(--background-color-active);
       color: var(--color-active);
+      outline: 4px solid color-mix(in srgb, var(--main-color), transparent 50%);
     }
 
     button:disabled {
@@ -291,6 +298,7 @@ export class Button extends LitElement {
       background-color: var(--background-color-disabled);
       color: var(--color-disabled);
       border-color: var(--border-color-disabled);
+      opacity: var(--opacity-disabled);
     }
   `;
 }
