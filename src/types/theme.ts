@@ -126,7 +126,7 @@ export type MenuVariants = "solid" | "outline";
 
 export type TabVariants = "inline" | "button";
 
-export type TabtWidth = "true" | "false";
+export type TabWidth = "true" | "false";
 
 export type TabSize = "md" | "sm";
 
