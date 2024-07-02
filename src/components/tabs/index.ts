@@ -4,188 +4,209 @@ import { consume } from "@lit/context";
 import "../../../src/elements/badge";
 import { themeContext } from "../../contexts/theme";
 import {
-    ColorName,
-    ColorRole,
-    FontFamilyGroup,
-    FontWeight,
-    Size,
-    TabSize,
-    TabtWidth,
-    TabVariants,
-    Theme,
-    cssVar,
-    parseThemeToCssVariables,
-    parseVariables,
+  ColorName,
+  ColorRole,
+  FontFamilyGroup,
+  FontWeight,
+  Size,
+  TabSize,
+  TabWidth,
+  TabVariants,
+  Theme,
+  cssVar,
+  parseThemeToCssVariables,
+  parseVariables,
 } from "../../types/theme";
 
 @customElement("ssk-tabs")
 export class Tabs extends LitElement {
-    static registeredName = "ssk-tabs";
+  static registeredName = "ssk-tabs";
 
-    @property({ type: Number }) activeIndex = 0;
+  @property({ type: Number }) activeIndex = 0;
 
-    // -----------
-    @consume({ context: themeContext, subscribe: true })
-    @property({ attribute: false })
-    public theme?: Theme;
+  // -----------
+  @consume({ context: themeContext, subscribe: true })
+  @property({ attribute: false })
+  public theme?: Theme;
 
-    // BaseAttributes
-    @property({ type: String })
-    testId?: string;
+  // BaseAttributes
+  @property({ type: String })
+  testId?: string;
 
-    // ThemeValue
-    @property({ type: String })
-    themeColor: ColorRole | ColorName = "primary";
-    @property({ type: String })
-    color?: ColorRole | ColorName;
-    @property({ type: String })
-    backgroundColor?: string | undefined;
+  // ThemeValue
+  @property({ type: String })
+  themeColor: ColorRole | ColorName = "primary";
+  @property({ type: String })
+  color?: ColorRole | ColorName;
+  @property({ type: String })
+  backgroundColor?: string | undefined;
 
-    @property({ type: String })
-    size: Size = "md";
-    @property({ type: String })
-    padding?: Size;
-    @property({ type: String })
-    fontSize?: string | undefined;
-    @property({ type: String })
-    gap?: string | undefined;
-    @property({ type: String })
-    rounded?: string | undefined;
-    @property({ type: String })
-    margin?: string | undefined;
+  @property({ type: String })
+  size: Size = "md";
+  @property({ type: String })
+  padding?: Size;
+  @property({ type: String })
+  fontSize?: string | undefined;
+  @property({ type: String })
+  gap?: string | undefined;
+  @property({ type: String })
+  rounded?: string | undefined;
+  @property({ type: String })
+  margin?: string | undefined;
 
-    // font
-    @property({ type: String })
-    fontFamilyGroup: FontFamilyGroup = "sans";
-    @property({ type: String })
-    fontWeight: FontWeight = "normal";
+  // font
+  @property({ type: String })
+  fontFamilyGroup: FontFamilyGroup = "sans";
+  @property({ type: String })
+  fontWeight: FontWeight = "normal";
 
-    @property({ type: String })
-    borderWidth?: string | undefined;
-    @property({ type: String })
-    height?: string | undefined;
+  @property({ type: String })
+  borderWidth?: string | undefined;
+  @property({ type: String })
+  height?: string | undefined;
 
-    @property({ type: Array })
-    labels: string[] = [];
+  @property({ type: Array })
+  labels: string[] = [];
 
-    @property({ type: String })
-    variant: TabVariants = "inline";
+  @property({ type: String })
+  variant: TabVariants = "inline";
 
-    @property({ type: String })
-    widthTab: TabtWidth = "false";
+  @property({ type: String })
+  widthTab: TabWidth = "false";
 
-    @property({ type: String })
-    tabSize: TabSize = "md";
+  @property({ type: String })
+  tabSize: TabSize = "md";
 
-    @property({ type: Boolean })
-    min = false;
+  @property({ type: Boolean })
+  min = false;
 
-    @property({ type: Boolean })
-    fullWidth = false;
+  @property({ type: Boolean })
+  fullWidth = false;
 
-    render() {
-        if (this.hidden) {
-            return nothing;
-        }
+  render() {
+    if (this.hidden) {
+      return nothing;
+    }
 
-        let additionalCss = `
-                --padding: ${parseVariables(
-                    cssVar("padding", this.tabSize),
-                )};
+    let additionalCss = `
+               --padding: ${parseVariables(cssVar("padding", this.tabSize))};
                 --margin: ${parseVariables(
-                    cssVar("4px"),
-                    cssVar("margin", this.tabSize),
+                  cssVar("4px"),
+                  cssVar("margin", this.tabSize),
                 )};
                 --width: ${parseVariables(
-                    cssVar("4px"),
-                    cssVar("width", this.widthTab),
+                  cssVar("4px"),
+                  cssVar("width", this.widthTab),
                 )};
             `;
 
-        switch (this.variant) {
-            case "inline":
-
-                if (this.tabSize == 'sm') {
-                    additionalCss = `
+    switch (this.variant) {
+      case "inline":
+        if (this.tabSize == "sm") {
+          additionalCss = `
                     --height: 44px;
                     --min-width: 96px;
                     --font-size: ${parseVariables(
-                        cssVar("font-size", this.tabSize),
-                      )};
+                      cssVar("font-size", this.tabSize),
+                    )};
                     `;
-                    
-                } else if (this.tabSize == 'md') {
-                    additionalCss = `
+        } else if (this.tabSize == "md") {
+          additionalCss = `
                     --height: 56px;
                     --min-width: 105px;
                     --font-size: ${parseVariables(
-                        cssVar("font-size", this.tabSize),
-                      )};
+                      cssVar("font-size", this.tabSize),
+                    )};
                     `;
-                }
+        }
 
-                if (this.widthTab == 'true') {
-                    additionalCss += `
+        if (this.widthTab == "true") {
+          additionalCss += `
                         --width: 100%;
                     `;
-                }
+        }
 
-                additionalCss += `
-                    --color: ${parseVariables(cssVar("colors", "background", 500))};
-                    --color-active: ${parseVariables(cssVar("colors", "primary", 500))};
-                    --color-hover: ${parseVariables(cssVar("colors", "gray", 400))};
+        additionalCss += `
+                    --color: ${parseVariables(
+                      cssVar("colors", "background", 500),
+                    )};
+                    --color-active: ${parseVariables(
+                      cssVar("colors", "primary", 500),
+                    )};
+                    --color-hover: ${parseVariables(
+                      cssVar("colors", "gray", 400),
+                    )};
 
-                    --background-color: ${parseVariables(cssVar("colors", "white", 50))};
-                    --background-color-active: ${parseVariables(cssVar("colors", "white", 50))};
-                    --background-color-hover: ${parseVariables(cssVar("colors", "white", 50))};
+                    --background-color: ${parseVariables(
+                      cssVar("colors", "white", 50),
+                    )};
+                    --background-color-active: ${parseVariables(
+                      cssVar("colors", "white", 50),
+                    )};
+                    --background-color-hover: ${parseVariables(
+                      cssVar("colors", "white", 50),
+                    )};
 
 
                     --border-buttom: ${parseVariables("0px")};
-                    --border-buttom-active: ${parseVariables("4px solid #32A9FF")};
-                    --border-buttom-hover: ${parseVariables("4px solid #D1D5DB")};
+                    --border-buttom-active: ${parseVariables(
+                      "4px solid #32A9FF",
+                    )};
+                    --border-buttom-hover: ${parseVariables(
+                      "4px solid #D1D5DB",
+                    )};
 
                     --font-weight: 400;
                     --font-weight-active: 500;
                     --font-weight-hover: 400;
                     `;
-            break;
+        break;
 
-            case "button":
-
-                if (this.tabSize == 'sm') {
-                    additionalCss = `
+      case "button":
+        if (this.tabSize == "sm") {
+          additionalCss = `
                     --height: 36px;
                     --min-width: 96px;
                     --font-size: ${parseVariables(
-                        cssVar("font-size", this.tabSize),
-                      )};
+                      cssVar("font-size", this.tabSize),
+                    )};
                     `;
-                } else if (this.tabSize == 'md') {
-                    additionalCss = `
+        } else if (this.tabSize == "md") {
+          additionalCss = `
                     --height: 44px;
                     --min-width: 105px;
                     --font-size: ${parseVariables(
-                        cssVar("font-size", this.tabSize),
-                      )};
+                      cssVar("font-size", this.tabSize),
+                    )};
                     `;
-                }
+        }
 
-                if (this.widthTab == 'true') {
-                    additionalCss += `
+        if (this.widthTab == "true") {
+          additionalCss += `
                             --width: 100%;
                     `;
-                }
+        }
 
-                additionalCss += `
+        additionalCss += `
                     --margin: 4px;
 
                     --color: ${parseVariables(cssVar("colors", "gray", 400))};
-                    --color-active: ${parseVariables(cssVar("colors", "gray", 800))};
-                    --color-hover: ${parseVariables(cssVar("colors", "gray", 800))};
+                    --color-active: ${parseVariables(
+                      cssVar("colors", "gray", 800),
+                    )};
+                    --color-hover: ${parseVariables(
+                      cssVar("colors", "gray", 800),
+                    )};
 
-                    --background-color: ${parseVariables(cssVar("colors", "gray", 50))};
-                    --background-color-active: ${parseVariables(cssVar("colors", "white", 50))};
-                    --background-color-hover: ${parseVariables(cssVar("colors", "primary", 50))};
+                    --background-color: ${parseVariables(
+                      cssVar("colors", "gray", 50),
+                    )};
+                    --background-color-active: ${parseVariables(
+                      cssVar("colors", "white", 50),
+                    )};
+                    --background-color-hover: ${parseVariables(
+                      cssVar("colors", "primary", 50),
+                    )};
 
                     --border-buttom: ${parseVariables("0px")};
                     --border-radius: 10px;
@@ -196,109 +217,113 @@ export class Tabs extends LitElement {
                     --font-weight-active: 500;
                     --font-weight-hover: 400;
                 `;
-            break;
-        }
-
-        return html`
-            ${parseThemeToCssVariables(this.theme?.components?.tab, ":host")}
-
-            <style>
-                div {
-                    ${additionalCss};
-                }
-            </style>
-
-            <div class="tabs" data-testid=${this.renderTabs()}>
-                ${this.renderTabs()}
-            </div>
-            <div class="tab-content" data-testid=${this.renderTabContent()}>
-                ${this.renderTabContent()}
-            </div>
-
-            `;
+        break;
     }
 
-    renderTabs() {
-        return html`
-            ${this.labels.map(
-            (title, index) => html`
-                <div
-                    class="tab ${this.activeIndex === index ? 'active' : ''}"
-                    @click=${() => this.handleTabClick(index)}
-                >
-                    ${title}
-                        <div class="tab-badge">
-                            <slot name="badge-slot-${index}" .index=${index}></slot>
-                        </div>
-                </div>
-            `)}
-        `;
-    }
-                
-    renderTabContent() {
-        return html`
-            <slot name="content-slot-${this.activeIndex}" .index=${this.activeIndex}></slot>
-        `;
-    }
-        
-    handleTabClick(index: number) {
-        this.activeIndex = index;
-    }
+    return html`
+      ${parseThemeToCssVariables(this.theme?.components?.tab, ":host")}
 
+      <style>
+        div {
+            ${additionalCss};
+        }
+      </style>
 
-    static styles = css`
-        .tab {
-            height: var(--height);
-            width: var(--width);
-            min-width: var(--min-width);
-            padding: 10px;
-            cursor: pointer;
-            border-bottom: var(--border-buttom);
-            background-color: var(--background-color);
-            font-size: 24px;
-            font-weight: var(--font-weight);
-            font-family: var(--font-family);
-            text-align: center;
-            justify-content: center;
-            display: flex;
-            align-items: center;
-            color: var(--color);
-            border-radius: var(--border-radius);
-            padding-left: 16px;
-            padding-right: 16px;
-            margin: var(--margin);
-            font-size: var(--font-size);
-        }
-
-        .tabs {
-            display: flex;
-            flex-direction: row;
-        }
-
-        .tab:hover {
-            color: var(--color-hover);
-            background-color: var(--background-color-hover);
-            border-bottom: var(--border-buttom-hover);
-            font-weight: var(--font-weight-hover)
-        }
-    
-        .tab.active {
-            font-weight: var(--font-weight-active);
-            color: var(--color-active);
-            background-color: var(--background-color-active);
-            border-bottom: var(--border-buttom-active);
-            box-shadow: var(--box-shadow);
-        }
-
-        .tab-badge {
-            margin-left: 8px;
-        }
+      <div class="tabs" data-testid=${this.renderTabs()}>
+        ${this.renderTabs()}
+      </div>
+      <div class="tab-content" data-testid=${this.renderTabContent()}>
+        ${this.renderTabContent()}
+      </div>
     `;
+  }
+
+  renderTabs() {
+    return html`
+      ${this.labels.map(
+        (title, index) => html`
+          <div
+            class="tab ${this.activeIndex === index ? "active" : ""}"
+            @click=${() => this.handleTabClick(index)}
+          >
+            ${title}
+            <div class="tab-badge">
+              <slot name="badge-slot-${index}" .index=${index}></slot>
+            </div>
+          </div>
+        `,
+      )}
+    `;
+  }
+
+  renderTabContent() {
+    return html`
+      <slot
+        name="content-slot-${this.activeIndex}"
+        .index=${this.activeIndex}
+      ></slot>
+    `;
+  }
+
+  handleTabClick(index: number) {
+    this.activeIndex = index;
+  }
+
+  static styles = css`
+    .tab {
+      height: var(--height);
+      width: var(--width);
+      min-width: var(--min-width);
+      padding: 0 1rem;
+      cursor: pointer;
+      border-bottom: var(--border-buttom);
+      background-color: var(--background-color);
+      font-weight: var(--font-weight);
+      font-family: var(--font-family);
+      text-align: center;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      color: var(--color);
+      border-radius: var(--border-radius);
+      margin: var(--margin);
+      font-size: var(--font-size);
+    }
+
+    .tabs {
+      display: flex;
+      flex-direction: row;
+      background-color: var(--background-color);
+      border-radius: var(--border-radius);
+    }
+
+    .tab:hover {
+      color: var(--color-hover);
+      background-color: var(--background-color-hover);
+      border-bottom: var(--border-buttom-hover);
+      font-weight: var(--font-weight-hover);
+    }
+
+    .tab.active {
+      font-weight: var(--font-weight-active);
+      color: var(--color-active);
+      background-color: var(--background-color-active);
+      border-bottom: var(--border-buttom-active);
+      box-shadow: var(--box-shadow);
+    }
+
+    .tab-badge {
+      margin-left: 8px;
+    }
+
+    .tab-content {
+      padding: 1rem 0;
+    }
+  `;
 }
 
 declare global {
-    interface HTMLElementTagNameMap {
-        "ssk-tabs": Tabs;
-    }
+  interface HTMLElementTagNameMap {
+    "ssk-tabs": Tabs;
+  }
 }
-

@@ -68,6 +68,7 @@ export class Modal extends LitElement {
       </style>
     `;
 
+    const bodySlotExists = this.querySelector('[slot="body"]');
     const footerSlotExists = this.querySelector('[slot="footer"]');
 
     return html`
@@ -76,22 +77,32 @@ export class Modal extends LitElement {
 
       <div class="backdrop">
         <div class="container" data-testid=${this.testId || nothing}>
-          <div class="header">
-            <span class="title">
-              <slot name="header"></slot>
-            </span>
+          <div class="close-button${this.hideCloseButton ? "-hide" : ""}">
             <ssk-icon
               ?hidden=${this.hideCloseButton}
               name="outline-x-mark"
               @click=${this.close}
-            ></ssk-icon>
+            >
+            </ssk-icon>
           </div>
-          <div class="body">
-            <slot name="body"></slot>
+          <div class="header">
+            <span class="title">
+              <slot name="header"></slot>
+            </span>
           </div>
-          ${footerSlotExists
-            ? html`<div class="footer"><slot name="footer"></slot></div>`
-            : nothing}
+          ${
+            bodySlotExists
+              ? html`<div class="body">
+                  <slot name="body"></slot>
+                </div>`
+              : nothing
+          }
+          ${
+            footerSlotExists
+              ? html`<div class="footer"><slot name="footer"></slot></div>`
+              : nothing
+          }
+          </div>
         </div>
       </div>
     `;
@@ -136,6 +147,7 @@ export class Modal extends LitElement {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       overflow: hidden;
       width: var(--width);
+      position: relative;
     }
 
     .header {
@@ -165,6 +177,16 @@ export class Modal extends LitElement {
       display: var(--footer-display);
       justify-content: var(--footer-justify-content);
       gap: 0.5rem;
+    }
+
+    .close-button {
+      position: absolute;
+      right: 3%;
+      top: 8%;
+    }
+
+    .close-button-hide {
+      display: none;
     }
 
     ssk-icon {
