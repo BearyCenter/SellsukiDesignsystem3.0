@@ -1454,11 +1454,11 @@ export const defaultTheme: Theme = {
         "4xl": "40px",
       },
       rounded: {
-        xs: "6px",
-        sm: "7px",
-        md: "8px",
-        lg: "8px",
-        xl: "9px",
+        xs: "2px",
+        sm: "3px",
+        md: "4px",
+        lg: "6px",
+        xl: "8px",
         "2xl": "10px",
         "3xl": "10px",
         "4xl": "10px",
@@ -1581,7 +1581,7 @@ const deepMerge = <T = object | any[]>(src: T, target: T): T => {
               ? deepMerge((src as any)[key], (target as any)[key])
               : (target as any)[key],
         }),
-        {}
+        {},
       ),
     };
   }
