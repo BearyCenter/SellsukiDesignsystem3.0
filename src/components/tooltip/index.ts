@@ -44,7 +44,7 @@ export class Tooltip extends LitElement implements ThemeValue {
   @property({ type: String })
   size: Size = "md";
   @property({ type: String })
-  themeColor: string = "#fff";
+  themeColor: string = "primary";
   @property({ type: String })
   color?: ColorRole | ColorName = "white";
   @property({ type: Boolean })
@@ -126,8 +126,8 @@ export class Tooltip extends LitElement implements ThemeValue {
         additionalCss += `
           --content-top: none;
           --content-bottom: 140%;
-          --content-left: 0;
-          --content-right: none;
+          --content-left: none;
+          --content-right: 0;
           --content-transform: translateX(-50%);
   
           --arrow-top: none;
@@ -180,7 +180,7 @@ export class Tooltip extends LitElement implements ThemeValue {
   
           --arrow-top: 0px;
           --arrow-bottom: none;
-          --arrow-left: 90%;
+          --arrow-left: 85%;
           --arrow-right: none;
           --arrow-transform: translateY(-100%) translateX(-50%) rotate(0deg);
             `;
@@ -196,7 +196,7 @@ export class Tooltip extends LitElement implements ThemeValue {
           --arrow-top: 0px;
           --arrow-bottom: none;
           --arrow-left: none;
-          --arrow-right: 90%;
+          --arrow-right: 85%;
           --arrow-transform: translateY(-100%) translateX(50%) rotate(0deg);
         `;
         break;
@@ -204,9 +204,9 @@ export class Tooltip extends LitElement implements ThemeValue {
         additionalCss += `
           --content-top: 50%;
           --content-bottom: none;
-          --content-left: 0;
-          --content-right: none;
-          --content-transform: translateY(-50%) translateX(-10%);
+          --content-left: none;
+          --content-right: 125%;
+          --content-transform: translateY(-50%) translateX(10%);
       
           --arrow-top: 50%;
           --arrow-bottom: none;
@@ -220,12 +220,12 @@ export class Tooltip extends LitElement implements ThemeValue {
         additionalCss += `
           --content-top: none;
           --content-bottom: none;
-          --content-left: 0;
-          --content-right: none;
-          --content-transform: translateY(-5%) translateX(-10%);
+          --content-left: none;
+          --content-right: 120%;
+          --content-transform: translateY(-5%) translateX(10%);
       
           --arrow-top: none;
-          --arrow-bottom: 85%;
+          --arrow-bottom: 50%;
           --arrow-left: none;
           --arrow-right: 0.3rem;
           --arrow-transform: translateX(100%) rotate(90deg);
@@ -233,25 +233,25 @@ export class Tooltip extends LitElement implements ThemeValue {
         break;
       case "leftbottom":
         additionalCss += `
-          --content-top: 50%;
+          --content-top: none;
           --content-bottom: none;
-          --content-left: 0;
+          --content-left: -145%;
           --content-right: none;
-          --content-transform: translateY(-90%) translateX(-10%);
+          --content-transform: none;
       
-          --arrow-top: 90%;
+          --arrow-top: 55%;
           --arrow-bottom: none;
           --arrow-left: none;
           --arrow-right: 0.3rem;
-          --arrow-transform: translateY(-50%) translateX(100%) rotate(90deg);
+          --arrow-transform: translateX(100%) rotate(90deg);
           `;
         break;
       case "right":
         additionalCss += `
           --content-top: 50%;
           --content-bottom: none;
-          --content-left: none;
-          --content-right: 0;
+          --content-left: 100%;
+          --content-right: none;
           --content-transform: translateY(-50%) translateX(10%);
 
           --arrow-top: 50%;
@@ -266,12 +266,12 @@ export class Tooltip extends LitElement implements ThemeValue {
         additionalCss += `
           --content-top: none;
           --content-bottom: none;
-          --content-left: none;
-          --content-right: 0;
+          --content-left: 100%;
+          --content-right: none;
           --content-transform: translateY(-5%) translateX(10%);
 
           --arrow-top: none;
-          --arrow-bottom: 90%;
+          --arrow-bottom: 75%;
           --arrow-left: -0.7rem;
           --arrow-right: none;
           --arrow-transform: translateY(100%) rotate(-90deg);
@@ -282,11 +282,11 @@ export class Tooltip extends LitElement implements ThemeValue {
         additionalCss += `
           --content-top: 50%;
           --content-bottom: none;
-          --content-left: none;
-          --content-right: 0;
+          --content-left: 100%;
+          --content-right: none;
           --content-transform: translateY(-90%) translateX(10%);
 
-          --arrow-top: 80%;
+          --arrow-top: 50%;
           --arrow-bottom: none;
           --arrow-left: -0.7rem;
           --arrow-right: none;
@@ -309,14 +309,18 @@ export class Tooltip extends LitElement implements ThemeValue {
 
       <div class="tooltip ${this.trigger}" @click=${this._handleClickable}>
         <div class="tooltip-content">
-          <ssk-icon
-            ?hidden=${this.hideCloseButton}
-            size=${this.size}
-            name="outline-x-mark"
-            @click=${this._close}
-          ></ssk-icon>
+          <div class="content">
+            <slot name="content"></slot>
+            <div class="close-button${this.hideCloseButton ? "-hide" : ""}">
+              <ssk-icon
+                ?hidden=${this.hideCloseButton}
+                size=${this.size}
+                name="outline-x-mark"
+                @click=${this._close}
+              ></ssk-icon>
+            </div>
+          </div>
           <div class="arrow"></div>
-          <slot name="content"></slot>
         </div>
         <slot></slot>
       </div>
@@ -377,6 +381,18 @@ export class Tooltip extends LitElement implements ThemeValue {
       left: var(--arrow-left);
       right: var(--arrow-right);
       transform: var(--arrow-transform);
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: auto auto;
+    }
+
+    .close-button {
+    }
+
+    .close-button-hide {
+      display: none;
     }
 
     ssk-icon {
