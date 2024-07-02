@@ -35,14 +35,19 @@ const meta = {
       <style>
         main.showcase {
           position: absolute;
-          top: 30%;
-          left: 30%;
+          top: 10%;
+          left: 40%;
         }
         section {
           display: grid;
-          grid-template-columns: auto auto auto;
-          align-self: center;
+          grid-template-columns: auto auto;
+          justify-items: center;
           gap: 40px;
+        }
+
+        .tooltip-content {
+          display: flex;
+          align-items: center;
         }
       </style>
 
@@ -50,10 +55,12 @@ const meta = {
         <section class="size">
           ${placement.map(
             (p) => html`
-              <div class=${p}>
+              <div class=${p} style="width:100%;">
                 <ssk-tooltip ${spread(args)} placement=${p}>
-                  <ssk-button>${p}</ssk-button>
-                  <ssk-text slot="content"> content in tooltip naja </ssk-text>
+                  <ssk-button variant="outline" width="full">${p}</ssk-button>
+                  <div class="tooltip-content" slot="content">
+                    <ssk-text> content in tooltip naja </ssk-text>
+                  </div>
                 </ssk-tooltip>
               </div>
             `,
