@@ -83,7 +83,6 @@ export class Tooltip extends LitElement implements ThemeValue {
     }
 
     let additionalCss = `
-    --min-width: ${this.hideCloseButton ? "none" : "6rem"};
     --content-visible: ${this._handleVisibleTooltip()};
     --content-bg-color: ${parseVariables(
       cssVar("colors", this.themeColor, 500),
@@ -205,8 +204,8 @@ export class Tooltip extends LitElement implements ThemeValue {
         additionalCss += `
           --content-top: 50%;
           --content-bottom: none;
-          --content-left: none;
-          --content-right: 100%;
+          --content-left: 0;
+          --content-right: none;
           --content-transform: translateY(-50%) translateX(-10%);
       
           --arrow-top: 50%;
@@ -221,8 +220,8 @@ export class Tooltip extends LitElement implements ThemeValue {
         additionalCss += `
           --content-top: none;
           --content-bottom: none;
-          --content-left: none;
-          --content-right: 100%;
+          --content-left: 0;
+          --content-right: none;
           --content-transform: translateY(-5%) translateX(-10%);
       
           --arrow-top: none;
@@ -236,8 +235,8 @@ export class Tooltip extends LitElement implements ThemeValue {
         additionalCss += `
           --content-top: 50%;
           --content-bottom: none;
-          --content-left: none;
-          --content-right: 100%;
+          --content-left: 0;
+          --content-right: none;
           --content-transform: translateY(-90%) translateX(-10%);
       
           --arrow-top: 90%;
@@ -251,8 +250,8 @@ export class Tooltip extends LitElement implements ThemeValue {
         additionalCss += `
           --content-top: 50%;
           --content-bottom: none;
-          --content-left: 100%;
-          --content-right: none;
+          --content-left: none;
+          --content-right: 0;
           --content-transform: translateY(-50%) translateX(10%);
 
           --arrow-top: 50%;
@@ -267,8 +266,8 @@ export class Tooltip extends LitElement implements ThemeValue {
         additionalCss += `
           --content-top: none;
           --content-bottom: none;
-          --content-left: 100%;
-          --content-right: none;
+          --content-left: none;
+          --content-right: 0;
           --content-transform: translateY(-5%) translateX(10%);
 
           --arrow-top: none;
@@ -283,8 +282,8 @@ export class Tooltip extends LitElement implements ThemeValue {
         additionalCss += `
           --content-top: 50%;
           --content-bottom: none;
-          --content-left: 100%;
-          --content-right: none;
+          --content-left: none;
+          --content-right: 0;
           --content-transform: translateY(-90%) translateX(10%);
 
           --arrow-top: 80%;
@@ -312,6 +311,7 @@ export class Tooltip extends LitElement implements ThemeValue {
         <div class="tooltip-content">
           <ssk-icon
             ?hidden=${this.hideCloseButton}
+            size=${this.size}
             name="outline-x-mark"
             @click=${this._close}
           ></ssk-icon>
@@ -324,11 +324,6 @@ export class Tooltip extends LitElement implements ThemeValue {
   }
 
   static styles = css`
-    :host {
-      position: relative;
-      display: inline-block;
-    }
-
     .tooltip {
       position: relative;
     }
@@ -344,14 +339,14 @@ export class Tooltip extends LitElement implements ThemeValue {
     .tooltip .tooltip-content {
       visibility: var(--content-visible);
 
-      min-width: var(--min-width);
+      width: max-content;
       position: absolute;
       background-color: var(--content-bg-color);
       color: var(--content-color);
       border-radius: var(--rounded);
       z-index: 1;
       padding: var(--padding);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+      box-shadow: 0px 3px 6px 0px var(--ssk-colors-gray-300);
 
       top: var(--content-top);
       bottom: var(--content-bottom);

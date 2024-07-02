@@ -170,6 +170,12 @@ export const MoreContent: Story = {
           display: flex;
           justify-content: center;
         }
+
+        div.content {
+          display: grid;
+          justify-items: center;
+          text-align: center;
+        }
       </style>
 
       <div class="container">
@@ -183,9 +189,9 @@ export const MoreContent: Story = {
               alt="demo image"
             >
             </ssk-image>
-            <ssk-text
-              >Modal body goes here. You have several styles to choose from just
-              in case.Modal body goes here.
+            <ssk-text>
+              Modal body goes here. <br/ >You have several styles to choose from
+              just in case.
             </ssk-text>
           </div>
         </ssk-tooltip>
