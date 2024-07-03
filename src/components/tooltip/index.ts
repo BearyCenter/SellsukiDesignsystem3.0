@@ -116,10 +116,10 @@ export class Tooltip extends LitElement implements ThemeValue {
     switch (this.placement) {
       case "top":
         additionalCss += `
-          --content-top: none;
+          --content-top: ${this.top ? this.top : "none"};
           --content-bottom: ${this.bottom ? this.bottom : "140%"};
           --content-left: ${this.left ? this.left : "50%"};
-          --content-right: none;
+          --content-right: ${this.right ? this.right : "none"};
           --content-transform: translateX(-50%);
 
           --arrow-top: none;
@@ -132,9 +132,9 @@ export class Tooltip extends LitElement implements ThemeValue {
 
       case "topright":
         additionalCss += `
-          --content-top: none;
+          --content-top: ${this.top ? this.top : "none"};
           --content-bottom: ${this.bottom ? this.bottom : "140%"};
-          --content-left: none;
+          --content-left: ${this.left ? this.left : "none"};
           --content-right: ${this.right ? this.right : "30%"};
           --content-transform: none;
   
@@ -148,9 +148,9 @@ export class Tooltip extends LitElement implements ThemeValue {
 
       case "topleft":
         additionalCss += `
-          --content-top: none;
+          --content-top: ${this.top ? this.top : "none"};
           --content-bottom: ${this.bottom ? this.bottom : "140%"};
-          --content-left: none;
+          --content-left: ${this.left ? this.left : "none"};
           --content-right: ${this.right ? this.right : "0"};
           --content-transform: translateX(50%);
   
@@ -165,9 +165,9 @@ export class Tooltip extends LitElement implements ThemeValue {
       case "bottom":
         additionalCss += `
           --content-top: ${this.top ? this.top : "140%"};
-          --content-bottom: none;
+          --content-bottom: ${this.bottom ? this.bottom : "none"};
           --content-left: ${this.left ? this.left : "50%"};
-          --content-right: none;
+          --content-right: ${this.right ? this.right : "none"};
           --content-transform: translateX(-50%);
   
           --arrow-top: 0px;
@@ -181,9 +181,9 @@ export class Tooltip extends LitElement implements ThemeValue {
       case "bottomright":
         additionalCss += `
           --content-top: ${this.top ? this.top : "140%"};
-          --content-bottom: none;
+          --content-bottom: ${this.bottom ? this.bottom : "none"};
           --content-left: ${this.left ? this.left : "0"};
-          --content-right: none;
+          --content-right: ${this.right ? this.right : "none"};
           --content-transform: translateX(-50%);
   
           --arrow-top: 0px;
@@ -196,8 +196,8 @@ export class Tooltip extends LitElement implements ThemeValue {
       case "bottomleft":
         additionalCss += `
           --content-top: ${this.top ? this.top : "140%"};
-          --content-bottom: none;
-          --content-left: none;
+          --content-bottom: ${this.bottom ? this.bottom : "none"};
+          --content-left: ${this.left ? this.left : "none"};
           --content-right: ${this.right ? this.right : "0"};
           --content-transform: translateX(50%);
   
@@ -211,8 +211,8 @@ export class Tooltip extends LitElement implements ThemeValue {
       case "left":
         additionalCss += `
           --content-top: ${this.top ? this.top : "50%"};
-          --content-bottom: none;
-          --content-left: none;
+          --content-bottom: ${this.bottom ? this.bottom : "none"};
+          --content-left: ${this.left ? this.left : "none"};
           --content-right: ${this.right ? this.right : "125%"};
           --content-transform: translateY(-50%) translateX(10%);
       
@@ -226,9 +226,9 @@ export class Tooltip extends LitElement implements ThemeValue {
 
       case "lefttop":
         additionalCss += `
-          --content-top: none;
-          --content-bottom: none;
-          --content-left: none;
+          --content-top: ${this.top ? this.top : "none"};
+          --content-bottom: ${this.bottom ? this.bottom : "none"};
+          --content-left: ${this.left ? this.left : "none"};
           --content-right: ${this.right ? this.right : "120%"};
           --content-transform: translateY(-5%) translateX(10%);
       
@@ -241,10 +241,10 @@ export class Tooltip extends LitElement implements ThemeValue {
         break;
       case "leftbottom":
         additionalCss += `
-          --content-top: none;
-          --content-bottom: none;
+          --content-top: ${this.top ? this.top : "none"};
+          --content-bottom: ${this.bottom ? this.bottom : "none"};
           --content-left: ${this.left ? this.left : "-145%"};
-          --content-right: none;
+          --content-right: ${this.right ? this.right : "none"};
           --content-transform: none;
       
           --arrow-top: 55%;
@@ -257,9 +257,9 @@ export class Tooltip extends LitElement implements ThemeValue {
       case "right":
         additionalCss += `
           --content-top: ${this.top ? this.top : "50%"};
-          --content-bottom: none;
+          --content-bottom: ${this.bottom ? this.bottom : "none"};
           --content-left: ${this.left ? this.left : "100%"};
-          --content-right: none;
+          --content-right: ${this.right ? this.right : "none"};
           --content-transform: translateY(-50%) translateX(10%);
 
           --arrow-top: 50%;
@@ -272,10 +272,10 @@ export class Tooltip extends LitElement implements ThemeValue {
 
       case "righttop":
         additionalCss += `
-          --content-top: none;
-          --content-bottom: none;
+          --content-top: ${this.top ? this.top : "none"};
+          --content-bottom: ${this.bottom ? this.bottom : "none"};
           --content-left: ${this.left ? this.left : "100%"};
-          --content-right: none;
+          --content-right: ${this.right ? this.right : "none"};
           --content-transform: translateY(-5%) translateX(10%);
 
           --arrow-top: none;
@@ -289,9 +289,9 @@ export class Tooltip extends LitElement implements ThemeValue {
       case "rightbottom":
         additionalCss += `
           --content-top: ${this.top ? this.top : "50%"};
-          --content-bottom: none;
+          --content-bottom: ${this.bottom ? this.bottom : "none"};
           --content-left: ${this.left ? this.left : "100%"};
-          --content-right: none;
+          --content-right: ${this.right ? this.right : "none"};
           --content-transform: translateY(-90%) translateX(10%);
 
           --arrow-top: 50%;
