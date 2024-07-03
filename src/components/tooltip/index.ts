@@ -150,9 +150,9 @@ export class Tooltip extends LitElement implements ThemeValue {
         additionalCss += `
           --content-top: ${this.top ? this.top : "none"};
           --content-bottom: ${this.bottom ? this.bottom : "140%"};
-          --content-left: ${this.left ? this.left : "none"};
-          --content-right: ${this.right ? this.right : "0"};
-          --content-transform: translateX(50%);
+          --content-left: ${this.left ? this.left : "30%"};
+          --content-right: ${this.right ? this.right : "none"};
+          --content-transform: none;
   
           --arrow-top: none;
           --arrow-bottom: 0px;
