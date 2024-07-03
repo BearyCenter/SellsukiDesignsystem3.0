@@ -243,11 +243,11 @@ export class Tooltip extends LitElement implements ThemeValue {
         break;
       case "leftbottom":
         additionalCss += `
-          --content-top: ${this.top ? this.top : "none"};
+          --content-top: ${this.top ? this.top : "-15%"};
           --content-bottom: ${this.bottom ? this.bottom : "none"};
-          --content-left: ${this.left ? this.left : "-145%"};
-          --content-right: ${this.right ? this.right : "none"};
-          --content-transform: none;
+          --content-left: ${this.left ? this.left : "none"};
+          --content-right: ${this.right ? this.right : "120%"};
+          --content-transform: translateY(-5%) translateX(10%);
       
           --arrow-top: 55%;
           --arrow-bottom: none;
@@ -290,7 +290,7 @@ export class Tooltip extends LitElement implements ThemeValue {
 
       case "rightbottom":
         additionalCss += `
-          --content-top: ${this.top ? this.top : "50%"};
+          --content-top: ${this.top ? this.top : "60%"};
           --content-bottom: ${this.bottom ? this.bottom : "none"};
           --content-left: ${this.left ? this.left : "100%"};
           --content-right: ${this.right ? this.right : "none"};
