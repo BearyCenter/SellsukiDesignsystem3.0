@@ -58,9 +58,6 @@ const meta = {
               <div class=${p} style="width:100%;">
                 <ssk-tooltip ${spread(args)} placement=${p}>
                   <ssk-button variant="outline" width="full">${p}</ssk-button>
-                  <div class="tooltip-content" slot="content">
-                    <ssk-text> content in tooltip naja </ssk-text>
-                  </div>
                 </ssk-tooltip>
               </div>
             `,
@@ -70,6 +67,10 @@ const meta = {
     `;
   },
   argTypes: {
+    label: {
+      description: "title of tooltip",
+      control: "text",
+    },
     "?hideArrow": {
       description: "When true gives the arrow of tooltips disapparence",
       table: {
@@ -126,6 +127,7 @@ type Story = StoryObj<TooltipArgs>;
 export const ShowCase: Story = {
   args: {
     size: "md",
+    label: "content in tooltip naja",
   },
   parameters: {
     design: {

@@ -58,7 +58,9 @@ export class Tooltip extends LitElement implements ThemeValue {
   @property({ type: Boolean })
   hideCloseButton = false;
   @property({ type: String })
-  trigger: Trigger = "hover";
+  trigger: Trigger = "click";
+  @property({ type: String })
+  label: string = "";
   @property({ type: String })
   left?: string;
   @property({ type: String })
@@ -306,6 +308,8 @@ export class Tooltip extends LitElement implements ThemeValue {
         break;
     }
 
+    const contentSlotExists = this.querySelector('[slot="content"]');
+
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.tooltip, "div")}
 
@@ -318,7 +322,7 @@ export class Tooltip extends LitElement implements ThemeValue {
       <div class="tooltip ${this.trigger}" @click=${this._handleClickable}>
         <div class="tooltip-content">
           <div class="content">
-            <slot name="content"></slot>
+            <div class="label"><ssk-text>${this.label}</ssk-text></div>
             <div class="close-button${this.hideCloseButton ? "-hide" : ""}">
               <ssk-icon
                 ?hidden=${this.hideCloseButton}
@@ -328,6 +332,7 @@ export class Tooltip extends LitElement implements ThemeValue {
               ></ssk-icon>
             </div>
           </div>
+          ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
           <div class="arrow"></div>
         </div>
         <slot></slot>
@@ -394,9 +399,6 @@ export class Tooltip extends LitElement implements ThemeValue {
     .content {
       display: grid;
       grid-template-columns: auto auto;
-    }
-
-    .close-button {
     }
 
     .close-button-hide {
