@@ -231,7 +231,7 @@ export class Tooltip extends LitElement implements ThemeValue {
           --content-top: ${this.top ? this.top : "none"};
           --content-bottom: ${this.bottom ? this.bottom : "none"};
           --content-left: ${this.left ? this.left : "none"};
-          --content-right: ${this.right ? this.right : "120%"};
+          --content-right: ${this.right ? this.right : "125%"};
           --content-transform: translateY(-5%) translateX(10%);
       
           --arrow-top: none;
@@ -246,7 +246,7 @@ export class Tooltip extends LitElement implements ThemeValue {
           --content-top: ${this.top ? this.top : "-15%"};
           --content-bottom: ${this.bottom ? this.bottom : "none"};
           --content-left: ${this.left ? this.left : "none"};
-          --content-right: ${this.right ? this.right : "120%"};
+          --content-right: ${this.right ? this.right : "125%"};
           --content-transform: translateY(-5%) translateX(10%);
       
           --arrow-top: 55%;
