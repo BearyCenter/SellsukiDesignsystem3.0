@@ -10,21 +10,23 @@ import { baseArgsTypes } from "../helper";
 type TooltipArgs = {} & Tooltip;
 
 const placement: Placement[] = [
-  "topleft",
+  "bottom",
   "top",
+
   "topright",
+  "topleft",
 
   "left",
+  "right",
+
   "lefttop",
+  "righttop",
+
+  "leftbottom",
   "rightbottom",
 
-  "right",
-  "righttop",
-  "leftbottom",
-
-  "bottomleft",
-  "bottom",
   "bottomright",
+  "bottomleft",
 ];
 
 const meta = {
@@ -35,14 +37,19 @@ const meta = {
       <style>
         main.showcase {
           position: absolute;
-          top: 30%;
-          left: 30%;
+          top: 10%;
+          left: 40%;
         }
         section {
           display: grid;
-          grid-template-columns: auto auto auto;
-          align-self: center;
+          grid-template-columns: auto auto;
+          justify-items: center;
           gap: 40px;
+        }
+
+        .tooltip-content {
+          display: flex;
+          align-items: center;
         }
       </style>
 
@@ -50,10 +57,9 @@ const meta = {
         <section class="size">
           ${placement.map(
             (p) => html`
-              <div class=${p}>
+              <div class=${p} style="width:100%;">
                 <ssk-tooltip ${spread(args)} placement=${p}>
-                  <ssk-button>${p}</ssk-button>
-                  <ssk-text slot="content"> content in tooltip naja </ssk-text>
+                  <ssk-button variant="outline" width="full">${p}</ssk-button>
                 </ssk-tooltip>
               </div>
             `,
@@ -63,6 +69,10 @@ const meta = {
     `;
   },
   argTypes: {
+    label: {
+      description: "title of tooltip",
+      control: "text",
+    },
     "?hideArrow": {
       description: "When true gives the arrow of tooltips disapparence",
       table: {
@@ -119,6 +129,7 @@ type Story = StoryObj<TooltipArgs>;
 export const ShowCase: Story = {
   args: {
     size: "md",
+    label: "content in tooltip naja",
   },
   parameters: {
     design: {

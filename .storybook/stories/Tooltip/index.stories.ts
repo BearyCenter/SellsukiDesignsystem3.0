@@ -18,7 +18,7 @@ const meta = {
     return html` <style>
         div.container {
           margin: auto;
-          margin-top: 25%;
+          margin-top: 15%;
           width: 60%;
           display: flex;
           justify-content: center;
@@ -28,7 +28,6 @@ const meta = {
       <div class="container">
         <ssk-tooltip ${spread(args)}>
           <ssk-text>Hover me</ssk-text>
-          <ssk-text slot="content"> yeahhh!! </ssk-text>
         </ssk-tooltip>
       </div>`;
   },
@@ -116,6 +115,7 @@ type Story = StoryObj<TooltipArgs>;
 export const Default: Story = {
   args: {
     size: "md",
+    label: "yeahhh!!",
   },
   parameters: {
     design: {
@@ -129,6 +129,7 @@ export const NoCloseButton: Story = {
   args: {
     size: "md",
     "?hideCloseButton": true,
+    label: "yeahhh!!",
   },
   parameters: {
     design: {
@@ -142,6 +143,7 @@ export const NoArrow: Story = {
   args: {
     size: "md",
     "?hideArrow": true,
+    label: "yeahhh!!",
   },
   parameters: {
     design: {
@@ -154,6 +156,7 @@ export const NoArrow: Story = {
 export const MoreContent: Story = {
   args: {
     size: "md",
+    label: "Text",
   },
   parameters: {
     design: {
@@ -165,10 +168,16 @@ export const MoreContent: Story = {
     return html`<style>
         div.container {
           margin: auto;
-          margin-top: 25%;
+          margin-top: 15%;
           width: 60%;
           display: flex;
           justify-content: center;
+        }
+
+        div.content {
+          display: grid;
+          justify-items: center;
+          text-align: center;
         }
       </style>
 
@@ -176,16 +185,15 @@ export const MoreContent: Story = {
         <ssk-tooltip ${spread(args)}>
           <ssk-text>Hover me</ssk-text>
           <div class="content" slot="content">
-            <ssk-text>Text</ssk-text>
             <ssk-image
               src="https://example.com/404.jpg"
               fallbacksrc="https://placehold.co/200x100"
               alt="demo image"
             >
             </ssk-image>
-            <ssk-text
-              >Modal body goes here. You have several styles to choose from just
-              in case.Modal body goes here.
+            <ssk-text>
+              Modal body goes here. <br/ >You have several styles to choose from
+              just in case.
             </ssk-text>
           </div>
         </ssk-tooltip>
