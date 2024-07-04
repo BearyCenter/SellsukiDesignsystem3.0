@@ -60,7 +60,7 @@ export class Tooltip extends LitElement implements ThemeValue {
   @property({ type: Boolean })
   hideCloseButton = false;
   @property({ type: String })
-  trigger: Trigger = "click";
+  trigger: Trigger = "hover";
   @property({ type: String })
   label: string = "";
 
