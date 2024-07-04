@@ -58,7 +58,7 @@ export class Tooltip extends LitElement implements ThemeValue {
   @property({ type: Boolean })
   hideCloseButton = false;
   @property({ type: String })
-  trigger: Trigger = "hover";
+  trigger: Trigger = "click";
   @property({ type: String })
   label: string = "";
   @property({ type: String })
@@ -101,6 +101,7 @@ export class Tooltip extends LitElement implements ThemeValue {
     --content-color: ${parseVariables(
       cssVar("colors", this.color),
       this.color,
+      "#fff",
     )};
 
     --padding: ${parseVariables(cssVar("padding", this.size))};
@@ -320,20 +321,17 @@ export class Tooltip extends LitElement implements ThemeValue {
       </style>
 
       <div class="tooltip ${this.trigger}" @click=${this._handleClickable}>
-        <div class="tooltip-content">
-          <div class="content">
-            <div class="label"><ssk-text>${this.label}</ssk-text></div>
-            <div class="close-button${this.hideCloseButton ? "-hide" : ""}">
-              <ssk-icon
-                ?hidden=${this.hideCloseButton}
-                size=${this.size}
-                name="outline-x-mark"
-                @click=${this._close}
-              ></ssk-icon>
-            </div>
+        <div class="content tooltip-${this.placement}">
+          <div class="label"><ssk-text>${this.label}</ssk-text></div>
+          <div class="close-button${this.hideCloseButton ? "-hide" : ""}">
+            <ssk-icon
+              ?hidden=${this.hideCloseButton}
+              size=${this.size}
+              name="outline-x-mark"
+              @click=${this._close}
+            ></ssk-icon>
           </div>
           ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
-          <div class="arrow"></div>
         </div>
         <slot></slot>
       </div>
@@ -345,7 +343,7 @@ export class Tooltip extends LitElement implements ThemeValue {
       position: relative;
     }
 
-    .tooltip.hover:hover .tooltip-content {
+    .tooltip.hover:hover .content {
       --content-visible: visible;
     }
 
@@ -353,47 +351,206 @@ export class Tooltip extends LitElement implements ThemeValue {
       --content-visible: visible;
     }
 
-    .tooltip .tooltip-content {
+    .tooltip .content {
       visibility: var(--content-visible);
 
       width: max-content;
-      position: absolute;
+      position: relative;
       background-color: var(--content-bg-color);
       color: var(--content-color);
       border-radius: var(--rounded);
       z-index: 1;
       padding: var(--padding);
       box-shadow: 0px 3px 6px 0px var(--ssk-colors-gray-300);
-
-      top: var(--content-top);
-      bottom: var(--content-bottom);
-      left: var(--content-left);
-      right: var(--content-right);
-      transform: var(--content-transform);
     }
 
-    .arrow {
+    .tooltip .content::after {
       position: absolute;
       visibility: var(--arrow-visible);
 
-      z-index: 1;
-      display: block;
-      pointer-events: none;
+      content: "";
+      border-width: 5px;
+      border-style: solid;
+    }
 
-      overflow: hidden;
+    /* tooltip top */
+    .tooltip .tooltip-top {
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      position: absolute;
+    }
 
-      background: var(--content-bg-color);
-      width: 16px;
-      height: 8px;
-      clip-path: path(
-        "M 0 8 A 4 4 0 0 0 2.82842712474619 6.82842712474619 L 6.585786437626905 3.0710678118654755 A 2 2 0 0 1 9.414213562373096 3.0710678118654755 L 13.17157287525381 6.82842712474619 A 4 4 0 0 0 16 8 Z"
-      );
+    .tooltip .tooltip-top::after {
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-color: var(--content-bg-color) transparent transparent transparent;
+    }
 
-      top: var(--arrow-top);
-      bottom: var(--arrow-bottom);
-      left: var(--arrow-left);
-      right: var(--arrow-right);
-      transform: var(--arrow-transform);
+    /* tooltip topleft */
+    .tooltip .tooltip-topleft {
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-10%);
+      position: absolute;
+    }
+
+    .tooltip .tooltip-topleft::after {
+      top: 100%;
+      left: 10%;
+      margin-left: -5px;
+      border-color: var(--content-bg-color) transparent transparent transparent;
+    }
+
+    /* tooltip topright */
+    .tooltip .tooltip-topright {
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-90%);
+      position: absolute;
+    }
+
+    .tooltip .tooltip-topright::after {
+      top: 100%;
+      left: 90%;
+      margin-left: -5px;
+      border-color: var(--content-bg-color) transparent transparent transparent;
+    }
+
+    /* tooltip bottom */
+    .tooltip .tooltip-bottom {
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      position: absolute;
+    }
+
+    .tooltip .tooltip-bottom::after {
+      bottom: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-color: transparent transparent var(--content-bg-color) transparent;
+    }
+
+    /* tooltip bottomleft */
+    .tooltip .tooltip-bottomleft {
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-10%);
+      position: absolute;
+    }
+
+    .tooltip .tooltip-bottomleft::after {
+      bottom: 100%;
+      left: 10%;
+      margin-left: -5px;
+      border-color: transparent transparent var(--content-bg-color) transparent;
+    }
+
+    /* tooltip bottomright */
+    .tooltip .tooltip-bottomright {
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-90%);
+      position: absolute;
+    }
+
+    .tooltip .tooltip-bottomright::after {
+      bottom: 100%;
+      left: 90%;
+      margin-left: -5px;
+      border-color: transparent transparent var(--content-bg-color) transparent;
+    }
+
+    /* tooltip left */
+    .tooltip .tooltip-left {
+      top: 50%;
+      right: calc(100% + 10px);
+      transform: translateY(-50%);
+      position: absolute;
+    }
+
+    .tooltip .tooltip-left::after {
+      left: 100%;
+      top: calc(50% - 4px);
+      margin-left: 0;
+      border-color: transparent transparent transparent var(--content-bg-color);
+    }
+
+    /* tooltip lefttop */
+    .tooltip .tooltip-lefttop {
+      top: 50%;
+      right: calc(100% + 10px);
+      transform: translateY(-30%);
+      position: absolute;
+    }
+
+    .tooltip .tooltip-lefttop::after {
+      left: 100%;
+      top: calc(30% - 4px);
+      margin-left: 0;
+      border-color: transparent transparent transparent var(--content-bg-color);
+    }
+
+    /* tooltip leftbottom */
+    .tooltip .tooltip-leftbottom {
+      top: 50%;
+      right: calc(100% + 10px);
+      transform: translateY(-70%);
+      position: absolute;
+    }
+
+    .tooltip .tooltip-leftbottom::after {
+      left: 100%;
+      top: calc(70% - 4px);
+      margin-left: 0;
+      border-color: transparent transparent transparent var(--content-bg-color);
+    }
+
+    /* tooltip right */
+    .tooltip .tooltip-right {
+      top: 50%;
+      left: calc(100% + 10px);
+      transform: translateY(-50%);
+      position: absolute;
+    }
+
+    .tooltip .tooltip-right::after {
+      right: 100%;
+      top: calc(50% - 4px);
+      margin-left: 0;
+      border-color: transparent var(--content-bg-color) transparent transparent;
+    }
+
+    /* tooltip righttop */
+    .tooltip .tooltip-righttop {
+      top: 50%;
+      left: calc(100% + 10px);
+      transform: translateY(-30%);
+      position: absolute;
+    }
+
+    .tooltip .tooltip-righttop::after {
+      right: 100%;
+      top: calc(30% - 4px);
+      margin-left: 0;
+      border-color: transparent var(--content-bg-color) transparent transparent;
+    }
+
+    /* tooltip rightbottom */
+    .tooltip .tooltip-rightbottom {
+      top: 50%;
+      left: calc(100% + 10px);
+      transform: translateY(-70%);
+      position: absolute;
+    }
+
+    .tooltip .tooltip-rightbottom::after {
+      right: 100%;
+      top: calc(70% - 4px);
+      margin-left: 0;
+      border-color: transparent var(--content-bg-color) transparent transparent;
     }
 
     .content {
@@ -408,8 +565,6 @@ export class Tooltip extends LitElement implements ThemeValue {
     ssk-icon {
       cursor: pointer;
       float: right;
-      top: var(--padding);
-      right: var(--padding);
     }
   `;
 }
