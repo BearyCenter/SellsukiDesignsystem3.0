@@ -3,6 +3,8 @@ import { customElement, property, state } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
 import { consume } from "@lit/context";
+import "../../../src/elements/text";
+
 import {
   ColorName,
   ColorRole,
@@ -61,14 +63,6 @@ export class Tooltip extends LitElement implements ThemeValue {
   trigger: Trigger = "click";
   @property({ type: String })
   label: string = "";
-  @property({ type: String })
-  left?: string;
-  @property({ type: String })
-  right?: string;
-  @property({ type: String })
-  top?: string;
-  @property({ type: String })
-  bottom?: string;
 
   @state()
   _isOpen: boolean = false;
@@ -116,199 +110,6 @@ export class Tooltip extends LitElement implements ThemeValue {
       `;
     }
 
-    switch (this.placement) {
-      case "top":
-        additionalCss += `
-          --content-top: ${this.top ? this.top : "none"};
-          --content-bottom: ${this.bottom ? this.bottom : "140%"};
-          --content-left: ${this.left ? this.left : "50%"};
-          --content-right: ${this.right ? this.right : "none"};
-          --content-transform: translateX(-50%);
-
-          --arrow-top: none;
-          --arrow-bottom: 0px;
-          --arrow-left: 50%;
-          --arrow-right: none;
-          --arrow-transform: translateY(100%) translateX(-50%) rotate(180deg);
-        `;
-        break;
-
-      case "topright":
-        additionalCss += `
-          --content-top: ${this.top ? this.top : "none"};
-          --content-bottom: ${this.bottom ? this.bottom : "140%"};
-          --content-left: ${this.left ? this.left : "none"};
-          --content-right: ${this.right ? this.right : "30%"};
-          --content-transform: none;
-  
-          --arrow-top: none;
-          --arrow-bottom: 0px;
-          --arrow-left: 85%;
-          --arrow-right: none;
-          --arrow-transform: translateY(100%) translateX(-50%) rotate(180deg);
-          `;
-        break;
-
-      case "topleft":
-        additionalCss += `
-          --content-top: ${this.top ? this.top : "none"};
-          --content-bottom: ${this.bottom ? this.bottom : "140%"};
-          --content-left: ${this.left ? this.left : "30%"};
-          --content-right: ${this.right ? this.right : "none"};
-          --content-transform: none;
-  
-          --arrow-top: none;
-          --arrow-bottom: 0px;
-          --arrow-left: none;
-          --arrow-right: 85%;
-          --arrow-transform: translateY(100%) translateX(50%) rotate(180deg);
-            `;
-        break;
-
-      case "bottom":
-        additionalCss += `
-          --content-top: ${this.top ? this.top : "140%"};
-          --content-bottom: ${this.bottom ? this.bottom : "none"};
-          --content-left: ${this.left ? this.left : "50%"};
-          --content-right: ${this.right ? this.right : "none"};
-          --content-transform: translateX(-50%);
-  
-          --arrow-top: 0px;
-          --arrow-bottom: none;
-          --arrow-left: 50%;
-          --arrow-right: none;
-          --arrow-transform: translateY(-100%) translateX(-50%) rotate(0deg);
-          `;
-        break;
-
-      case "bottomright":
-        additionalCss += `
-          --content-top: ${this.top ? this.top : "140%"};
-          --content-bottom: ${this.bottom ? this.bottom : "none"};
-          --content-left: ${this.left ? this.left : "0"};
-          --content-right: ${this.right ? this.right : "none"};
-          --content-transform: translateX(-50%);
-  
-          --arrow-top: 0px;
-          --arrow-bottom: none;
-          --arrow-left: 85%;
-          --arrow-right: none;
-          --arrow-transform: translateY(-100%) translateX(-50%) rotate(0deg);
-            `;
-        break;
-      case "bottomleft":
-        additionalCss += `
-          --content-top: ${this.top ? this.top : "140%"};
-          --content-bottom: ${this.bottom ? this.bottom : "none"};
-          --content-left: ${this.left ? this.left : "none"};
-          --content-right: ${this.right ? this.right : "0"};
-          --content-transform: translateX(50%);
-  
-          --arrow-top: 0px;
-          --arrow-bottom: none;
-          --arrow-left: none;
-          --arrow-right: 85%;
-          --arrow-transform: translateY(-100%) translateX(50%) rotate(0deg);
-        `;
-        break;
-      case "left":
-        additionalCss += `
-          --content-top: ${this.top ? this.top : "50%"};
-          --content-bottom: ${this.bottom ? this.bottom : "none"};
-          --content-left: ${this.left ? this.left : "none"};
-          --content-right: ${this.right ? this.right : "125%"};
-          --content-transform: translateY(-50%) translateX(10%);
-      
-          --arrow-top: 50%;
-          --arrow-bottom: none;
-          --arrow-left: none;
-          --arrow-right: 0.3rem;
-          --arrow-transform: translateY(-50%) translateX(100%) rotate(90deg);
-        `;
-        break;
-
-      case "lefttop":
-        additionalCss += `
-          --content-top: ${this.top ? this.top : "none"};
-          --content-bottom: ${this.bottom ? this.bottom : "none"};
-          --content-left: ${this.left ? this.left : "none"};
-          --content-right: ${this.right ? this.right : "125%"};
-          --content-transform: translateY(-5%) translateX(10%);
-      
-          --arrow-top: none;
-          --arrow-bottom: 50%;
-          --arrow-left: none;
-          --arrow-right: 0.3rem;
-          --arrow-transform: translateX(100%) rotate(90deg);
-        `;
-        break;
-      case "leftbottom":
-        additionalCss += `
-          --content-top: ${this.top ? this.top : "-15%"};
-          --content-bottom: ${this.bottom ? this.bottom : "none"};
-          --content-left: ${this.left ? this.left : "none"};
-          --content-right: ${this.right ? this.right : "125%"};
-          --content-transform: translateY(-5%) translateX(10%);
-      
-          --arrow-top: 55%;
-          --arrow-bottom: none;
-          --arrow-left: none;
-          --arrow-right: 0.3rem;
-          --arrow-transform: translateX(100%) rotate(90deg);
-          `;
-        break;
-      case "right":
-        additionalCss += `
-          --content-top: ${this.top ? this.top : "50%"};
-          --content-bottom: ${this.bottom ? this.bottom : "none"};
-          --content-left: ${this.left ? this.left : "100%"};
-          --content-right: ${this.right ? this.right : "none"};
-          --content-transform: translateY(-50%) translateX(10%);
-
-          --arrow-top: 50%;
-          --arrow-bottom: none;
-          --arrow-left: -0.7rem;
-          --arrow-right: none;
-          --arrow-transform: translateY(-50%) rotate(-90deg);
-        `;
-        break;
-
-      case "righttop":
-        additionalCss += `
-          --content-top: ${this.top ? this.top : "none"};
-          --content-bottom: ${this.bottom ? this.bottom : "none"};
-          --content-left: ${this.left ? this.left : "100%"};
-          --content-right: ${this.right ? this.right : "none"};
-          --content-transform: translateY(-5%) translateX(10%);
-
-          --arrow-top: none;
-          --arrow-bottom: 75%;
-          --arrow-left: -0.7rem;
-          --arrow-right: none;
-          --arrow-transform: translateY(100%) rotate(-90deg);
-          `;
-        break;
-
-      case "rightbottom":
-        additionalCss += `
-          --content-top: ${this.top ? this.top : "60%"};
-          --content-bottom: ${this.bottom ? this.bottom : "none"};
-          --content-left: ${this.left ? this.left : "100%"};
-          --content-right: ${this.right ? this.right : "none"};
-          --content-transform: translateY(-90%) translateX(10%);
-
-          --arrow-top: 50%;
-          --arrow-bottom: none;
-          --arrow-left: -0.7rem;
-          --arrow-right: none;
-          --arrow-transform: translateY(50%) rotate(-90deg);
-          `;
-        break;
-
-      default:
-        break;
-    }
-
     const contentSlotExists = this.querySelector('[slot="content"]');
 
     return html`
@@ -322,7 +123,9 @@ export class Tooltip extends LitElement implements ThemeValue {
 
       <div class="tooltip ${this.trigger}" @click=${this._handleClickable}>
         <div class="content tooltip-${this.placement}">
-          <div class="label"><ssk-text>${this.label}</ssk-text></div>
+          <div class="label">
+            <ssk-text size=${this.size}>${this.label}</ssk-text>
+          </div>
           <div class="close-button${this.hideCloseButton ? "-hide" : ""}">
             <ssk-icon
               ?hidden=${this.hideCloseButton}

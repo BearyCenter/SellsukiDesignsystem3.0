@@ -10,21 +10,23 @@ import { baseArgsTypes } from "../helper";
 type TooltipArgs = {} & Tooltip;
 
 const placement: Placement[] = [
-  "topleft",
+  "bottom",
   "top",
+
   "topright",
+  "topleft",
 
   "left",
+  "right",
+
   "lefttop",
+  "righttop",
+
+  "leftbottom",
   "rightbottom",
 
-  "right",
-  "righttop",
-  "leftbottom",
-
-  "bottomleft",
-  "bottom",
   "bottomright",
+  "bottomleft",
 ];
 
 const meta = {
