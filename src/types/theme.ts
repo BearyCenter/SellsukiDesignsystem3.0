@@ -130,6 +130,8 @@ export type TabWidth = "true" | "false";
 
 export type TabSize = "md" | "sm";
 
+export type CardSize = "md" | "sm";
+
 export type Color =
   | {
       [key: ColorScale | string]: string;
@@ -236,6 +238,7 @@ export type Theme = {
     table?: Partial<ThemeField>;
     pagination?: Partial<ThemeField>;
     pinCode?: Partial<ThemeField>;
+    cardSelect?: Partial<ThemeField>;
   };
 } & ThemeField;
 
