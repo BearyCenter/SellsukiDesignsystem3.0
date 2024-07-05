@@ -129,6 +129,9 @@ export class CardSelect extends LitElement {
             --border-color-hover: ${parseVariables(
                 cssVar("colors", this.themeColor, 500)
             )};
+            --border-color-shodow: ${parseVariables(
+                cssVar("colors", this.themeColor, 100)
+            )};
             --border-width: 1px;
             --color: ${parseVariables(cssVar("colors", "black", 400))};
             --color-hover: ${parseVariables(cssVar("colors", this.themeColor, 500))};
