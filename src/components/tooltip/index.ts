@@ -63,6 +63,8 @@ export class Tooltip extends LitElement implements ThemeValue {
   trigger: Trigger = "hover";
   @property({ type: String })
   label: string = "";
+  @property({ type: String })
+  areaPosition: string = "100%";
 
   @state()
   _isOpen: boolean = false;
@@ -102,6 +104,7 @@ export class Tooltip extends LitElement implements ThemeValue {
     --rounded: ${parseVariables(cssVar("rounded", this.size))};
 
     --arrow-visible: var(--content-visible);
+    --area-position: ${this.areaPosition}
     `;
 
     if (this.hideArrow) {
@@ -178,7 +181,7 @@ export class Tooltip extends LitElement implements ThemeValue {
 
     /* tooltip top */
     .tooltip .tooltip-top {
-      bottom: calc(100% + 10px);
+      bottom: calc(var(--area-position) + 10px);
       left: 50%;
       transform: translateX(-50%);
       position: absolute;
@@ -193,7 +196,7 @@ export class Tooltip extends LitElement implements ThemeValue {
 
     /* tooltip topleft */
     .tooltip .tooltip-topleft {
-      bottom: calc(100% + 10px);
+      bottom: calc(var(--area-position) + 10px);
       left: 50%;
       transform: translateX(-10%);
       position: absolute;
@@ -208,7 +211,7 @@ export class Tooltip extends LitElement implements ThemeValue {
 
     /* tooltip topright */
     .tooltip .tooltip-topright {
-      bottom: calc(100% + 10px);
+      bottom: calc(var(--area-position) + 10px);
       left: 50%;
       transform: translateX(-90%);
       position: absolute;
@@ -223,7 +226,7 @@ export class Tooltip extends LitElement implements ThemeValue {
 
     /* tooltip bottom */
     .tooltip .tooltip-bottom {
-      top: calc(100% + 10px);
+      top: calc(var(--area-position) + 10px);
       left: 50%;
       transform: translateX(-50%);
       position: absolute;
@@ -238,7 +241,7 @@ export class Tooltip extends LitElement implements ThemeValue {
 
     /* tooltip bottomleft */
     .tooltip .tooltip-bottomleft {
-      top: calc(100% + 10px);
+      top: calc(var(--area-position) + 10px);
       left: 50%;
       transform: translateX(-10%);
       position: absolute;
@@ -253,7 +256,7 @@ export class Tooltip extends LitElement implements ThemeValue {
 
     /* tooltip bottomright */
     .tooltip .tooltip-bottomright {
-      top: calc(100% + 10px);
+      top: calc(var(--area-position) + 10px);
       left: 50%;
       transform: translateX(-90%);
       position: absolute;
@@ -269,7 +272,7 @@ export class Tooltip extends LitElement implements ThemeValue {
     /* tooltip left */
     .tooltip .tooltip-left {
       top: 50%;
-      right: calc(100% + 10px);
+      right: calc(var(--area-position) + 10px);
       transform: translateY(-50%);
       position: absolute;
     }
@@ -284,7 +287,7 @@ export class Tooltip extends LitElement implements ThemeValue {
     /* tooltip lefttop */
     .tooltip .tooltip-lefttop {
       top: 50%;
-      right: calc(100% + 10px);
+      right: calc(var(--area-position) + 10px);
       transform: translateY(-30%);
       position: absolute;
     }
@@ -299,7 +302,7 @@ export class Tooltip extends LitElement implements ThemeValue {
     /* tooltip leftbottom */
     .tooltip .tooltip-leftbottom {
       top: 50%;
-      right: calc(100% + 10px);
+      right: calc(var(--area-position) + 10px);
       transform: translateY(-70%);
       position: absolute;
     }
@@ -314,7 +317,7 @@ export class Tooltip extends LitElement implements ThemeValue {
     /* tooltip right */
     .tooltip .tooltip-right {
       top: 50%;
-      left: calc(100% + 10px);
+      left: calc(var(--area-position) + 10px);
       transform: translateY(-50%);
       position: absolute;
     }
@@ -329,7 +332,7 @@ export class Tooltip extends LitElement implements ThemeValue {
     /* tooltip righttop */
     .tooltip .tooltip-righttop {
       top: 50%;
-      left: calc(100% + 10px);
+      left: calc(var(--area-position) + 10px);
       transform: translateY(-30%);
       position: absolute;
     }
@@ -344,7 +347,7 @@ export class Tooltip extends LitElement implements ThemeValue {
     /* tooltip rightbottom */
     .tooltip .tooltip-rightbottom {
       top: 50%;
-      left: calc(100% + 10px);
+      left: calc(var(--area-position) + 10px);
       transform: translateY(-70%);
       position: absolute;
     }
