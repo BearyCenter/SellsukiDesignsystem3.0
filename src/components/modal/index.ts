@@ -3,6 +3,8 @@ import { LitElement, css, html, nothing } from "lit";
 import { customElement, eventOptions, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import "../../elements/icon";
+import "../../elements/divider";
+
 import { redispatchEvents } from "../../helpers/lit";
 import {
   Theme,
@@ -31,6 +33,9 @@ export class Modal extends LitElement {
 
   @property({ type: Boolean })
   hideCloseButton = false;
+
+  @property({ type: Boolean })
+  hideDivider = true;
 
   @eventOptions({ capture: false, once: false, passive: true })
   private close(e: Event) {
@@ -90,11 +95,19 @@ export class Modal extends LitElement {
               <slot name="header"></slot>
             </span>
           </div>
+              ${
+                this.hideDivider
+                  ? nothing
+                  : html`<ssk-divider size="xs"></ssk-divider>`
+              }
           ${
             bodySlotExists
               ? html`<div class="body">
-                  <slot name="body"></slot>
-                </div>`
+                    <slot name="body"></slot>
+                  </div>
+                  ${this.hideDivider
+                    ? nothing
+                    : html`<ssk-divider size="xs"></ssk-divider>`} `
               : nothing
           }
           ${
