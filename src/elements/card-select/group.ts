@@ -3,14 +3,19 @@ import { customElement, property, state } from "lit/decorators.js";
 import "../../../src/elements/card-select";
 import "./index"
 import "../card-select"; 
+interface Card {
+    id: number;
+    label: string;
+    supportText: string;
+    cardSize: string;
+    selected: boolean;
+    disabled: boolean;
+    icon: string;
+}
 
 @customElement("ssk-card-group")
 export class CardGroup extends LitElement {
-    @property({ type: Array }) cards = [
-        { id: 1, label: "Card 1", supportText: "Support Text 1", cardSize: "md", selected: false, disabled: false, icon: 'outline-ellipsis-horizontal-circle' },
-        { id: 2, label: "Card 2", supportText: "Support Text 2", cardSize: "md", selected: false, disabled: false, icon: 'outline-user-circle' },
-        { id: 3, label: "Card 3", supportText: "Support Text 3", cardSize: "md", selected: false, disabled: false, icon: 'outline-document-text' },
-    ];
+    @property({ type: Array }) cards: Card[] = [];
 
     @state() selectedCardIndex: number | null = null;
 
