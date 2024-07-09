@@ -2,6 +2,7 @@ import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/card-select";
+import "../../../src/elements/card-select/group";
 import "../../../src/elements/text";
 import { CardSelect } from "../../../src/elements/card-select";
 import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
@@ -45,7 +46,7 @@ const meta = {
   },
   argTypes: {
     label: {
-      description: "Lable",
+      description: "Label",
       control: "text",
       table: {
         category: "Props",
@@ -58,7 +59,6 @@ const meta = {
         category: "Props",
       },
     },
-
     cardSize: {
       options: ["md", "sm",],
       description: "The type of CardSelect",
@@ -167,3 +167,23 @@ export const CardShowDisabled: Story = {
     },
   },
 };
+
+export const CardSelectGroupStory: StoryObj = {
+  args: {
+    cards: [
+      { id: 1, label: "Card 1", supportText: "Support Text 1", cardSize: "md", selected: true, disabled: false, icon: 'outline-ellipsis-horizontal-circle'},
+      { id: 2, label: "Card 2", supportText: "Support Text 2", cardSize: "md", selected: false, disabled: false, icon: 'outline-user-circle'},
+      { id: 3, label: "Card 3", supportText: "Support Text 3", cardSize: "md", selected: false, disabled: false, icon: 'outline-document-text'},
+    ],
+  },
+  render: (args) => {
+    return html`<ssk-card-group .cards=${args.cards}></ssk-card-group>`;
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=13326-4194&t=R5iTnTJwiduj6bpX-0",
+    },
+  },
+};
+

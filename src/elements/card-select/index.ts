@@ -56,11 +56,17 @@ export class CardSelect extends LitElement {
     @property({ type: Boolean })
     hidden = false;
 
+    @property({ type: Number })
+    index = 0;
+    
     private handleClick() {
         if (!this.disabled) {
             this.selected = !this.selected;
-            console.log('handleClick',this.selected);
-            this.requestUpdate();
+            this.dispatchEvent(new CustomEvent("card-click", {
+                detail: { index: this.index },
+                bubbles: true,
+                composed: true
+            }));
         }
     }
 
@@ -150,7 +156,7 @@ export class CardSelect extends LitElement {
             }
         </style>
 
-        <div  class="container ${this.selected ? 'selected' : ''} ${this.disabled ? 'disabled' : ''}"  id="contain"  data-testid=${this.testId || nothing} .disabled=${this.disabled} @click=${this.handleClick}>
+        <div class="container ${this.selected ? 'selected' : ''} ${this.disabled ? 'disabled' : ''}" id="contain" data-testid=${this.testId || nothing} .disabled=${this.disabled} @click=${this.handleClick}>
             <div class="icon-right">
                 ${this.selected ? html`<ssk-icon name="solid-check-circle" size="sm"></ssk-icon>` : nothing}
             </div>
