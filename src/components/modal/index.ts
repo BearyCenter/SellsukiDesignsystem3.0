@@ -195,8 +195,8 @@ export class Modal extends LitElement {
 
     .close-button {
       position: absolute;
-      right: 3%;
-      top: 8%;
+      right: 1em;
+      top: 1em;
     }
 
     .close-button-hide {
