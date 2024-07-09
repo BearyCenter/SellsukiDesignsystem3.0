@@ -64,6 +64,7 @@ export class Modal extends LitElement {
           --header-display: flex;
           --header-justify-content: space-between;
 
+          --padding-body: 16px;
           --body-display: flex;
           --body-justify-content: flex-start;
 
@@ -177,7 +178,7 @@ export class Modal extends LitElement {
     }
 
     .body {
-      padding: 16px;
+      padding: var(--padding-body);
       font-size: 24px;
       font-weight: 400;
       display: var(--body-display);
