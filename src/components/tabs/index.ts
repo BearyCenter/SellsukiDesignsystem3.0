@@ -100,6 +100,8 @@ export class Tabs extends LitElement {
                 )};
             `;
 
+    const primaryColor = parseVariables(cssVar("colors", "primary", 500));
+
     switch (this.variant) {
       case "inline":
         if (this.tabSize == "sm") {
@@ -149,9 +151,9 @@ export class Tabs extends LitElement {
 
                     --border-bottom-tabs:${parseVariables("1px solid #D1D5DB")};
                     --border-bottom: ${parseVariables("0px")};
-                    --border-bottom-active: ${parseVariables(
-                      "4px solid #32A9FF",
-                    )};
+                   --border-bottom-active: ${parseVariables(
+                     `4px solid ${primaryColor}`,
+                   )};
                     --border-bottom-hover: ${parseVariables(
                       "4px solid #D1D5DB",
                     )};
