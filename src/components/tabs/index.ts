@@ -100,6 +100,8 @@ export class Tabs extends LitElement {
                 )};
             `;
 
+    const primaryColor = parseVariables(cssVar("colors", "primary", 500));
+
     switch (this.variant) {
       case "inline":
         if (this.tabSize == "sm") {
@@ -147,12 +149,12 @@ export class Tabs extends LitElement {
                       cssVar("colors", "white", 50),
                     )};
 
-
-                    --border-buttom: ${parseVariables("0px")};
-                    --border-buttom-active: ${parseVariables(
-                      "4px solid #32A9FF",
-                    )};
-                    --border-buttom-hover: ${parseVariables(
+                    --border-bottom-tabs:${parseVariables("1px solid #D1D5DB")};
+                    --border-bottom: ${parseVariables("0px")};
+                   --border-bottom-active: ${parseVariables(
+                     `4px solid ${primaryColor}`,
+                   )};
+                    --border-bottom-hover: ${parseVariables(
                       "4px solid #D1D5DB",
                     )};
 
@@ -208,7 +210,7 @@ export class Tabs extends LitElement {
                       cssVar("colors", "primary", 50),
                     )};
 
-                    --border-buttom: ${parseVariables("0px")};
+                    --border-bottom: ${parseVariables("0px")};
                     --border-radius: 10px;
                     
                     --box-shadow: ${parseVariables("0px 2px 3px #ccc")};
@@ -276,7 +278,7 @@ export class Tabs extends LitElement {
       min-width: var(--min-width);
       padding: 0 1rem;
       cursor: pointer;
-      border-bottom: var(--border-buttom);
+      border-bottom: var(--border-bottom);
       background-color: var(--background-color);
       font-weight: var(--font-weight);
       font-family: var(--font-family);
@@ -295,12 +297,13 @@ export class Tabs extends LitElement {
       flex-direction: row;
       background-color: var(--background-color);
       border-radius: var(--border-radius);
+      border-bottom: var(--border-bottom-tabs);
     }
 
     .tab:hover {
       color: var(--color-hover);
       background-color: var(--background-color-hover);
-      border-bottom: var(--border-buttom-hover);
+      border-bottom: var(--border-bottom-hover);
       font-weight: var(--font-weight-hover);
     }
 
@@ -308,7 +311,7 @@ export class Tabs extends LitElement {
       font-weight: var(--font-weight-active);
       color: var(--color-active);
       background-color: var(--background-color-active);
-      border-bottom: var(--border-buttom-active);
+      border-bottom: var(--border-bottom-active);
       box-shadow: var(--box-shadow);
     }
 

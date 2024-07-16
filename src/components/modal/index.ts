@@ -3,6 +3,8 @@ import { LitElement, css, html, nothing } from "lit";
 import { customElement, eventOptions, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import "../../elements/icon";
+import "../../elements/divider";
+
 import { redispatchEvents } from "../../helpers/lit";
 import {
   Theme,
@@ -32,6 +34,9 @@ export class Modal extends LitElement {
   @property({ type: Boolean })
   hideCloseButton = false;
 
+  @property({ type: Boolean })
+  hideDivider = true;
+
   @eventOptions({ capture: false, once: false, passive: true })
   private close(e: Event) {
     redispatchEvents(e, this, "close");
@@ -59,6 +64,7 @@ export class Modal extends LitElement {
           --header-display: flex;
           --header-justify-content: space-between;
 
+          --padding-body: 16px;
           --body-display: flex;
           --body-justify-content: flex-start;
 
@@ -90,11 +96,19 @@ export class Modal extends LitElement {
               <slot name="header"></slot>
             </span>
           </div>
+              ${
+                this.hideDivider
+                  ? nothing
+                  : html`<ssk-divider size="xs"></ssk-divider>`
+              }
           ${
             bodySlotExists
               ? html`<div class="body">
-                  <slot name="body"></slot>
-                </div>`
+                    <slot name="body"></slot>
+                  </div>
+                  ${this.hideDivider
+                    ? nothing
+                    : html`<ssk-divider size="xs"></ssk-divider>`} `
               : nothing
           }
           ${
@@ -164,7 +178,7 @@ export class Modal extends LitElement {
     }
 
     .body {
-      padding: 16px;
+      padding: var(--padding-body);
       font-size: 24px;
       font-weight: 400;
       display: var(--body-display);
@@ -181,8 +195,8 @@ export class Modal extends LitElement {
 
     .close-button {
       position: absolute;
-      right: 3%;
-      top: 8%;
+      right: 1em;
+      top: 1em;
     }
 
     .close-button-hide {
