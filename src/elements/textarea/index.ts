@@ -14,7 +14,6 @@ import {
   parseThemeToCssVariables,
   parseVariables,
 } from "../../types/theme";
-
 @customElement("ssk-textarea")
 export class Textarea extends LitElement {
   static registeredName = "ssk-textarea";
@@ -92,18 +91,32 @@ export class Textarea extends LitElement {
   @property({ type: String })
   resize: "none" | "both" | "horizontal" | "vertical" = "both";
 
+  @property({ type: Boolean })
+  tagsEnabled = false;
+
+  @property({ type: Array })
+  tags: string[] = [];
+
+  totalChars: number = 0;
+
   updateValue(e: any, redispatch: boolean = false) {
     this.value = e.srcElement.value;
     if (redispatch) {
       redispatchEvents(e, this);
     }
   }
+  
+  calculateTotalChars() {
+    const tagsChars = this.tags.reduce((acc, item) => acc + item.trim().length, 0);
+    const valueChars = this.value?.length || 0;
+    this.totalChars = tagsChars + valueChars;
+  }
 
   render() {
     if (this.hidden) {
       return nothing;
     }
-
+    this.calculateTotalChars();
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.textarea, ":host")}
 
@@ -167,6 +180,10 @@ export class Textarea extends LitElement {
           --min-height: ${parseVariables(cssVar("min-height", this.minHeight))};
           --min-width: ${parseVariables(cssVar("min-width", this.minWidth))};
           --resize: ${this.resize};
+
+          --color-tag: ${parseVariables(cssVar("colors", this.themeColor, 500))};
+          --border-color-tag: ${parseVariables(cssVar("colors", this.themeColor, 100))};
+          --background-color-tag: ${parseVariables(cssVar("colors", this.themeColor, 50))};
         }
       </style>
 
@@ -174,6 +191,39 @@ export class Textarea extends LitElement {
         <label for="textarea">
           ${this.label} ${this.required ? html`<span>*</span>` : nothing}
         </label>
+        ${this.tagsEnabled
+          ? html`
+          <div class="wrapper">
+            <div class="content">
+              <ul>
+              ${this.tags.map(
+                (tag) => html`
+                  <li>
+                    ${tag}
+                    <ssk-icon name="solid-x-mark" size="xs" @click=${() => this.removeTag(tag)}></ssk-icon>
+                  </li>`
+              )}
+                <textarea
+                  data-testid=${this.testId || nothing}
+                  name=${this.name || ""}
+                  spellcheck="false"
+                  rows=${this.rows}
+                  placeholder=${this.placeholder || ""}
+                  maxlength=${this.limit!}
+                  @input=${this.handleTagInput}
+                  @keyup=${this.addTag}
+                  .tags=${this.tags}
+                ></textarea>
+              </ul>
+              <div class="footer ${this.helperText || this.limit ? "" : "hidden"}" style="margin-top: -16px;">
+                <label class="helper">${this.helperText}</label>
+                <label class="helper ${this.limit ? "" : "hidden"}">
+                  (${this.totalChars}/${this.limit})
+                </label>
+              </div>
+            </div>
+          </div>`
+          : html`
         <textarea
           id="textarea"
           data-testid=${this.testId || nothing}
@@ -192,8 +242,35 @@ export class Textarea extends LitElement {
             (${this.value?.length || 0}/${this.limit})
           </label>
         </div>
+      `}
       </div>
     `;
+}
+  handleTagInput(e: KeyboardEvent) {
+    const target = e.target as HTMLTextAreaElement;
+    const newValue = target.value;
+    if (newValue.length > (this.limit ?? 0) - this.totalChars) {
+      target.value = newValue.slice(0, (this.limit ?? 0) - this.totalChars);
+    }
+  }
+
+  addTag(e: KeyboardEvent) {
+    if (e.key === "Enter") {
+      const target = e.target as HTMLTextAreaElement;
+      let tag = target.value.trim();
+      if (tag.length >= 1 && tag.length <= 21) {
+        if (!this.tags.includes(tag)) {
+          this.tags = [...this.tags, tag];
+        }
+        target.value = ""; 
+        this.calculateTotalChars();
+      }
+    }
+  }
+
+  removeTag(tag: string) {
+    this.tags = this.tags.filter((item) => item !== tag);
+    this.calculateTotalChars();
   }
 
   static styles = css`
@@ -277,6 +354,62 @@ export class Textarea extends LitElement {
     .hidden {
       display: none;
     }
+
+    .wrapper {
+      width: var(--width);
+    }
+
+    .wrapper :where(.title, li, li i,) {
+      display: flex;
+      align-items: center;
+    }
+
+    .content ul {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 8px 16px;
+      border-radius: var(--rounded);
+      border: 1px solid var(--border-color);
+    }
+
+    .content ul li {
+      color: var(--color-tag);
+      margin: 2px 8px 14px 2px;
+      list-style: none;
+      border-radius: 8px;
+      background: var(--background-color-tag);
+      padding: 0px 8px;
+      border: 1px solid var(--border-color-tag);
+      width: auto;
+      height: 1em;
+    }
+
+    .content ul li ssk-icon {
+      margin-left: 8px;
+      cursor: pointer;
+      justify-content: center;
+    }
+
+    .content ul textarea {
+      flex: 1;
+      padding: 0px;
+      border: none;
+      outline: none;
+      resize: none;
+      overflow: hidden;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+
+      font-size: var(--font-size);
+      font-family: var(--font-family);
+      font-weight: var(--font-weight);
+      line-height: var(--line-height);
+    }
+
+    .wrapper {
+      justify-content: space-between;
+    }
+
   `;
 }
 

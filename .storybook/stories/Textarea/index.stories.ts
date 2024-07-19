@@ -30,6 +30,17 @@ const meta = {
         type: "boolean",
       },
     },
+    tagsEnabled: {
+      control: {
+        type: "boolean",
+      },
+    },
+    ".tags": {
+      description: "Array of tags",
+      control: {
+        type: "array",
+      },
+    },
     value: {
       description: "",
       control: "text",
@@ -95,6 +106,25 @@ export const Small: Story = {
     helperText: "Helper text",
     value: "",
     limit: 69,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1123-65244",
+    },
+  },
+};
+
+export const TextareaWithTags: Story = {
+  args: {
+    size: "md",
+    label: "Textarea",
+    placeholder: "Placeholder",
+    helperText: "Helper text",
+    limit: 69,
+    ".tags": ["product2", "dashboard"],
+    tagsEnabled: true,
+
   },
   parameters: {
     design: {
