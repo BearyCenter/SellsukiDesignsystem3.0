@@ -14,7 +14,7 @@ import {
   subYears,
   Day,
 } from "date-fns";
-import { enUS, fr } from "date-fns/locale";
+import { enUS, fr, th } from "date-fns/locale";
 import { customElement, property, state } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import { Theme, themeContext } from "../../main";
@@ -22,8 +22,8 @@ import "./cell";
 import "../text";
 import "../icon";
 
-const locales = { en: enUS, fr };
-type LocaleKey = "en" | "fr";
+const locales = { en: enUS, fr, th };
+type LocaleKey = "en" | "fr" | "th";
 type typeDay = {
   hover: boolean;
   title: number;
@@ -48,7 +48,7 @@ export class Calendar extends LitElement {
   @property({ type: String })
   year: string = "1997";
   @property({ type: String })
-  locale: LocaleKey = "en";
+  locale: LocaleKey = "th";
   @property({ type: String })
   defaultAs = "today";
 
@@ -472,15 +472,6 @@ export class Calendar extends LitElement {
               ></ssk-icon>`
             : null}
         </div>
-        <div class="go-today">
-          ${this.shouldDisplayGoToday(
-            this.displayGoToday,
-            this.month,
-            this.year,
-          )
-            ? html` <span @tap=${this.goToday}>Aujourd'hui</span> `
-            : null}
-        </div>
 
         <div class="table">
           <div class="thead">
@@ -529,6 +520,15 @@ export class Calendar extends LitElement {
               </div>`,
             )}
           </div>
+        </div>
+        <div class="go-today">
+          ${this.shouldDisplayGoToday(
+            this.displayGoToday,
+            this.month,
+            this.year,
+          )
+            ? html` <span @tap=${this.goToday}>Aujourd'hui</span> `
+            : null}
         </div>
       </div>
     `;
