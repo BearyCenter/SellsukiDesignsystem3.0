@@ -20,6 +20,7 @@ import { consume } from "@lit/context";
 import { Theme, themeContext } from "../../main";
 import "./cell";
 import "../text";
+import "../icon";
 
 const locales = { en: enUS, fr };
 type LocaleKey = "en" | "fr";
@@ -194,13 +195,13 @@ export class Calendar extends LitElement {
     this.daysOfMonth = rows;
   }
 
-  // private computeCurrentMonthName(month: string, year: string) {
-  //   if (month && year) {
-  //     const dateFn = parse(`${month}/${year}`, "MM/yyyy", new Date());
-  //     return format(dateFn, "MMMM", { locale: locales[this.locale] });
-  //   }
-  //   return "";
-  // }
+  private computeCurrentMonthName(month: string, year: string) {
+    if (month && year) {
+      const dateFn = parse(`${month}/${year}`, "MM/yyyy", new Date());
+      return format(dateFn, "MMMM", { locale: locales[this.locale] });
+    }
+    return "";
+  }
 
   private tdIsEnabled(day?: typeDay) {
     if (day) {
@@ -254,97 +255,97 @@ export class Calendar extends LitElement {
     }
   }
 
-  // private handleNextMonth() {
-  //   const tbody = this.shadowRoot?.querySelector(".tbody");
-  //   const monthName = this.shadowRoot?.querySelector(".monthName > div");
-  //   tbody?.classList.add("withTransition");
-  //   tbody?.classList.add("moveToLeft");
-  //   monthName?.classList.add("withTransition");
-  //   monthName?.classList.add("moveToLeft");
+  private handleNextMonth() {
+    const tbody = this.shadowRoot?.querySelector(".tbody");
+    const monthName = this.shadowRoot?.querySelector(".monthName > div");
+    tbody?.classList.add("withTransition");
+    tbody?.classList.add("moveToLeft");
+    monthName?.classList.add("withTransition");
+    monthName?.classList.add("moveToLeft");
 
-  //   const month = parse(this.month, "MM", new Date());
-  //   const monthPlusDate = addMonths(month, 1);
-  //   const monthPlusString = format(monthPlusDate, "MM", {
-  //     locale: locales[this.locale],
-  //   });
+    const month = parse(this.month, "MM", new Date());
+    const monthPlusDate = addMonths(month, 1);
+    const monthPlusString = format(monthPlusDate, "MM", {
+      locale: locales[this.locale],
+    });
 
-  //   this.month = monthPlusString;
-  //   if (this.month === "01") {
-  //     const year = parse(this.year, "yyyy", new Date());
-  //     const yearPlusDate = addYears(year, 1);
-  //     const yearPlusString = format(yearPlusDate, "yyyy", {
-  //       locale: locales[this.locale],
-  //     });
-  //     this.year = yearPlusString;
-  //   }
-  //   this.dispatchEvent(new CustomEvent("next-month"));
+    this.month = monthPlusString;
+    if (this.month === "01") {
+      const year = parse(this.year, "yyyy", new Date());
+      const yearPlusDate = addYears(year, 1);
+      const yearPlusString = format(yearPlusDate, "yyyy", {
+        locale: locales[this.locale],
+      });
+      this.year = yearPlusString;
+    }
+    this.dispatchEvent(new CustomEvent("next-month"));
 
-  //   setTimeout(() => {
-  //     tbody?.classList.remove("withTransition");
-  //     tbody?.classList.add("moveToRight");
-  //     tbody?.classList.remove("moveToLeft");
-  //     monthName?.classList.remove("withTransition");
-  //     monthName?.classList.add("moveToRight");
-  //     monthName?.classList.remove("moveToLeft");
+    setTimeout(() => {
+      tbody?.classList.remove("withTransition");
+      tbody?.classList.add("moveToRight");
+      tbody?.classList.remove("moveToLeft");
+      monthName?.classList.remove("withTransition");
+      monthName?.classList.add("moveToRight");
+      monthName?.classList.remove("moveToLeft");
 
-  //     setTimeout(() => {
-  //       tbody?.classList.add("withTransition");
-  //       tbody?.classList.remove("moveToRight");
-  //       monthName?.classList.add("withTransition");
-  //       monthName?.classList.remove("moveToRight");
-  //       setTimeout(() => {
-  //         tbody?.classList.remove("withTransition");
-  //         monthName?.classList.remove("withTransition");
-  //       }, 100);
-  //     }, 100);
-  //   }, 100);
-  // }
+      setTimeout(() => {
+        tbody?.classList.add("withTransition");
+        tbody?.classList.remove("moveToRight");
+        monthName?.classList.add("withTransition");
+        monthName?.classList.remove("moveToRight");
+        setTimeout(() => {
+          tbody?.classList.remove("withTransition");
+          monthName?.classList.remove("withTransition");
+        }, 100);
+      }, 100);
+    }, 100);
+  }
 
-  // private handlePrevMonth() {
-  //   const tbody = this.shadowRoot?.querySelector(".tbody");
-  //   const monthName = this.shadowRoot?.querySelector(".monthName > div");
-  //   tbody?.classList.add("withTransition");
-  //   tbody?.classList.add("moveToRight");
-  //   monthName?.classList.add("withTransition");
-  //   monthName?.classList.add("moveToRight");
+  private handlePrevMonth() {
+    const tbody = this.shadowRoot?.querySelector(".tbody");
+    const monthName = this.shadowRoot?.querySelector(".monthName > div");
+    tbody?.classList.add("withTransition");
+    tbody?.classList.add("moveToRight");
+    monthName?.classList.add("withTransition");
+    monthName?.classList.add("moveToRight");
 
-  //   const month = parse(this.month, "MM", new Date());
-  //   const monthMinusDate = subMonths(month, 1);
-  //   const monthMinusString = format(monthMinusDate, "MM", {
-  //     locale: locales[this.locale],
-  //   });
+    const month = parse(this.month, "MM", new Date());
+    const monthMinusDate = subMonths(month, 1);
+    const monthMinusString = format(monthMinusDate, "MM", {
+      locale: locales[this.locale],
+    });
 
-  //   this.month = monthMinusString;
-  //   if (this.month === "12") {
-  //     const year = parse(this.year, "yyyy", new Date());
-  //     const yearMinusDate = subYears(year, 1);
-  //     const yearMinusString = format(yearMinusDate, "yyyy", {
-  //       locale: locales[this.locale],
-  //     });
-  //     this.year = yearMinusString;
-  //   }
-  //   this.dispatchEvent(new CustomEvent("prev-month"));
+    this.month = monthMinusString;
+    if (this.month === "12") {
+      const year = parse(this.year, "yyyy", new Date());
+      const yearMinusDate = subYears(year, 1);
+      const yearMinusString = format(yearMinusDate, "yyyy", {
+        locale: locales[this.locale],
+      });
+      this.year = yearMinusString;
+    }
+    this.dispatchEvent(new CustomEvent("prev-month"));
 
-  //   setTimeout(() => {
-  //     tbody?.classList.remove("withTransition");
-  //     tbody?.classList.add("moveToLeft");
-  //     tbody?.classList.remove("moveToRight");
-  //     monthName?.classList.remove("withTransition");
-  //     monthName?.classList.add("moveToLeft");
-  //     monthName?.classList.remove("moveToRight");
+    setTimeout(() => {
+      tbody?.classList.remove("withTransition");
+      tbody?.classList.add("moveToLeft");
+      tbody?.classList.remove("moveToRight");
+      monthName?.classList.remove("withTransition");
+      monthName?.classList.add("moveToLeft");
+      monthName?.classList.remove("moveToRight");
 
-  //     setTimeout(() => {
-  //       tbody?.classList.add("withTransition");
-  //       tbody?.classList.remove("moveToLeft");
-  //       monthName?.classList.add("withTransition");
-  //       monthName?.classList.remove("moveToLeft");
-  //       setTimeout(() => {
-  //         monthName?.classList.remove("withTransition");
-  //         monthName?.classList.remove("withTransition");
-  //       }, 100);
-  //     }, 100);
-  //   }, 100);
-  // }
+      setTimeout(() => {
+        tbody?.classList.add("withTransition");
+        tbody?.classList.remove("moveToLeft");
+        monthName?.classList.add("withTransition");
+        monthName?.classList.remove("moveToLeft");
+        setTimeout(() => {
+          monthName?.classList.remove("withTransition");
+          monthName?.classList.remove("withTransition");
+        }, 100);
+      }, 100);
+    }, 100);
+  }
 
   private setYears(from: number, to: number) {
     const yearsList = [];
@@ -373,44 +374,44 @@ export class Calendar extends LitElement {
       this.setYears(1930, 2100);
     });
     await this.updateComplete;
-    if (this.enableYearChange) {
-      const paperDropdownMenu = this.shadowRoot?.querySelector(
-        ".year-change",
-      ) as any;
-      paperDropdownMenu?.updateStyles({
-        "--paper-input-container-underline_-_display": "none",
-        "--paper-input-container-shared-input-style_-_font-weight": "500",
-        "--paper-input-container-shared-input-style_-_text-align": "right",
-        "--paper-input-container-shared-input-style_-_font-size": "20px",
-        "--paper-input-container_-_width": "75px",
-        "--paper-input-container_-_padding": "0",
-        "--paper-input-container-shared-input-style_-_color":
-          "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
-        "--paper-input-container-input-color":
-          "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
-        "--disabled-text-color":
-          "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
-      });
-    }
-    if (this.enableMonthChange) {
-      const paperDropdownMenu = this.shadowRoot?.querySelector(
-        ".month-change",
-      ) as any;
-      paperDropdownMenu?.updateStyles({
-        "--paper-input-container-underline_-_display": "none",
-        "--paper-input-container-shared-input-style_-_font-weight": "500",
-        "--paper-input-container-shared-input-style_-_text-align": "center",
-        "--paper-input-container-shared-input-style_-_font-size": "20px",
-        "--paper-input-container_-_width": "75px",
-        "--paper-input-container_-_padding": "0",
-        "--paper-input-container-shared-input-style_-_color":
-          "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
-        "--paper-input-container-input-color":
-          "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
-        "--disabled-text-color":
-          "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
-      });
-    }
+    // if (this.enableYearChange) {
+    //   const paperDropdownMenu = this.shadowRoot?.querySelector(
+    //     ".year-change",
+    //   ) as any;
+    //   paperDropdownMenu?.updateStyles({
+    //     "--paper-input-container-underline_-_display": "none",
+    //     "--paper-input-container-shared-input-style_-_font-weight": "500",
+    //     "--paper-input-container-shared-input-style_-_text-align": "right",
+    //     "--paper-input-container-shared-input-style_-_font-size": "20px",
+    //     "--paper-input-container_-_width": "75px",
+    //     "--paper-input-container_-_padding": "0",
+    //     "--paper-input-container-shared-input-style_-_color":
+    //       "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
+    //     "--paper-input-container-input-color":
+    //       "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
+    //     "--disabled-text-color":
+    //       "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
+    //   });
+    // }
+    // if (this.enableMonthChange) {
+    //   const paperDropdownMenu = this.shadowRoot?.querySelector(
+    //     ".month-change",
+    //   ) as any;
+    //   paperDropdownMenu?.updateStyles({
+    //     "--paper-input-container-underline_-_display": "none",
+    //     "--paper-input-container-shared-input-style_-_font-weight": "500",
+    //     "--paper-input-container-shared-input-style_-_text-align": "center",
+    //     "--paper-input-container-shared-input-style_-_font-size": "20px",
+    //     "--paper-input-container_-_width": "75px",
+    //     "--paper-input-container_-_padding": "0",
+    //     "--paper-input-container-shared-input-style_-_color":
+    //       "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
+    //     "--paper-input-container-input-color":
+    //       "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
+    //     "--disabled-text-color":
+    //       "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
+    //   });
+    // }
   }
 
   private enableYearChangeChanged(enableYearChange: boolean) {
@@ -425,18 +426,22 @@ export class Calendar extends LitElement {
   //   this.month = detail.value;
   // }
 
-  //   private goToday() {
-  //     this.month = `0${getMonth(new Date()) + 1}`.slice(-2);
-  //     this.year = `${getYear(new Date())}`;
-  //   }
+  private goToday() {
+    this.month = `0${getMonth(new Date()) + 1}`.slice(-2);
+    this.year = `${getYear(new Date())}`;
+  }
 
-  //   private shouldDisplayGoToday(displayGoToday: boolean, month: string, year: string) {
-  //     return (
-  //       displayGoToday &&
-  //       (parseInt(month, 10) !== getMonth(new Date()) + 1 ||
-  //         parseInt(year, 10) !== getYear(new Date()))
-  //     );
-  //   }
+  private shouldDisplayGoToday(
+    displayGoToday: boolean,
+    month: string,
+    year: string,
+  ) {
+    return (
+      displayGoToday &&
+      (parseInt(month, 10) !== getMonth(new Date()) + 1 ||
+        parseInt(year, 10) !== getYear(new Date()))
+    );
+  }
 
   render() {
     if (this.hidden) {
@@ -445,6 +450,38 @@ export class Calendar extends LitElement {
 
     return html`
       <div class="calendar-container" data-testid=${this.testId || nothing}>
+        <div class="monthName layout horizontal center">
+          ${this.prev || this.narrow || this.enableYearChange
+            ? html`<ssk-icon
+                name="outline-chevron-left"
+                @click="${this.handlePrevMonth.bind(this)}"
+              ></ssk-icon>`
+            : null}
+          <div class="flex layout horizontal center center-justified">
+            <div>
+              <ssk-text>
+                ${this.computeCurrentMonthName(this.month, this.year)}
+                ${this.year}
+              </ssk-text>
+            </div>
+          </div>
+          ${this.next || this.narrow || this.enableYearChange
+            ? html`<ssk-icon
+                name="outline-chevron-right"
+                @click="${this.handleNextMonth.bind(this)}"
+              ></ssk-icon>`
+            : null}
+        </div>
+        <div class="go-today">
+          ${this.shouldDisplayGoToday(
+            this.displayGoToday,
+            this.month,
+            this.year,
+          )
+            ? html` <span @tap=${this.goToday}>Aujourd'hui</span> `
+            : null}
+        </div>
+
         <div class="table">
           <div class="thead">
             <div class="tr">
@@ -535,15 +572,10 @@ export class Calendar extends LitElement {
     }
 
     .monthName {
-      font-size: 20px;
-      font-weight: 500;
-      line-height: 28px;
-      width: 266px;
-      margin: 10px 0 0 0;
       text-align: center;
-      color: var(--lit-datepicker-month-text);
-      height: 32px;
-      overflow: hidden;
+      display: flex;
+      align-content: space-between;
+      flex-wrap: wrap;
     }
 
     .monthName::first-letter {

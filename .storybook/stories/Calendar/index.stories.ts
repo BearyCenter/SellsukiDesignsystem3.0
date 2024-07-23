@@ -26,5 +26,6 @@ export const BasicCalendar: Story = {
   args: {
     year: "2024",
     month: "01",
+    enableYearChange: true,
   },
 };
