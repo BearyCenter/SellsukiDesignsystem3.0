@@ -31,6 +31,7 @@ export * from "./elements/code-block";
 export * from "./elements/pin-code";
 export * from "./elements/card-select";
 export * from "./elements/card-select/group";
+export * from "./elements/calendar";
 
 export * from "./components/tooltip";
 export * from "./components/dropdown";
