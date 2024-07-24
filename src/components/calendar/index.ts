@@ -532,14 +532,16 @@ export class Calendar extends LitElement {
             this.month,
             this.year,
           )
-            ? html` <ssk-button
-                size=${this.size}
-                variant="ghost"
-                themeColor=${this.themeColor}
-                @click=${this.goToday}
-              >
-                ตอนนี้
-              </ssk-button>`
+            ? html`
+                <ssk-button
+                  size=${this.size}
+                  variant="ghost"
+                  themeColor=${this.themeColor}
+                  @click=${this.goToday}
+                >
+                  ตอนนี้
+                </ssk-button>
+              `
             : null}
         </div>
       </div>
