@@ -104,7 +104,7 @@ export class Tooltip extends LitElement implements ThemeValue {
     --rounded: ${parseVariables(cssVar("rounded", this.size))};
 
     --arrow-visible: var(--content-visible);
-    --area-position: ${this.areaPosition}
+    --area-position: ${this.areaPosition};
     `;
 
     if (this.hideArrow) {

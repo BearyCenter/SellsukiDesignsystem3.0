@@ -2,7 +2,15 @@ import { LitElement, html, css, PropertyValues } from "lit";
 import { startOfDay, getTime } from "date-fns";
 import { customElement, property } from "lit/decorators.js";
 import { consume } from "@lit/context";
-import { Size, Theme, themeContext } from "../../main";
+import {
+  ColorName,
+  ColorRole,
+  cssVar,
+  parseVariables,
+  Size,
+  Theme,
+  themeContext,
+} from "../../main";
 import "../../elements/text";
 
 type typeDay = {
@@ -23,6 +31,8 @@ export class Cell extends LitElement {
 
   @property({ type: String })
   size: Size = "sm";
+  @property({ type: String })
+  themeColor: ColorRole | ColorName = "primary";
 
   // Cell props
   @property({ type: Object })
@@ -144,7 +154,18 @@ export class Cell extends LitElement {
   }
 
   render() {
+    let additionalCss = `
+    --600-colors: ${parseVariables(cssVar("colors", this.themeColor, 600))};
+    --100-colors: ${parseVariables(cssVar("colors", this.themeColor, 100))};
+    `;
+
     return html`
+      <style>
+        div {
+          ${additionalCss}
+        }
+      </style>
+
       <div
         @click="${this.handleTap.bind(this)}"
         @mouseover="${this.handleHover.bind(this)}"
@@ -181,7 +202,6 @@ export class Cell extends LitElement {
 
   static styles = css`
     :host {
-      font-family: Roboto;
       display: block;
       width: 38px;
     }
@@ -195,17 +215,17 @@ export class Cell extends LitElement {
     }
 
     .day:not(.disabled):hover {
-      background: var(--lit-datepicker-cell-hover, #1b8bf5);
+      background: var(--600-colors);
       cursor: pointer;
       border-radius: 50%;
     }
 
     .day.hovered {
-      background: var(--lit-datepicker-cell-hovered, #d9f2ff) !important;
+      background: var(--100-colors) !important;
     }
 
     .day.selected {
-      background: var(--lit-datepicker-cell-selected, #d9f2ff) !important;
+      background: var(--100-colors) !important;
     }
 
     .day .currentDayMarker {
@@ -216,7 +236,7 @@ export class Cell extends LitElement {
     .day.selected .inner-selected {
       width: 100%;
       height: 100%;
-      background: #1b8bf5;
+      background: var(--600-colors);
       border-radius: 50%;
       position: absolute;
       z-index: 1;
@@ -240,14 +260,13 @@ export class Cell extends LitElement {
       right: -50%;
       top: 0;
       bottom: 0;
-      background: var(--lit-datepicker-cell-hovered, #d9f2ff) !important;
+      background: var(--100-colors) !important;
     }
 
     .day.currentDate .currentDayMarker {
       position: relative;
       width: auto;
       height: auto;
-      font-weight: var(--current-day-font-weight, bold);
       border-radius: 50%;
     }
 
@@ -259,7 +278,7 @@ export class Cell extends LitElement {
       transform: translateX(-50%);
       width: 0.25rem;
       height: 0.25rem;
-      background-color: #1b8bf5;
+      background-color: var(--600-colors);
       border-radius: 50%;
     }
 

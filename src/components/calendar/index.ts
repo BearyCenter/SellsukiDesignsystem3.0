@@ -502,6 +502,7 @@ export class Calendar extends LitElement {
                         ? html`
                             <ssk-cell
                               .disabledDays="${this.disabledDays}"
+                              .themeColor=${this.themeColor}
                               .min="${this.min}"
                               .max="${this.max}"
                               .month="${this.month}"
