@@ -12,7 +12,10 @@ import {
   addYears,
   subMonths,
   subYears,
+  subDays,
   Day,
+  toDate,
+  getTime,
 } from "date-fns";
 import { enUS, fr, th } from "date-fns/locale";
 import { customElement, property, state } from "lit/decorators.js";
@@ -26,6 +29,7 @@ import "../../elements/button";
 const locales = { en: enUS, fr, th };
 type LocaleKey = "en" | "fr" | "th";
 type typeDay = {
+  isCurrentMonth?: boolean;
   hover: boolean;
   title: number;
   date: number;
@@ -164,6 +168,7 @@ export class Calendar extends LitElement {
 
       const columnFn: typeDay = {
         hover: false,
+        isCurrentMonth: true,
         date: parseInt(format(startDateFn, "t"), 10),
         title: parseInt(format(startDateFn, "d"), 10),
       };
@@ -171,9 +176,18 @@ export class Calendar extends LitElement {
 
       if (dayNumberFn === lastDayOfWeek) {
         for (let i = columns.length; i < lastDayOfWeek + 1; i += 1) {
-          console.log("dddd >>", i);
-
-          columns.unshift(0);
+          const firstDateOfMonth = (columns[0] as typeDay).title;
+          const firstDateString = `${
+            monthMinus + "/0" + firstDateOfMonth + "/" + year
+          }`;
+          const firstDateSub = subDays(firstDateString, 1);
+          const prevDate: typeDay = {
+            hover: false,
+            isCurrentMonth: false,
+            date: parseInt(format(firstDateSub, "t"), 10),
+            title: parseInt(format(firstDateSub, "d"), 10),
+          };
+          columns.unshift(prevDate);
         }
         rows.push(columns.slice());
         columns = [];
@@ -185,18 +199,31 @@ export class Calendar extends LitElement {
       if (startDateString === endDateString) {
         const endColumnFn: typeDay = {
           hover: false,
+          isCurrentMonth: true,
           date: parseInt(format(startDateFn, "t"), 10),
           title: parseInt(format(startDateFn, "d"), 10),
         };
         columns.push(endColumnFn);
         for (let i = columns.length; i <= lastDayOfWeek; i += 1) {
-          columns.push(0);
+          const lastDateOfMonth = (columns[columns.length - 1] as typeDay)
+            .title;
+          const lastDateString = `${
+            monthMinus + "/" + lastDateOfMonth + "/" + year
+          }`;
+          const lastDatePlus = addDays(lastDateString, 1);
+          const nextDate: typeDay = {
+            hover: false,
+            isCurrentMonth: false,
+            date: parseInt(format(lastDatePlus, "t"), 10),
+            title: parseInt(format(lastDatePlus, "d"), 10),
+          };
+
+          columns.push(nextDate);
         }
         rows.push(columns.slice());
         columns = [];
       }
     }
-    console.log("rowwww >>", rows);
     this.daysOfMonth = rows;
   }
 
@@ -204,13 +231,6 @@ export class Calendar extends LitElement {
     if (month && year) {
       const dateFn = parse(`${month}/${year}`, "MM/yyyy", new Date());
       return format(dateFn, "MMMM", { locale: locales[this.locale] });
-    }
-    return "";
-  }
-
-  private tdIsEnabled(day?: typeDay) {
-    if (day) {
-      return "enabled";
     }
     return "";
   }
@@ -434,10 +454,8 @@ export class Calendar extends LitElement {
                 (week: any) => html` <div class="tr">
                   ${week &&
                   week.map(
-                    (dayOfMonth: typeDay) => html` <div
-                      class="td ${this.tdIsEnabled(dayOfMonth)}"
-                    >
-                      ${dayOfMonth
+                    (dayOfMonth: typeDay) => html` <div class="td">
+                      ${dayOfMonth.isCurrentMonth
                         ? html`
                             <ssk-cell
                               .disabledDays="${this.disabledDays}"
@@ -454,7 +472,13 @@ export class Calendar extends LitElement {
                               )}"
                             ></ssk-cell>
                           `
-                        : null}
+                        : html`
+                            <div class="non-current-month">
+                              <ssk-text color="gray.300"
+                                >${dayOfMonth.title}</ssk-text
+                              >
+                            </div>
+                          `}
                     </div>`,
                   )}
                 </div>`,
@@ -503,26 +527,25 @@ export class Calendar extends LitElement {
 
     .th {
       display: table-cell;
-      line-height: 20px;
-      font-weight: 400;
-      color: var(--lit-datepicker-day-names-text, rgb(117, 117, 117));
-      font-size: 11px;
-      width: 38px;
-      padding: 0;
-      margin: 0;
+      width: 2.4rem;
       text-align: center;
     }
 
     .tr {
       display: table-row;
-      height: 38px;
+      height: 2rem;
     }
 
     .td {
       display: table-cell;
-      padding: 0;
-      width: 38px;
-      margin: 0;
+    }
+
+    .non-current-month {
+      height: 2.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
     }
 
     .monthName {
@@ -535,42 +558,9 @@ export class Calendar extends LitElement {
       text-transform: uppercase;
     }
 
-    .monthName > div > div {
-      margin-right: 8px;
-      height: 30px;
-    }
-
-    paper-listbox {
-      max-height: 200px;
-    }
-
     div.tbody {
       transition: all 0ms;
       transform: translateX(0);
-    }
-
-    .withTransition {
-      transition: all 100ms;
-    }
-
-    .moveToLeft {
-      transform: translateX(-274px);
-    }
-
-    .moveToRight {
-      transform: translateX(274px);
-    }
-
-    .withTransition td,
-    .moveToLeft td,
-    .moveToRight td {
-      border: none;
-    }
-
-    paper-dropdown-menu {
-      width: 75px;
-      padding: 0;
-      height: auto;
     }
 
     .go-today {
@@ -579,12 +569,6 @@ export class Calendar extends LitElement {
 
     .month-change {
       min-width: 130px;
-    }
-
-    .monthName paper-icon-button {
-      width: 30px;
-      height: 30px;
-      padding: 0px;
     }
   `;
 }

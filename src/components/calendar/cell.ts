@@ -145,14 +145,13 @@ export class Cell extends LitElement {
       <div
         @click="${this.handleTap.bind(this)}"
         @mouseover="${this.handleHover.bind(this)}"
-        class="layout horizontal center center-justified day ${this
-          .isCurrentDate
+        class="day ${this.isCurrentDate
           ? "currentDate"
           : null} ${this.isSelected(this.selected)} ${this.isHovered(
           this.hovered,
         )} ${this.isEnabled(this.min, this.max, this.disabledDays, this.day)}"
       >
-        <div class="layout horizontal center center-justified currentDayMarker">
+        <div class="currentDayMarker">
           <ssk-text> ${this.day ? this.day.title : null} </ssk-text>
         </div>
       </div>
