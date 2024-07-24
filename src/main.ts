@@ -31,7 +31,6 @@ export * from "./elements/code-block";
 export * from "./elements/pin-code";
 export * from "./elements/card-select";
 export * from "./elements/card-select/group";
-export * from "./elements/calendar";
 
 export * from "./components/tooltip";
 export * from "./components/dropdown";
@@ -40,5 +39,6 @@ export * from "./components/sidebar";
 export * from "./components/tabs";
 export * from "./components/stepper";
 export * from "./components/pagination";
+export * from "./components/calendar";
 
 import "./assets/fonts.css";

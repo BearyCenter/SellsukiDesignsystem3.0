@@ -3,7 +3,7 @@ import { startOfDay, getTime } from "date-fns";
 import { customElement, property } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import { Theme, themeContext } from "../../main";
-import "../text";
+import "../../elements/text";
 
 type typeDay = {
   title: number;

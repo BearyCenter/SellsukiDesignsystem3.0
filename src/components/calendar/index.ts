@@ -19,9 +19,9 @@ import { customElement, property, state } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import { Theme, themeContext } from "../../main";
 import "./cell";
-import "../text";
-import "../icon";
-import "../button";
+import "../../elements/text";
+import "../../elements/icon";
+import "../../elements/button";
 
 const locales = { en: enUS, fr, th };
 type LocaleKey = "en" | "fr" | "th";
@@ -114,6 +114,7 @@ export class Calendar extends LitElement {
       this.yearAndMonthChanged(this.year, this.month);
     }
   }
+
   private isCurrentDate(dayOfMonth: typeDay) {
     const dayDate = dayOfMonth.date;
     return dayDate === this._currentDate;
@@ -170,6 +171,8 @@ export class Calendar extends LitElement {
 
       if (dayNumberFn === lastDayOfWeek) {
         for (let i = columns.length; i < lastDayOfWeek + 1; i += 1) {
+          console.log("dddd >>", i);
+
           columns.unshift(0);
         }
         rows.push(columns.slice());
@@ -329,44 +332,10 @@ export class Calendar extends LitElement {
       "12",
     ];
     await this.updateComplete;
-    // if (this.enableYearChange) {
-    //   const paperDropdownMenu = this.shadowRoot?.querySelector(
-    //     ".year-change",
-    //   ) as any;
-    //   paperDropdownMenu?.updateStyles({
-    //     "--paper-input-container-underline_-_display": "none",
-    //     "--paper-input-container-shared-input-style_-_font-weight": "500",
-    //     "--paper-input-container-shared-input-style_-_text-align": "right",
-    //     "--paper-input-container-shared-input-style_-_font-size": "20px",
-    //     "--paper-input-container_-_width": "75px",
-    //     "--paper-input-container_-_padding": "0",
-    //     "--paper-input-container-shared-input-style_-_color":
-    //       "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
-    //     "--paper-input-container-input-color":
-    //       "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
-    //     "--disabled-text-color":
-    //       "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
-    //   });
-    // }
-    // if (this.enableMonthChange) {
-    //   const paperDropdownMenu = this.shadowRoot?.querySelector(
-    //     ".month-change",
-    //   ) as any;
-    //   paperDropdownMenu?.updateStyles({
-    //     "--paper-input-container-underline_-_display": "none",
-    //     "--paper-input-container-shared-input-style_-_font-weight": "500",
-    //     "--paper-input-container-shared-input-style_-_text-align": "center",
-    //     "--paper-input-container-shared-input-style_-_font-size": "20px",
-    //     "--paper-input-container_-_width": "75px",
-    //     "--paper-input-container_-_padding": "0",
-    //     "--paper-input-container-shared-input-style_-_color":
-    //       "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
-    //     "--paper-input-container-input-color":
-    //       "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
-    //     "--disabled-text-color":
-    //       "var(--paper-datatable-navigation-bar-text-color, rgba(0, 0, 0, .54))",
-    //   });
-    // }
+    if (this.enableYearChange) {
+    }
+    if (this.enableMonthChange) {
+    }
   }
 
   private enableYearChangeChanged(enableYearChange: boolean) {

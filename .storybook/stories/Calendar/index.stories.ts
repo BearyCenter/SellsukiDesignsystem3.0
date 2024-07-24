@@ -1,8 +1,8 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/elements/calendar";
-import { Calendar } from "../../../src/elements/calendar";
+import "../../../src/components/calendar";
+import { Calendar } from "../../../src/components/calendar";
 import { baseArgsTypes } from "../helper";
 type CalendarArgs = {} & Calendar;
 
