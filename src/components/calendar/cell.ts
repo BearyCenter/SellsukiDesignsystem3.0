@@ -157,6 +157,7 @@ export class Cell extends LitElement {
     let additionalCss = `
     --600-colors: ${parseVariables(cssVar("colors", this.themeColor, 600))};
     --100-colors: ${parseVariables(cssVar("colors", this.themeColor, 100))};
+    --cell-height: var(--cell-width);
     `;
 
     return html`
@@ -203,11 +204,10 @@ export class Cell extends LitElement {
   static styles = css`
     :host {
       display: block;
-      width: 38px;
     }
 
     .day {
-      height: 2.3rem;
+      height: var(--cell-height);
       display: flex;
       align-items: center;
       justify-content: center;

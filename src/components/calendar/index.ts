@@ -69,13 +69,7 @@ export class Calendar extends LitElement {
   @property({ type: String })
   padding?: Size;
   @property({ type: String })
-  fontSize?: string | undefined;
-  @property({ type: String })
-  gap?: string | undefined;
-  @property({ type: String })
   rounded?: string | undefined;
-  @property({ type: String })
-  margin?: string | undefined;
 
   // Calendar props
   @property({ type: String })
@@ -419,8 +413,9 @@ export class Calendar extends LitElement {
 
   render() {
     let additionalCss = `
-    --padding: ${parseVariables(cssVar("padding", this.size))};
-    --rounded: ${parseVariables(cssVar("rounded", this.rounded))};
+    --padding: ${parseVariables(cssVar("padding", this.size), this.padding)};
+    --rounded: ${parseVariables(cssVar("rounded", this.size), this.rounded)};
+    --cell-width: calc(var(--padding) * 2);
     `;
 
     if (this.hidden) {
@@ -577,7 +572,7 @@ export class Calendar extends LitElement {
 
     .th {
       display: table-cell;
-      width: 2.4rem;
+      width: var(--cell-width);
       text-align: center;
     }
 
@@ -588,6 +583,7 @@ export class Calendar extends LitElement {
 
     .td {
       display: table-cell;
+      width: var(--cell-width);
     }
 
     .non-current-month {
