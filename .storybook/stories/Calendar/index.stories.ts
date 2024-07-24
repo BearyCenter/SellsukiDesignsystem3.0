@@ -27,5 +27,6 @@ export const BasicCalendar: Story = {
     year: "2024",
     month: "01",
     enableYearChange: true,
+    displayGoToday: true,
   },
 };

@@ -21,6 +21,7 @@ import { Theme, themeContext } from "../../main";
 import "./cell";
 import "../text";
 import "../icon";
+import "../button";
 
 const locales = { en: enUS, fr, th };
 type LocaleKey = "en" | "fr" | "th";
@@ -179,7 +180,7 @@ export class Calendar extends LitElement {
       startDateString = format(startDateFn, "dd/MM/yyyy");
 
       if (startDateString === endDateString) {
-        const endColumnFn = {
+        const endColumnFn: typeDay = {
           hover: false,
           date: parseInt(format(startDateFn, "t"), 10),
           title: parseInt(format(startDateFn, "d"), 10),
@@ -192,6 +193,7 @@ export class Calendar extends LitElement {
         columns = [];
       }
     }
+    console.log("rowwww >>", rows);
     this.daysOfMonth = rows;
   }
 
@@ -256,13 +258,6 @@ export class Calendar extends LitElement {
   }
 
   private handleNextMonth() {
-    const tbody = this.shadowRoot?.querySelector(".tbody");
-    const monthName = this.shadowRoot?.querySelector(".monthName > div");
-    tbody?.classList.add("withTransition");
-    tbody?.classList.add("moveToLeft");
-    monthName?.classList.add("withTransition");
-    monthName?.classList.add("moveToLeft");
-
     const month = parse(this.month, "MM", new Date());
     const monthPlusDate = addMonths(month, 1);
     const monthPlusString = format(monthPlusDate, "MM", {
@@ -279,36 +274,9 @@ export class Calendar extends LitElement {
       this.year = yearPlusString;
     }
     this.dispatchEvent(new CustomEvent("next-month"));
-
-    setTimeout(() => {
-      tbody?.classList.remove("withTransition");
-      tbody?.classList.add("moveToRight");
-      tbody?.classList.remove("moveToLeft");
-      monthName?.classList.remove("withTransition");
-      monthName?.classList.add("moveToRight");
-      monthName?.classList.remove("moveToLeft");
-
-      setTimeout(() => {
-        tbody?.classList.add("withTransition");
-        tbody?.classList.remove("moveToRight");
-        monthName?.classList.add("withTransition");
-        monthName?.classList.remove("moveToRight");
-        setTimeout(() => {
-          tbody?.classList.remove("withTransition");
-          monthName?.classList.remove("withTransition");
-        }, 100);
-      }, 100);
-    }, 100);
   }
 
   private handlePrevMonth() {
-    const tbody = this.shadowRoot?.querySelector(".tbody");
-    const monthName = this.shadowRoot?.querySelector(".monthName > div");
-    tbody?.classList.add("withTransition");
-    tbody?.classList.add("moveToRight");
-    monthName?.classList.add("withTransition");
-    monthName?.classList.add("moveToRight");
-
     const month = parse(this.month, "MM", new Date());
     const monthMinusDate = subMonths(month, 1);
     const monthMinusString = format(monthMinusDate, "MM", {
@@ -325,26 +293,26 @@ export class Calendar extends LitElement {
       this.year = yearMinusString;
     }
     this.dispatchEvent(new CustomEvent("prev-month"));
+  }
 
-    setTimeout(() => {
-      tbody?.classList.remove("withTransition");
-      tbody?.classList.add("moveToLeft");
-      tbody?.classList.remove("moveToRight");
-      monthName?.classList.remove("withTransition");
-      monthName?.classList.add("moveToLeft");
-      monthName?.classList.remove("moveToRight");
+  private handlePrevYear() {
+    const year = parse(this.year, "yyyy", new Date());
+    const yearMinusMonth = subYears(year, 1);
+    const yearMinusString = format(yearMinusMonth, "yyyy", {
+      locale: locales[this.locale],
+    });
 
-      setTimeout(() => {
-        tbody?.classList.add("withTransition");
-        tbody?.classList.remove("moveToLeft");
-        monthName?.classList.add("withTransition");
-        monthName?.classList.remove("moveToLeft");
-        setTimeout(() => {
-          monthName?.classList.remove("withTransition");
-          monthName?.classList.remove("withTransition");
-        }, 100);
-      }, 100);
-    }, 100);
+    this.year = yearMinusString;
+  }
+
+  private handleNextYear() {
+    const year = parse(this.year, "yyyy", new Date());
+    const yearPlusMonth = addYears(year, 1);
+    const yearPlusString = format(yearPlusMonth, "yyyy", {
+      locale: locales[this.locale],
+    });
+
+    this.year = yearPlusString;
   }
 
   private setYears(from: number, to: number) {
@@ -356,6 +324,7 @@ export class Calendar extends LitElement {
   }
 
   async firstUpdated() {
+    this.setYears(1930, 2100);
     this.monthsList = [
       "01",
       "02",
@@ -370,9 +339,6 @@ export class Calendar extends LitElement {
       "11",
       "12",
     ];
-    setTimeout(() => {
-      this.setYears(1930, 2100);
-    });
     await this.updateComplete;
     // if (this.enableYearChange) {
     //   const paperDropdownMenu = this.shadowRoot?.querySelector(
@@ -449,76 +415,96 @@ export class Calendar extends LitElement {
     }
 
     return html`
-      <div class="calendar-container" data-testid=${this.testId || nothing}>
-        <div class="monthName layout horizontal center">
-          ${this.prev || this.narrow || this.enableYearChange
-            ? html`<ssk-icon
-                name="outline-chevron-left"
-                @click="${this.handlePrevMonth.bind(this)}"
-              ></ssk-icon>`
-            : null}
-          <div class="flex layout horizontal center center-justified">
+      <div class="container">
+        <div class="calendar" data-testid=${this.testId || nothing}>
+          <div class="monthName layout horizontal center">
+            ${this.prev || this.narrow || this.enableYearChange
+              ? html`<div class="left-arrow">
+                  <ssk-icon
+                    size="sm"
+                    name="outline-chevron-double-left"
+                    @click="${this.handlePrevYear.bind(this)}"
+                  ></ssk-icon>
+                  <ssk-icon
+                    size="sm"
+                    name="outline-chevron-left"
+                    @click="${this.handlePrevMonth.bind(this)}"
+                  ></ssk-icon>
+                </div>`
+              : null}
             <div>
-              <ssk-text>
-                ${this.computeCurrentMonthName(this.month, this.year)}
-                ${this.year}
-              </ssk-text>
+              <div>
+                <ssk-text>
+                  ${this.computeCurrentMonthName(this.month, this.year)}
+                  ${this.year}
+                </ssk-text>
+              </div>
             </div>
+            ${this.next || this.narrow || this.enableYearChange
+              ? html`
+                  <div class="left-arrow">
+                    <ssk-icon
+                      size="sm"
+                      name="outline-chevron-right"
+                      @click="${this.handleNextMonth.bind(this)}"
+                    ></ssk-icon>
+                    <ssk-icon
+                      size="sm"
+                      name="outline-chevron-double-right"
+                      @click="${this.handleNextYear.bind(this)}"
+                    ></ssk-icon>
+                  </div>
+                `
+              : null}
           </div>
-          ${this.next || this.narrow || this.enableYearChange
-            ? html`<ssk-icon
-                name="outline-chevron-right"
-                @click="${this.handleNextMonth.bind(this)}"
-              ></ssk-icon>`
-            : null}
-        </div>
 
-        <div class="table">
-          <div class="thead">
-            <div class="tr">
-              ${this.dayNamesOfTheWeek &&
-              this.dayNamesOfTheWeek.map(
-                (dayNameOfWeek) =>
-                  html`<div class="th">
-                    <ssk-text>${dayNameOfWeek}</ssk-text>
-                  </div>`,
+          <div class="table">
+            <div class="thead">
+              <div class="tr">
+                ${this.dayNamesOfTheWeek &&
+                this.dayNamesOfTheWeek.map(
+                  (dayNameOfWeek) =>
+                    html`<div class="th">
+                      <ssk-text>${dayNameOfWeek}</ssk-text>
+                    </div>`,
+                )}
+              </div>
+            </div>
+            <div class="tbody">
+              ${this.daysOfMonth &&
+              this.daysOfMonth.map(
+                (week: any) => html` <div class="tr">
+                  ${week &&
+                  week.map(
+                    (dayOfMonth: typeDay) => html` <div
+                      class="td ${this.tdIsEnabled(dayOfMonth)}"
+                    >
+                      ${dayOfMonth
+                        ? html`
+                            <ssk-cell
+                              .disabledDays="${this.disabledDays}"
+                              .min="${this.min}"
+                              .max="${this.max}"
+                              .month="${this.month}"
+                              .hoveredDate="${this.hoveredDate}"
+                              .dateTo="${this.dateTo}"
+                              .dateFrom="${this.dateFrom}"
+                              .day="${dayOfMonth}"
+                              ?isCurrentDate="${this.isCurrentDate(dayOfMonth)}"
+                              @date-is-hovered="${this.handleDateHovered.bind(
+                                this,
+                              )}"
+                              @date-is-selected="${this.handleDateSelected.bind(
+                                this,
+                              )}"
+                            ></ssk-cell>
+                          `
+                        : null}
+                    </div>`,
+                  )}
+                </div>`,
               )}
             </div>
-          </div>
-          <div class="tbody">
-            ${this.daysOfMonth &&
-            this.daysOfMonth.map(
-              (week: any) => html` <div class="tr">
-                ${week &&
-                week.map(
-                  (dayOfMonth: typeDay) => html` <div
-                    class="td ${this.tdIsEnabled(dayOfMonth)}"
-                  >
-                    ${dayOfMonth
-                      ? html`
-                          <ssk-cell
-                            .disabledDays="${this.disabledDays}"
-                            .min="${this.min}"
-                            .max="${this.max}"
-                            .month="${this.month}"
-                            .hoveredDate="${this.hoveredDate}"
-                            .dateTo="${this.dateTo}"
-                            .dateFrom="${this.dateFrom}"
-                            .day="${dayOfMonth}"
-                            ?isCurrentDate="${this.isCurrentDate(dayOfMonth)}"
-                            @date-is-hovered="${this.handleDateHovered.bind(
-                              this,
-                            )}"
-                            @date-is-selected="${this.handleDateSelected.bind(
-                              this,
-                            )}"
-                          ></ssk-cell>
-                        `
-                      : null}
-                  </div>`,
-                )}
-              </div>`,
-            )}
           </div>
         </div>
         <div class="go-today">
@@ -527,7 +513,9 @@ export class Calendar extends LitElement {
             this.month,
             this.year,
           )
-            ? html` <span @tap=${this.goToday}>Aujourd'hui</span> `
+            ? html` <ssk-button variant="ghost" @click=${this.goToday}>
+                ตอนนี้
+              </ssk-button>`
             : null}
         </div>
       </div>
@@ -535,19 +523,30 @@ export class Calendar extends LitElement {
   }
 
   static styles = css`
-    div.calendar-container {
+    .container {
       width: fit-content;
       background-color: white;
+      border: 1px solid var(--ssk-colors-gray-200);
+      border-radius: 4px;
     }
 
-    div.table {
+    .calendar {
+      padding: 1rem;
+    }
+
+    .left-arrow,
+    .right-arrow {
+      display: flex;
+    }
+
+    .table {
       display: table;
       border-collapse: collapse;
       table-layout: fixed;
       margin-top: 10px;
     }
 
-    div.th {
+    .th {
       display: table-cell;
       line-height: 20px;
       font-weight: 400;
@@ -559,12 +558,12 @@ export class Calendar extends LitElement {
       text-align: center;
     }
 
-    div.tr {
+    .tr {
       display: table-row;
       height: 38px;
     }
 
-    div.td {
+    .td {
       display: table-cell;
       padding: 0;
       width: 38px;
@@ -574,8 +573,7 @@ export class Calendar extends LitElement {
     .monthName {
       text-align: center;
       display: flex;
-      align-content: space-between;
-      flex-wrap: wrap;
+      justify-content: space-between;
     }
 
     .monthName::first-letter {
@@ -594,7 +592,6 @@ export class Calendar extends LitElement {
     div.tbody {
       transition: all 0ms;
       transform: translateX(0);
-      height: 235px;
     }
 
     .withTransition {
@@ -622,15 +619,9 @@ export class Calendar extends LitElement {
     }
 
     .go-today {
-      text-align: center;
-      text-decoration: underline;
-      font-size: 10px;
-      color: var(--lit-datepicker-today-shortcut, rgb(0, 150, 136));
-      height: 11px;
+      border-top: 1px solid var(--ssk-colors-gray-200);
     }
-    .go-today span {
-      cursor: pointer;
-    }
+
     .month-change {
       min-width: 130px;
     }
