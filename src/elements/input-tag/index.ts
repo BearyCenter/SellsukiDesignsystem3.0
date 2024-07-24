@@ -53,9 +53,6 @@ export class Inputtag extends LitElement {
     @property({ type: String })
     name: string | undefined;
 
-    @property({ type: Array })
-    value: string[] = [];
-
     @property({ type: String })
     placeholder: string | undefined;
 
@@ -73,9 +70,6 @@ export class Inputtag extends LitElement {
     @property({ type: String })
     minWidth?: string | undefined;
 
-    @property({ type: String })
-    resize: "none" | "both" | "horizontal" | "vertical" = "both";
-
     @property({ type: Array })
     tags: string[] = [];
 
@@ -89,17 +83,12 @@ export class Inputtag extends LitElement {
         this.totalChars = tagsChars;
     }
 
-    updateValue() {
-        this.value = this.tags;
-        console.log(this.tags );
-    }
 
     render() {
         if (this.hidden) {
             return nothing;
         }
         this.calculateTotalChars(); 
-        this.updateValue();
 
         return html`
     ${parseThemeToCssVariables(this.theme?.components?.inputtag, ":host")}
@@ -135,7 +124,6 @@ export class Inputtag extends LitElement {
             --width: ${parseVariables(cssVar("width", this.width), "auto")};
             --min-height: ${parseVariables(cssVar("min-height", this.minHeight))};
             --min-width: ${parseVariables(cssVar("min-width", this.minWidth))};
-            --resize: ${this.resize};
 
             --color-tag: ${parseVariables(cssVar("colors", this.themeColor, 500))};
             --border-color-tag: ${parseVariables(cssVar("colors", this.themeColor, 100))};
@@ -213,7 +201,7 @@ export class Inputtag extends LitElement {
             if (tag.length >= 1 && tag.length <= 21) {
                 if (!this.tags.includes(tag)) {
                     this.tags = [...this.tags, tag];
-                    this.updateValue();
+                    this.dispatchEvent(new CustomEvent('change', { detail: this.tags }));
                 }
                 target.value = "";
                 this.calculateTotalChars();
@@ -223,8 +211,8 @@ export class Inputtag extends LitElement {
 
     removeTag(tag: string) {
         this.tags = this.tags.filter((item) => item !== tag);
-        this.updateValue();
         this.calculateTotalChars();
+        this.dispatchEvent(new CustomEvent('change', { detail: this.tags }));
     }
 
     static styles = css`
@@ -247,7 +235,7 @@ export class Inputtag extends LitElement {
         gap: var(--gap);
         min-height: var(--min-height);
         min-width: var(--min-width);
-        resize: var(--resize);
+        resize: none;
         white-space: var(--white-space);
         word-wrap: var(--word-wrap);
         overflow-x: scroll;

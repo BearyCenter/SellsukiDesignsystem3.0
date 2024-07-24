@@ -30,10 +30,6 @@ const meta = {
                 type: "boolean",
             },
         },
-        ".value": {
-            description: "Array of value",
-            control: "array",
-        },
         ".tags": {
             description: "Array of tags",
             control: {
