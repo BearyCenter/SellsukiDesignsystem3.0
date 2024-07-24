@@ -239,6 +239,7 @@ export type Theme = {
     pagination?: Partial<ThemeField>;
     pinCode?: Partial<ThemeField>;
     cardSelect?: Partial<ThemeField>;
+    calendar?: Partial<ThemeField>;
   };
 } & ThemeField;
 

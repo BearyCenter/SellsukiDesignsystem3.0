@@ -18,13 +18,24 @@ import {
 import { enUS, fr, th } from "date-fns/locale";
 import { customElement, property, state } from "lit/decorators.js";
 import { consume } from "@lit/context";
-import { Theme, themeContext } from "../../main";
+import { themeContext } from "../../contexts/theme";
+
+import {
+  ColorName,
+  ColorRole,
+  cssVar,
+  parseThemeToCssVariables,
+  parseVariables,
+  Size,
+  Theme,
+} from "../../types/theme";
 import "./cell";
 import "../../elements/text";
 import "../../elements/icon";
 import "../../elements/button";
 
 const locales = { en: enUS, fr, th };
+
 type LocaleKey = "en" | "fr" | "th";
 type typeDay = {
   isCurrentMonth?: boolean;
@@ -44,6 +55,27 @@ export class Calendar extends LitElement {
   // BaseAttributes
   @property({ type: String })
   testId?: string;
+
+  // ThemeValue
+  @property({ type: String })
+  themeColor: ColorRole | ColorName = "primary";
+  @property({ type: String })
+  color?: string = "white";
+  @property({ type: String })
+  backgroundColor?: string | undefined;
+
+  @property({ type: String })
+  size: Size = "md";
+  @property({ type: String })
+  padding?: Size;
+  @property({ type: String })
+  fontSize?: string | undefined;
+  @property({ type: String })
+  gap?: string | undefined;
+  @property({ type: String })
+  rounded?: string | undefined;
+  @property({ type: String })
+  margin?: string | undefined;
 
   // Calendar props
   @property({ type: String })
@@ -386,11 +418,24 @@ export class Calendar extends LitElement {
   }
 
   render() {
+    let additionalCss = `
+    --padding: ${parseVariables(cssVar("padding", this.size))};
+    --rounded: ${parseVariables(cssVar("rounded", this.rounded))};
+    `;
+
     if (this.hidden) {
       return nothing;
     }
 
     return html`
+      ${parseThemeToCssVariables(this.theme?.components?.calendar, "div")}
+
+      <style>
+        div {
+          ${additionalCss}
+        }
+      </style>
+
       <div class="container">
         <div class="calendar" data-testid=${this.testId || nothing}>
           <div class="monthName layout horizontal center">
@@ -410,7 +455,7 @@ export class Calendar extends LitElement {
               : null}
             <div>
               <div>
-                <ssk-text>
+                <ssk-text size=${this.size}>
                   ${this.computeCurrentMonthName(this.month, this.year)}
                   ${this.year}
                 </ssk-text>
@@ -441,7 +486,7 @@ export class Calendar extends LitElement {
                 this.dayNamesOfTheWeek.map(
                   (dayNameOfWeek) =>
                     html`<div class="th">
-                      <ssk-text>${dayNameOfWeek}</ssk-text>
+                      <ssk-text size=${this.size}>${dayNameOfWeek}</ssk-text>
                     </div>`,
                 )}
               </div>
@@ -464,6 +509,7 @@ export class Calendar extends LitElement {
                               .dateTo="${this.dateTo}"
                               .dateFrom="${this.dateFrom}"
                               .day="${dayOfMonth}"
+                              .size=${this.size}
                               ?isCurrentDate="${this.isCurrentDate(dayOfMonth)}"
                               @date-is-selected="${this.handleDateSelected.bind(
                                 this,
@@ -472,7 +518,7 @@ export class Calendar extends LitElement {
                           `
                         : html`
                             <div class="non-current-month">
-                              <ssk-text color="gray.300"
+                              <ssk-text size=${this.size} color="gray.300"
                                 >${dayOfMonth.title}</ssk-text
                               >
                             </div>
@@ -490,7 +536,11 @@ export class Calendar extends LitElement {
             this.month,
             this.year,
           )
-            ? html` <ssk-button variant="ghost" @click=${this.goToday}>
+            ? html` <ssk-button
+                size=${this.size}
+                variant="ghost"
+                @click=${this.goToday}
+              >
                 ตอนนี้
               </ssk-button>`
             : null}
@@ -504,11 +554,11 @@ export class Calendar extends LitElement {
       width: fit-content;
       background-color: white;
       border: 1px solid var(--ssk-colors-gray-200);
-      border-radius: 4px;
+      border-radius: var(--rounded);
     }
 
     .calendar {
-      padding: 1rem;
+      padding: var(--padding);
     }
 
     .left-arrow,

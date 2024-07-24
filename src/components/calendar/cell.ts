@@ -2,7 +2,7 @@ import { LitElement, html, css, PropertyValues } from "lit";
 import { startOfDay, getTime } from "date-fns";
 import { customElement, property } from "lit/decorators.js";
 import { consume } from "@lit/context";
-import { Theme, themeContext } from "../../main";
+import { Size, Theme, themeContext } from "../../main";
 import "../../elements/text";
 
 type typeDay = {
@@ -20,6 +20,9 @@ export class Cell extends LitElement {
   // BaseAttributes
   @property({ type: String })
   testId?: string;
+
+  @property({ type: String })
+  size: Size = "sm";
 
   // Cell props
   @property({ type: Object })
@@ -160,8 +163,11 @@ export class Cell extends LitElement {
           ? "date-to"
           : ""} ${this.dateTo === undefined ? "single-selected" : ""}"
       >
-        <div class="layout horizontal center center-justified currentDayMarker">
-          <ssk-text color="${this.selected ? "white" : "black"}">
+        <div class="currentDayMarker">
+          <ssk-text
+            size=${this.size}
+            color="${this.selected ? "white" : "black"}"
+          >
             ${this.day ? this.day.title : null}
           </ssk-text>
         </div>
