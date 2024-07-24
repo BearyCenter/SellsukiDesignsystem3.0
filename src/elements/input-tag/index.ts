@@ -2,6 +2,7 @@ import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
+import { redispatchEvents } from "../../helpers/lit";
 import {
     ColorName,
     ColorRole,
@@ -52,8 +53,8 @@ export class Inputtag extends LitElement {
     @property({ type: String })
     name: string | undefined;
 
-    @property({ type: String })
-    value: string | undefined;
+    @property({ type: Array })
+    value: string[] = [];
 
     @property({ type: String })
     placeholder: string | undefined;
@@ -85,15 +86,21 @@ export class Inputtag extends LitElement {
 
     calculateTotalChars() {
         const tagsChars = this.tags.reduce((acc, item) => acc + item.trim().length, 0);
-        const valueChars = this.value?.length || 0;
-        this.totalChars = tagsChars + valueChars;
+        this.totalChars = tagsChars;
+    }
+
+    updateValue() {
+        this.value = this.tags;
+        console.log(this.tags );
     }
 
     render() {
         if (this.hidden) {
             return nothing;
         }
-        this.calculateTotalChars();      
+        this.calculateTotalChars(); 
+        this.updateValue();
+
         return html`
     ${parseThemeToCssVariables(this.theme?.components?.inputtag, ":host")}
 
@@ -167,6 +174,7 @@ export class Inputtag extends LitElement {
                         maxlength=${this.limit && this.limit > 0 ? this.limit - this.totalChars : ""}
                         @input=${this.handleTagInput}
                         @keydown=${this.addTag}
+                        @change=${(e: any) => this.handleTagInput(e, true)}
                         .tags=${this.tags}
                         ?multiline=${this.multiline}
                     >
@@ -183,13 +191,17 @@ export class Inputtag extends LitElement {
     `;
     }
 
-    handleTagInput(e: Event) {
+    handleTagInput(e: Event, redispatch: boolean = false) {
         const target = e.target as HTMLInputElement;
         const newValue = target.value;
         if (this.limit && this.limit > 0 && newValue.length > (this.limit - this.totalChars)) {
             target.value = newValue.slice(0, this.limit - this.totalChars);
         }
+        if (redispatch) {
+            redispatchEvents(e, this);
+        }
     }
+
     addTag(e: KeyboardEvent) {
         if (e.key === "Enter") {
             if (!this.multiline) {
@@ -201,6 +213,7 @@ export class Inputtag extends LitElement {
             if (tag.length >= 1 && tag.length <= 21) {
                 if (!this.tags.includes(tag)) {
                     this.tags = [...this.tags, tag];
+                    this.updateValue();
                 }
                 target.value = "";
                 this.calculateTotalChars();
@@ -210,6 +223,7 @@ export class Inputtag extends LitElement {
 
     removeTag(tag: string) {
         this.tags = this.tags.filter((item) => item !== tag);
+        this.updateValue();
         this.calculateTotalChars();
     }
 
