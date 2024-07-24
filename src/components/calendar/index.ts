@@ -14,8 +14,6 @@ import {
   subYears,
   subDays,
   Day,
-  toDate,
-  getTime,
 } from "date-fns";
 import { enUS, fr, th } from "date-fns/locale";
 import { customElement, property, state } from "lit/decorators.js";
@@ -545,7 +543,7 @@ export class Calendar extends LitElement {
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
+      cursor: not-allowed;
     }
 
     .monthName {
