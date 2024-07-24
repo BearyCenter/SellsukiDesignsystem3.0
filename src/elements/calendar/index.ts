@@ -246,17 +246,6 @@ export class Calendar extends LitElement {
     );
   }
 
-  private handleDateHovered(event: any) {
-    if (!this.noRange) {
-      this.hoveredDate = event.detail.date;
-      this.dispatchEvent(
-        new CustomEvent("hovered-date-changed", {
-          detail: { value: this.hoveredDate },
-        }),
-      );
-    }
-  }
-
   private handleNextMonth() {
     const month = parse(this.month, "MM", new Date());
     const monthPlusDate = addMonths(month, 1);
@@ -491,9 +480,6 @@ export class Calendar extends LitElement {
                               .dateFrom="${this.dateFrom}"
                               .day="${dayOfMonth}"
                               ?isCurrentDate="${this.isCurrentDate(dayOfMonth)}"
-                              @date-is-hovered="${this.handleDateHovered.bind(
-                                this,
-                              )}"
                               @date-is-selected="${this.handleDateSelected.bind(
                                 this,
                               )}"
