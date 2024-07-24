@@ -149,11 +149,26 @@ export class Cell extends LitElement {
           ? "currentDate"
           : null} ${this.isSelected(this.selected)} ${this.isHovered(
           this.hovered,
-        )} ${this.isEnabled(this.min, this.max, this.disabledDays, this.day)}"
+        )} ${this.isEnabled(
+          this.min,
+          this.max,
+          this.disabledDays,
+          this.day,
+        )} ${this.day?.date === this.dateFrom
+          ? "date-from"
+          : this.day?.date === this.dateTo
+          ? "date-to"
+          : ""} ${this.dateTo === undefined ? "single-selected" : ""}"
       >
-        <div class="currentDayMarker">
-          <ssk-text> ${this.day ? this.day.title : null} </ssk-text>
+        <div class="layout horizontal center center-justified currentDayMarker">
+          <ssk-text color="${this.selected ? "white" : "black"}">
+            ${this.day ? this.day.title : null}
+          </ssk-text>
         </div>
+        ${this.selected && this.hovered
+          ? html`<div class="hover-extension"></div>`
+          : null}
+        <div class="inner-selected"></div>
       </div>
     `;
   }
@@ -170,36 +185,80 @@ export class Cell extends LitElement {
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
     }
 
     .day:not(.disabled):hover {
-      background: var(--lit-datepicker-cell-hover, #e4e7e7);
+      background: var(--lit-datepicker-cell-hover, #1b8bf5);
       cursor: pointer;
+      border-radius: 50%;
     }
 
     .day.hovered {
-      background: var(
-        --lit-datepicker-cell-hovered,
-        rgba(0, 150, 136, 0.5)
-      ) !important;
-      color: var(--lit-datepicker-cell-hovered-text, white);
+      background: var(--lit-datepicker-cell-hovered, #d9f2ff) !important;
     }
 
     .day.selected {
-      background: var(
-        --lit-datepicker-cell-selected,
-        rgb(0, 150, 136)
-      ) !important;
-      color: var(--lit-datepicker-cell-selected-text, white);
+      background: var(--lit-datepicker-cell-selected, #d9f2ff) !important;
+    }
+
+    .day .currentDayMarker {
+      position: relative;
+      z-index: 2;
+    }
+
+    .day.selected .inner-selected {
+      width: 100%;
+      height: 100%;
+      background: #1b8bf5;
+      border-radius: 50%;
+      position: absolute;
+      z-index: 1;
+    }
+
+    .day.date-from.selected {
+      border-radius: 50% 0 0 50%;
+    }
+
+    .day.date-to.selected {
+      border-radius: 0 50% 50% 0;
+    }
+
+    .day.single-selected.selected {
+      border-radius: 50%;
+    }
+
+    .day.selected .hover-extension {
+      position: absolute;
+      left: 50%;
+      right: -50%;
+      top: 0;
+      bottom: 0;
+      background: var(--lit-datepicker-cell-hovered, #d9f2ff) !important;
     }
 
     .day.currentDate .currentDayMarker {
-      width: 80%;
-      height: 80%;
+      position: relative;
+      width: auto;
+      height: auto;
       font-weight: var(--current-day-font-weight, bold);
       border-radius: 50%;
-      background-color: var(--current-day-background-color);
-      color: var(--current-day-color);
+    }
+
+    .day.currentDate .currentDayMarker::after {
+      content: "";
+      position: absolute;
+      bottom: -0.1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0.25rem;
+      height: 0.25rem;
+      background-color: #1b8bf5;
+      border-radius: 50%;
+    }
+
+    .day:not(.disabled).day.hovered {
+      border-radius: initial;
     }
 
     .day.disabled {
