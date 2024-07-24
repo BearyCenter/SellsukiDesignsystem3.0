@@ -554,6 +554,7 @@ export class Calendar extends LitElement {
       background-color: white;
       border: 1px solid var(--ssk-colors-gray-200);
       border-radius: var(--rounded);
+      position: absolute;
     }
 
     .calendar {
