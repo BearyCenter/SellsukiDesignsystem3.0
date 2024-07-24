@@ -167,12 +167,10 @@ export class Cell extends LitElement {
     }
 
     .day {
-      text-align: center;
-      height: 38px;
-      width: 38px;
-      margin: 0;
-      padding: 0;
-      color: var(--lit-datepicker-cell-text);
+      height: 2.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .day:not(.disabled):hover {
