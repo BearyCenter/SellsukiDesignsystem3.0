@@ -124,6 +124,14 @@ export class Calendar extends LitElement {
 
   @state()
   _currentDate: Number = parseInt(format(startOfDay(Date.now()), "t"), 10);
+  @state()
+  _monthChangeDropdown: Boolean = false;
+  @state()
+  _yearChangeDropdown: Boolean = false;
+  @state()
+  _yearIndex: number = 0;
+  @state()
+  _chunkYearList: number[][] = [];
 
   updated(properties: PropertyValues) {
     if (properties.has("locale")) {
@@ -140,6 +148,34 @@ export class Calendar extends LitElement {
 
     if (properties.has("year") || properties.has("month")) {
       this.yearAndMonthChanged(this.year, this.month);
+    }
+  }
+
+  async firstUpdated() {
+    this.setYears(1930, 2100);
+    this.monthsList = [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+    ];
+    await this.updateComplete;
+    if (this.enableYearChange) {
+      this._chunkYearList = this.chunkedYearsList(this.yearsList);
+      this._yearIndex = this.calcCurrentYearIndex(
+        +this.year,
+        this._chunkYearList,
+      );
+    }
+    if (this.enableMonthChange) {
     }
   }
 
@@ -251,10 +287,10 @@ export class Calendar extends LitElement {
     this.daysOfMonth = rows;
   }
 
-  private computeCurrentMonthName(month: string, year: string) {
-    if (month && year) {
-      const dateFn = parse(`${month}/${year}`, "MM/yyyy", new Date());
-      return format(dateFn, "MMMM", { locale: locales[this.locale] });
+  private computeMonthName(month: string, mFormat: string) {
+    if (month) {
+      const dateFn = parse(`${month}`, "MM", new Date());
+      return format(dateFn, mFormat, { locale: locales[this.locale] });
     }
     return "";
   }
@@ -291,6 +327,16 @@ export class Calendar extends LitElement {
     this.dispatchEvent(
       new CustomEvent("date-to-changed", { detail: { value: this.dateTo } }),
     );
+  }
+
+  private toggleMonthChangeDropdown() {
+    this._monthChangeDropdown = !this._monthChangeDropdown;
+    if (this._yearChangeDropdown) this._yearChangeDropdown = false;
+  }
+
+  private toggleYearChangeDropdown() {
+    this._yearChangeDropdown = !this._yearChangeDropdown;
+    if (this._monthChangeDropdown) this._monthChangeDropdown = false;
   }
 
   private handleNextMonth() {
@@ -351,6 +397,15 @@ export class Calendar extends LitElement {
     this.year = yearPlusString;
   }
 
+  private handlePrevScopeYearIndex() {
+    if (this._yearIndex > 0) this._yearIndex = this._yearIndex - 1;
+  }
+
+  private handleNextScopeYearIndex() {
+    if (this._yearIndex < this._chunkYearList.length - 1)
+      this._yearIndex = this._yearIndex + 1;
+  }
+
   private setYears(from: number, to: number) {
     const yearsList = [];
     for (let i = from; i <= to; i += 1) {
@@ -359,40 +414,19 @@ export class Calendar extends LitElement {
     this.yearsList = yearsList;
   }
 
-  async firstUpdated() {
-    this.setYears(1930, 2100);
-    this.monthsList = [
-      "01",
-      "02",
-      "03",
-      "04",
-      "05",
-      "06",
-      "07",
-      "08",
-      "09",
-      "10",
-      "11",
-      "12",
-    ];
-    await this.updateComplete;
-    if (this.enableYearChange) {
-    }
-    if (this.enableMonthChange) {
-    }
-  }
-
   private enableYearChangeChanged(enableYearChange: boolean) {
     this.enableYearChange = enableYearChange;
   }
 
-  // private handleYearListChanged({ detail }: any) {
-  //   this.year = detail.value;
-  // }
+  private handleYearChanged(y: number) {
+    this.year = `${y}`;
+    this.toggleYearChangeDropdown();
+  }
 
-  // private handleMonthListChanged({ detail }: any) {
-  //   this.month = detail.value;
-  // }
+  private handleMonthChanged(m: string) {
+    this.month = m;
+    this.toggleMonthChangeDropdown();
+  }
 
   private goToday() {
     this.month = `0${getMonth(new Date()) + 1}`.slice(-2);
@@ -411,10 +445,35 @@ export class Calendar extends LitElement {
     );
   }
 
+  private chunkedYearsList(yList: number[]): number[][] {
+    const chunkedArrays = []; // To store the chunked arrays
+
+    let startIndex = 0; // Starting index for each chunk
+    while (startIndex < yList.length) {
+      const chunk = yList.slice(startIndex, startIndex + 12); // Get the chunk of 12 elements
+      chunkedArrays.push(chunk); // Add the chunk to the result array
+      startIndex += 12; // Increment the starting index for the next chunk
+    }
+
+    return chunkedArrays;
+  }
+
+  private calcCurrentYearIndex(year: number, chunkList: number[][]): number {
+    const index = chunkList.findIndex((chunk) => chunk.includes(year));
+    return index;
+  }
+
+  private calcYearString(yList: number[]): string {
+    const firstY = yList[0];
+    const lastY = yList[yList.length - 1];
+    return `${firstY} - ${lastY}`;
+  }
+
   render() {
     let additionalCss = `
     --padding: ${parseVariables(cssVar("padding", this.size), this.padding)};
     --rounded: ${parseVariables(cssVar("rounded", this.size), this.rounded)};
+    --600-colors: ${parseVariables(cssVar("colors", this.themeColor, 600))};
     --cell-width: calc(var(--padding) * 2);
     `;
 
@@ -422,6 +481,57 @@ export class Calendar extends LitElement {
       return nothing;
     }
 
+    const renderMonthDropdown = html`
+      <div class="dropdown">
+        ${this.monthsList.map(
+          (m) =>
+            html`<div
+              class="item ${this.month === m ? "currently" : null}"
+              @click=${() => this.handleMonthChanged(m)}
+            >
+              <ssk-text size=${this.size}
+                >${this.computeMonthName(m, "MMM")}</ssk-text
+              >
+            </div>`,
+        )}
+      </div>
+    `;
+    const renderYearDropdown = () => {
+      const yearScope = this.calcYearString(
+        this._chunkYearList[this._yearIndex],
+      );
+
+      return html`
+        <div class="dropdown">
+          <div class="header">
+            <ssk-icon
+              size="sm"
+              class="icon"
+              name="outline-chevron-double-left"
+              @click="${this.handlePrevScopeYearIndex.bind(this)}"
+            ></ssk-icon>
+
+            <ssk-text size=${this.size}>${yearScope}</ssk-text>
+
+            <ssk-icon
+              size="sm"
+              class="icon"
+              name="outline-chevron-double-right"
+              @click="${this.handleNextScopeYearIndex.bind(this)}"
+            ></ssk-icon>
+          </div>
+          ${this._chunkYearList[this._yearIndex].map(
+            (y) =>
+              html`<div
+                class="item ${+this.year === y ? "currently" : null}"
+                @click=${() => this.handleYearChanged(y)}
+              >
+                <ssk-text size=${this.size}>${y}</ssk-text>
+              </div>`,
+          )}
+        </div>
+      `;
+    };
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.calendar, "div")}
 
@@ -438,34 +548,62 @@ export class Calendar extends LitElement {
               ? html`<div class="left-arrow">
                   <ssk-icon
                     size="sm"
+                    class="icon"
                     name="outline-chevron-double-left"
                     @click="${this.handlePrevYear.bind(this)}"
                   ></ssk-icon>
                   <ssk-icon
                     size="sm"
+                    class="icon"
                     name="outline-chevron-left"
                     @click="${this.handlePrevMonth.bind(this)}"
                   ></ssk-icon>
                 </div>`
               : null}
             <div>
-              <div>
-                <ssk-text size=${this.size}>
-                  ${this.computeCurrentMonthName(this.month, this.year)}
-                  ${this.year}
-                </ssk-text>
+              <div class="title">
+                ${this.enableMonthChange
+                  ? html`<div
+                      class="month-change"
+                      @click=${this.toggleMonthChangeDropdown.bind(this)}
+                    >
+                      <ssk-text size=${this.size}>
+                        <span>
+                          ${this.computeMonthName(this.month, "MMMM")}
+                        </span>
+                      </ssk-text>
+                    </div> `
+                  : html`<ssk-text size=${this.size}>
+                      ${this.computeMonthName(this.month, "MMMM")}
+                    </ssk-text>`}
+                ${this.enableYearChange
+                  ? html`<div
+                      class="month-change"
+                      @click=${this.toggleYearChangeDropdown.bind(this)}
+                    >
+                      <ssk-text size=${this.size}>
+                        <span>${this.year}</span>
+                      </ssk-text>
+                    </div> `
+                  : html` <ssk-text size=${this.size}>
+                      ${this.year}
+                    </ssk-text>`}
+                ${this._monthChangeDropdown ? renderMonthDropdown : null}
+                ${this._yearChangeDropdown ? renderYearDropdown() : null}
               </div>
             </div>
             ${this.next || this.narrow || this.enableYearChange
               ? html`
-                  <div class="left-arrow">
+                  <div class="right-arrow">
                     <ssk-icon
                       size="sm"
+                      class="icon"
                       name="outline-chevron-right"
                       @click="${this.handleNextMonth.bind(this)}"
                     ></ssk-icon>
                     <ssk-icon
                       size="sm"
+                      class="icon"
                       name="outline-chevron-double-right"
                       @click="${this.handleNextYear.bind(this)}"
                     ></ssk-icon>
@@ -561,6 +699,71 @@ export class Calendar extends LitElement {
       padding: var(--padding);
     }
 
+    .title {
+      position: relative;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .icon,
+    .title > .month-change {
+      cursor: pointer;
+    }
+
+    .month-change:hover span {
+      color: var(--600-colors);
+    }
+
+    .currently {
+      position: relative;
+      width: auto;
+      height: auto;
+      border-radius: 50%;
+    }
+
+    .currently::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0.3em;
+      height: 0.35em;
+      background-color: var(--600-colors);
+      border-radius: 50%;
+    }
+
+    .dropdown {
+      position: absolute;
+      background: white;
+      border: 1px solid var(--ssk-colors-gray-200);
+      border-radius: var(--rounded);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: calc(var(--padding) - 5%);
+
+      z-index: 3;
+    }
+
+    .dropdown > .item {
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: var(--rounded);
+    }
+
+    .dropdown > .header {
+      grid-column: span 3;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .dropdown > .item:hover {
+      background: var(--600-colors);
+    }
+
     .left-arrow,
     .right-arrow {
       display: flex;
@@ -614,10 +817,6 @@ export class Calendar extends LitElement {
 
     .go-today {
       border-top: 1px solid var(--ssk-colors-gray-200);
-    }
-
-    .month-change {
-      min-width: 130px;
     }
   `;
 }

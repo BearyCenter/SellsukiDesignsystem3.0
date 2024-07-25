@@ -19,7 +19,7 @@ type typeDay = {
 };
 @customElement("ssk-cell")
 export class Cell extends LitElement {
-  static registeredName = "ssk-calendar";
+  static registeredName = "ssk-cell";
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
@@ -174,7 +174,7 @@ export class Cell extends LitElement {
           ? "currentDate"
           : null} ${this.isSelected(this.selected)} ${this.isHovered(
           this.hovered,
-        )} ${this.isEnabled(
+        )}  ${this.isEnabled(
           this.min,
           this.max,
           this.disabledDays,
@@ -280,8 +280,8 @@ export class Cell extends LitElement {
       bottom: -0.1rem;
       left: 50%;
       transform: translateX(-50%);
-      width: 0.3em;
-      height: 0.35em;
+      width: calc(var(--padding) * 0.3);
+      height: calc(var(--padding) * 0.33);
       background-color: var(--600-colors);
       border-radius: 50%;
     }

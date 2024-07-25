@@ -4,6 +4,7 @@ import { html } from "lit";
 import "../../../src/components/calendar";
 import { Calendar } from "../../../src/components/calendar";
 import { baseArgsTypes } from "../helper";
+import { format } from "date-fns";
 type CalendarArgs = {} & Calendar;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
@@ -27,6 +28,9 @@ export const BasicCalendar: Story = {
     year: "2024",
     month: "01",
     enableYearChange: true,
+    enableMonthChange: true,
     displayGoToday: true,
+    min: parseInt(format("02/01/2024", "t"), 10),
+    max: parseInt(format("06/01/2024", "t"), 10),
   },
 };
