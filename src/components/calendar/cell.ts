@@ -190,7 +190,7 @@ export class Cell extends LitElement {
             size=${this.size}
             color="${this.selected ? "white" : "black"}"
           >
-            ${this.day ? this.day.title : null}
+            <span>${this.day ? this.day.title : null}</span>
           </ssk-text>
         </div>
         ${this.selected && this.hovered
@@ -218,6 +218,10 @@ export class Cell extends LitElement {
       background: var(--600-colors);
       cursor: pointer;
       border-radius: 50%;
+    }
+
+    .day:not(.disabled):hover span {
+      color: white;
     }
 
     .day.hovered {
