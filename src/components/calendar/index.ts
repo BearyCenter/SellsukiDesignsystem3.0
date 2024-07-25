@@ -82,19 +82,15 @@ export class Calendar extends LitElement {
   defaultAs = "today";
 
   @property({ type: Boolean })
-  prev?: Boolean;
-  @property({ type: Boolean })
-  next?: Boolean;
-  @property({ type: Boolean })
   noRange = false;
-  @property({ type: Boolean })
-  narrow = false;
   @property({ type: Boolean })
   enableYearChange = false;
   @property({ type: Boolean })
   enableMonthChange = false;
   @property({ type: Boolean })
   displayGoToday = false;
+  @property({ type: Boolean })
+  displayOk = false;
 
   @property({ type: Number })
   min = 0;
@@ -153,21 +149,9 @@ export class Calendar extends LitElement {
 
   async firstUpdated() {
     this.setYears(1930, 2100);
-    this.monthsList = [
-      "01",
-      "02",
-      "03",
-      "04",
-      "05",
-      "06",
-      "07",
-      "08",
-      "09",
-      "10",
-      "11",
-      "12",
-    ];
+    this.setMonths();
     await this.updateComplete;
+
     if (this.enableYearChange) {
       this._chunkYearList = this.chunkedYearsList(this.yearsList);
       this._yearIndex = this.calcCurrentYearIndex(
@@ -407,11 +391,44 @@ export class Calendar extends LitElement {
   }
 
   private setYears(from: number, to: number) {
-    const yearsList = [];
-    for (let i = from; i <= to; i += 1) {
-      yearsList.push(i);
+    if (this.yearsList.length === 0) {
+      const yearsList = [];
+      for (let i = from; i <= to; i += 1) {
+        yearsList.push(i);
+      }
+      this.yearsList = yearsList;
+      if (!this.year) {
+        this.year = getYear(new Date()).toString();
+      }
+      return;
     }
-    this.yearsList = yearsList;
+
+    if (!this.year) {
+      this.year = this.yearsList[0].toString();
+    }
+  }
+
+  private setMonths() {
+    if (this.monthsList.length === 0) {
+      this.monthsList = [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+      ];
+    }
+
+    if (!this.month) {
+      this.month = this.monthsList[0];
+    }
   }
 
   private enableYearChangeChanged(enableYearChange: boolean) {
@@ -430,7 +447,7 @@ export class Calendar extends LitElement {
 
   private goToday() {
     this.month = `0${getMonth(new Date()) + 1}`.slice(-2);
-    this.year = `${getYear(new Date())}`;
+    this.year = getYear(new Date()).toString();
   }
 
   private shouldDisplayGoToday(
@@ -532,6 +549,35 @@ export class Calendar extends LitElement {
         </div>
       `;
     };
+
+    const renderFooter =
+      this.displayGoToday || this.displayOk
+        ? html`<div class="footer">
+            <div class="go-today">
+              ${
+                this.shouldDisplayGoToday(
+                  this.displayGoToday,
+                  this.month,
+                  this.year,
+                )
+                  ? html`
+                      <slot @click=${this.goToday} name="footer-today"></slot>
+                    `
+                  : null
+              }
+            </div>
+
+              ${
+                this.displayOk
+                  ? html` <div class="ok">
+                      <slot name="footer-ok"></slot>
+                    </div>`
+                  : null
+              }
+            </div>
+          </div>`
+        : null;
+
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.calendar, "div")}
 
@@ -544,7 +590,7 @@ export class Calendar extends LitElement {
       <div class="container">
         <div class="calendar" data-testid=${this.testId || nothing}>
           <div class="monthName layout horizontal center">
-            ${this.prev || this.narrow || this.enableYearChange
+            ${this.enableYearChange
               ? html`<div class="left-arrow">
                   <ssk-icon
                     size="sm"
@@ -564,7 +610,7 @@ export class Calendar extends LitElement {
               <div class="title">
                 ${this.enableMonthChange
                   ? html`<div
-                      class="month-change"
+                      class="popup-change"
                       @click=${this.toggleMonthChangeDropdown.bind(this)}
                     >
                       <ssk-text size=${this.size}>
@@ -578,7 +624,7 @@ export class Calendar extends LitElement {
                     </ssk-text>`}
                 ${this.enableYearChange
                   ? html`<div
-                      class="month-change"
+                      class="popup-change"
                       @click=${this.toggleYearChangeDropdown.bind(this)}
                     >
                       <ssk-text size=${this.size}>
@@ -592,7 +638,7 @@ export class Calendar extends LitElement {
                 ${this._yearChangeDropdown ? renderYearDropdown() : null}
               </div>
             </div>
-            ${this.next || this.narrow || this.enableYearChange
+            ${this.enableYearChange
               ? html`
                   <div class="right-arrow">
                     <ssk-icon
@@ -664,24 +710,7 @@ export class Calendar extends LitElement {
             </div>
           </div>
         </div>
-        <div class="go-today">
-          ${this.shouldDisplayGoToday(
-            this.displayGoToday,
-            this.month,
-            this.year,
-          )
-            ? html`
-                <ssk-button
-                  size=${this.size}
-                  variant="ghost"
-                  themeColor=${this.themeColor}
-                  @click=${this.goToday}
-                >
-                  ตอนนี้
-                </ssk-button>
-              `
-            : null}
-        </div>
+        ${renderFooter}
       </div>
     `;
   }
@@ -706,11 +735,11 @@ export class Calendar extends LitElement {
     }
 
     .icon,
-    .title > .month-change {
+    .title > .popup-change {
       cursor: pointer;
     }
 
-    .month-change:hover span {
+    .popup-change:hover span {
       color: var(--600-colors);
     }
 
@@ -727,7 +756,7 @@ export class Calendar extends LitElement {
       left: 50%;
       transform: translateX(-50%);
       width: 0.3em;
-      height: 0.35em;
+      height: 0.3em;
       background-color: var(--600-colors);
       border-radius: 50%;
     }
@@ -815,8 +844,11 @@ export class Calendar extends LitElement {
       transform: translateX(0);
     }
 
-    .go-today {
+    .footer {
       border-top: 1px solid var(--ssk-colors-gray-200);
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
     }
   `;
 }
