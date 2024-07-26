@@ -198,7 +198,7 @@ export class Inputtag extends LitElement {
 
             const target = e.target as HTMLInputElement;
             let tag = target.value.trim();
-            if (tag.length >= 1 && tag.length <= 21) {
+            if (tag.length >= 1) {
                 if (!this.tags.includes(tag)) {
                     this.tags = [...this.tags, tag];
                     this.dispatchEvent(new CustomEvent('change', { detail: this.tags }));
