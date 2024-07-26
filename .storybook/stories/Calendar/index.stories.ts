@@ -4,7 +4,7 @@ import { html } from "lit";
 import "../../../src/components/calendar";
 import { Calendar } from "../../../src/components/calendar";
 import { AutoLitProperty, baseArgsTypes } from "../helper";
-import { format } from "date-fns";
+import { format, getDate, getMonth, getYear } from "date-fns";
 type CalendarArgs = AutoLitProperty<Calendar>;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
@@ -103,20 +103,53 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<CalendarArgs>;
+const today = new Date();
+const year = getYear(today).toString();
+const month = (getMonth(today) + 1).toString();
 
 export const BasicCalendar: Story = {
   args: {
-    year: "2024",
-    month: "01",
+    year: year,
+    month: month,
     size: "md",
     themeColor: "primary",
     "?enableYearChange": true,
     "?enableMonthChange": true,
-    "?displayGoToday": true,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const ShowTodayAndOkCalendar: Story = {
+  args: {
+    year: year,
+    month: "04",
+    size: "md",
+    themeColor: "primary",
+    "?enableYearChange": true,
+    "?enableMonthChange": true,
+    "?displayGoToday": true, // will show if not current month / year
     "?displayOk": true,
-    ".yearsList": [1997, 1998, 1999, 2000],
-    min: parseInt(format("02/01/2024", "t"), 10),
-    max: parseInt(format("06/01/2024", "t"), 10),
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const DeclareYearsListCalendar: Story = {
+  args: {
+    size: "md",
+    themeColor: "primary",
+    "?enableYearChange": true,
+    "?enableMonthChange": true,
+    "?yearsList": [2010, 2011, 2012, 2013, 2014, 2015, 2016],
   },
   parameters: {
     design: {
