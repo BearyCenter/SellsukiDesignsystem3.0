@@ -94,9 +94,9 @@ export class Calendar extends LitElement {
   displayOk = false;
 
   @property({ type: Number })
-  min = 0;
+  min?: number;
   @property({ type: Number })
-  max = 0;
+  max?: number;
   @property({ type: Number })
   dateTo?: number;
   @property({ type: Number })
@@ -107,7 +107,7 @@ export class Calendar extends LitElement {
   maxRange = 0;
 
   @property({ type: Array })
-  disabledDays?: Array<number>;
+  disabledDays: Array<number> = [];
   @property({ type: Array })
   dayNamesOfTheWeek: Array<string> = [];
   @property({ type: Array })
@@ -120,7 +120,7 @@ export class Calendar extends LitElement {
   hidden = false;
 
   @state()
-  _currentDate: Number = parseInt(format(startOfDay(Date.now()), "t"), 10);
+  _currentDate: Number = startOfDay(Date.now()).getTime();
   @state()
   _monthChangeDropdown: Boolean = false;
   @state()
@@ -214,8 +214,8 @@ export class Calendar extends LitElement {
       const columnFn: typeDay = {
         hover: false,
         isCurrentMonth: true,
-        date: parseInt(format(startDateFn, "t"), 10),
-        title: parseInt(format(startDateFn, "d"), 10),
+        date: startDateFn.getTime(),
+        title: startDateFn.getDate(),
       };
       columns.push(columnFn);
 
@@ -231,8 +231,8 @@ export class Calendar extends LitElement {
           const prevDate: typeDay = {
             hover: false,
             isCurrentMonth: false,
-            date: parseInt(format(firstDateSub, "t"), 10),
-            title: parseInt(format(firstDateSub, "d"), 10),
+            date: firstDateSub.getTime(),
+            title: firstDateSub.getDate(),
           };
           columns.unshift(prevDate);
         }
@@ -247,8 +247,8 @@ export class Calendar extends LitElement {
         const endColumnFn: typeDay = {
           hover: false,
           isCurrentMonth: true,
-          date: parseInt(format(startDateFn, "t"), 10),
-          title: parseInt(format(startDateFn, "d"), 10),
+          date: startDateFn.getTime(),
+          title: startDateFn.getDate(),
         };
         columns.push(endColumnFn);
         for (let i = columns.length; i <= lastDayOfWeek; i += 1) {
@@ -261,8 +261,8 @@ export class Calendar extends LitElement {
           const nextDate: typeDay = {
             hover: false,
             isCurrentMonth: false,
-            date: parseInt(format(lastDatePlus, "t"), 10),
-            title: parseInt(format(lastDatePlus, "d"), 10),
+            date: lastDatePlus.getTime(),
+            title: lastDatePlus.getDate(),
           };
 
           columns.push(nextDate);
@@ -306,6 +306,7 @@ export class Calendar extends LitElement {
     } else {
       this.dateFrom = date;
     }
+
     this.dispatchEvent(
       new CustomEvent("date-from-changed", {
         detail: { value: this.dateFrom },

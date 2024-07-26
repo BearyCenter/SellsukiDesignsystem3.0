@@ -4,7 +4,15 @@ import { html } from "lit";
 import "../../../src/components/calendar";
 import { Calendar } from "../../../src/components/calendar";
 import { AutoLitProperty, baseArgsTypes } from "../helper";
-import { format, getDate, getMonth, getYear } from "date-fns";
+import {
+  addDays,
+  format,
+  getMonth,
+  getYear,
+  parse,
+  startOfDay,
+  subDays,
+} from "date-fns";
 type CalendarArgs = AutoLitProperty<Calendar>;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
@@ -110,7 +118,14 @@ const meta = {
       control: {
         type: "array",
       },
-      defaultValue: [1997, 1998, 1999, 2000],
+      defaultValue: [],
+    },
+    ".disabledDays": {
+      description: "Array of year items",
+      control: {
+        type: "array",
+      },
+      defaultValue: [],
     },
     ...baseArgsTypes,
   },
@@ -119,9 +134,21 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<CalendarArgs>;
-const today = new Date();
+const today = startOfDay(new Date());
 const year = getYear(today).toString();
 const month = (getMonth(today) + 1).toString().padStart(2, "0");
+const min = subDays(today, 1).getTime();
+const max = addDays(today, 3).getTime();
+
+const disabledScopeDay = (): number[] | undefined => {
+  const days: number = 10;
+  const disabled: number[] = [];
+  for (let i = 0; i < days; i++) {
+    disabled.push(addDays(today, i).getTime());
+  }
+
+  return disabled;
+};
 
 export const BasicCalendar: Story = {
   args: {
@@ -167,6 +194,43 @@ export const DeclareYearsListCalendar: Story = {
     "?enableYearChange": true,
     "?enableMonthChange": true,
     "?yearsList": [2010, 2011, 2012, 2013, 2014, 2015, 2016],
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const EnableScopeDays: Story = {
+  args: {
+    size: "md",
+    year: year,
+    month: month,
+    themeColor: "primary",
+    "?enableYearChange": true,
+    "?enableMonthChange": true,
+    min: min,
+    max: max,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const DisableScopeDays: Story = {
+  args: {
+    size: "md",
+    year: year,
+    month: month,
+    themeColor: "primary",
+    "?enableYearChange": true,
+    "?enableMonthChange": true,
+    ".disabledDays": disabledScopeDay(),
   },
   parameters: {
     design: {

@@ -55,9 +55,9 @@ export class Cell extends LitElement {
   @property({ type: Number })
   hoveredDate?: number;
   @property({ type: Number })
-  min: number = 0;
+  min?: number;
   @property({ type: Number })
-  max: number = 0;
+  max?: number;
 
   @property({ type: String })
   month?: string;
@@ -87,8 +87,8 @@ export class Cell extends LitElement {
 
     if (day) {
       if (
-        getTime(startOfDay(dateFrom * 1000)) / 1000 === day.date ||
-        getTime(startOfDay(dateTo * 1000)) / 1000 === day.date
+        getTime(startOfDay(dateFrom)) === day.date ||
+        getTime(startOfDay(dateTo)) === day.date
       ) {
         this.selected = true;
       }
@@ -138,14 +138,12 @@ export class Cell extends LitElement {
     return "";
   }
 
-  isEnabled(min: number, max: number, disabledDays: number[], day?: typeDay) {
+  isEnabled(disabledDays: number[], day?: typeDay, min?: number, max?: number) {
     this.disabled = false;
-    if (disabledDays && day && day.date) {
-      if (
-        day.date < min ||
-        day.date > max ||
-        disabledDays.findIndex((disabledDay) => disabledDay === day.date) !== -1
-      ) {
+    const hasDisabledScope = min || max || disabledDays;
+    if (hasDisabledScope && day && day.date) {
+      const inEnableScope = (min && day.date < min) || (max && day.date > max);
+      if (inEnableScope || disabledDays.includes(day.date)) {
         this.disabled = true;
         return "disabled";
       }
@@ -175,10 +173,10 @@ export class Cell extends LitElement {
           : null} ${this.isSelected(this.selected)} ${this.isHovered(
           this.hovered,
         )}  ${this.isEnabled(
-          this.min,
-          this.max,
           this.disabledDays,
           this.day,
+          this.min,
+          this.max,
         )} ${this.day?.date === this.dateFrom
           ? "date-from"
           : this.day?.date === this.dateTo
@@ -292,6 +290,7 @@ export class Cell extends LitElement {
 
     .day.disabled {
       opacity: 0.4;
+      cursor: not-allowed;
     }
   `;
 }
