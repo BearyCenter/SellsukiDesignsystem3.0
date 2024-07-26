@@ -221,9 +221,11 @@ export class Calendar extends LitElement {
 
       if (dayNumberFn === lastDayOfWeek) {
         for (let i = columns.length; i < lastDayOfWeek + 1; i += 1) {
-          const firstDateOfMonth = (columns[0] as typeDay).title;
+          const firstDateOfMonth = (columns[0] as typeDay).title
+            .toString()
+            .padStart(2, "0");
           const firstDateString = `${
-            monthMinus + "/0" + firstDateOfMonth + "/" + year
+            monthMinus + "/" + firstDateOfMonth + "/" + year
           }`;
           const firstDateSub = subDays(firstDateString, 1);
           const prevDate: typeDay = {
@@ -487,21 +489,20 @@ export class Calendar extends LitElement {
       return nothing;
     }
 
-    const renderMonthDropdown = html`
-      <div class="dropdown">
-        ${this.monthsList.map(
-          (m) =>
-            html`<div
-              class="item ${this.month === m ? "currently" : null}"
-              @click=${() => this.handleMonthChanged(m)}
+    const renderMonthDropdown = () => html`<div class="dropdown">
+      ${this.monthsList.map(
+        (m) =>
+          html`<div
+            class="item ${this.month === m ? "currently" : null}"
+            @click=${() => this.handleMonthChanged(m)}
+          >
+            <ssk-text size=${this.size}
+              >${this.computeMonthName(m, "MMM")}</ssk-text
             >
-              <ssk-text size=${this.size}
-                >${this.computeMonthName(m, "MMM")}</ssk-text
-              >
-            </div>`,
-        )}
-      </div>
-    `;
+          </div>`,
+      )}
+    </div>`;
+
     const renderYearDropdown = () => {
       const yearScope = this.calcYearString(
         this._chunkYearList[this._yearIndex],
@@ -551,71 +552,73 @@ export class Calendar extends LitElement {
       <div class="container">
         <div class="calendar" data-testid=${this.testId || nothing}>
           <div class="monthName layout horizontal center">
-            ${this.enableYearChange
+            ${this.enableYearChange || this.enableMonthChange
               ? html`<div class="left-arrow">
-                  <ssk-icon
-                    size="sm"
-                    class="icon"
-                    name="outline-chevron-double-left"
-                    @click="${this.handlePrevYear.bind(this)}"
-                  ></ssk-icon>
-                  <ssk-icon
-                    size="sm"
-                    class="icon"
-                    name="outline-chevron-left"
-                    @click="${this.handlePrevMonth.bind(this)}"
-                  ></ssk-icon>
+                  ${this.enableYearChange
+                    ? html`<ssk-icon
+                        size="sm"
+                        class="icon"
+                        name="outline-chevron-double-left"
+                        @click="${this.handlePrevYear.bind(this)}"
+                      ></ssk-icon>`
+                    : null}
+                  ${this.enableMonthChange
+                    ? html`<ssk-icon
+                        size="sm"
+                        class="icon"
+                        name="outline-chevron-left"
+                        @click="${this.handlePrevMonth.bind(this)}"
+                      ></ssk-icon>`
+                    : null}
                 </div>`
               : null}
-            <div>
-              <div class="title">
-                ${this.enableMonthChange
-                  ? html`<div
-                      class="popup-change"
-                      @click=${this.toggleMonthChangeDropdown.bind(this)}
-                    >
-                      <ssk-text size=${this.size}>
-                        <span>
-                          ${this.computeMonthName(this.month, "MMMM")}
-                        </span>
-                      </ssk-text>
-                    </div> `
-                  : html`<ssk-text size=${this.size}>
-                      ${this.computeMonthName(this.month, "MMMM")}
-                    </ssk-text>`}
-                ${this.enableYearChange
-                  ? html`<div
-                      class="popup-change"
-                      @click=${this.toggleYearChangeDropdown.bind(this)}
-                    >
-                      <ssk-text size=${this.size}>
-                        <span>${this.year}</span>
-                      </ssk-text>
-                    </div> `
-                  : html` <ssk-text size=${this.size}>
-                      ${this.year}
-                    </ssk-text>`}
-                ${this._monthChangeDropdown ? renderMonthDropdown : null}
-                ${this._yearChangeDropdown ? renderYearDropdown() : null}
-              </div>
+            <div class="title">
+              ${this.enableMonthChange
+                ? html`<div
+                    class="popup-change"
+                    @click=${this.toggleMonthChangeDropdown.bind(this)}
+                  >
+                    <ssk-text size=${this.size}>
+                      <span>
+                        ${this.computeMonthName(this.month, "MMMM")}
+                      </span>
+                    </ssk-text>
+                  </div> `
+                : html`<ssk-text size=${this.size}>
+                    ${this.computeMonthName(this.month, "MMMM")}
+                  </ssk-text>`}
+              ${this.enableYearChange
+                ? html`<div
+                    class="popup-change"
+                    @click=${this.toggleYearChangeDropdown.bind(this)}
+                  >
+                    <ssk-text size=${this.size}>
+                      <span>${this.year}</span>
+                    </ssk-text>
+                  </div> `
+                : html` <ssk-text size=${this.size}> ${this.year} </ssk-text>`}
+              ${this._monthChangeDropdown ? renderMonthDropdown() : null}
+              ${this._yearChangeDropdown ? renderYearDropdown() : null}
             </div>
-            ${this.enableYearChange
-              ? html`
-                  <div class="right-arrow">
-                    <ssk-icon
-                      size="sm"
-                      class="icon"
-                      name="outline-chevron-right"
-                      @click="${this.handleNextMonth.bind(this)}"
-                    ></ssk-icon>
-                    <ssk-icon
-                      size="sm"
-                      class="icon"
-                      name="outline-chevron-double-right"
-                      @click="${this.handleNextYear.bind(this)}"
-                    ></ssk-icon>
-                  </div>
-                `
+            ${this.enableYearChange || this.enableMonthChange
+              ? html`<div class="right-arrow">
+                  ${this.enableMonthChange
+                    ? html`<ssk-icon
+                        size="sm"
+                        class="icon"
+                        name="outline-chevron-right"
+                        @click="${this.handleNextMonth.bind(this)}"
+                      ></ssk-icon>`
+                    : null}
+                  ${this.enableYearChange
+                    ? html`<ssk-icon
+                        size="sm"
+                        class="icon"
+                        name="outline-chevron-double-right"
+                        @click="${this.handleNextYear.bind(this)}"
+                      ></ssk-icon>`
+                    : null}
+                </div>`
               : null}
           </div>
 

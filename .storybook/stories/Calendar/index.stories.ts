@@ -45,6 +45,22 @@ const meta = {
         category: "Props",
       },
     },
+    locale: {
+      options: ["en", "fr", "th"],
+      description: "The type of Calendar language",
+      control: {
+        type: "inline-radio",
+      },
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "md",
+        },
+        type: {
+          summary: "string",
+        },
+      },
+    },
     "?enableYearChange": {
       description: "When true gives the calendar can change year",
       control: {
@@ -105,7 +121,7 @@ export default meta;
 type Story = StoryObj<CalendarArgs>;
 const today = new Date();
 const year = getYear(today).toString();
-const month = (getMonth(today) + 1).toString();
+const month = (getMonth(today) + 1).toString().padStart(2, "0");
 
 export const BasicCalendar: Story = {
   args: {
@@ -113,6 +129,7 @@ export const BasicCalendar: Story = {
     month: month,
     size: "md",
     themeColor: "primary",
+    locale: "th",
     "?enableYearChange": true,
     "?enableMonthChange": true,
   },
