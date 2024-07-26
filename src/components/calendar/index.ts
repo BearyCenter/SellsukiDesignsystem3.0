@@ -33,6 +33,7 @@ import "./cell";
 import "../../elements/text";
 import "../../elements/icon";
 import "../../elements/button";
+import { renderFooter } from "./footer";
 
 const locales = { en: enUS, fr, th };
 
@@ -450,18 +451,6 @@ export class Calendar extends LitElement {
     this.year = getYear(new Date()).toString();
   }
 
-  private shouldDisplayGoToday(
-    displayGoToday: boolean,
-    month: string,
-    year: string,
-  ) {
-    return (
-      displayGoToday &&
-      (parseInt(month, 10) !== getMonth(new Date()) + 1 ||
-        parseInt(year, 10) !== getYear(new Date()))
-    );
-  }
-
   private chunkedYearsList(yList: number[]): number[][] {
     const chunkedArrays = []; // To store the chunked arrays
 
@@ -549,34 +538,6 @@ export class Calendar extends LitElement {
         </div>
       `;
     };
-
-    const renderFooter =
-      this.displayGoToday || this.displayOk
-        ? html`<div class="footer">
-            <div class="go-today">
-              ${
-                this.shouldDisplayGoToday(
-                  this.displayGoToday,
-                  this.month,
-                  this.year,
-                )
-                  ? html`
-                      <slot @click=${this.goToday} name="footer-today"></slot>
-                    `
-                  : null
-              }
-            </div>
-
-              ${
-                this.displayOk
-                  ? html` <div class="ok">
-                      <slot name="footer-ok"></slot>
-                    </div>`
-                  : null
-              }
-            </div>
-          </div>`
-        : null;
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.calendar, "div")}
@@ -710,7 +671,13 @@ export class Calendar extends LitElement {
             </div>
           </div>
         </div>
-        ${renderFooter}
+        ${renderFooter(
+          this.displayGoToday,
+          this.displayOk,
+          this.month,
+          this.year,
+          this.goToday,
+        )}
       </div>
     `;
   }
