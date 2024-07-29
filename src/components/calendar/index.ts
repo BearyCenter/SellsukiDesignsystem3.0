@@ -74,9 +74,9 @@ export class Calendar extends LitElement {
 
   // Calendar props
   @property({ type: String })
-  month: string = "01";
+  month: string = "";
   @property({ type: String })
-  year: string = "1997";
+  year: string = "";
   @property({ type: String })
   locale: LocaleKey = "th";
   @property({ type: String })

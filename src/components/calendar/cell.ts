@@ -186,9 +186,13 @@ export class Cell extends LitElement {
         <div class="currentDayMarker">
           <ssk-text
             size=${this.size}
-            color="${this.selected ? "white" : "black"}"
+            color="${this.disabled
+              ? "gray.300"
+              : this.selected
+              ? "white"
+              : "black"}"
           >
-            <span>${this.day ? this.day.title : null}</span>
+            ${this.day ? this.day.title : null}
           </ssk-text>
         </div>
         ${this.selected && this.hovered
@@ -289,7 +293,6 @@ export class Cell extends LitElement {
     }
 
     .day.disabled {
-      opacity: 0.4;
       cursor: not-allowed;
     }
   `;
