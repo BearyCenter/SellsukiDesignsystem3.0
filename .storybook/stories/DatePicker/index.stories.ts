@@ -4,6 +4,7 @@ import { html } from "lit";
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import "../../../src/components/date-picker";
+import { getDate, getMonth, getYear, startOfDay } from "date-fns";
 
 type DatePickerArgs = AutoLitProperty<DatePicker>;
 
@@ -51,12 +52,19 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<DatePickerArgs>;
+const today = startOfDay(new Date());
+const date = getDate(today).toString().padStart(2, "0");
+const month = getMonth(today).toString().padStart(2, "0");
+const year = getYear(today);
 
 export const BasicDatePicker: Story = {
   args: {
     label: "Select date",
     placeholder: "Select date",
+    helperText: "Wrong format",
     size: "md",
+    format: "dd-MM-yyyy",
+    value: `${date}-${month}-${year}`,
     "?noRange": true,
   },
   parameters: {

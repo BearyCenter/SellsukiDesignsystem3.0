@@ -79,8 +79,6 @@ export class Calendar extends LitElement {
   year: string = "";
   @property({ type: String })
   locale: LocaleKey = "th";
-  @property({ type: String })
-  defaultAs = "today";
 
   @property({ type: Boolean })
   noRange = false;
@@ -92,6 +90,10 @@ export class Calendar extends LitElement {
   displayGoToday = false;
   @property({ type: Boolean })
   displayOk = false;
+  @property({ type: Boolean })
+  prev = false;
+  @property({ type: Boolean })
+  next = false;
 
   @property({ type: Number })
   min?: number;
@@ -562,7 +564,7 @@ export class Calendar extends LitElement {
       <div class="container">
         <div class="calendar" data-testid=${this.testId || nothing}>
           <div class="monthName layout horizontal center">
-            ${!this.disableYearChange || !this.disableMonthChange
+            ${this.prev || !this.disableYearChange || !this.disableMonthChange
               ? html`<div class="left-arrow">
                   ${!this.disableYearChange
                     ? html`<ssk-icon
@@ -610,7 +612,7 @@ export class Calendar extends LitElement {
               ${this._monthChangeDropdown ? renderMonthDropdown() : null}
               ${this._yearChangeDropdown ? renderYearDropdown() : null}
             </div>
-            ${!this.disableYearChange || !this.disableMonthChange
+            ${this.next || !this.disableYearChange || !this.disableMonthChange
               ? html`<div class="right-arrow">
                   ${!this.disableMonthChange
                     ? html`<ssk-icon
@@ -736,7 +738,6 @@ export class Calendar extends LitElement {
       left: 50%;
       transform: translateX(-50%);
       padding: calc(var(--padding) - 5%);
-
       z-index: 3;
     }
 
@@ -792,6 +793,7 @@ export class Calendar extends LitElement {
       background-color: white;
     }
 
+    /* Calendar body */
     .table {
       display: table;
       border-collapse: collapse;
