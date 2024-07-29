@@ -4,15 +4,7 @@ import { html } from "lit";
 import "../../../src/components/calendar";
 import { Calendar } from "../../../src/components/calendar";
 import { AutoLitProperty, baseArgsTypes } from "../helper";
-import {
-  addDays,
-  format,
-  getMonth,
-  getYear,
-  parse,
-  startOfDay,
-  subDays,
-} from "date-fns";
+import { addDays, getMonth, getYear, startOfDay, subDays } from "date-fns";
 type CalendarArgs = AutoLitProperty<Calendar>;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
@@ -53,6 +45,17 @@ const meta = {
         category: "Props",
       },
     },
+    "?noRange": {
+      description: "When true gives the calendar cannot selected range date",
+      control: {
+        type: "boolean",
+      },
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: { summary: "boolean" },
+      },
+    },
     locale: {
       options: ["en", "fr", "th"],
       description: "The type of Calendar language",
@@ -69,7 +72,7 @@ const meta = {
         },
       },
     },
-    "?enableYearChange": {
+    "?disableYearChange": {
       description: "When true gives the calendar can change year",
       control: {
         type: "boolean",
@@ -80,7 +83,7 @@ const meta = {
         type: { summary: "boolean" },
       },
     },
-    "?enableMonthChange": {
+    "?disableMonthChange": {
       description: "When true gives the calendar can change month",
       control: {
         type: "boolean",
@@ -157,8 +160,57 @@ export const BasicCalendar: Story = {
     size: "md",
     themeColor: "primary",
     locale: "th",
-    "?enableYearChange": true,
-    "?enableMonthChange": true,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const NoRangeCalendar: Story = {
+  args: {
+    year: year,
+    month: month,
+    size: "md",
+    themeColor: "primary",
+    locale: "th",
+    "?noRange": true,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const DisableYearChange: Story = {
+  args: {
+    size: "md",
+    year: year,
+    month: month,
+    themeColor: "primary",
+    "?disableYearChange": true,
+    ".disabledDays": disabledScopeDay(),
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const DisableMonthChange: Story = {
+  args: {
+    size: "md",
+    year: year,
+    month: month,
+    themeColor: "primary",
+    "?disableMonthChange": true,
+    ".disabledDays": disabledScopeDay(),
   },
   parameters: {
     design: {
@@ -174,8 +226,6 @@ export const ShowTodayAndOkCalendar: Story = {
     month: "04",
     size: "md",
     themeColor: "primary",
-    "?enableYearChange": true,
-    "?enableMonthChange": true,
     "?displayGoToday": true, // will show if not current month / year
     "?displayOk": true,
   },
@@ -191,8 +241,6 @@ export const DeclareYearsListCalendar: Story = {
   args: {
     size: "md",
     themeColor: "primary",
-    "?enableYearChange": true,
-    "?enableMonthChange": true,
     ".yearsList": [2010, 2011, 2012, 2013, 2014, 2015, 2016],
   },
   parameters: {
@@ -209,8 +257,6 @@ export const EnableScopeDays: Story = {
     year: year,
     month: month,
     themeColor: "primary",
-    "?enableYearChange": true,
-    "?enableMonthChange": true,
     min: min,
     max: max,
   },
@@ -228,8 +274,6 @@ export const DisableScopeDays: Story = {
     year: year,
     month: month,
     themeColor: "primary",
-    "?enableYearChange": true,
-    "?enableMonthChange": true,
     ".disabledDays": disabledScopeDay(),
   },
   parameters: {

@@ -20,24 +20,29 @@ export const renderFooter = (
   year: string,
   goTodayFn: Function,
 ) => {
-  return displayGoToday || displayOk
-    ? html`<div class="footer">
-      <div class="go-today">
-        ${
-          shouldDisplayGoToday(displayGoToday, month, year)
-            ? html` <slot @click=${goTodayFn} name="footer-today"></slot> `
-            : null
-        }
-      </div>
+  const onlyOk =
+    !shouldDisplayGoToday(displayGoToday, month, year) && displayOk;
 
-        ${
-          displayOk
-            ? html` <div class="ok">
-                <slot name="footer-ok"></slot>
-              </div>`
-            : null
-        }
-      </div>
-    </div>`
+  console.log(onlyOk);
+  return displayGoToday || displayOk
+    ? html` <style>
+          .footer {
+            border-top: 1px solid var(--ssk-colors-gray-200);
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+          }
+
+          .flex-end {
+            justify-content: end;
+          }
+        </style>
+
+        <div class="footer ${onlyOk ? "flex-end" : null}">
+          ${shouldDisplayGoToday(displayGoToday, month, year)
+            ? html` <slot @click=${goTodayFn} name="footer-today"></slot> `
+            : null}
+          ${displayOk ? html` <slot name="footer-ok"></slot> ` : null}
+        </div>`
     : null;
 };

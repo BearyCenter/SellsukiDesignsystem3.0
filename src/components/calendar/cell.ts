@@ -156,6 +156,7 @@ export class Cell extends LitElement {
     --600-colors: ${parseVariables(cssVar("colors", this.themeColor, 600))};
     --100-colors: ${parseVariables(cssVar("colors", this.themeColor, 100))};
     --cell-height: var(--cell-width);
+    --marker: ${this.selected ? "white" : "var(--600-colors)"} ;
     `;
 
     return html`
@@ -192,7 +193,7 @@ export class Cell extends LitElement {
               ? "white"
               : "black"}"
           >
-            ${this.day ? this.day.title : null}
+            <span>${this.day ? this.day.title : null}</span>
           </ssk-text>
         </div>
         ${this.selected && this.hovered
@@ -282,9 +283,9 @@ export class Cell extends LitElement {
       bottom: -0.1rem;
       left: 50%;
       transform: translateX(-50%);
-      width: calc(var(--padding) * 0.3);
-      height: calc(var(--padding) * 0.33);
-      background-color: var(--600-colors);
+      width: calc(var(--padding) * 0.25);
+      height: calc(var(--padding) * 0.27);
+      background-color: var(--marker);
       border-radius: 50%;
     }
 

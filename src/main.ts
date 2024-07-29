@@ -40,5 +40,6 @@ export * from "./components/tabs";
 export * from "./components/stepper";
 export * from "./components/pagination";
 export * from "./components/calendar";
+export * from "./components/date-picker";
 
 import "./assets/fonts.css";
