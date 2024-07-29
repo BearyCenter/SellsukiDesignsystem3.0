@@ -1,5 +1,5 @@
 import { getMonth, getYear } from "date-fns";
-import { html } from "lit";
+import { html, nothing } from "lit";
 
 const shouldDisplayGoToday = (
   displayGoToday: boolean,
@@ -23,9 +23,12 @@ export const renderFooter = (
   const onlyOk =
     !shouldDisplayGoToday(displayGoToday, month, year) && displayOk;
 
-  console.log(onlyOk);
+  const emptyFooter =
+    !shouldDisplayGoToday(displayGoToday, month, year) && !displayOk;
+
   return displayGoToday || displayOk
-    ? html` <style>
+    ? html`
+        <style>
           .footer {
             border-top: 1px solid var(--ssk-colors-gray-200);
             display: flex;
@@ -38,11 +41,14 @@ export const renderFooter = (
           }
         </style>
 
-        <div class="footer ${onlyOk ? "flex-end" : null}">
-          ${shouldDisplayGoToday(displayGoToday, month, year)
-            ? html` <slot @click=${goTodayFn} name="footer-today"></slot> `
-            : null}
-          ${displayOk ? html` <slot name="footer-ok"></slot> ` : null}
-        </div>`
+        ${emptyFooter
+          ? nothing
+          : html` <div class="footer ${onlyOk ? "flex-end" : null}">
+              ${shouldDisplayGoToday(displayGoToday, month, year)
+                ? html` <slot @click=${goTodayFn} name="footer-today"></slot> `
+                : null}
+              ${displayOk ? html` <slot name="footer-ok"></slot> ` : null}
+            </div>`}
+      `
     : null;
 };
