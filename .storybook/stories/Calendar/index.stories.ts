@@ -193,7 +193,6 @@ export const DisableYearChange: Story = {
     month: month,
     themeColor: "primary",
     "?disableYearChange": true,
-    ".disabledDays": disabledScopeDay(),
   },
   parameters: {
     design: {
@@ -210,7 +209,6 @@ export const DisableMonthChange: Story = {
     month: month,
     themeColor: "primary",
     "?disableMonthChange": true,
-    ".disabledDays": disabledScopeDay(),
   },
   parameters: {
     design: {
