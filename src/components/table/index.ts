@@ -20,6 +20,7 @@ import { unsafeHTML } from "lit/directives/unsafe-html.js";
 interface Header {
   name: string;
   text: string;
+  align?: "left" | "center" | "right";
 }
 
 interface RowData {
@@ -95,11 +96,14 @@ export class Table extends LitElement {
   currentPage: number = 1;
 
   @property({ type: Boolean })
+  showRowPage: boolean = false;
+
+  @property({ type: Boolean })
   showRowPerPage: boolean = false;
 
   @property({ type: Boolean })
   showBtnPage: boolean = false;
-  
+
   @property({ type: Boolean })
   showGoToPage: boolean = false;
 
@@ -114,7 +118,7 @@ export class Table extends LitElement {
     if (this.selectAll) {
       this.selectedRows = Array.from(
         { length: this.itemValue.length },
-        (_, index) => index
+        (_, index) => index,
       );
     } else {
       this.selectedRows = [];
@@ -143,17 +147,19 @@ export class Table extends LitElement {
 
   renderHeader(header: Header): TemplateResult {
     const selectedTemplate = this.querySelector(
-      `template#header-${header.name}`
+      `template#header-${header.name}`,
     );
     const tempHTML = selectedTemplate?.innerHTML.replace(
       "{{text}}",
-      header.text
+      header.text,
     );
-
+    const align = header.align || "left";
     if (selectedTemplate) {
-      return html`<th>${unsafeHTML(tempHTML)}</th>`;
+      return html`<th style="text-align: ${align};">
+        ${unsafeHTML(tempHTML)}
+      </th>`;
     } else {
-      return html`<th>${header.text}</th>`;
+      return html`<th style="text-align: ${align};">${header.text}</th>`;
     }
   }
 
@@ -165,7 +171,8 @@ export class Table extends LitElement {
               <td>
                 <ssk-checkbox
                   .checked="${this.selectedRows.includes(rowIndex)}"
-                  @change="${() => this.toggleSelect(rowIndex)}">
+                  @change="${() => this.toggleSelect(rowIndex)}"
+                >
                 </ssk-checkbox>
               </td>
             `,
@@ -173,19 +180,22 @@ export class Table extends LitElement {
         : []),
       ...this.headers.map((header) => {
         let value = row[header.name] || "";
+        const align = header.align || "left";
 
         const selectedTemplate = this.querySelector(
-          `template#content-${header.name}`
+          `template#content-${header.name}`,
         );
         const tempHTML = selectedTemplate?.innerHTML.replace(
           "{{value}}",
-          value
+          value,
         );
 
         if (selectedTemplate) {
-          return html`<td>${unsafeHTML(tempHTML)}</td>`;
+          return html`<td style="text-align: ${align};">
+            ${unsafeHTML(tempHTML)}
+          </td>`;
         } else {
-          return html`<td>${value}</td>`;
+          return html`<td style="text-align: ${align};">${value}</td>`;
         }
       }),
     ];
@@ -211,6 +221,7 @@ export class Table extends LitElement {
         allItems="${this.itemValue.length}"
         @page-changed="${this.handlePageChanged}"
         @rows-per-page-changed="${this.updatedPage}"
+        ?showRowsPage="${this.showRowPage}"
         ?showBtnPage="${this.showBtnPage}"
         ?showrowsperpage="${this.showRowPerPage}"
         ?showGoToPage="${this.showGoToPage}"
@@ -222,12 +233,13 @@ export class Table extends LitElement {
     if (this.hidden) {
       return nothing;
     }
-
+    const hasItems = this.itemValue.length > 0;
     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
     const endIndex = Math.min(
       startIndex + this.rowsPerPage,
-      this.itemValue.length
+      this.itemValue.length,
     );
+
     let additionalCss = html`
       <style>
         :host {
@@ -237,11 +249,13 @@ export class Table extends LitElement {
 
           --color-title: ${parseVariables(
             cssVar("colors", "text", "800"),
-            "black"
+            "black",
           )};
 
           --border-color: ${parseVariables(cssVar("colors", "fiord", 100))};
-
+          --border-color-table: ${parseVariables(
+            cssVar("colors", "fiord", 100),
+          )};
           --font-family: ${parseVariables(
             cssVar("font-family", this.fontFamilyGroup),
           )};
@@ -269,9 +283,10 @@ export class Table extends LitElement {
               ${this.selectEnabled
                 ? html`<th>
                     <ssk-checkbox
-                     .checked="${this.selectAll}"
+                      .checked="${this.selectAll}"
                       @change="${this.toggleSelectAll}"
-                      ?disabled="${!this.selectEnabled}">
+                      ?disabled="${!this.selectEnabled}"
+                    >
                     </ssk-checkbox>
                   </th>`
                 : nothing}
@@ -283,10 +298,11 @@ export class Table extends LitElement {
               (row, index) =>
                 html`<tr>
                   ${this.renderBody(row, startIndex + index)}
-                </tr>`
+                </tr>`,
             )}
           </tbody>
         </table>
+        ${!hasItems ? html`<slot name="empty-content"></slot>` : nothing}
         <div class="${this.showFooter ? "show" : "footer"}">
           ${this.renderPaginationControls()}
         </div>
@@ -296,7 +312,8 @@ export class Table extends LitElement {
 
   static styles = css`
     table {
-      border: 1px solid var(--border-color);
+      border: 1px solid;
+      border-color: var(--border-color-table);
       border-collapse: collapse;
       width: 100%;
     }
@@ -334,7 +351,7 @@ export class Table extends LitElement {
     .show {
       text-align: center;
       border-top: 1px solid var(--border-color);
-      width: calc(100% - 10px);
+      width: 100%;
       box-sizing: border-box;
     }
   `;

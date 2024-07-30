@@ -61,7 +61,8 @@ const meta = {
         type: "boolean",
       },
     },
-    "?showRowPerPage":{
+
+    "?showRowPage": {
       description: "When true gives the menu a active apparence",
       table: {
         category: "Props",
@@ -74,7 +75,8 @@ const meta = {
         type: "boolean",
       },
     },
-    "?showBtnPage":{
+
+    "?showRowPerPage": {
       description: "When true gives the menu a active apparence",
       table: {
         category: "Props",
@@ -87,7 +89,20 @@ const meta = {
         type: "boolean",
       },
     },
-    "?showGoToPage":{
+    "?showBtnPage": {
+      description: "When true gives the menu a active apparence",
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: {
+          summary: "boolean",
+        },
+      },
+      control: {
+        type: "boolean",
+      },
+    },
+    "?showGoToPage": {
       description: "When true gives the menu a active apparence",
       table: {
         category: "Props",
@@ -338,20 +353,17 @@ export const TableWithBody: Story = {
           </div>
         </template>
         <template id="content-button">
-          <ssk-button
-            padding="sm"
-            variant="outline"
-            slot="ok-button-slot"
-          >
+          <ssk-button padding="sm" variant="outline" slot="ok-button-slot">
             <ssk-icon
-                slot="prefix"
-                size="sm"
-                name="outline-ellipsis-horizontal-circle"
-                size="md"
+              slot="prefix"
+              size="sm"
+              name="outline-ellipsis-horizontal-circle"
+              size="md"
             ></ssk-icon>
             {{value}}
           </ssk-button>
         </template>
+      </ssk-table>
     `;
   },
 };
@@ -818,6 +830,7 @@ export const TableWithFooter: Story = {
       },
     ],
     "?showFooter": true,
+    "?showRowPage": true,
   },
   parameters: {
     design: {
