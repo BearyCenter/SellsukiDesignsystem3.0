@@ -59,6 +59,7 @@ export class DatePicker extends LitElement {
   private handleIcon() {
     if (this.value && this._isFocus) {
       this.value = "";
+      this._isFocus = false;
     } else {
       this._hideCalendar = !this._hideCalendar;
     }
@@ -67,6 +68,7 @@ export class DatePicker extends LitElement {
   private updateValue(e: any, redispatch: boolean = false) {
     this.value = e.srcElement.value;
     if (this.value) {
+      this._isFocus = true;
       this.convertStrToDate(this.value);
     }
     if (redispatch) {
@@ -76,10 +78,6 @@ export class DatePicker extends LitElement {
 
   private handleOnFocus() {
     this._isFocus = true;
-  }
-
-  private handleOnBlur() {
-    this._isFocus = false;
   }
 
   private handleDateFrom(v?: number) {
@@ -124,9 +122,9 @@ export class DatePicker extends LitElement {
         placeholder=${this.placeholder}
         name=${this.name}
         size=${this.size}
+        @input=${(e: any) => this.updateValue(e, true)}
         @change=${(e: any) => this.updateValue(e, true)}
         @focus=${this.handleOnFocus.bind(this)}
-        @blur=${this.handleOnBlur.bind(this)}
         autoComplete="off"
       >
         <ssk-input-addon slot="postfix" @click=${this.handleIcon.bind(this)}>
