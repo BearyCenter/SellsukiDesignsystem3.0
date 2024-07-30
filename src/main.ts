@@ -40,5 +40,6 @@ export * from "./components/sidebar";
 export * from "./components/tabs";
 export * from "./components/stepper";
 export * from "./components/pagination";
+export * from "./components/table";
 
 import "./assets/fonts.css";

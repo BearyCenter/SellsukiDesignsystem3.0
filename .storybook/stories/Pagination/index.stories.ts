@@ -30,6 +30,19 @@ const meta = {
         type: "number",
       },
     },
+    "?showRowsPage": {
+      description: "When true gives the menu a active apparence",
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: {
+          summary: "boolean",
+        },
+      },
+      control: {
+        type: "boolean",
+      },
+    },
     "?showRowsPerPage": {
       description: "When true gives the menu a active apparence",
       table: {
@@ -70,24 +83,24 @@ const meta = {
       },
     },
     ".selectedItems": {
-        description: "Array of selected items",
-        control: {
-          type: "array",
-        },
-        defaultValue: [10, 20, 30, 40],
+      description: "Array of selected items",
+      control: {
+        type: "array",
       },
+      defaultValue: [10, 20, 30, 40],
+    },
     "@click": {
-        action: "@click",
-        table: {
-          category: "Events props",
-        },
+      action: "@click",
+      table: {
+        category: "Events props",
       },
-      "@page-changed": {
-        action: "@page-changed",
-        table: {
-          category: "Events props",
-        },
+    },
+    "@page-changed": {
+      action: "@page-changed",
+      table: {
+        category: "Events props",
       },
+    },
     ...baseArgsTypes,
   },
 } satisfies Meta<PaginationDefault>;
@@ -99,6 +112,7 @@ type Story = StoryObj<PaginationDefault>;
 export const Default: Story = {
   args: {
     ".selectedItems": [10, 20, 50, 100],
+    showRowsPage: true,
   },
   parameters: {
     design: {
