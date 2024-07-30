@@ -123,13 +123,6 @@ const meta = {
       },
       defaultValue: [],
     },
-    ".disabledDays": {
-      description: "Array of year items",
-      control: {
-        type: "array",
-      },
-      defaultValue: [],
-    },
     ...baseArgsTypes,
   },
 } satisfies Meta<CalendarArgs>;
@@ -140,18 +133,6 @@ type Story = StoryObj<CalendarArgs>;
 const today = startOfDay(new Date());
 const year = getYear(today).toString();
 const month = (getMonth(today) + 1).toString().padStart(2, "0");
-const min = subDays(today, 1).getTime();
-const max = addDays(today, 3).getTime();
-
-const disabledScopeDay = (): number[] | undefined => {
-  const days: number = 10;
-  const disabled: number[] = [];
-  for (let i = 0; i < days; i++) {
-    disabled.push(addDays(today, i).getTime());
-  }
-
-  return disabled;
-};
 
 export const BasicCalendar: Story = {
   args: {
@@ -249,30 +230,16 @@ export const DeclareYearsListCalendar: Story = {
   },
 };
 
-export const EnableScopeDays: Story = {
-  args: {
-    size: "md",
-    year: year,
-    month: month,
-    themeColor: "primary",
-    min: min,
-    max: max,
-  },
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
-    },
-  },
-};
-
 export const DisableScopeDays: Story = {
   args: {
     size: "md",
     year: year,
     month: month,
     themeColor: "primary",
-    ".disabledDays": disabledScopeDay(),
+    ".disabledDate": (date: number) => {
+      const dayOfWeek = startOfDay(date).getDay();
+      return dayOfWeek === 0 || dayOfWeek === 6; // Sunday and Saturday
+    },
   },
   parameters: {
     design: {

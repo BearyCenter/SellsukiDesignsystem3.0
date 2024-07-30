@@ -54,16 +54,9 @@ export class Cell extends LitElement {
   dateFrom?: number;
   @property({ type: Number })
   hoveredDate?: number;
-  @property({ type: Number })
-  min?: number;
-  @property({ type: Number })
-  max?: number;
 
   @property({ type: String })
   month?: string;
-
-  @property({ type: Array })
-  disabledDays: Array<number> = [];
 
   updated(properties: PropertyValues) {
     if (
@@ -138,19 +131,6 @@ export class Cell extends LitElement {
     return "";
   }
 
-  isEnabled(disabledDays: number[], day?: typeDay, min?: number, max?: number) {
-    this.disabled = false;
-    const hasDisabledScope = min || max || disabledDays;
-    if (hasDisabledScope && day && day.date) {
-      const inEnableScope = (min && day.date < min) || (max && day.date > max);
-      if (inEnableScope || disabledDays.includes(day.date)) {
-        this.disabled = true;
-        return "disabled";
-      }
-    }
-    return "";
-  }
-
   render() {
     let additionalCss = `
     --600-colors: ${parseVariables(cssVar("colors", this.themeColor, 600))};
@@ -173,12 +153,8 @@ export class Cell extends LitElement {
           ? "currentDate"
           : null} ${this.isSelected(this.selected)} ${this.isHovered(
           this.hovered,
-        )}  ${this.isEnabled(
-          this.disabledDays,
-          this.day,
-          this.min,
-          this.max,
-        )} ${this.day?.date === this.dateFrom
+        )}  ${this.disabled ? "disabled" : ""} ${this.day?.date ===
+        this.dateFrom
           ? "date-from"
           : this.day?.date === this.dateTo
           ? "date-to"

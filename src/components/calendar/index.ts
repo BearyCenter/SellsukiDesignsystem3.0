@@ -96,10 +96,6 @@ export class Calendar extends LitElement {
   next = false;
 
   @property({ type: Number })
-  min?: number;
-  @property({ type: Number })
-  max?: number;
-  @property({ type: Number })
   dateTo?: number;
   @property({ type: Number })
   dateFrom?: number;
@@ -108,8 +104,9 @@ export class Calendar extends LitElement {
   @property({ type: Number })
   maxRange = 0;
 
-  @property({ type: Array })
-  disabledDays: Array<number> = [];
+  @property({ type: Function })
+  disabledDate?: (date: number) => boolean;
+
   @property({ type: Array })
   dayNamesOfTheWeek: Array<string> = [];
   @property({ type: Array })
@@ -497,6 +494,11 @@ export class Calendar extends LitElement {
     return chunkedArrays;
   }
 
+  private checkDisabled(date: number) {
+    const dd = this.disabledDate && this.disabledDate(date);
+    return dd;
+  }
+
   private calcCurrentYearIndex(year: number, chunkList: number[][]): number {
     const index = chunkList.findIndex((chunk) => chunk.includes(year));
     return index;
@@ -680,11 +682,9 @@ export class Calendar extends LitElement {
                       ${dayOfMonth.isCurrentMonth
                         ? html`
                             <ssk-cell
-                              .disabledDays="${this.disabledDays}"
                               .themeColor=${this.themeColor}
-                              .min="${this.min}"
-                              .max="${this.max}"
                               .month="${this.month}"
+                              .disabled=${this.checkDisabled(dayOfMonth.date)}
                               .hoveredDate="${this.hoveredDate}"
                               .dateTo="${this.dateTo}"
                               .dateFrom="${this.dateFrom}"
