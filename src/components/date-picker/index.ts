@@ -131,7 +131,6 @@ export class DatePicker extends LitElement {
         size=${this.size}
         @input=${(e: any) => this.updateValue(e, true)}
         @change=${(e: any) => this.updateValue(e, true)}
-        @input=${(e: any) => this.updateValue(e, true)}
         @focus=${this.handleOnFocus.bind(this)}
         autoComplete="off"
       >
