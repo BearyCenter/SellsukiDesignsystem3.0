@@ -120,7 +120,12 @@ export class DatePicker extends LitElement {
     const goTodaySlot = this.querySelector('[slot="today"]');
     const okSlot = this.querySelector('[slot="ok"]');
 
-    return html`<div>
+    const cld = this.shadowRoot?.querySelector(".date-picker > ssk-calendar");
+    if (goTodaySlot) cld?.setAttribute("displayGoToday", "");
+    if (okSlot) cld?.setAttribute("displayOk", "");
+    if (this.noRange) cld?.setAttribute("noRange", "");
+
+    return html`<div class="date-picker">
       <ssk-input
         .value=${this.value}
         label=${this.label}
@@ -142,16 +147,11 @@ export class DatePicker extends LitElement {
       </ssk-input>
       <ssk-calendar
         .hidden=${this._hideCalendar}
-        size=${this.size}
-        noRange=${this.noRange}
         .dateFrom=${this._cDateFrom}
+        size=${this.size}
         month=${this._cMonth}
         year=${this._cYear}
-        displayGoToday=${!!goTodaySlot}
-        displayOk=${!!okSlot}
-        @date-from-changed=${(e: any) =>
-          okSlot ? nothing : this.handleDateFrom(e.detail?.value)}
-        @date-to-changed=${(e: any) => console.log(e.detail?.value)}
+        @date-from-changed=${(e: any) => this.handleDateFrom(e.detail?.value)}
       >
         ${goTodaySlot
           ? html`<slot name="today" slot="footer-today"></slot>`

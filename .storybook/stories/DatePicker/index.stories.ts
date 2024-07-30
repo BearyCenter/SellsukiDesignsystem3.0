@@ -17,6 +17,7 @@ const meta = {
         <ssk-button slot="today" size=${args.size} variant="ghost">
           ตอนนี้
         </ssk-button>
+        <ssk-button slot="ok" size=${args.size}> ตกลง </ssk-button>
       </ssk-date-picker>
     `;
   },
@@ -72,5 +73,30 @@ export const BasicDatePicker: Story = {
       type: "figma",
       url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
     },
+  },
+};
+
+export const NoOkDatePicker: Story = {
+  args: {
+    label: "Select date",
+    placeholder: "Select date",
+    helperText: "Wrong format",
+    size: "md",
+    format: "dd-MM-yyyy",
+    value: `${date}-${month}-${year}`,
+    "?noRange": true,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+  render: ({ ...args }) => {
+    return html` <ssk-date-picker ${spread(args)}>
+      <ssk-button slot="today" size=${args.size} variant="ghost">
+        ตอนนี้
+      </ssk-button>
+    </ssk-date-picker>`;
   },
 };

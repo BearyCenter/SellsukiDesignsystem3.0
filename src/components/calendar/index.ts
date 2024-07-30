@@ -131,6 +131,10 @@ export class Calendar extends LitElement {
   _yearIndex: number = 0;
   @state()
   _chunkYearList: number[][] = [];
+  @state()
+  _selectedFrom: number | undefined = this.dateFrom;
+  @state()
+  _selectedTo: number | undefined = this.dateTo;
 
   updated(properties: PropertyValues) {
     if (properties.has("locale")) {
@@ -298,6 +302,8 @@ export class Calendar extends LitElement {
       if (this.dateFrom && this.dateTo) {
         this.dateFrom = date;
         this.dateTo = undefined;
+        this._selectedFrom = date;
+        this._selectedTo = undefined;
         this.hoveredDate = undefined;
         this.dispatchEvent(
           new CustomEvent("hovered-date-changed", {
@@ -310,21 +316,26 @@ export class Calendar extends LitElement {
         (this.maxRange > 0 && date - this.dateFrom > this.maxRange * 24 * 3600)
       ) {
         this.dateFrom = date;
+        this._selectedFrom = date;
       } else if (!this.dateTo || (this.dateTo && date > this.dateTo)) {
         this.dateTo = date;
+        this._selectedTo = date;
       }
     } else {
       this.dateFrom = date;
+      this._selectedFrom = date;
     }
 
-    this.dispatchEvent(
-      new CustomEvent("date-from-changed", {
-        detail: { value: this.dateFrom },
-      }),
-    );
-    this.dispatchEvent(
-      new CustomEvent("date-to-changed", { detail: { value: this.dateTo } }),
-    );
+    if (!this.displayOk) {
+      this.dispatchEvent(
+        new CustomEvent("date-from-changed", {
+          detail: { value: this.dateFrom },
+        }),
+      );
+      this.dispatchEvent(
+        new CustomEvent("date-to-changed", { detail: { value: this.dateTo } }),
+      );
+    }
   }
 
   private toggleMonthChangeDropdown() {
@@ -458,6 +469,19 @@ export class Calendar extends LitElement {
   private goToday() {
     this.month = `${getMonth(new Date()) + 1}`.padStart(2, "0").slice(-2);
     this.year = getYear(new Date()).toString();
+  }
+
+  private handleOk() {
+    this.dispatchEvent(
+      new CustomEvent("date-from-changed", {
+        detail: { value: this._selectedFrom },
+      }),
+    );
+    this.dispatchEvent(
+      new CustomEvent("date-to-changed", {
+        detail: { value: this._selectedTo },
+      }),
+    );
   }
 
   private chunkedYearsList(yList: number[]): number[][] {
@@ -692,6 +716,7 @@ export class Calendar extends LitElement {
           this.month,
           this.year,
           this.goToday,
+          this.handleOk,
         )}
       </div>
     `;

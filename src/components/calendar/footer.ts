@@ -19,6 +19,7 @@ export const renderFooter = (
   month: string,
   year: string,
   goTodayFn: Function,
+  okFn: Function,
 ) => {
   const onlyOk =
     !shouldDisplayGoToday(displayGoToday, month, year) && displayOk;
@@ -47,7 +48,9 @@ export const renderFooter = (
               ${shouldDisplayGoToday(displayGoToday, month, year)
                 ? html` <slot @click=${goTodayFn} name="footer-today"></slot> `
                 : null}
-              ${displayOk ? html` <slot name="footer-ok"></slot> ` : null}
+              ${displayOk
+                ? html` <slot @click=${okFn} name="footer-ok"></slot> `
+                : null}
             </div>`}
       `
     : null;
