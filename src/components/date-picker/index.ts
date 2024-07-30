@@ -1,5 +1,5 @@
 import { consume } from "@lit/context";
-import { css, html, LitElement, nothing, PropertyValues } from "lit";
+import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { Size, Theme, themeContext } from "../../main";
 import "../calendar";
@@ -35,8 +35,8 @@ export class DatePicker extends LitElement {
   name: string | undefined;
   @property({ type: Boolean })
   hidden = false;
-  @property({ type: String })
-  value: string | undefined;
+  @property({ type: Date })
+  value: Date | undefined;
   @property({ type: Boolean })
   noRange = false;
   @property({ type: String })
@@ -55,10 +55,12 @@ export class DatePicker extends LitElement {
   _cMonth: string | undefined;
   @state()
   _cYear: string | undefined;
+  @state()
+  _sValue: string | undefined;
 
   private handleIcon() {
     if (this.value && this._isClear) {
-      this.value = "";
+      this.value = undefined;
       this._hideCalendar = true;
       this._isClear = false;
     } else {
@@ -68,10 +70,10 @@ export class DatePicker extends LitElement {
 
   private updateValue(e: any, redispatch: boolean = false) {
     this.value = e.srcElement.value;
-    if (this.value) {
-      this._isClear = true;
-      this.convertStrToDate(this.value);
-    }
+
+    this._isClear = true;
+    this.handleChangedDate(e.srcElement.value);
+
     if (redispatch) {
       this._hideCalendar = true;
       redispatchEvents(e, this);
@@ -79,18 +81,17 @@ export class DatePicker extends LitElement {
   }
 
   private handleOnBlur() {
-    this._isClear = false;
     this._hideCalendar = true;
   }
 
   private handleDateFrom(v?: number) {
     if (v) {
       const dateFrom = new Date(v);
-      this.value = format(dateFrom, this.format);
+      this.value = dateFrom;
     }
   }
 
-  private convertStrToDate(v?: string) {
+  private handleChangedDate(v?: string) {
     if (v) {
       const vDateFrom = parse(v, this.format, new Date());
       const validDate = isValid(vDateFrom);
@@ -106,18 +107,21 @@ export class DatePicker extends LitElement {
     this.error = false;
   }
 
-  protected firstUpdated(_changedProperties: PropertyValues): void {
-    this.convertStrToDate(this.value);
+  protected updated(): void {
+    if (!this.value) {
+      this._sValue = "";
+      return;
+    }
+    if (isValid(this.value)) {
+      this._sValue = format(this.value, this.format);
+      this.handleChangedDate(this._sValue);
+    }
   }
 
-  protected updated(): void {
-    this.convertStrToDate(this.value);
-  }
   render() {
     if (this.hidden) {
       return nothing;
     }
-
     const goTodaySlot = this.querySelector('[slot="today"]');
     const okSlot = this.querySelector('[slot="ok"]');
 
@@ -128,7 +132,7 @@ export class DatePicker extends LitElement {
 
     return html`<div class="date-picker">
       <ssk-input
-        .value=${this.value}
+        .value=${this._sValue}
         label=${this.label}
         helperText=${this.error ? this.helperText : ""}
         .error=${this.error}
