@@ -81,7 +81,7 @@ export class Calendar extends LitElement {
   locale: LocaleKey = "th";
 
   @property({ type: Boolean })
-  noRange = false;
+  noRange = true;
   @property({ type: Boolean })
   disableYearChange = false;
   @property({ type: Boolean })

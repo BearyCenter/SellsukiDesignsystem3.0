@@ -45,14 +45,14 @@ const meta = {
         category: "Props",
       },
     },
-    "?noRange": {
+    ".noRange": {
       description: "When true gives the calendar cannot selected range date",
       control: {
         type: "boolean",
       },
       table: {
         category: "Props",
-        defaultValue: { summary: false },
+        defaultValue: { summary: true },
         type: { summary: "boolean" },
       },
     },
@@ -169,14 +169,14 @@ export const BasicCalendar: Story = {
   },
 };
 
-export const NoRangeCalendar: Story = {
+export const RangeCalendar: Story = {
   args: {
     year: year,
     month: month,
     size: "md",
     themeColor: "primary",
     locale: "th",
-    "?noRange": true,
+    ".noRange": false,
   },
   parameters: {
     design: {

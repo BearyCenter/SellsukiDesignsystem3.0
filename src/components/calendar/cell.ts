@@ -284,7 +284,7 @@ export class Cell extends LitElement {
       left: 50%;
       transform: translateX(-50%);
       width: calc(var(--padding) * 0.25);
-      height: calc(var(--padding) * 0.27);
+      height: calc(var(--padding) * 0.25);
       background-color: var(--marker);
       border-radius: 50%;
     }
