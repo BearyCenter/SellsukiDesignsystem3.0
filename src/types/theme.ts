@@ -240,6 +240,7 @@ export type Theme = {
     pinCode?: Partial<ThemeField>;
     cardSelect?: Partial<ThemeField>;
     calendar?: Partial<ThemeField>;
+    inputtag?: Partial<ThemeField>;
   };
 } & ThemeField;
 
