@@ -59,6 +59,7 @@ export class DatePicker extends LitElement {
   private handleIcon() {
     if (this.value && this._isFocus) {
       this.value = "";
+      this._hideCalendar = true;
       this._isFocus = false;
     } else {
       this._hideCalendar = !this._hideCalendar;
@@ -72,6 +73,7 @@ export class DatePicker extends LitElement {
       this.convertStrToDate(this.value);
     }
     if (redispatch) {
+      this._hideCalendar = true;
       redispatchEvents(e, this);
     }
   }
@@ -87,24 +89,29 @@ export class DatePicker extends LitElement {
     }
   }
 
-  private convertStrToDate(v: string) {
-    const vDateFrom = parse(v, this.format, new Date());
-    const validDate = isValid(vDateFrom);
-    if (validDate) {
-      const dfTime = vDateFrom.getTime();
-      this._cDateFrom = dfTime;
-      this._cMonth = (vDateFrom.getMonth() + 1).toString().padStart(2, "0");
-      this._cYear = vDateFrom.getFullYear().toString();
+  private convertStrToDate(v?: string) {
+    if (v) {
+      const vDateFrom = parse(v, this.format, new Date());
+      const validDate = isValid(vDateFrom);
+      if (validDate) {
+        const dfTime = vDateFrom.getTime();
+        this._cDateFrom = dfTime;
+        this._cMonth = (vDateFrom.getMonth() + 1).toString().padStart(2, "0");
+        this._cYear = vDateFrom.getFullYear().toString();
+      }
+      this.error = !validDate;
+      return;
     }
-    this.error = !validDate;
+    this.error = false;
   }
 
   protected firstUpdated(_changedProperties: PropertyValues): void {
-    if (this.value) {
-      this.convertStrToDate(this.value);
-    }
+    this.convertStrToDate(this.value);
   }
 
+  protected updated(): void {
+    this.convertStrToDate(this.value);
+  }
   render() {
     if (this.hidden) {
       return nothing;
@@ -124,6 +131,7 @@ export class DatePicker extends LitElement {
         size=${this.size}
         @input=${(e: any) => this.updateValue(e, true)}
         @change=${(e: any) => this.updateValue(e, true)}
+        @input=${(e: any) => this.updateValue(e, true)}
         @focus=${this.handleOnFocus.bind(this)}
         autoComplete="off"
       >
@@ -137,7 +145,7 @@ export class DatePicker extends LitElement {
         .hidden=${this._hideCalendar}
         size=${this.size}
         noRange=${this.noRange}
-        dateFrom=${this._cDateFrom}
+        .dateFrom=${this._cDateFrom}
         month=${this._cMonth}
         year=${this._cYear}
         displayGoToday=${!!goTodaySlot}
