@@ -61,8 +61,10 @@ export class DatePicker extends LitElement {
   private handleIcon() {
     if (this.value && this._isClear) {
       this.value = undefined;
+      this._sValue = undefined;
       this._hideCalendar = true;
       this._isClear = false;
+      this.error = false;
     } else {
       this._hideCalendar = !this._hideCalendar;
     }
