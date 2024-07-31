@@ -107,6 +107,18 @@ export class DatePicker extends LitElement {
     this.error = false;
   }
 
+  private handleClickOutside(_e: MouseEvent) {
+    this._isClear = false;
+  }
+
+  firstUpdated() {
+    window.addEventListener("click", this.handleClickOutside.bind(this));
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener("click", this.handleClickOutside.bind(this));
+  }
+
   protected updated(): void {
     if (!this.value) {
       this._sValue = "";
@@ -145,7 +157,7 @@ export class DatePicker extends LitElement {
         autoComplete="off"
       >
         <ssk-input-addon slot="postfix" @click=${this.handleIcon.bind(this)}>
-          ${this.value && this._isClear
+          ${this._isClear
             ? html`<ssk-icon name="outline-x-circle"></ssk-icon>`
             : html`<ssk-icon name="outline-calendar-days"></ssk-icon> `}
         </ssk-input-addon>
