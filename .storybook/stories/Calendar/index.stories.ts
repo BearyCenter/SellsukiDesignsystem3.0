@@ -12,23 +12,7 @@ const meta = {
   title: "Example/Calendar",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html`<ssk-calendar ${spread(args)}>
-      <ssk-button
-        slot="footer-today"
-        size=${args.size}
-        variant="ghost"
-        themeColor=${args.themeColor}
-      >
-        ตอนนี้
-      </ssk-button>
-      <ssk-button
-        slot="footer-ok"
-        size=${args.size}
-        themeColor=${args.themeColor}
-      >
-        ตกลง
-      </ssk-button>
-    </ssk-calendar>`;
+    return html`<ssk-calendar ${spread(args)}> </ssk-calendar>`;
   },
   argTypes: {
     year: {
@@ -65,7 +49,23 @@ const meta = {
       table: {
         category: "Props",
         defaultValue: {
-          summary: "md",
+          summary: "th",
+        },
+        type: {
+          summary: "string",
+        },
+      },
+    },
+    footerStyle: {
+      options: ["between", "middle", "right", "left"],
+      description: "The type of footer Calendar style",
+      control: {
+        type: "inline-radio",
+      },
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "between",
         },
         type: {
           summary: "string",
@@ -141,6 +141,7 @@ export const BasicCalendar: Story = {
     size: "md",
     themeColor: "primary",
     locale: "th",
+    footerStyle: "right",
   },
   parameters: {
     design: {

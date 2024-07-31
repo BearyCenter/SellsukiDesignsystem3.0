@@ -14,10 +14,15 @@ const shouldDisplayGoToday = (
 };
 
 export const renderFooter = (
+  footerStyle: string,
   displayGoToday: boolean,
   displayOk: boolean,
   month: string,
   year: string,
+  size: string,
+  themeColor: string,
+  todayText: string,
+  okText: string,
   goTodayFn: Function,
   okFn: Function,
 ) => {
@@ -33,23 +38,64 @@ export const renderFooter = (
           .footer {
             border-top: 1px solid var(--ssk-colors-gray-200);
             display: flex;
-            justify-content: space-between;
             padding: 0.5rem 1rem;
           }
 
-          .flex-end {
+          .between {
+            justify-content: space-between;
+          }
+
+          .middle {
+            justify-content: center;
+            gap: 0.5rem;
+          }
+
+          .right {
+            justify-content: end;
+            gap: 0.5rem;
+          }
+
+          .left {
+            justify-content: start;
+            gap: 0.5rem;
+          }
+
+          .left.flex-end {
+            justify-content: start;
+          }
+          .between.flex-end,
+          .right.flex-end {
             justify-content: end;
           }
         </style>
 
         ${emptyFooter
           ? nothing
-          : html` <div class="footer ${onlyOk ? "flex-end" : null}">
+          : html` <div
+              class="footer ${footerStyle} ${onlyOk ? "flex-end" : null}"
+            >
               ${shouldDisplayGoToday(displayGoToday, month, year)
-                ? html` <slot @click=${goTodayFn} name="footer-today"></slot> `
+                ? html`
+                    <ssk-button
+                      @click=${goTodayFn}
+                      size=${size}
+                      variant="ghost"
+                      themeColor=${themeColor}
+                    >
+                      ${todayText}
+                    </ssk-button>
+                  `
                 : null}
               ${displayOk
-                ? html` <slot @click=${okFn} name="footer-ok"></slot> `
+                ? html`
+                    <ssk-button
+                      @click=${okFn}
+                      size=${size}
+                      themeColor=${themeColor}
+                    >
+                      ${okText}
+                    </ssk-button>
+                  `
                 : null}
             </div>`}
       `

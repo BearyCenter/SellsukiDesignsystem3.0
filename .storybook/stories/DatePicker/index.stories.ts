@@ -12,14 +12,7 @@ const meta = {
   title: "Example/DatePicker",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html`
-      <ssk-date-picker ${spread(args)}>
-        <ssk-button slot="today" size=${args.size} variant="ghost">
-          ตอนนี้
-        </ssk-button>
-        <ssk-button slot="ok" size=${args.size}> ตกลง </ssk-button>
-      </ssk-date-picker>
-    `;
+    return html` <ssk-date-picker ${spread(args)}> </ssk-date-picker> `;
   },
   argTypes: {
     label: {

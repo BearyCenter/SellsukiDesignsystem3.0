@@ -79,6 +79,12 @@ export class Calendar extends LitElement {
   year: string = "";
   @property({ type: String })
   locale: LocaleKey = "th";
+  @property({ type: String })
+  todayText: string = "ตอนนี้";
+  @property({ type: String })
+  okText: string = "ตกลง";
+  @property({ type: String })
+  footerStyle: "between" | "middle" | "right" = "between";
 
   @property({ type: Boolean })
   singleDate = true;
@@ -711,10 +717,15 @@ export class Calendar extends LitElement {
           </div>
         </div>
         ${renderFooter(
+          this.footerStyle,
           this.displayGoToday,
           this.displayOk,
           this.month,
           this.year,
+          this.size,
+          this.themeColor,
+          this.todayText,
+          this.okText,
           this.goToday,
           this.handleOk,
         )}
