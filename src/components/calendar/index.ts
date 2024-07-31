@@ -81,7 +81,7 @@ export class Calendar extends LitElement {
   locale: LocaleKey = "th";
 
   @property({ type: Boolean })
-  noRange = true;
+  singleDate = true;
   @property({ type: Boolean })
   disableYearChange = false;
   @property({ type: Boolean })
@@ -295,7 +295,7 @@ export class Calendar extends LitElement {
 
   private handleDateSelected({ detail }: any) {
     const { date } = detail;
-    if (!this.noRange) {
+    if (!this.singleDate) {
       if (this.dateFrom && this.dateTo) {
         this.dateFrom = date;
         this.dateTo = undefined;

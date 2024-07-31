@@ -45,7 +45,7 @@ const meta = {
         category: "Props",
       },
     },
-    ".noRange": {
+    ".singleDate": {
       description: "When true gives the calendar cannot selected range date",
       control: {
         type: "boolean",
@@ -157,7 +157,7 @@ export const RangeCalendar: Story = {
     size: "md",
     themeColor: "primary",
     locale: "th",
-    ".noRange": false,
+    ".singleDate": false,
   },
   parameters: {
     design: {

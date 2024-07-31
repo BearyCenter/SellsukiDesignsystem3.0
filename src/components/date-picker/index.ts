@@ -38,7 +38,7 @@ export class DatePicker extends LitElement {
   @property({ type: Date })
   value: Date | undefined;
   @property({ type: Boolean })
-  noRange = false;
+  singleDate = false;
   @property({ type: String })
   format = "dd/MM/yyyy";
 
@@ -140,7 +140,7 @@ export class DatePicker extends LitElement {
     const cld = this.shadowRoot?.querySelector(".date-picker > ssk-calendar");
     if (goTodaySlot) cld?.setAttribute("displayGoToday", "");
     if (okSlot) cld?.setAttribute("displayOk", "");
-    if (this.noRange) cld?.setAttribute("noRange", "");
+    if (this.singleDate) cld?.setAttribute("singleDate", "");
 
     return html`<div class="date-picker">
       <ssk-input

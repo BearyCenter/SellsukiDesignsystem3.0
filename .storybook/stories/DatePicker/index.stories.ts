@@ -43,7 +43,7 @@ const meta = {
         category: "Props",
       },
     },
-    "?noRange": {
+    "?singleDate": {
       description: "When true gives the calendar cannot selected range date",
       control: {
         type: "boolean",
@@ -70,7 +70,7 @@ export const BasicDatePicker: Story = {
     size: "md",
     format: "dd-MM-yyyy",
     ".value": today,
-    "?noRange": true,
+    "?singleDate": true,
   },
   parameters: {
     design: {
@@ -88,7 +88,7 @@ export const NoOkDatePicker: Story = {
     size: "md",
     format: "dd-MM-yyyy",
     ".value": today,
-    "?noRange": true,
+    "?singleDate": true,
   },
   parameters: {
     design: {
