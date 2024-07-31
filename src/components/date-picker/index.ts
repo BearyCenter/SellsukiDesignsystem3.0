@@ -6,7 +6,7 @@ import "../calendar";
 import "../../elements/input";
 import "../../elements/input/addon";
 import "../../elements/icon";
-import { format, isValid, parse, toDate } from "date-fns";
+import { format, isValid, parse } from "date-fns";
 
 @customElement("ssk-date-picker")
 export class DatePicker extends LitElement {
