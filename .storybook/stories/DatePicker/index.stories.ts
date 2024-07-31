@@ -1,4 +1,9 @@
-import { AutoLitProperty, baseArgsTypes } from "../helper";
+import {
+  addPrefixToObject,
+  AutoLitProperty,
+  baseArgsTypes,
+  genericEvents,
+} from "../helper";
 import { DatePicker } from "../../../src/components/date-picker";
 import { html } from "lit";
 import { spread } from "@open-wc/lit-helpers";
@@ -7,6 +12,7 @@ import "../../../src/components/date-picker";
 import { startOfDay } from "date-fns";
 
 type DatePickerArgs = AutoLitProperty<DatePicker>;
+type DatePickerEventArgs = addPrefixToObject<Omit<DatePickerArgs, "name">, "@">;
 
 const meta = {
   title: "Example/DatePicker",
@@ -37,7 +43,7 @@ const meta = {
       },
     },
     "?singleDate": {
-      description: "When true gives the calendar cannot selected range date",
+      description: "When true gives the calendar can selected single date",
       control: {
         type: "boolean",
       },
@@ -47,12 +53,36 @@ const meta = {
         type: { summary: "boolean" },
       },
     },
+    "?displayOk": {
+      description: "When true gives the footer calendar will show ok button",
+      control: {
+        type: "boolean",
+      },
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: { summary: "boolean" },
+      },
+    },
+    "?displayGoToday": {
+      description:
+        "When true gives the footer calendar will show go-today button",
+      control: {
+        type: "boolean",
+      },
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: { summary: "boolean" },
+      },
+    },
+    "@change": genericEvents["@change"],
     ...baseArgsTypes,
   },
-} satisfies Meta<DatePickerArgs>;
+} satisfies Meta<DatePickerEventArgs>;
 
 export default meta;
-type Story = StoryObj<DatePickerArgs>;
+type Story = StoryObj<DatePickerEventArgs>;
 const today = startOfDay(new Date());
 
 export const BasicDatePicker: Story = {
@@ -62,6 +92,8 @@ export const BasicDatePicker: Story = {
     helperText: "Wrong format",
     size: "md",
     format: "dd-MM-yyyy",
+    "?displayGoToday": true,
+    "?displayOk": true,
     ".value": today,
     "?singleDate": true,
   },
@@ -73,7 +105,7 @@ export const BasicDatePicker: Story = {
   },
 };
 
-export const NoOkDatePicker: Story = {
+export const CustomFooterDatePicker: Story = {
   args: {
     label: "Select date",
     placeholder: "Select date",
@@ -91,9 +123,15 @@ export const NoOkDatePicker: Story = {
   },
   render: ({ ...args }) => {
     return html` <ssk-date-picker ${spread(args)}>
-      <ssk-button slot="today" size=${args.size} variant="ghost">
-        ตอนนี้
-      </ssk-button>
+      <div slot="footer">
+        <ssk-button
+          size=${args.size}
+          variant="ghost"
+          @click=${() => console.log("click")}
+        >
+          คลิกเลย จะมี log
+        </ssk-button>
+      </div>
     </ssk-date-picker>`;
   },
 };

@@ -6,8 +6,7 @@ import "../calendar";
 import "../../elements/input";
 import "../../elements/input/addon";
 import "../../elements/icon";
-import { redispatchEvents } from "../../helpers/lit";
-import { format, isValid, parse } from "date-fns";
+import { format, isValid, parse, toDate } from "date-fns";
 
 @customElement("ssk-date-picker")
 export class DatePicker extends LitElement {
@@ -43,7 +42,9 @@ export class DatePicker extends LitElement {
   format = "dd/MM/yyyy";
 
   @property({ type: Boolean })
-  hideClearValue = false;
+  displayGoToday = false;
+  @property({ type: Boolean })
+  displayOk = false;
 
   @state()
   _hideCalendar: boolean = true;
@@ -70,15 +71,23 @@ export class DatePicker extends LitElement {
     }
   }
 
-  private updateValue(e: any, redispatch: boolean = false) {
+  private async updateValue(e: any) {
     this.value = e.srcElement.value;
 
     this._isClear = true;
-    this.handleChangedDate(e.srcElement.value);
+    this._hideCalendar = true;
+    await this.handleChangedDate(e.srcElement.value);
 
-    if (redispatch) {
-      this._hideCalendar = true;
-      redispatchEvents(e, this);
+    if (this.value) {
+      this.dispatchEvent(
+        new CustomEvent("change", {
+          detail: {
+            value: this.error
+              ? this.value
+              : parse(e.srcElement.value, "dd-MM-yyyy", new Date()),
+          },
+        }),
+      );
     }
   }
 
@@ -90,6 +99,12 @@ export class DatePicker extends LitElement {
     if (v) {
       const dateFrom = new Date(v);
       this.value = dateFrom;
+
+      this.dispatchEvent(
+        new CustomEvent("change", {
+          detail: { value: this.value },
+        }),
+      );
     }
   }
 
@@ -136,13 +151,12 @@ export class DatePicker extends LitElement {
     if (this.hidden) {
       return nothing;
     }
-    const goTodaySlot = this.querySelector('[slot="today"]');
-    const okSlot = this.querySelector('[slot="ok"]');
+    const footerSlot = this.querySelector('[slot="footer"]');
 
     const cld = this.shadowRoot?.querySelector(".date-picker > ssk-calendar");
-    if (goTodaySlot) cld?.setAttribute("displayGoToday", "");
-    if (okSlot) cld?.setAttribute("displayOk", "");
     if (this.singleDate) cld?.setAttribute("singleDate", "");
+    if (this.displayGoToday) cld?.setAttribute("displayGoToday", "");
+    if (this.displayOk) cld?.setAttribute("displayOk", "");
 
     return html`<div class="date-picker">
       <ssk-input
@@ -153,8 +167,8 @@ export class DatePicker extends LitElement {
         placeholder=${this.placeholder}
         name=${this.name}
         size=${this.size}
-        @input=${(e: any) => this.updateValue(e, true)}
-        @change=${(e: any) => this.updateValue(e, true)}
+        @input=${(e: any) => this.updateValue(e)}
+        @change=${(e: any) => this.updateValue(e)}
         @blur=${this.handleOnBlur}
         autoComplete="off"
       >
@@ -172,10 +186,9 @@ export class DatePicker extends LitElement {
         year=${this._cYear}
         @date-from-changed=${(e: any) => this.handleDateFrom(e.detail?.value)}
       >
-        ${goTodaySlot
-          ? html`<slot name="today" slot="footer-today"></slot>`
+        ${footerSlot
+          ? html`<slot name="footer" slot="footer"></slot>`
           : nothing}
-        ${okSlot ? html`<slot name="ok" slot="footer-ok"></slot>` : nothing}
       </ssk-calendar>
     </div> `;
   }

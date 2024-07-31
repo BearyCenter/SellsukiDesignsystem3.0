@@ -3,9 +3,15 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/calendar";
 import { Calendar } from "../../../src/components/calendar";
-import { AutoLitProperty, baseArgsTypes } from "../helper";
-import { addDays, getMonth, getYear, startOfDay, subDays } from "date-fns";
+import {
+  addPrefixToObject,
+  AutoLitProperty,
+  baseArgsTypes,
+  genericEvents,
+} from "../helper";
+import { getMonth, getYear, startOfDay } from "date-fns";
 type CalendarArgs = AutoLitProperty<Calendar>;
+type CalendarEventArgs = addPrefixToObject<Omit<CalendarArgs, "name">, "@">;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
@@ -123,13 +129,14 @@ const meta = {
       },
       defaultValue: [],
     },
+    "@date-from-changed": genericEvents["@click"],
     ...baseArgsTypes,
   },
-} satisfies Meta<CalendarArgs>;
+} satisfies Meta<CalendarEventArgs>;
 
 export default meta;
 
-type Story = StoryObj<CalendarArgs>;
+type Story = StoryObj<CalendarEventArgs>;
 const today = startOfDay(new Date());
 const year = getYear(today).toString();
 const month = (getMonth(today) + 1).toString().padStart(2, "0");
@@ -247,5 +254,28 @@ export const DisableScopeDays: Story = {
       type: "figma",
       url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
     },
+  },
+};
+
+export const CustomFooterCalendar: Story = {
+  args: {
+    size: "md",
+    year: year,
+    month: month,
+    themeColor: "primary",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+  render: ({ ...args }) => {
+    return html`<ssk-calendar ${spread(args)}>
+      <div slot="footer">
+        <ssk-button @click=${() => console.log("click now")}>ตอนนี้</ssk-button>
+        <ssk-button @click=${() => console.log("click ok")}>ตกลง</ssk-button>
+      </div>
+    </ssk-calendar>`;
   },
 };

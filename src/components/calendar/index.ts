@@ -517,6 +517,8 @@ export class Calendar extends LitElement {
   }
 
   render() {
+    const footerSlot = this.querySelector('[slot="footer"]');
+
     let additionalCss = `
     --padding: ${parseVariables(cssVar("padding", this.size), this.padding)};
     --rounded: ${parseVariables(cssVar("rounded", this.size), this.rounded)};
@@ -716,19 +718,22 @@ export class Calendar extends LitElement {
             </div>
           </div>
         </div>
-        ${renderFooter(
-          this.footerStyle,
-          this.displayGoToday,
-          this.displayOk,
-          this.month,
-          this.year,
-          this.size,
-          this.themeColor,
-          this.todayText,
-          this.okText,
-          this.goToday,
-          this.handleOk,
-        )}
+
+        ${footerSlot
+          ? html`<slot name="footer"></slot>`
+          : renderFooter(
+              this.footerStyle,
+              this.displayGoToday,
+              this.displayOk,
+              this.month,
+              this.year,
+              this.size,
+              this.themeColor,
+              this.todayText,
+              this.okText,
+              this.goToday,
+              this.handleOk,
+            )}
       </div>
     `;
   }
