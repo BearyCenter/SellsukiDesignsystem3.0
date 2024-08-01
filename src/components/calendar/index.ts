@@ -97,9 +97,9 @@ export class Calendar extends LitElement {
   @property({ type: Boolean })
   displayOk = false;
   @property({ type: Boolean })
-  prev = false;
+  disabledPrev = false;
   @property({ type: Boolean })
-  next = false;
+  disabledNext = false;
 
   @property({ type: Number })
   dateTo?: number;
@@ -598,26 +598,24 @@ export class Calendar extends LitElement {
       <div class="container">
         <div class="calendar" data-testid=${this.testId || nothing}>
           <div class="monthName layout horizontal center">
-            ${this.prev || !this.disableYearChange || !this.disableMonthChange
-              ? html`<div class="left-arrow">
-                  ${!this.disableYearChange
-                    ? html`<ssk-icon
-                        size="sm"
-                        class="icon"
-                        name="outline-chevron-double-left"
-                        @click="${this.handlePrevYear.bind(this)}"
-                      ></ssk-icon>`
-                    : null}
-                  ${!this.disableMonthChange
-                    ? html`<ssk-icon
-                        size="sm"
-                        class="icon"
-                        name="outline-chevron-left"
-                        @click="${this.handlePrevMonth.bind(this)}"
-                      ></ssk-icon>`
-                    : null}
-                </div>`
-              : null}
+            <div class="left-arrow">
+              ${!this.disabledPrev && !this.disableYearChange
+                ? html`<ssk-icon
+                    size="sm"
+                    class="icon"
+                    name="outline-chevron-double-left"
+                    @click="${this.handlePrevYear.bind(this)}"
+                  ></ssk-icon>`
+                : null}
+              ${!this.disabledPrev && !this.disableMonthChange
+                ? html`<ssk-icon
+                    size="sm"
+                    class="icon"
+                    name="outline-chevron-left"
+                    @click="${this.handlePrevMonth.bind(this)}"
+                  ></ssk-icon>`
+                : null}
+            </div>
             <div class="title">
               ${!this.disableMonthChange
                 ? html`<div
@@ -646,26 +644,24 @@ export class Calendar extends LitElement {
               ${this._monthChangeDropdown ? renderMonthDropdown() : null}
               ${this._yearChangeDropdown ? renderYearDropdown() : null}
             </div>
-            ${this.next || !this.disableYearChange || !this.disableMonthChange
-              ? html`<div class="right-arrow">
-                  ${!this.disableMonthChange
-                    ? html`<ssk-icon
-                        size="sm"
-                        class="icon"
-                        name="outline-chevron-right"
-                        @click="${this.handleNextMonth.bind(this)}"
-                      ></ssk-icon>`
-                    : null}
-                  ${!this.disableYearChange
-                    ? html`<ssk-icon
-                        size="sm"
-                        class="icon"
-                        name="outline-chevron-double-right"
-                        @click="${this.handleNextYear.bind(this)}"
-                      ></ssk-icon>`
-                    : null}
-                </div>`
-              : null}
+            <div class="right-arrow">
+              ${!this.disabledNext && !this.disableMonthChange
+                ? html`<ssk-icon
+                    size="sm"
+                    class="icon"
+                    name="outline-chevron-right"
+                    @click="${this.handleNextMonth.bind(this)}"
+                  ></ssk-icon>`
+                : null}
+              ${!this.disabledNext && !this.disableYearChange
+                ? html`<ssk-icon
+                    size="sm"
+                    class="icon"
+                    name="outline-chevron-double-right"
+                    @click="${this.handleNextYear.bind(this)}"
+                  ></ssk-icon>`
+                : null}
+            </div>
           </div>
 
           <div class="table">
