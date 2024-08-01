@@ -13,6 +13,7 @@ import {
   Theme,
   themeContext,
 } from "../../main";
+import { redispatchEvents } from "../../helpers/lit";
 
 @customElement("ssk-input-range")
 export class InputRange extends LitElement {
@@ -60,6 +61,10 @@ export class InputRange extends LitElement {
 
   @property({ type: Number })
   limit?: number;
+  @property({ type: String })
+  type: "text" | "number" | "password" | "email" | "tel" | "url" = "text";
+  @property({ type: Boolean })
+  error = false;
 
   @property({ type: Boolean })
   required = false;
@@ -74,10 +79,26 @@ export class InputRange extends LitElement {
   @property({ type: String })
   valueTo: string | undefined;
 
+  updateValueFrom(e: any, redispatch: boolean = false) {
+    this.valueFrom = e.srcElement.value;
+    if (redispatch) {
+      redispatchEvents(e, this);
+    }
+  }
+
+  updateValueTo(e: any, redispatch: boolean = false) {
+    this.valueTo = e.srcElement.value;
+    if (redispatch) {
+      redispatchEvents(e, this);
+    }
+  }
+
   render() {
     if (this.hidden) {
       return nothing;
     }
+
+    console.log(this.disabled);
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.input, ":host")}
@@ -89,15 +110,39 @@ export class InputRange extends LitElement {
             this.color,
             cssVar("colors", "text", 700),
           )};
-
+          --color-disabled: ${parseVariables(cssVar("colors", "text", 300))};
           --color-helper: ${parseVariables(
             cssVar("colors", this.color),
             cssVar("colors", this.color, 300),
             this.color,
             cssVar("colors", "text", 300),
           )};
+          --color-error: ${parseVariables(cssVar("colors", "error", 600))};
+          --color-helper-error: ${parseVariables(
+            cssVar("colors", "error", 600),
+          )};
 
+          --background-color-disabled: ${parseVariables(
+            cssVar("colors", "border", 50),
+          )};
           --border-color: ${parseVariables(cssVar("colors", "border", 100))};
+          --border-color-active: ${parseVariables(
+            cssVar("colors", this.themeColor, 600),
+          )};
+          --border-color-disabled: ${parseVariables(
+            cssVar("colors", "border", 100),
+          )};
+          --border-color-error: ${parseVariables(
+            cssVar("colors", "error", 600),
+          )};
+
+          --outline-color-active: ${parseVariables(
+            cssVar("colors", this.themeColor, 200),
+          )};
+          --outline-color-error: ${parseVariables(
+            cssVar("colors", "error", 300),
+          )};
+
           --font-family: ${parseVariables(
             cssVar("font-family", this.fontFamilyGroup),
           )};
@@ -112,20 +157,10 @@ export class InputRange extends LitElement {
           --width: ${parseVariables(cssVar("width", this.width), "auto")};
           --min-height: ${parseVariables(cssVar("min-height", this.minHeight))};
           --min-width: ${parseVariables(cssVar("min-width", this.minWidth))};
-
-          --color-tag: ${parseVariables(
-            cssVar("colors", this.themeColor, 500),
-          )};
-          --border-color-tag: ${parseVariables(
-            cssVar("colors", this.themeColor, 100),
-          )};
-          --background-color-tag: ${parseVariables(
-            cssVar("colors", this.themeColor, 50),
-          )};
         }
       </style>
 
-      <div class="container">
+      <div class="container ${this.error ? "error" : ""}">
         <label for="input">
           ${this.label} ${this.required ? html`<span>*</span>` : nothing}
         </label>
@@ -139,6 +174,8 @@ export class InputRange extends LitElement {
             .value=${this.valueFrom || ""}
             ?disabled=${this.disabled}
             autocomplete="off"
+            @input=${this.updateValueFrom}
+            @change=${(e: any) => this.updateValueFrom(e, true)}
           />
           <slot name="center"></slot>
           <input
@@ -149,6 +186,8 @@ export class InputRange extends LitElement {
             .value=${this.valueTo || ""}
             ?disabled=${this.disabled}
             autocomplete="off"
+            @input=${this.updateValueTo}
+            @change=${(e: any) => this.updateValueTo(e, true)}
           />
           <slot name="postfix"></slot>
         </div>
@@ -181,6 +220,24 @@ export class InputRange extends LitElement {
       color: red;
     }
 
+    label.helper {
+      font-size: 0.75em;
+      line-height: 0.75em;
+      font-weight: 200;
+      color: var(--color-helper);
+    }
+
+    .error {
+      div.input-container {
+        border-color: var(--border-color-error);
+        outline: 4px solid var(--outline-color-error);
+      }
+
+      label.helper {
+        color: var(--color-helper-error);
+      }
+    }
+
     ::slotted([slot="prefix"]) {
       grid-area: prefix;
     }
@@ -209,22 +266,27 @@ export class InputRange extends LitElement {
       gap: var(--gap);
     }
 
+    div.input-container.disabled {
+      background-color: var(--background-color-disabled);
+      border-color: var(--border-color-disabled);
+      color: var(--color-disabled);
+    }
+
+    div.input-container:focus-within {
+      border-color: var(--border-color-active);
+      outline: 4px solid var(--outline-color-active);
+    }
+
     input#input-from {
       grid-area: input-from;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      /* remove all style */
-      border: none;
-      outline: none;
-      background-color: transparent;
-      padding: 0.25em 0;
-      margin: 0;
     }
 
     input#input-to {
       grid-area: input-to;
+    }
+
+    input#input-from,
+    input#input-to {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -242,6 +304,11 @@ export class InputRange extends LitElement {
       border-color: var(--border-color-disabled);
       cursor: not-allowed;
       color: var(--color-disabled);
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
     }
   `;
 }

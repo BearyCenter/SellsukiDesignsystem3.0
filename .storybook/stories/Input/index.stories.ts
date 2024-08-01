@@ -248,11 +248,11 @@ export const WithRightAddon: Story = {
 export const InputRangeWithRightAddon: Story = {
   args: {
     size: "md",
-    label: "Input",
+    label: "Input Range",
     placeholder: "Placeholder",
     helperText: "Helper text",
-    valueTo: "",
     valueFrom: "",
+    valueTo: "",
   },
   parameters: {
     design: {
