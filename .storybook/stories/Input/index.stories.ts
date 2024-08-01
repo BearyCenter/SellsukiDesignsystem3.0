@@ -3,11 +3,12 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/icon";
 import "../../../src/elements/input";
-import { Input } from "../../../src/elements/input";
+import { Input, InputRange } from "../../../src/elements/input";
 import "../../../src/elements/input/addon";
 import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
 
-type InputWithLabel = AutoLitProperty<Input> & { label: string };
+type InputWithLabel = AutoLitProperty<Input> &
+  AutoLitProperty<InputRange> & { label: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
@@ -241,5 +242,32 @@ export const WithRightAddon: Story = {
         <ssk-icon name="outline-ellipsis-horizontal-circle"></ssk-icon>
       </ssk-input-addon>
     </ssk-input>`;
+  },
+};
+
+export const InputRangeWithRightAddon: Story = {
+  args: {
+    size: "md",
+    label: "Input",
+    placeholder: "Placeholder",
+    helperText: "Helper text",
+    valueTo: "",
+    valueFrom: "",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=585%3A57607&mode=dev",
+    },
+  },
+  render: ({ ...args }) => {
+    return html`<ssk-input-range ${spread({ ...args })}>
+      <ssk-input-addon slot="center">
+        <ssk-icon name="solid-arrow-long-right"></ssk-icon>
+      </ssk-input-addon>
+      <ssk-input-addon slot="postfix">
+        <ssk-icon name="outline-ellipsis-horizontal-circle"></ssk-icon>
+      </ssk-input-addon>
+    </ssk-input-range>`;
   },
 };
