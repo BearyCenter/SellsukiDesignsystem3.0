@@ -199,7 +199,8 @@ export class Cell extends LitElement {
       border-radius: 50%;
     }
 
-    .day:not(.disabled):hover span {
+    .day:not(.disabled):hover,
+    .day:not(.hovered):hover span {
       color: white;
     }
 
