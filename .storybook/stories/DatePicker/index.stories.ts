@@ -4,14 +4,18 @@ import {
   baseArgsTypes,
   genericEvents,
 } from "../helper";
-import { DatePicker } from "../../../src/components/date-picker";
+import {
+  DatePicker,
+  RangeDatePicker as RDatePicker,
+} from "../../../src/components/date-picker";
 import { html } from "lit";
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import "../../../src/components/date-picker";
-import { startOfDay } from "date-fns";
+import { addDays, startOfDay } from "date-fns";
 
-type DatePickerArgs = AutoLitProperty<DatePicker>;
+type DatePickerArgs = AutoLitProperty<DatePicker> &
+  AutoLitProperty<RDatePicker>;
 type DatePickerEventArgs = addPrefixToObject<Omit<DatePickerArgs, "name">, "@">;
 
 const meta = {
@@ -133,5 +137,29 @@ export const CustomFooterDatePicker: Story = {
         </ssk-button>
       </div>
     </ssk-date-picker>`;
+  },
+};
+
+export const RangeDatePicker: Story = {
+  args: {
+    label: "Select date",
+    placeholder: "Select date",
+    helperText: "Wrong format",
+    size: "md",
+    format: "dd-MM-yyyy",
+    ".valueFrom": today,
+    ".valueTo": addDays(today, 32),
+    "?singleDate": false,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+  render: ({ ...args }) => {
+    return html` <ssk-range-date-picker ${spread(
+      args,
+    )}></ssk-range-date-picker`;
   },
 };

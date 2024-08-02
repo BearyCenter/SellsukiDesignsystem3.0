@@ -4,7 +4,6 @@ import { customElement, property, state } from "lit/decorators.js";
 import { Size, Theme, themeContext } from "../../main";
 import "../calendar";
 import "../../elements/input";
-import "../../elements/input/addon";
 import "../../elements/icon";
 import { format, isValid, parse } from "date-fns";
 
@@ -173,26 +172,32 @@ export class DatePicker extends LitElement {
             : html`<ssk-icon name="outline-calendar-days"></ssk-icon> `}
         </ssk-input-addon>
       </ssk-input>
-      <ssk-calendar
-        .hidden=${this._hideCalendar}
-        .dateFrom=${this._cDateFrom}
-        size=${this.size}
-        month=${this._cMonth}
-        year=${this._cYear}
-        ?singleDate=${this.singleDate}
-        ?displayGoToday=${this.displayGoToday}
-        ?displayOk=${this.displayOk}
-        @date-from-changed=${(e: any) => this.handleDateFrom(e.detail?.value)}
-      >
-        ${footerSlot
-          ? html`<slot name="footer" slot="footer"></slot>`
-          : nothing}
-      </ssk-calendar>
+      <div class="container-calendar">
+        <ssk-calendar
+          .hidden=${this._hideCalendar}
+          .dateFrom=${this._cDateFrom}
+          size=${this.size}
+          month=${this._cMonth}
+          year=${this._cYear}
+          ?singleDate=${this.singleDate}
+          ?displayGoToday=${this.displayGoToday}
+          ?displayOk=${this.displayOk}
+          @date-from-changed=${(e: any) => this.handleDateFrom(e.detail?.value)}
+        >
+          ${footerSlot
+            ? html`<slot name="footer" slot="footer"></slot>`
+            : nothing}
+        </ssk-calendar>
+      </div>
     </div> `;
   }
   static styles = css`
     ssk-icon {
       cursor: pointer;
+    }
+
+    .container-calendar {
+      position: absolute;
     }
   `;
 }
