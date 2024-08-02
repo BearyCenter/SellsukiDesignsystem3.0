@@ -1,7 +1,14 @@
 import { consume } from "@lit/context";
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { Size, Theme, themeContext } from "../../main";
+import {
+  cssVar,
+  parseThemeToCssVariables,
+  parseVariables,
+  Size,
+  Theme,
+  themeContext,
+} from "../../main";
 import "../calendar";
 import "../../elements/input";
 import "../../elements/icon";
@@ -200,6 +207,10 @@ export class RangeDatePicker extends LitElement {
       return nothing;
     }
 
+    let additionalCss = `
+        --rounded: ${parseVariables(cssVar("rounded", this.size))};
+    `;
+
     const footerSlot = this.querySelector('[slot="footer"]');
     const hasRange =
       this._cMonthFrom != this._cMonthTo || this._cYearFrom != this._cYearTo;
@@ -207,71 +218,86 @@ export class RangeDatePicker extends LitElement {
     if (hasRange) {
       this._cNoNext = true;
       this._cNoPrev = true;
+    } else {
+      this._cNoNext = false;
+      this._cNoPrev = false;
     }
-    return html`<div class="date-picker">
-      <ssk-input-range
-        .valueFrom=${this._sValueFrom}
-        .valueTo=${this._sValueTo}
-        label=${this.label}
-        helperText=${this.error ? this.helperText : ""}
-        .error=${this.error}
-        placeholder=${this.placeholder}
-        name=${this.name}
-        size=${this.size}
-        @input=${(e: any) => this.updateValue(e)}
-        @change=${(e: any) => this.updateValue(e)}
-        @blur=${this.handleOnBlur}
-        autoComplete="off"
-      >
-        <ssk-input-addon slot="center">
-          <ssk-icon name="solid-arrow-long-right"></ssk-icon>
-        </ssk-input-addon>
-        <ssk-input-addon slot="postfix" @click=${this.handleIcon.bind(this)}>
-          ${this._isClear
-            ? html`<ssk-icon name="outline-x-circle"></ssk-icon>`
-            : html`<ssk-icon name="outline-calendar-days"></ssk-icon> `}
-        </ssk-input-addon>
-      </ssk-input-range>
-      <div class="calendar-container">
-        <ssk-calendar
-          .hidden=${this._hideCalendar}
-          .dateFrom=${this._cDateFrom}
-          .dateTo=${this._cDateTo}
+
+    return html`
+      ${parseThemeToCssVariables(this.theme?.components?.calendar, "div")}
+
+      <style>
+        div {
+          ${additionalCss}
+        }
+      </style>
+
+      <div class="date-picker">
+        <ssk-input-range
+          .valueFrom=${this._sValueFrom}
+          .valueTo=${this._sValueTo}
+          label=${this.label}
+          helperText=${this.error ? this.helperText : ""}
+          .error=${this.error}
+          placeholder=${this.placeholder}
+          name=${this.name}
           size=${this.size}
-          month=${this._cMonthFrom}
-          year=${this._cYearFrom}
-          ?disabledNext=${this._cNoNext}
-          ?singleDate=${this.singleDate}
-          ?displayGoToday=${this.displayGoToday}
-          ?displayOk=${this.displayOk}
-          @date-from-changed=${(e: any) => this.handleDateFrom(e.detail?.value)}
+          @input=${(e: any) => this.updateValue(e)}
+          @change=${(e: any) => this.updateValue(e)}
+          @blur=${this.handleOnBlur}
+          autoComplete="off"
         >
-          ${footerSlot
-            ? html`<slot name="footer" slot="footer"></slot>`
-            : nothing}
-        </ssk-calendar>
-        ${hasRange
-          ? html`<ssk-calendar
-              .hidden=${this._hideCalendar}
-              .dateFrom=${this._cDateFrom}
-              .dateTo=${this._cDateTo}
-              size=${this.size}
-              month=${this._cMonthTo}
-              year=${this._cYearTo}
-              ?disabledPrev=${this._cNoPrev}
-              ?singleDate=${this.singleDate}
-              ?displayGoToday=${this.displayGoToday}
-              ?displayOk=${this.displayOk}
-              @date-from-changed=${(e: any) =>
-                this.handleDateFrom(e.detail?.value)}
-            >
-              ${footerSlot
-                ? html`<slot name="footer" slot="footer"></slot>`
-                : nothing}
-            </ssk-calendar>`
-          : null}
+          <ssk-input-addon slot="center">
+            <ssk-icon name="solid-arrow-long-right"></ssk-icon>
+          </ssk-input-addon>
+          <ssk-input-addon slot="postfix" @click=${this.handleIcon.bind(this)}>
+            ${this._isClear
+              ? html`<ssk-icon name="outline-x-circle"></ssk-icon>`
+              : html`<ssk-icon name="outline-calendar-days"></ssk-icon> `}
+          </ssk-input-addon>
+        </ssk-input-range>
+        <div class="calendar-container">
+          <ssk-calendar
+            .hidden=${this._hideCalendar}
+            .dateFrom=${this._cDateFrom}
+            .dateTo=${this._cDateTo}
+            size=${this.size}
+            month=${this._cMonthFrom}
+            year=${this._cYearFrom}
+            ?disabledNext=${this._cNoNext}
+            ?singleDate=${this.singleDate}
+            ?displayGoToday=${this.displayGoToday}
+            ?displayOk=${this.displayOk}
+            @date-from-changed=${(e: any) =>
+              this.handleDateFrom(e.detail?.value)}
+          >
+            ${footerSlot
+              ? html`<slot name="footer" slot="footer"></slot>`
+              : nothing}
+          </ssk-calendar>
+          ${hasRange
+            ? html`<ssk-calendar
+                .hidden=${this._hideCalendar}
+                .dateFrom=${this._cDateFrom}
+                .dateTo=${this._cDateTo}
+                size=${this.size}
+                month=${this._cMonthTo}
+                year=${this._cYearTo}
+                ?disabledPrev=${this._cNoPrev}
+                ?singleDate=${this.singleDate}
+                ?displayGoToday=${this.displayGoToday}
+                ?displayOk=${this.displayOk}
+                @date-from-changed=${(e: any) =>
+                  this.handleDateFrom(e.detail?.value)}
+              >
+                ${footerSlot
+                  ? html`<slot name="footer" slot="footer"></slot>`
+                  : nothing}
+              </ssk-calendar>`
+            : null}
+        </div>
       </div>
-    </div> `;
+    `;
   }
   static styles = css`
     ssk-icon {
@@ -280,6 +306,9 @@ export class RangeDatePicker extends LitElement {
     .calendar-container {
       position: absolute;
       display: flex;
+      background-color: white;
+      border: 1px solid var(--ssk-colors-gray-200);
+      border-radius: var(--rounded);
     }
   `;
 }

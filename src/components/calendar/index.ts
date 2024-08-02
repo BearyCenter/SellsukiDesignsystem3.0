@@ -521,7 +521,6 @@ export class Calendar extends LitElement {
 
     let additionalCss = `
     --padding: ${parseVariables(cssVar("padding", this.size), this.padding)};
-    --rounded: ${parseVariables(cssVar("rounded", this.size), this.rounded)};
     --600-colors: ${parseVariables(cssVar("colors", this.themeColor, 600))};
     --cell-width: calc(var(--padding) * 2);
     `;
@@ -737,9 +736,6 @@ export class Calendar extends LitElement {
   static styles = css`
     .container {
       width: fit-content;
-      background-color: white;
-      border: 1px solid var(--ssk-colors-gray-200);
-      border-radius: var(--rounded);
     }
 
     .calendar {

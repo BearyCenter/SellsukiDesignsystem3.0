@@ -198,6 +198,9 @@ export class DatePicker extends LitElement {
 
     .calendar-container {
       position: absolute;
+      background-color: white;
+      border: 1px solid var(--ssk-colors-gray-200);
+      border-radius: var(--rounded);
     }
   `;
 }

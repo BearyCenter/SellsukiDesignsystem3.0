@@ -18,7 +18,17 @@ const meta = {
   title: "Example/Calendar",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html`<ssk-calendar ${spread(args)}> </ssk-calendar>`;
+    return html` <style>
+        .calendar-container {
+          background-color: white;
+          border: 1px solid var(--ssk-colors-gray-200);
+          border-radius: 4px;
+          width: fit-content;
+        }
+      </style>
+      <div class="calendar-container">
+        <ssk-calendar ${spread(args)}> </ssk-calendar>
+      </div>`;
   },
   argTypes: {
     year: {
