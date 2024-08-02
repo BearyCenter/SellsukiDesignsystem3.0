@@ -45,14 +45,14 @@ const meta = {
         category: "Props",
       },
     },
-    ".singleDate": {
+    ".rangeDate": {
       description: "When true gives the calendar cannot selected range date",
       control: {
         type: "boolean",
       },
       table: {
         category: "Props",
-        defaultValue: { summary: true },
+        defaultValue: { summary: false },
         type: { summary: "boolean" },
       },
     },
@@ -204,7 +204,7 @@ export const RangeCalendar: Story = {
     size: "md",
     themeColor: "primary",
     locale: "th",
-    ".singleDate": false,
+    ".rangeDate": true,
   },
   parameters: {
     design: {
@@ -310,12 +310,26 @@ export const CustomFooter: Story = {
     },
   },
   render: ({ ...args }) => {
-    return html`<ssk-calendar ${spread(args)}>
-      <div slot="footer">
-        <ssk-button @click=${() => console.log("click now")}>ตอนนี้</ssk-button>
-        <ssk-button @click=${() => console.log("click ok")}>ตกลง</ssk-button>
-      </div>
-    </ssk-calendar>`;
+    return html` <style>
+        .calendar-container {
+          background-color: white;
+          border: 1px solid var(--ssk-colors-gray-200);
+          border-radius: 4px;
+          width: fit-content;
+        }
+      </style>
+      <div class="calendar-container">
+        <ssk-calendar ${spread(args)}>
+          <div slot="footer">
+            <ssk-button @click=${() => console.log("click now")}
+              >ตอนนี้</ssk-button
+            >
+            <ssk-button @click=${() => console.log("click ok")}
+              >ตกลง</ssk-button
+            >
+          </div>
+        </ssk-calendar>
+      </div>`;
   },
 };
 

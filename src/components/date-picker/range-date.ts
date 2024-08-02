@@ -44,8 +44,6 @@ export class RangeDatePicker extends LitElement {
   valueFrom: Date | undefined;
   @property({ type: Date })
   valueTo: Date | undefined;
-  @property({ type: Boolean })
-  singleDate = false;
   @property({ type: String })
   format = "dd/MM/yyyy";
 
@@ -128,7 +126,20 @@ export class RangeDatePicker extends LitElement {
 
       this.dispatchEvent(
         new CustomEvent("change", {
-          detail: { valueFrom: this.valueFrom },
+          detail: { valueTo: this.valueTo, valueFrom: this.valueFrom },
+        }),
+      );
+    }
+  }
+
+  private handleDateTo(v?: number) {
+    if (v) {
+      const dateTo = new Date(v);
+      this.valueTo = dateTo;
+
+      this.dispatchEvent(
+        new CustomEvent("change", {
+          detail: { valueTo: this.valueTo, valueFrom: this.valueFrom },
         }),
       );
     }
@@ -264,8 +275,8 @@ export class RangeDatePicker extends LitElement {
             size=${this.size}
             month=${this._cMonthFrom}
             year=${this._cYearFrom}
+            rangeDate
             ?disabledNext=${this._cNoNext}
-            ?singleDate=${this.singleDate}
             ?displayGoToday=${this.displayGoToday}
             ?displayOk=${this.displayOk}
             @date-from-changed=${(e: any) =>
@@ -283,12 +294,12 @@ export class RangeDatePicker extends LitElement {
                 size=${this.size}
                 month=${this._cMonthTo}
                 year=${this._cYearTo}
+                rangeDate
                 ?disabledPrev=${this._cNoPrev}
-                ?singleDate=${this.singleDate}
                 ?displayGoToday=${this.displayGoToday}
                 ?displayOk=${this.displayOk}
-                @date-from-changed=${(e: any) =>
-                  this.handleDateFrom(e.detail?.value)}
+                @date-to-changed=${(e: any) =>
+                  this.handleDateTo(e.detail?.value)}
               >
                 ${footerSlot
                   ? html`<slot name="footer" slot="footer"></slot>`

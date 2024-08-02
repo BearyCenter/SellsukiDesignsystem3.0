@@ -149,16 +149,16 @@ export class Cell extends LitElement {
       <div
         @click="${this.handleTap.bind(this)}"
         @mouseover="${this.handleHover.bind(this)}"
-        class="day ${this.isCurrentDate
-          ? "currentDate"
-          : null} ${this.isSelected(this.selected)} ${this.isHovered(
-          this.hovered,
-        )}  ${this.disabled ? "disabled" : ""} ${this.day?.date ===
-        this.dateFrom
+        class="day 
+        ${this.isCurrentDate ? "currentDate" : null} 
+        ${this.isSelected(this.selected)} ${this.isHovered(this.hovered)}  
+        ${this.disabled ? "disabled" : ""}
+        ${this.day?.date === this.dateFrom
           ? "date-from"
           : this.day?.date === this.dateTo
           ? "date-to"
-          : ""} ${this.dateTo === undefined ? "single-selected" : ""}"
+          : ""} 
+        ${this.dateTo === undefined ? "single-selected" : ""}"
       >
         <div class="currentDayMarker">
           <ssk-text

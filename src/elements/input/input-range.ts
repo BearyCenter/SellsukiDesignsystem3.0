@@ -98,8 +98,6 @@ export class InputRange extends LitElement {
       return nothing;
     }
 
-    console.log(this.disabled);
-
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.input, ":host")}
       <style>

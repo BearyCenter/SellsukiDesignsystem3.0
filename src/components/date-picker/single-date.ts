@@ -36,7 +36,7 @@ export class DatePicker extends LitElement {
   @property({ type: Date })
   value: Date | undefined;
   @property({ type: Boolean })
-  singleDate = false;
+  rangeDate = false;
   @property({ type: String })
   format = "dd/MM/yyyy";
 
@@ -179,7 +179,7 @@ export class DatePicker extends LitElement {
           size=${this.size}
           month=${this._cMonth}
           year=${this._cYear}
-          ?singleDate=${this.singleDate}
+          ?rangeDate=${this.rangeDate}
           ?displayGoToday=${this.displayGoToday}
           ?displayOk=${this.displayOk}
           @date-from-changed=${(e: any) => this.handleDateFrom(e.detail?.value)}

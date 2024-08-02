@@ -46,7 +46,7 @@ const meta = {
         category: "Props",
       },
     },
-    "?singleDate": {
+    "?rangeDate": {
       description: "When true gives the calendar can selected single date",
       control: {
         type: "boolean",
@@ -99,7 +99,7 @@ export const BasicDatePicker: Story = {
     "?displayGoToday": true,
     "?displayOk": true,
     ".value": today,
-    "?singleDate": true,
+    "?rangeDate": false,
   },
   parameters: {
     design: {
@@ -117,7 +117,7 @@ export const CustomFooterDatePicker: Story = {
     size: "md",
     format: "dd-MM-yyyy",
     ".value": today,
-    "?singleDate": true,
+    "?rangeDate": false,
   },
   parameters: {
     design: {
@@ -149,7 +149,7 @@ export const RangeDatePicker: Story = {
     format: "dd-MM-yyyy",
     ".valueFrom": today,
     ".valueTo": addDays(today, 32),
-    "?singleDate": false,
+    "?rangeDate": true,
   },
   parameters: {
     design: {

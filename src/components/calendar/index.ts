@@ -87,7 +87,7 @@ export class Calendar extends LitElement {
   footerStyle: "between" | "middle" | "right" = "between";
 
   @property({ type: Boolean })
-  singleDate = true;
+  rangeDate = false;
   @property({ type: Boolean })
   disableYearChange = false;
   @property({ type: Boolean })
@@ -142,12 +142,6 @@ export class Calendar extends LitElement {
   updated(properties: PropertyValues) {
     if (properties.has("locale")) {
       this.localeChanged();
-    }
-
-    if (properties.has("year")) {
-      this.dispatchEvent(
-        new CustomEvent("year-changed", { detail: { value: this.year } }),
-      );
     }
 
     if (properties.has("year") || properties.has("month")) {
@@ -301,7 +295,7 @@ export class Calendar extends LitElement {
 
   private handleDateSelected({ detail }: any) {
     const { date } = detail;
-    if (!this.singleDate) {
+    if (this.rangeDate) {
       if (this.dateFrom && this.dateTo) {
         this.dateFrom = date;
         this.dateTo = undefined;
@@ -313,11 +307,7 @@ export class Calendar extends LitElement {
             detail: { value: this.hoveredDate },
           }),
         );
-      } else if (
-        !this.dateFrom ||
-        (this.dateFrom && date < this.dateFrom) ||
-        (this.maxRange > 0 && date - this.dateFrom > this.maxRange * 24 * 3600)
-      ) {
+      } else if (!this.dateFrom || (this.dateFrom && date < this.dateFrom)) {
         this.dateFrom = date;
         this._selectedFrom = date;
       } else if (!this.dateTo || (this.dateTo && date > this.dateTo)) {
@@ -335,6 +325,7 @@ export class Calendar extends LitElement {
           detail: { value: this.dateFrom },
         }),
       );
+
       this.dispatchEvent(
         new CustomEvent("date-to-changed", { detail: { value: this.dateTo } }),
       );
