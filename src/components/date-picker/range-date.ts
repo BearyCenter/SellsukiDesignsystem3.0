@@ -277,7 +277,7 @@ export class RangeDatePicker extends LitElement {
     ssk-icon {
       cursor: pointer;
     }
-    .container-calendar {
+    .calendar-container {
       position: absolute;
       display: flex;
     }
