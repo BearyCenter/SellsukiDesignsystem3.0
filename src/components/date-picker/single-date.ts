@@ -172,7 +172,7 @@ export class DatePicker extends LitElement {
             : html`<ssk-icon name="outline-calendar-days"></ssk-icon> `}
         </ssk-input-addon>
       </ssk-input>
-      <div class="container-calendar">
+      <div class="calendar-container">
         <ssk-calendar
           .hidden=${this._hideCalendar}
           .dateFrom=${this._cDateFrom}
@@ -196,7 +196,7 @@ export class DatePicker extends LitElement {
       cursor: pointer;
     }
 
-    .container-calendar {
+    .calendar-container {
       position: absolute;
     }
   `;
