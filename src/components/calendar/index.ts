@@ -345,11 +345,8 @@ export class Calendar extends LitElement {
   private handleNextMonth() {
     const month = parse(this.month, "MM", new Date());
     const monthPlusDate = addMonths(month, 1);
-    const monthPlusString = format(monthPlusDate, "MM", {
-      locale: locales[this.locale],
-    });
+    this.month = format(monthPlusDate, "MM");
 
-    this.month = monthPlusString;
     if (this.month === "01") {
       const year = parse(this.year, "yyyy", new Date());
       const yearPlusDate = addYears(year, 1);
@@ -358,17 +355,16 @@ export class Calendar extends LitElement {
       });
       this.year = yearPlusString;
     }
-    this.dispatchEvent(new CustomEvent("next-month"));
+    this.dispatchEvent(
+      new CustomEvent("next-month", { detail: { value: this.month } }),
+    );
   }
 
   private handlePrevMonth() {
     const month = parse(this.month, "MM", new Date());
     const monthMinusDate = subMonths(month, 1);
-    const monthMinusString = format(monthMinusDate, "MM", {
-      locale: locales[this.locale],
-    });
+    this.month = format(monthMinusDate, "MM");
 
-    this.month = monthMinusString;
     if (this.month === "12") {
       const year = parse(this.year, "yyyy", new Date());
       const yearMinusDate = subYears(year, 1);
@@ -377,7 +373,9 @@ export class Calendar extends LitElement {
       });
       this.year = yearMinusString;
     }
-    this.dispatchEvent(new CustomEvent("prev-month"));
+    this.dispatchEvent(
+      new CustomEvent("prev-month", { detail: { value: this.month } }),
+    );
   }
 
   private handlePrevYear() {

@@ -1,5 +1,5 @@
 import { consume } from "@lit/context";
-import { css, html, LitElement, nothing } from "lit";
+import { css, html, LitElement, nothing, PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import {
   cssVar,
@@ -12,7 +12,7 @@ import {
 import "../calendar";
 import "../../elements/input";
 import "../../elements/icon";
-import { format, isValid, parse, toDate } from "date-fns";
+import { addMonths, format, isValid, parse, subMonths, toDate } from "date-fns";
 
 @customElement("ssk-range-date-picker")
 export class RangeDatePicker extends LitElement {
@@ -211,8 +211,24 @@ export class RangeDatePicker extends LitElement {
 
     const hasValue = this.valueFrom && this.valueTo;
     if (hasValue && !this._isFocus && !this._hideCalendar) {
-      this._hideCalendar = true;
+      // this._hideCalendar = true;
     }
+  }
+
+  handlePrevMonth({ detail }: any) {
+    const month = parse(detail.value, "MM", new Date());
+    const monthPlusDate = addMonths(month, 1);
+
+    this._cMonthFrom = detail.value;
+    this._cMonthTo = format(monthPlusDate, "MM");
+  }
+
+  handleNextMonth({ detail }: any) {
+    const month = parse(detail.value, "MM", new Date());
+    const monthMinusDate = subMonths(month, 1);
+
+    this._cMonthTo = detail.value;
+    this._cMonthFrom = format(monthMinusDate, "MM");
   }
 
   firstUpdated() {
@@ -233,16 +249,18 @@ export class RangeDatePicker extends LitElement {
     window.removeEventListener("click", this.handleClickOutside.bind(this));
   }
 
-  protected updated(): void {
-    this._sValueFrom = this.valueFrom
-      ? format(this.valueFrom, this.format)
-      : undefined;
-    this._sValueTo = this.valueTo
-      ? format(this.valueTo, this.format)
-      : undefined;
+  protected updated(properties: PropertyValues): void {
+    if (!properties.has("_cMonthFrom") && !properties.has("_cMonthTo")) {
+      this._sValueFrom = this.valueFrom
+        ? format(this.valueFrom, this.format)
+        : undefined;
+      this._sValueTo = this.valueTo
+        ? format(this.valueTo, this.format)
+        : undefined;
 
-    this.handleChangedDateFrom(this._sValueFrom);
-    this.handleChangedDateTo(this._sValueTo);
+      this.handleChangedDateFrom(this._sValueFrom);
+      this.handleChangedDateTo(this._sValueTo);
+    }
   }
 
   render() {
@@ -253,6 +271,8 @@ export class RangeDatePicker extends LitElement {
     let additionalCss = `
         --rounded: ${parseVariables(cssVar("rounded", this.size))};
     `;
+
+    console.log(this._cMonthFrom, this._cMonthTo);
 
     const footerSlot = this.querySelector('[slot="footer"]');
     const hasRange =
@@ -317,7 +337,9 @@ export class RangeDatePicker extends LitElement {
             ?displayOk=${this.displayOk}
             @date-from-changed=${this.handleDateFrom.bind(this)}
             @date-to-changed=${this.handleDateTo.bind(this)}
+            @prev-month="${this.handlePrevMonth.bind(this)}"
           >
+            >
             ${footerSlot
               ? html`<slot name="footer" slot="footer"></slot>`
               : nothing}
@@ -336,7 +358,9 @@ export class RangeDatePicker extends LitElement {
                 ?displayOk=${this.displayOk}
                 @date-from-changed=${this.handleDateFrom.bind(this)}
                 @date-to-changed=${this.handleDateTo.bind(this)}
+                @next-month="${this.handleNextMonth.bind(this)}"
               >
+                >
                 ${footerSlot
                   ? html`<slot name="footer" slot="footer"></slot>`
                   : nothing}
