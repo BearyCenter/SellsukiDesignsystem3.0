@@ -12,7 +12,7 @@ import {
 import "../calendar";
 import "../../elements/input";
 import "../../elements/icon";
-import { format, isValid, parse } from "date-fns";
+import { format, isValid, parse, toDate } from "date-fns";
 
 @customElement("ssk-range-date-picker")
 export class RangeDatePicker extends LitElement {
@@ -57,6 +57,8 @@ export class RangeDatePicker extends LitElement {
   @state()
   _isClear: boolean = false;
   @state()
+  _isFocus: boolean = false;
+  @state()
   _cDateFrom: number | undefined;
   @state()
   _cDateTo: number | undefined;
@@ -85,29 +87,33 @@ export class RangeDatePicker extends LitElement {
 
       this._sValueFrom = undefined;
       this._sValueTo = undefined;
-
-      this._hideCalendar = true;
       this._isClear = false;
+      this._hideCalendar = true;
       this.error = false;
-    } else {
-      this._hideCalendar = !this._hideCalendar;
     }
   }
 
-  private async updateValue(e: any) {
-    this.valueFrom = e.srcElement.value;
+  private validateStringDate(v?: string): boolean {
+    if (v) {
+      const sDate = parse(v, this.format, new Date());
+      if (sDate.getFullYear().toString().length === 4) {
+        return isValid(sDate);
+      }
+    }
+    return false;
+  }
 
+  private async updateValueFrom({ detail }: any) {
+    const value = detail.originalEvent.target.value;
     this._isClear = true;
-    this._hideCalendar = true;
-    await this.handleChangedDateFrom(e.srcElement.value);
 
-    if (this.valueFrom) {
+    if (this.validateStringDate(value)) {
+      this.valueFrom = toDate(format(value, this.format)); // must be date or number
+
       this.dispatchEvent(
         new CustomEvent("change", {
           detail: {
-            valueFrom: this.error
-              ? this.valueFrom
-              : parse(e.srcElement.value, "dd-MM-yyyy", new Date()),
+            valueFrom: toDate(format(value, this.format)),
             valueTo: this.valueTo,
           },
         }),
@@ -115,40 +121,58 @@ export class RangeDatePicker extends LitElement {
     }
   }
 
+  private async updateValueTo({ detail }: any) {
+    const value = detail.originalEvent.target.value;
+    this._isClear = true;
+
+    if (this.validateStringDate(value)) {
+      this.valueTo = toDate(format(value, this.format)); // must be date or number
+
+      this.dispatchEvent(
+        new CustomEvent("change", {
+          detail: {
+            valueTo: toDate(format(value, this.format)),
+            valueFrom: this.valueFrom,
+          },
+        }),
+      );
+    }
+  }
+
   private handleOnBlur() {
-    this._hideCalendar = true;
+    this._isFocus = false;
   }
 
-  private handleDateFrom(v?: number) {
-    if (v) {
-      const dateFrom = new Date(v);
-      this.valueFrom = dateFrom;
-
-      this.dispatchEvent(
-        new CustomEvent("change", {
-          detail: { valueTo: this.valueTo, valueFrom: this.valueFrom },
-        }),
-      );
-    }
+  private handleOnFocus() {
+    this._isFocus = true;
+    this._hideCalendar = false;
   }
 
-  private handleDateTo(v?: number) {
-    if (v) {
-      const dateTo = new Date(v);
-      this.valueTo = dateTo;
+  private handleDateFrom({ detail }: any) {
+    const dateFrom = new Date(detail.value);
+    this.valueFrom = isValid(dateFrom) ? dateFrom : undefined;
 
-      this.dispatchEvent(
-        new CustomEvent("change", {
-          detail: { valueTo: this.valueTo, valueFrom: this.valueFrom },
-        }),
-      );
-    }
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { valueTo: this.valueTo, valueFrom: this.valueFrom },
+      }),
+    );
+  }
+
+  private handleDateTo({ detail }: any) {
+    const dateTo = new Date(detail.value);
+    this.valueTo = isValid(dateTo) ? dateTo : undefined;
+
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { valueTo: this.valueTo, valueFrom: this.valueFrom },
+      }),
+    );
   }
 
   private handleChangedDateFrom(v?: string) {
     if (v) {
       const vDateFrom = parse(v, this.format, new Date());
-
       const validDate = isValid(vDateFrom);
       if (validDate) {
         const dfTime = vDateFrom.getTime();
@@ -178,15 +202,31 @@ export class RangeDatePicker extends LitElement {
       this.error = !validDate;
       return;
     }
+    this._cDateTo = undefined;
     this.error = false;
   }
 
   private handleClickOutside(_e: MouseEvent) {
     this._isClear = false;
+
+    const hasValue = this.valueFrom && this.valueTo;
+    if (hasValue && !this._isFocus && !this._hideCalendar) {
+      this._hideCalendar = true;
+    }
   }
 
   firstUpdated() {
     window.addEventListener("click", this.handleClickOutside.bind(this));
+
+    this._sValueFrom = this.valueFrom
+      ? format(this.valueFrom, this.format)
+      : undefined;
+    this._sValueTo = this.valueTo
+      ? format(this.valueTo, this.format)
+      : undefined;
+
+    this.handleChangedDateFrom(this._sValueFrom);
+    this.handleChangedDateTo(this._sValueTo);
   }
 
   disconnectedCallback() {
@@ -194,23 +234,15 @@ export class RangeDatePicker extends LitElement {
   }
 
   protected updated(): void {
-    if (!this.valueFrom) {
-      this._sValueFrom = "";
-      return;
-    }
-    if (isValid(this.valueFrom)) {
-      this._sValueFrom = format(this.valueFrom, this.format);
-      this.handleChangedDateFrom(this._sValueFrom);
-    }
+    this._sValueFrom = this.valueFrom
+      ? format(this.valueFrom, this.format)
+      : undefined;
+    this._sValueTo = this.valueTo
+      ? format(this.valueTo, this.format)
+      : undefined;
 
-    if (!this.valueTo) {
-      this._sValueTo = "";
-      return;
-    }
-    if (isValid(this.valueTo)) {
-      this._sValueTo = format(this.valueTo, this.format);
-      this.handleChangedDateTo(this._sValueTo);
-    }
+    this.handleChangedDateFrom(this._sValueFrom);
+    this.handleChangedDateTo(this._sValueTo);
   }
 
   render() {
@@ -253,9 +285,10 @@ export class RangeDatePicker extends LitElement {
           placeholder=${this.placeholder}
           name=${this.name}
           size=${this.size}
-          @input=${(e: any) => this.updateValue(e)}
-          @change=${(e: any) => this.updateValue(e)}
-          @blur=${this.handleOnBlur}
+          @value-from-change=${this.updateValueFrom.bind(this)}
+          @value-to-change=${this.updateValueTo.bind(this)}
+          @blur=${this.handleOnBlur.bind(this)}
+          @focus=${this.handleOnFocus.bind(this)}
           autoComplete="off"
         >
           <ssk-input-addon slot="center">
@@ -263,15 +296,18 @@ export class RangeDatePicker extends LitElement {
           </ssk-input-addon>
           <ssk-input-addon slot="postfix" @click=${this.handleIcon.bind(this)}>
             ${this._isClear
-              ? html`<ssk-icon name="outline-x-circle"></ssk-icon>`
+              ? html`<ssk-icon
+                  class="clear"
+                  name="outline-x-circle"
+                ></ssk-icon>`
               : html`<ssk-icon name="outline-calendar-days"></ssk-icon> `}
           </ssk-input-addon>
         </ssk-input-range>
         <div class="calendar-container">
           <ssk-calendar
             .hidden=${this._hideCalendar}
-            .dateFrom=${this._cDateFrom}
-            .dateTo=${this._cDateTo}
+            .dateFrom=${this.valueFrom?.getTime()}
+            .dateTo=${this.valueTo?.getTime()}
             size=${this.size}
             month=${this._cMonthFrom}
             year=${this._cYearFrom}
@@ -279,8 +315,8 @@ export class RangeDatePicker extends LitElement {
             ?disabledNext=${this._cNoNext}
             ?displayGoToday=${this.displayGoToday}
             ?displayOk=${this.displayOk}
-            @date-from-changed=${(e: any) =>
-              this.handleDateFrom(e.detail?.value)}
+            @date-from-changed=${this.handleDateFrom.bind(this)}
+            @date-to-changed=${this.handleDateTo.bind(this)}
           >
             ${footerSlot
               ? html`<slot name="footer" slot="footer"></slot>`
@@ -298,8 +334,8 @@ export class RangeDatePicker extends LitElement {
                 ?disabledPrev=${this._cNoPrev}
                 ?displayGoToday=${this.displayGoToday}
                 ?displayOk=${this.displayOk}
-                @date-to-changed=${(e: any) =>
-                  this.handleDateTo(e.detail?.value)}
+                @date-from-changed=${this.handleDateFrom.bind(this)}
+                @date-to-changed=${this.handleDateTo.bind(this)}
               >
                 ${footerSlot
                   ? html`<slot name="footer" slot="footer"></slot>`
@@ -311,7 +347,7 @@ export class RangeDatePicker extends LitElement {
     `;
   }
   static styles = css`
-    ssk-icon {
+    ssk-icon.clear {
       cursor: pointer;
     }
     .calendar-container {

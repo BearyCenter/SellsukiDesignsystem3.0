@@ -5,7 +5,7 @@ import { Size, Theme, themeContext } from "../../main";
 import "../calendar";
 import "../../elements/input";
 import "../../elements/icon";
-import { format, isValid, parse } from "date-fns";
+import { format, isValid, parse, toDate } from "date-fns";
 
 @customElement("ssk-date-picker")
 export class DatePicker extends LitElement {
@@ -50,6 +50,8 @@ export class DatePicker extends LitElement {
   @state()
   _isClear: boolean = false;
   @state()
+  _isFocus: boolean = false;
+  @state()
   _cDateFrom: number | undefined;
   @state()
   _cMonth: string | undefined;
@@ -65,25 +67,30 @@ export class DatePicker extends LitElement {
       this._hideCalendar = true;
       this._isClear = false;
       this.error = false;
-    } else {
-      this._hideCalendar = !this._hideCalendar;
     }
   }
 
-  private async updateValue(e: any) {
-    this.value = e.srcElement.value;
+  private validateStringDate(v?: string): boolean {
+    if (v) {
+      const sDate = parse(v, this.format, new Date());
+      if (sDate.getFullYear().toString().length === 4) {
+        return isValid(sDate);
+      }
+    }
+    return false;
+  }
 
+  private async updateValue({ detail }: any) {
+    const value = detail.originalEvent.target.value;
     this._isClear = true;
-    this._hideCalendar = true;
-    await this.handleChangedDate(e.srcElement.value);
 
-    if (this.value) {
+    if (this.validateStringDate(value)) {
+      this.value = toDate(format(value, this.format)); // must be date or number
+
       this.dispatchEvent(
         new CustomEvent("change", {
           detail: {
-            value: this.error
-              ? this.value
-              : parse(e.srcElement.value, "dd-MM-yyyy", new Date()),
+            valueFrom: toDate(format(value, this.format)),
           },
         }),
       );
@@ -91,13 +98,22 @@ export class DatePicker extends LitElement {
   }
 
   private handleOnBlur() {
-    this._hideCalendar = true;
+    this._isFocus = false;
+  }
+
+  private handleOnFocus() {
+    this._isFocus = true;
+    this._hideCalendar = false;
   }
 
   private handleDateFrom(v?: number) {
     if (v) {
       const dateFrom = new Date(v);
       this.value = dateFrom;
+
+      if (this.displayOk) {
+        this._hideCalendar = true;
+      }
 
       this.dispatchEvent(
         new CustomEvent("change", {
@@ -125,10 +141,21 @@ export class DatePicker extends LitElement {
 
   private handleClickOutside(_e: MouseEvent) {
     this._isClear = false;
+
+    if (
+      !this.displayOk &&
+      this.value &&
+      !this._isFocus &&
+      !this._hideCalendar
+    ) {
+      this._hideCalendar = true;
+    }
   }
 
   firstUpdated() {
     window.addEventListener("click", this.handleClickOutside.bind(this));
+    this._sValue = this.value ? format(this.value, this.format) : undefined;
+    this.handleChangedDate(this._sValue);
   }
 
   disconnectedCallback() {
@@ -136,14 +163,8 @@ export class DatePicker extends LitElement {
   }
 
   protected updated(): void {
-    if (!this.value) {
-      this._sValue = "";
-      return;
-    }
-    if (isValid(this.value)) {
-      this._sValue = format(this.value, this.format);
-      this.handleChangedDate(this._sValue);
-    }
+    this._sValue = this.value ? format(this.value, this.format) : undefined;
+    this.handleChangedDate(this._sValue);
   }
 
   render() {
@@ -164,11 +185,12 @@ export class DatePicker extends LitElement {
         @input=${(e: any) => this.updateValue(e)}
         @change=${(e: any) => this.updateValue(e)}
         @blur=${this.handleOnBlur}
+        @focus=${this.handleOnFocus}
         autoComplete="off"
       >
         <ssk-input-addon slot="postfix" @click=${this.handleIcon.bind(this)}>
           ${this._isClear
-            ? html`<ssk-icon name="outline-x-circle"></ssk-icon>`
+            ? html`<ssk-icon class="clear" name="outline-x-circle"></ssk-icon>`
             : html`<ssk-icon name="outline-calendar-days"></ssk-icon> `}
         </ssk-input-addon>
       </ssk-input>
@@ -192,7 +214,7 @@ export class DatePicker extends LitElement {
     </div> `;
   }
   static styles = css`
-    ssk-icon {
+    ssk-icon.clear {
       cursor: pointer;
     }
 

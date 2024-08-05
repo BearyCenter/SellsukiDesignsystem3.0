@@ -509,7 +509,6 @@ export class Calendar extends LitElement {
 
   render() {
     const footerSlot = this.querySelector('[slot="footer"]');
-
     let additionalCss = `
     --padding: ${parseVariables(cssVar("padding", this.size), this.padding)};
     --600-colors: ${parseVariables(cssVar("colors", this.themeColor, 600))};

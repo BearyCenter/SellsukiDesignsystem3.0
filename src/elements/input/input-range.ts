@@ -81,16 +81,16 @@ export class InputRange extends LitElement {
 
   updateValueFrom(e: any, redispatch: boolean = false) {
     this.valueFrom = e.srcElement.value;
-    if (redispatch) {
-      redispatchEvents(e, this);
-    }
+    // if (redispatch) {
+    redispatchEvents(e, this, "value-from-change");
+    // }
   }
 
   updateValueTo(e: any, redispatch: boolean = false) {
     this.valueTo = e.srcElement.value;
-    if (redispatch) {
-      redispatchEvents(e, this);
-    }
+    // if (redispatch) {
+    redispatchEvents(e, this, "value-to-change");
+    // }
   }
 
   render() {
