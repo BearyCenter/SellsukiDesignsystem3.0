@@ -178,6 +178,10 @@ export class Calendar extends LitElement {
       "div.popup-change.year",
     ) as HTMLDivElement;
 
+    var dropdown = this.shadowRoot?.querySelector(
+      "div.dropdown",
+    ) as HTMLDivElement;
+
     if (
       !_e.composedPath().includes(popoverMonth) &&
       !_e.composedPath().includes(popoverYear)
@@ -187,6 +191,10 @@ export class Calendar extends LitElement {
         this._monthChangeDropdown = false;
         this._yearChangeDropdown = false;
       }
+    }
+
+    if (_e.composedPath().includes(dropdown)) {
+      this._yearChangeDropdown = true;
     }
   }
 
