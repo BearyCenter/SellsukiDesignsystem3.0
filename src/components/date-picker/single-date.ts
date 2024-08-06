@@ -116,10 +116,7 @@ export class DatePicker extends LitElement {
       const dateFrom = new Date(v);
       this.value = isValid(dateFrom) ? dateFrom : undefined;
 
-      if (this.displayOk) {
-        this._hideCalendar = true;
-      }
-
+      if (this.displayOk) this._hideCalendar = true;
       this.dispatchEvent(
         new CustomEvent("change", {
           detail: { value: this.value },
@@ -149,7 +146,7 @@ export class DatePicker extends LitElement {
         this._hideCalendar = true;
       }
     } else {
-      this._hideCalendar = false;
+      if (!this.displayGoToday || !this.displayOk) this._hideCalendar = false;
     }
   }
 

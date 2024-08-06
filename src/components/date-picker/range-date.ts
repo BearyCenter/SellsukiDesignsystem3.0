@@ -12,15 +12,7 @@ import {
 import "../calendar";
 import "../../elements/input";
 import "../../elements/icon";
-import {
-  addMonths,
-  format,
-  isValid,
-  parse,
-  subMonths,
-  subYears,
-  toDate,
-} from "date-fns";
+import { addMonths, format, isValid, parse, subMonths, toDate } from "date-fns";
 import { getMonthString } from "./util";
 
 @customElement("ssk-range-date-picker")
@@ -383,8 +375,8 @@ export class RangeDatePicker extends LitElement {
           </ssk-calendar>
           <ssk-calendar
             .hidden=${this._hideCalendar}
-            .dateFrom=${this._cDateFrom}
-            .dateTo=${this._cDateTo}
+            .dateFrom=${this.valueFrom?.getTime()}
+            .dateTo=${this.valueTo?.getTime()}
             size=${this.size}
             month=${this._cMonthTo}
             year=${this._cYearTo}
