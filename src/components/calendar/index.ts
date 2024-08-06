@@ -150,6 +150,8 @@ export class Calendar extends LitElement {
   }
 
   async firstUpdated() {
+    document.addEventListener("click", this.handleClickOutside.bind(this));
+
     this.setYears(1930, 2100);
     this.setMonths();
     await this.updateComplete;
@@ -160,6 +162,31 @@ export class Calendar extends LitElement {
         +this.year,
         this._chunkYearList,
       );
+    }
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener("click", this.handleClickOutside.bind(this));
+  }
+
+  private handleClickOutside(_e: MouseEvent) {
+    var popoverMonth = this.shadowRoot?.querySelector(
+      "div.popup-change.month",
+    ) as HTMLDivElement;
+
+    var popoverYear = this.shadowRoot?.querySelector(
+      "div.popup-change.year",
+    ) as HTMLDivElement;
+
+    if (
+      !_e.composedPath().includes(popoverMonth) &&
+      !_e.composedPath().includes(popoverYear)
+    ) {
+      const popupIsOpen = this._monthChangeDropdown || this._yearChangeDropdown;
+      if (popupIsOpen) {
+        this._monthChangeDropdown = false;
+        this._yearChangeDropdown = false;
+      }
     }
   }
 
@@ -515,6 +542,8 @@ export class Calendar extends LitElement {
     const footerSlot = this.querySelector('[slot="footer"]');
     let additionalCss = `
     --padding: ${parseVariables(cssVar("padding", this.size), this.padding)};
+    --rounded: ${parseVariables(cssVar("rounded", this.size), this.rounded)};
+
     --600-colors: ${parseVariables(cssVar("colors", this.themeColor, 600))};
     --cell-width: calc(var(--padding) * 2);
     `;
@@ -612,7 +641,7 @@ export class Calendar extends LitElement {
             <div class="title">
               ${!this.disableMonthChange
                 ? html`<div
-                    class="popup-change"
+                    class="popup-change month"
                     @click=${this.toggleMonthChangeDropdown.bind(this)}
                   >
                     <ssk-text size=${this.size}>
@@ -626,7 +655,7 @@ export class Calendar extends LitElement {
                   </ssk-text>`}
               ${!this.disableYearChange
                 ? html`<div
-                    class="popup-change"
+                    class="popup-change year"
                     @click=${this.toggleYearChangeDropdown.bind(this)}
                   >
                     <ssk-text size=${this.size}>
