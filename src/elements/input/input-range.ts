@@ -79,18 +79,14 @@ export class InputRange extends LitElement {
   @property({ type: String })
   valueTo: string | undefined;
 
-  updateValueFrom(e: any, redispatch: boolean = false) {
+  updateValueFrom(e: any) {
     this.valueFrom = e.srcElement.value;
-    // if (redispatch) {
     redispatchEvents(e, this, "value-from-change");
-    // }
   }
 
-  updateValueTo(e: any, redispatch: boolean = false) {
+  updateValueTo(e: any) {
     this.valueTo = e.srcElement.value;
-    // if (redispatch) {
     redispatchEvents(e, this, "value-to-change");
-    // }
   }
 
   render() {
@@ -172,8 +168,8 @@ export class InputRange extends LitElement {
             .value=${this.valueFrom || ""}
             ?disabled=${this.disabled}
             autocomplete="off"
-            @input=${this.updateValueFrom}
-            @change=${(e: any) => this.updateValueFrom(e, true)}
+            @input=${this.updateValueFrom.bind(this)}
+            @change=${this.updateValueFrom.bind(this)}
           />
           <slot name="center"></slot>
           <input
@@ -184,8 +180,8 @@ export class InputRange extends LitElement {
             .value=${this.valueTo || ""}
             ?disabled=${this.disabled}
             autocomplete="off"
-            @input=${this.updateValueTo}
-            @change=${(e: any) => this.updateValueTo(e, true)}
+            @input=${this.updateValueTo.bind(this)}
+            @change=${this.updateValueTo.bind(this)}
           />
           <slot name="postfix"></slot>
         </div>
@@ -212,6 +208,33 @@ export class InputRange extends LitElement {
       flex-direction: column;
       width: var(--width);
       gap: 0.25em;
+    }
+
+    div.input-container {
+      display: grid;
+      grid-template-areas: "prefix input-from center input-to postfix";
+      grid-template-columns: auto 1fr auto 1fr auto;
+      overflow: hidden;
+      align-items: center;
+      border-style: solid;
+      transition: background-color 0.2s ease-in-out;
+      background-color: var(--background-color);
+
+      border-radius: var(--rounded);
+      border: 1px solid var(--border-color);
+
+      gap: var(--gap);
+    }
+
+    div.input-container.disabled {
+      background-color: var(--background-color-disabled);
+      border-color: var(--border-color-disabled);
+      color: var(--color-disabled);
+    }
+
+    div.input-container:focus-within {
+      border-color: var(--border-color-active);
+      outline: 4px solid var(--outline-color-active);
     }
 
     div.container > label > span {
@@ -246,33 +269,6 @@ export class InputRange extends LitElement {
 
     ::slotted([slot="center"]) {
       grid-area: center;
-    }
-
-    div.input-container {
-      display: grid;
-      grid-template-areas: "prefix input-from center input-to postfix";
-      grid-template-columns: auto 1fr auto 1fr auto;
-      overflow: hidden;
-      align-items: center;
-      border-style: solid;
-      transition: background-color 0.2s ease-in-out;
-      background-color: var(--background-color);
-
-      border-radius: var(--rounded);
-      border: 1px solid var(--border-color);
-
-      gap: var(--gap);
-    }
-
-    div.input-container.disabled {
-      background-color: var(--background-color-disabled);
-      border-color: var(--border-color-disabled);
-      color: var(--color-disabled);
-    }
-
-    div.input-container:focus-within {
-      border-color: var(--border-color-active);
-      outline: 4px solid var(--outline-color-active);
     }
 
     input#input-from {

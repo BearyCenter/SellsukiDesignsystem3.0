@@ -209,7 +209,6 @@ export class RangeDatePicker extends LitElement {
   private handleChangedDateTo(v?: string) {
     if (v) {
       const vDateTo = parse(v, this.format, new Date());
-
       const validDate = isValid(vDateTo);
       if (validDate) {
         const dfTime = vDateTo.getTime();
@@ -217,11 +216,7 @@ export class RangeDatePicker extends LitElement {
         this._cMonthTo = getMonthString(vDateTo);
         this._cYearTo = vDateTo.getFullYear().toString();
       }
-      this.error = !validDate;
-      return;
     }
-    this._cDateTo = undefined;
-    this.error = false;
   }
 
   handlePrevMonth({ detail }: any) {
