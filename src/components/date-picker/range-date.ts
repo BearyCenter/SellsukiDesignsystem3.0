@@ -12,7 +12,16 @@ import {
 import "../calendar";
 import "../../elements/input";
 import "../../elements/icon";
-import { addMonths, format, isValid, parse, subMonths, toDate } from "date-fns";
+import {
+  addMonths,
+  addYears,
+  format,
+  isValid,
+  parse,
+  subMonths,
+  subYears,
+  toDate,
+} from "date-fns";
 import { getMonthString } from "./util";
 
 @customElement("ssk-range-date-picker")
@@ -237,10 +246,23 @@ export class RangeDatePicker extends LitElement {
 
   setYearFrom({ detail }: any) {
     const value = detail.value;
+
+    if (this._cYearFrom !== this._cYearTo) {
+      const year = parse(value, "yyyy", new Date());
+      const yearPlus = addYears(year, 1);
+      this._cYearTo = format(yearPlus, "yyyy");
+    }
     this._cYearFrom = value;
   }
   setYearTo({ detail }: any) {
     const value = detail.value;
+
+    if (this._cYearFrom !== this._cYearTo) {
+      const year = parse(value, "yyyy", new Date());
+      const yearMinus = subYears(year, 1);
+      this._cYearFrom = format(yearMinus, "yyyy");
+    }
+
     this._cYearTo = value;
   }
 
@@ -284,7 +306,18 @@ export class RangeDatePicker extends LitElement {
   }
 
   protected updated(properties: PropertyValues): void {
+    // handle month and year change
     if (properties.has("_cMonthFrom") && properties.has("_cMonthTo")) return;
+    if (properties.has("_cYearFrom") && properties.has("_cYearTo")) return;
+    if (properties.has("_cYearFrom") || properties.has("_cYearTo")) {
+      if (properties.has("_cYearFrom")) {
+        this._cYearTo = this._cYearFrom;
+      }
+      if (properties.has("_cYearTo")) {
+        this._cYearFrom = this._cYearTo;
+      }
+      return;
+    }
 
     const monthFromEqualMonthTo =
       (this.valueFrom && getMonthString(this.valueFrom)) ===
@@ -307,6 +340,8 @@ export class RangeDatePicker extends LitElement {
     if (this.hidden) {
       return nothing;
     }
+
+    console.log(this._cYearTo);
 
     let additionalCss = `
         --rounded: ${parseVariables(cssVar("rounded", this.size))};

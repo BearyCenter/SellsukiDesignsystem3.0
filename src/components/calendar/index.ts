@@ -427,6 +427,9 @@ export class Calendar extends LitElement {
     });
 
     this.year = yearMinusString;
+    this.dispatchEvent(
+      new CustomEvent("prev-year", { detail: { value: this.year } }),
+    );
   }
 
   private handleNextYear() {
@@ -437,6 +440,9 @@ export class Calendar extends LitElement {
     });
 
     this.year = yearPlusString;
+    this.dispatchEvent(
+      new CustomEvent("next-year", { detail: { value: this.year } }),
+    );
   }
 
   private handlePrevScopeYearIndex() {
