@@ -6,6 +6,7 @@ import "../calendar";
 import "../../elements/input";
 import "../../elements/icon";
 import { format, isValid, parse, toDate } from "date-fns";
+import { getMonthString } from "./util";
 
 @customElement("ssk-date-picker")
 export class DatePicker extends LitElement {
@@ -80,8 +81,9 @@ export class DatePicker extends LitElement {
     return false;
   }
 
-  private async updateValue({ detail }: any) {
-    const value = detail.originalEvent.target.value;
+  private updateValue(_e: Event) {
+    const target = _e.target as HTMLSelectElement;
+    const value = target.value;
     this._isClear = true;
 
     if (this.validateStringDate(value)) {
@@ -90,7 +92,7 @@ export class DatePicker extends LitElement {
       this.dispatchEvent(
         new CustomEvent("change", {
           detail: {
-            valueFrom: toDate(format(value, this.format)),
+            valueFrom: this.value,
           },
         }),
       );
@@ -109,7 +111,7 @@ export class DatePicker extends LitElement {
   private handleDateFrom(v?: number) {
     if (v) {
       const dateFrom = new Date(v);
-      this.value = dateFrom;
+      this.value = isValid(dateFrom) ? dateFrom : undefined;
 
       if (this.displayOk) {
         this._hideCalendar = true;
@@ -130,7 +132,7 @@ export class DatePicker extends LitElement {
       if (validDate) {
         const dfTime = vDateFrom.getTime();
         this._cDateFrom = dfTime;
-        this._cMonth = (vDateFrom.getMonth() + 1).toString().padStart(2, "0");
+        this._cMonth = getMonthString(vDateFrom);
         this._cYear = vDateFrom.getFullYear().toString();
       }
       this.error = !validDate;
@@ -139,27 +141,34 @@ export class DatePicker extends LitElement {
     this.error = false;
   }
 
-  private handleClickOutside(_e: MouseEvent) {
-    this._isClear = false;
+  private handleClickOutside(_e: MouseEvent, targetDiv: HTMLDivElement) {
+    if (!_e.composedPath().includes(targetDiv)) {
+      this._isClear = false;
 
-    if (
-      !this.displayOk &&
-      this.value &&
-      !this._isFocus &&
-      !this._hideCalendar
-    ) {
-      this._hideCalendar = true;
+      if (this.value && !this._isFocus && !this._hideCalendar) {
+        this._hideCalendar = true;
+      }
+    } else {
+      this._hideCalendar = false;
     }
   }
 
   firstUpdated() {
-    window.addEventListener("click", this.handleClickOutside.bind(this));
+    var popover = this.shadowRoot?.querySelector(
+      "div.calendar-container",
+    ) as HTMLDivElement;
+
+    document.addEventListener("click", (event) =>
+      this.handleClickOutside(event, popover),
+    );
     this._sValue = this.value ? format(this.value, this.format) : undefined;
     this.handleChangedDate(this._sValue);
   }
 
   disconnectedCallback() {
-    window.removeEventListener("click", this.handleClickOutside.bind(this));
+    document.removeEventListener("click", () =>
+      this.handleClickOutside.bind(this),
+    );
   }
 
   protected updated(): void {
@@ -182,8 +191,8 @@ export class DatePicker extends LitElement {
         placeholder=${this.placeholder}
         name=${this.name}
         size=${this.size}
-        @input=${(e: any) => this.updateValue(e)}
-        @change=${(e: any) => this.updateValue(e)}
+        @input=${this.updateValue.bind(this)}
+        @change=${this.updateValue.bind(this)}
         @blur=${this.handleOnBlur}
         @focus=${this.handleOnFocus}
         autoComplete="off"

@@ -114,7 +114,7 @@ export class RangeDatePicker extends LitElement {
       this.dispatchEvent(
         new CustomEvent("change", {
           detail: {
-            valueFrom: toDate(format(value, this.format)),
+            valueFrom: this.valueFrom,
             valueTo: this.valueTo,
           },
         }),
@@ -132,7 +132,7 @@ export class RangeDatePicker extends LitElement {
       this.dispatchEvent(
         new CustomEvent("change", {
           detail: {
-            valueTo: toDate(format(value, this.format)),
+            valueTo: this.valueTo,
             valueFrom: this.valueFrom,
           },
         }),
@@ -262,31 +262,30 @@ export class RangeDatePicker extends LitElement {
     this.handleChangedDateTo(this._sValueTo);
   }
 
-  protected disconnectedCallback() {
+  disconnectedCallback() {
     document.removeEventListener("click", () =>
       this.handleClickOutside.bind(this),
     );
   }
 
   protected updated(properties: PropertyValues): void {
-    if (!properties.has("_cMonthFrom") && !properties.has("_cMonthTo")) {
-      const monthFromEqualMonthTo =
-        (this.valueFrom && getMonthString(this.valueFrom)) ===
-        (this.valueTo && getMonthString(this.valueTo));
+    if (properties.has("_cMonthFrom") && properties.has("_cMonthTo")) return;
 
-      this._sValueFrom = this.valueFrom
-        ? format(this.valueFrom, this.format)
-        : undefined;
-      this._sValueTo = this.valueTo
-        ? format(this.valueTo, this.format)
-        : undefined;
+    const monthFromEqualMonthTo =
+      (this.valueFrom && getMonthString(this.valueFrom)) ===
+      (this.valueTo && getMonthString(this.valueTo));
 
-      this.handleChangedDateFrom(this._sValueFrom);
-      if (monthFromEqualMonthTo) {
-        return;
-      }
-      this.handleChangedDateTo(this._sValueTo);
-    }
+    this._sValueFrom = this.valueFrom
+      ? format(this.valueFrom, this.format)
+      : undefined;
+    this._sValueTo = this.valueTo
+      ? format(this.valueTo, this.format)
+      : undefined;
+
+    this.handleChangedDateFrom(this._sValueFrom);
+    if (monthFromEqualMonthTo) return;
+
+    this.handleChangedDateTo(this._sValueTo);
   }
 
   render() {
