@@ -213,15 +213,6 @@ export class RangeDatePicker extends LitElement {
     this.error = false;
   }
 
-  private handleClickOutside(_e: MouseEvent) {
-    this._isClear = false;
-
-    const hasValue = this.valueFrom && this.valueTo;
-    if (hasValue && !this._isFocus && !this._hideCalendar) {
-      // this._hideCalendar = true;
-    }
-  }
-
   handlePrevMonth({ detail }: any) {
     const month = parse(detail.value, "MM", new Date());
     const monthPlusDate = addMonths(month, 1);
@@ -238,8 +229,27 @@ export class RangeDatePicker extends LitElement {
     this._cMonthFrom = format(monthMinusDate, "MM");
   }
 
-  firstUpdated() {
-    window.addEventListener("click", this.handleClickOutside.bind(this));
+  private handleClickOutside(_e: MouseEvent, targetDiv: HTMLDivElement) {
+    if (!_e.composedPath().includes(targetDiv)) {
+      this._isClear = false;
+
+      const hasValue = this.valueFrom && this.valueTo;
+      if (hasValue && !this._isFocus && !this._hideCalendar) {
+        this._hideCalendar = true;
+      }
+    } else {
+      this._hideCalendar = false;
+    }
+  }
+
+  protected firstUpdated() {
+    var popover = this.shadowRoot?.querySelector(
+      "div.calendar-container",
+    ) as HTMLDivElement;
+
+    document.addEventListener("click", (event) =>
+      this.handleClickOutside(event, popover),
+    );
 
     this._sValueFrom = this.valueFrom
       ? format(this.valueFrom, this.format)
@@ -252,8 +262,10 @@ export class RangeDatePicker extends LitElement {
     this.handleChangedDateTo(this._sValueTo);
   }
 
-  disconnectedCallback() {
-    window.removeEventListener("click", this.handleClickOutside.bind(this));
+  protected disconnectedCallback() {
+    document.removeEventListener("click", () =>
+      this.handleClickOutside.bind(this),
+    );
   }
 
   protected updated(properties: PropertyValues): void {
