@@ -18,7 +18,17 @@ const meta = {
   title: "Example/Calendar",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html`<ssk-calendar ${spread(args)}> </ssk-calendar>`;
+    return html` <style>
+        .calendar-container {
+          background-color: white;
+          border: 1px solid var(--ssk-colors-gray-200);
+          border-radius: 4px;
+          width: fit-content;
+        }
+      </style>
+      <div class="calendar-container">
+        <ssk-calendar ${spread(args)}> </ssk-calendar>
+      </div>`;
   },
   argTypes: {
     year: {
@@ -35,14 +45,38 @@ const meta = {
         category: "Props",
       },
     },
-    ".singleDate": {
+    ".rangeDate": {
       description: "When true gives the calendar cannot selected range date",
       control: {
         type: "boolean",
       },
       table: {
         category: "Props",
-        defaultValue: { summary: true },
+        defaultValue: { summary: false },
+        type: { summary: "boolean" },
+      },
+    },
+    ".disabledPrev": {
+      description:
+        "When true gives the allow left on calendar title will disapear",
+      control: {
+        type: "boolean",
+      },
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: { summary: "boolean" },
+      },
+    },
+    ".disabledNext": {
+      description:
+        "When true gives the allow right on calendar title will disapear",
+      control: {
+        type: "boolean",
+      },
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
         type: { summary: "boolean" },
       },
     },
@@ -128,6 +162,11 @@ const meta = {
         type: "array",
       },
       defaultValue: [],
+      table: {
+        category: "Props",
+        defaultValue: [],
+        type: { summary: "array" },
+      },
     },
     "@date-from-changed": genericEvents["@click"],
     ...baseArgsTypes,
@@ -165,7 +204,7 @@ export const RangeCalendar: Story = {
     size: "md",
     themeColor: "primary",
     locale: "th",
-    ".singleDate": false,
+    ".rangeDate": true,
   },
   parameters: {
     design: {
@@ -207,24 +246,7 @@ export const DisableMonthChange: Story = {
   },
 };
 
-export const ShowTodayAndOkCalendar: Story = {
-  args: {
-    year: year,
-    month: "04",
-    size: "md",
-    themeColor: "primary",
-    "?displayGoToday": true, // will show if not current month / year
-    "?displayOk": true,
-  },
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
-    },
-  },
-};
-
-export const DeclareYearsListCalendar: Story = {
+export const DeclareYearsList: Story = {
   args: {
     size: "md",
     themeColor: "primary",
@@ -257,7 +279,24 @@ export const DisableScopeDays: Story = {
   },
 };
 
-export const CustomFooterCalendar: Story = {
+export const ShowTodayAndOkDefaultFooter: Story = {
+  args: {
+    year: year,
+    month: "04",
+    size: "md",
+    themeColor: "primary",
+    "?displayGoToday": true, // will show if not current month / year
+    "?displayOk": true,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const CustomFooter: Story = {
   args: {
     size: "md",
     year: year,
@@ -271,11 +310,57 @@ export const CustomFooterCalendar: Story = {
     },
   },
   render: ({ ...args }) => {
-    return html`<ssk-calendar ${spread(args)}>
-      <div slot="footer">
-        <ssk-button @click=${() => console.log("click now")}>ตอนนี้</ssk-button>
-        <ssk-button @click=${() => console.log("click ok")}>ตกลง</ssk-button>
-      </div>
-    </ssk-calendar>`;
+    return html` <style>
+        .calendar-container {
+          background-color: white;
+          border: 1px solid var(--ssk-colors-gray-200);
+          border-radius: 4px;
+          width: fit-content;
+        }
+      </style>
+      <div class="calendar-container">
+        <ssk-calendar ${spread(args)}>
+          <div slot="footer">
+            <ssk-button @click=${() => console.log("click now")}
+              >ตอนนี้</ssk-button
+            >
+            <ssk-button @click=${() => console.log("click ok")}
+              >ตกลง</ssk-button
+            >
+          </div>
+        </ssk-calendar>
+      </div>`;
+  },
+};
+
+export const DisabledPrev: Story = {
+  args: {
+    size: "md",
+    year: year,
+    month: month,
+    themeColor: "primary",
+    ".disabledPrev": true,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const DisabledNext: Story = {
+  args: {
+    size: "md",
+    year: year,
+    month: month,
+    themeColor: "primary",
+    ".disabledNext": true,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
   },
 };

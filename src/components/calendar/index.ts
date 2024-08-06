@@ -87,7 +87,7 @@ export class Calendar extends LitElement {
   footerStyle: "between" | "middle" | "right" = "between";
 
   @property({ type: Boolean })
-  singleDate = true;
+  rangeDate = false;
   @property({ type: Boolean })
   disableYearChange = false;
   @property({ type: Boolean })
@@ -97,9 +97,9 @@ export class Calendar extends LitElement {
   @property({ type: Boolean })
   displayOk = false;
   @property({ type: Boolean })
-  prev = false;
+  disabledPrev = false;
   @property({ type: Boolean })
-  next = false;
+  disabledNext = false;
 
   @property({ type: Number })
   dateTo?: number;
@@ -144,18 +144,14 @@ export class Calendar extends LitElement {
       this.localeChanged();
     }
 
-    if (properties.has("year")) {
-      this.dispatchEvent(
-        new CustomEvent("year-changed", { detail: { value: this.year } }),
-      );
-    }
-
     if (properties.has("year") || properties.has("month")) {
       this.yearAndMonthChanged(this.year, this.month);
     }
   }
 
   async firstUpdated() {
+    document.addEventListener("click", this.handleClickOutside.bind(this));
+
     this.setYears(1930, 2100);
     this.setMonths();
     await this.updateComplete;
@@ -166,6 +162,39 @@ export class Calendar extends LitElement {
         +this.year,
         this._chunkYearList,
       );
+    }
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener("click", this.handleClickOutside.bind(this));
+  }
+
+  private handleClickOutside(_e: MouseEvent) {
+    var popoverMonth = this.shadowRoot?.querySelector(
+      "div.popup-change.month",
+    ) as HTMLDivElement;
+
+    var popoverYear = this.shadowRoot?.querySelector(
+      "div.popup-change.year",
+    ) as HTMLDivElement;
+
+    var dropdown = this.shadowRoot?.querySelector(
+      "div.dropdown",
+    ) as HTMLDivElement;
+
+    if (
+      !_e.composedPath().includes(popoverMonth) &&
+      !_e.composedPath().includes(popoverYear)
+    ) {
+      const popupIsOpen = this._monthChangeDropdown || this._yearChangeDropdown;
+      if (popupIsOpen) {
+        this._monthChangeDropdown = false;
+        this._yearChangeDropdown = false;
+      }
+    }
+
+    if (_e.composedPath().includes(dropdown)) {
+      this._yearChangeDropdown = true;
     }
   }
 
@@ -301,7 +330,7 @@ export class Calendar extends LitElement {
 
   private handleDateSelected({ detail }: any) {
     const { date } = detail;
-    if (!this.singleDate) {
+    if (this.rangeDate) {
       if (this.dateFrom && this.dateTo) {
         this.dateFrom = date;
         this.dateTo = undefined;
@@ -313,11 +342,7 @@ export class Calendar extends LitElement {
             detail: { value: this.hoveredDate },
           }),
         );
-      } else if (
-        !this.dateFrom ||
-        (this.dateFrom && date < this.dateFrom) ||
-        (this.maxRange > 0 && date - this.dateFrom > this.maxRange * 24 * 3600)
-      ) {
+      } else if (!this.dateFrom || (this.dateFrom && date < this.dateFrom)) {
         this.dateFrom = date;
         this._selectedFrom = date;
       } else if (!this.dateTo || (this.dateTo && date > this.dateTo)) {
@@ -335,6 +360,7 @@ export class Calendar extends LitElement {
           detail: { value: this.dateFrom },
         }),
       );
+
       this.dispatchEvent(
         new CustomEvent("date-to-changed", { detail: { value: this.dateTo } }),
       );
@@ -354,11 +380,8 @@ export class Calendar extends LitElement {
   private handleNextMonth() {
     const month = parse(this.month, "MM", new Date());
     const monthPlusDate = addMonths(month, 1);
-    const monthPlusString = format(monthPlusDate, "MM", {
-      locale: locales[this.locale],
-    });
+    this.month = format(monthPlusDate, "MM");
 
-    this.month = monthPlusString;
     if (this.month === "01") {
       const year = parse(this.year, "yyyy", new Date());
       const yearPlusDate = addYears(year, 1);
@@ -366,18 +389,20 @@ export class Calendar extends LitElement {
         locale: locales[this.locale],
       });
       this.year = yearPlusString;
+      this.dispatchEvent(
+        new CustomEvent("next-year", { detail: { value: this.year } }),
+      );
     }
-    this.dispatchEvent(new CustomEvent("next-month"));
+    this.dispatchEvent(
+      new CustomEvent("next-month", { detail: { value: this.month } }),
+    );
   }
 
   private handlePrevMonth() {
     const month = parse(this.month, "MM", new Date());
     const monthMinusDate = subMonths(month, 1);
-    const monthMinusString = format(monthMinusDate, "MM", {
-      locale: locales[this.locale],
-    });
+    this.month = format(monthMinusDate, "MM");
 
-    this.month = monthMinusString;
     if (this.month === "12") {
       const year = parse(this.year, "yyyy", new Date());
       const yearMinusDate = subYears(year, 1);
@@ -385,8 +410,13 @@ export class Calendar extends LitElement {
         locale: locales[this.locale],
       });
       this.year = yearMinusString;
+      this.dispatchEvent(
+        new CustomEvent("prev-year", { detail: { value: this.year } }),
+      );
     }
-    this.dispatchEvent(new CustomEvent("prev-month"));
+    this.dispatchEvent(
+      new CustomEvent("prev-month", { detail: { value: this.month } }),
+    );
   }
 
   private handlePrevYear() {
@@ -397,6 +427,9 @@ export class Calendar extends LitElement {
     });
 
     this.year = yearMinusString;
+    this.dispatchEvent(
+      new CustomEvent("prev-year", { detail: { value: this.year } }),
+    );
   }
 
   private handleNextYear() {
@@ -407,6 +440,9 @@ export class Calendar extends LitElement {
     });
 
     this.year = yearPlusString;
+    this.dispatchEvent(
+      new CustomEvent("next-year", { detail: { value: this.year } }),
+    );
   }
 
   private handlePrevScopeYearIndex() {
@@ -518,10 +554,10 @@ export class Calendar extends LitElement {
 
   render() {
     const footerSlot = this.querySelector('[slot="footer"]');
-
     let additionalCss = `
     --padding: ${parseVariables(cssVar("padding", this.size), this.padding)};
     --rounded: ${parseVariables(cssVar("rounded", this.size), this.rounded)};
+
     --600-colors: ${parseVariables(cssVar("colors", this.themeColor, 600))};
     --cell-width: calc(var(--padding) * 2);
     `;
@@ -598,30 +634,28 @@ export class Calendar extends LitElement {
       <div class="container">
         <div class="calendar" data-testid=${this.testId || nothing}>
           <div class="monthName layout horizontal center">
-            ${this.prev || !this.disableYearChange || !this.disableMonthChange
-              ? html`<div class="left-arrow">
-                  ${!this.disableYearChange
-                    ? html`<ssk-icon
-                        size="sm"
-                        class="icon"
-                        name="outline-chevron-double-left"
-                        @click="${this.handlePrevYear.bind(this)}"
-                      ></ssk-icon>`
-                    : null}
-                  ${!this.disableMonthChange
-                    ? html`<ssk-icon
-                        size="sm"
-                        class="icon"
-                        name="outline-chevron-left"
-                        @click="${this.handlePrevMonth.bind(this)}"
-                      ></ssk-icon>`
-                    : null}
-                </div>`
-              : null}
+            <div class="left-arrow">
+              ${!this.disabledPrev && !this.disableYearChange
+                ? html`<ssk-icon
+                    size="sm"
+                    class="icon"
+                    name="outline-chevron-double-left"
+                    @click="${this.handlePrevYear.bind(this)}"
+                  ></ssk-icon>`
+                : null}
+              ${!this.disabledPrev && !this.disableMonthChange
+                ? html`<ssk-icon
+                    size="sm"
+                    class="icon"
+                    name="outline-chevron-left"
+                    @click="${this.handlePrevMonth.bind(this)}"
+                  ></ssk-icon>`
+                : null}
+            </div>
             <div class="title">
               ${!this.disableMonthChange
                 ? html`<div
-                    class="popup-change"
+                    class="popup-change month"
                     @click=${this.toggleMonthChangeDropdown.bind(this)}
                   >
                     <ssk-text size=${this.size}>
@@ -635,7 +669,7 @@ export class Calendar extends LitElement {
                   </ssk-text>`}
               ${!this.disableYearChange
                 ? html`<div
-                    class="popup-change"
+                    class="popup-change year"
                     @click=${this.toggleYearChangeDropdown.bind(this)}
                   >
                     <ssk-text size=${this.size}>
@@ -646,26 +680,24 @@ export class Calendar extends LitElement {
               ${this._monthChangeDropdown ? renderMonthDropdown() : null}
               ${this._yearChangeDropdown ? renderYearDropdown() : null}
             </div>
-            ${this.next || !this.disableYearChange || !this.disableMonthChange
-              ? html`<div class="right-arrow">
-                  ${!this.disableMonthChange
-                    ? html`<ssk-icon
-                        size="sm"
-                        class="icon"
-                        name="outline-chevron-right"
-                        @click="${this.handleNextMonth.bind(this)}"
-                      ></ssk-icon>`
-                    : null}
-                  ${!this.disableYearChange
-                    ? html`<ssk-icon
-                        size="sm"
-                        class="icon"
-                        name="outline-chevron-double-right"
-                        @click="${this.handleNextYear.bind(this)}"
-                      ></ssk-icon>`
-                    : null}
-                </div>`
-              : null}
+            <div class="right-arrow">
+              ${!this.disabledNext && !this.disableMonthChange
+                ? html`<ssk-icon
+                    size="sm"
+                    class="icon"
+                    name="outline-chevron-right"
+                    @click="${this.handleNextMonth.bind(this)}"
+                  ></ssk-icon>`
+                : null}
+              ${!this.disabledNext && !this.disableYearChange
+                ? html`<ssk-icon
+                    size="sm"
+                    class="icon"
+                    name="outline-chevron-double-right"
+                    @click="${this.handleNextYear.bind(this)}"
+                  ></ssk-icon>`
+                : null}
+            </div>
           </div>
 
           <div class="table">
@@ -741,10 +773,6 @@ export class Calendar extends LitElement {
   static styles = css`
     .container {
       width: fit-content;
-      background-color: white;
-      border: 1px solid var(--ssk-colors-gray-200);
-      border-radius: var(--rounded);
-      position: absolute;
     }
 
     .calendar {
