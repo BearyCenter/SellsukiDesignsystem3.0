@@ -341,8 +341,6 @@ export class RangeDatePicker extends LitElement {
       return nothing;
     }
 
-    console.log(this._cYearTo);
-
     let additionalCss = `
         --rounded: ${parseVariables(cssVar("rounded", this.size))};
     `;
