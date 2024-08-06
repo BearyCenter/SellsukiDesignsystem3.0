@@ -12,7 +12,15 @@ import {
 import "../calendar";
 import "../../elements/input";
 import "../../elements/icon";
-import { addMonths, format, isValid, parse, subMonths, toDate } from "date-fns";
+import {
+  addMonths,
+  format,
+  isValid,
+  parse,
+  subMonths,
+  subYears,
+  toDate,
+} from "date-fns";
 import { getMonthString } from "./util";
 
 @customElement("ssk-range-date-picker")
@@ -119,7 +127,10 @@ export class RangeDatePicker extends LitElement {
           },
         }),
       );
+      this.error = false;
+      return;
     }
+    this.error = true;
   }
 
   private async updateValueTo({ detail }: any) {
@@ -137,7 +148,10 @@ export class RangeDatePicker extends LitElement {
           },
         }),
       );
+      this.error = false;
+      return;
     }
+    this.error = true;
   }
 
   private handleOnBlur() {
@@ -189,10 +203,7 @@ export class RangeDatePicker extends LitElement {
         this._cMonthFrom = getMonthString(vDateFrom);
         this._cYearFrom = vDateFrom.getFullYear().toString();
       }
-      this.error = !validDate;
-      return;
     }
-    this.error = false;
   }
 
   private handleChangedDateTo(v?: string) {
@@ -219,14 +230,31 @@ export class RangeDatePicker extends LitElement {
 
     this._cMonthFrom = detail.value;
     this._cMonthTo = format(monthPlusDate, "MM");
+
+    if (this._cMonthFrom === "11") {
+      this._cYearTo = this._cYearFrom;
+    }
   }
 
   handleNextMonth({ detail }: any) {
     const month = parse(detail.value, "MM", new Date());
     const monthMinusDate = subMonths(month, 1);
 
-    this._cMonthTo = detail.value;
     this._cMonthFrom = format(monthMinusDate, "MM");
+    this._cMonthTo = detail.value;
+
+    if (this._cMonthTo === "02") {
+      this._cYearFrom = this._cYearTo;
+    }
+  }
+
+  setYearFrom({ detail }: any) {
+    const value = detail.value;
+    this._cYearFrom = value;
+  }
+  setYearTo({ detail }: any) {
+    const value = detail.value;
+    this._cYearTo = value;
   }
 
   private handleClickOutside(_e: MouseEvent, targetDiv: HTMLDivElement) {
@@ -351,6 +379,7 @@ export class RangeDatePicker extends LitElement {
             @date-from-changed=${this.handleDateFrom.bind(this)}
             @date-to-changed=${this.handleDateTo.bind(this)}
             @prev-month="${this.handlePrevMonth.bind(this)}"
+            @prev-year="${this.setYearFrom.bind(this)}"
           >
             >
             ${footerSlot
@@ -371,6 +400,7 @@ export class RangeDatePicker extends LitElement {
             @date-from-changed=${this.handleDateFrom.bind(this)}
             @date-to-changed=${this.handleDateTo.bind(this)}
             @next-month="${this.handleNextMonth.bind(this)}"
+            @next-year="${this.setYearTo.bind(this)}"
           >
             >
             ${footerSlot

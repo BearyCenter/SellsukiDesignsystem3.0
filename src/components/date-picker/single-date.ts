@@ -96,7 +96,10 @@ export class DatePicker extends LitElement {
           },
         }),
       );
+      this.error = false;
+      return;
     }
+    this.error = true;
   }
 
   private handleOnBlur() {
@@ -135,10 +138,7 @@ export class DatePicker extends LitElement {
         this._cMonth = getMonthString(vDateFrom);
         this._cYear = vDateFrom.getFullYear().toString();
       }
-      this.error = !validDate;
-      return;
     }
-    this.error = false;
   }
 
   private handleClickOutside(_e: MouseEvent, targetDiv: HTMLDivElement) {
