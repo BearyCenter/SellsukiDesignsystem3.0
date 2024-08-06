@@ -171,16 +171,10 @@ export class RangeDatePicker extends LitElement {
     if (this.valueFrom && getMonthString(this.valueFrom) === this._cMonthTo) {
       const nextMonth = parse(this._cMonthTo, "MM", new Date());
 
-      // reset month
+      // handle month
       this._cMonthFrom = getMonthString(this.valueFrom);
       this._cMonthTo = format(addMonths(nextMonth, 1), "MM");
     }
-
-    this.dispatchEvent(
-      new CustomEvent("change", {
-        detail: { valueTo: this.valueTo, valueFrom: this.valueFrom },
-      }),
-    );
   }
 
   private handleDateTo({ detail }: any) {
