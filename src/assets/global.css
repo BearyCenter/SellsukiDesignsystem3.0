@@ -1,11 +1,3 @@
-:host {
-  --scrollbar-size: 6px;
-  --scrollbar-color-trumb: var(--ssk-colors-gray-500);
-  --scrollbar-color-trumb-hover: var(--ssk-colors-gray-600);
-
-  --scrollbar-color-track: var(--ssk-colors-fiord-100);
-}
-
 *::-webkit-scrollbar {
   width: var(--scrollbar-size);
   height: var(--scrollbar-size);
