@@ -83,8 +83,8 @@ export class CodeBlock extends LitElement {
         Prism.highlight(
           this.code,
           Prism.languages[this.language || ""],
-          this.language || ""
-        )
+          this.language || "",
+        ),
       );
     } catch (error) {
       console.warn("Language not supported by PrismJS", error);
@@ -105,16 +105,18 @@ export class CodeBlock extends LitElement {
 
     let additionalCss = html`
       <style>
+        @import "../../assets/global.css";
         div {
+          --scrollbar-size: 4px;
           --font-size: ${parseVariables(
             cssVar("font-size", this.size),
-            "1rem"
+            "1rem",
           )};
           --font-family: ${parseVariables(
-            cssVar("font-family", this.fontFamilyGroup)
+            cssVar("font-family", this.fontFamilyGroup),
           )};
           --font-weight: ${parseVariables(
-            cssVar("font-weight", this.fontWeight)
+            cssVar("font-weight", this.fontWeight),
           )};
 
           --rounded: ${parseVariables(cssVar("rounded", this.rounded), "8px")};
@@ -123,21 +125,21 @@ export class CodeBlock extends LitElement {
             cssVar("colors", this.backgroundColor, 50),
             cssVar("colors", this.backgroundColor),
             this.backgroundColor,
-            cssVar("colors", this.themeColor, 50)
+            cssVar("colors", this.themeColor, 50),
           )};
           --border-color: ${parseVariables(
             cssVar("colors", this.borderColor, 400),
             cssVar("colors", this.borderColor),
             this.borderColor,
-            cssVar("colors", this.themeColor, 400)
+            cssVar("colors", this.themeColor, 400),
           )};
           --border-width: ${parseVariables(
             cssVar("border-width", this.borderWidth),
-            "1px"
+            "1px",
           )};
           --border-style: ${parseVariables(
             cssVar("border-style", this.borderStyle),
-            "solid"
+            "solid",
           )};
 
           --width: ${parseVariables(cssVar("width", this.width), "auto")};
@@ -146,14 +148,14 @@ export class CodeBlock extends LitElement {
           --padding: ${parseVariables(
             cssVar("padding", this.padding),
             this.padding,
-            "1em"
+            "1em",
           )};
 
           --color: ${parseVariables(
             cssVar("colors", this.color, 800),
             cssVar("colors", this.color),
             this.color,
-            "inherit"
+            "inherit",
           )};
         }
       </style>
@@ -222,20 +224,6 @@ export class CodeBlock extends LitElement {
 
       .scroll {
         overflow-x: scroll;
-      }
-
-      .scroll::-webkit-scrollbar {
-        height: 4px;
-      }
-
-      .scroll::-webkit-scrollbar-track {
-        border-radius: 4px;
-        background-color: #d9d9d9;
-      }
-
-      .scroll::-webkit-scrollbar-thumb {
-        background: #6b7280;
-        border-radius: 4px;
       }
 
       .right {

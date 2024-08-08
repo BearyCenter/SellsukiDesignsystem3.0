@@ -87,10 +87,18 @@ export class Time extends LitElement {
       <style>
         @import "../../assets/global.css";
         :host {
+          --scrollbar-color-track: transparent;
+          --scrollbar-color-trumb: white;
+
           --padding: ${parseVariables(
             cssVar("padding", this.size),
             this.padding,
           )};
+        }
+
+        *:hover::-webkit-scrollbar-thumb {
+          background: var(--ssk-colors-gray-500);
+          border-radius: 8px;
         }
       </style>
     `;

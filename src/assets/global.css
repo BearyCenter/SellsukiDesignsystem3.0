@@ -1,18 +1,26 @@
+:host {
+  --scrollbar-size: 6px;
+  --scrollbar-color-trumb: var(--ssk-colors-gray-500);
+  --scrollbar-color-trumb-hover: var(--ssk-colors-gray-600);
+
+  --scrollbar-color-track: var(--ssk-colors-fiord-100);
+}
+
 *::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
 }
 
 *::-webkit-scrollbar-track {
-  background: var(--ssk-colors-fiord-100);
+  background: var(--scrollbar-color-track);
   border-radius: 8px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background: var(--ssk-colors-gray-500);
+  background: var(--scrollbar-color-trumb);
   border-radius: 8px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: var(--ssk-colors-gray-600);
+  background: var(--scrollbar-color-trumb-hover);
 }
