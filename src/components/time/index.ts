@@ -83,18 +83,21 @@ export class Time extends LitElement {
       return nothing;
     }
 
-    let additionalCss = `
-    --padding: ${parseVariables(cssVar("padding", this.size), this.padding)};
-  `;
+    let additionalCss = html`
+      <style>
+        @import "../../assets/global.css
+        :host {
+          --padding: ${parseVariables(
+          cssVar("padding", this.size),
+          this.padding,
+        )};
+        }
+      </style>
+    `;
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.time, "host")}
-
-      <style>
-        div {
-          ${additionalCss}
-        }
-      </style>
+      ${additionalCss}
 
       <div class="container">
         <div class="time" data-testid=${this.testId || nothing}>
