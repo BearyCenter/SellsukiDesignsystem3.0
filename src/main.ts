@@ -40,6 +40,7 @@ export * from "./components/sidebar";
 export * from "./components/tabs";
 export * from "./components/stepper";
 export * from "./components/pagination";
+export * from "./components/progress-bar";
 export * from "./components/calendar";
 export * from "./components/date-picker";
 export * from "./components/table";

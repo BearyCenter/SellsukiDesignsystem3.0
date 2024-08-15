@@ -241,6 +241,7 @@ export type Theme = {
     cardSelect?: Partial<ThemeField>;
     calendar?: Partial<ThemeField>;
     inputtag?: Partial<ThemeField>;
+    progressBar?: Partial<ThemeField>;
   };
 } & ThemeField;
 
