@@ -1,13 +1,11 @@
 import { spread } from "@open-wc/lit-helpers";
-import { action } from "@storybook/addon-actions";
-import { useArgs } from "@storybook/client-api";
 import { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/components/modal";
+import "../../../src/components/progress-bar";
 import { ProgressBar } from "../../../src/components/progress-bar";
 import "../../../src/elements/button";
 import "../../../src/elements/icon";
-import { AutoLitProperty, baseArgsTypes } from "../helper";
+import { AutoLitProperty } from "../helper";
 
 type ProgressBarWithLabel = AutoLitProperty<ProgressBar> & { label: string };
 
@@ -16,18 +14,14 @@ const meta = {
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`
-      <ssk-progress-bar ${spread({ ...args })}>
-      </ssk-progress-bar>
-      `;
+      <ssk-progress-bar ${spread({ ...args })}> </ssk-progress-bar>
+    `;
   },
 
-  argTypes: {
-
-  },
+  argTypes: {},
 } satisfies Meta<ProgressBarWithLabel>;
 
 export default meta;
-
 
 type Story = StoryObj<ProgressBarWithLabel>;
 
