@@ -123,6 +123,24 @@ export const BasicDatePicker: Story = {
     helperText: "Wrong format",
     size: "md",
     format: "dd-MM-yyyy",
+    ".value": today,
+    "?rangeDate": false,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const DatePickerDefaultFooter: Story = {
+  args: {
+    label: "Select date",
+    placeholder: "Select date",
+    helperText: "Wrong format",
+    size: "md",
+    format: "dd-MM-yyyy",
     "?displayGoToday": true,
     "?displayOk": true,
     ".value": today,
@@ -137,6 +155,26 @@ export const BasicDatePicker: Story = {
 };
 
 export const DateTimePicker: Story = {
+  args: {
+    label: "Select date",
+    placeholder: "Select date",
+    helperText: "Wrong format",
+    size: "md",
+    format: "dd-MM-yyyy HH:mm:ss",
+    showTime: true,
+    timeFormat: "hms",
+    ".value": today,
+    "?rangeDate": false,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const DateTimePickerDefaultFooter: Story = {
   args: {
     label: "Select date",
     placeholder: "Select date",
@@ -224,6 +262,34 @@ export const RangeDateTimePicker: Story = {
     ".valueTo": addDays(today, 32),
     "?showTime": true,
     "?rangeDate": true,
+    timeFormat: "hms",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+  render: ({ ...args }) => {
+    return html` <ssk-range-date-picker ${spread(
+      args,
+    )}></ssk-range-date-picker`;
+  },
+};
+
+export const RangeDateTimePickerDefaultFooter: Story = {
+  args: {
+    label: "Select date",
+    placeholder: "Select date",
+    helperText: "Wrong format",
+    size: "md",
+    format: "dd-MM-yyyy HH:mm:ss",
+    ".valueFrom": today,
+    ".valueTo": addDays(today, 32),
+    "?showTime": true,
+    "?rangeDate": true,
+    "?displayGoToday": true,
+    "?displayOk": true,
     timeFormat: "hms",
   },
   parameters: {

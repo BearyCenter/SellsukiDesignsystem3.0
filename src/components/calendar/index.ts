@@ -168,6 +168,13 @@ export class Calendar extends LitElement {
     this.setMonths();
     await this.updateComplete;
 
+    if (this.dateFrom !== undefined) {
+      this._selectedFrom = this.dateFrom;
+    }
+    if (this.dateTo !== undefined) {
+      this._selectedTo = this.dateTo;
+    }
+
     if (!this.disableYearChange) {
       this._chunkYearList = this.chunkedYearsList(this.yearsList);
       this._yearIndex = this.calcCurrentYearIndex(
