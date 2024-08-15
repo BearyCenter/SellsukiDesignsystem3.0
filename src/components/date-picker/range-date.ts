@@ -61,6 +61,10 @@ export class RangeDatePicker extends LitElement {
   displayGoToday = false;
   @property({ type: Boolean })
   displayOk = false;
+  @property({ type: Boolean })
+  showTime = false;
+  @property({ type: String })
+  timeFormat: "hms" | "hm" | "timeEvery30" = "hms";
 
   @state()
   _hideCalendar: boolean = true;
@@ -88,6 +92,12 @@ export class RangeDatePicker extends LitElement {
   _cNoNext: boolean = false;
   @state()
   _cNoPrev: boolean = false;
+  @state()
+  _timeFrom: number | undefined;
+  @state()
+  _timeTo: number | undefined;
+  @state()
+  _timeTarget: "dateFrom" | "dateTo" = "dateFrom";
 
   private handleIcon() {
     const hasValue = this.valueFrom || this.valueTo;
@@ -100,6 +110,9 @@ export class RangeDatePicker extends LitElement {
       this._isClear = false;
       this._hideCalendar = true;
       this.error = false;
+      this._timeFrom = undefined;
+      this._timeTo = undefined;
+      this._timeTarget = "dateFrom";
     }
   }
 
@@ -118,7 +131,18 @@ export class RangeDatePicker extends LitElement {
     this._isClear = true;
 
     if (this.validateStringDate(value)) {
-      this.valueFrom = toDate(format(value, this.format)); // must be date or number
+      if (this.showTime) {
+        const parsedDate = parse(value, this.format, new Date());
+        if (isValid(parsedDate)) {
+          this.valueFrom = parsedDate;
+          this._timeFrom = parsedDate.getTime();
+        } else {
+          this.error = true;
+          return;
+        }
+      } else {
+        this.valueFrom = toDate(format(value, this.format));
+      }
 
       this.dispatchEvent(
         new CustomEvent("change", {
@@ -139,7 +163,18 @@ export class RangeDatePicker extends LitElement {
     this._isClear = true;
 
     if (this.validateStringDate(value)) {
-      this.valueTo = toDate(format(value, this.format)); // must be date or number
+      if (this.showTime) {
+        const parsedDate = parse(value, this.format, new Date());
+        if (isValid(parsedDate)) {
+          this.valueTo = parsedDate;
+          this._timeTo = parsedDate.getTime();
+        } else {
+          this.error = true;
+          return;
+        }
+      } else {
+        this.valueTo = toDate(format(value, this.format));
+      }
 
       this.dispatchEvent(
         new CustomEvent("change", {
@@ -153,6 +188,14 @@ export class RangeDatePicker extends LitElement {
       return;
     }
     this.error = true;
+  }
+
+  private handleClickFrom() {
+    this._timeTarget = "dateFrom";
+  }
+
+  private handleClickTo() {
+    this._timeTarget = "dateTo";
   }
 
   private handleOnBlur() {
@@ -170,17 +213,24 @@ export class RangeDatePicker extends LitElement {
 
     if (this.valueFrom && getMonthString(this.valueFrom) === this._cMonthTo) {
       const nextMonth = parse(this._cMonthTo, "MM", new Date());
-
       // handle month
       this._cMonthFrom = getMonthString(this.valueFrom);
       this._cMonthTo = format(addMonths(nextMonth, 1), "MM");
+    }
+
+    if (this.valueFrom && this.showTime && /HH|mm|ss/.test(this.format)) {
+      this._timeFrom = this.valueFrom.getTime();
+      this._timeTarget = "dateFrom";
     }
   }
 
   private handleDateTo({ detail }: any) {
     const dateTo = new Date(detail.value);
     this.valueTo = isValid(dateTo) ? dateTo : undefined;
-
+    if (this.valueTo && this.showTime && /HH|mm|ss/.test(this.format)) {
+      this._timeTo = this.valueTo.getTime();
+      this._timeTarget = "dateTo";
+    }
     this.dispatchEvent(
       new CustomEvent("change", {
         detail: { valueTo: this.valueTo, valueFrom: this.valueFrom },
@@ -197,6 +247,10 @@ export class RangeDatePicker extends LitElement {
         this._cDateFrom = dfTime;
         this._cMonthFrom = getMonthString(vDateFrom);
         this._cYearFrom = vDateFrom.getFullYear().toString();
+
+        if (this.showTime && /HH|mm|ss/.test(this.format)) {
+          this._timeFrom = vDateFrom.getTime();
+        }
       }
     }
   }
@@ -210,6 +264,10 @@ export class RangeDatePicker extends LitElement {
         this._cDateTo = dfTime;
         this._cMonthTo = getMonthString(vDateTo);
         this._cYearTo = vDateTo.getFullYear().toString();
+
+        if (this.showTime && /HH|mm|ss/.test(this.format)) {
+          this._timeTo = vDateTo.getTime();
+        }
       }
     }
   }
@@ -248,6 +306,7 @@ export class RangeDatePicker extends LitElement {
     }
     this._cYearFrom = value;
   }
+
   setYearTo({ detail }: any) {
     const value = detail.value;
 
@@ -362,6 +421,8 @@ export class RangeDatePicker extends LitElement {
           size=${this.size}
           @value-from-change=${this.updateValueFrom.bind(this)}
           @value-to-change=${this.updateValueTo.bind(this)}
+          @input-from-click="${this.handleClickFrom.bind(this)}"
+          @input-to-click="${this.handleClickTo.bind(this)}"
           @blur=${this.handleOnBlur.bind(this)}
           @focus=${this.handleOnFocus.bind(this)}
           autoComplete="off"
@@ -379,48 +440,72 @@ export class RangeDatePicker extends LitElement {
           </ssk-input-addon>
         </ssk-input-range>
         <div class="calendar-container">
-          <ssk-calendar
-            .hidden=${this._hideCalendar}
-            .dateFrom=${this.valueFrom?.getTime()}
-            .dateTo=${this.valueTo?.getTime()}
-            size=${this.size}
-            month=${this._cMonthFrom}
-            year=${this._cYearFrom}
-            rangeDate
-            disabledNext
-            ?displayGoToday=${this.displayGoToday}
-            ?displayOk=${this.displayOk}
-            @date-from-changed=${this.handleDateFrom.bind(this)}
-            @date-to-changed=${this.handleDateTo.bind(this)}
-            @prev-month="${this.handlePrevMonth.bind(this)}"
-            @prev-year="${this.setYearFrom.bind(this)}"
-          >
-            >
-            ${footerSlot
-              ? html`<slot name="footer" slot="footer"></slot>`
-              : nothing}
-          </ssk-calendar>
-          <ssk-calendar
-            .hidden=${this._hideCalendar}
-            .dateFrom=${this.valueFrom?.getTime()}
-            .dateTo=${this.valueTo?.getTime()}
-            size=${this.size}
-            month=${this._cMonthTo}
-            year=${this._cYearTo}
-            rangeDate
-            disabledPrev
-            ?displayGoToday=${this.displayGoToday}
-            ?displayOk=${this.displayOk}
-            @date-from-changed=${this.handleDateFrom.bind(this)}
-            @date-to-changed=${this.handleDateTo.bind(this)}
-            @next-month="${this.handleNextMonth.bind(this)}"
-            @next-year="${this.setYearTo.bind(this)}"
-          >
-            >
-            ${footerSlot
-              ? html`<slot name="footer" slot="footer"></slot>`
-              : nothing}
-          </ssk-calendar>
+          ${this.showTime
+            ? html`<ssk-calendar
+                .hidden=${this._hideCalendar}
+                .dateFrom=${this.valueFrom?.getTime()}
+                .dateTo=${this.valueTo?.getTime()}
+                .timeFrom=${this._timeFrom}
+                .timeTo=${this._timeTo}
+                size=${this.size}
+                month=${this._cMonthFrom}
+                year=${this._cYearFrom}
+                timeFormat=${this.timeFormat}
+                currentTimeTarget=${this._timeTarget}
+                showTime
+                rangeDate
+                ?displayGoToday=${this.displayGoToday}
+                ?displayOk=${this.displayOk}
+                @date-from-changed=${this.handleDateFrom.bind(this)}
+                @date-to-changed=${this.handleDateTo.bind(this)}
+              >
+                >
+                ${footerSlot
+                  ? html`<slot name="footer" slot="footer"></slot>`
+                  : nothing}
+              </ssk-calendar>`
+            : html` <ssk-calendar
+                  .hidden=${this._hideCalendar}
+                  .dateFrom=${this.valueFrom?.getTime()}
+                  .dateTo=${this.valueTo?.getTime()}
+                  size=${this.size}
+                  month=${this._cMonthFrom}
+                  year=${this._cYearFrom}
+                  rangeDate
+                  disabledNext
+                  ?displayGoToday=${this.displayGoToday}
+                  ?displayOk=${this.displayOk}
+                  @date-from-changed=${this.handleDateFrom.bind(this)}
+                  @date-to-changed=${this.handleDateTo.bind(this)}
+                  @prev-month="${this.handlePrevMonth.bind(this)}"
+                  @prev-year="${this.setYearFrom.bind(this)}"
+                >
+                  >
+                  ${footerSlot
+                    ? html`<slot name="footer" slot="footer"></slot>`
+                    : nothing}
+                </ssk-calendar>
+                <ssk-calendar
+                  .hidden=${this._hideCalendar}
+                  .dateFrom=${this.valueFrom?.getTime()}
+                  .dateTo=${this.valueTo?.getTime()}
+                  size=${this.size}
+                  month=${this._cMonthTo}
+                  year=${this._cYearTo}
+                  rangeDate
+                  disabledPrev
+                  ?displayGoToday=${this.displayGoToday}
+                  ?displayOk=${this.displayOk}
+                  @date-from-changed=${this.handleDateFrom.bind(this)}
+                  @date-to-changed=${this.handleDateTo.bind(this)}
+                  @next-month="${this.handleNextMonth.bind(this)}"
+                  @next-year="${this.setYearTo.bind(this)}"
+                >
+                  >
+                  ${footerSlot
+                    ? html`<slot name="footer" slot="footer"></slot>`
+                    : nothing}
+                </ssk-calendar>`}
         </div>
       </div>
     `;

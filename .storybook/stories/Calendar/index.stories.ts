@@ -168,7 +168,35 @@ const meta = {
         type: { summary: "array" },
       },
     },
+    "?showTime": {
+      description: "When true gives the calendar will show time",
+      control: {
+        type: "boolean",
+      },
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: { summary: "boolean" },
+      },
+    },
+    timeFormat: {
+      options: ["hms", "hm", "timeEvery30"],
+      description: "The type of Format Time",
+      control: {
+        type: "inline-radio",
+      },
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "hms",
+        },
+        type: {
+          summary: "string",
+        },
+      },
+    },
     "@date-from-changed": genericEvents["@click"],
+    "@date-to-changed": genericEvents["@click"],
     ...baseArgsTypes,
   },
 } satisfies Meta<CalendarEventArgs>;
@@ -188,6 +216,25 @@ export const BasicCalendar: Story = {
     themeColor: "primary",
     locale: "th",
     footerStyle: "right",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const CalendarShowTime: Story = {
+  args: {
+    year: year,
+    month: month,
+    size: "md",
+    themeColor: "primary",
+    locale: "th",
+    footerStyle: "right",
+    "?showTime": true,
+    timeFormat: "hms",
   },
   parameters: {
     design: {

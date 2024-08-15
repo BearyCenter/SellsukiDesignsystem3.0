@@ -3,9 +3,15 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/time";
 import { Time } from "../../../src/components/time";
-import { AutoLitProperty, baseArgsTypes } from "../helper";
+import {
+  addPrefixToObject,
+  AutoLitProperty,
+  baseArgsTypes,
+  genericEvents,
+} from "../helper";
 
 type TimeWithArgs = AutoLitProperty<Time>;
+type TimeEventArgs = addPrefixToObject<Omit<TimeWithArgs, "name">, "@">;
 
 const meta = {
   title: "Example/Time",
@@ -17,7 +23,10 @@ const meta = {
           border: 1px solid var(--ssk-colors-gray-200);
           border-radius: 4px;
           width: 217px;
-          overflow: hidden;
+        }
+
+        ssk-time {
+          --max-height: 300px;
         }
       </style>
       <div class="time-container">
@@ -25,54 +34,135 @@ const meta = {
       </div>`;
   },
   argTypes: {
-    selectedHour: {
-      description: "Selected hour",
-      control: "number",
+    footerStyle: {
+      options: ["between", "middle", "right", "left"],
+      description: "The type of footer Calendar style",
+      control: {
+        type: "inline-radio",
+      },
       table: {
         category: "Props",
         defaultValue: {
-          summary: new Date().getHours(),
+          summary: "between",
+        },
+        type: {
+          summary: "string",
         },
       },
     },
-    selectedMinute: {
-      description: "Selected minute",
-      control: "number",
+    locale: {
+      options: ["th", "en", "fr"],
+      description: "The type of Time Zone",
+      control: {
+        type: "inline-radio",
+      },
       table: {
         category: "Props",
         defaultValue: {
-          summary: new Date().getMinutes(),
+          summary: "th",
+        },
+        type: {
+          summary: "string",
         },
       },
     },
-    selectedSecond: {
-      description: "Selected second",
-      control: "number",
+    format: {
+      options: ["hms", "hm", "timeEvery30"],
+      description: "The type of Format Time",
+      control: {
+        type: "inline-radio",
+      },
       table: {
         category: "Props",
         defaultValue: {
-          summary: new Date().getSeconds(),
+          summary: "hms",
+        },
+        type: {
+          summary: "string",
         },
       },
     },
+    "?displayGoNow": {
+      description: "When true gives the time will show go-now section",
+      control: {
+        type: "boolean",
+      },
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: { summary: "boolean" },
+      },
+    },
+    "?displayOk": {
+      description: "When true gives the time will show ok section",
+      control: {
+        type: "boolean",
+      },
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: { summary: "boolean" },
+      },
+    },
+    "@time-changed": genericEvents["@click"],
     ...baseArgsTypes,
   },
-} satisfies Meta<TimeWithArgs>;
+} satisfies Meta<TimeEventArgs>;
 
 export default meta;
 
-type Story = StoryObj<TimeWithArgs>;
+type Story = StoryObj<TimeEventArgs>;
 
 export const DefaultTime: Story = {
   args: {
-    selectedHour: new Date().getHours(),
-    selectedMinute: new Date().getMinutes(),
-    selectedSecond: new Date().getSeconds(),
+    locale: "th",
+    format: "hms",
   },
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1103%3A78477",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=854-61162&t=wSZgMRvCeLvJQ3i7-0",
+    },
+  },
+};
+
+export const HourMinuteFormat: Story = {
+  args: {
+    locale: "th",
+    format: "hm",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=854-61162&t=wSZgMRvCeLvJQ3i7-0",
+    },
+  },
+};
+
+export const TimeEvery30Minutes: Story = {
+  args: {
+    locale: "en",
+    format: "timeEvery30",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=854-61162&t=wSZgMRvCeLvJQ3i7-0",
+    },
+  },
+};
+
+export const ShowTodayAndOkDefaultFooter: Story = {
+  args: {
+    locale: "en",
+    format: "hms",
+    displayGoNow: true,
+    displayOk: true,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=854-61162&t=wSZgMRvCeLvJQ3i7-0",
     },
   },
 };
