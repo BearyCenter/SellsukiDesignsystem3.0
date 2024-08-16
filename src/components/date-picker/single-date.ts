@@ -130,7 +130,7 @@ export class DatePicker extends LitElement {
     this._hideCalendar = false;
   }
 
-  private handleDateFrom(v?: number) {
+  private handleDate(v?: number) {
     if (v) {
       const dateFrom = new Date(v);
       this.value = isValid(dateFrom) ? dateFrom : undefined;
@@ -239,7 +239,7 @@ export class DatePicker extends LitElement {
           ?rangeDate=${this.rangeDate}
           ?displayGoToday=${this.displayGoToday}
           ?displayOk=${this.displayOk}
-          @date-from-changed=${(e: any) => this.handleDateFrom(e.detail?.value)}
+          @date-changed=${(e: any) => this.handleDate(e.detail?.dateFrom)}
         >
           ${footerSlot
             ? html`<slot name="footer" slot="footer"></slot>`

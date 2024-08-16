@@ -195,8 +195,7 @@ const meta = {
         },
       },
     },
-    "@date-from-changed": genericEvents["@click"],
-    "@date-to-changed": genericEvents["@click"],
+    "@date-changed": genericEvents["@click"],
     ...baseArgsTypes,
   },
 } satisfies Meta<CalendarEventArgs>;

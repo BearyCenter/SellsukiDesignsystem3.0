@@ -133,6 +133,7 @@ export class RangeDatePicker extends LitElement {
     if (this.validateStringDate(value)) {
       if (this.showTime) {
         const parsedDate = parse(value, this.format, new Date());
+        this._timeTarget = "dateFrom";
         if (isValid(parsedDate)) {
           this.valueFrom = parsedDate;
           this._timeFrom = parsedDate.getTime();
@@ -166,6 +167,7 @@ export class RangeDatePicker extends LitElement {
 
     if (this.validateStringDate(value)) {
       if (this.showTime) {
+        this._timeTarget = "dateTo";
         const parsedDate = parse(value, this.format, new Date());
         if (isValid(parsedDate)) {
           this.valueTo = parsedDate;
@@ -210,36 +212,84 @@ export class RangeDatePicker extends LitElement {
     this._hideCalendar = false;
   }
 
-  private handleDateFrom({ detail }: any) {
-    const dateFrom = new Date(detail.value);
-    this.valueFrom = isValid(dateFrom) ? dateFrom : undefined;
+  private handleDateChanged({ detail }: any) {
+    const { dateFrom, dateTo } = detail;
 
-    if (this.valueFrom && getMonthString(this.valueFrom) === this._cMonthTo) {
-      const nextMonth = parse(this._cMonthTo, "MM", new Date());
-      // handle month
-      this._cMonthFrom = getMonthString(this.valueFrom);
-      this._cMonthTo = format(addMonths(nextMonth, 1), "MM");
+    const previousTimeFrom = this._timeFrom;
+    const previousTimeTo = this._timeTo;
+
+    const newDateFrom = new Date(dateFrom);
+    this.valueFrom = isValid(newDateFrom) ? newDateFrom : undefined;
+
+    if (this.valueFrom) {
+      if (getMonthString(this.valueFrom) === this._cMonthTo) {
+        const nextMonth = parse(this._cMonthTo, "MM", new Date());
+        this._cMonthFrom = getMonthString(this.valueFrom);
+        this._cMonthTo = format(addMonths(nextMonth, 1), "MM");
+      }
+
+      if (this.valueFrom && this.showTime && /HH|mm|ss/.test(this.format)) {
+        this._timeFrom = this.valueFrom.getTime();
+      }
     }
 
-    if (this.valueFrom && this.showTime && /HH|mm|ss/.test(this.format)) {
-      this._timeFrom = this.valueFrom.getTime();
+    const newDateTo = new Date(dateTo);
+    this.valueTo = isValid(newDateTo) ? newDateTo : undefined;
+
+    if (this.valueTo) {
+      if (this.valueTo && this.showTime && /HH|mm|ss/.test(this.format)) {
+        this._timeTo = this.valueTo.getTime();
+      }
+    }
+
+    if (this._timeFrom !== previousTimeFrom) {
       this._timeTarget = "dateFrom";
-    }
-  }
-
-  private handleDateTo({ detail }: any) {
-    const dateTo = new Date(detail.value);
-    this.valueTo = isValid(dateTo) ? dateTo : undefined;
-    if (this.valueTo && this.showTime && /HH|mm|ss/.test(this.format)) {
-      this._timeTo = this.valueTo.getTime();
+    } else if (this._timeTo !== previousTimeTo) {
       this._timeTarget = "dateTo";
     }
+
+    console.log(this._timeTarget);
+
     this.dispatchEvent(
       new CustomEvent("change", {
-        detail: { valueTo: this.valueTo, valueFrom: this.valueFrom },
+        detail: {
+          valueFrom: this.valueFrom,
+          valueTo: this.valueTo,
+        },
       }),
     );
   }
+
+  // private handleDateFrom({ detail }: any) {
+  //   const dateFrom = new Date(detail.value);
+  //   this.valueFrom = isValid(dateFrom) ? dateFrom : undefined;
+
+  //   if (this.valueFrom && getMonthString(this.valueFrom) === this._cMonthTo) {
+  //     const nextMonth = parse(this._cMonthTo, "MM", new Date());
+  //     // handle month
+  //     this._cMonthFrom = getMonthString(this.valueFrom);
+  //     this._cMonthTo = format(addMonths(nextMonth, 1), "MM");
+  //   }
+
+  //   if (this.valueFrom && this.showTime && /HH|mm|ss/.test(this.format)) {
+  //     this._timeFrom = this.valueFrom.getTime();
+  //     this._timeTarget = "dateFrom";
+  //   }
+  // }
+
+  // private handleDateTo({ detail }: any) {
+  //   const dateTo = new Date(detail.value);
+  //   this.valueTo = isValid(dateTo) ? dateTo : undefined;
+  //   if (this.valueTo && this.showTime && /HH|mm|ss/.test(this.format)) {
+  //     this._timeTo = this.valueTo.getTime();
+  //     this._timeTarget = "dateTo";
+  //   }
+  //   this.dispatchEvent(
+  //     new CustomEvent("change", {
+  //       detail: { valueTo: this.valueTo, valueFrom: this.valueFrom },
+  //     }),
+  //   );
+  // }
 
   private handleChangedDateFrom(v?: string) {
     if (v) {
@@ -459,8 +509,7 @@ export class RangeDatePicker extends LitElement {
                 rangeDate
                 ?displayGoToday=${this.displayGoToday}
                 ?displayOk=${this.displayOk}
-                @date-from-changed=${this.handleDateFrom.bind(this)}
-                @date-to-changed=${this.handleDateTo.bind(this)}
+                @date-changed=${this.handleDateChanged.bind(this)}
               >
                 >
                 ${footerSlot
@@ -478,8 +527,7 @@ export class RangeDatePicker extends LitElement {
                   disabledNext
                   ?displayGoToday=${this.displayGoToday}
                   ?displayOk=${this.displayOk}
-                  @date-from-changed=${this.handleDateFrom.bind(this)}
-                  @date-to-changed=${this.handleDateTo.bind(this)}
+                  @date-changed=${this.handleDateChanged.bind(this)}
                   @prev-month="${this.handlePrevMonth.bind(this)}"
                   @prev-year="${this.setYearFrom.bind(this)}"
                 >
@@ -499,8 +547,7 @@ export class RangeDatePicker extends LitElement {
                   disabledPrev
                   ?displayGoToday=${this.displayGoToday}
                   ?displayOk=${this.displayOk}
-                  @date-from-changed=${this.handleDateFrom.bind(this)}
-                  @date-to-changed=${this.handleDateTo.bind(this)}
+                  @date-changed=${this.handleDateChanged.bind(this)}
                   @next-month="${this.handleNextMonth.bind(this)}"
                   @next-year="${this.setYearTo.bind(this)}"
                 >

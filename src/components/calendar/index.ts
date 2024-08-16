@@ -366,23 +366,16 @@ export class Calendar extends LitElement {
   }
 
   private dispatchDateEvents() {
-    if (!this.displayOk) {
-      this.dispatchEvent(
-        new CustomEvent("date-from-changed", {
-          detail: {
-            value: this.dateFrom,
-          },
-        }),
-      );
+    if (this.displayOk) return;
 
-      this.dispatchEvent(
-        new CustomEvent("date-to-changed", {
-          detail: {
-            value: this.dateTo,
-          },
-        }),
-      );
-    }
+    this.dispatchEvent(
+      new CustomEvent("date-changed", {
+        detail: {
+          dateFrom: this.dateFrom,
+          dateTo: this.dateTo,
+        },
+      }),
+    );
   }
 
   private handleDateSelected({ detail }: any) {
@@ -599,14 +592,11 @@ export class Calendar extends LitElement {
     }
 
     this.dispatchEvent(
-      new CustomEvent("date-from-changed", {
-        detail: { value: this._selectedFrom },
-      }),
-    );
-
-    this.dispatchEvent(
-      new CustomEvent("date-to-changed", {
-        detail: { value: this._selectedTo },
+      new CustomEvent("date-changed", {
+        detail: {
+          dateFrom: this._selectedFrom,
+          dateTo: this._selectedTo,
+        },
       }),
     );
   }
