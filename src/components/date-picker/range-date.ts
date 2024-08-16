@@ -141,8 +141,10 @@ export class RangeDatePicker extends LitElement {
           return;
         }
       } else {
-        this.valueFrom = toDate(format(value, this.format));
+        const date = parse(value, this.format, new Date());
+        this.valueFrom = toDate(format(date, this.format));
       }
+      // must be date or number
 
       this.dispatchEvent(
         new CustomEvent("change", {
@@ -173,7 +175,8 @@ export class RangeDatePicker extends LitElement {
           return;
         }
       } else {
-        this.valueTo = toDate(format(value, this.format));
+        const date = parse(value, this.format, new Date());
+        this.valueTo = toDate(format(date, this.format)); // must be date or number
       }
 
       this.dispatchEvent(
