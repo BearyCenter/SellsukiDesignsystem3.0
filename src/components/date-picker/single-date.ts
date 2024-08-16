@@ -45,6 +45,10 @@ export class DatePicker extends LitElement {
   displayGoToday = false;
   @property({ type: Boolean })
   displayOk = false;
+  @property({ type: Boolean })
+  showTime = false;
+  @property({ type: String })
+  timeFormat: "hms" | "hm" | "timeEvery30" = "hms";
 
   @state()
   _hideCalendar: boolean = true;
@@ -60,11 +64,14 @@ export class DatePicker extends LitElement {
   _cYear: string | undefined;
   @state()
   _sValue: string | undefined;
+  @state()
+  _timeFrom: number | undefined;
 
   private handleIcon() {
     if (this.value && this._isClear) {
       this.value = undefined;
       this._sValue = undefined;
+      this._timeFrom = undefined;
       this._hideCalendar = true;
       this._isClear = false;
       this.error = false;
@@ -87,7 +94,19 @@ export class DatePicker extends LitElement {
     this._isClear = true;
 
     if (this.validateStringDate(value)) {
-      this.value = toDate(format(value, this.format)); // must be date or number
+      if (this.showTime) {
+        const parsedDate = parse(value, this.format, new Date());
+        if (isValid(parsedDate)) {
+          this.value = parsedDate;
+          this._timeFrom = parsedDate.getTime();
+        } else {
+          this.error = true;
+          return;
+        }
+      } else {
+        this.value = toDate(format(value, this.format));
+        this._timeFrom = undefined;
+      }
 
       this.dispatchEvent(
         new CustomEvent("change", {
@@ -111,10 +130,13 @@ export class DatePicker extends LitElement {
     this._hideCalendar = false;
   }
 
-  private handleDateFrom(v?: number) {
+  private handleDate(v?: number) {
     if (v) {
       const dateFrom = new Date(v);
       this.value = isValid(dateFrom) ? dateFrom : undefined;
+      if (this.value && this.showTime && /HH|mm|ss/.test(this.format)) {
+        this._timeFrom = this.value.getTime();
+      }
 
       if (this.displayOk) this._hideCalendar = true;
       this.dispatchEvent(
@@ -134,6 +156,10 @@ export class DatePicker extends LitElement {
         this._cDateFrom = dfTime;
         this._cMonth = getMonthString(vDateFrom);
         this._cYear = vDateFrom.getFullYear().toString();
+
+        if (this.showTime && /HH|mm|ss/.test(this.format)) {
+          this._timeFrom = vDateFrom.getTime();
+        }
       }
     }
   }
@@ -204,13 +230,16 @@ export class DatePicker extends LitElement {
         <ssk-calendar
           .hidden=${this._hideCalendar}
           .dateFrom=${this._cDateFrom}
+          .timeFrom=${this._timeFrom}
+          timeFormat=${this.timeFormat}
           size=${this.size}
           month=${this._cMonth}
           year=${this._cYear}
+          ?showTime=${this.showTime}
           ?rangeDate=${this.rangeDate}
           ?displayGoToday=${this.displayGoToday}
           ?displayOk=${this.displayOk}
-          @date-from-changed=${(e: any) => this.handleDateFrom(e.detail?.value)}
+          @date-changed=${(e: any) => this.handleDate(e.detail?.dateFrom)}
         >
           ${footerSlot
             ? html`<slot name="footer" slot="footer"></slot>`
