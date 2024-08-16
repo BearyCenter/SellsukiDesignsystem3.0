@@ -248,8 +248,6 @@ export class RangeDatePicker extends LitElement {
       this._timeTarget = "dateTo";
     }
 
-    console.log(this._timeTarget);
-
     this.dispatchEvent(
       new CustomEvent("change", {
         detail: {
