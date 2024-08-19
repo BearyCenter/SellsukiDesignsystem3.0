@@ -30,7 +30,7 @@ const meta: Meta<ProgressBarWithLabel> = {
       control: { type: 'select' },
       description: 'Size of the progress bar'
     },
-    progress: {
+    value: {
       control: { type: 'number' },
       description: 'Progress percentage (0-100)'
     },
@@ -62,7 +62,7 @@ export const DefaultProgress: Story = {
   args: {
     label: "Loading Data...",
     size: "md",
-    progress: 0,
+    value: 0,
   },
   parameters: {
     design: {

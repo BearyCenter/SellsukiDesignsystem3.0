@@ -16,7 +16,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
   size: "md" | "sm" = "md";
 
   @property({ type: Number })
-  progress = 0;
+  value = 0;
 
   @property({ type: String })
   labelPosition: "top" | "bottom" | "right" = "top";
@@ -40,7 +40,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
       --progress-bar-height: ${isMd ? "8px" : "4px"};
     `;
 
-    const progressWidth = this.progress <= 1 ? '2' : `${this.progress}`;
+    const progressWidth = this.value <= 1 ? '2' : `${this.value}`;
 
     return html`
       <div class="progress-container ${this.labelPosition}" style="${style}">
@@ -70,7 +70,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
           ? (this.styleOfProgress === "icon"
             ? html`<ssk-icon name="solid-x-circle" color="#E11D48"></ssk-icon>`
             : "ERROR")
-          : `${this.progress}%`}
+          : `${this.value}%`}
         </div>
       </div>
     `;
