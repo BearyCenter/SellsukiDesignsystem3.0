@@ -92,7 +92,8 @@ export class Cell extends LitElement {
           !Number.isNaN(dateFrom) &&
           dateFrom !== undefined &&
           !this.selected) ||
-        (day.date > dateFrom && day.date < dateTo)
+        (day.date > getTime(startOfDay(dateFrom)) &&
+          day.date < getTime(startOfDay(dateTo)))
       ) {
         this.hovered = true;
       }
@@ -153,9 +154,9 @@ export class Cell extends LitElement {
         ${this.isCurrentDate ? "currentDate" : null} 
         ${this.isSelected(this.selected)} ${this.isHovered(this.hovered)}  
         ${this.disabled ? "disabled" : ""}
-        ${this.day?.date === this.dateFrom
+        ${this.day?.date === getTime(startOfDay(this.dateFrom!))
           ? "date-from"
-          : this.day?.date === this.dateTo
+          : this.day?.date === getTime(startOfDay(this.dateTo!))
           ? "date-to"
           : ""} 
         ${this.dateTo === undefined ? "single-selected" : ""}"

@@ -89,6 +89,14 @@ export class InputRange extends LitElement {
     redispatchEvents(e, this, "value-to-change");
   }
 
+  updateClickFrom(e: any) {
+    redispatchEvents(e, this, "input-from-click");
+  }
+
+  updateClickTo(e: any) {
+    redispatchEvents(e, this, "input-to-click");
+  }
+
   render() {
     if (this.hidden) {
       return nothing;
@@ -170,6 +178,7 @@ export class InputRange extends LitElement {
             autocomplete="off"
             @input=${this.updateValueFrom.bind(this)}
             @change=${this.updateValueFrom.bind(this)}
+            @click=${this.updateClickFrom.bind(this)}
           />
           <slot name="center"></slot>
           <input
@@ -182,6 +191,7 @@ export class InputRange extends LitElement {
             autocomplete="off"
             @input=${this.updateValueTo.bind(this)}
             @change=${this.updateValueTo.bind(this)}
+            @click=${this.updateClickTo.bind(this)}
           />
           <slot name="postfix"></slot>
         </div>
