@@ -67,7 +67,7 @@ export const DefaultProgress: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494&t=81k7fClxUSUgePbF-0",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
     },
   },
 };

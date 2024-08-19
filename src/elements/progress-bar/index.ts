@@ -1,4 +1,4 @@
-import { LitElement, css, html } from "lit";
+import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ThemeValue } from "../../types/base-attributes";
 import { consume } from "@lit/context";
@@ -31,6 +31,13 @@ export class ProgressBar extends LitElement implements ThemeValue {
   label: string = "Loading Data...";
 
   render() {
+    if (this.hidden) {
+      return nothing;
+    }
+
+    const progressBarClass = `progress-bar__fill ${this.value === 100 ? this.status : ""
+      }`;
+
     const isMd = this.size === "md";
 
     const style = `
@@ -46,7 +53,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
       <div class="progress-container ${this.labelPosition}" style="${style}">
         ${this.labelPosition === "top" ? this.renderLabel() : ""}
         <div class="progress-bar">
-          <div class="progress-bar__fill ${this.status}" style="
+          <div class="${progressBarClass}" style="
           width: ${progressWidth}%;
           "></div>
         </div>
@@ -143,14 +150,19 @@ export class ProgressBar extends LitElement implements ThemeValue {
     }
 
     .progress-bar__fill {
-      height: 100%;
-      background-color: var(--fill-color, #2196f3);
-      transition: width 0.2s ease-in-out;
       border-radius: 8px;
       text-align: center;
       line-height: 24px;
       color: white;
+      height: 100%;
+      background-color: var(--fill-color, #2196f3);
+      transition: background-color 0.3s ease-in-out, width 0.2s ease-in-out;
     }
+
+    .progress-bar__fill.success {
+      background-color: #059669;
+    }
+
 
     .progress-bar__fill.error {
       background-color: #e11d48;
