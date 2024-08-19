@@ -2,7 +2,7 @@ import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ThemeValue } from "../../types/base-attributes";
 import { consume } from "@lit/context";
-import { Size, Theme, themeContext } from "../../main";
+import { Theme, themeContext } from "../../main";
 
 @customElement("ssk-progress-bar")
 export class ProgressBar extends LitElement implements ThemeValue {
@@ -16,7 +16,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
   size: "md" | "sm" = "md";
 
   @property({ type: Number })
-  progress = 10;
+  progress = 0;
 
   @property({ type: String })
   labelPosition: "top" | "bottom" | "right" = "top";
@@ -27,14 +27,28 @@ export class ProgressBar extends LitElement implements ThemeValue {
   @property({ type: String })
   styleOfProgress: "text" | "icon" = "text";
 
+  @property({ type: String })
+  label: string = "Loading Data...";
+
   render() {
+    const isMd = this.size === "md";
+
+    const style = `
+      --min-width: ${isMd ? "400px" : "400px"};
+      --font-size: ${isMd ? "24px" : "20px"};
+      --line-height: ${isMd ? "24px" : "20px"};
+      --progress-bar-height: ${isMd ? "8px" : "4px"};
+    `;
+
+    const progressWidth = this.progress <= 1 ? '2' : `${this.progress}`;
+
     return html`
-      <div class="progress-container ${this.labelPosition}">
+      <div class="progress-container ${this.labelPosition}" style="${style}">
         ${this.labelPosition === "top" ? this.renderLabel() : ""}
         <div class="progress-bar">
-          <div class="progress-bar__fill ${this.status}" 
-              style="width: ${this.progress}%; ${this.progress === 100 ? 'background-color: ##059669;' : ''}">
-          </div>
+          <div class="progress-bar__fill ${this.status}" style="
+          width: ${progressWidth}%;
+          "></div>
         </div>
         ${this.labelPosition === "right" || this.labelPosition === "bottom" ? this.renderLabel() : ""}
       </div>
@@ -44,16 +58,18 @@ export class ProgressBar extends LitElement implements ThemeValue {
   renderLabel() {
     return html`
       <div class="text">
-        <div class="label">Loading Data...</div>
+        <div class="label">
+            ${this.label}
+        </div>
         <div class="percentage">
           ${this.status === "success"
-        ? this.styleOfProgress === "icon"
+        ? (this.styleOfProgress === "icon"
           ? html`<ssk-icon name="solid-check-circle" color="#059669"></ssk-icon>`
-          : html`<span style="color: ${this.progress === 100 ? '#1F2937' : 'inherit'};">DONE</span>`
+          : "DONE")
         : this.status === "error"
-          ? this.styleOfProgress === "icon"
+          ? (this.styleOfProgress === "icon"
             ? html`<ssk-icon name="solid-x-circle" color="#E11D48"></ssk-icon>`
-            : html`<span style="color: #E11D48;">ERROR</span>`
+            : "ERROR")
           : `${this.progress}%`}
         </div>
       </div>
@@ -62,10 +78,10 @@ export class ProgressBar extends LitElement implements ThemeValue {
 
   static styles = css`
     .progress-container {
-      min-width: 370px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      min-width: var(--min-width, 370px);
     }
     
     .progress-container.right {
@@ -74,10 +90,10 @@ export class ProgressBar extends LitElement implements ThemeValue {
     }
 
     .text {
-      font-family: DB HeaventRounded;
-      font-size: 24px;
+      font-family: 'DB HeaventRounded';
+      font-size: var(--font-size, 24px);
       font-weight: 400;
-      line-height: 24px;
+      line-height: var(--line-height, 24px);
       text-align: left;
       color: #6B7280;
     }
@@ -86,37 +102,26 @@ export class ProgressBar extends LitElement implements ThemeValue {
       white-space: nowrap;
     }
 
+    .percentage {
+      display : flex;
+    }
+
     .progress-container .text {
       display: flex;
       justify-content: space-between;
     }
 
-    .progress-container.top .text {
+    .progress-container.top .text,
+    .progress-container.bottom .text {
       width: 370px;
+    }
+
+    .progress-container.top .text {
       margin: 0 0 8px 0;
     }
 
     .progress-container.bottom .text {
-      width: 370px;
       margin: 8px 0 0 0;
-    }
-
-    .progress-container .text .percentage .percentage .error {
-      color: #E11D48;
-    }
-
-    .progress-bar__fill {
-      height: 100%;
-      background-color: #2196f3; /* Default color for in-progress */
-      transition: width 0.2s ease-in-out;
-    }
-
-    .progress-bar__fill.error {
-      background-color: #e11d48;
-    }
-
-    .progress-bar__fill.success {
-      background-color: #059669;
     }
 
     .progress-container.right .text {
@@ -134,22 +139,29 @@ export class ProgressBar extends LitElement implements ThemeValue {
       background-color: #e5e7eb;
       border-radius: 4px;
       overflow: hidden;
-      height: 8px;
+      height: var(--progress-bar-height, 8px);
     }
 
     .progress-bar__fill {
       height: 100%;
-      background-color: #2196f3;
+      background-color: var(--fill-color, #2196f3);
+      transition: width 0.2s ease-in-out;
+      border-radius: 8px;
       text-align: center;
       line-height: 24px;
       color: white;
-      border-radius: 8px;
-      transition: width 0.2s ease-in-out;
+    }
+
+    .progress-bar__fill.error {
+      background-color: #e11d48;
+    }
+
+    .progress-bar__fill.success {
+      background-color: #059669;
     }
   `;
 }
 
-// Register the element globally
 declare global {
   interface HTMLElementTagNameMap {
     "ssk-progress-bar": ProgressBar;
