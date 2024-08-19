@@ -2,7 +2,7 @@ import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ThemeValue } from "../../types/base-attributes";
 import { consume } from "@lit/context";
-import { Theme, themeContext } from "../../main";
+import { cssVar, parseThemeToCssVariables, parseVariables, Size, Theme, themeContext } from "../../main";
 
 @customElement("ssk-progress-bar")
 export class ProgressBar extends LitElement implements ThemeValue {
@@ -13,7 +13,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
   public theme?: Theme;
 
   @property({ type: String })
-  size: "md" | "sm" = "md";
+  size: Size = "md";
 
   @property({ type: Number })
   value = 0;
@@ -35,25 +35,21 @@ export class ProgressBar extends LitElement implements ThemeValue {
       return nothing;
     }
 
-    const progressBarClass = `progress-bar__fill ${this.value === 100 ? this.status : ""
-      }`;
-
-    const isMd = this.size === "md";
-
     const style = `
-      --min-width: ${isMd ? "400px" : "400px"};
-      --font-size: ${isMd ? "24px" : "20px"};
-      --line-height: ${isMd ? "24px" : "20px"};
-      --progress-bar-height: ${isMd ? "8px" : "4px"};
+      --font-size: ${parseVariables(cssVar("font-size", this.size))};
+      --line-height: ${parseVariables(cssVar("line-height", this.size))};
+      --height: ${parseVariables(cssVar("height", this.size))};
     `;
 
     const progressWidth = this.value <= 1 ? '2' : `${this.value}`;
 
     return html`
+    ${parseThemeToCssVariables(this.theme?.components?.progressBar, ":host")}
+
       <div class="progress-container ${this.labelPosition}" style="${style}">
         ${this.labelPosition === "top" ? this.renderLabel() : ""}
         <div class="progress-bar">
-          <div class="${progressBarClass}" style="
+          <div class="progress-bar__fill ${this.status}" style="
           width: ${progressWidth}%;
           "></div>
         </div>
@@ -63,13 +59,21 @@ export class ProgressBar extends LitElement implements ThemeValue {
   }
 
   renderLabel() {
+    let percentageStyle = "";
+
+    if (this.status === "success" || this.value === 100) {
+      percentageStyle = "color: #1F2937;";
+    } else if (this.status === "error") {
+      percentageStyle = "color: #E11D48;";
+    }
+
     return html`
       <div class="text">
         <div class="label">
             ${this.label}
         </div>
-        <div class="percentage">
-          ${this.status === "success"
+        <div class="percentage" style="${percentageStyle}">
+        ${this.status === "success"
         ? (this.styleOfProgress === "icon"
           ? html`<ssk-icon name="solid-check-circle" color="#059669"></ssk-icon>`
           : "DONE")
@@ -78,7 +82,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
             ? html`<ssk-icon name="solid-x-circle" color="#E11D48"></ssk-icon>`
             : "ERROR")
           : `${this.value}%`}
-        </div>
+      </div>
       </div>
     `;
   }
@@ -88,7 +92,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      min-width: var(--min-width, 370px);
+      min-width: 400px;
     }
     
     .progress-container.right {
@@ -104,7 +108,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
       text-align: left;
       color: #6B7280;
     }
-
+    
     .label {
       white-space: nowrap;
     }
@@ -146,7 +150,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
       background-color: #e5e7eb;
       border-radius: 4px;
       overflow: hidden;
-      height: var(--progress-bar-height, 8px);
+      height: var(--height, 8px);
     }
 
     .progress-bar__fill {
@@ -157,7 +161,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
       height: 100%;
       background-color: var(--fill-color, #2196f3);
       transition: background-color 0.3s ease-in-out, width 0.2s ease-in-out;
-    }
+      }
 
     .progress-bar__fill.success {
       background-color: #059669;

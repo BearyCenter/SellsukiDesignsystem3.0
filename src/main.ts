@@ -32,7 +32,6 @@ export * from "./elements/pin-code";
 export * from "./elements/card-select";
 export * from "./elements/card-select/group";
 export * from "./elements/input-tag";
-export * from "./elements/progress-bar";
 
 export * from "./components/tooltip";
 export * from "./components/dropdown";
@@ -41,6 +40,7 @@ export * from "./components/sidebar";
 export * from "./components/tabs";
 export * from "./components/stepper";
 export * from "./components/pagination";
+export * from "./components/progress-bar";
 export * from "./components/calendar";
 export * from "./components/date-picker";
 export * from "./components/table";

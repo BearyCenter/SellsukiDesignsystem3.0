@@ -2,10 +2,10 @@ import { spread } from "@open-wc/lit-helpers";
 import { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/modal";
-import "../../../src/elements/progress-bar";
-import { ProgressBar } from "../../../src/elements/progress-bar";
+import "../../../src/components/progress-bar";
+import { ProgressBar } from "../../../src/components/progress-bar";
 import "../../../src/elements/icon";
-import { AutoLitProperty, baseArgsTypes } from "../helper";
+import { AutoLitProperty } from "../helper";
 
 type ProgressBarWithLabel = AutoLitProperty<ProgressBar> & { label: string };
 
@@ -15,6 +15,7 @@ const meta: Meta<ProgressBarWithLabel> = {
   render: ({ label, ...args }) => {
     return html`
       <ssk-progress-bar 
+      label="${label}" 
       ${spread({ ...args })}
       >
       </ssk-progress-bar>
@@ -58,7 +59,7 @@ export default meta;
 
 type Story = StoryObj<ProgressBarWithLabel>;
 
-export const DefaultProgress: Story = {
+export const Default: Story = {
   args: {
     label: "Loading Data...",
     size: "md",
@@ -67,7 +68,7 @@ export const DefaultProgress: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
     },
   },
 };

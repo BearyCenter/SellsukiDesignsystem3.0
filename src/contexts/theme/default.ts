@@ -1605,6 +1605,20 @@ export const defaultTheme: Theme = {
         "4xl": "10px",
       },
     },
+    progressBar: {
+      fontSize: {
+        sm: "20px",
+        md: "24px",
+      },
+      lineHeight: {
+        sm: "20px",
+        md: "24px",
+      },
+      height: {
+        sm: "4px",
+        md: "8px",
+      }
+    },
   },
 };
 
