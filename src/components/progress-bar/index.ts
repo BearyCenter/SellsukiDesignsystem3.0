@@ -19,7 +19,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
   value = 0;
 
   @property({ type: String })
-  labelPosition: "top" | "bottom" | "right" = "top";
+  labelPosition: "top" | "bottom" | "right" = "bottom";
 
   @property({ type: String })
   status: "in-progress" | "error" | "success" = "in-progress";
