@@ -5,7 +5,7 @@ import "../../../src/components/modal";
 import "../../../src/components/progress-bar";
 import { ProgressBar } from "../../../src/components/progress-bar";
 import "../../../src/elements/icon";
-import { AutoLitProperty } from "../helper";
+import { AutoLitProperty, baseArgsTypes } from "../helper";
 
 type ProgressBarWithLabel = AutoLitProperty<ProgressBar> & { label: string };
 
@@ -52,6 +52,7 @@ const meta: Meta<ProgressBarWithLabel> = {
       control: { type: 'select' },
       description: 'Style of the progress display'
     },
+    themeColor: baseArgsTypes.themeColor,
   },
 };
 
@@ -59,11 +60,98 @@ export default meta;
 
 type Story = StoryObj<ProgressBarWithLabel>;
 
-export const Default: Story = {
+export const DefaultMedium: Story = {
   args: {
     label: "Loading Data...",
     size: "md",
     value: 0,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
+    },
+  },
+};
+
+export const Small: Story = {
+  args: {
+    label: "Loading Data...",
+    size: "sm",
+    value: 10,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
+    },
+  },
+};
+
+export const TopLabel: Story = {
+  args: {
+    label: "Loading Data...",
+    size: "md",
+    value: 50,
+    labelPosition: "top"
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
+    },
+  },
+};
+export const BottomLabel: Story = {
+  args: {
+    label: "Loading Data...",
+    size: "md",
+    value: 50,
+    labelPosition: "bottom"
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
+    },
+  },
+};
+export const RightLabel: Story = {
+  args: {
+    label: "Loading Data...",
+    size: "md",
+    value: 50,
+    labelPosition: "right"
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
+    },
+  },
+};
+
+export const ErrorProgressBar: Story = {
+  args: {
+    label: "Loading Data...",
+    size: "md",
+    value: 70,
+    status: "error",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
+    },
+  },
+};
+
+export const SuccessProgressBar: Story = {
+  args: {
+    label: "Loading Data...",
+    size: "md",
+    value: 100,
+    status: "success",
   },
   parameters: {
     design: {

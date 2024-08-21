@@ -1,11 +1,19 @@
+import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { ThemeValue } from "../../types/base-attributes";
-import { consume } from "@lit/context";
-import { cssVar, parseThemeToCssVariables, parseVariables, Size, Theme, themeContext } from "../../main";
+import { themeContext } from "../../contexts/theme";
+import {
+  ColorName,
+  ColorRole,
+  cssVar,
+  parseThemeToCssVariables,
+  parseVariables,
+  Size,
+  Theme,
+} from "../../types/theme";
 
 @customElement("ssk-progress-bar")
-export class ProgressBar extends LitElement implements ThemeValue {
+export class ProgressBar extends LitElement {
   static registeredName = "ssk-progress-bar";
 
   @consume({ context: themeContext, subscribe: true })
@@ -13,7 +21,13 @@ export class ProgressBar extends LitElement implements ThemeValue {
   public theme?: Theme;
 
   @property({ type: String })
+  themeColor: ColorRole | ColorName = "";
+
+  @property({ type: String })
   size: Size = "md";
+
+  @property({ type: String })
+  width?: string | undefined;
 
   @property({ type: Number })
   value = 0;
@@ -35,21 +49,47 @@ export class ProgressBar extends LitElement implements ThemeValue {
       return nothing;
     }
 
-    const style = `
+    const progressWidth = this.value <= 1 ? '2' : `${this.value}`;
+
+    let fillClass = "";
+
+    if (this.themeColor) {
+      fillClass = this.themeColor;
+    }
+
+    switch (this.status) {
+      case "success":
+        if (this.value === 100) {
+          fillClass = "success";
+        } else {
+          fillClass = "in-progress";
+        }
+        break;
+      case "error":
+        fillClass = "error";
+        break;
+      default:
+        fillClass = "in-progress";
+        break;
+    }
+
+    const additionalStyles = this.theme ? `
       --font-size: ${parseVariables(cssVar("font-size", this.size))};
       --line-height: ${parseVariables(cssVar("line-height", this.size))};
       --height: ${parseVariables(cssVar("height", this.size))};
-    `;
-
-    const progressWidth = this.value <= 1 ? '2' : `${this.value}`;
+      --progress-bar-fill-color: ${parseVariables(cssVar("colors", this.themeColor, 500), "#2196f3")};
+      --progress-bar-fill-success-color: ${parseVariables(cssVar("colors", "success"), "#059669")};
+      --progress-bar-fill-error-color: ${parseVariables(cssVar("colors", "error"), "#E11D48")};
+      --progress-bar-background-color: ${parseVariables(cssVar("colors", "background"), "#e5e7eb")};
+    ` : '';
 
     return html`
     ${parseThemeToCssVariables(this.theme?.components?.progressBar, ":host")}
 
-      <div class="progress-container ${this.labelPosition}" style="${style}">
+      <div class="progress-container ${this.labelPosition}" style="${additionalStyles}">
         ${this.labelPosition === "top" ? this.renderLabel() : ""}
         <div class="progress-bar">
-          <div class="progress-bar__fill ${this.status}" style="
+          <div class="progress-bar__fill ${fillClass}" style="
           width: ${progressWidth}%;
           "></div>
         </div>
@@ -61,10 +101,19 @@ export class ProgressBar extends LitElement implements ThemeValue {
   renderLabel() {
     let percentageStyle = "";
 
-    if (this.status === "success" || this.value === 100) {
-      percentageStyle = "color: #1F2937;";
-    } else if (this.status === "error") {
-      percentageStyle = "color: #E11D48;";
+    switch (true) {
+      case this.status === "error":
+        percentageStyle = "color: #E11D48;";
+        break;
+
+      case this.status === "success" && this.value === 100:
+      case this.value === 100:
+        percentageStyle = "color: #1F2937;";
+        break;
+
+      default:
+        percentageStyle = "";
+        break;
     }
 
     return html`
@@ -73,7 +122,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
             ${this.label}
         </div>
         <div class="percentage" style="${percentageStyle}">
-        ${this.status === "success"
+        ${this.value === 100 && this.status === "success"
         ? (this.styleOfProgress === "icon"
           ? html`<ssk-icon name="solid-check-circle" color="#059669"></ssk-icon>`
           : "DONE")
@@ -114,7 +163,7 @@ export class ProgressBar extends LitElement implements ThemeValue {
     }
 
     .percentage {
-      display : flex;
+      display: flex;
     }
 
     .progress-container .text {
@@ -122,9 +171,15 @@ export class ProgressBar extends LitElement implements ThemeValue {
       justify-content: space-between;
     }
 
+    progress-container.top,
+    progress-container.bottom
+    {
+      width: var(--width, 370px);
+    }
+
     .progress-container.top .text,
     .progress-container.bottom .text {
-      width: 370px;
+      width: var(--width, 370px);
     }
 
     .progress-container.top .text {
@@ -145,9 +200,35 @@ export class ProgressBar extends LitElement implements ThemeValue {
       padding: 0 8px;
     }
 
+    // .progress-bar {
+    //   width: var(--width, 370px);
+    //   background-color: #e5e7eb;
+    //   border-radius: 4px;
+    //   overflow: hidden;
+    //   height: var(--height, 8px);
+    // }
+
+    // .progress-bar__fill {
+    //   border-radius: 8px;
+    //   text-align: center;
+    //   line-height: 24px;
+    //   color: white;
+    //   height: 100%;
+    //   background-color: var(--colors, #2196f3);
+    //   transition: background-color 0.3s ease-in-out, width 0.2s ease-in-out;
+    //   }
+
+    // .progress-bar__fill.success {
+    //   background-color: var(--colors, #059669);
+    // }
+
+    // .progress-bar__fill.error {
+    //   background-color: var(--colors, #e11d48);
+    // }
+
     .progress-bar {
-      width: 370px;
-      background-color: #e5e7eb;
+      width: var(--width, 370px);
+      background-color: var(--progress-bar-background-color, #e5e7eb);
       border-radius: 4px;
       overflow: hidden;
       height: var(--height, 8px);
@@ -159,21 +240,16 @@ export class ProgressBar extends LitElement implements ThemeValue {
       line-height: 24px;
       color: white;
       height: 100%;
-      background-color: var(--fill-color, #2196f3);
+      background-color: var(--progress-bar-fill-color);
       transition: background-color 0.3s ease-in-out, width 0.2s ease-in-out;
-      }
-
-    .progress-bar__fill.success {
-      background-color: #059669;
     }
 
+    .progress-bar__fill.success {
+      background-color: var(--progress-bar-fill-success-color);
+    }
 
     .progress-bar__fill.error {
-      background-color: #e11d48;
-    }
-
-    .progress-bar__fill.success {
-      background-color: #059669;
+      background-color: var(--progress-bar-fill-error-color);
     }
   `;
 }

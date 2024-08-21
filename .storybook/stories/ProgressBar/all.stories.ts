@@ -5,7 +5,7 @@ import "../../../src/components/modal";
 import "../../../src/components/progress-bar";
 import { ProgressBar } from "../../../src/components/progress-bar";
 import "../../../src/elements/icon";
-import { AutoLitProperty } from "../helper";
+import { AutoLitProperty, baseArgsTypes } from "../helper";
 
 type ProgressBarWithLabel = AutoLitProperty<ProgressBar> & { label: string };
 
@@ -15,7 +15,7 @@ const meta: Meta<ProgressBarWithLabel> = {
     render: ({ label, ...args }) => {
         return html`
         <ssk-text size="lg">
-                    ---------------------{ Progress bar label top }---------------------
+                    ---------------------{ Progress bar label bottom }---------------------
         </ssk-text>
         <div class="all" style="display: flex;">
             <div class="md" style="display: flex; flex-direction: column; align-items: center;">
@@ -194,7 +194,7 @@ const meta: Meta<ProgressBarWithLabel> = {
             </div>
         </div>
         <ssk-text size="lg">
-                    ---------------------{ Progress bar label bottom }---------------------
+                    ---------------------{ Progress bar label top }---------------------
         </ssk-text>
         <div class="all" style="display: flex;">
             <div class="md" style="display: flex; flex-direction: column; align-items: center;">
@@ -206,7 +206,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="md"
                     status="in-progress"
                     value="0"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -215,7 +215,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="md"
                     status="in-progress"
                     value="10"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -224,7 +224,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="md"
                     status="in-progress"
                     value="30"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -233,7 +233,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="md"
                     status="in-progress"
                     value="50"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -242,7 +242,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="md"
                     status="in-progress"
                     value="70"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -251,7 +251,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="md"
                     status="in-progress"
                     value="100"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -260,7 +260,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="md"
                     status="success"
                     value="100"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -269,7 +269,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="md"
                     status="success"
                     value="100"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     styleOfProgress="icon"
                     ${spread({ ...args })}
                 >
@@ -279,7 +279,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="md"
                     status="error"
                     value="50"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -288,7 +288,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="md"
                     status="error"
                     value="58"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     styleOfProgress="icon"
                     ${spread({ ...args })}
                 >
@@ -303,7 +303,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="sm"
                     status="in-progress"
                     value="0"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -312,7 +312,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="sm"
                     status="in-progress"
                     value="10"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -321,7 +321,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="sm"
                     status="in-progress"
                     value="30"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -330,7 +330,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="sm"
                     status="in-progress"
                     value="50"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -339,7 +339,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="sm"
                     status="in-progress"
                     value="70"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -348,7 +348,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="sm"
                     status="in-progress"
                     value="100"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -357,7 +357,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="sm"
                     status="success"
                     value="100"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -367,7 +367,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     status="success"
                     value="100"
                     styleOfProgress="icon"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -376,7 +376,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     size="sm"
                     status="error"
                     value="50"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -386,7 +386,7 @@ const meta: Meta<ProgressBarWithLabel> = {
                     status="error"
                     value="58"
                     styleOfProgress="icon"
-                    labelPosition="bottom"
+                    labelPosition="top"
                     ${spread({ ...args })}
                 >
                 </ssk-progress-bar>
@@ -624,6 +624,7 @@ const meta: Meta<ProgressBarWithLabel> = {
             control: { type: 'select' },
             description: 'Style of the progress display'
         },
+        themeColor: baseArgsTypes.themeColor,
     },
 };
 
