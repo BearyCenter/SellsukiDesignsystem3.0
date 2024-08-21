@@ -242,6 +242,7 @@ export type Theme = {
     calendar?: Partial<ThemeField>;
     inputtag?: Partial<ThemeField>;
     time?: Partial<ThemeField>;
+    progressBar?: Partial<ThemeField>;
   };
 } & ThemeField;
 
