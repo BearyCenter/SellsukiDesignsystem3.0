@@ -243,6 +243,7 @@ export type Theme = {
     inputtag?: Partial<ThemeField>;
     time?: Partial<ThemeField>;
     progressBar?: Partial<ThemeField>;
+    downloadFile?: Partial<ThemeField>;
   };
 } & ThemeField;
 

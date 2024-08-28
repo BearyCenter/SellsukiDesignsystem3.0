@@ -45,5 +45,6 @@ export * from "./components/calendar";
 export * from "./components/date-picker";
 export * from "./components/table";
 export * from "./components/time";
+export * from "./components/download-file";
 
 import "./assets/fonts.css";
