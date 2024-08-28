@@ -59,7 +59,7 @@ export const DefaultMedium: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15545-18216&m=dev",
     },
   },
 };
@@ -72,7 +72,7 @@ export const SizeLG: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15545-18216&m=dev",
     },
   },
   render: ({ ...args }) => {
@@ -107,7 +107,7 @@ export const DownloadDone: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15545-18216&m=dev",
     },
   },
   render: ({ ...args }) => {
@@ -142,7 +142,7 @@ export const DownloadProcessing: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15545-18216&m=dev",
     },
   },
   render: ({ ...args }) => {
@@ -176,7 +176,7 @@ export const DownloadError: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=10732-22494",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15545-18216&m=dev",
     },
   },
   render: ({ ...args }) => {
