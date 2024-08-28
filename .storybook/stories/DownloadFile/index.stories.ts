@@ -18,6 +18,9 @@ const meta: Meta<DownloadFileWithLabel> = {
         name="outline-ellipsis-horizontal-circle"
         slot="icon-slot-prefix"
       ></ssk-icon>
+      <div slot="label-name">
+        <span>File Name</span>
+      </div>
       <ssk-icon
         name="outline-ellipsis-horizontal-circle"
         slot="icon-slot-postfix"
@@ -34,14 +37,17 @@ const meta: Meta<DownloadFileWithLabel> = {
     `;
   },
   argTypes: {
-    label: {
-      control: { type: 'text' },
-      description: 'file name'
-    },
     size: {
       options: ['md', 'lg'],
       control: { type: 'select' },
       description: 'Size of the download file'
+    },
+    "?hideCloseButton": {
+      description: "Hide button top close",
+      control: "boolean",
+      table: {
+        category: "Props",
+      },
     },
     "@click": genericEvents["@click"],
   },
@@ -53,7 +59,6 @@ type Story = StoryObj<DownloadFileWithLabel>;
 
 export const DefaultMedium: Story = {
   args: {
-    label: "FileName.xlsx",
     size: "md",
   },
   parameters: {
@@ -66,7 +71,6 @@ export const DefaultMedium: Story = {
 
 export const SizeLG: Story = {
   args: {
-    label: "FileName.xlsx",
     size: "lg",
   },
   parameters: {
@@ -81,6 +85,9 @@ export const SizeLG: Story = {
         name="outline-ellipsis-horizontal-circle"
         slot="icon-slot-prefix"
       ></ssk-icon>
+      <div slot="label-name">
+        <span>File Name LG</span>
+      </div>
       <ssk-icon
         name="outline-ellipsis-horizontal-circle"
         slot="icon-slot-postfix"
@@ -101,7 +108,6 @@ export const SizeLG: Story = {
 };
 export const DownloadDone: Story = {
   args: {
-    label: "FileName.xlsx",
     size: "md",
   },
   parameters: {
@@ -116,6 +122,9 @@ export const DownloadDone: Story = {
         name="outline-ellipsis-horizontal-circle"
         slot="icon-slot-prefix"
       ></ssk-icon>
+      <div slot="label-name">
+        <span>File Name</span>
+      </div>
       <ssk-icon
         name="outline-ellipsis-horizontal-circle"
         slot="icon-slot-postfix"
@@ -136,7 +145,6 @@ export const DownloadDone: Story = {
 };
 export const DownloadProcessing: Story = {
   args: {
-    label: "FileName.xlsx",
     size: "md",
   },
   parameters: {
@@ -151,6 +159,9 @@ export const DownloadProcessing: Story = {
         name="outline-ellipsis-horizontal-circle"
         slot="icon-slot-prefix"
       ></ssk-icon>
+      <div slot="label-name">
+        <span>FileName.xlsx</span>
+      </div>
       <ssk-icon
         name="outline-pause"
         slot="icon-slot-postfix"
@@ -170,7 +181,6 @@ export const DownloadProcessing: Story = {
 };
 export const DownloadError: Story = {
   args: {
-    label: "FileName.xlsx",
     size: "md",
   },
   parameters: {
@@ -185,6 +195,9 @@ export const DownloadError: Story = {
         name="outline-ellipsis-horizontal-circle"
         slot="icon-slot-prefix"
       ></ssk-icon>
+      <div slot="label-name">
+        <span>FILE_NAME.xlsx</span>
+      </div>
       <ssk-icon
         name="outline-arrow-path"
         slot="icon-slot-postfix"

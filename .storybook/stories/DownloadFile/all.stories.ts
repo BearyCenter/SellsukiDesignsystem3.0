@@ -24,6 +24,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>file name.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -44,6 +47,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>FILE_NAME.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -64,6 +70,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>FILE_NAME.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -84,6 +93,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>FILE_NAME.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -104,6 +116,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>FILE_NAME.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -124,6 +139,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>FILE_NAME.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -144,6 +162,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>FILE_NAME.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -165,6 +186,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>FILE_NAME.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -186,6 +210,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>FILE_NAME.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -207,6 +234,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>FILE_NAME.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -228,6 +258,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>FILE_NAME.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -253,6 +286,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>file name.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -273,6 +309,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>file name.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -293,6 +332,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>file name.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -313,6 +355,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>FILE_NAME.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -333,6 +378,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>file name.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -353,6 +401,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>file name.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -373,6 +424,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>file name.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -394,6 +448,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>file name.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -415,6 +472,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>file name.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -436,6 +496,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>file name.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -457,6 +520,9 @@ const meta: Meta<DownloadFileWithLabel> = {
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-prefix"
                     ></ssk-icon>
+                    <div slot="label-name">
+                        <span>file name.xlsx</span>
+                    </div>
                     <ssk-icon
                         name="outline-ellipsis-horizontal-circle"
                         slot="icon-slot-postfix"
@@ -477,14 +543,17 @@ const meta: Meta<DownloadFileWithLabel> = {
         `;
     },
     argTypes: {
-        label: {
-            control: { type: 'text' },
-            description: 'file name'
-        },
         size: {
             options: ['md', 'lg'],
             control: { type: 'select' },
             description: 'Size of the downloaded file'
+        },
+        "?hideCloseButton": {
+            description: "Hide button top close",
+            control: "boolean",
+            table: {
+                category: "Props",
+            },
         },
     },
 };
@@ -495,7 +564,6 @@ type Story = StoryObj<DownloadFileWithLabel>;
 
 export const ShowCase: Story = {
     args: {
-        label: "Loading Data...",
     },
     parameters: {
         design: {

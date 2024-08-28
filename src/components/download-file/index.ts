@@ -51,6 +51,8 @@ export class DownloadFile extends LitElement {
 
   @property({ type: String })
   label?: string = "File Name";
+  @property({ type: Boolean })
+  hideCloseButton = false;
 
   render() {
     if (this.hidden) {
@@ -82,11 +84,15 @@ export class DownloadFile extends LitElement {
         <div class="bar-top">
           <div class="bar-top-item">
             <slot name="icon-slot-prefix"></slot>
-            <div class="lable-style">${this.label}</div>
+            <div class="lable-style">
+              <slot name="label-name"></slot>
+            </div>
           </div>
           <div class="bar-top-item-right">
               <slot name="icon-slot-postfix"></slot>
               <ssk-icon
+                class="close-button${this.hideCloseButton ? "-hide" : ""}"
+                ?hidden=${this.hideCloseButton}
                 name="solid-x-mark"
                 size=${iconSize}
                 color="gray.500"
@@ -130,6 +136,10 @@ export class DownloadFile extends LitElement {
       overflow: hidden;
       text-overflow: ellipsis;
       width: 310px;
+      display: block;
+    }
+    .close-button-hide {
+      display: none;
     }
   `;
 }
