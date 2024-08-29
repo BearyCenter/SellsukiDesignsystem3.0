@@ -24,6 +24,9 @@ export class ProgressBar extends LitElement {
   themeColor: ColorRole | ColorName = "";
 
   @property({ type: String })
+  color?: ColorRole | ColorName;
+
+  @property({ type: String })
   size: Size = "md";
 
   @property({ type: String })
@@ -81,6 +84,7 @@ export class ProgressBar extends LitElement {
       --progress-bar-fill-success-color: ${parseVariables(cssVar("colors", "success"), "#059669")};
       --progress-bar-fill-error-color: ${parseVariables(cssVar("colors", "error"), "#E11D48")};
       --progress-bar-background-color: ${parseVariables(cssVar("colors", "background"), "#e5e7eb")};
+      --color: ${parseVariables(cssVar("colors", this.color, 600),this.color)};
     ` : '';
 
     return html`
@@ -160,6 +164,7 @@ export class ProgressBar extends LitElement {
     
     .label {
       white-space: nowrap;
+      color: var(--color);
     }
 
     .percentage {

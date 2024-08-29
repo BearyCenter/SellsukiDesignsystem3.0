@@ -53,6 +53,7 @@ const meta: Meta<ProgressBarWithLabel> = {
       description: 'Style of the progress display'
     },
     themeColor: baseArgsTypes.themeColor,
+    color: baseArgsTypes.color
   },
 };
 
