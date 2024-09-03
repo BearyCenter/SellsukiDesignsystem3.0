@@ -33,7 +33,9 @@ import "./cell";
 import "../../elements/text";
 import "../../elements/icon";
 import "../../elements/button";
+import "../../elements/divider";
 import { renderFooter } from "./footer";
+import "../time";
 
 const locales = { en: enUS, fr, th };
 
@@ -87,7 +89,7 @@ export class Calendar extends LitElement {
   footerStyle: "between" | "middle" | "right" = "between";
 
   @property({ type: Boolean })
-  singleDate = true;
+  rangeDate = false;
   @property({ type: Boolean })
   disableYearChange = false;
   @property({ type: Boolean })
@@ -97,9 +99,9 @@ export class Calendar extends LitElement {
   @property({ type: Boolean })
   displayOk = false;
   @property({ type: Boolean })
-  prev = false;
+  disabledPrev = false;
   @property({ type: Boolean })
-  next = false;
+  disabledNext = false;
 
   @property({ type: Number })
   dateTo?: number;
@@ -123,6 +125,17 @@ export class Calendar extends LitElement {
   monthsList: Array<string> = [];
   @property({ type: Boolean })
   hidden = false;
+  @property({ type: Boolean })
+  showTime = false;
+  @property({ type: Number })
+  timeFrom?: number;
+  @property({ type: Number })
+  timeTo?: number;
+
+  @property({ type: String })
+  timeFormat: "hms" | "hm" | "timeEvery30" = "hms";
+  @property()
+  currentTimeTarget: "dateFrom" | "dateTo" = "dateFrom";
 
   @state()
   _currentDate: Date = startOfDay(Date.now());
@@ -143,22 +156,24 @@ export class Calendar extends LitElement {
     if (properties.has("locale")) {
       this.localeChanged();
     }
-
-    if (properties.has("year")) {
-      this.dispatchEvent(
-        new CustomEvent("year-changed", { detail: { value: this.year } }),
-      );
-    }
-
     if (properties.has("year") || properties.has("month")) {
       this.yearAndMonthChanged(this.year, this.month);
     }
   }
 
   async firstUpdated() {
+    document.addEventListener("click", this.handleClickOutside.bind(this));
+
     this.setYears(1930, 2100);
     this.setMonths();
     await this.updateComplete;
+
+    if (this.dateFrom !== undefined) {
+      this._selectedFrom = this.dateFrom;
+    }
+    if (this.dateTo !== undefined) {
+      this._selectedTo = this.dateTo;
+    }
 
     if (!this.disableYearChange) {
       this._chunkYearList = this.chunkedYearsList(this.yearsList);
@@ -166,6 +181,39 @@ export class Calendar extends LitElement {
         +this.year,
         this._chunkYearList,
       );
+    }
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener("click", this.handleClickOutside.bind(this));
+  }
+
+  private handleClickOutside(_e: MouseEvent) {
+    var popoverMonth = this.shadowRoot?.querySelector(
+      "div.popup-change.month",
+    ) as HTMLDivElement;
+
+    var popoverYear = this.shadowRoot?.querySelector(
+      "div.popup-change.year",
+    ) as HTMLDivElement;
+
+    var dropdown = this.shadowRoot?.querySelector(
+      "div.dropdown",
+    ) as HTMLDivElement;
+
+    if (
+      !_e.composedPath().includes(popoverMonth) &&
+      !_e.composedPath().includes(popoverYear)
+    ) {
+      const popupIsOpen = this._monthChangeDropdown || this._yearChangeDropdown;
+      if (popupIsOpen) {
+        this._monthChangeDropdown = false;
+        this._yearChangeDropdown = false;
+      }
+    }
+
+    if (_e.composedPath().includes(dropdown)) {
+      this._yearChangeDropdown = true;
     }
   }
 
@@ -245,6 +293,7 @@ export class Calendar extends LitElement {
             monthMinus + "/" + firstDateOfMonth + "/" + year
           }`;
           const firstDateSub = subDays(firstDateString, 1);
+
           const prevDate: typeDay = {
             hover: false,
             isCurrentMonth: false,
@@ -299,46 +348,95 @@ export class Calendar extends LitElement {
     return "";
   }
 
+  private updateDateWithTime(
+    date: number | undefined,
+    time: number | undefined,
+  ): number | undefined {
+    if (date === undefined || time === undefined) {
+      return date;
+    }
+
+    const updatedDate = new Date(date);
+    const timeDate = new Date(time);
+    updatedDate.setHours(timeDate.getHours());
+    updatedDate.setMinutes(timeDate.getMinutes());
+    updatedDate.setSeconds(timeDate.getSeconds());
+
+    return updatedDate.getTime();
+  }
+
+  private dispatchDateEvents() {
+    if (this.displayOk) return;
+
+    this.dispatchEvent(
+      new CustomEvent("date-changed", {
+        detail: {
+          dateFrom: this.dateFrom,
+          dateTo: this.dateTo,
+        },
+      }),
+    );
+  }
+
   private handleDateSelected({ detail }: any) {
     const { date } = detail;
-    if (!this.singleDate) {
+    if (this.rangeDate) {
       if (this.dateFrom && this.dateTo) {
         this.dateFrom = date;
         this.dateTo = undefined;
         this._selectedFrom = date;
         this._selectedTo = undefined;
         this.hoveredDate = undefined;
+        this.timeFrom = date;
+        this.timeTo = undefined;
+        this.currentTimeTarget = "dateFrom";
         this.dispatchEvent(
           new CustomEvent("hovered-date-changed", {
             detail: { value: this.hoveredDate },
           }),
         );
-      } else if (
-        !this.dateFrom ||
-        (this.dateFrom && date < this.dateFrom) ||
-        (this.maxRange > 0 && date - this.dateFrom > this.maxRange * 24 * 3600)
-      ) {
+      } else if (!this.dateFrom || (this.dateFrom && date < this.dateFrom)) {
         this.dateFrom = date;
         this._selectedFrom = date;
       } else if (!this.dateTo || (this.dateTo && date > this.dateTo)) {
         this.dateTo = date;
         this._selectedTo = date;
+        this.timeTo = date;
+        this.currentTimeTarget = "dateTo";
       }
     } else {
       this.dateFrom = date;
       this._selectedFrom = date;
     }
 
-    if (!this.displayOk) {
-      this.dispatchEvent(
-        new CustomEvent("date-from-changed", {
-          detail: { value: this.dateFrom },
-        }),
-      );
-      this.dispatchEvent(
-        new CustomEvent("date-to-changed", { detail: { value: this.dateTo } }),
-      );
+    this.dateFrom = this.updateDateWithTime(this.dateFrom, this.timeFrom);
+    this.dateTo = this.updateDateWithTime(this.dateTo, this.timeTo);
+
+    this.dispatchDateEvents();
+  }
+
+  private handleTimeUpdate(event: { detail: { value: number } }) {
+    const updatedTime = event.detail.value;
+
+    if (this.currentTimeTarget === "dateFrom") {
+      this.timeFrom = updatedTime;
+      this.dateFrom = this.updateDateWithTime(this.dateFrom, updatedTime);
+    } else if (this.currentTimeTarget === "dateTo") {
+      this.timeTo = updatedTime;
+      this.dateTo = this.updateDateWithTime(this.dateTo, updatedTime);
     }
+
+    this.dispatchEvent(
+      new CustomEvent("time-updated", {
+        detail: {
+          timeFrom: this.timeFrom,
+          timeTo: this.timeTo,
+          dateFrom: this.dateFrom,
+          dateTo: this.dateTo,
+        },
+      }),
+    );
+    this.dispatchDateEvents();
   }
 
   private toggleMonthChangeDropdown() {
@@ -354,11 +452,8 @@ export class Calendar extends LitElement {
   private handleNextMonth() {
     const month = parse(this.month, "MM", new Date());
     const monthPlusDate = addMonths(month, 1);
-    const monthPlusString = format(monthPlusDate, "MM", {
-      locale: locales[this.locale],
-    });
+    this.month = format(monthPlusDate, "MM");
 
-    this.month = monthPlusString;
     if (this.month === "01") {
       const year = parse(this.year, "yyyy", new Date());
       const yearPlusDate = addYears(year, 1);
@@ -366,18 +461,20 @@ export class Calendar extends LitElement {
         locale: locales[this.locale],
       });
       this.year = yearPlusString;
+      this.dispatchEvent(
+        new CustomEvent("next-year", { detail: { value: this.year } }),
+      );
     }
-    this.dispatchEvent(new CustomEvent("next-month"));
+    this.dispatchEvent(
+      new CustomEvent("next-month", { detail: { value: this.month } }),
+    );
   }
 
   private handlePrevMonth() {
     const month = parse(this.month, "MM", new Date());
     const monthMinusDate = subMonths(month, 1);
-    const monthMinusString = format(monthMinusDate, "MM", {
-      locale: locales[this.locale],
-    });
+    this.month = format(monthMinusDate, "MM");
 
-    this.month = monthMinusString;
     if (this.month === "12") {
       const year = parse(this.year, "yyyy", new Date());
       const yearMinusDate = subYears(year, 1);
@@ -385,8 +482,13 @@ export class Calendar extends LitElement {
         locale: locales[this.locale],
       });
       this.year = yearMinusString;
+      this.dispatchEvent(
+        new CustomEvent("prev-year", { detail: { value: this.year } }),
+      );
     }
-    this.dispatchEvent(new CustomEvent("prev-month"));
+    this.dispatchEvent(
+      new CustomEvent("prev-month", { detail: { value: this.month } }),
+    );
   }
 
   private handlePrevYear() {
@@ -397,6 +499,9 @@ export class Calendar extends LitElement {
     });
 
     this.year = yearMinusString;
+    this.dispatchEvent(
+      new CustomEvent("prev-year", { detail: { value: this.year } }),
+    );
   }
 
   private handleNextYear() {
@@ -407,6 +512,9 @@ export class Calendar extends LitElement {
     });
 
     this.year = yearPlusString;
+    this.dispatchEvent(
+      new CustomEvent("next-year", { detail: { value: this.year } }),
+    );
   }
 
   private handlePrevScopeYearIndex() {
@@ -475,14 +583,20 @@ export class Calendar extends LitElement {
   }
 
   private handleOk() {
+    if (this.showTime !== undefined) {
+      this._selectedFrom = this.updateDateWithTime(
+        this._selectedFrom,
+        this.timeFrom,
+      );
+      this._selectedTo = this.updateDateWithTime(this._selectedTo, this.timeTo);
+    }
+
     this.dispatchEvent(
-      new CustomEvent("date-from-changed", {
-        detail: { value: this._selectedFrom },
-      }),
-    );
-    this.dispatchEvent(
-      new CustomEvent("date-to-changed", {
-        detail: { value: this._selectedTo },
+      new CustomEvent("date-changed", {
+        detail: {
+          dateFrom: this._selectedFrom,
+          dateTo: this._selectedTo,
+        },
       }),
     );
   }
@@ -518,13 +632,27 @@ export class Calendar extends LitElement {
 
   render() {
     const footerSlot = this.querySelector('[slot="footer"]');
-
     let additionalCss = `
     --padding: ${parseVariables(cssVar("padding", this.size), this.padding)};
     --rounded: ${parseVariables(cssVar("rounded", this.size), this.rounded)};
+
     --600-colors: ${parseVariables(cssVar("colors", this.themeColor, 600))};
     --cell-width: calc(var(--padding) * 2);
     `;
+
+    switch (this.daysOfMonth.length) {
+      case 4:
+        additionalCss += `--max: 12;`;
+        break;
+
+      case 5:
+        additionalCss += `--max: 14;`;
+        break;
+
+      case 6:
+        additionalCss += `--max: 16;`;
+        break;
+    }
 
     if (this.hidden) {
       return nothing;
@@ -596,129 +724,146 @@ export class Calendar extends LitElement {
       </style>
 
       <div class="container">
-        <div class="calendar" data-testid=${this.testId || nothing}>
-          <div class="monthName layout horizontal center">
-            ${this.prev || !this.disableYearChange || !this.disableMonthChange
-              ? html`<div class="left-arrow">
-                  ${!this.disableYearChange
-                    ? html`<ssk-icon
-                        size="sm"
-                        class="icon"
-                        name="outline-chevron-double-left"
-                        @click="${this.handlePrevYear.bind(this)}"
-                      ></ssk-icon>`
-                    : null}
-                  ${!this.disableMonthChange
-                    ? html`<ssk-icon
-                        size="sm"
-                        class="icon"
-                        name="outline-chevron-left"
-                        @click="${this.handlePrevMonth.bind(this)}"
-                      ></ssk-icon>`
-                    : null}
-                </div>`
-              : null}
-            <div class="title">
-              ${!this.disableMonthChange
-                ? html`<div
-                    class="popup-change"
-                    @click=${this.toggleMonthChangeDropdown.bind(this)}
-                  >
-                    <ssk-text size=${this.size}>
-                      <span>
-                        ${this.computeMonthName(this.month, "MMMM")}
-                      </span>
-                    </ssk-text>
-                  </div> `
-                : html`<ssk-text size=${this.size}>
-                    ${this.computeMonthName(this.month, "MMMM")}
-                  </ssk-text>`}
-              ${!this.disableYearChange
-                ? html`<div
-                    class="popup-change"
-                    @click=${this.toggleYearChangeDropdown.bind(this)}
-                  >
-                    <ssk-text size=${this.size}>
-                      <span>${this.year}</span>
-                    </ssk-text>
-                  </div> `
-                : html` <ssk-text size=${this.size}> ${this.year} </ssk-text>`}
-              ${this._monthChangeDropdown ? renderMonthDropdown() : null}
-              ${this._yearChangeDropdown ? renderYearDropdown() : null}
+        <div class="main-content">
+          <div class="calendar" data-testid=${this.testId || nothing}>
+            <div class="monthName layout horizontal center">
+              <div class="left-arrow">
+                ${!this.disabledPrev && !this.disableYearChange
+                  ? html`<ssk-icon
+                      size="sm"
+                      class="icon"
+                      name="outline-chevron-double-left"
+                      @click="${this.handlePrevYear.bind(this)}"
+                    ></ssk-icon>`
+                  : null}
+                ${!this.disabledPrev && !this.disableMonthChange
+                  ? html`<ssk-icon
+                      size="sm"
+                      class="icon"
+                      name="outline-chevron-left"
+                      @click="${this.handlePrevMonth.bind(this)}"
+                    ></ssk-icon>`
+                  : null}
+              </div>
+              <div class="title">
+                ${!this.disableMonthChange
+                  ? html`<div
+                      class="popup-change month"
+                      @click=${this.toggleMonthChangeDropdown.bind(this)}
+                    >
+                      <ssk-text size=${this.size}>
+                        <span>
+                          ${this.computeMonthName(this.month, "MMMM")}
+                        </span>
+                      </ssk-text>
+                    </div> `
+                  : html`<ssk-text size=${this.size}>
+                      ${this.computeMonthName(this.month, "MMMM")}
+                    </ssk-text>`}
+                ${!this.disableYearChange
+                  ? html`<div
+                      class="popup-change year"
+                      @click=${this.toggleYearChangeDropdown.bind(this)}
+                    >
+                      <ssk-text size=${this.size}>
+                        <span>${this.year}</span>
+                      </ssk-text>
+                    </div> `
+                  : html` <ssk-text size=${this.size}>
+                      ${this.year}
+                    </ssk-text>`}
+                ${this._monthChangeDropdown ? renderMonthDropdown() : null}
+                ${this._yearChangeDropdown ? renderYearDropdown() : null}
+              </div>
+              <div class="right-arrow">
+                ${!this.disabledNext && !this.disableMonthChange
+                  ? html`<ssk-icon
+                      size="sm"
+                      class="icon"
+                      name="outline-chevron-right"
+                      @click="${this.handleNextMonth.bind(this)}"
+                    ></ssk-icon>`
+                  : null}
+                ${!this.disabledNext && !this.disableYearChange
+                  ? html`<ssk-icon
+                      size="sm"
+                      class="icon"
+                      name="outline-chevron-double-right"
+                      @click="${this.handleNextYear.bind(this)}"
+                    ></ssk-icon>`
+                  : null}
+              </div>
             </div>
-            ${this.next || !this.disableYearChange || !this.disableMonthChange
-              ? html`<div class="right-arrow">
-                  ${!this.disableMonthChange
-                    ? html`<ssk-icon
-                        size="sm"
-                        class="icon"
-                        name="outline-chevron-right"
-                        @click="${this.handleNextMonth.bind(this)}"
-                      ></ssk-icon>`
-                    : null}
-                  ${!this.disableYearChange
-                    ? html`<ssk-icon
-                        size="sm"
-                        class="icon"
-                        name="outline-chevron-double-right"
-                        @click="${this.handleNextYear.bind(this)}"
-                      ></ssk-icon>`
-                    : null}
-                </div>`
-              : null}
-          </div>
 
-          <div class="table">
-            <div class="thead">
-              <div class="tr">
-                ${this.dayNamesOfTheWeek &&
-                this.dayNamesOfTheWeek.map(
-                  (dayNameOfWeek) =>
-                    html`<div class="th">
-                      <ssk-text size=${this.size}>${dayNameOfWeek}</ssk-text>
-                    </div>`,
+            <div class="table">
+              <div class="thead">
+                <div class="tr">
+                  ${this.dayNamesOfTheWeek &&
+                  this.dayNamesOfTheWeek.map(
+                    (dayNameOfWeek) =>
+                      html`<div class="th">
+                        <ssk-text size=${this.size}>${dayNameOfWeek}</ssk-text>
+                      </div>`,
+                  )}
+                </div>
+              </div>
+              <div class="tbody">
+                ${this.daysOfMonth &&
+                this.daysOfMonth.map(
+                  (week: any) => html` <div class="tr">
+                    ${week &&
+                    week.map(
+                      (dayOfMonth: typeDay) => html` <div class="td">
+                        ${dayOfMonth.isCurrentMonth
+                          ? html`
+                              <ssk-cell
+                                .themeColor=${this.themeColor}
+                                .month="${this.month}"
+                                .disabled=${this.checkDisabled(dayOfMonth.date)}
+                                .hoveredDate="${this.hoveredDate}"
+                                .dateTo="${this.dateTo}"
+                                .dateFrom="${this.dateFrom}"
+                                .day="${dayOfMonth}"
+                                .size=${this.size}
+                                ?isCurrentDate="${this.isCurrentDate(
+                                  dayOfMonth,
+                                )}"
+                                @date-is-selected="${this.handleDateSelected.bind(
+                                  this,
+                                )}"
+                              ></ssk-cell>
+                            `
+                          : html`
+                              <div class="non-current-month">
+                                <ssk-text size=${this.size} color="gray.300"
+                                  >${dayOfMonth.title}</ssk-text
+                                >
+                              </div>
+                            `}
+                      </div>`,
+                    )}
+                  </div>`,
                 )}
               </div>
             </div>
-            <div class="tbody">
-              ${this.daysOfMonth &&
-              this.daysOfMonth.map(
-                (week: any) => html` <div class="tr">
-                  ${week &&
-                  week.map(
-                    (dayOfMonth: typeDay) => html` <div class="td">
-                      ${dayOfMonth.isCurrentMonth
-                        ? html`
-                            <ssk-cell
-                              .themeColor=${this.themeColor}
-                              .month="${this.month}"
-                              .disabled=${this.checkDisabled(dayOfMonth.date)}
-                              .hoveredDate="${this.hoveredDate}"
-                              .dateTo="${this.dateTo}"
-                              .dateFrom="${this.dateFrom}"
-                              .day="${dayOfMonth}"
-                              .size=${this.size}
-                              ?isCurrentDate="${this.isCurrentDate(dayOfMonth)}"
-                              @date-is-selected="${this.handleDateSelected.bind(
-                                this,
-                              )}"
-                            ></ssk-cell>
-                          `
-                        : html`
-                            <div class="non-current-month">
-                              <ssk-text size=${this.size} color="gray.300"
-                                >${dayOfMonth.title}</ssk-text
-                              >
-                            </div>
-                          `}
-                    </div>`,
-                  )}
-                </div>`,
-              )}
-            </div>
           </div>
-        </div>
 
+          ${this.showTime
+            ? html` <ssk-divider orientation="vertical" size="xs"></ssk-divider>
+                <div class="time-container">
+                  <ssk-time
+                    size=${this.size}
+                    locale=${this.locale}
+                    format=${this.timeFormat}
+                    .value=${this.currentTimeTarget === "dateFrom"
+                      ? this.timeFrom
+                      : this.timeTo}
+                    @time-changed="${this.handleTimeUpdate.bind(this)}"
+                  >
+                  </ssk-time>
+                </div>`
+            : nothing}
+        </div>
         ${footerSlot
           ? html`<slot name="footer"></slot>`
           : renderFooter(
@@ -741,14 +886,24 @@ export class Calendar extends LitElement {
   static styles = css`
     .container {
       width: fit-content;
-      background-color: white;
-      border: 1px solid var(--ssk-colors-gray-200);
-      border-radius: var(--rounded);
-      position: absolute;
+      display: grid;
+      grid-template-rows: 1fr auto;
+    }
+
+    .main-content {
+      display: flex;
     }
 
     .calendar {
       padding: var(--padding);
+    }
+
+    .time-container {
+      width: calc(var(--padding) * 10);
+    }
+
+    ssk-time {
+      --max-height: calc(var(--padding) * var(--max));
     }
 
     .title {

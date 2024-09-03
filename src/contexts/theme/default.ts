@@ -1583,6 +1583,42 @@ export const defaultTheme: Theme = {
         "4xl": "10px",
       },
     },
+    time: {
+      padding: {
+        xs: "0.75rem",
+        sm: "0.75rem",
+        md: "1rem",
+        lg: "1.25rem",
+        xl: "1.5rem",
+        "2xl": "1.75rem",
+        "3xl": "2rem",
+        "4xl": "2.25rem",
+      },
+      rounded: {
+        xs: "2px",
+        sm: "2px",
+        md: "4px",
+        lg: "4px",
+        xl: "8px",
+        "2xl": "8px",
+        "3xl": "10px",
+        "4xl": "10px",
+      },
+    },
+    progressBar: {
+      fontSize: {
+        sm: "20px",
+        md: "24px",
+      },
+      lineHeight: {
+        sm: "20px",
+        md: "24px",
+      },
+      height: {
+        sm: "4px",
+        md: "8px",
+      }
+    },
   },
 };
 

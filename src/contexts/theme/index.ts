@@ -20,6 +20,11 @@ export class ThemeProvider extends LitElement {
 
   static styles = css`
     :host {
+      --scrollbar-size: 6px;
+      --scrollbar-color-trumb: var(--ssk-colors-gray-500);
+      --scrollbar-color-trumb-hover: var(--ssk-colors-gray-600);
+
+      --scrollbar-color-track: var(--ssk-colors-fiord-100);
       font-family: var(--ssk-font-family-sans);
       display: inherit;
     }

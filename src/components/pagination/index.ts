@@ -94,7 +94,11 @@ export class Pagination extends LitElement {
 
   renderPageNumbers() {
     const pages: Array<number | string> = [];
-    const numVisiblePages = 7;
+    let numVisiblePages = 5;
+
+    if (this.currentPage <= 4 || this.currentPage > this.totalPages - 3) {
+      numVisiblePages = 6;
+    }
 
     let startPage = Math.max(
       1,
