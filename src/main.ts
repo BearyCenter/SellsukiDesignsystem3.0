@@ -32,6 +32,8 @@ export * from "./elements/pin-code";
 export * from "./elements/card-select";
 export * from "./elements/card-select/group";
 export * from "./elements/input-tag";
+export * from "./elements/i18n/translate";
+export * from "./elements/i18n/template";
 
 export * from "./components/tooltip";
 export * from "./components/dropdown";
