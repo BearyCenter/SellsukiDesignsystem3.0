@@ -591,6 +591,84 @@ export const TableWithFooter: Story = {
   },
 };
 
+export const TableWithScroll: Story = {
+  args: {
+    ".columns": [
+      {
+        title: "ID",
+        dataIndex: "id",
+        sortable: true,
+        sortDirection: "asc",
+        onSort: (direction: "asc" | "desc") =>
+          handleSort({ title: "ID" }, direction),
+      },
+      { title: "Image", dataIndex: "image" },
+      { title: "Product", dataIndex: "product" },
+      { title: "Pricing", dataIndex: "pricing" },
+      {
+        title: "Payment",
+        dataIndex: "payment",
+        render: (value) =>
+          `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`,
+      },
+      {
+        title: "Create Date",
+        dataIndex: "date",
+        sortable: true,
+        sortDirection: "asc",
+        onSort: (direction: "asc" | "desc") =>
+          handleSort({ title: "Create Date" }, direction),
+      },
+      {
+        title: "Status",
+        dataIndex: "status",
+        render: (value) =>
+          value === "Active"
+            ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
+            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`,
+      },
+      {
+        title: "Icon",
+        align: "center",
+        render: () =>
+          `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`,
+      },
+      {
+        title: "Button",
+        render: (_, __, rowIndex: number) =>
+          `<ssk-button variant="solid" size="md">
+    <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
+    Button ${rowIndex} </ssk-button>`,
+      },
+      {
+        title: "Action",
+        align: "center",
+        render: () =>
+          `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`,
+      },
+    ],
+    ".data": commonData,
+    "?showPaginationFooter": true,
+    "?showPageNavigation": true,
+  },
+  render: ({ ...args }) => {
+    return html`
+      <style lang="css">
+        ssk-table {
+          --height-table: 400px;
+        }
+      </style>
+      <ssk-table ${spread({ ...args })}> </ssk-table>
+    `;
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=1145%3A69931&mode=dev",
+    },
+  },
+};
+
 export const TableEmpty: Story = {
   args: {
     ".columns": [
@@ -658,7 +736,7 @@ export const TableEmpty: Story = {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          height: 100dvh;
+          height: 70dvh;
           background-color: #ffffff;
         }
         .content ssk-text {

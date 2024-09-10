@@ -234,7 +234,10 @@ export class Table extends LitElement {
   renderPaginationControls() {
     const totalPages = Math.ceil(this.data.length / this.rowsPerPage);
 
-    const startIndex = (this.currentPage - 1) * this.rowsPerPage + 1;
+    let startIndex = (this.currentPage - 1) * this.rowsPerPage + 1;
+    if (this.data.length === 0 || isNaN(startIndex)) {
+      startIndex = 0;
+    }
 
     let endIndex = this.currentPage * this.rowsPerPage;
     endIndex = Math.min(endIndex, this.data.length);
