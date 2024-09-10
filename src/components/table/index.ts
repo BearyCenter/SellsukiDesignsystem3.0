@@ -21,6 +21,7 @@ interface Column {
   title: string;
   dataIndex?: string;
   align?: "left" | "center" | "right";
+  width?: string;
   render?: (value: any, record: any, rowIndex: number) => string;
   sortable?: boolean;
   sortDirection?: "asc" | "desc";
@@ -82,13 +83,13 @@ export class Table extends LitElement {
   data: RowData[] = [];
 
   @property({ type: Boolean })
-  showFooter: boolean = false;
+  showPaginationFooter: boolean = false;
 
   @property({ type: Array })
   selectedRows: number[] = [];
 
   @property({ type: Boolean })
-  selectEnabled: boolean = false;
+  showCheckbox: boolean = false;
 
   @property({ type: Boolean })
   selectAll: boolean = false;
@@ -100,16 +101,16 @@ export class Table extends LitElement {
   currentPage: number = 1;
 
   @property({ type: Boolean })
-  showRowPage: boolean = false;
+  showPageNavigation: boolean = false;
 
   @property({ type: Boolean })
-  showRowPerPage: boolean = false;
+  showRowsPerPageSelector: boolean = false;
 
   @property({ type: Boolean })
-  showBtnPage: boolean = false;
+  showPageButtons: boolean = false;
 
   @property({ type: Boolean })
-  showGoToPage: boolean = false;
+  showGoToPageInput: boolean = false;
 
   @property({ type: Boolean })
   min = false;
@@ -127,7 +128,7 @@ export class Table extends LitElement {
   }
 
   toggleSelect(rowIndex: number) {
-    if (this.selectEnabled) {
+    if (this.showCheckbox) {
       const index = this.selectedRows.indexOf(rowIndex);
       if (index === -1) {
         this.selectedRows = [...this.selectedRows, rowIndex];
@@ -165,7 +166,10 @@ export class Table extends LitElement {
 
   renderHeader(col: Column): TemplateResult {
     return html`
-      <th style="text-align: ${col.align || "left"};">
+      <th
+        style="text-align: ${col.align || "left"}; width: ${col.width ||
+        "auto"};"
+      >
         <div class="header-content">
           ${col.title}
           ${col.sortable
@@ -188,10 +192,10 @@ export class Table extends LitElement {
 
   renderBody(row: RowData, rowIndex: number): TemplateResult[] {
     const content = [
-      ...(this.selectEnabled
+      ...(this.showCheckbox
         ? [
             html`
-              <td>
+              <td class="checkbox-content">
                 <ssk-checkbox
                   .checked="${this.selectedRows.includes(rowIndex)}"
                   @change="${() => this.toggleSelect(rowIndex)}"
@@ -204,7 +208,10 @@ export class Table extends LitElement {
       ...this.columns.map((col) => {
         const cellValue = row[col.dataIndex || ""];
         return html`
-          <td style="text-align: ${col.align || "left"};">
+          <td
+            style="text-align: ${col.align || "left"}; width: ${col.width ||
+            "auto"};"
+          >
             ${col.render
               ? html`${this.renderHTML(
                   col.render(cellValue, row, rowIndex),
@@ -244,10 +251,10 @@ export class Table extends LitElement {
         allItems="${this.data.length}"
         @page-changed="${this.handlePageChanged}"
         @rows-per-page-changed="${this.updatedPage}"
-        ?showRowsPage="${this.showRowPage}"
-        ?showBtnPage="${this.showBtnPage}"
-        ?showrowsperpage="${this.showRowPerPage}"
-        ?showGoToPage="${this.showGoToPage}"
+        ?showRowsPage="${this.showPageNavigation}"
+        ?showBtnPage="${this.showPageButtons}"
+        ?showrowsperpage="${this.showRowsPerPageSelector}"
+        ?showGoToPage="${this.showGoToPageInput}"
       ></ssk-pagination>
     `;
   }
@@ -263,13 +270,24 @@ export class Table extends LitElement {
     let additionalCss = html`
       <style>
         :host {
-          --background-color: ${parseVariables(cssVar("colors", "gray", 50))};
+          --background-color: ${parseVariables(
+            cssVar("colors", this.themeColor),
+            cssVar("colors", this.themeColor, 50),
+            cssVar("colors", "gray", 50),
+          )};
 
-          --color: ${parseVariables(cssVar("colors", "gray", 500))};
+          --color: ${parseVariables(
+            cssVar("colors", this.color),
+            cssVar("colors", this.color, 500),
+            this.color,
+            cssVar("colors", "gray", 500),
+          )};
 
           --color-title: ${parseVariables(
-            cssVar("colors", "text", "800"),
-            "black",
+            cssVar("colors", this.color),
+            cssVar("colors", this.color, 800),
+            this.color,
+            cssVar("colors", "text", 800),
           )};
 
           --border-color: ${parseVariables(cssVar("colors", "fiord", 100))};
@@ -289,7 +307,7 @@ export class Table extends LitElement {
           --border-width: 1px;
 
           --height-table: auto;
-          .body-half-screen {
+          tbody {
             display: ${hasItems ? "block" : "none"};
           }
         }
@@ -307,12 +325,12 @@ export class Table extends LitElement {
         <table class="table-scroll">
           <thead>
             <tr>
-              ${this.selectEnabled
-                ? html`<th>
+              ${this.showCheckbox
+                ? html`<th class="checkbox-content">
                     <ssk-checkbox
                       .checked="${this.selectAll}"
                       @change="${this.toggleSelectAll}"
-                      ?disabled="${!this.selectEnabled}"
+                      ?disabled="${!this.showCheckbox}"
                     >
                     </ssk-checkbox>
                   </th>`
@@ -320,7 +338,7 @@ export class Table extends LitElement {
               ${this.columns.map((col) => this.renderHeader(col))}
             </tr>
           </thead>
-          <tbody class="body-half-screen">
+          <tbody>
             ${this.data.slice(startIndex, endIndex).map(
               (row, index) =>
                 html`<tr>
@@ -331,68 +349,39 @@ export class Table extends LitElement {
         </table>
       </div>
       ${!hasItems ? html`<slot name="empty-content"></slot>` : nothing}
-      <div class="${this.showFooter ? "show" : "footer"}">
+      <div class="${this.showPaginationFooter ? "show" : "footer"}">
         ${this.renderPaginationControls()}
       </div>
     `;
   }
 
   static styles = css`
-    .table-scroll {
+    table {
       border-style: var(--border-style);
       border-width: var(--border-width);
       border-color: var(--border-color-table);
       border-collapse: collapse;
-      display: block;
-      empty-cells: show;
-    }
-
-    .table-scroll thead {
-      position: relative;
-      display: block;
       width: 100%;
-      overflow-y: scroll;
+      table-layout: fixed;
     }
 
-    .table-scroll tbody {
-      display: block;
-      position: relative;
-      width: 100%;
-      overflow-y: scroll;
-      background-color: #ffffff;
-    }
-
-    .table-scroll tr {
-      width: 100%;
-      display: flex;
-    }
-
-    .table-scroll td,
-    .table-scroll th {
-      flex-basis: 100%;
-      flex-grow: 2;
+    thead,
+    tbody {
       display: block;
     }
 
-    .body-half-screen {
+    tbody {
+      overflow-y: auto;
       height: var(--height-table);
     }
 
-    th {
-      background-color: var(--background-color);
-      border-top: 1px solid var(--border-color);
-      border-left: none;
-      border-right: none;
-      border-bottom: 1px solid var(--border-color);
-      padding: 12px;
-      text-align: left;
-      color: var(--color);
-      font-size: var(--font-size);
-      font-family: var(--font-family);
-      font-weight: var(--font-weight);
-      line-height: var(--line-height);
+    tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
     }
 
+    th,
     td {
       background-color: #ffffff;
       border-top: 1px solid var(--border-color);
@@ -406,7 +395,15 @@ export class Table extends LitElement {
       font-family: var(--font-family);
       font-weight: var(--font-weight);
       line-height: var(--line-height);
-      align-content: center;
+      box-sizing: border-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    th {
+      color: var(--color-title);
+      background-color: var(--background-color);
     }
 
     .footer {
@@ -430,6 +427,10 @@ export class Table extends LitElement {
       margin-top: 5px;
       cursor: pointer;
       margin-left: 5px;
+    }
+
+    .checkbox-content {
+      width: 70px;
     }
   `;
 }

@@ -112,7 +112,7 @@ type Story = StoryObj<PaginationDefault>;
 export const Default: Story = {
   args: {
     ".selectedItems": [10, 20, 50, 100],
-    showRowsPage: true,
+    "?showRowsPage": true,
   },
   parameters: {
     design: {

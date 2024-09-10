@@ -142,6 +142,7 @@ const meta = {
 - **title** (string): The text that will appear in the column header.
 - **dataIndex** (string, optional): The key to access data in the row object. This links the column to the corresponding data field.
 - **align** ("left" | "center" | "right", optional): Specifies the alignment of the text in the column.
+- **width** (string, optional): Defines the width of the column. Can accept values such as '100px', '10%', or 'auto' to control the width of the column.
 - **render** (function, optional): A custom rendering function for the cell. It receives three arguments: \`value\`, \`record\`, and \`rowIndex\`. This allows for custom content to be displayed in the cell.
 - **sortable** (boolean, optional): If true, this column can be sorted.
 - **sortDirection** ("asc" | "desc", optional): The default sorting direction for the column.
@@ -167,6 +168,7 @@ const meta = {
 \`\`\`
       `,
       table: {
+        category: "Props",
         type: {
           summary: "Array<Column>",
         },
@@ -190,13 +192,14 @@ Each key in the object should correspond to a \`dataIndex\` from the \`.columns\
 In this example, if the \`columns\` have \`dataIndex\` values "name" and "age", the table will display "John Doe" and "Jane Smith" with their respective ages.
       `,
       table: {
+        category: "Props",
         type: {
           summary: "Array<RowData>",
         },
       },
     },
 
-    "?selectEnabled": {
+    "?showCheckbox": {
       description: "When true gives the menu a active apparence",
       table: {
         category: "Props",
@@ -209,21 +212,7 @@ In this example, if the \`columns\` have \`dataIndex\` values "name" and "age", 
         type: "boolean",
       },
     },
-    "?showFooter": {
-      description: "When true gives the menu a active apparence",
-      table: {
-        category: "Props",
-        defaultValue: { summary: false },
-        type: {
-          summary: "boolean",
-        },
-      },
-      control: {
-        type: "boolean",
-      },
-    },
-
-    "?showRowPage": {
+    "?showPaginationFooter": {
       description: "When true gives the menu a active apparence",
       table: {
         category: "Props",
@@ -237,8 +226,13 @@ In this example, if the \`columns\` have \`dataIndex\` values "name" and "age", 
       },
     },
 
-    "?showRowPerPage": {
-      description: "When true gives the menu a active apparence",
+    "?showPageNavigation": {
+      if: {
+        arg: "?showPaginationFooter",
+        eq: true,
+      },
+      description:
+        "When true, displays the row page menu. Only visible if showPaginationFooter is true.",
       table: {
         category: "Props",
         defaultValue: { summary: false },
@@ -250,8 +244,14 @@ In this example, if the \`columns\` have \`dataIndex\` values "name" and "age", 
         type: "boolean",
       },
     },
-    "?showBtnPage": {
-      description: "When true gives the menu a active apparence",
+
+    "?showRowsPerPageSelector": {
+      if: {
+        arg: "?showPaginationFooter",
+        eq: true,
+      },
+      description:
+        "When true, displays the rows per page menu. Only visible if showPaginationFooter is true.",
       table: {
         category: "Props",
         defaultValue: { summary: false },
@@ -263,8 +263,33 @@ In this example, if the \`columns\` have \`dataIndex\` values "name" and "age", 
         type: "boolean",
       },
     },
-    "?showGoToPage": {
-      description: "When true gives the menu a active apparence",
+
+    "?showPageButtons": {
+      if: {
+        arg: "?showPaginationFooter",
+        eq: true,
+      },
+      description:
+        "When true, displays the button page menu. Only visible if showPaginationFooter is true.",
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: {
+          summary: "boolean",
+        },
+      },
+      control: {
+        type: "boolean",
+      },
+    },
+
+    "?showGoToPageInput": {
+      if: {
+        arg: "?showPaginationFooter",
+        eq: true,
+      },
+      description:
+        "When true, displays the go-to page menu. Only visible if showPaginationFooter is true.",
       table: {
         category: "Props",
         defaultValue: { summary: false },
@@ -392,6 +417,59 @@ export const TableWithBody: Story = {
   },
 };
 
+export const TableWithCustomWidth: Story = {
+  args: {
+    ".columns": [
+      { title: "ID", dataIndex: "id", width: "150px" },
+      { title: "Image", dataIndex: "image", width: "150px" },
+      { title: "Product", dataIndex: "product", width: "150px" },
+      { title: "Pricing", dataIndex: "pricing", width: "150px" },
+      {
+        title: "Payment",
+        dataIndex: "payment",
+        render: (value) =>
+          `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`,
+      },
+      { title: "Create Date", dataIndex: "date" },
+      {
+        title: "Status",
+        dataIndex: "status",
+        width: "100px",
+        render: (value) =>
+          value === "Active"
+            ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
+            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`,
+      },
+      {
+        title: "Icon",
+        align: "center",
+        render: () =>
+          `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`,
+      },
+      {
+        title: "Button",
+        render: (_, __, rowIndex: number) =>
+          `<ssk-button variant="solid" size="md">
+    <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
+    Button ${rowIndex} </ssk-button>`,
+      },
+      {
+        title: "Action",
+        align: "center",
+        render: () =>
+          `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`,
+      },
+    ],
+    ".data": commonData,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=1145%3A69931&mode=dev",
+    },
+  },
+};
+
 export const TableWithSelect: Story = {
   args: {
     ".columns": [
@@ -435,7 +513,7 @@ export const TableWithSelect: Story = {
       },
     ],
     ".data": commonData,
-    "?selectEnabled": true,
+    "?showCheckbox": true,
   },
   parameters: {
     design: {
@@ -502,8 +580,8 @@ export const TableWithFooter: Story = {
       },
     ],
     ".data": commonData,
-    "?showFooter": true,
-    "?showRowPage": true,
+    "?showPaginationFooter": true,
+    "?showPageNavigation": true,
   },
   parameters: {
     design: {
@@ -569,8 +647,8 @@ export const TableEmpty: Story = {
           `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`,
       },
     ],
-    "?showFooter": true,
-    "?showRowPage": true,
+    "?showPaginationFooter": true,
+    "?showPageNavigation": true,
   },
   render: ({ ...args }) => {
     return html`
