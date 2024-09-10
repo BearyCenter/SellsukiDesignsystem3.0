@@ -3,13 +3,131 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/table";
 import "../../../src/elements/tag";
-import "../../../src/elements/text";
 import "../../../src/elements/button";
 import "../../../src/elements/icon";
+import "../../../src/components/table";
+import "../../../src/elements/badge";
+import "../../../src/elements/text";
+import "../../../src/elements/image";
 import { Table } from "../../../src/components/table";
 import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
 
 type TableWithData = AutoLitProperty<Table>;
+
+const handleSort = (header: any, direction: string) => {
+  console.log(`Sorting ${header.title} in ${direction} order`);
+};
+
+const commonData = [
+  {
+    id: "SSKU0001A",
+    image: "image1.png",
+    product: "Product Name A",
+    pricing: "100.00 THB",
+    payment: "Paid",
+    date: "18/09/2023",
+    status: "Active",
+  },
+  {
+    id: "SSKU0002B",
+    image: "image2.png",
+    product: "Product Name B",
+    pricing: "200.00 THB",
+    payment: "Pending",
+    date: "17/09/2023",
+    status: "Inactive",
+  },
+  {
+    id: "SSKU0003C",
+    image: "image3.png",
+    product: "Product Name C",
+    pricing: "300.00 THB",
+    payment: "Paid",
+    date: "16/09/2023",
+    status: "Active",
+  },
+  {
+    id: "SSKU0004D",
+    image: "image4.png",
+    product: "Product Name D",
+    pricing: "400.00 THB",
+    payment: "Cancelled",
+    date: "15/09/2023",
+    status: "Inactive",
+  },
+  {
+    id: "SSKU0005E",
+    image: "image5.png",
+    product: "Product Name E",
+    pricing: "500.00 THB",
+    payment: "Paid",
+    date: "14/09/2023",
+    status: "Active",
+  },
+  {
+    id: "SSKU0006F",
+    image: "image6.png",
+    product: "Product Name F",
+    pricing: "600.00 THB",
+    payment: "Pending",
+    date: "13/09/2023",
+    status: "Inactive",
+  },
+  {
+    id: "SSKU0007G",
+    image: "image7.png",
+    product: "Product Name G",
+    pricing: "700.00 THB",
+    payment: "Paid",
+    date: "12/09/2023",
+    status: "Active",
+  },
+  {
+    id: "SSKU0008H",
+    image: "image8.png",
+    product: "Product Name H",
+    pricing: "800.00 THB",
+    payment: "Cancelled",
+    date: "11/09/2023",
+    status: "Inactive",
+  },
+  {
+    id: "SSKU0009I",
+    image: "image9.png",
+    product: "Product Name I",
+    pricing: "900.00 THB",
+    payment: "Paid",
+    date: "10/09/2023",
+    status: "Active",
+  },
+  {
+    id: "SSKU0010J",
+    image: "image10.png",
+    product: "Product Name J",
+    pricing: "1000.00 THB",
+    payment: "Pending",
+    date: "09/09/2023",
+    status: "Inactive",
+  },
+  {
+    id: "SSKU0011K",
+    image: "image11.png",
+    product: "Product Name K",
+    pricing: "1100.00 THB",
+    payment: "Paid",
+    date: "08/09/2023",
+    status: "Active",
+  },
+  {
+    id: "SSKU0012L",
+    image: "image12.png",
+    product: "Product Name L",
+    pricing: "1200.00 THB",
+    payment: "Cancelled",
+    date: "07/09/2023",
+    status: "Inactive",
+  },
+];
 
 const meta = {
   title: "Example/Table",
@@ -19,22 +137,65 @@ const meta = {
   },
 
   argTypes: {
-    ".headers": {
-      description: "The Header of the table",
+    ".columns": {
+      description: `This defines the structure of columns in the table. Each column is an object with the following properties:
+- **title** (string): The text that will appear in the column header.
+- **dataIndex** (string, optional): The key to access data in the row object. This links the column to the corresponding data field.
+- **align** ("left" | "center" | "right", optional): Specifies the alignment of the text in the column.
+- **render** (function, optional): A custom rendering function for the cell. It receives three arguments: \`value\`, \`record\`, and \`rowIndex\`. This allows for custom content to be displayed in the cell.
+- **sortable** (boolean, optional): If true, this column can be sorted.
+- **sortDirection** ("asc" | "desc", optional): The default sorting direction for the column.
+- **onSort** (function, optional): A callback function that is triggered when sorting occurs. It receives the current \`direction\` ("asc" or "desc").
+
+**Example:**
+
+\`\`\`js
+  [
+    {
+      title: "Name",
+      dataIndex: "name",
+      align: "left",
+      sortable: true
+    },
+    {
+      title: "Age",
+      dataIndex: "age",
+      align: "right",
+      render: (value) => \`\${value} years old\`
+    }
+  ]
+\`\`\`
+      `,
       table: {
         type: {
-          summary: "string",
+          summary: "Array<Column>",
         },
       },
     },
-    ".itemValue": {
-      description: "The bady data of the table",
+
+    ".data": {
+      description: `The content data to be displayed in the table. It should be an array of objects, where each object represents a row of data.
+
+Each key in the object should correspond to a \`dataIndex\` from the \`.columns\` array, and the value associated with the key will be shown in the corresponding column.
+      
+**Example:**
+
+\`\`\`js
+  [
+    { name: "John Doe", age: 30 },
+    { name: "Jane Smith", age: 25 }
+  ]
+\`\`\`
+      
+In this example, if the \`columns\` have \`dataIndex\` values "name" and "age", the table will display "John Doe" and "Jane Smith" with their respective ages.
+      `,
       table: {
         type: {
-          summary: "string",
+          summary: "Array<RowData>",
         },
       },
     },
+
     "?selectEnabled": {
       description: "When true gives the menu a active apparence",
       table: {
@@ -126,31 +287,15 @@ type Story = StoryObj<TableWithData>;
 
 export const Default: Story = {
   args: {
-    ".headers": [
-      {
-        name: "name",
-        text: "Name",
-      },
-      {
-        name: "age",
-        text: "Age",
-      },
-      {
-        name: "email",
-        text: "Email",
-      },
+    ".columns": [
+      { title: "Name", dataIndex: "name", align: "left" },
+      { title: "Age", dataIndex: "age", align: "center" },
+      { title: "Email", dataIndex: "email", align: "center" },
     ],
-    ".itemValue": [
-      {
-        name: "testData",
-        age: "28",
-        email: "testData@test.com",
-      },
-      {
-        name: "Manapong",
-        age: "25",
-        email: "Manapongi@test.com",
-      },
+    ".data": [
+      { name: "John Brown", age: 32, email: "John@test.com" },
+      { name: "Jim Green", age: 42, email: "Jim@test.com" },
+      { name: "Joe Black", age: 31, email: "Joe@test.com" },
     ],
   },
   parameters: {
@@ -160,167 +305,84 @@ export const Default: Story = {
     },
   },
 };
-export const TableWithHeader: Story = {
+
+export const TableWithHeaderSort: Story = {
   args: {
-    ".headers": [
-      { text: "ID", name: "id" },
-      { text: "Image", name: "image" },
-      { text: "Product", name: "product" },
-      { text: "Pricing", name: "price" },
-      { text: "Payment", name: "payment" },
-      { text: "Create Date", name: "date" },
-      { text: "Status", name: "status" },
-      { text: "", name: "copy" },
-      { text: "button", name: "button" },
-      { text: "", name: "action" },
-    ],
-    ".itemValue": [
+    ".columns": [
       {
-        id: "SSKU0011A",
-        image: "img123",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "a",
-        button: "Button",
-        action: "icon",
+        title: "ID",
+        dataIndex: "id",
+        sortable: true,
+        sortDirection: "asc",
+        onSort: (direction: "asc" | "desc") =>
+          handleSort({ title: "ID" }, direction),
       },
+      { title: "Product", dataIndex: "product" },
+      { title: "Pricing", dataIndex: "pricing" },
+      { title: "Payment", dataIndex: "payment" },
       {
-        id: "SSKU0012A",
-        image: "img212",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "b",
-        button: "Button",
-        action: "icon",
+        title: "Create Date",
+        dataIndex: "date",
+        sortable: true,
+        sortDirection: "asc",
+        onSort: (direction: "asc" | "desc") =>
+          handleSort({ title: "Create Date" }, direction),
       },
+      { title: "Status", dataIndex: "status" },
     ],
+    ".data": commonData,
   },
   parameters: {
     design: {
       type: "figma",
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=1145%3A69931&mode=dev",
     },
-  },
-  render: ({ ...args }) => {
-    return html`
-      <ssk-table ${spread({ ...args })}>
-        <template id="header-id">
-          <div style="display: flex; align-items: center;">
-            {{text}}
-            <ssk-icon name="outline-chevron-up-down" size="xs"></ssk-icon>
-          </div>
-        </template>
-        <template id="header-price">
-          <div style="display: flex; align-items: center;">
-            {{text}}
-            <ssk-icon name="outline-chevron-up-down" size="xs"></ssk-icon>
-          </div>
-        </template>
-        <template id="header-date">
-          <div style="display: flex; align-items: center;">
-            {{text}}
-            <ssk-icon name="outline-chevron-up-down" size="xs"></ssk-icon>
-          </div>
-        </template>
-      </ssk-table>
-    `;
   },
 };
 
 export const TableWithBody: Story = {
   args: {
-    ".headers": [
-      { text: "ID", name: "id" },
-      { text: "Image", name: "image" },
-      { text: "Product", name: "product" },
-      { text: "Pricing", name: "price" },
-      { text: "Payment", name: "payment" },
-      { text: "Create Date", name: "date" },
-      { text: "Status", name: "status" },
-      { text: "", name: "copy" },
-      { text: "button", name: "button" },
-      { text: "", name: "action" },
-    ],
-    ".itemValue": [
+    ".columns": [
+      { title: "ID", dataIndex: "id" },
+      { title: "Image", dataIndex: "image" },
+      { title: "Product", dataIndex: "product" },
+      { title: "Pricing", dataIndex: "pricing" },
       {
-        id: "SSKU0011A",
-        image: "img123",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button1",
-        action: "",
+        title: "Payment",
+        dataIndex: "payment",
+        render: (value) =>
+          `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`,
+      },
+      { title: "Create Date", dataIndex: "date" },
+      {
+        title: "Status",
+        dataIndex: "status",
+        render: (value) =>
+          value === "Active"
+            ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
+            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`,
       },
       {
-        id: "SSKU0011A4",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button2",
-        action: "",
+        title: "Icon",
+        align: "center",
+        render: () =>
+          `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`,
       },
       {
-        id: "SSKU0012A5",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button3",
-        action: "",
+        title: "Button",
+        render: (_, __, rowIndex: number) =>
+          `<ssk-button variant="solid" size="md">
+    <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
+    Button ${rowIndex} </ssk-button>`,
       },
       {
-        id: "SSKU0011A6",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button4",
-        action: "",
-      },
-      {
-        id: "SSKU0012A7",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button5",
-        action: "",
-      },
-      {
-        id: "SSKU0012A",
-        image: "img212",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button6",
-        action: "",
+        title: "Action",
+        align: "center",
+        render: () =>
+          `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`,
       },
     ],
+    ".data": commonData,
   },
   parameters: {
     design: {
@@ -328,85 +390,51 @@ export const TableWithBody: Story = {
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=1145%3A69931&mode=dev",
     },
   },
-  render: ({ ...args }) => {
-    const { ".headers": headers, ".itemValue": itemValue } = args;
-    return html`
-      <ssk-table .headers="${headers}" .itemValue="${itemValue}">
-        <template id="content-payment">
-          <div style="display: flex; align-items: center;">
-            <ssk-tag variant="subtle" size="md"
-              ><ssk-icon size="xs" name="outline-sun"></ssk-icon
-              >{{value}}</ssk-tag
-            >
-          </div>
-        </template>
-        <template id="content-copy">
-          <div style="display: flex; align-items: center;">
-            {{value}}
-            <ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>
-          </div>
-        </template>
-        <template id="content-action">
-          <div style="display: flex; align-items: center;">
-            {{value}}
-            <ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>
-          </div>
-        </template>
-        <template id="content-button">
-          <ssk-button padding="sm" variant="outline" slot="ok-button-slot">
-            <ssk-icon
-              slot="prefix"
-              size="sm"
-              name="outline-ellipsis-horizontal-circle"
-              size="md"
-            ></ssk-icon>
-            {{value}}
-          </ssk-button>
-        </template>
-      </ssk-table>
-    `;
-  },
 };
+
 export const TableWithSelect: Story = {
   args: {
-    ".headers": [
-      { text: "ID", name: "id" },
-      { text: "Image", name: "image" },
-      { text: "Product", name: "product" },
-      { text: "Pricing", name: "price" },
-      { text: "Payment", name: "payment" },
-      { text: "Create Date", name: "date" },
-      { text: "Status", name: "status" },
-      { text: "", name: "copy" },
-      { text: "button", name: "button" },
-      { text: "", name: "action" },
-    ],
-    ".itemValue": [
+    ".columns": [
+      { title: "ID", dataIndex: "id" },
+      { title: "Image", dataIndex: "image" },
+      { title: "Product", dataIndex: "product" },
+      { title: "Pricing", dataIndex: "pricing" },
       {
-        id: "SSKU0011A",
-        image: "img123",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "a",
-        button: "Button",
-        action: "icon",
+        title: "Payment",
+        dataIndex: "payment",
+        render: (value) =>
+          `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`,
+      },
+      { title: "Create Date", dataIndex: "date" },
+      {
+        title: "Status",
+        dataIndex: "status",
+        render: (value) =>
+          value === "Active"
+            ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
+            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`,
       },
       {
-        id: "SSKU0012A",
-        image: "img212",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "b",
-        button: "Button",
-        action: "icon",
+        title: "Icon",
+        align: "center",
+        render: () =>
+          `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`,
+      },
+      {
+        title: "Button",
+        render: (_, __, rowIndex: number) =>
+          `<ssk-button variant="solid" size="md">
+    <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
+    Button ${rowIndex} </ssk-button>`,
+      },
+      {
+        title: "Action",
+        align: "center",
+        render: () =>
+          `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`,
       },
     ],
+    ".data": commonData,
     "?selectEnabled": true,
   },
   parameters: {
@@ -415,420 +443,65 @@ export const TableWithSelect: Story = {
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=1145%3A69931&mode=dev",
     },
   },
-  render: ({ ...args }) => {
-    return html`
-      <ssk-table ${spread({ ...args })}>
-        <div slot="copy">
-          <ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>
-        </div>
-        <div slot="copy2">
-          <ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>
-        </div>
-      </ssk-table>
-    `;
-  },
 };
 
 export const TableWithFooter: Story = {
   args: {
-    ".headers": [
-      { text: "ID", name: "id" },
-      { text: "Image", name: "image" },
-      { text: "Product", name: "product" },
-      { text: "Pricing", name: "price" },
-      { text: "Payment", name: "payment" },
-      { text: "Create Date", name: "date" },
-      { text: "Status", name: "status" },
-      { text: "", name: "copy" },
-      { text: "button", name: "button" },
-      { text: "", name: "action" },
-    ],
-    ".itemValue": [
+    ".columns": [
       {
-        id: "SSKU0011A0",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
+        title: "ID",
+        dataIndex: "id",
+        sortable: true,
+        sortDirection: "asc",
+        onSort: (direction: "asc" | "desc") =>
+          handleSort({ title: "ID" }, direction),
+      },
+      { title: "Image", dataIndex: "image" },
+      { title: "Product", dataIndex: "product" },
+      { title: "Pricing", dataIndex: "pricing" },
+      {
+        title: "Payment",
+        dataIndex: "payment",
+        render: (value) =>
+          `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`,
       },
       {
-        id: "SSKU0012A1",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
+        title: "Create Date",
+        dataIndex: "date",
+        sortable: true,
+        sortDirection: "asc",
+        onSort: (direction: "asc" | "desc") =>
+          handleSort({ title: "Create Date" }, direction),
       },
       {
-        id: "SSKU0011A2",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
+        title: "Status",
+        dataIndex: "status",
+        render: (value) =>
+          value === "Active"
+            ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
+            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`,
       },
       {
-        id: "SSKU0012A3",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
+        title: "Icon",
+        align: "center",
+        render: () =>
+          `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`,
       },
       {
-        id: "SSKU0011A4",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
+        title: "Button",
+        render: (_, __, rowIndex: number) =>
+          `<ssk-button variant="solid" size="md">
+    <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
+    Button ${rowIndex} </ssk-button>`,
       },
       {
-        id: "SSKU0012A5",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0011A6",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0012A7",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0011A8",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0012A9",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0011A10",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0012A11",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0011A12",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0012A13",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0011A14",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0012A15",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0011A16",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0012A17",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0011A18",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0012A19",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0011A20",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0012A21",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0011A22",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0012A23",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0011A24",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0012A25",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0011A26",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0012A27",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0011A28",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0012A29",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0011A30",
-        image: "img",
-        product: "SSK Pay",
-        price: "1,000 THB",
-        payment: "complete",
-        date: "18/09/2023",
-        status: "Active",
-        copy: "",
-        button: "Button",
-        action: "icon",
-      },
-      {
-        id: "SSKU0012A31",
-        image: "img2",
-        product: "LINE Official",
-        price: "767 THB",
-        payment: "pading",
-        date: "06/05/2023",
-        status: "Inactive",
-        copy: "",
-        button: "Button",
-        action: "icon",
+        title: "Action",
+        align: "center",
+        render: () =>
+          `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`,
       },
     ],
+    ".data": commonData,
     "?showFooter": true,
     "?showRowPage": true,
   },
@@ -838,7 +511,99 @@ export const TableWithFooter: Story = {
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=1145%3A69931&mode=dev",
     },
   },
+};
+
+export const TableEmpty: Story = {
+  args: {
+    ".columns": [
+      {
+        title: "ID",
+        dataIndex: "id",
+        sortable: true,
+        sortDirection: "asc",
+        onSort: (direction: "asc" | "desc") =>
+          handleSort({ title: "ID" }, direction),
+      },
+      { title: "Image", dataIndex: "image" },
+      { title: "Product", dataIndex: "product" },
+      { title: "Pricing", dataIndex: "pricing" },
+      {
+        title: "Payment",
+        dataIndex: "payment",
+        render: (value) =>
+          `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`,
+      },
+      {
+        title: "Create Date",
+        dataIndex: "date",
+        sortable: true,
+        sortDirection: "asc",
+        onSort: (direction: "asc" | "desc") =>
+          handleSort({ title: "Create Date" }, direction),
+      },
+      {
+        title: "Status",
+        dataIndex: "status",
+        render: (value) =>
+          value === "Active"
+            ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
+            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`,
+      },
+      {
+        title: "Icon",
+        align: "center",
+        render: () =>
+          `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`,
+      },
+      {
+        title: "Button",
+        render: (_, __, rowIndex: number) =>
+          `<ssk-button variant="solid" size="md">
+    <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
+    Button ${rowIndex} </ssk-button>`,
+      },
+      {
+        title: "Action",
+        align: "center",
+        render: () =>
+          `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`,
+      },
+    ],
+    "?showFooter": true,
+    "?showRowPage": true,
+  },
   render: ({ ...args }) => {
-    return html` <ssk-table ${spread({ ...args })}> </ssk-table> `;
+    return html`
+      <style lang="css">
+        .content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100dvh;
+          background-color: #ffffff;
+        }
+        .content ssk-text {
+          margin-top: 1rem;
+        }
+      </style>
+      <ssk-table ${spread({ ...args })}>
+        <div slot="empty-content">
+          <div class="content">
+            <ssk-image
+              src="https://sellercenter.dev.patona.online/images/patona-logo-icon.svg"
+              alt="empty-image"
+            ></ssk-image>
+            <ssk-text size="md" color="gray">ไม่มีข้อมูลให้แสดง</ssk-text>
+          </div>
+        </div>
+      </ssk-table>
+    `;
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=1145%3A69931&mode=dev",
+    },
   },
 };

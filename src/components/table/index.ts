@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import "../../../src/components/pagination";
 import "../../../src/elements/checkbox";
+import "../../../src/elements/icon";
 import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
@@ -15,16 +16,19 @@ import {
   parseThemeToCssVariables,
   parseVariables,
 } from "../../types/theme";
-import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
-interface Header {
-  name: string;
-  text: string;
+interface Column {
+  title: string;
+  dataIndex?: string;
   align?: "left" | "center" | "right";
+  render?: (value: any, record: any, rowIndex: number) => string;
+  sortable?: boolean;
+  sortDirection?: "asc" | "desc";
+  onSort?: (direction: "asc" | "desc") => void;
 }
 
 interface RowData {
-  [key: string]: string;
+  [key: string]: any;
 }
 
 @customElement("ssk-table")
@@ -72,10 +76,10 @@ export class Table extends LitElement {
   height?: string | undefined;
 
   @property({ type: Array })
-  headers: Header[] = [];
+  columns: Column[] = [];
 
   @property({ type: Array })
-  itemValue: RowData[] = [];
+  data: RowData[] = [];
 
   @property({ type: Boolean })
   showFooter: boolean = false;
@@ -110,14 +114,11 @@ export class Table extends LitElement {
   @property({ type: Boolean })
   min = false;
 
-  @property({ type: Boolean })
-  fullWidth = false;
-
   toggleSelectAll() {
     this.selectAll = !this.selectAll;
     if (this.selectAll) {
       this.selectedRows = Array.from(
-        { length: this.itemValue.length },
+        { length: this.data.length },
         (_, index) => index,
       );
     } else {
@@ -145,22 +146,44 @@ export class Table extends LitElement {
     this.currentPage = newPage;
   }
 
-  renderHeader(header: Header): TemplateResult {
-    const selectedTemplate = this.querySelector(
-      `template#header-${header.name}`,
-    );
-    const tempHTML = selectedTemplate?.innerHTML.replace(
-      "{{text}}",
-      header.text,
-    );
-    const align = header.align || "left";
-    if (selectedTemplate) {
-      return html`<th style="text-align: ${align};">
-        ${unsafeHTML(tempHTML)}
-      </th>`;
-    } else {
-      return html`<th style="text-align: ${align};">${header.text}</th>`;
+  handleSort(col: Column) {
+    if (col.sortable && col.onSort) {
+      const newDirection = col.sortDirection === "asc" ? "desc" : "asc";
+      col.onSort(newDirection);
+
+      this.data = [...this.data].sort((a, b) => {
+        const aValue = a[col.dataIndex || ""];
+        const bValue = b[col.dataIndex || ""];
+        if (aValue < bValue) return newDirection === "asc" ? -1 : 1;
+        if (aValue > bValue) return newDirection === "asc" ? 1 : -1;
+        return 0;
+      });
+
+      col.sortDirection = newDirection;
     }
+  }
+
+  renderHeader(col: Column): TemplateResult {
+    return html`
+      <th style="text-align: ${col.align || "left"};">
+        <div class="header-content">
+          ${col.title}
+          ${col.sortable
+            ? html` <span
+                class="header-icon"
+                @click="${() => this.handleSort(col)}"
+              >
+                ${col.sortDirection
+                  ? html`<ssk-icon
+                      name="solid-bars-arrow-down"
+                      size="${this.size}"
+                    ></ssk-icon>`
+                  : nothing}
+              </span>`
+            : nothing}
+        </div>
+      </th>
+    `;
   }
 
   renderBody(row: RowData, rowIndex: number): TemplateResult[] {
@@ -178,47 +201,47 @@ export class Table extends LitElement {
             `,
           ]
         : []),
-      ...this.headers.map((header) => {
-        let value = row[header.name] || "";
-        const align = header.align || "left";
-
-        const selectedTemplate = this.querySelector(
-          `template#content-${header.name}`,
-        );
-        const tempHTML = selectedTemplate?.innerHTML.replace(
-          "{{value}}",
-          value,
-        );
-
-        if (selectedTemplate) {
-          return html`<td style="text-align: ${align};">
-            ${unsafeHTML(tempHTML)}
-          </td>`;
-        } else {
-          return html`<td style="text-align: ${align};">${value}</td>`;
-        }
+      ...this.columns.map((col) => {
+        const cellValue = row[col.dataIndex || ""];
+        return html`
+          <td style="text-align: ${col.align || "left"};">
+            ${col.render
+              ? html`${this.renderHTML(
+                  col.render(cellValue, row, rowIndex),
+                  col.align,
+                )}`
+              : cellValue}
+          </td>
+        `;
       }),
     ];
     return content;
   }
+
+  renderHTML(content: string, align: "left" | "center" | "right" = "left") {
+    const template = document.createElement("template");
+    template.innerHTML = `<div style="text-align: ${align};">${content.trim()}</div>`;
+    return template.content;
+  }
+
   renderPaginationControls() {
-    const totalPages = Math.ceil(this.itemValue.length / this.rowsPerPage);
+    const totalPages = Math.ceil(this.data.length / this.rowsPerPage);
 
     const startIndex = (this.currentPage - 1) * this.rowsPerPage + 1;
 
     let endIndex = this.currentPage * this.rowsPerPage;
-    endIndex = Math.min(endIndex, this.itemValue.length);
+    endIndex = Math.min(endIndex, this.data.length);
 
-    if (this.itemValue.length === 0) {
+    if (this.data.length === 0) {
       endIndex = 0;
     }
     return html`
       <ssk-pagination
-        totalPages="${totalPages}"
+        totalPages="${totalPages || 1}"
         currentPage="${this.currentPage}"
         startItems="${startIndex}"
         endItems="${endIndex}"
-        allItems="${this.itemValue.length}"
+        allItems="${this.data.length}"
         @page-changed="${this.handlePageChanged}"
         @rows-per-page-changed="${this.updatedPage}"
         ?showRowsPage="${this.showRowPage}"
@@ -233,12 +256,9 @@ export class Table extends LitElement {
     if (this.hidden) {
       return nothing;
     }
-    const hasItems = this.itemValue.length > 0;
+    const hasItems = this.data.length > 0;
     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-    const endIndex = Math.min(
-      startIndex + this.rowsPerPage,
-      this.itemValue.length,
-    );
+    const endIndex = Math.min(startIndex + this.rowsPerPage, this.data.length);
 
     let additionalCss = html`
       <style>
@@ -265,6 +285,13 @@ export class Table extends LitElement {
 
           --font-size: ${parseVariables(cssVar("font-size", this.size))};
           --line-height: ${parseVariables(cssVar("font-size", this.size))};
+          --border-style: solid;
+          --border-width: 1px;
+
+          --height-table: auto;
+          .body-half-screen {
+            display: ${hasItems ? "block" : "none"};
+          }
         }
       </style>
     `;
@@ -277,7 +304,7 @@ export class Table extends LitElement {
         }
       </style>
       <div class="container" data-testid=${this.testId || nothing}>
-        <table>
+        <table class="table-scroll">
           <thead>
             <tr>
               ${this.selectEnabled
@@ -290,11 +317,11 @@ export class Table extends LitElement {
                     </ssk-checkbox>
                   </th>`
                 : nothing}
-              ${this.headers.map((header) => this.renderHeader(header))}
+              ${this.columns.map((col) => this.renderHeader(col))}
             </tr>
           </thead>
-          <tbody>
-            ${this.itemValue.slice(startIndex, endIndex).map(
+          <tbody class="body-half-screen">
+            ${this.data.slice(startIndex, endIndex).map(
               (row, index) =>
                 html`<tr>
                   ${this.renderBody(row, startIndex + index)}
@@ -302,21 +329,55 @@ export class Table extends LitElement {
             )}
           </tbody>
         </table>
-        ${!hasItems ? html`<slot name="empty-content"></slot>` : nothing}
-        <div class="${this.showFooter ? "show" : "footer"}">
-          ${this.renderPaginationControls()}
-        </div>
+      </div>
+      ${!hasItems ? html`<slot name="empty-content"></slot>` : nothing}
+      <div class="${this.showFooter ? "show" : "footer"}">
+        ${this.renderPaginationControls()}
       </div>
     `;
   }
 
   static styles = css`
-    table {
-      border: 1px solid;
+    .table-scroll {
+      border-style: var(--border-style);
+      border-width: var(--border-width);
       border-color: var(--border-color-table);
       border-collapse: collapse;
-      width: 100%;
+      display: block;
+      empty-cells: show;
     }
+
+    .table-scroll thead {
+      position: relative;
+      display: block;
+      width: 100%;
+      overflow-y: scroll;
+    }
+
+    .table-scroll tbody {
+      display: block;
+      position: relative;
+      width: 100%;
+      overflow-y: scroll;
+      background-color: #ffffff;
+    }
+
+    .table-scroll tr {
+      width: 100%;
+      display: flex;
+    }
+
+    .table-scroll td,
+    .table-scroll th {
+      flex-basis: 100%;
+      flex-grow: 2;
+      display: block;
+    }
+
+    .body-half-screen {
+      height: var(--height-table);
+    }
+
     th {
       background-color: var(--background-color);
       border-top: 1px solid var(--border-color);
@@ -331,6 +392,7 @@ export class Table extends LitElement {
       font-weight: var(--font-weight);
       line-height: var(--line-height);
     }
+
     td {
       background-color: #ffffff;
       border-top: 1px solid var(--border-color);
@@ -340,19 +402,34 @@ export class Table extends LitElement {
       padding: 12px;
       text-align: left;
       color: var(--color);
-      font-size: 24px;
+      font-size: var(--font-size);
       font-family: var(--font-family);
       font-weight: var(--font-weight);
       line-height: var(--line-height);
+      align-content: center;
     }
+
     .footer {
       display: none;
     }
+
     .show {
       text-align: center;
       border-top: 1px solid var(--border-color);
       width: 100%;
       box-sizing: border-box;
+    }
+
+    .header-content {
+      display: inline-flex;
+      align-items: center;
+      height: 100%;
+    }
+
+    .header-icon {
+      margin-top: 5px;
+      cursor: pointer;
+      margin-left: 5px;
     }
   `;
 }
