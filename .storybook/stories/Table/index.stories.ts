@@ -162,7 +162,7 @@ const meta = {
       title: "Age",
       dataIndex: "age",
       align: "right",
-      render: (value) => \`\${value} years old\`
+      render: (value) => { return \`\${value} years old\`}
     }
   ]
 \`\`\`
@@ -170,8 +170,11 @@ const meta = {
       table: {
         category: "Props",
         type: {
-          summary: "string",
+          summary: "object",
         },
+      },
+      control: {
+        type: "object",
       },
     },
 
@@ -194,8 +197,11 @@ In this example, if the \`columns\` have \`dataIndex\` values "name" and "age", 
       table: {
         category: "Props",
         type: {
-          summary: "Array<RowData>",
+          summary: "object",
         },
+      },
+      control: {
+        type: "object",
       },
     },
 
