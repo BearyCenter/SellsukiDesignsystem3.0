@@ -5,7 +5,6 @@ import "../../../src/components/table";
 import "../../../src/elements/tag";
 import "../../../src/elements/button";
 import "../../../src/elements/icon";
-import "../../../src/components/table";
 import "../../../src/elements/badge";
 import "../../../src/elements/text";
 import "../../../src/elements/image";
@@ -16,6 +15,26 @@ type TableWithData = AutoLitProperty<Table>;
 
 const handleSort = (header: any, direction: string) => {
   console.log(`Sorting ${header.title} in ${direction} order`);
+};
+
+const customCellConfig = {
+  payment: (value) => {
+    return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
+  },
+  status: (value) => {
+    return value === "Active"
+      ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
+      : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
+  },
+  icon: () => {
+    return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
+  },
+  button: (_, __, rowIndex: number) => {
+    return `<ssk-button variant="solid" size="md"><ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>Button ${rowIndex} </ssk-button>`;
+  },
+  action: () => {
+    return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
+  },
 };
 
 const commonData = [
@@ -143,7 +162,6 @@ const meta = {
 - **dataIndex** (string, optional): The key to access data in the row object. This links the column to the corresponding data field.
 - **align** ("left" | "center" | "right", optional): Specifies the alignment of the text in the column.
 - **width** (string, optional): Defines the width of the column. Can accept values such as '100px', '10%', or 'auto' to control the width of the column.
-- **customCell** (function, optional): A custom rendering function for the cell. It receives three arguments: \`value\`, \`record\`, and \`rowIndex\`. This allows for custom content to be displayed in the cell.
 - **sortable** (boolean, optional): If true, this column can be sorted.
 - **sortDirection** ("asc" | "desc", optional): The default sorting direction for the column.
 - **onSort** (function, optional): A callback function that is triggered when sorting occurs. It receives the current \`direction\` ("asc" or "desc").
@@ -161,8 +179,7 @@ const meta = {
     {
       title: "Age",
       dataIndex: "age",
-      align: "right",
-      render: (value) => { return \`\${value} years old\`}
+      align: "right"
     }
   ]
 \`\`\`
@@ -204,7 +221,30 @@ In this example, if the \`columns\` have \`dataIndex\` values "name" and "age", 
         type: "object",
       },
     },
+    ".customCell": {
+      description: `The \`customCell\` property allows you to define custom rendering functions for individual cells in the table. This enables you to customize the appearance and content of cells based on their column.
 
+Each key in the \`customCell\` object corresponds to a column \`dataIndex\` from the \`.columns\` array. The value should be a function that takes the cell value as input and returns the custom HTML or text to be rendered.
+
+**Example:**
+
+\`\`\`js
+  {
+    name: (value) => \`<ssk-text>\${value}</ssk-text>\`,
+      
+    email: (value) => \`<ssk-icon name="solid-email">\${value}</ssk-icon>\`  
+  }
+\`\`\`
+
+In this example, the \`name\` column will display the name in bold, and the \`email\` column will display the email as a mailto link.`,
+      table: {
+        category: "Props",
+        type: {
+          summary: "object",
+        },
+      },
+      control: null,
+    },
     "?showCheckbox": {
       description: "When true gives the menu a active apparence",
       table: {
@@ -378,47 +418,15 @@ export const TableWithBody: Story = {
       { title: "Image", dataIndex: "image" },
       { title: "Product", dataIndex: "product" },
       { title: "Pricing", dataIndex: "pricing" },
-      {
-        title: "Payment",
-        dataIndex: "payment",
-        customCell: (value) => {
-          return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
-        },
-      },
+      { title: "Payment", dataIndex: "payment" },
       { title: "Create Date", dataIndex: "date" },
-      {
-        title: "Status",
-        dataIndex: "status",
-        customCell: (value) => {
-          return value === "Active"
-            ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
-            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
-        },
-      },
-      {
-        title: "Icon",
-        align: "center",
-        customCell: () => {
-          return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
-        },
-      },
-      {
-        title: "Button",
-        customCell: (_, __, rowIndex: number) => {
-          return `<ssk-button variant="solid" size="md">
-    <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
-    Button ${rowIndex} </ssk-button>`;
-        },
-      },
-      {
-        title: "Action",
-        align: "center",
-        customCell: () => {
-          return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
-        },
-      },
+      { title: "Status", dataIndex: "status" },
+      { title: "Icon", dataIndex: "icon", align: "center" },
+      { title: "Button", dataIndex: "button" },
+      { title: "Action", dataIndex: "action", align: "center" },
     ],
     ".data": commonData,
+    ".customCell": customCellConfig,
   },
   parameters: {
     design: {
@@ -435,48 +443,15 @@ export const TableWithCustomWidth: Story = {
       { title: "Image", dataIndex: "image", width: "150px" },
       { title: "Product", dataIndex: "product", width: "150px" },
       { title: "Pricing", dataIndex: "pricing", width: "150px" },
-      {
-        title: "Payment",
-        dataIndex: "payment",
-        customCell: (value) => {
-          return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
-        },
-      },
+      { title: "Payment", dataIndex: "payment" },
       { title: "Create Date", dataIndex: "date" },
-      {
-        title: "Status",
-        dataIndex: "status",
-        width: "100px",
-        customCell: (value) => {
-          return value === "Active"
-            ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
-            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
-        },
-      },
-      {
-        title: "Icon",
-        align: "center",
-        customCell: () => {
-          return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
-        },
-      },
-      {
-        title: "Button",
-        customCell: (_, __, rowIndex: number) => {
-          return `<ssk-button variant="solid" size="md">
-    <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
-    Button ${rowIndex} </ssk-button>`;
-        },
-      },
-      {
-        title: "Action",
-        align: "center",
-        customCell: () => {
-          return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
-        },
-      },
+      { title: "Status", dataIndex: "status" },
+      { title: "Icon", dataIndex: "icon", align: "center" },
+      { title: "Button", dataIndex: "button" },
+      { title: "Action", dataIndex: "action", align: "center" },
     ],
     ".data": commonData,
+    ".customCell": customCellConfig,
   },
   parameters: {
     design: {
@@ -493,47 +468,15 @@ export const TableWithSelect: Story = {
       { title: "Image", dataIndex: "image" },
       { title: "Product", dataIndex: "product" },
       { title: "Pricing", dataIndex: "pricing" },
-      {
-        title: "Payment",
-        dataIndex: "payment",
-        customCell: (value) => {
-          return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
-        },
-      },
+      { title: "Payment", dataIndex: "payment" },
       { title: "Create Date", dataIndex: "date" },
-      {
-        title: "Status",
-        dataIndex: "status",
-        customCell: (value) => {
-          return value === "Active"
-            ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
-            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
-        },
-      },
-      {
-        title: "Icon",
-        align: "center",
-        customCell: () => {
-          return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
-        },
-      },
-      {
-        title: "Button",
-        customCell: (_, __, rowIndex: number) => {
-          return `<ssk-button variant="solid" size="md">
-    <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
-    Button ${rowIndex} </ssk-button>`;
-        },
-      },
-      {
-        title: "Action",
-        align: "center",
-        customCell: () => {
-          return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
-        },
-      },
+      { title: "Status", dataIndex: "status" },
+      { title: "Icon", dataIndex: "icon", align: "center" },
+      { title: "Button", dataIndex: "button" },
+      { title: "Action", dataIndex: "action", align: "center" },
     ],
     ".data": commonData,
+    ".customCell": customCellConfig,
     "?showCheckbox": true,
   },
   parameters: {
@@ -547,65 +490,19 @@ export const TableWithSelect: Story = {
 export const TableWithFooter: Story = {
   args: {
     ".columns": [
-      {
-        title: "ID",
-        dataIndex: "id",
-        sortable: true,
-        sortDirection: "asc",
-        onSort: (direction: "asc" | "desc") =>
-          handleSort({ title: "ID" }, direction),
-      },
+      { title: "ID", dataIndex: "id" },
       { title: "Image", dataIndex: "image" },
       { title: "Product", dataIndex: "product" },
       { title: "Pricing", dataIndex: "pricing" },
-      {
-        title: "Payment",
-        dataIndex: "payment",
-        customCell: (value) => {
-          return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
-        },
-      },
-      {
-        title: "Create Date",
-        dataIndex: "date",
-        sortable: true,
-        sortDirection: "asc",
-        onSort: (direction: "asc" | "desc") =>
-          handleSort({ title: "Create Date" }, direction),
-      },
-      {
-        title: "Status",
-        dataIndex: "status",
-        customCell: (value) => {
-          return value === "Active"
-            ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
-            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
-        },
-      },
-      {
-        title: "Icon",
-        align: "center",
-        customCell: () => {
-          return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
-        },
-      },
-      {
-        title: "Button",
-        customCell: (_, __, rowIndex: number) => {
-          return `<ssk-button variant="solid" size="md">
-    <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
-    Button ${rowIndex} </ssk-button>`;
-        },
-      },
-      {
-        title: "Action",
-        align: "center",
-        customCell: () => {
-          return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
-        },
-      },
+      { title: "Payment", dataIndex: "payment" },
+      { title: "Create Date", dataIndex: "date" },
+      { title: "Status", dataIndex: "status" },
+      { title: "Icon", dataIndex: "icon", align: "center" },
+      { title: "Button", dataIndex: "button" },
+      { title: "Action", dataIndex: "action", align: "center" },
     ],
     ".data": commonData,
+    ".customCell": customCellConfig,
     "?showPaginationFooter": true,
     "?showPageNavigation": true,
   },
@@ -620,65 +517,19 @@ export const TableWithFooter: Story = {
 export const TableWithScroll: Story = {
   args: {
     ".columns": [
-      {
-        title: "ID",
-        dataIndex: "id",
-        sortable: true,
-        sortDirection: "asc",
-        onSort: (direction: "asc" | "desc") =>
-          handleSort({ title: "ID" }, direction),
-      },
+      { title: "ID", dataIndex: "id" },
       { title: "Image", dataIndex: "image" },
       { title: "Product", dataIndex: "product" },
       { title: "Pricing", dataIndex: "pricing" },
-      {
-        title: "Payment",
-        dataIndex: "payment",
-        customCell: (value) => {
-          return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
-        },
-      },
-      {
-        title: "Create Date",
-        dataIndex: "date",
-        sortable: true,
-        sortDirection: "asc",
-        onSort: (direction: "asc" | "desc") =>
-          handleSort({ title: "Create Date" }, direction),
-      },
-      {
-        title: "Status",
-        dataIndex: "status",
-        customCell: (value) => {
-          return value === "Active"
-            ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
-            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
-        },
-      },
-      {
-        title: "Icon",
-        align: "center",
-        customCell: () => {
-          return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
-        },
-      },
-      {
-        title: "Button",
-        customCell: (_, __, rowIndex: number) => {
-          return `<ssk-button variant="solid" size="md">
-    <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
-    Button ${rowIndex} </ssk-button>`;
-        },
-      },
-      {
-        title: "Action",
-        align: "center",
-        customCell: () => {
-          return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
-        },
-      },
+      { title: "Payment", dataIndex: "payment" },
+      { title: "Create Date", dataIndex: "date" },
+      { title: "Status", dataIndex: "status" },
+      { title: "Icon", dataIndex: "icon", align: "center" },
+      { title: "Button", dataIndex: "button" },
+      { title: "Action", dataIndex: "action", align: "center" },
     ],
     ".data": commonData,
+    ".customCell": customCellConfig,
     "?showPaginationFooter": true,
     "?showPageNavigation": true,
   },
@@ -714,10 +565,7 @@ export const TableEmpty: Story = {
       { title: "Image", dataIndex: "image" },
       { title: "Product", dataIndex: "product" },
       { title: "Pricing", dataIndex: "pricing" },
-      {
-        title: "Payment",
-        dataIndex: "payment",
-      },
+      { title: "Payment", dataIndex: "payment" },
       {
         title: "Create Date",
         dataIndex: "date",
@@ -726,21 +574,10 @@ export const TableEmpty: Story = {
         onSort: (direction: "asc" | "desc") =>
           handleSort({ title: "Create Date" }, direction),
       },
-      {
-        title: "Status",
-        dataIndex: "status",
-      },
-      {
-        title: "Icon",
-        align: "center",
-      },
-      {
-        title: "Button",
-      },
-      {
-        title: "Action",
-        align: "center",
-      },
+      { title: "Status", dataIndex: "status" },
+      { title: "Icon", align: "center" },
+      { title: "Button" },
+      { title: "Action", align: "center" },
     ],
     "?showPaginationFooter": true,
     "?showPageNavigation": true,

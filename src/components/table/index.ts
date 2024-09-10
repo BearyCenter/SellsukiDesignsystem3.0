@@ -22,7 +22,6 @@ interface Column {
   dataIndex?: string;
   align?: "left" | "center" | "right";
   width?: string;
-  customCell?: (value: any, record: any, rowIndex: number) => string;
   sortable?: boolean;
   sortDirection?: "asc" | "desc";
   onSort?: (direction: "asc" | "desc") => void;
@@ -114,6 +113,11 @@ export class Table extends LitElement {
 
   @property({ type: Boolean })
   min = false;
+
+  @property({ type: Object })
+  customCell: {
+    [dataIndex: string]: (value: any, record: any, rowIndex: number) => string;
+  } = {};
 
   toggleSelectAll() {
     this.selectAll = !this.selectAll;
@@ -207,14 +211,16 @@ export class Table extends LitElement {
         : []),
       ...this.columns.map((col) => {
         const cellValue = row[col.dataIndex || ""];
+        const customCellFunction = this.customCell[col.dataIndex || ""];
+
         return html`
           <td
             style="text-align: ${col.align || "left"}; width: ${col.width ||
             "auto"};"
           >
-            ${col.customCell
+            ${customCellFunction
               ? html`${this.renderHTML(
-                  col.customCell(cellValue, row, rowIndex),
+                  customCellFunction(cellValue, row, rowIndex),
                   col.align,
                 )}`
               : cellValue}
@@ -225,10 +231,14 @@ export class Table extends LitElement {
     return content;
   }
 
-  renderHTML(content: string, align: "left" | "center" | "right" = "left") {
-    const template = document.createElement("template");
-    template.innerHTML = `<div style="text-align: ${align};">${content.trim()}</div>`;
-    return template.content;
+  renderHTML(
+    content: string,
+    align: "left" | "center" | "right" = "left",
+  ): TemplateResult {
+    return html`<div
+      style="text-align: ${align};"
+      .innerHTML="${content}"
+    ></div>`;
   }
 
   renderPaginationControls() {
