@@ -170,7 +170,7 @@ const meta = {
       table: {
         category: "Props",
         type: {
-          summary: "Array<Column>",
+          summary: "string",
         },
       },
     },
@@ -375,36 +375,41 @@ export const TableWithBody: Story = {
       {
         title: "Payment",
         dataIndex: "payment",
-        render: (value) =>
-          `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`,
+        render: (value) => {
+          return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
+        },
       },
       { title: "Create Date", dataIndex: "date" },
       {
         title: "Status",
         dataIndex: "status",
-        render: (value) =>
-          value === "Active"
+        render: (value) => {
+          return value === "Active"
             ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
-            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`,
+            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
+        },
       },
       {
         title: "Icon",
         align: "center",
-        render: () =>
-          `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`,
+        render: () => {
+          return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
+        },
       },
       {
         title: "Button",
-        render: (_, __, rowIndex: number) =>
-          `<ssk-button variant="solid" size="md">
+        render: (_, __, rowIndex: number) => {
+          return `<ssk-button variant="solid" size="md">
     <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
-    Button ${rowIndex} </ssk-button>`,
+    Button ${rowIndex} </ssk-button>`;
+        },
       },
       {
         title: "Action",
         align: "center",
-        render: () =>
-          `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`,
+        render: () => {
+          return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
+        },
       },
     ],
     ".data": commonData,
@@ -427,37 +432,42 @@ export const TableWithCustomWidth: Story = {
       {
         title: "Payment",
         dataIndex: "payment",
-        render: (value) =>
-          `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`,
+        render: (value) => {
+          return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
+        },
       },
       { title: "Create Date", dataIndex: "date" },
       {
         title: "Status",
         dataIndex: "status",
         width: "100px",
-        render: (value) =>
-          value === "Active"
+        render: (value) => {
+          return value === "Active"
             ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
-            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`,
+            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
+        },
       },
       {
         title: "Icon",
         align: "center",
-        render: () =>
-          `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`,
+        render: () => {
+          return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
+        },
       },
       {
         title: "Button",
-        render: (_, __, rowIndex: number) =>
-          `<ssk-button variant="solid" size="md">
+        render: (_, __, rowIndex: number) => {
+          return `<ssk-button variant="solid" size="md">
     <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
-    Button ${rowIndex} </ssk-button>`,
+    Button ${rowIndex} </ssk-button>`;
+        },
       },
       {
         title: "Action",
         align: "center",
-        render: () =>
-          `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`,
+        render: () => {
+          return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
+        },
       },
     ],
     ".data": commonData,
@@ -480,36 +490,41 @@ export const TableWithSelect: Story = {
       {
         title: "Payment",
         dataIndex: "payment",
-        render: (value) =>
-          `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`,
+        render: (value) => {
+          return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
+        },
       },
       { title: "Create Date", dataIndex: "date" },
       {
         title: "Status",
         dataIndex: "status",
-        render: (value) =>
-          value === "Active"
+        render: (value) => {
+          return value === "Active"
             ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
-            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`,
+            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
+        },
       },
       {
         title: "Icon",
         align: "center",
-        render: () =>
-          `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`,
+        render: () => {
+          return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
+        },
       },
       {
         title: "Button",
-        render: (_, __, rowIndex: number) =>
-          `<ssk-button variant="solid" size="md">
+        render: (_, __, rowIndex: number) => {
+          return `<ssk-button variant="solid" size="md">
     <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
-    Button ${rowIndex} </ssk-button>`,
+    Button ${rowIndex} </ssk-button>`;
+        },
       },
       {
         title: "Action",
         align: "center",
-        render: () =>
-          `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`,
+        render: () => {
+          return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
+        },
       },
     ],
     ".data": commonData,
@@ -540,8 +555,9 @@ export const TableWithFooter: Story = {
       {
         title: "Payment",
         dataIndex: "payment",
-        render: (value) =>
-          `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`,
+        render: (value) => {
+          return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
+        },
       },
       {
         title: "Create Date",
@@ -554,29 +570,33 @@ export const TableWithFooter: Story = {
       {
         title: "Status",
         dataIndex: "status",
-        render: (value) =>
-          value === "Active"
+        render: (value) => {
+          return value === "Active"
             ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
-            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`,
+            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
+        },
       },
       {
         title: "Icon",
         align: "center",
-        render: () =>
-          `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`,
+        render: () => {
+          return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
+        },
       },
       {
         title: "Button",
-        render: (_, __, rowIndex: number) =>
-          `<ssk-button variant="solid" size="md">
+        render: (_, __, rowIndex: number) => {
+          return `<ssk-button variant="solid" size="md">
     <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
-    Button ${rowIndex} </ssk-button>`,
+    Button ${rowIndex} </ssk-button>`;
+        },
       },
       {
         title: "Action",
         align: "center",
-        render: () =>
-          `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`,
+        render: () => {
+          return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
+        },
       },
     ],
     ".data": commonData,
@@ -608,8 +628,9 @@ export const TableWithScroll: Story = {
       {
         title: "Payment",
         dataIndex: "payment",
-        render: (value) =>
-          `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`,
+        render: (value) => {
+          return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
+        },
       },
       {
         title: "Create Date",
@@ -622,29 +643,33 @@ export const TableWithScroll: Story = {
       {
         title: "Status",
         dataIndex: "status",
-        render: (value) =>
-          value === "Active"
+        render: (value) => {
+          return value === "Active"
             ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
-            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`,
+            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
+        },
       },
       {
         title: "Icon",
         align: "center",
-        render: () =>
-          `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`,
+        render: () => {
+          return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
+        },
       },
       {
         title: "Button",
-        render: (_, __, rowIndex: number) =>
-          `<ssk-button variant="solid" size="md">
+        render: (_, __, rowIndex: number) => {
+          return `<ssk-button variant="solid" size="md">
     <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
-    Button ${rowIndex} </ssk-button>`,
+    Button ${rowIndex} </ssk-button>`;
+        },
       },
       {
         title: "Action",
         align: "center",
-        render: () =>
-          `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`,
+        render: () => {
+          return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
+        },
       },
     ],
     ".data": commonData,
@@ -686,8 +711,6 @@ export const TableEmpty: Story = {
       {
         title: "Payment",
         dataIndex: "payment",
-        render: (value) =>
-          `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`,
       },
       {
         title: "Create Date",
@@ -700,29 +723,17 @@ export const TableEmpty: Story = {
       {
         title: "Status",
         dataIndex: "status",
-        render: (value) =>
-          value === "Active"
-            ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
-            : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`,
       },
       {
         title: "Icon",
         align: "center",
-        render: () =>
-          `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`,
       },
       {
         title: "Button",
-        render: (_, __, rowIndex: number) =>
-          `<ssk-button variant="solid" size="md">
-    <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
-    Button ${rowIndex} </ssk-button>`,
       },
       {
         title: "Action",
         align: "center",
-        render: () =>
-          `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`,
       },
     ],
     "?showPaginationFooter": true,
