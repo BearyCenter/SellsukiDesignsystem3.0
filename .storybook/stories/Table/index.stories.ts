@@ -381,7 +381,7 @@ export const TableWithBody: Story = {
       {
         title: "Payment",
         dataIndex: "payment",
-        render: (value) => {
+        customCell: (value) => {
           return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
         },
       },
@@ -389,7 +389,7 @@ export const TableWithBody: Story = {
       {
         title: "Status",
         dataIndex: "status",
-        render: (value) => {
+        customCell: (value) => {
           return value === "Active"
             ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
             : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
@@ -398,13 +398,13 @@ export const TableWithBody: Story = {
       {
         title: "Icon",
         align: "center",
-        render: () => {
+        customCell: () => {
           return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
         },
       },
       {
         title: "Button",
-        render: (_, __, rowIndex: number) => {
+        customCell: (_, __, rowIndex: number) => {
           return `<ssk-button variant="solid" size="md">
     <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
     Button ${rowIndex} </ssk-button>`;
@@ -413,7 +413,7 @@ export const TableWithBody: Story = {
       {
         title: "Action",
         align: "center",
-        render: () => {
+        customCell: () => {
           return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
         },
       },
@@ -438,7 +438,7 @@ export const TableWithCustomWidth: Story = {
       {
         title: "Payment",
         dataIndex: "payment",
-        render: (value) => {
+        customCell: (value) => {
           return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
         },
       },
@@ -447,7 +447,7 @@ export const TableWithCustomWidth: Story = {
         title: "Status",
         dataIndex: "status",
         width: "100px",
-        render: (value) => {
+        customCell: (value) => {
           return value === "Active"
             ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
             : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
@@ -456,13 +456,13 @@ export const TableWithCustomWidth: Story = {
       {
         title: "Icon",
         align: "center",
-        render: () => {
+        customCell: () => {
           return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
         },
       },
       {
         title: "Button",
-        render: (_, __, rowIndex: number) => {
+        customCell: (_, __, rowIndex: number) => {
           return `<ssk-button variant="solid" size="md">
     <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
     Button ${rowIndex} </ssk-button>`;
@@ -471,7 +471,7 @@ export const TableWithCustomWidth: Story = {
       {
         title: "Action",
         align: "center",
-        render: () => {
+        customCell: () => {
           return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
         },
       },
@@ -496,7 +496,7 @@ export const TableWithSelect: Story = {
       {
         title: "Payment",
         dataIndex: "payment",
-        render: (value) => {
+        customCell: (value) => {
           return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
         },
       },
@@ -504,7 +504,7 @@ export const TableWithSelect: Story = {
       {
         title: "Status",
         dataIndex: "status",
-        render: (value) => {
+        customCell: (value) => {
           return value === "Active"
             ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
             : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
@@ -513,13 +513,13 @@ export const TableWithSelect: Story = {
       {
         title: "Icon",
         align: "center",
-        render: () => {
+        customCell: () => {
           return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
         },
       },
       {
         title: "Button",
-        render: (_, __, rowIndex: number) => {
+        customCell: (_, __, rowIndex: number) => {
           return `<ssk-button variant="solid" size="md">
     <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
     Button ${rowIndex} </ssk-button>`;
@@ -528,7 +528,7 @@ export const TableWithSelect: Story = {
       {
         title: "Action",
         align: "center",
-        render: () => {
+        customCell: () => {
           return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
         },
       },
@@ -561,7 +561,7 @@ export const TableWithFooter: Story = {
       {
         title: "Payment",
         dataIndex: "payment",
-        render: (value) => {
+        customCell: (value) => {
           return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
         },
       },
@@ -576,7 +576,7 @@ export const TableWithFooter: Story = {
       {
         title: "Status",
         dataIndex: "status",
-        render: (value) => {
+        customCell: (value) => {
           return value === "Active"
             ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
             : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
@@ -585,13 +585,13 @@ export const TableWithFooter: Story = {
       {
         title: "Icon",
         align: "center",
-        render: () => {
+        customCell: () => {
           return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
         },
       },
       {
         title: "Button",
-        render: (_, __, rowIndex: number) => {
+        customCell: (_, __, rowIndex: number) => {
           return `<ssk-button variant="solid" size="md">
     <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
     Button ${rowIndex} </ssk-button>`;
@@ -600,7 +600,7 @@ export const TableWithFooter: Story = {
       {
         title: "Action",
         align: "center",
-        render: () => {
+        customCell: () => {
           return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
         },
       },
@@ -634,7 +634,7 @@ export const TableWithScroll: Story = {
       {
         title: "Payment",
         dataIndex: "payment",
-        render: (value) => {
+        customCell: (value) => {
           return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
         },
       },
@@ -649,7 +649,7 @@ export const TableWithScroll: Story = {
       {
         title: "Status",
         dataIndex: "status",
-        render: (value) => {
+        customCell: (value) => {
           return value === "Active"
             ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
             : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
@@ -658,13 +658,13 @@ export const TableWithScroll: Story = {
       {
         title: "Icon",
         align: "center",
-        render: () => {
+        customCell: () => {
           return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
         },
       },
       {
         title: "Button",
-        render: (_, __, rowIndex: number) => {
+        customCell: (_, __, rowIndex: number) => {
           return `<ssk-button variant="solid" size="md">
     <ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>
     Button ${rowIndex} </ssk-button>`;
@@ -673,7 +673,7 @@ export const TableWithScroll: Story = {
       {
         title: "Action",
         align: "center",
-        render: () => {
+        customCell: () => {
           return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
         },
       },

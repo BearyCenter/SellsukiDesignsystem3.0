@@ -22,7 +22,7 @@ interface Column {
   dataIndex?: string;
   align?: "left" | "center" | "right";
   width?: string;
-  render?: (value: any, record: any, rowIndex: number) => string;
+  customCell?: (value: any, record: any, rowIndex: number) => string;
   sortable?: boolean;
   sortDirection?: "asc" | "desc";
   onSort?: (direction: "asc" | "desc") => void;
@@ -212,9 +212,9 @@ export class Table extends LitElement {
             style="text-align: ${col.align || "left"}; width: ${col.width ||
             "auto"};"
           >
-            ${col.render
+            ${col.customCell
               ? html`${this.renderHTML(
-                  col.render(cellValue, row, rowIndex),
+                  col.customCell(cellValue, row, rowIndex),
                   col.align,
                 )}`
               : cellValue}
