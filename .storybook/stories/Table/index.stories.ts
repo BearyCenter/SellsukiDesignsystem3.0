@@ -143,7 +143,7 @@ const meta = {
 - **dataIndex** (string, optional): The key to access data in the row object. This links the column to the corresponding data field.
 - **align** ("left" | "center" | "right", optional): Specifies the alignment of the text in the column.
 - **width** (string, optional): Defines the width of the column. Can accept values such as '100px', '10%', or 'auto' to control the width of the column.
-- **render** (function, optional): A custom rendering function for the cell. It receives three arguments: \`value\`, \`record\`, and \`rowIndex\`. This allows for custom content to be displayed in the cell.
+- **customCell** (function, optional): A custom rendering function for the cell. It receives three arguments: \`value\`, \`record\`, and \`rowIndex\`. This allows for custom content to be displayed in the cell.
 - **sortable** (boolean, optional): If true, this column can be sorted.
 - **sortDirection** ("asc" | "desc", optional): The default sorting direction for the column.
 - **onSort** (function, optional): A callback function that is triggered when sorting occurs. It receives the current \`direction\` ("asc" or "desc").
