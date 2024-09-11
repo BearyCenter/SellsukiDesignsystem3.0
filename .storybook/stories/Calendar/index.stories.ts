@@ -203,7 +203,7 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<CalendarEventArgs>;
-const today = startOfDay(new Date());
+const today = startOfDay(new Date("2024-01-01T00:00:00"));
 const year = getYear(today).toString();
 const month = (getMonth(today) + 1).toString().padStart(2, "0");
 

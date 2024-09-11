@@ -83,6 +83,13 @@ const meta: Meta<ModalWithLabel> = {
         category: "Events",
       },
     },
+    "?hideDivider": {
+      description: "Hide divider",
+      control: "boolean",
+      table: {
+        category: "Props",
+      },
+    },
     testId: {
       description: "The test ID for the modal",
       control: "text",
@@ -103,6 +110,7 @@ export const ExampleModal: Story = {
     label: "Example Modal",
     width: "500px",
     "?show": true,
+    "?hideDivider": true,
   },
   parameters: {
     design: {

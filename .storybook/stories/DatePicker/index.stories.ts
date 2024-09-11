@@ -114,7 +114,7 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<DatePickerEventArgs>;
-const today = startOfDay(new Date());
+const today = startOfDay(new Date("2024-01-01T00:00:00"));
 
 export const BasicDatePicker: Story = {
   args: {
