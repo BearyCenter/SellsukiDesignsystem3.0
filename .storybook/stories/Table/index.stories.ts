@@ -8,32 +8,70 @@ import "../../../src/elements/icon";
 import "../../../src/elements/badge";
 import "../../../src/elements/text";
 import "../../../src/elements/image";
+import "../../../src/elements/input";
 import { Table } from "../../../src/components/table";
-import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
+import {
+  addPrefixToObject,
+  AutoLitProperty,
+  baseArgsTypes,
+  genericEvents,
+} from "../helper";
 
 type TableWithData = AutoLitProperty<Table>;
+type TableEventArgs = addPrefixToObject<Omit<TableWithData, "name">, "@">;
 
 const handleSort = (header: any, direction: string) => {
   console.log(`Sorting ${header.title} in ${direction} order`);
 };
 
 const customCellConfig = {
-  payment: (value) => {
-    return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
+  pricing: {
+    render: (value: string) => {
+      return `
+      <style lang="css">
+        ssk-input {
+          --background-color: white;
+        }
+      </style>
+      <ssk-input size="sm" placeholder="Placeholder" value="${value}"/> `;
+    },
+    onChange: (value: any, record: any, rowIndex: any) => {
+      console.log(
+        `Cell clicked: ${value} Record:${record["payment"]} Row: ${rowIndex}`,
+      );
+    },
   },
-  status: (value) => {
-    return value === "Active"
-      ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
-      : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
+  payment: {
+    render: (value: string) => {
+      return `<ssk-tag variant="subtle" size="md"><ssk-icon size="xs" name="outline-sun"></ssk-icon>${value}</ssk-tag>`;
+    },
   },
-  icon: () => {
-    return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
+  status: {
+    render: (value: string) => {
+      return value === "Active"
+        ? `<ssk-badge variant="subtle" size="md" themeColor="success">${value}</ssk-badge>`
+        : `<ssk-badge variant="subtle" size="md">${value}</ssk-badge>`;
+    },
   },
-  button: (_, __, rowIndex: number) => {
-    return `<ssk-button variant="solid" size="md"><ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>Button ${rowIndex} </ssk-button>`;
+  icon: {
+    render: () => {
+      return `<ssk-icon name="outline-document-duplicate" size="xs"></ssk-icon>`;
+    },
   },
-  action: () => {
-    return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
+  button: {
+    render: (_: any, __: any, rowIndex: number) => {
+      return `<ssk-button variant="solid" size="md"><ssk-icon slot="prefix" name="solid-users" size="md"></ssk-icon>Button ${rowIndex} </ssk-button>`;
+    },
+    onClick: (value: any, record: any, rowIndex: any) => {
+      console.log(
+        `Cell clicked: ${value} Record:${record["payment"]} Row: ${rowIndex}`,
+      );
+    },
+  },
+  action: {
+    render: () => {
+      return `<ssk-icon name="outline-ellipsis-vertical" size="xs"></ssk-icon>`;
+    },
   },
 };
 
@@ -42,7 +80,7 @@ const commonData = [
     id: "SSKU0001A",
     image: "image1.png",
     product: "Product Name A",
-    pricing: "100.00 THB",
+    pricing: "100.00",
     payment: "Paid",
     date: "18/09/2023",
     status: "Active",
@@ -51,7 +89,7 @@ const commonData = [
     id: "SSKU0002B",
     image: "image2.png",
     product: "Product Name B",
-    pricing: "200.00 THB",
+    pricing: "200.00",
     payment: "Pending",
     date: "17/09/2023",
     status: "Inactive",
@@ -60,7 +98,7 @@ const commonData = [
     id: "SSKU0003C",
     image: "image3.png",
     product: "Product Name C",
-    pricing: "300.00 THB",
+    pricing: "300.00",
     payment: "Paid",
     date: "16/09/2023",
     status: "Active",
@@ -69,7 +107,7 @@ const commonData = [
     id: "SSKU0004D",
     image: "image4.png",
     product: "Product Name D",
-    pricing: "400.00 THB",
+    pricing: "400.00",
     payment: "Cancelled",
     date: "15/09/2023",
     status: "Inactive",
@@ -78,7 +116,7 @@ const commonData = [
     id: "SSKU0005E",
     image: "image5.png",
     product: "Product Name E",
-    pricing: "500.00 THB",
+    pricing: "500.00",
     payment: "Paid",
     date: "14/09/2023",
     status: "Active",
@@ -87,7 +125,7 @@ const commonData = [
     id: "SSKU0006F",
     image: "image6.png",
     product: "Product Name F",
-    pricing: "600.00 THB",
+    pricing: "600.00",
     payment: "Pending",
     date: "13/09/2023",
     status: "Inactive",
@@ -96,7 +134,7 @@ const commonData = [
     id: "SSKU0007G",
     image: "image7.png",
     product: "Product Name G",
-    pricing: "700.00 THB",
+    pricing: "700.00",
     payment: "Paid",
     date: "12/09/2023",
     status: "Active",
@@ -105,7 +143,7 @@ const commonData = [
     id: "SSKU0008H",
     image: "image8.png",
     product: "Product Name H",
-    pricing: "800.00 THB",
+    pricing: "800.00",
     payment: "Cancelled",
     date: "11/09/2023",
     status: "Inactive",
@@ -114,7 +152,7 @@ const commonData = [
     id: "SSKU0009I",
     image: "image9.png",
     product: "Product Name I",
-    pricing: "900.00 THB",
+    pricing: "900.00",
     payment: "Paid",
     date: "10/09/2023",
     status: "Active",
@@ -123,7 +161,7 @@ const commonData = [
     id: "SSKU0010J",
     image: "image10.png",
     product: "Product Name J",
-    pricing: "1000.00 THB",
+    pricing: "1000.00",
     payment: "Pending",
     date: "09/09/2023",
     status: "Inactive",
@@ -132,7 +170,7 @@ const commonData = [
     id: "SSKU0011K",
     image: "image11.png",
     product: "Product Name K",
-    pricing: "1100.00 THB",
+    pricing: "1100.00",
     payment: "Paid",
     date: "08/09/2023",
     status: "Active",
@@ -141,7 +179,7 @@ const commonData = [
     id: "SSKU0012L",
     image: "image12.png",
     product: "Product Name L",
-    pricing: "1200.00 THB",
+    pricing: "1200.00",
     payment: "Cancelled",
     date: "07/09/2023",
     status: "Inactive",
@@ -224,19 +262,33 @@ In this example, if the \`columns\` have \`dataIndex\` values "name" and "age", 
     ".customCell": {
       description: `The \`customCell\` property allows you to define custom rendering functions for individual cells in the table. This enables you to customize the appearance and content of cells based on their column.
 
-Each key in the \`customCell\` object corresponds to a column \`dataIndex\` from the \`.columns\` array. The value should be a function that takes the cell value as input and returns the custom HTML or text to be rendered.
+Each key in the \`customCell\` object corresponds to a column \`dataIndex\` from the \`.columns\` array. The value should be an object with the following properties:
+
+- **render**: A function that takes the cell value, record (row data object), and row index as arguments and returns the custom HTML or text to be rendered in the cell.
+- **onClick** *(optional)*: A function that takes the cell value, record (row data object), and row index as arguments and handles click events on the cell.
+- **onChange** *(optional)*: A function that takes the cell value, record, and row index as arguments and handles change events (e.g., input or selection) on the cell.
 
 **Example:**
 
 \`\`\`js
-  {
-    name: (value) => \`<ssk-text>\${value}</ssk-text>\`,
-      
-    email: (value) => \`<ssk-icon name="solid-email">\${value}</ssk-icon>\`  
-  }
-\`\`\`
+{
+    name: {
+      render: (value, record, rowIndex) => \`<ssk-text>\${value}</ssk-text>\`,
 
-In this example, the \`name\` column will display the name in bold, and the \`email\` column will display the email as a mailto link.`,
+      onClick: (value, record, rowIndex) => alert(\`Clicked on name: \${value}\`),
+
+      onChange: (newValue, record, rowIndex) => console.log(\`Value changed to: \${newValue}\`)
+    },
+
+    email: {
+      render: (value, record, rowIndex) => \`<ssk-icon name="solid-email">\${value}</ssk-icon>\`,
+
+      onClick: (value, record, rowIndex) => window.location.href = \`mailto:\${value}\`,
+
+      onChange: (newValue, record, rowIndex) => console.log(\`Email changed to: \${newValue}\`)
+    }
+  }
+\`\`\``,
       table: {
         category: "Props",
         type: {
@@ -347,14 +399,15 @@ In this example, the \`name\` column will display the name in bold, and the \`em
         type: "boolean",
       },
     },
-    "@click": genericEvents["@click"],
+    "@cell-click": genericEvents["@click"],
+    "@cell-change": genericEvents["@change"],
     ...baseArgsTypes,
   },
-} satisfies Meta<TableWithData>;
+} satisfies Meta<TableEventArgs>;
 
 export default meta;
 
-type Story = StoryObj<TableWithData>;
+type Story = StoryObj<TableEventArgs>;
 
 export const Default: Story = {
   args: {
