@@ -116,7 +116,11 @@ export class Table extends LitElement {
 
   @property({ type: Object })
   customCell: {
-    [dataIndex: string]: (value: any, record: any, rowIndex: number) => string;
+    [dataIndex: string]: {
+      render: (value: any, record: any, rowIndex: number) => string;
+      onClick?: (value: any, record: any, rowIndex: number) => void;
+      onChange?: (value: any, record: any, rowIndex: number) => void;
+    };
   } = {};
 
   toggleSelectAll() {
@@ -212,16 +216,39 @@ export class Table extends LitElement {
       ...this.columns.map((col) => {
         const cellValue = row[col.dataIndex || ""];
         const customCellFunction = this.customCell[col.dataIndex || ""];
+        const { render, onClick, onChange } = customCellFunction || {};
 
         return html`
           <td
             style="text-align: ${col.align || "left"}; width: ${col.width ||
             "auto"};"
           >
-            ${customCellFunction
+            ${render
               ? html`${this.renderHTML(
-                  customCellFunction(cellValue, row, rowIndex),
+                  render(cellValue, row, rowIndex),
                   col.align,
+                  onClick
+                    ? () => {
+                        onClick(cellValue, row, rowIndex);
+                        this.dispatchEvent(
+                          new CustomEvent(`cell-click`, {
+                            detail: { cellValue, row, rowIndex },
+                          }),
+                        );
+                      }
+                    : undefined,
+                  onChange
+                    ? (event: Event) => {
+                        const newValue = (event.target as HTMLInputElement)
+                          .value;
+                        onChange(newValue, row, rowIndex);
+                        this.dispatchEvent(
+                          new CustomEvent(`cell-change`, {
+                            detail: { newValue, row, rowIndex },
+                          }),
+                        );
+                      }
+                    : undefined,
                 )}`
               : cellValue}
           </td>
@@ -234,10 +261,14 @@ export class Table extends LitElement {
   renderHTML(
     content: string,
     align: "left" | "center" | "right" = "left",
+    onClick?: () => void,
+    onChange?: (event: Event) => void,
   ): TemplateResult {
     return html`<div
       style="text-align: ${align};"
       .innerHTML="${content}"
+      @click="${onClick || nothing}"
+      @input="${onChange || nothing}"
     ></div>`;
   }
 
