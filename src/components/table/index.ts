@@ -330,6 +330,7 @@ export class Table extends LitElement {
         ?showBtnPage="${this.showPageButtons}"
         ?showrowsperpage="${this.showRowsPerPageSelector}"
         ?showGoToPage="${this.showGoToPageInput}"
+        dropdownAnchor="top"
       ></ssk-pagination>
     `;
   }

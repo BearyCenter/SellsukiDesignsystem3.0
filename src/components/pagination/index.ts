@@ -92,29 +92,8 @@ export class Pagination extends LitElement {
   @property({ type: Boolean })
   fullWidth = false;
 
-  private dropdownAnchor: "top" | "bottom" = "bottom";
-
-  private updateDropdownAnchor() {
-    const container = this.shadowRoot?.querySelector(".container");
-    if (container) {
-      const { bottom, height } = container.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-
-      this.dropdownAnchor =
-        bottom + height / 2 > viewportHeight ? "top" : "bottom";
-      this.requestUpdate();
-    }
-  }
-
-  firstUpdated() {
-    this.updateDropdownAnchor();
-    window.addEventListener("resize", this.updateDropdownAnchor.bind(this));
-  }
-
-  disconnectedCallback() {
-    window.removeEventListener("resize", this.updateDropdownAnchor.bind(this));
-    super.disconnectedCallback();
-  }
+  @property({ type: String })
+  dropdownAnchor: "top" | "bottom" = "bottom";
 
   renderPageNumbers() {
     const pages: Array<number | string> = [];
