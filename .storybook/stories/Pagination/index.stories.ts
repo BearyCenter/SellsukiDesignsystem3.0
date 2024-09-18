@@ -82,6 +82,25 @@ const meta = {
         type: "boolean",
       },
     },
+    dropdownAnchor: {
+      if: {
+        arg: "?showRowsPerPage",
+        eq: true,
+      },
+      description:
+        "Sets the position of the dropdown anchor, either at the top or bottom.",
+      table: {
+        category: "Props",
+        defaultValue: { summary: "bottom" },
+        type: {
+          summary: "select",
+        },
+      },
+      control: {
+        type: "select",
+      },
+      options: ["top", "bottom"],
+    },
     ".selectedItems": {
       description: "Array of selected items",
       control: {
@@ -113,6 +132,32 @@ export const Default: Story = {
   args: {
     ".selectedItems": [10, 20, 50, 100],
     "?showRowsPage": true,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=42%3A915&mode=dev",
+    },
+  },
+};
+
+export const DropdownAnchor: Story = {
+  args: {
+    ".selectedItems": [10, 20, 50, 100],
+    "?showRowsPerPage": true,
+    dropdownAnchor: "top",
+  },
+  render: ({ ...args }) => {
+    return html`
+      <style lang="css">
+        .anchor {
+          padding-top: 12%;
+        }
+      </style>
+      <div class="anchor">
+        <ssk-pagination ${spread({ ...args })}></ssk-pagination>
+      </div>
+    `;
   },
   parameters: {
     design: {

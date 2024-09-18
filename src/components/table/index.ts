@@ -111,6 +111,9 @@ export class Table extends LitElement {
   @property({ type: Boolean })
   showGoToPageInput: boolean = false;
 
+  @property({ type: Number })
+  totalPaginationPages: number = 0;
+
   @property({ type: Boolean })
   min = false;
 
@@ -145,14 +148,39 @@ export class Table extends LitElement {
       }
     }
   }
+
   updatedPage(event: CustomEvent) {
     const newRowsPerPage = event.detail.rowsPerPage;
+
+    const totalPages =
+      this.totalPaginationPages > 0
+        ? Math.ceil(this.totalPaginationPages / this.rowsPerPage)
+        : Math.ceil(this.data.length / newRowsPerPage);
+    const firstVisibleItem = (this.currentPage - 1) * this.rowsPerPage + 1;
+    this.currentPage = Math.ceil(firstVisibleItem / newRowsPerPage);
+
+    if (this.currentPage > totalPages) {
+      this.currentPage = totalPages;
+    }
+
     this.rowsPerPage = newRowsPerPage;
+
+    this.dispatchEvent(
+      new CustomEvent("load-data", {
+        detail: { page: this.currentPage, rowsPerPage: this.rowsPerPage },
+      }),
+    );
   }
 
   handlePageChanged(event: CustomEvent) {
     const newPage = event.detail.page;
     this.currentPage = newPage;
+
+    this.dispatchEvent(
+      new CustomEvent("load-data", {
+        detail: { page: this.currentPage, rowsPerPage: this.rowsPerPage },
+      }),
+    );
   }
 
   handleSort(col: Column) {
@@ -273,7 +301,10 @@ export class Table extends LitElement {
   }
 
   renderPaginationControls() {
-    const totalPages = Math.ceil(this.data.length / this.rowsPerPage);
+    const totalPages =
+      this.totalPaginationPages > 0
+        ? Math.ceil(this.totalPaginationPages / this.rowsPerPage)
+        : Math.ceil(this.data.length / this.rowsPerPage);
 
     let startIndex = (this.currentPage - 1) * this.rowsPerPage + 1;
     if (this.data.length === 0 || isNaN(startIndex)) {
@@ -299,6 +330,7 @@ export class Table extends LitElement {
         ?showBtnPage="${this.showPageButtons}"
         ?showrowsperpage="${this.showRowsPerPageSelector}"
         ?showGoToPage="${this.showGoToPageInput}"
+        dropdownAnchor="top"
       ></ssk-pagination>
     `;
   }
@@ -307,9 +339,16 @@ export class Table extends LitElement {
     if (this.hidden) {
       return nothing;
     }
+
     const hasItems = this.data.length > 0;
-    const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-    const endIndex = Math.min(startIndex + this.rowsPerPage, this.data.length);
+    const isPaginated = this.totalPaginationPages !== 0;
+
+    const startIndex = isPaginated
+      ? 0
+      : (this.currentPage - 1) * this.rowsPerPage;
+    const endIndex = isPaginated
+      ? this.data.length
+      : Math.min(startIndex + this.rowsPerPage, this.data.length);
 
     let additionalCss = html`
       <style>
