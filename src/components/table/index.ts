@@ -341,7 +341,7 @@ export class Table extends LitElement {
     }
 
     const hasItems = this.data.length > 0;
-    const isPaginated = typeof this.totalPaginationPages !== "undefined";
+    const isPaginated = this.totalPaginationPages !== 0;
 
     const startIndex = isPaginated
       ? 0

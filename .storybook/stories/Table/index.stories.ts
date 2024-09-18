@@ -399,6 +399,25 @@ Each key in the \`customCell\` object corresponds to a column \`dataIndex\` from
         type: "boolean",
       },
     },
+
+    totalPaginationPages: {
+      if: {
+        arg: "?showPaginationFooter",
+        eq: true,
+      },
+      description:
+        "Specifies the total number of pagination pages. Only visible if showPaginationFooter is true.",
+      table: {
+        category: "Props",
+        defaultValue: { summary: 0 },
+        type: {
+          summary: "number",
+        },
+      },
+      control: {
+        type: "number",
+      },
+    },
     "@cell-click": genericEvents["@click"],
     "@cell-change": genericEvents["@change"],
     ...baseArgsTypes,
@@ -662,6 +681,34 @@ export const TableEmpty: Story = {
         </div>
       </ssk-table>
     `;
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=1145%3A69931&mode=dev",
+    },
+  },
+};
+
+export const TableWithFooterCustomTotalPage: Story = {
+  args: {
+    ".columns": [
+      { title: "ID", dataIndex: "id" },
+      { title: "Image", dataIndex: "image" },
+      { title: "Product", dataIndex: "product" },
+      { title: "Pricing", dataIndex: "pricing" },
+      { title: "Payment", dataIndex: "payment" },
+      { title: "Create Date", dataIndex: "date" },
+      { title: "Status", dataIndex: "status" },
+      { title: "Icon", dataIndex: "icon", align: "center" },
+      { title: "Button", dataIndex: "button" },
+      { title: "Action", dataIndex: "action", align: "center" },
+    ],
+    ".data": commonData,
+    ".customCell": customCellConfig,
+    "?showPaginationFooter": true,
+    "?showRowsPerPageSelector": true,
+    totalPaginationPages: 100,
   },
   parameters: {
     design: {
