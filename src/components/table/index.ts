@@ -52,7 +52,7 @@ export class Table extends LitElement {
   backgroundColor?: string | undefined;
 
   @property({ type: String })
-  size: Size = "sm";
+  size: Size = "md";
   @property({ type: String })
   padding?: Size;
   @property({ type: String })
@@ -384,7 +384,10 @@ export class Table extends LitElement {
             cssVar("font-weight", this.fontWeight),
           )};
 
-          --font-size: ${parseVariables(cssVar("font-size", this.size))};
+          --font-size: ${parseVariables(
+            cssVar("font-size", this.fontSize),
+            cssVar("font-size", this.size),
+          )};
           --line-height: ${parseVariables(cssVar("font-size", this.size))};
           --border-style: solid;
           --border-width: 1px;
