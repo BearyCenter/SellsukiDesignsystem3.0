@@ -20,7 +20,6 @@ import {
   parse,
   subMonths,
   subYears,
-  toDate,
 } from "date-fns";
 import { getMonthString } from "./util";
 
@@ -41,7 +40,10 @@ export class RangeDatePicker extends LitElement {
   @property({ type: String })
   label?: string;
   @property({ type: String })
-  placeholder?: string;
+  placeholderFrom?: string;
+  @property({ type: String })
+  placeholderTo?: string;
+
   @property({ type: String })
   helperText: string | undefined;
   @property({ type: Boolean })
@@ -113,6 +115,15 @@ export class RangeDatePicker extends LitElement {
       this._timeFrom = undefined;
       this._timeTo = undefined;
       this._timeTarget = "dateFrom";
+
+      this.dispatchEvent(
+        new CustomEvent("change", {
+          detail: {
+            valueFrom: this.valueFrom,
+            valueTo: this.valueTo,
+          },
+        }),
+      );
     }
   }
 
@@ -143,9 +154,13 @@ export class RangeDatePicker extends LitElement {
         }
       } else {
         const date = parse(value, this.format, new Date());
-        this.valueFrom = toDate(format(date, this.format));
+        if (isValid(date)) {
+          this.valueFrom = date;
+        } else {
+          this.error = true;
+          return;
+        }
       }
-      // must be date or number
 
       this.dispatchEvent(
         new CustomEvent("change", {
@@ -178,7 +193,12 @@ export class RangeDatePicker extends LitElement {
         }
       } else {
         const date = parse(value, this.format, new Date());
-        this.valueTo = toDate(format(date, this.format)); // must be date or number
+        if (isValid(date)) {
+          this.valueTo = date;
+        } else {
+          this.error = true;
+          return;
+        }
       }
 
       this.dispatchEvent(
@@ -257,37 +277,6 @@ export class RangeDatePicker extends LitElement {
       }),
     );
   }
-
-  // private handleDateFrom({ detail }: any) {
-  //   const dateFrom = new Date(detail.value);
-  //   this.valueFrom = isValid(dateFrom) ? dateFrom : undefined;
-
-  //   if (this.valueFrom && getMonthString(this.valueFrom) === this._cMonthTo) {
-  //     const nextMonth = parse(this._cMonthTo, "MM", new Date());
-  //     // handle month
-  //     this._cMonthFrom = getMonthString(this.valueFrom);
-  //     this._cMonthTo = format(addMonths(nextMonth, 1), "MM");
-  //   }
-
-  //   if (this.valueFrom && this.showTime && /HH|mm|ss/.test(this.format)) {
-  //     this._timeFrom = this.valueFrom.getTime();
-  //     this._timeTarget = "dateFrom";
-  //   }
-  // }
-
-  // private handleDateTo({ detail }: any) {
-  //   const dateTo = new Date(detail.value);
-  //   this.valueTo = isValid(dateTo) ? dateTo : undefined;
-  //   if (this.valueTo && this.showTime && /HH|mm|ss/.test(this.format)) {
-  //     this._timeTo = this.valueTo.getTime();
-  //     this._timeTarget = "dateTo";
-  //   }
-  //   this.dispatchEvent(
-  //     new CustomEvent("change", {
-  //       detail: { valueTo: this.valueTo, valueFrom: this.valueFrom },
-  //     }),
-  //   );
-  // }
 
   private handleChangedDateFrom(v?: string) {
     if (v) {
@@ -374,8 +363,7 @@ export class RangeDatePicker extends LitElement {
     if (!_e.composedPath().includes(targetDiv)) {
       this._isClear = false;
 
-      const hasValue = this.valueFrom && this.valueTo;
-      if (hasValue && !this._isFocus && !this._hideCalendar) {
+      if (!this._isFocus && !this._hideCalendar) {
         this._hideCalendar = true;
       }
     } else {
@@ -384,6 +372,11 @@ export class RangeDatePicker extends LitElement {
   }
 
   protected firstUpdated() {
+    if (!this._cMonthFrom && !this._cMonthFrom) {
+      // set default
+      this._cMonthFrom = "01";
+      this._cMonthTo = "02";
+    }
     var popover = this.shadowRoot?.querySelector(
       "div.calendar-container",
     ) as HTMLDivElement;
@@ -411,7 +404,6 @@ export class RangeDatePicker extends LitElement {
 
   protected updated(properties: PropertyValues): void {
     // handle month and year change
-    if (properties.has("_cMonthFrom") && properties.has("_cMonthTo")) return;
     if (properties.has("_cYearFrom") && properties.has("_cYearTo")) return;
     if (properties.has("_cYearFrom") || properties.has("_cYearTo")) {
       if (properties.has("_cYearFrom")) {
@@ -467,7 +459,8 @@ export class RangeDatePicker extends LitElement {
           label=${this.label}
           helperText=${this.error ? this.helperText : ""}
           .error=${this.error}
-          placeholder=${this.placeholder}
+          placeholderFrom=${this.placeholderFrom}
+          placeholderTo=${this.placeholderTo}
           name=${this.name}
           size=${this.size}
           @value-from-change=${this.updateValueFrom.bind(this)}
@@ -568,6 +561,7 @@ export class RangeDatePicker extends LitElement {
       background-color: white;
       border: 1px solid var(--ssk-colors-gray-200);
       border-radius: var(--rounded);
+      z-index: 9;
     }
   `;
 }

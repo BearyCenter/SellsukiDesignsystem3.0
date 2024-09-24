@@ -230,7 +230,8 @@ export const CustomFooterDatePicker: Story = {
 export const RangeDatePicker: Story = {
   args: {
     label: "Select date",
-    placeholder: "Select date",
+    placeholderFrom: "Select date from",
+    placeholderTo: "Select date to",
     helperText: "Wrong format",
     size: "md",
     format: "dd-MM-yyyy",
@@ -254,7 +255,8 @@ export const RangeDatePicker: Story = {
 export const RangeDateTimePicker: Story = {
   args: {
     label: "Select date",
-    placeholder: "Select date",
+    placeholderFrom: "Select date from",
+    placeholderTo: "Select date to",
     helperText: "Wrong format",
     size: "md",
     format: "dd-MM-yyyy HH:mm:ss",
@@ -280,7 +282,8 @@ export const RangeDateTimePicker: Story = {
 export const RangeDateTimePickerDefaultFooter: Story = {
   args: {
     label: "Select date",
-    placeholder: "Select date",
+    placeholderFrom: "Select date from",
+    placeholderTo: "Select date to",
     helperText: "Wrong format",
     size: "md",
     format: "dd-MM-yyyy HH:mm:ss",
