@@ -258,6 +258,7 @@ export class DatePicker extends LitElement {
       background-color: white;
       border: 1px solid var(--ssk-colors-gray-200);
       border-radius: var(--rounded);
+      z-index: 9;
     }
   `;
 }

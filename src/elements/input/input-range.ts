@@ -54,7 +54,9 @@ export class InputRange extends LitElement {
   name: string | undefined;
 
   @property({ type: String })
-  placeholder: string | undefined;
+  placeholderFrom: string | undefined;
+  @property({ type: String })
+  placeholderTo: string | undefined;
 
   @property({ type: Boolean })
   hidden = false;
@@ -171,7 +173,7 @@ export class InputRange extends LitElement {
           <input
             id="input-from"
             data-testid=${this.testId || nothing}
-            placeholder=${this.placeholder || ""}
+            placeholder=${this.placeholderFrom || ""}
             name=${this.name || ""}
             .value=${this.valueFrom || ""}
             ?disabled=${this.disabled}
@@ -184,7 +186,7 @@ export class InputRange extends LitElement {
           <input
             id="input-to"
             data-testid=${this.testId || nothing}
-            placeholder=${this.placeholder || ""}
+            placeholder=${this.placeholderTo || ""}
             name=${this.name || ""}
             .value=${this.valueTo || ""}
             ?disabled=${this.disabled}
