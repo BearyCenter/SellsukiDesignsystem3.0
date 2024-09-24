@@ -161,7 +161,6 @@ export class RangeDatePicker extends LitElement {
           return;
         }
       }
-      // must be date or number
 
       this.dispatchEvent(
         new CustomEvent("change", {

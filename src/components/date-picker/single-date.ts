@@ -75,6 +75,14 @@ export class DatePicker extends LitElement {
       this._hideCalendar = true;
       this._isClear = false;
       this.error = false;
+
+      this.dispatchEvent(
+        new CustomEvent("change", {
+          detail: {
+            valueFrom: this.value,
+          },
+        }),
+      );
     }
   }
 
@@ -104,8 +112,13 @@ export class DatePicker extends LitElement {
           return;
         }
       } else {
-        this.value = toDate(format(value, this.format));
-        this._timeFrom = undefined;
+        const date = parse(value, this.format, new Date());
+        if (isValid(date)) {
+          this.value = date;
+        } else {
+          this.error = true;
+          return;
+        }
       }
 
       this.dispatchEvent(
@@ -168,7 +181,7 @@ export class DatePicker extends LitElement {
     if (!_e.composedPath().includes(targetDiv)) {
       this._isClear = false;
 
-      if (this.value && !this._isFocus && !this._hideCalendar) {
+      if (!this._isFocus && !this._hideCalendar) {
         this._hideCalendar = true;
       }
     } else {
