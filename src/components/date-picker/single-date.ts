@@ -5,7 +5,7 @@ import { Size, Theme, themeContext } from "../../main";
 import "../calendar";
 import "../../elements/input";
 import "../../elements/icon";
-import { format, isValid, parse, toDate } from "date-fns";
+import { format, isValid, parse } from "date-fns";
 import { getMonthString } from "./util";
 
 @customElement("ssk-date-picker")
