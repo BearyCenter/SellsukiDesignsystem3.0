@@ -111,7 +111,6 @@ export class RangeDatePicker extends LitElement {
       this._sValueTo = undefined;
       this._isClear = false;
       this._hideCalendar = true;
-      this.error = false;
       this._timeFrom = undefined;
       this._timeTo = undefined;
       this._timeTarget = "dateFrom";
@@ -149,7 +148,6 @@ export class RangeDatePicker extends LitElement {
           this.valueFrom = parsedDate;
           this._timeFrom = parsedDate.getTime();
         } else {
-          this.error = true;
           return;
         }
       } else {
@@ -157,7 +155,6 @@ export class RangeDatePicker extends LitElement {
         if (isValid(date)) {
           this.valueFrom = date;
         } else {
-          this.error = true;
           return;
         }
       }
@@ -170,10 +167,8 @@ export class RangeDatePicker extends LitElement {
           },
         }),
       );
-      this.error = false;
       return;
     }
-    this.error = true;
   }
 
   private async updateValueTo({ detail }: any) {
@@ -188,7 +183,6 @@ export class RangeDatePicker extends LitElement {
           this.valueTo = parsedDate;
           this._timeTo = parsedDate.getTime();
         } else {
-          this.error = true;
           return;
         }
       } else {
@@ -196,7 +190,6 @@ export class RangeDatePicker extends LitElement {
         if (isValid(date)) {
           this.valueTo = date;
         } else {
-          this.error = true;
           return;
         }
       }
@@ -209,10 +202,8 @@ export class RangeDatePicker extends LitElement {
           },
         }),
       );
-      this.error = false;
       return;
     }
-    this.error = true;
   }
 
   private handleClickFrom() {
@@ -314,9 +305,10 @@ export class RangeDatePicker extends LitElement {
 
   handlePrevMonth({ detail }: any) {
     const month = parse(detail.value, "MM", new Date());
-    const monthPlusDate = addMonths(month, 1);
 
     this._cMonthFrom = detail.value;
+
+    const monthPlusDate = addMonths(month, 1);
     this._cMonthTo = format(monthPlusDate, "MM");
 
     if (this._cMonthFrom === "11") {
@@ -329,7 +321,10 @@ export class RangeDatePicker extends LitElement {
     const monthMinusDate = subMonths(month, 1);
 
     this._cMonthFrom = format(monthMinusDate, "MM");
+    console.log(this._cMonthFrom);
+
     this._cMonthTo = detail.value;
+    console.log(this._cMonthTo);
 
     if (this._cMonthTo === "02") {
       this._cYearFrom = this._cYearTo;
@@ -374,8 +369,12 @@ export class RangeDatePicker extends LitElement {
   protected firstUpdated() {
     if (!this._cMonthFrom && !this._cMonthFrom) {
       // set default
-      this._cMonthFrom = "01";
-      this._cMonthTo = "02";
+
+      const currentMonth = getMonthString(new Date());
+      this._cMonthFrom = currentMonth;
+
+      const nextMonth = parse(this._cMonthFrom, "MM", new Date());
+      this._cMonthTo = format(addMonths(nextMonth, 1), "MM");
     }
     var popover = this.shadowRoot?.querySelector(
       "div.calendar-container",
@@ -404,6 +403,7 @@ export class RangeDatePicker extends LitElement {
 
   protected updated(properties: PropertyValues): void {
     // handle month and year change
+    if (properties.has("_cMonthFrom") && properties.has("_cMonthTo")) return;
     if (properties.has("_cYearFrom") && properties.has("_cYearTo")) return;
     if (properties.has("_cYearFrom") || properties.has("_cYearTo")) {
       if (properties.has("_cYearFrom")) {

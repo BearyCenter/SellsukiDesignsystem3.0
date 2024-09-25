@@ -74,7 +74,6 @@ export class DatePicker extends LitElement {
       this._timeFrom = undefined;
       this._hideCalendar = true;
       this._isClear = false;
-      this.error = false;
 
       this.dispatchEvent(
         new CustomEvent("change", {
@@ -108,7 +107,6 @@ export class DatePicker extends LitElement {
           this.value = parsedDate;
           this._timeFrom = parsedDate.getTime();
         } else {
-          this.error = true;
           return;
         }
       } else {
@@ -116,7 +114,6 @@ export class DatePicker extends LitElement {
         if (isValid(date)) {
           this.value = date;
         } else {
-          this.error = true;
           return;
         }
       }
@@ -128,10 +125,8 @@ export class DatePicker extends LitElement {
           },
         }),
       );
-      this.error = false;
       return;
     }
-    this.error = true;
   }
 
   private handleOnBlur() {
@@ -190,6 +185,13 @@ export class DatePicker extends LitElement {
   }
 
   firstUpdated() {
+    if (!this._cMonth) {
+      // set default
+
+      const currentMonth = getMonthString(new Date());
+      this._cMonth = currentMonth;
+    }
+
     var popover = this.shadowRoot?.querySelector(
       "div.calendar-container",
     ) as HTMLDivElement;
