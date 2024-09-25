@@ -111,7 +111,6 @@ export class RangeDatePicker extends LitElement {
       this._sValueTo = undefined;
       this._isClear = false;
       this._hideCalendar = true;
-      // this.error = false;
       this._timeFrom = undefined;
       this._timeTo = undefined;
       this._timeTarget = "dateFrom";
@@ -149,7 +148,6 @@ export class RangeDatePicker extends LitElement {
           this.valueFrom = parsedDate;
           this._timeFrom = parsedDate.getTime();
         } else {
-          // this.error = true;
           return;
         }
       } else {
@@ -157,7 +155,6 @@ export class RangeDatePicker extends LitElement {
         if (isValid(date)) {
           this.valueFrom = date;
         } else {
-          // this.error = true;
           return;
         }
       }
@@ -170,10 +167,8 @@ export class RangeDatePicker extends LitElement {
           },
         }),
       );
-      // this.error = false;
       return;
     }
-    // this.error = true;
   }
 
   private async updateValueTo({ detail }: any) {
@@ -188,7 +183,6 @@ export class RangeDatePicker extends LitElement {
           this.valueTo = parsedDate;
           this._timeTo = parsedDate.getTime();
         } else {
-          // this.error = true;
           return;
         }
       } else {
@@ -196,7 +190,6 @@ export class RangeDatePicker extends LitElement {
         if (isValid(date)) {
           this.valueTo = date;
         } else {
-          // this.error = true;
           return;
         }
       }
@@ -209,10 +202,8 @@ export class RangeDatePicker extends LitElement {
           },
         }),
       );
-      // this.error = false;
       return;
     }
-    // this.error = true;
   }
 
   private handleClickFrom() {
@@ -379,8 +370,11 @@ export class RangeDatePicker extends LitElement {
     if (!this._cMonthFrom && !this._cMonthFrom) {
       // set default
 
-      this._cMonthFrom = "01";
-      this._cMonthTo = "02";
+      const currentMonth = getMonthString(new Date());
+      this._cMonthFrom = currentMonth;
+
+      const nextMonth = parse(this._cMonthFrom, "MM", new Date());
+      this._cMonthTo = format(addMonths(nextMonth, 1), "MM");
     }
     var popover = this.shadowRoot?.querySelector(
       "div.calendar-container",
