@@ -348,6 +348,18 @@ export class Calendar extends LitElement {
     return "";
   }
 
+  private computeYearName(year: string, yFormat: string) {
+    if (year) {
+      let dateFn = parse(`${year}`, "yyyy", new Date());
+      if (this.locale === "th") {
+        dateFn = new Date(dateFn.setFullYear(dateFn.getFullYear() + 543));
+      }
+
+      return format(dateFn, yFormat, { locale: locales[this.locale] });
+    }
+    return "";
+  }
+
   private updateDateWithTime(
     date: number | undefined,
     time: number | undefined,
@@ -625,8 +637,11 @@ export class Calendar extends LitElement {
   }
 
   private calcYearString(yList: number[]): string {
-    const firstY = yList[0];
-    const lastY = yList[yList.length - 1];
+    const firstY = this.computeYearName(yList[0].toString(), "yyyy");
+    const lastY = this.computeYearName(
+      yList[yList.length - 1].toString(),
+      "yyyy",
+    );
     return `${firstY} - ${lastY}`;
   }
 
@@ -699,16 +714,19 @@ export class Calendar extends LitElement {
             ></ssk-icon>
           </div>
           ${this._chunkYearList[this._yearIndex].map(
-            (y) =>
-              html`<div
+            (y) => html`
+              <div
                 class="item 
-                ${+this.year === y ? "selected" : null}
-                ${this.isCurrentYear(y) ? "currently" : null}
-                "
+                  ${+this.year === y ? "selected" : null}
+                  ${this.isCurrentYear(y) ? "currently" : null}
+                  "
                 @click=${() => this.handleYearChanged(y)}
               >
-                <ssk-text size=${this.size}><span>${y}</span></ssk-text>
-              </div>`,
+                <ssk-text size=${this.size}>
+                  <span>${this.computeYearName(y.toString(), "yyyy")}</span>
+                </ssk-text>
+              </div>
+            `,
           )}
         </div>
       `;
@@ -766,11 +784,11 @@ export class Calendar extends LitElement {
                       @click=${this.toggleYearChangeDropdown.bind(this)}
                     >
                       <ssk-text size=${this.size}>
-                        <span>${this.year}</span>
+                        <span> ${this.computeYearName(this.year, "yyyy")}</span>
                       </ssk-text>
                     </div> `
                   : html` <ssk-text size=${this.size}>
-                      ${this.year}
+                      ${this.computeYearName(this.year, "yyyy")}
                     </ssk-text>`}
                 ${this._monthChangeDropdown ? renderMonthDropdown() : null}
                 ${this._yearChangeDropdown ? renderYearDropdown() : null}
