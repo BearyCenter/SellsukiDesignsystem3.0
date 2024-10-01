@@ -51,7 +51,7 @@ export class DatePicker extends LitElement {
   @property({ type: String })
   timeFormat: "hms" | "hm" | "timeEvery30" = "hms";
   @property({ type: String })
-  locale: LocaleKey = "en";
+  locale: LocaleKey = "th";
 
   @state()
   _hideCalendar: boolean = true;

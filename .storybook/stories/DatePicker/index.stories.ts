@@ -116,7 +116,7 @@ const meta = {
       table: {
         category: "Props",
         defaultValue: {
-          summary: "en",
+          summary: "th",
         },
         type: {
           summary: "string",
