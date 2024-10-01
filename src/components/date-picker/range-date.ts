@@ -21,8 +21,9 @@ import {
   subMonths,
   subYears,
 } from "date-fns";
-import { getMonthString } from "./util";
+import { convertToAD, convertToBE, getMonthString } from "./util";
 
+type LocaleKey = "en" | "fr" | "th";
 @customElement("ssk-range-date-picker")
 export class RangeDatePicker extends LitElement {
   static registeredName = "ssk-range-date-picker";
@@ -67,6 +68,8 @@ export class RangeDatePicker extends LitElement {
   showTime = false;
   @property({ type: String })
   timeFormat: "hms" | "hm" | "timeEvery30" = "hms";
+  @property({ type: String })
+  locale: LocaleKey = "th";
 
   @state()
   _hideCalendar: boolean = true;
@@ -137,8 +140,18 @@ export class RangeDatePicker extends LitElement {
   }
 
   private async updateValueFrom({ detail }: any) {
-    const value = detail.originalEvent.target.value;
+    let value = detail.originalEvent.target.value;
     this._isClear = true;
+
+    if (this.locale === "th") {
+      const yearMatch = value.match(/\b(\d{4})\b/);
+      if (yearMatch) {
+        const yearInBE = parseInt(yearMatch[0], 10);
+        const yearInAD = convertToAD(yearInBE);
+
+        value = value.replace(yearInBE.toString(), yearInAD.toString());
+      }
+    }
 
     if (this.validateStringDate(value)) {
       if (this.showTime) {
@@ -172,8 +185,18 @@ export class RangeDatePicker extends LitElement {
   }
 
   private async updateValueTo({ detail }: any) {
-    const value = detail.originalEvent.target.value;
+    let value = detail.originalEvent.target.value;
     this._isClear = true;
+
+    if (this.locale === "th") {
+      const yearMatch = value.match(/\b(\d{4})\b/);
+      if (yearMatch) {
+        const yearInBE = parseInt(yearMatch[0], 10);
+        const yearInAD = convertToAD(yearInBE);
+
+        value = value.replace(yearInBE.toString(), yearInAD.toString());
+      }
+    }
 
     if (this.validateStringDate(value)) {
       if (this.showTime) {
@@ -321,10 +344,8 @@ export class RangeDatePicker extends LitElement {
     const monthMinusDate = subMonths(month, 1);
 
     this._cMonthFrom = format(monthMinusDate, "MM");
-    console.log(this._cMonthFrom);
 
     this._cMonthTo = detail.value;
-    console.log(this._cMonthTo);
 
     if (this._cMonthTo === "02") {
       this._cYearFrom = this._cYearTo;
@@ -384,15 +405,7 @@ export class RangeDatePicker extends LitElement {
       this.handleClickOutside(event, popover),
     );
 
-    this._sValueFrom = this.valueFrom
-      ? format(this.valueFrom, this.format)
-      : undefined;
-    this._sValueTo = this.valueTo
-      ? format(this.valueTo, this.format)
-      : undefined;
-
-    this.handleChangedDateFrom(this._sValueFrom);
-    this.handleChangedDateTo(this._sValueTo);
+    this.updateChangeValue();
   }
 
   disconnectedCallback() {
@@ -415,21 +428,52 @@ export class RangeDatePicker extends LitElement {
       return;
     }
 
+    this.updateChangeValue();
+  }
+
+  private updateChangeValue(): void {
+    let formattedValueFrom: string | undefined;
+    let formattedValueTo: string | undefined;
+
+    if (this.valueFrom) {
+      formattedValueFrom = format(this.valueFrom, this.format);
+
+      if (this.locale === "th") {
+        const yearFrom = this.valueFrom.getFullYear();
+        const beYearFrom = convertToBE(this.valueFrom);
+        this._sValueFrom = formattedValueFrom.replace(
+          yearFrom.toString(),
+          beYearFrom.toString(),
+        );
+      } else {
+        this._sValueFrom = formattedValueFrom;
+      }
+    }
+
+    if (this.valueTo) {
+      formattedValueTo = format(this.valueTo, this.format);
+
+      if (this.locale === "th") {
+        const yearTo = this.valueTo.getFullYear();
+        const beYearTo = convertToBE(this.valueTo);
+        this._sValueTo = formattedValueTo.replace(
+          yearTo.toString(),
+          beYearTo.toString(),
+        );
+      } else {
+        this._sValueTo = formattedValueTo;
+      }
+    }
+
+    this.handleChangedDateFrom(formattedValueFrom);
+
     const monthFromEqualMonthTo =
       (this.valueFrom && getMonthString(this.valueFrom)) ===
       (this.valueTo && getMonthString(this.valueTo));
 
-    this._sValueFrom = this.valueFrom
-      ? format(this.valueFrom, this.format)
-      : undefined;
-    this._sValueTo = this.valueTo
-      ? format(this.valueTo, this.format)
-      : undefined;
-
-    this.handleChangedDateFrom(this._sValueFrom);
     if (monthFromEqualMonthTo) return;
 
-    this.handleChangedDateTo(this._sValueTo);
+    this.handleChangedDateTo(formattedValueTo);
   }
 
   render() {
@@ -501,6 +545,7 @@ export class RangeDatePicker extends LitElement {
                 ?displayGoToday=${this.displayGoToday}
                 ?displayOk=${this.displayOk}
                 @date-changed=${this.handleDateChanged.bind(this)}
+                locale=${this.locale}
               >
                 >
                 ${footerSlot
@@ -521,6 +566,7 @@ export class RangeDatePicker extends LitElement {
                   @date-changed=${this.handleDateChanged.bind(this)}
                   @prev-month="${this.handlePrevMonth.bind(this)}"
                   @prev-year="${this.setYearFrom.bind(this)}"
+                  locale=${this.locale}
                 >
                   >
                   ${footerSlot
@@ -541,6 +587,7 @@ export class RangeDatePicker extends LitElement {
                   @date-changed=${this.handleDateChanged.bind(this)}
                   @next-month="${this.handleNextMonth.bind(this)}"
                   @next-year="${this.setYearTo.bind(this)}"
+                  locale=${this.locale}
                 >
                   >
                   ${footerSlot

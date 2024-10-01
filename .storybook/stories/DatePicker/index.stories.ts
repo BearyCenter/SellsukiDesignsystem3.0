@@ -107,6 +107,22 @@ const meta = {
         },
       },
     },
+    locale: {
+      options: ["en", "fr", "th"],
+      description: "The type of Calendar language",
+      control: {
+        type: "inline-radio",
+      },
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "th",
+        },
+        type: {
+          summary: "string",
+        },
+      },
+    },
     "@change": genericEvents["@change"],
     ...baseArgsTypes,
   },
@@ -125,6 +141,7 @@ export const BasicDatePicker: Story = {
     format: "dd-MM-yyyy",
     ".value": today,
     "?rangeDate": false,
+    locale: "th",
   },
   parameters: {
     design: {
@@ -145,6 +162,7 @@ export const DatePickerDefaultFooter: Story = {
     "?displayOk": true,
     ".value": today,
     "?rangeDate": false,
+    locale: "th",
   },
   parameters: {
     design: {
@@ -165,6 +183,7 @@ export const DateTimePicker: Story = {
     timeFormat: "hms",
     ".value": today,
     "?rangeDate": false,
+    locale: "th",
   },
   parameters: {
     design: {
@@ -187,6 +206,7 @@ export const DateTimePickerDefaultFooter: Story = {
     "?displayOk": true,
     ".value": today,
     "?rangeDate": false,
+    locale: "th",
   },
   parameters: {
     design: {
@@ -205,6 +225,7 @@ export const CustomFooterDatePicker: Story = {
     format: "dd-MM-yyyy",
     ".value": today,
     "?rangeDate": false,
+    locale: "th",
   },
   parameters: {
     design: {
@@ -238,6 +259,7 @@ export const RangeDatePicker: Story = {
     ".valueFrom": today,
     ".valueTo": addDays(today, 32),
     "?rangeDate": true,
+    locale: "th",
   },
   parameters: {
     design: {
@@ -265,6 +287,7 @@ export const RangeDateTimePicker: Story = {
     "?showTime": true,
     "?rangeDate": true,
     timeFormat: "hms",
+    locale: "th",
   },
   parameters: {
     design: {
@@ -294,6 +317,7 @@ export const RangeDateTimePickerDefaultFooter: Story = {
     "?displayGoToday": true,
     "?displayOk": true,
     timeFormat: "hms",
+    locale: "th",
   },
   parameters: {
     design: {

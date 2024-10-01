@@ -6,8 +6,9 @@ import "../calendar";
 import "../../elements/input";
 import "../../elements/icon";
 import { format, isValid, parse } from "date-fns";
-import { getMonthString } from "./util";
+import { convertToAD, convertToBE, getMonthString } from "./util";
 
+type LocaleKey = "en" | "fr" | "th";
 @customElement("ssk-date-picker")
 export class DatePicker extends LitElement {
   static registeredName = "ssk-date-picker";
@@ -49,6 +50,8 @@ export class DatePicker extends LitElement {
   showTime = false;
   @property({ type: String })
   timeFormat: "hms" | "hm" | "timeEvery30" = "hms";
+  @property({ type: String })
+  locale: LocaleKey = "th";
 
   @state()
   _hideCalendar: boolean = true;
@@ -97,8 +100,18 @@ export class DatePicker extends LitElement {
 
   private updateValue(_e: Event) {
     const target = _e.target as HTMLSelectElement;
-    const value = target.value;
+    let value = target.value;
     this._isClear = true;
+
+    if (this.locale === "th") {
+      const yearMatch = value.match(/\b(\d{4})\b/);
+      if (yearMatch) {
+        const yearInBE = parseInt(yearMatch[0], 10);
+        const yearInAD = convertToAD(yearInBE);
+
+        value = value.replace(yearInBE.toString(), yearInAD.toString());
+      }
+    }
 
     if (this.validateStringDate(value)) {
       if (this.showTime) {
@@ -199,8 +212,8 @@ export class DatePicker extends LitElement {
     document.addEventListener("click", (event) =>
       this.handleClickOutside(event, popover),
     );
-    this._sValue = this.value ? format(this.value, this.format) : undefined;
-    this.handleChangedDate(this._sValue);
+
+    this.updateChangeValue();
   }
 
   disconnectedCallback() {
@@ -210,8 +223,28 @@ export class DatePicker extends LitElement {
   }
 
   protected updated(): void {
-    this._sValue = this.value ? format(this.value, this.format) : undefined;
-    this.handleChangedDate(this._sValue);
+    this.updateChangeValue();
+  }
+
+  private updateChangeValue(): void {
+    let formattedValue: string | undefined;
+
+    if (this.value) {
+      formattedValue = format(this.value, this.format);
+
+      if (this.locale === "th") {
+        const year = this.value.getFullYear();
+        const beYear = convertToBE(this.value);
+
+        this._sValue = formattedValue.replace(year.toString(), beYear);
+      } else {
+        this._sValue = formattedValue;
+      }
+    } else {
+      this._sValue = undefined;
+    }
+
+    this.handleChangedDate(formattedValue);
   }
 
   render() {
@@ -255,6 +288,7 @@ export class DatePicker extends LitElement {
           ?displayGoToday=${this.displayGoToday}
           ?displayOk=${this.displayOk}
           @date-changed=${(e: any) => this.handleDate(e.detail?.dateFrom)}
+          locale=${this.locale}
         >
           ${footerSlot
             ? html`<slot name="footer" slot="footer"></slot>`
