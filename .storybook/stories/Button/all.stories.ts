@@ -12,7 +12,12 @@ type ButtonWithLabel = Omit<
   label: string;
 };
 
-const variant: Button["variant"][] = ["solid", "outline", "ghost"];
+const variant: Button["variant"][] = [
+  "solid",
+  "outline",
+  "ghost",
+  "solid-light",
+];
 const state = [
   {
     "?disabled": true,

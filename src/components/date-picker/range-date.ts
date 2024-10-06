@@ -2,6 +2,8 @@ import { consume } from "@lit/context";
 import { css, html, LitElement, nothing, PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import {
+  ColorName,
+  ColorRole,
   cssVar,
   parseThemeToCssVariables,
   parseVariables,
@@ -33,6 +35,10 @@ export class RangeDatePicker extends LitElement {
   public theme?: Theme;
 
   // BaseAttributes
+  @property({ type: String })
+  themeColor: ColorRole | ColorName = "primary";
+  @property({ type: String })
+  color?: ColorRole | ColorName;
   @property({ type: String })
   testId?: string;
   @property({ type: String })
@@ -70,6 +76,12 @@ export class RangeDatePicker extends LitElement {
   timeFormat: "hms" | "hm" | "timeEvery30" = "hms";
   @property({ type: String })
   locale: LocaleKey = "th";
+  @property({ type: String })
+  alignCalendar?: "left" | "right" = "left";
+  @property({ type: String })
+  widthCalendar?: string | undefined = "fit-content";
+  @property({ type: Function })
+  disabledDate?: (date: number) => boolean;
 
   @state()
   _hideCalendar: boolean = true;
@@ -105,13 +117,12 @@ export class RangeDatePicker extends LitElement {
   _timeTarget: "dateFrom" | "dateTo" = "dateFrom";
 
   private handleIcon() {
-    const hasValue = this.valueFrom || this.valueTo;
-    if (hasValue && this._isClear) {
+    if (this._isClear) {
       this.valueFrom = undefined;
       this.valueTo = undefined;
 
-      this._sValueFrom = undefined;
-      this._sValueTo = undefined;
+      this._sValueFrom = "";
+      this._sValueTo = "";
       this._isClear = false;
       this._hideCalendar = true;
       this._timeFrom = undefined;
@@ -139,93 +150,87 @@ export class RangeDatePicker extends LitElement {
     return false;
   }
 
-  private async updateValueFrom({ detail }: any) {
-    let value = detail.originalEvent.target.value;
-    this._isClear = true;
-
+  private getConvertedYearValue(value: string): string {
     if (this.locale === "th") {
       const yearMatch = value.match(/\b(\d{4})\b/);
       if (yearMatch) {
         const yearInBE = parseInt(yearMatch[0], 10);
         const yearInAD = convertToAD(yearInBE);
-
         value = value.replace(yearInBE.toString(), yearInAD.toString());
       }
     }
+    return value;
+  }
 
-    if (this.validateStringDate(value)) {
-      if (this.showTime) {
-        const parsedDate = parse(value, this.format, new Date());
-        this._timeTarget = "dateFrom";
-        if (isValid(parsedDate)) {
-          this.valueFrom = parsedDate;
-          this._timeFrom = parsedDate.getTime();
-        } else {
-          return;
-        }
-      } else {
-        const date = parse(value, this.format, new Date());
-        if (isValid(date)) {
-          this.valueFrom = date;
-        } else {
-          return;
-        }
-      }
+  private handleDateParsing(value: string, target: string): void {
+    const parsedDate = parse(value, this.format, new Date());
 
-      this.dispatchEvent(
-        new CustomEvent("change", {
-          detail: {
-            valueFrom: this.valueFrom,
-            valueTo: this.valueTo,
-          },
-        }),
-      );
+    if (!isValid(parsedDate)) {
       return;
+    }
+
+    if (this.showTime) {
+      this._timeTarget = target === "from" ? "dateFrom" : "dateTo";
+      if (target === "from") {
+        this.valueFrom = parsedDate;
+        this._timeFrom = parsedDate.getTime();
+      } else {
+        this.valueTo = parsedDate;
+        this._timeTo = parsedDate.getTime();
+      }
+    } else {
+      target === "from"
+        ? (this.valueFrom = parsedDate)
+        : (this.valueTo = parsedDate);
+    }
+
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: {
+          valueFrom: this.valueFrom,
+          valueTo: this.valueTo,
+        },
+      }),
+    );
+  }
+
+  private async updateInputValueFrom({ detail }: any) {
+    const value = this.getConvertedYearValue(detail.originalEvent.target.value);
+    this._isClear = true;
+
+    if (value.length === this.format.length && this.validateStringDate(value)) {
+      this.handleDateParsing(value, "from");
     }
   }
 
-  private async updateValueTo({ detail }: any) {
-    let value = detail.originalEvent.target.value;
+  private async updateChangeValueFrom({ detail }: any) {
+    const value = this.getConvertedYearValue(detail.originalEvent.target.value);
     this._isClear = true;
 
-    if (this.locale === "th") {
-      const yearMatch = value.match(/\b(\d{4})\b/);
-      if (yearMatch) {
-        const yearInBE = parseInt(yearMatch[0], 10);
-        const yearInAD = convertToAD(yearInBE);
-
-        value = value.replace(yearInBE.toString(), yearInAD.toString());
-      }
+    if (value.length === this.format.length && this.validateStringDate(value)) {
+      this.handleDateParsing(value, "from");
+    } else {
+      this._sValueFrom = "";
     }
+  }
 
-    if (this.validateStringDate(value)) {
-      if (this.showTime) {
-        this._timeTarget = "dateTo";
-        const parsedDate = parse(value, this.format, new Date());
-        if (isValid(parsedDate)) {
-          this.valueTo = parsedDate;
-          this._timeTo = parsedDate.getTime();
-        } else {
-          return;
-        }
-      } else {
-        const date = parse(value, this.format, new Date());
-        if (isValid(date)) {
-          this.valueTo = date;
-        } else {
-          return;
-        }
-      }
+  private async updateInputValueTo({ detail }: any) {
+    const value = this.getConvertedYearValue(detail.originalEvent.target.value);
+    this._isClear = true;
 
-      this.dispatchEvent(
-        new CustomEvent("change", {
-          detail: {
-            valueTo: this.valueTo,
-            valueFrom: this.valueFrom,
-          },
-        }),
-      );
-      return;
+    if (value.length === this.format.length && this.validateStringDate(value)) {
+      this.handleDateParsing(value, "to");
+    }
+  }
+
+  private async updateChangeValueTo({ detail }: any) {
+    const value = this.getConvertedYearValue(detail.originalEvent.target.value);
+    this._isClear = true;
+
+    if (value.length === this.format.length && this.validateStringDate(value)) {
+      this.handleDateParsing(value, "to");
+    } else {
+      this._sValueTo = "";
     }
   }
 
@@ -401,9 +406,9 @@ export class RangeDatePicker extends LitElement {
       "div.calendar-container",
     ) as HTMLDivElement;
 
-    document.addEventListener("click", (event) =>
-      this.handleClickOutside(event, popover),
-    );
+    document.addEventListener("click", (event) => {
+      this.handleClickOutside(event, popover);
+    });
 
     this.updateChangeValue();
   }
@@ -448,6 +453,8 @@ export class RangeDatePicker extends LitElement {
       } else {
         this._sValueFrom = formattedValueFrom;
       }
+    } else {
+      this._sValueFrom = undefined;
     }
 
     if (this.valueTo) {
@@ -463,6 +470,8 @@ export class RangeDatePicker extends LitElement {
       } else {
         this._sValueTo = formattedValueTo;
       }
+    } else {
+      this._sValueTo = undefined;
     }
 
     this.handleChangedDateFrom(formattedValueFrom);
@@ -483,6 +492,7 @@ export class RangeDatePicker extends LitElement {
 
     let additionalCss = `
         --rounded: ${parseVariables(cssVar("rounded", this.size))};
+        --width-calender:${this.widthCalendar};
     `;
 
     const footerSlot = this.querySelector('[slot="footer"]');
@@ -507,13 +517,16 @@ export class RangeDatePicker extends LitElement {
           placeholderTo=${this.placeholderTo}
           name=${this.name}
           size=${this.size}
-          @value-from-change=${this.updateValueFrom.bind(this)}
-          @value-to-change=${this.updateValueTo.bind(this)}
+          @value-from-input=${this.updateInputValueFrom.bind(this)}
+          @value-to-input=${this.updateInputValueTo.bind(this)}
+          @value-from-change=${this.updateChangeValueFrom.bind(this)}
+          @value-to-change=${this.updateChangeValueTo.bind(this)}
           @input-from-click="${this.handleClickFrom.bind(this)}"
           @input-to-click="${this.handleClickTo.bind(this)}"
           @blur=${this.handleOnBlur.bind(this)}
           @focus=${this.handleOnFocus.bind(this)}
           autoComplete="off"
+          color=${this.color}
         >
           <ssk-input-addon slot="center">
             <ssk-icon name="solid-arrow-long-right"></ssk-icon>
@@ -527,7 +540,11 @@ export class RangeDatePicker extends LitElement {
               : html`<ssk-icon name="outline-calendar-days"></ssk-icon> `}
           </ssk-input-addon>
         </ssk-input-range>
-        <div class="calendar-container">
+        <div
+          class="calendar-container ${this.alignCalendar === "right"
+            ? "right"
+            : "left"} ${this._hideCalendar ? "hidden" : ""}"
+        >
           ${this.showTime
             ? html`<ssk-calendar
                 .hidden=${this._hideCalendar}
@@ -546,6 +563,8 @@ export class RangeDatePicker extends LitElement {
                 ?displayOk=${this.displayOk}
                 @date-changed=${this.handleDateChanged.bind(this)}
                 locale=${this.locale}
+                themeColor=${this.themeColor}
+                .disabledDate=${this.disabledDate}
               >
                 >
                 ${footerSlot
@@ -567,6 +586,8 @@ export class RangeDatePicker extends LitElement {
                   @prev-month="${this.handlePrevMonth.bind(this)}"
                   @prev-year="${this.setYearFrom.bind(this)}"
                   locale=${this.locale}
+                  themeColor=${this.themeColor}
+                  .disabledDate=${this.disabledDate}
                 >
                   >
                   ${footerSlot
@@ -588,6 +609,8 @@ export class RangeDatePicker extends LitElement {
                   @next-month="${this.handleNextMonth.bind(this)}"
                   @next-year="${this.setYearTo.bind(this)}"
                   locale=${this.locale}
+                  themeColor=${this.themeColor}
+                  .disabledDate=${this.disabledDate}
                 >
                   >
                   ${footerSlot
@@ -602,6 +625,7 @@ export class RangeDatePicker extends LitElement {
     ssk-icon.clear {
       cursor: pointer;
     }
+
     .calendar-container {
       position: absolute;
       display: flex;
@@ -609,6 +633,19 @@ export class RangeDatePicker extends LitElement {
       border: 1px solid var(--ssk-colors-gray-200);
       border-radius: var(--rounded);
       z-index: 9;
+      width: var(--width-calender);
+    }
+
+    .hidden {
+      border: 0;
+    }
+
+    .calendar-container.left {
+      left: 1rem;
+    }
+
+    .calendar-container.right {
+      right: 1rem;
     }
   `;
 }

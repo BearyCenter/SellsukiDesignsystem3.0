@@ -123,6 +123,39 @@ const meta = {
         },
       },
     },
+    alignCalendar: {
+      options: ["left", "right"],
+      description:
+        "Determines the alignment of the calendar within the date picker.",
+      control: {
+        type: "inline-radio",
+      },
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "left",
+        },
+        type: {
+          summary: "string",
+        },
+      },
+    },
+    widthCalendar: {
+      description:
+        "Specifies the width of the calendar component. Can be set to any valid CSS width value (e.g., '100%', '300px', or 'fit-content').",
+      control: {
+        type: "text",
+      },
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "fit-content",
+        },
+        type: {
+          summary: "string",
+        },
+      },
+    },
     "@change": genericEvents["@change"],
     ...baseArgsTypes,
   },
@@ -142,6 +175,7 @@ export const BasicDatePicker: Story = {
     ".value": today,
     "?rangeDate": false,
     locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -163,6 +197,7 @@ export const DatePickerDefaultFooter: Story = {
     ".value": today,
     "?rangeDate": false,
     locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -184,6 +219,7 @@ export const DateTimePicker: Story = {
     ".value": today,
     "?rangeDate": false,
     locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -207,6 +243,7 @@ export const DateTimePickerDefaultFooter: Story = {
     ".value": today,
     "?rangeDate": false,
     locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -226,6 +263,7 @@ export const CustomFooterDatePicker: Story = {
     ".value": today,
     "?rangeDate": false,
     locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -248,6 +286,35 @@ export const CustomFooterDatePicker: Story = {
   },
 };
 
+export const DatePickerDisableScopeDays: Story = {
+  args: {
+    label: "Select date",
+    placeholder: "Select date",
+    helperText: "Wrong format",
+    size: "md",
+    format: "dd-MM-yyyy",
+    ".value": today,
+    "?rangeDate": false,
+    locale: "th",
+    alignCalendar: "left",
+    ".disabledDate": (date: number) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const targetDate = new Date(date);
+      targetDate.setHours(0, 0, 0, 0);
+
+      return targetDate > today;
+    },
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
 export const RangeDatePicker: Story = {
   args: {
     label: "Select date",
@@ -260,6 +327,7 @@ export const RangeDatePicker: Story = {
     ".valueTo": addDays(today, 32),
     "?rangeDate": true,
     locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -288,6 +356,7 @@ export const RangeDateTimePicker: Story = {
     "?rangeDate": true,
     timeFormat: "hms",
     locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -318,6 +387,43 @@ export const RangeDateTimePickerDefaultFooter: Story = {
     "?displayOk": true,
     timeFormat: "hms",
     locale: "th",
+    alignCalendar: "left",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+  render: ({ ...args }) => {
+    return html` <ssk-range-date-picker ${spread(
+      args,
+    )}></ssk-range-date-picker`;
+  },
+};
+
+export const RangeDatePickerDisableScopeDays: Story = {
+  args: {
+    label: "Select date",
+    placeholderFrom: "Select date from",
+    placeholderTo: "Select date to",
+    helperText: "Wrong format",
+    size: "md",
+    format: "dd-MM-yyyy",
+    ".valueFrom": today,
+    ".valueTo": addDays(today, 32),
+    "?rangeDate": true,
+    locale: "th",
+    alignCalendar: "left",
+    ".disabledDate": (date: number) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const targetDate = new Date(date);
+      targetDate.setHours(0, 0, 0, 0);
+
+      return targetDate > today;
+    },
   },
   parameters: {
     design: {

@@ -651,7 +651,7 @@ export class Calendar extends LitElement {
     --padding: ${parseVariables(cssVar("padding", this.size), this.padding)};
     --rounded: ${parseVariables(cssVar("rounded", this.size), this.rounded)};
 
-    --600-colors: ${parseVariables(cssVar("colors", this.themeColor, 600))};
+    --500-colors: ${parseVariables(cssVar("colors", this.themeColor, 500))};
     --cell-width: calc(var(--padding) * 2);
     `;
 
@@ -873,6 +873,7 @@ export class Calendar extends LitElement {
                     size=${this.size}
                     locale=${this.locale}
                     format=${this.timeFormat}
+                    themeColor=${this.themeColor}
                     .value=${this.currentTimeTarget === "dateFrom"
                       ? this.timeFrom
                       : this.timeTo}
@@ -936,7 +937,7 @@ export class Calendar extends LitElement {
     }
 
     .popup-change:hover span {
-      color: var(--600-colors);
+      color: var(--500-colors);
     }
 
     /* Dropdown year and month */
@@ -968,7 +969,7 @@ export class Calendar extends LitElement {
     }
 
     .dropdown > .item:hover {
-      background: var(--600-colors);
+      background: var(--500-colors);
     }
     .dropdown > .item:hover span,
     .selected span {
@@ -995,12 +996,12 @@ export class Calendar extends LitElement {
       width: 0.25em;
       height: 0.25em;
       bottom: 10%;
-      background-color: var(--600-colors);
+      background-color: var(--500-colors);
       border-radius: 50%;
     }
 
     .selected {
-      background-color: var(--600-colors);
+      background-color: var(--500-colors);
     }
 
     .selected.currently::after {
