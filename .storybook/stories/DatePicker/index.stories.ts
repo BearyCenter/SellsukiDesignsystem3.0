@@ -298,13 +298,8 @@ export const DatePickerDisableScopeDays: Story = {
     locale: "th",
     alignCalendar: "left",
     ".disabledDate": (date: number) => {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const targetDate = new Date(date);
-      targetDate.setHours(0, 0, 0, 0);
-
-      return targetDate > today;
+      const dayOfWeek = startOfDay(date).getDay();
+      return dayOfWeek === 0 || dayOfWeek === 6; // Sunday and Saturday
     },
   },
   parameters: {
@@ -416,13 +411,8 @@ export const RangeDatePickerDisableScopeDays: Story = {
     locale: "th",
     alignCalendar: "left",
     ".disabledDate": (date: number) => {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const targetDate = new Date(date);
-      targetDate.setHours(0, 0, 0, 0);
-
-      return targetDate > today;
+      const dayOfWeek = startOfDay(date).getDay();
+      return dayOfWeek === 0 || dayOfWeek === 6; // Sunday and Saturday
     },
   },
   parameters: {
