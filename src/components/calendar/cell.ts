@@ -134,10 +134,10 @@ export class Cell extends LitElement {
 
   render() {
     let additionalCss = `
-    --600-colors: ${parseVariables(cssVar("colors", this.themeColor, 600))};
+    --500-colors: ${parseVariables(cssVar("colors", this.themeColor, 500))};
     --100-colors: ${parseVariables(cssVar("colors", this.themeColor, 100))};
     --cell-height: var(--cell-width);
-    --marker: ${this.selected ? "white" : "var(--600-colors)"} ;
+    --marker: ${this.selected ? "white" : "var(--500-colors)"} ;
     `;
 
     return html`
@@ -195,7 +195,7 @@ export class Cell extends LitElement {
     }
 
     .day:not(.disabled):hover {
-      background: var(--600-colors);
+      background: var(--500-colors);
       cursor: pointer;
       border-radius: 50%;
     }
@@ -221,7 +221,7 @@ export class Cell extends LitElement {
     .day.selected .inner-selected {
       width: 100%;
       height: 100%;
-      background: var(--600-colors);
+      background: var(--500-colors);
       border-radius: 50%;
       position: absolute;
       z-index: 1;
@@ -273,6 +273,10 @@ export class Cell extends LitElement {
 
     .day.disabled {
       cursor: not-allowed;
+    }
+
+    .day.disabled:hover span {
+      color: inherit;
     }
   `;
 }

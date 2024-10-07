@@ -60,7 +60,7 @@ export class Checkbox extends LitElement implements ThemeValue {
   hidden = false;
   @property({ type: String })
   label?: string | undefined;
-  @property({ type: Boolean , reflect: true})
+  @property({ type: Boolean, reflect: true })
   checked = false;
   @property({ type: Boolean })
   indeterminate = false;
@@ -91,7 +91,7 @@ export class Checkbox extends LitElement implements ThemeValue {
     super.updated(changedProperties);
 
     this._updateCheckboxState();
-    if (changedProperties.has('checked')) {
+    if (changedProperties.has("checked")) {
       this._checked = this.checked;
     }
   }
@@ -117,7 +117,7 @@ export class Checkbox extends LitElement implements ThemeValue {
                   @change=${(e: Event) => this._onChangeGroup(e)}
                 />
                 <label for="checkbox">${g.label}</label>
-              </div>`
+              </div>`,
             )}
           </div>
         `
@@ -130,23 +130,28 @@ export class Checkbox extends LitElement implements ThemeValue {
         div,
         input {
           --active-100: ${parseVariables(
-            cssVar("colors", this.themeColor, 100)
+            cssVar("colors", this.themeColor, 100),
           )};
           --active-500: ${parseVariables(
-            cssVar("colors", this.themeColor, 500)
+            cssVar("colors", this.themeColor, 500),
           )};
           --disabled-200: ${parseVariables(cssVar("colors", "gray", 200))};
           --disabled-300: ${parseVariables(cssVar("colors", "gray", 300))};
           --disabled-400: ${parseVariables(cssVar("colors", "gray", 400))};
           --border-radius: ${parseVariables(
             cssVar("rounded", this.rounded),
-            "20%"
+            "20%",
           )};
           --width: 0.7085em;
           --height: 0.7085em;
           --font-size: ${parseVariables(
             cssVar("font-size", this.fontSize),
-            cssVar("font-size", this.size)
+            cssVar("font-size", this.size),
+          )};
+          --color: ${parseVariables(
+            cssVar("colors", this.color, 500),
+            cssVar("colors", this.color),
+            this.color,
           )};
         }
       </style>
@@ -196,7 +201,7 @@ export class Checkbox extends LitElement implements ThemeValue {
   private _onChangeGroup(e: Event) {
     const groupCheckList = this._filterCheckedList(
       (e.target as HTMLInputElement).value,
-      (e.target as HTMLInputElement).checked
+      (e.target as HTMLInputElement).checked,
     );
 
     this._setGroupChecked(groupCheckList);
@@ -247,6 +252,7 @@ export class Checkbox extends LitElement implements ThemeValue {
         cursor: pointer;
         margin-left: calc(0.2 * var(--font-size));
         font-size: var(--font-size);
+        color: var(--color);
       }
 
       .checkbox-wrapper input[type="checkbox"]:hover:not(:disabled) {

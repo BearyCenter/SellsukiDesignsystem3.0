@@ -32,7 +32,7 @@ const meta = {
     },
 
     variant: {
-      options: ["solid", "outline", "ghost"],
+      options: ["solid", "outline", "ghost", "solid-light"],
       description: "The type of button",
       control: {
         type: "inline-radio",
@@ -99,6 +99,20 @@ export const GhostButton: Story = {
   args: {
     variant: "ghost",
     label: "Ghost Button",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1103%3A78477",
+    },
+  },
+};
+
+export const SolidLightButton: Story = {
+  args: {
+    variant: "solid-light",
+    size: "md",
+    label: "solid light button",
   },
   parameters: {
     design: {
