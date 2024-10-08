@@ -98,7 +98,13 @@ export class IdbI18nStore implements I18nStore {
 
     const v = await db.get(this.namespace, `${key}-${lang}`);
     if (!v && fallbackLang) {
-      (await db.get(this.namespace, `${key}-${fallbackLang}`))?.value;
+      console.log(fallbackLang);
+      console.log(v);
+
+      return (
+        (await db.get(this.namespace, `${key}-${fallbackLang}`))?.value ??
+        "hhhhhhhh"
+      );
     }
     return v?.value ?? key;
   }
