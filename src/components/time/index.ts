@@ -133,7 +133,7 @@ export class Time extends LitElement {
     this.dispatchEvent(
       new CustomEvent("time-changed", {
         detail: { value: unixTimestamp },
-      })
+      }),
     );
   }
 
@@ -170,25 +170,25 @@ export class Time extends LitElement {
         new Date().setHours(hour, minute, 0),
         timeZones[this.locale],
         typeTime.timeEvery30,
-        { locale: locales[this.locale] }
+        { locale: locales[this.locale] },
       );
       return { hour, minute, formattedTime };
     });
 
     return html`
       ${renderColumn(
-      intervals.map(({ hour, minute, formattedTime }) => ({
-        label: formattedTime,
-        value: hour * 100 + minute,
-      })),
-      (this._selectedHour ?? 0) * 100 + (this._selectedMinute ?? 0),
-      this.size,
-      (value: number) => {
-        this._selectedHour = Math.floor(value / 100);
-        this._selectedMinute = value % 100;
-        this.dispatchTimeChangedEvent();
-      }
-    )}
+        intervals.map(({ hour, minute, formattedTime }) => ({
+          label: formattedTime,
+          value: hour * 100 + minute,
+        })),
+        (this._selectedHour ?? 0) * 100 + (this._selectedMinute ?? 0),
+        this.size,
+        (value: number) => {
+          this._selectedHour = Math.floor(value / 100);
+          this._selectedMinute = value % 100;
+          this.dispatchTimeChangedEvent();
+        },
+      )}
     `;
   }
 
@@ -205,13 +205,13 @@ export class Time extends LitElement {
           --scrollbar-color-trumb: white;
 
           --padding: ${parseVariables(
-      cssVar("padding", this.size),
-      this.padding
-    )};
+            cssVar("padding", this.size),
+            this.padding,
+          )};
 
           --500-colors: ${parseVariables(
-      cssVar("colors", this.themeColor, 600),
-    )};
+            cssVar("colors", this.themeColor, 600),
+          )};
 
           --max-height: ${parseVariables(cssVar("max-height", this.maxHeight))};
         }
@@ -246,51 +246,51 @@ export class Time extends LitElement {
       <div class="container">
         <div class="time">
           ${this.format === "timeEvery30"
-        ? this.renderTimeEvery30()
-        : html`
+            ? this.renderTimeEvery30()
+            : html`
                 ${renderColumn(
-          hoursOptions,
-          this._selectedHour ?? -1,
-          this.size,
-          handleHourClick
-        )}
+                  hoursOptions,
+                  this._selectedHour ?? -1,
+                  this.size,
+                  handleHourClick,
+                )}
                 <ssk-divider orientation="vertical" size="xs"></ssk-divider>
                 ${renderColumn(
-          minutesOptions,
-          this._selectedMinute ?? -1,
-          this.size,
-          handleMinuteClick
-        )}
+                  minutesOptions,
+                  this._selectedMinute ?? -1,
+                  this.size,
+                  handleMinuteClick,
+                )}
                 ${this.format === "hms"
-            ? html`
+                  ? html`
                       <ssk-divider
                         orientation="vertical"
                         size="xs"
                       ></ssk-divider>
                       ${renderColumn(
-              Array.from({ length: 60 }, (_, i) => ({
-                label: String(i).padStart(2, "0"),
-                value: i,
-              })),
-              this._selectedSecond ?? -1,
-              this.size,
-              handleSecondClick
-            )}
+                        Array.from({ length: 60 }, (_, i) => ({
+                          label: String(i).padStart(2, "0"),
+                          value: i,
+                        })),
+                        this._selectedSecond ?? -1,
+                        this.size,
+                        handleSecondClick,
+                      )}
                     `
-            : nothing}
+                  : nothing}
               `}
         </div>
         ${renderFooter(
-              this.footerStyle,
-              this.displayGoNow,
-              this.displayOk,
-              this.size,
-              this.themeColor,
-              this.nowText,
-              this.okText,
-              this.goToNow.bind(this),
-              this.handleOk.bind(this)
-            )}
+          this.footerStyle,
+          this.displayGoNow,
+          this.displayOk,
+          this.size,
+          this.themeColor,
+          this.nowText,
+          this.okText,
+          this.goToNow.bind(this),
+          this.handleOk.bind(this),
+        )}
       </div>
     `;
   }
