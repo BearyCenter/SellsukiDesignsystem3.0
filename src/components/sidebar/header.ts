@@ -34,8 +34,8 @@ export class SidebarHeader extends LitElement {
         data-testid=${this.testId || nothing}
       >
         ${this.state?.expanded
-          ? html` <slot></slot> `
-          : html` <slot name="mini"></slot> `}
+        ? html` <slot></slot> `
+        : html` <slot name="mini"></slot> `}
       </div>
     `;
   }

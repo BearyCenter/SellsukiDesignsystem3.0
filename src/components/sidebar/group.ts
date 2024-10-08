@@ -37,8 +37,8 @@ export class SidebarGroup extends LitElement {
             <div
               class="sidebar-group-header"
               @click=${(_e: Event) => {
-                this.state?.setExpandedGroup(this.key, !isOpen);
-              }}
+            this.state?.setExpandedGroup(this.key, !isOpen);
+          }}
             >
               <div class="header-content">${this.label}</div>
               <ssk-icon

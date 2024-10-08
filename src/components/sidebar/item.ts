@@ -36,9 +36,9 @@ export class SidebarItems extends LitElement {
     return html`
       <div
         class="sidebar-item-container ${isActive ? "active" : ""} ${this
-          .disabled
-          ? "disabled"
-          : ""} ${this.state?.expanded ? "expanded" : ""}
+        .disabled
+        ? "disabled"
+        : ""} ${this.state?.expanded ? "expanded" : ""}
         "
         data-testid=${this.testId || nothing}
         @click=${(e: Event) => this.handleClick(e)}
