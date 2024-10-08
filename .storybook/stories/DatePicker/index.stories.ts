@@ -107,6 +107,55 @@ const meta = {
         },
       },
     },
+    locale: {
+      options: ["en", "fr", "th"],
+      description: "The type of Calendar language",
+      control: {
+        type: "inline-radio",
+      },
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "th",
+        },
+        type: {
+          summary: "string",
+        },
+      },
+    },
+    alignCalendar: {
+      options: ["left", "right"],
+      description:
+        "Determines the alignment of the calendar within the date picker.",
+      control: {
+        type: "inline-radio",
+      },
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "left",
+        },
+        type: {
+          summary: "string",
+        },
+      },
+    },
+    widthCalendar: {
+      description:
+        "Specifies the width of the calendar component. Can be set to any valid CSS width value (e.g., '100%', '300px', or 'fit-content').",
+      control: {
+        type: "text",
+      },
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "fit-content",
+        },
+        type: {
+          summary: "string",
+        },
+      },
+    },
     "@change": genericEvents["@change"],
     ...baseArgsTypes,
   },
@@ -114,7 +163,7 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<DatePickerEventArgs>;
-const today = startOfDay(new Date());
+const today = startOfDay(new Date("2024-01-01T00:00:00"));
 
 export const BasicDatePicker: Story = {
   args: {
@@ -125,6 +174,8 @@ export const BasicDatePicker: Story = {
     format: "dd-MM-yyyy",
     ".value": today,
     "?rangeDate": false,
+    locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -145,6 +196,8 @@ export const DatePickerDefaultFooter: Story = {
     "?displayOk": true,
     ".value": today,
     "?rangeDate": false,
+    locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -165,6 +218,8 @@ export const DateTimePicker: Story = {
     timeFormat: "hms",
     ".value": today,
     "?rangeDate": false,
+    locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -187,6 +242,8 @@ export const DateTimePickerDefaultFooter: Story = {
     "?displayOk": true,
     ".value": today,
     "?rangeDate": false,
+    locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -205,6 +262,8 @@ export const CustomFooterDatePicker: Story = {
     format: "dd-MM-yyyy",
     ".value": today,
     "?rangeDate": false,
+    locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -227,16 +286,43 @@ export const CustomFooterDatePicker: Story = {
   },
 };
 
-export const RangeDatePicker: Story = {
+export const DatePickerDisableScopeDays: Story = {
   args: {
     label: "Select date",
     placeholder: "Select date",
     helperText: "Wrong format",
     size: "md",
     format: "dd-MM-yyyy",
+    ".value": today,
+    "?rangeDate": false,
+    locale: "th",
+    alignCalendar: "left",
+    ".disabledDate": (date: number) => {
+      const dayOfWeek = startOfDay(date).getDay();
+      return dayOfWeek === 0 || dayOfWeek === 6; // Sunday and Saturday
+    },
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const RangeDatePicker: Story = {
+  args: {
+    label: "Select date",
+    placeholderFrom: "Select date from",
+    placeholderTo: "Select date to",
+    helperText: "Wrong format",
+    size: "md",
+    format: "dd-MM-yyyy",
     ".valueFrom": today,
     ".valueTo": addDays(today, 32),
     "?rangeDate": true,
+    locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -254,7 +340,8 @@ export const RangeDatePicker: Story = {
 export const RangeDateTimePicker: Story = {
   args: {
     label: "Select date",
-    placeholder: "Select date",
+    placeholderFrom: "Select date from",
+    placeholderTo: "Select date to",
     helperText: "Wrong format",
     size: "md",
     format: "dd-MM-yyyy HH:mm:ss",
@@ -263,6 +350,8 @@ export const RangeDateTimePicker: Story = {
     "?showTime": true,
     "?rangeDate": true,
     timeFormat: "hms",
+    locale: "th",
+    alignCalendar: "left",
   },
   parameters: {
     design: {
@@ -280,7 +369,8 @@ export const RangeDateTimePicker: Story = {
 export const RangeDateTimePickerDefaultFooter: Story = {
   args: {
     label: "Select date",
-    placeholder: "Select date",
+    placeholderFrom: "Select date from",
+    placeholderTo: "Select date to",
     helperText: "Wrong format",
     size: "md",
     format: "dd-MM-yyyy HH:mm:ss",
@@ -291,6 +381,39 @@ export const RangeDateTimePickerDefaultFooter: Story = {
     "?displayGoToday": true,
     "?displayOk": true,
     timeFormat: "hms",
+    locale: "th",
+    alignCalendar: "left",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+  render: ({ ...args }) => {
+    return html` <ssk-range-date-picker ${spread(
+      args,
+    )}></ssk-range-date-picker`;
+  },
+};
+
+export const RangeDatePickerDisableScopeDays: Story = {
+  args: {
+    label: "Select date",
+    placeholderFrom: "Select date from",
+    placeholderTo: "Select date to",
+    helperText: "Wrong format",
+    size: "md",
+    format: "dd-MM-yyyy",
+    ".valueFrom": today,
+    ".valueTo": addDays(today, 32),
+    "?rangeDate": true,
+    locale: "th",
+    alignCalendar: "left",
+    ".disabledDate": (date: number) => {
+      const dayOfWeek = startOfDay(date).getDay();
+      return dayOfWeek === 0 || dayOfWeek === 6; // Sunday and Saturday
+    },
   },
   parameters: {
     design: {

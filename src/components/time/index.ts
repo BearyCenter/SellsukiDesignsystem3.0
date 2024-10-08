@@ -209,8 +209,8 @@ export class Time extends LitElement {
       this.padding
     )};
 
-          --600-colors: ${parseVariables(
-      cssVar("colors", this.themeColor, 600)
+          --500-colors: ${parseVariables(
+      cssVar("colors", this.themeColor, 600),
     )};
 
           --max-height: ${parseVariables(cssVar("max-height", this.maxHeight))};
@@ -323,7 +323,7 @@ export class Time extends LitElement {
     }
 
     .item:hover {
-      background-color: var(--600-colors);
+      background-color: var(--500-colors);
       border-radius: 4px;
     }
 
@@ -332,7 +332,7 @@ export class Time extends LitElement {
     }
 
     .item.selected {
-      background-color: var(--600-colors);
+      background-color: var(--500-colors);
       color: white;
       border-radius: 4px;
     }

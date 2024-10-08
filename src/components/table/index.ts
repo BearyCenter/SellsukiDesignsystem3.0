@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import "../../../src/components/pagination";
 import "../../../src/elements/checkbox";
+import "../../../src/elements/icon";
 import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
@@ -15,16 +16,19 @@ import {
   parseThemeToCssVariables,
   parseVariables,
 } from "../../types/theme";
-import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
-interface Header {
-  name: string;
-  text: string;
+interface Column {
+  title: string;
+  dataIndex?: string;
   align?: "left" | "center" | "right";
+  width?: string;
+  sortable?: boolean;
+  sortDirection?: "asc" | "desc";
+  onSort?: (direction: "asc" | "desc") => void;
 }
 
 interface RowData {
-  [key: string]: string;
+  [key: string]: any;
 }
 
 @customElement("ssk-table")
@@ -48,7 +52,7 @@ export class Table extends LitElement {
   backgroundColor?: string | undefined;
 
   @property({ type: String })
-  size: Size = "sm";
+  size: Size = "md";
   @property({ type: String })
   padding?: Size;
   @property({ type: String })
@@ -72,19 +76,19 @@ export class Table extends LitElement {
   height?: string | undefined;
 
   @property({ type: Array })
-  headers: Header[] = [];
+  columns: Column[] = [];
 
   @property({ type: Array })
-  itemValue: RowData[] = [];
+  data: RowData[] = [];
 
   @property({ type: Boolean })
-  showFooter: boolean = false;
+  showPaginationFooter: boolean = false;
 
   @property({ type: Array })
   selectedRows: number[] = [];
 
   @property({ type: Boolean })
-  selectEnabled: boolean = false;
+  showCheckbox: boolean = false;
 
   @property({ type: Boolean })
   selectAll: boolean = false;
@@ -96,28 +100,37 @@ export class Table extends LitElement {
   currentPage: number = 1;
 
   @property({ type: Boolean })
-  showRowPage: boolean = false;
+  showPageNavigation: boolean = false;
 
   @property({ type: Boolean })
-  showRowPerPage: boolean = false;
+  showRowsPerPageSelector: boolean = false;
 
   @property({ type: Boolean })
-  showBtnPage: boolean = false;
+  showPageButtons: boolean = false;
 
   @property({ type: Boolean })
-  showGoToPage: boolean = false;
+  showGoToPageInput: boolean = false;
+
+  @property({ type: Number })
+  totalPaginationPages: number = 0;
 
   @property({ type: Boolean })
   min = false;
 
-  @property({ type: Boolean })
-  fullWidth = false;
+  @property({ type: Object })
+  customCell: {
+    [dataIndex: string]: {
+      render: (value: any, record: any, rowIndex: number) => string;
+      onClick?: (value: any, record: any, rowIndex: number) => void;
+      onChange?: (value: any, record: any, rowIndex: number) => void;
+    };
+  } = {};
 
   toggleSelectAll() {
     this.selectAll = !this.selectAll;
     if (this.selectAll) {
       this.selectedRows = Array.from(
-        { length: this.itemValue.length },
+        { length: this.data.length },
         (_, index) => index,
       );
     } else {
@@ -126,7 +139,7 @@ export class Table extends LitElement {
   }
 
   toggleSelect(rowIndex: number) {
-    if (this.selectEnabled) {
+    if (this.showCheckbox) {
       const index = this.selectedRows.indexOf(rowIndex);
       if (index === -1) {
         this.selectedRows = [...this.selectedRows, rowIndex];
@@ -135,40 +148,90 @@ export class Table extends LitElement {
       }
     }
   }
+
   updatedPage(event: CustomEvent) {
     const newRowsPerPage = event.detail.rowsPerPage;
+
+    const totalPages =
+      this.totalPaginationPages > 0
+        ? Math.ceil(this.totalPaginationPages / this.rowsPerPage)
+        : Math.ceil(this.data.length / newRowsPerPage);
+    const firstVisibleItem = (this.currentPage - 1) * this.rowsPerPage + 1;
+    this.currentPage = Math.ceil(firstVisibleItem / newRowsPerPage);
+
+    if (this.currentPage > totalPages) {
+      this.currentPage = totalPages;
+    }
+
     this.rowsPerPage = newRowsPerPage;
+
+    this.dispatchEvent(
+      new CustomEvent("load-data", {
+        detail: { page: this.currentPage, rowsPerPage: this.rowsPerPage },
+      }),
+    );
   }
 
   handlePageChanged(event: CustomEvent) {
     const newPage = event.detail.page;
     this.currentPage = newPage;
+
+    this.dispatchEvent(
+      new CustomEvent("load-data", {
+        detail: { page: this.currentPage, rowsPerPage: this.rowsPerPage },
+      }),
+    );
   }
 
-  renderHeader(header: Header): TemplateResult {
-    const selectedTemplate = this.querySelector(
-      `template#header-${header.name}`,
-    );
-    const tempHTML = selectedTemplate?.innerHTML.replace(
-      "{{text}}",
-      header.text,
-    );
-    const align = header.align || "left";
-    if (selectedTemplate) {
-      return html`<th style="text-align: ${align};">
-        ${unsafeHTML(tempHTML)}
-      </th>`;
-    } else {
-      return html`<th style="text-align: ${align};">${header.text}</th>`;
+  handleSort(col: Column) {
+    if (col.sortable && col.onSort) {
+      const newDirection = col.sortDirection === "asc" ? "desc" : "asc";
+      col.onSort(newDirection);
+
+      this.data = [...this.data].sort((a, b) => {
+        const aValue = a[col.dataIndex || ""];
+        const bValue = b[col.dataIndex || ""];
+        if (aValue < bValue) return newDirection === "asc" ? -1 : 1;
+        if (aValue > bValue) return newDirection === "asc" ? 1 : -1;
+        return 0;
+      });
+
+      col.sortDirection = newDirection;
     }
+  }
+
+  renderHeader(col: Column): TemplateResult {
+    return html`
+      <th
+        style="text-align: ${col.align || "left"}; width: ${col.width ||
+        "auto"};"
+      >
+        <div class="header-content">
+          ${col.title}
+          ${col.sortable
+            ? html` <span
+                class="header-icon"
+                @click="${() => this.handleSort(col)}"
+              >
+                ${col.sortDirection
+                  ? html`<ssk-icon
+                      name="solid-bars-arrow-down"
+                      size="${this.size}"
+                    ></ssk-icon>`
+                  : nothing}
+              </span>`
+            : nothing}
+        </div>
+      </th>
+    `;
   }
 
   renderBody(row: RowData, rowIndex: number): TemplateResult[] {
     const content = [
-      ...(this.selectEnabled
+      ...(this.showCheckbox
         ? [
             html`
-              <td>
+              <td class="checkbox-content">
                 <ssk-checkbox
                   .checked="${this.selectedRows.includes(rowIndex)}"
                   @change="${() => this.toggleSelect(rowIndex)}"
@@ -178,53 +241,96 @@ export class Table extends LitElement {
             `,
           ]
         : []),
-      ...this.headers.map((header) => {
-        let value = row[header.name] || "";
-        const align = header.align || "left";
+      ...this.columns.map((col) => {
+        const cellValue = row[col.dataIndex || ""];
+        const customCellFunction = this.customCell[col.dataIndex || ""];
+        const { render, onClick, onChange } = customCellFunction || {};
 
-        const selectedTemplate = this.querySelector(
-          `template#content-${header.name}`,
-        );
-        const tempHTML = selectedTemplate?.innerHTML.replace(
-          "{{value}}",
-          value,
-        );
-
-        if (selectedTemplate) {
-          return html`<td style="text-align: ${align};">
-            ${unsafeHTML(tempHTML)}
-          </td>`;
-        } else {
-          return html`<td style="text-align: ${align};">${value}</td>`;
-        }
+        return html`
+          <td
+            style="text-align: ${col.align || "left"}; width: ${col.width ||
+            "auto"};"
+          >
+            ${render
+              ? html`${this.renderHTML(
+                  render(cellValue, row, rowIndex),
+                  col.align,
+                  onClick
+                    ? () => {
+                        onClick(cellValue, row, rowIndex);
+                        this.dispatchEvent(
+                          new CustomEvent(`cell-click`, {
+                            detail: { cellValue, row, rowIndex },
+                          }),
+                        );
+                      }
+                    : undefined,
+                  onChange
+                    ? (event: Event) => {
+                        const newValue = (event.target as HTMLInputElement)
+                          .value;
+                        onChange(newValue, row, rowIndex);
+                        this.dispatchEvent(
+                          new CustomEvent(`cell-change`, {
+                            detail: { newValue, row, rowIndex },
+                          }),
+                        );
+                      }
+                    : undefined,
+                )}`
+              : cellValue}
+          </td>
+        `;
       }),
     ];
     return content;
   }
-  renderPaginationControls() {
-    const totalPages = Math.ceil(this.itemValue.length / this.rowsPerPage);
 
-    const startIndex = (this.currentPage - 1) * this.rowsPerPage + 1;
+  renderHTML(
+    content: string,
+    align: "left" | "center" | "right" = "left",
+    onClick?: () => void,
+    onChange?: (event: Event) => void,
+  ): TemplateResult {
+    return html`<div
+      style="text-align: ${align};"
+      .innerHTML="${content}"
+      @click="${onClick || nothing}"
+      @input="${onChange || nothing}"
+    ></div>`;
+  }
+
+  renderPaginationControls() {
+    const totalPages =
+      this.totalPaginationPages > 0
+        ? Math.ceil(this.totalPaginationPages / this.rowsPerPage)
+        : Math.ceil(this.data.length / this.rowsPerPage);
+
+    let startIndex = (this.currentPage - 1) * this.rowsPerPage + 1;
+    if (this.data.length === 0 || isNaN(startIndex)) {
+      startIndex = 0;
+    }
 
     let endIndex = this.currentPage * this.rowsPerPage;
-    endIndex = Math.min(endIndex, this.itemValue.length);
+    endIndex = Math.min(endIndex, this.data.length);
 
-    if (this.itemValue.length === 0) {
+    if (this.data.length === 0) {
       endIndex = 0;
     }
     return html`
       <ssk-pagination
-        totalPages="${totalPages}"
+        totalPages="${totalPages || 1}"
         currentPage="${this.currentPage}"
         startItems="${startIndex}"
         endItems="${endIndex}"
-        allItems="${this.itemValue.length}"
+        allItems="${this.data.length}"
         @page-changed="${this.handlePageChanged}"
         @rows-per-page-changed="${this.updatedPage}"
-        ?showRowsPage="${this.showRowPage}"
-        ?showBtnPage="${this.showBtnPage}"
-        ?showrowsperpage="${this.showRowPerPage}"
-        ?showGoToPage="${this.showGoToPage}"
+        ?showRowsPage="${this.showPageNavigation}"
+        ?showBtnPage="${this.showPageButtons}"
+        ?showrowsperpage="${this.showRowsPerPageSelector}"
+        ?showGoToPage="${this.showGoToPageInput}"
+        dropdownAnchor="top"
       ></ssk-pagination>
     `;
   }
@@ -233,23 +339,38 @@ export class Table extends LitElement {
     if (this.hidden) {
       return nothing;
     }
-    const hasItems = this.itemValue.length > 0;
-    const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-    const endIndex = Math.min(
-      startIndex + this.rowsPerPage,
-      this.itemValue.length,
-    );
+
+    const hasItems = this.data.length > 0;
+    const isPaginated = this.totalPaginationPages !== 0;
+
+    const startIndex = isPaginated
+      ? 0
+      : (this.currentPage - 1) * this.rowsPerPage;
+    const endIndex = isPaginated
+      ? this.data.length
+      : Math.min(startIndex + this.rowsPerPage, this.data.length);
 
     let additionalCss = html`
       <style>
         :host {
-          --background-color: ${parseVariables(cssVar("colors", "gray", 50))};
+          --background-color: ${parseVariables(
+            cssVar("colors", this.themeColor),
+            cssVar("colors", this.themeColor, 50),
+            cssVar("colors", "gray", 50),
+          )};
 
-          --color: ${parseVariables(cssVar("colors", "gray", 500))};
+          --color: ${parseVariables(
+            cssVar("colors", this.color),
+            cssVar("colors", this.color, 500),
+            this.color,
+            cssVar("colors", "gray", 500),
+          )};
 
           --color-title: ${parseVariables(
-            cssVar("colors", "text", "800"),
-            "black",
+            cssVar("colors", this.color),
+            cssVar("colors", this.color, 800),
+            this.color,
+            cssVar("colors", "text", 800),
           )};
 
           --border-color: ${parseVariables(cssVar("colors", "fiord", 100))};
@@ -263,8 +384,18 @@ export class Table extends LitElement {
             cssVar("font-weight", this.fontWeight),
           )};
 
-          --font-size: ${parseVariables(cssVar("font-size", this.size))};
+          --font-size: ${parseVariables(
+            cssVar("font-size", this.fontSize),
+            cssVar("font-size", this.size),
+          )};
           --line-height: ${parseVariables(cssVar("font-size", this.size))};
+          --border-style: solid;
+          --border-width: 1px;
+
+          --height-table: auto;
+          tbody {
+            display: ${hasItems ? "block" : "none"};
+          }
         }
       </style>
     `;
@@ -277,24 +408,24 @@ export class Table extends LitElement {
         }
       </style>
       <div class="container" data-testid=${this.testId || nothing}>
-        <table>
+        <table class="table-scroll">
           <thead>
             <tr>
-              ${this.selectEnabled
-                ? html`<th>
+              ${this.showCheckbox
+                ? html`<th class="checkbox-content">
                     <ssk-checkbox
                       .checked="${this.selectAll}"
                       @change="${this.toggleSelectAll}"
-                      ?disabled="${!this.selectEnabled}"
+                      ?disabled="${!this.showCheckbox}"
                     >
                     </ssk-checkbox>
                   </th>`
                 : nothing}
-              ${this.headers.map((header) => this.renderHeader(header))}
+              ${this.columns.map((col) => this.renderHeader(col))}
             </tr>
           </thead>
           <tbody>
-            ${this.itemValue.slice(startIndex, endIndex).map(
+            ${this.data.slice(startIndex, endIndex).map(
               (row, index) =>
                 html`<tr>
                   ${this.renderBody(row, startIndex + index)}
@@ -302,23 +433,43 @@ export class Table extends LitElement {
             )}
           </tbody>
         </table>
-        ${!hasItems ? html`<slot name="empty-content"></slot>` : nothing}
-        <div class="${this.showFooter ? "show" : "footer"}">
-          ${this.renderPaginationControls()}
-        </div>
+      </div>
+      ${!hasItems ? html`<slot name="empty-content"></slot>` : nothing}
+      <div class="${this.showPaginationFooter ? "show" : "footer"}">
+        ${this.renderPaginationControls()}
       </div>
     `;
   }
 
   static styles = css`
     table {
-      border: 1px solid;
+      border-style: var(--border-style);
+      border-width: var(--border-width);
       border-color: var(--border-color-table);
       border-collapse: collapse;
       width: 100%;
+      table-layout: fixed;
     }
-    th {
-      background-color: var(--background-color);
+
+    thead,
+    tbody {
+      display: block;
+    }
+
+    tbody {
+      overflow-y: auto;
+      height: var(--height-table);
+    }
+
+    tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    th,
+    td {
+      background-color: #ffffff;
       border-top: 1px solid var(--border-color);
       border-left: none;
       border-right: none;
@@ -330,29 +481,42 @@ export class Table extends LitElement {
       font-family: var(--font-family);
       font-weight: var(--font-weight);
       line-height: var(--line-height);
+      box-sizing: border-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-    td {
-      background-color: #ffffff;
-      border-top: 1px solid var(--border-color);
-      border-left: none;
-      border-right: none;
-      border-bottom: 1px solid var(--border-color);
-      padding: 12px;
-      text-align: left;
-      color: var(--color);
-      font-size: 24px;
-      font-family: var(--font-family);
-      font-weight: var(--font-weight);
-      line-height: var(--line-height);
+
+    th {
+      color: var(--color-title);
+      background-color: var(--background-color);
     }
+
     .footer {
       display: none;
     }
+
     .show {
       text-align: center;
       border-top: 1px solid var(--border-color);
       width: 100%;
       box-sizing: border-box;
+    }
+
+    .header-content {
+      display: inline-flex;
+      align-items: center;
+      height: 100%;
+    }
+
+    .header-icon {
+      margin-top: 5px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    .checkbox-content {
+      width: 70px;
     }
   `;
 }

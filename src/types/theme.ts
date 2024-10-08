@@ -118,7 +118,7 @@ export type Position =
 
 export type BackgroundSize = "auto" | "cover" | "contain";
 
-export type ButtonVariants = "solid" | "outline" | "ghost";
+export type ButtonVariants = "solid" | "outline" | "ghost" | "solid-light";
 
 export type BadgeVariants = "solid" | "outline" | "subtle";
 

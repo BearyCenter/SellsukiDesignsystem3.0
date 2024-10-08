@@ -348,6 +348,18 @@ export class Calendar extends LitElement {
     return "";
   }
 
+  private computeYearName(year: string, yFormat: string) {
+    if (year) {
+      let dateFn = parse(`${year}`, "yyyy", new Date());
+      if (this.locale === "th") {
+        dateFn = new Date(dateFn.setFullYear(dateFn.getFullYear() + 543));
+      }
+
+      return format(dateFn, yFormat, { locale: locales[this.locale] });
+    }
+    return "";
+  }
+
   private updateDateWithTime(
     date: number | undefined,
     time: number | undefined,
@@ -625,8 +637,11 @@ export class Calendar extends LitElement {
   }
 
   private calcYearString(yList: number[]): string {
-    const firstY = yList[0];
-    const lastY = yList[yList.length - 1];
+    const firstY = this.computeYearName(yList[0].toString(), "yyyy");
+    const lastY = this.computeYearName(
+      yList[yList.length - 1].toString(),
+      "yyyy",
+    );
     return `${firstY} - ${lastY}`;
   }
 
@@ -636,7 +651,7 @@ export class Calendar extends LitElement {
     --padding: ${parseVariables(cssVar("padding", this.size), this.padding)};
     --rounded: ${parseVariables(cssVar("rounded", this.size), this.rounded)};
 
-    --600-colors: ${parseVariables(cssVar("colors", this.themeColor, 600))};
+    --500-colors: ${parseVariables(cssVar("colors", this.themeColor, 500))};
     --cell-width: calc(var(--padding) * 2);
     `;
 
@@ -699,16 +714,19 @@ export class Calendar extends LitElement {
             ></ssk-icon>
           </div>
           ${this._chunkYearList[this._yearIndex].map(
-            (y) =>
-              html`<div
+            (y) => html`
+              <div
                 class="item 
-                ${+this.year === y ? "selected" : null}
-                ${this.isCurrentYear(y) ? "currently" : null}
-                "
+                  ${+this.year === y ? "selected" : null}
+                  ${this.isCurrentYear(y) ? "currently" : null}
+                  "
                 @click=${() => this.handleYearChanged(y)}
               >
-                <ssk-text size=${this.size}><span>${y}</span></ssk-text>
-              </div>`,
+                <ssk-text size=${this.size}>
+                  <span>${this.computeYearName(y.toString(), "yyyy")}</span>
+                </ssk-text>
+              </div>
+            `,
           )}
         </div>
       `;
@@ -766,11 +784,11 @@ export class Calendar extends LitElement {
                       @click=${this.toggleYearChangeDropdown.bind(this)}
                     >
                       <ssk-text size=${this.size}>
-                        <span>${this.year}</span>
+                        <span> ${this.computeYearName(this.year, "yyyy")}</span>
                       </ssk-text>
                     </div> `
                   : html` <ssk-text size=${this.size}>
-                      ${this.year}
+                      ${this.computeYearName(this.year, "yyyy")}
                     </ssk-text>`}
                 ${this._monthChangeDropdown ? renderMonthDropdown() : null}
                 ${this._yearChangeDropdown ? renderYearDropdown() : null}
@@ -855,6 +873,7 @@ export class Calendar extends LitElement {
                     size=${this.size}
                     locale=${this.locale}
                     format=${this.timeFormat}
+                    themeColor=${this.themeColor}
                     .value=${this.currentTimeTarget === "dateFrom"
                       ? this.timeFrom
                       : this.timeTo}
@@ -918,7 +937,7 @@ export class Calendar extends LitElement {
     }
 
     .popup-change:hover span {
-      color: var(--600-colors);
+      color: var(--500-colors);
     }
 
     /* Dropdown year and month */
@@ -950,7 +969,7 @@ export class Calendar extends LitElement {
     }
 
     .dropdown > .item:hover {
-      background: var(--600-colors);
+      background: var(--500-colors);
     }
     .dropdown > .item:hover span,
     .selected span {
@@ -977,12 +996,12 @@ export class Calendar extends LitElement {
       width: 0.25em;
       height: 0.25em;
       bottom: 10%;
-      background-color: var(--600-colors);
+      background-color: var(--500-colors);
       border-radius: 50%;
     }
 
     .selected {
-      background-color: var(--600-colors);
+      background-color: var(--500-colors);
     }
 
     .selected.currently::after {

@@ -149,13 +149,15 @@ export class Tabs extends LitElement {
                       cssVar("colors", "white", 50),
                     )};
 
-                    --border-bottom-tabs:${parseVariables("1px solid #D1D5DB")};
+                    --border-bottom-color-tabs:${parseVariables(
+                      cssVar("colors", "gray", 200),
+                    )};
                     --border-bottom: ${parseVariables("0px")};
                    --border-bottom-active: ${parseVariables(
                      `4px solid ${primaryColor}`,
                    )};
-                    --border-bottom-hover: ${parseVariables(
-                      "4px solid #D1D5DB",
+                    --border-bottom-color-hover:  ${parseVariables(
+                      cssVar("colors", "gray", 200),
                     )};
 
                     --font-weight: 400;
@@ -297,13 +299,13 @@ export class Tabs extends LitElement {
       flex-direction: row;
       background-color: var(--background-color);
       border-radius: var(--border-radius);
-      border-bottom: var(--border-bottom-tabs);
+      border-bottom: 1px solid var(--border-bottom-color-tabs);
     }
 
     .tab:hover {
       color: var(--color-hover);
       background-color: var(--background-color-hover);
-      border-bottom: var(--border-bottom-hover);
+      border-bottom: 4px solid var(--border-bottom-color-hover);
       font-weight: var(--font-weight-hover);
     }
 

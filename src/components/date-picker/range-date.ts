@@ -2,6 +2,8 @@ import { consume } from "@lit/context";
 import { css, html, LitElement, nothing, PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import {
+  ColorName,
+  ColorRole,
   cssVar,
   parseThemeToCssVariables,
   parseVariables,
@@ -20,10 +22,10 @@ import {
   parse,
   subMonths,
   subYears,
-  toDate,
 } from "date-fns";
-import { getMonthString } from "./util";
+import { convertToAD, convertToBE, getMonthString } from "./util";
 
+type LocaleKey = "en" | "fr" | "th";
 @customElement("ssk-range-date-picker")
 export class RangeDatePicker extends LitElement {
   static registeredName = "ssk-range-date-picker";
@@ -34,6 +36,10 @@ export class RangeDatePicker extends LitElement {
 
   // BaseAttributes
   @property({ type: String })
+  themeColor: ColorRole | ColorName = "primary";
+  @property({ type: String })
+  color?: ColorRole | ColorName;
+  @property({ type: String })
   testId?: string;
   @property({ type: String })
   size: Size = "md";
@@ -41,7 +47,10 @@ export class RangeDatePicker extends LitElement {
   @property({ type: String })
   label?: string;
   @property({ type: String })
-  placeholder?: string;
+  placeholderFrom?: string;
+  @property({ type: String })
+  placeholderTo?: string;
+
   @property({ type: String })
   helperText: string | undefined;
   @property({ type: Boolean })
@@ -65,6 +74,14 @@ export class RangeDatePicker extends LitElement {
   showTime = false;
   @property({ type: String })
   timeFormat: "hms" | "hm" | "timeEvery30" = "hms";
+  @property({ type: String })
+  locale: LocaleKey = "th";
+  @property({ type: String })
+  alignCalendar?: "left" | "right" = "left";
+  @property({ type: String })
+  widthCalendar?: string | undefined = "fit-content";
+  @property({ type: Function })
+  disabledDate?: (date: number) => boolean;
 
   @state()
   _hideCalendar: boolean = true;
@@ -100,19 +117,26 @@ export class RangeDatePicker extends LitElement {
   _timeTarget: "dateFrom" | "dateTo" = "dateFrom";
 
   private handleIcon() {
-    const hasValue = this.valueFrom || this.valueTo;
-    if (hasValue && this._isClear) {
+    if (this._isClear) {
       this.valueFrom = undefined;
       this.valueTo = undefined;
 
-      this._sValueFrom = undefined;
-      this._sValueTo = undefined;
+      this._sValueFrom = "";
+      this._sValueTo = "";
       this._isClear = false;
       this._hideCalendar = true;
-      this.error = false;
       this._timeFrom = undefined;
       this._timeTo = undefined;
       this._timeTarget = "dateFrom";
+
+      this.dispatchEvent(
+        new CustomEvent("change", {
+          detail: {
+            valueFrom: this.valueFrom,
+            valueTo: this.valueTo,
+          },
+        }),
+      );
     }
   }
 
@@ -126,73 +150,88 @@ export class RangeDatePicker extends LitElement {
     return false;
   }
 
-  private async updateValueFrom({ detail }: any) {
-    const value = detail.originalEvent.target.value;
-    this._isClear = true;
-
-    if (this.validateStringDate(value)) {
-      if (this.showTime) {
-        const parsedDate = parse(value, this.format, new Date());
-        this._timeTarget = "dateFrom";
-        if (isValid(parsedDate)) {
-          this.valueFrom = parsedDate;
-          this._timeFrom = parsedDate.getTime();
-        } else {
-          this.error = true;
-          return;
-        }
-      } else {
-        const date = parse(value, this.format, new Date());
-        this.valueFrom = toDate(format(date, this.format));
+  private getConvertedYearValue(value: string): string {
+    if (this.locale === "th") {
+      const yearMatch = value.match(/\b(\d{4})\b/);
+      if (yearMatch) {
+        const yearInBE = parseInt(yearMatch[0], 10);
+        const yearInAD = convertToAD(yearInBE);
+        value = value.replace(yearInBE.toString(), yearInAD.toString());
       }
-      // must be date or number
-
-      this.dispatchEvent(
-        new CustomEvent("change", {
-          detail: {
-            valueFrom: this.valueFrom,
-            valueTo: this.valueTo,
-          },
-        }),
-      );
-      this.error = false;
-      return;
     }
-    this.error = true;
+    return value;
   }
 
-  private async updateValueTo({ detail }: any) {
-    const value = detail.originalEvent.target.value;
-    this._isClear = true;
+  private handleDateParsing(value: string, target: string): void {
+    const parsedDate = parse(value, this.format, new Date());
 
-    if (this.validateStringDate(value)) {
-      if (this.showTime) {
-        this._timeTarget = "dateTo";
-        const parsedDate = parse(value, this.format, new Date());
-        if (isValid(parsedDate)) {
-          this.valueTo = parsedDate;
-          this._timeTo = parsedDate.getTime();
-        } else {
-          this.error = true;
-          return;
-        }
-      } else {
-        const date = parse(value, this.format, new Date());
-        this.valueTo = toDate(format(date, this.format)); // must be date or number
-      }
-
-      this.dispatchEvent(
-        new CustomEvent("change", {
-          detail: {
-            valueTo: this.valueTo,
-            valueFrom: this.valueFrom,
-          },
-        }),
-      );
-      this.error = false;
+    if (!isValid(parsedDate)) {
       return;
     }
-    this.error = true;
+
+    if (this.showTime) {
+      this._timeTarget = target === "from" ? "dateFrom" : "dateTo";
+      if (target === "from") {
+        this.valueFrom = parsedDate;
+        this._timeFrom = parsedDate.getTime();
+      } else {
+        this.valueTo = parsedDate;
+        this._timeTo = parsedDate.getTime();
+      }
+    } else {
+      target === "from"
+        ? (this.valueFrom = parsedDate)
+        : (this.valueTo = parsedDate);
+    }
+
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: {
+          valueFrom: this.valueFrom,
+          valueTo: this.valueTo,
+        },
+      }),
+    );
+  }
+
+  private async updateInputValueFrom({ detail }: any) {
+    const value = this.getConvertedYearValue(detail.originalEvent.target.value);
+    this._isClear = true;
+
+    if (value.length === this.format.length && this.validateStringDate(value)) {
+      this.handleDateParsing(value, "from");
+    }
+  }
+
+  private async updateChangeValueFrom({ detail }: any) {
+    const value = this.getConvertedYearValue(detail.originalEvent.target.value);
+    this._isClear = true;
+
+    if (value.length === this.format.length && this.validateStringDate(value)) {
+      this.handleDateParsing(value, "from");
+    } else {
+      this._sValueFrom = "";
+    }
+  }
+
+  private async updateInputValueTo({ detail }: any) {
+    const value = this.getConvertedYearValue(detail.originalEvent.target.value);
+    this._isClear = true;
+
+    if (value.length === this.format.length && this.validateStringDate(value)) {
+      this.handleDateParsing(value, "to");
+    }
+  }
+
+  private async updateChangeValueTo({ detail }: any) {
+    const value = this.getConvertedYearValue(detail.originalEvent.target.value);
+    this._isClear = true;
+
+    if (value.length === this.format.length && this.validateStringDate(value)) {
+      this.handleDateParsing(value, "to");
+    } else {
+      this._sValueTo = "";
+    }
   }
 
   private handleClickFrom() {
@@ -258,37 +297,6 @@ export class RangeDatePicker extends LitElement {
     );
   }
 
-  // private handleDateFrom({ detail }: any) {
-  //   const dateFrom = new Date(detail.value);
-  //   this.valueFrom = isValid(dateFrom) ? dateFrom : undefined;
-
-  //   if (this.valueFrom && getMonthString(this.valueFrom) === this._cMonthTo) {
-  //     const nextMonth = parse(this._cMonthTo, "MM", new Date());
-  //     // handle month
-  //     this._cMonthFrom = getMonthString(this.valueFrom);
-  //     this._cMonthTo = format(addMonths(nextMonth, 1), "MM");
-  //   }
-
-  //   if (this.valueFrom && this.showTime && /HH|mm|ss/.test(this.format)) {
-  //     this._timeFrom = this.valueFrom.getTime();
-  //     this._timeTarget = "dateFrom";
-  //   }
-  // }
-
-  // private handleDateTo({ detail }: any) {
-  //   const dateTo = new Date(detail.value);
-  //   this.valueTo = isValid(dateTo) ? dateTo : undefined;
-  //   if (this.valueTo && this.showTime && /HH|mm|ss/.test(this.format)) {
-  //     this._timeTo = this.valueTo.getTime();
-  //     this._timeTarget = "dateTo";
-  //   }
-  //   this.dispatchEvent(
-  //     new CustomEvent("change", {
-  //       detail: { valueTo: this.valueTo, valueFrom: this.valueFrom },
-  //     }),
-  //   );
-  // }
-
   private handleChangedDateFrom(v?: string) {
     if (v) {
       const vDateFrom = parse(v, this.format, new Date());
@@ -325,9 +333,10 @@ export class RangeDatePicker extends LitElement {
 
   handlePrevMonth({ detail }: any) {
     const month = parse(detail.value, "MM", new Date());
-    const monthPlusDate = addMonths(month, 1);
 
     this._cMonthFrom = detail.value;
+
+    const monthPlusDate = addMonths(month, 1);
     this._cMonthTo = format(monthPlusDate, "MM");
 
     if (this._cMonthFrom === "11") {
@@ -340,6 +349,7 @@ export class RangeDatePicker extends LitElement {
     const monthMinusDate = subMonths(month, 1);
 
     this._cMonthFrom = format(monthMinusDate, "MM");
+
     this._cMonthTo = detail.value;
 
     if (this._cMonthTo === "02") {
@@ -374,8 +384,7 @@ export class RangeDatePicker extends LitElement {
     if (!_e.composedPath().includes(targetDiv)) {
       this._isClear = false;
 
-      const hasValue = this.valueFrom && this.valueTo;
-      if (hasValue && !this._isFocus && !this._hideCalendar) {
+      if (!this._isFocus && !this._hideCalendar) {
         this._hideCalendar = true;
       }
     } else {
@@ -384,23 +393,24 @@ export class RangeDatePicker extends LitElement {
   }
 
   protected firstUpdated() {
+    if (!this._cMonthFrom && !this._cMonthFrom) {
+      // set default
+
+      const currentMonth = getMonthString(new Date());
+      this._cMonthFrom = currentMonth;
+
+      const nextMonth = parse(this._cMonthFrom, "MM", new Date());
+      this._cMonthTo = format(addMonths(nextMonth, 1), "MM");
+    }
     var popover = this.shadowRoot?.querySelector(
       "div.calendar-container",
     ) as HTMLDivElement;
 
-    document.addEventListener("click", (event) =>
-      this.handleClickOutside(event, popover),
-    );
+    document.addEventListener("click", (event) => {
+      this.handleClickOutside(event, popover);
+    });
 
-    this._sValueFrom = this.valueFrom
-      ? format(this.valueFrom, this.format)
-      : undefined;
-    this._sValueTo = this.valueTo
-      ? format(this.valueTo, this.format)
-      : undefined;
-
-    this.handleChangedDateFrom(this._sValueFrom);
-    this.handleChangedDateTo(this._sValueTo);
+    this.updateChangeValue();
   }
 
   disconnectedCallback() {
@@ -423,21 +433,56 @@ export class RangeDatePicker extends LitElement {
       return;
     }
 
+    this.updateChangeValue();
+  }
+
+  private updateChangeValue(): void {
+    let formattedValueFrom: string | undefined;
+    let formattedValueTo: string | undefined;
+
+    if (this.valueFrom) {
+      formattedValueFrom = format(this.valueFrom, this.format);
+
+      if (this.locale === "th") {
+        const yearFrom = this.valueFrom.getFullYear();
+        const beYearFrom = convertToBE(this.valueFrom);
+        this._sValueFrom = formattedValueFrom.replace(
+          yearFrom.toString(),
+          beYearFrom.toString(),
+        );
+      } else {
+        this._sValueFrom = formattedValueFrom;
+      }
+    } else {
+      this._sValueFrom = undefined;
+    }
+
+    if (this.valueTo) {
+      formattedValueTo = format(this.valueTo, this.format);
+
+      if (this.locale === "th") {
+        const yearTo = this.valueTo.getFullYear();
+        const beYearTo = convertToBE(this.valueTo);
+        this._sValueTo = formattedValueTo.replace(
+          yearTo.toString(),
+          beYearTo.toString(),
+        );
+      } else {
+        this._sValueTo = formattedValueTo;
+      }
+    } else {
+      this._sValueTo = undefined;
+    }
+
+    this.handleChangedDateFrom(formattedValueFrom);
+
     const monthFromEqualMonthTo =
       (this.valueFrom && getMonthString(this.valueFrom)) ===
       (this.valueTo && getMonthString(this.valueTo));
 
-    this._sValueFrom = this.valueFrom
-      ? format(this.valueFrom, this.format)
-      : undefined;
-    this._sValueTo = this.valueTo
-      ? format(this.valueTo, this.format)
-      : undefined;
-
-    this.handleChangedDateFrom(this._sValueFrom);
     if (monthFromEqualMonthTo) return;
 
-    this.handleChangedDateTo(this._sValueTo);
+    this.handleChangedDateTo(formattedValueTo);
   }
 
   render() {
@@ -447,6 +492,7 @@ export class RangeDatePicker extends LitElement {
 
     let additionalCss = `
         --rounded: ${parseVariables(cssVar("rounded", this.size))};
+        --width-calender:${this.widthCalendar};
     `;
 
     const footerSlot = this.querySelector('[slot="footer"]');
@@ -467,16 +513,20 @@ export class RangeDatePicker extends LitElement {
           label=${this.label}
           helperText=${this.error ? this.helperText : ""}
           .error=${this.error}
-          placeholder=${this.placeholder}
+          placeholderFrom=${this.placeholderFrom}
+          placeholderTo=${this.placeholderTo}
           name=${this.name}
           size=${this.size}
-          @value-from-change=${this.updateValueFrom.bind(this)}
-          @value-to-change=${this.updateValueTo.bind(this)}
+          @value-from-input=${this.updateInputValueFrom.bind(this)}
+          @value-to-input=${this.updateInputValueTo.bind(this)}
+          @value-from-change=${this.updateChangeValueFrom.bind(this)}
+          @value-to-change=${this.updateChangeValueTo.bind(this)}
           @input-from-click="${this.handleClickFrom.bind(this)}"
           @input-to-click="${this.handleClickTo.bind(this)}"
           @blur=${this.handleOnBlur.bind(this)}
           @focus=${this.handleOnFocus.bind(this)}
           autoComplete="off"
+          color=${this.color}
         >
           <ssk-input-addon slot="center">
             <ssk-icon name="solid-arrow-long-right"></ssk-icon>
@@ -490,7 +540,11 @@ export class RangeDatePicker extends LitElement {
               : html`<ssk-icon name="outline-calendar-days"></ssk-icon> `}
           </ssk-input-addon>
         </ssk-input-range>
-        <div class="calendar-container">
+        <div
+          class="calendar-container ${this.alignCalendar === "right"
+            ? "right"
+            : "left"} ${this._hideCalendar ? "hidden" : ""}"
+        >
           ${this.showTime
             ? html`<ssk-calendar
                 .hidden=${this._hideCalendar}
@@ -508,6 +562,9 @@ export class RangeDatePicker extends LitElement {
                 ?displayGoToday=${this.displayGoToday}
                 ?displayOk=${this.displayOk}
                 @date-changed=${this.handleDateChanged.bind(this)}
+                locale=${this.locale}
+                themeColor=${this.themeColor}
+                .disabledDate=${this.disabledDate}
               >
                 >
                 ${footerSlot
@@ -528,6 +585,9 @@ export class RangeDatePicker extends LitElement {
                   @date-changed=${this.handleDateChanged.bind(this)}
                   @prev-month="${this.handlePrevMonth.bind(this)}"
                   @prev-year="${this.setYearFrom.bind(this)}"
+                  locale=${this.locale}
+                  themeColor=${this.themeColor}
+                  .disabledDate=${this.disabledDate}
                 >
                   >
                   ${footerSlot
@@ -548,6 +608,9 @@ export class RangeDatePicker extends LitElement {
                   @date-changed=${this.handleDateChanged.bind(this)}
                   @next-month="${this.handleNextMonth.bind(this)}"
                   @next-year="${this.setYearTo.bind(this)}"
+                  locale=${this.locale}
+                  themeColor=${this.themeColor}
+                  .disabledDate=${this.disabledDate}
                 >
                   >
                   ${footerSlot
@@ -562,12 +625,27 @@ export class RangeDatePicker extends LitElement {
     ssk-icon.clear {
       cursor: pointer;
     }
+
     .calendar-container {
       position: absolute;
       display: flex;
       background-color: white;
       border: 1px solid var(--ssk-colors-gray-200);
       border-radius: var(--rounded);
+      z-index: 9;
+      width: var(--width-calender);
+    }
+
+    .hidden {
+      border: 0;
+    }
+
+    .calendar-container.left {
+      left: 1rem;
+    }
+
+    .calendar-container.right {
+      right: 1rem;
     }
   `;
 }

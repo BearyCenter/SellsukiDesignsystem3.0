@@ -54,7 +54,9 @@ export class InputRange extends LitElement {
   name: string | undefined;
 
   @property({ type: String })
-  placeholder: string | undefined;
+  placeholderFrom: string | undefined;
+  @property({ type: String })
+  placeholderTo: string | undefined;
 
   @property({ type: Boolean })
   hidden = false;
@@ -81,10 +83,20 @@ export class InputRange extends LitElement {
 
   updateValueFrom(e: any) {
     this.valueFrom = e.srcElement.value;
-    redispatchEvents(e, this, "value-from-change");
+    redispatchEvents(e, this, "value-from-input");
   }
 
   updateValueTo(e: any) {
+    this.valueTo = e.srcElement.value;
+    redispatchEvents(e, this, "value-to-input");
+  }
+
+  updateChangeFrom(e: any) {
+    this.valueFrom = e.srcElement.value;
+    redispatchEvents(e, this, "value-from-change");
+  }
+
+  updateChangeTo(e: any) {
     this.valueTo = e.srcElement.value;
     redispatchEvents(e, this, "value-to-change");
   }
@@ -108,9 +120,9 @@ export class InputRange extends LitElement {
         :host {
           --color: ${parseVariables(
             cssVar("colors", this.color),
-            cssVar("colors", this.color, 700),
+            cssVar("colors", this.color, 800),
             this.color,
-            cssVar("colors", "text", 700),
+            cssVar("colors", "text", 800),
           )};
           --color-disabled: ${parseVariables(cssVar("colors", "text", 300))};
           --color-helper: ${parseVariables(
@@ -127,7 +139,10 @@ export class InputRange extends LitElement {
           --background-color-disabled: ${parseVariables(
             cssVar("colors", "border", 50),
           )};
-          --border-color: ${parseVariables(cssVar("colors", "border", 100))};
+          --border-color: ${parseVariables(
+            cssVar("colors", this.color, 100),
+            cssVar("colors", "border", 100),
+          )};
           --border-color-active: ${parseVariables(
             cssVar("colors", this.themeColor, 600),
           )};
@@ -171,26 +186,26 @@ export class InputRange extends LitElement {
           <input
             id="input-from"
             data-testid=${this.testId || nothing}
-            placeholder=${this.placeholder || ""}
+            placeholder=${this.placeholderFrom || ""}
             name=${this.name || ""}
             .value=${this.valueFrom || ""}
             ?disabled=${this.disabled}
             autocomplete="off"
             @input=${this.updateValueFrom.bind(this)}
-            @change=${this.updateValueFrom.bind(this)}
+            @change=${this.updateChangeFrom.bind(this)}
             @click=${this.updateClickFrom.bind(this)}
           />
           <slot name="center"></slot>
           <input
             id="input-to"
             data-testid=${this.testId || nothing}
-            placeholder=${this.placeholder || ""}
+            placeholder=${this.placeholderTo || ""}
             name=${this.name || ""}
             .value=${this.valueTo || ""}
             ?disabled=${this.disabled}
             autocomplete="off"
             @input=${this.updateValueTo.bind(this)}
-            @change=${this.updateValueTo.bind(this)}
+            @change=${this.updateChangeTo.bind(this)}
             @click=${this.updateClickTo.bind(this)}
           />
           <slot name="postfix"></slot>
@@ -211,6 +226,7 @@ export class InputRange extends LitElement {
       font-family: var(--font-family);
       font-weight: var(--font-weight);
       line-height: var(--line-height);
+      min-width: 10%;
     }
 
     div.container {

@@ -92,6 +92,9 @@ export class Pagination extends LitElement {
   @property({ type: Boolean })
   fullWidth = false;
 
+  @property({ type: String })
+  dropdownAnchor: "top" | "bottom" = "bottom";
+
   renderPageNumbers() {
     const pages: Array<number | string> = [];
     let numVisiblePages = 5;
@@ -184,6 +187,11 @@ export class Pagination extends LitElement {
         this.changePage(pageNumber);
       }
     }
+  }
+
+  handleInput(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    inputElement.value = inputElement.value.replace(/[^0-9]/g, "");
   }
 
   goToLastPage() {
@@ -282,6 +290,7 @@ export class Pagination extends LitElement {
           >
             <ssk-dropdown
               @change="${(e: Event) => this.handleRowsPerPageChange(e)}"
+              .optionsAnchor="${this.dropdownAnchor}"
             >
               <ssk-dropdown-button slot="selected">
                 <ssk-dropdown-preview :value="${this.rowsPerPage}">
@@ -334,7 +343,12 @@ export class Pagination extends LitElement {
         </div>
         <div class="${this.showGoToPage ? "input-container" : "noRowsPerPage"}">
           <labe>Go to: </labe>
-          <input type="text" id="myInput" />
+          <input
+            type="text"
+            id="myInput"
+            @input="${this.handleInput}"
+            autocomplete="off"
+          />
           <ssk-icon
             class="go-icon"
             name="outline-arrow-right"
@@ -475,6 +489,9 @@ export class Pagination extends LitElement {
       margin-left: 3px;
       height: 40px;
       width: 40px;
+      font-family: var(--font-family);
+      font-weight: var(--font-weight);
+      text-align: center;
     }
     .go-icon {
       padding: 5px;
@@ -498,13 +515,15 @@ export class Pagination extends LitElement {
       display: none;
     }
     .select-group {
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
       box-sizing: border-box;
       margin-left: 5px;
     }
     .icon-double {
       margin-top: 4px;
+    }
+
+    ssk-dropdown {
+      --border-color: var(--color-border);
     }
   `;
 }

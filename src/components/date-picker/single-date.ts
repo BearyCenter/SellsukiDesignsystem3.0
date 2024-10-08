@@ -1,13 +1,22 @@
 import { consume } from "@lit/context";
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { Size, Theme, themeContext } from "../../main";
+import {
+  ColorName,
+  ColorRole,
+  cssVar,
+  parseVariables,
+  Size,
+  Theme,
+  themeContext,
+} from "../../main";
 import "../calendar";
 import "../../elements/input";
 import "../../elements/icon";
-import { format, isValid, parse, toDate } from "date-fns";
-import { getMonthString } from "./util";
+import { format, isValid, parse } from "date-fns";
+import { convertToAD, convertToBE, getMonthString } from "./util";
 
+type LocaleKey = "en" | "fr" | "th";
 @customElement("ssk-date-picker")
 export class DatePicker extends LitElement {
   static registeredName = "ssk-date-picker";
@@ -17,6 +26,10 @@ export class DatePicker extends LitElement {
   public theme?: Theme;
 
   // BaseAttributes
+  @property({ type: String })
+  themeColor: ColorRole | ColorName = "primary";
+  @property({ type: String })
+  color?: ColorRole | ColorName;
   @property({ type: String })
   testId?: string;
   @property({ type: String })
@@ -49,6 +62,15 @@ export class DatePicker extends LitElement {
   showTime = false;
   @property({ type: String })
   timeFormat: "hms" | "hm" | "timeEvery30" = "hms";
+  @property({ type: String })
+  locale: LocaleKey = "th";
+  @property({ type: String })
+  alignCalendar?: "left" | "right" = "left";
+  @property({ type: String })
+  widthCalendar?: string | undefined = "fit-content";
+
+  @property({ type: Function })
+  disabledDate?: (date: number) => boolean;
 
   @state()
   _hideCalendar: boolean = true;
@@ -68,13 +90,20 @@ export class DatePicker extends LitElement {
   _timeFrom: number | undefined;
 
   private handleIcon() {
-    if (this.value && this._isClear) {
+    if (this._isClear) {
       this.value = undefined;
-      this._sValue = undefined;
+      this._sValue = "";
       this._timeFrom = undefined;
       this._hideCalendar = true;
       this._isClear = false;
-      this.error = false;
+
+      this.dispatchEvent(
+        new CustomEvent("change", {
+          detail: {
+            valueFrom: this.value,
+          },
+        }),
+      );
     }
   }
 
@@ -88,37 +117,67 @@ export class DatePicker extends LitElement {
     return false;
   }
 
-  private updateValue(_e: Event) {
+  private getConvertedYearValue(value: string): string {
+    if (this.locale === "th") {
+      const yearMatch = value.match(/\b(\d{4})\b/);
+      if (yearMatch) {
+        const yearInBE = parseInt(yearMatch[0], 10);
+        const yearInAD = convertToAD(yearInBE);
+        value = value.replace(yearInBE.toString(), yearInAD.toString());
+      }
+    }
+    return value;
+  }
+
+  private handleDateParsing(value: string): void {
+    let parsedDate: Date;
+
+    if (this.showTime) {
+      parsedDate = parse(value, this.format, new Date());
+      if (isValid(parsedDate)) {
+        this.value = parsedDate;
+        this._timeFrom = parsedDate.getTime();
+      } else {
+        return;
+      }
+    } else {
+      parsedDate = parse(value, this.format, new Date());
+      if (isValid(parsedDate)) {
+        this.value = parsedDate;
+      } else {
+        return;
+      }
+    }
+
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: {
+          valueFrom: this.value,
+        },
+      }),
+    );
+  }
+
+  private updateInputValue(_e: Event) {
     const target = _e.target as HTMLSelectElement;
-    const value = target.value;
+    const value = this.getConvertedYearValue(target.value);
     this._isClear = true;
 
-    if (this.validateStringDate(value)) {
-      if (this.showTime) {
-        const parsedDate = parse(value, this.format, new Date());
-        if (isValid(parsedDate)) {
-          this.value = parsedDate;
-          this._timeFrom = parsedDate.getTime();
-        } else {
-          this.error = true;
-          return;
-        }
-      } else {
-        this.value = toDate(format(value, this.format));
-        this._timeFrom = undefined;
-      }
-
-      this.dispatchEvent(
-        new CustomEvent("change", {
-          detail: {
-            valueFrom: this.value,
-          },
-        }),
-      );
-      this.error = false;
-      return;
+    if (value.length === this.format.length && this.validateStringDate(value)) {
+      this.handleDateParsing(value);
     }
-    this.error = true;
+  }
+
+  private updateInputValueChange(_e: Event) {
+    const target = _e.target as HTMLSelectElement;
+    const value = this.getConvertedYearValue(target.value);
+    this._isClear = true;
+
+    if (value.length === this.format.length && this.validateStringDate(value)) {
+      this.handleDateParsing(value);
+    } else {
+      this._sValue = "";
+    }
   }
 
   private handleOnBlur() {
@@ -168,7 +227,7 @@ export class DatePicker extends LitElement {
     if (!_e.composedPath().includes(targetDiv)) {
       this._isClear = false;
 
-      if (this.value && !this._isFocus && !this._hideCalendar) {
+      if (!this._isFocus && !this._hideCalendar) {
         this._hideCalendar = true;
       }
     } else {
@@ -177,6 +236,13 @@ export class DatePicker extends LitElement {
   }
 
   firstUpdated() {
+    if (!this._cMonth) {
+      // set default
+
+      const currentMonth = getMonthString(new Date());
+      this._cMonth = currentMonth;
+    }
+
     var popover = this.shadowRoot?.querySelector(
       "div.calendar-container",
     ) as HTMLDivElement;
@@ -184,8 +250,8 @@ export class DatePicker extends LitElement {
     document.addEventListener("click", (event) =>
       this.handleClickOutside(event, popover),
     );
-    this._sValue = this.value ? format(this.value, this.format) : undefined;
-    this.handleChangedDate(this._sValue);
+
+    this.updateChangeValue();
   }
 
   disconnectedCallback() {
@@ -195,58 +261,103 @@ export class DatePicker extends LitElement {
   }
 
   protected updated(): void {
-    this._sValue = this.value ? format(this.value, this.format) : undefined;
-    this.handleChangedDate(this._sValue);
+    this.updateChangeValue();
+  }
+
+  private updateChangeValue(): void {
+    let formattedValue: string | undefined;
+
+    if (this.value) {
+      formattedValue = format(this.value, this.format);
+
+      if (this.locale === "th") {
+        const year = this.value.getFullYear();
+        const beYear = convertToBE(this.value);
+
+        this._sValue = formattedValue.replace(year.toString(), beYear);
+      } else {
+        this._sValue = formattedValue;
+      }
+    } else {
+      this._sValue = undefined;
+    }
+
+    this.handleChangedDate(formattedValue);
   }
 
   render() {
     if (this.hidden) {
       return nothing;
     }
+
+    let additionalCss = `
+      --rounded: ${parseVariables(cssVar("rounded", this.size))};
+      --width-calender:${this.widthCalendar};
+    `;
+
     const footerSlot = this.querySelector('[slot="footer"]');
 
-    return html`<div class="date-picker">
-      <ssk-input
-        .value=${this._sValue}
-        label=${this.label}
-        helperText=${this.error ? this.helperText : ""}
-        .error=${this.error}
-        placeholder=${this.placeholder}
-        name=${this.name}
-        size=${this.size}
-        @input=${this.updateValue.bind(this)}
-        @change=${this.updateValue.bind(this)}
-        @blur=${this.handleOnBlur}
-        @focus=${this.handleOnFocus}
-        autoComplete="off"
-      >
-        <ssk-input-addon slot="postfix" @click=${this.handleIcon.bind(this)}>
-          ${this._isClear
-            ? html`<ssk-icon class="clear" name="outline-x-circle"></ssk-icon>`
-            : html`<ssk-icon name="outline-calendar-days"></ssk-icon> `}
-        </ssk-input-addon>
-      </ssk-input>
-      <div class="calendar-container">
-        <ssk-calendar
-          .hidden=${this._hideCalendar}
-          .dateFrom=${this._cDateFrom}
-          .timeFrom=${this._timeFrom}
-          timeFormat=${this.timeFormat}
+    return html`
+      <style>
+        div {
+          ${additionalCss}
+        }
+      </style>
+
+      <div class="date-picker">
+        <ssk-input
+          .value=${this._sValue}
+          label=${this.label}
+          helperText=${this.error ? this.helperText : ""}
+          .error=${this.error}
+          placeholder=${this.placeholder}
+          name=${this.name}
           size=${this.size}
-          month=${this._cMonth}
-          year=${this._cYear}
-          ?showTime=${this.showTime}
-          ?rangeDate=${this.rangeDate}
-          ?displayGoToday=${this.displayGoToday}
-          ?displayOk=${this.displayOk}
-          @date-changed=${(e: any) => this.handleDate(e.detail?.dateFrom)}
+          @input=${this.updateInputValue.bind(this)}
+          @change=${this.updateInputValueChange.bind(this)}
+          @blur=${this.handleOnBlur}
+          @focus=${this.handleOnFocus}
+          autoComplete="off"
+          color=${this.color}
         >
-          ${footerSlot
-            ? html`<slot name="footer" slot="footer"></slot>`
-            : nothing}
-        </ssk-calendar>
+          <ssk-input-addon slot="postfix" @click=${this.handleIcon.bind(this)}>
+            ${this._isClear
+              ? html`<ssk-icon
+                  class="clear"
+                  name="outline-x-circle"
+                ></ssk-icon>`
+              : html`<ssk-icon name="outline-calendar-days"></ssk-icon> `}
+          </ssk-input-addon>
+        </ssk-input>
+        <div
+          class="calendar-container ${this.alignCalendar === "right"
+            ? "right"
+            : "left"} ${this._hideCalendar ? "hidden" : ""}"
+        >
+          <ssk-calendar
+            .hidden=${this._hideCalendar}
+            .dateFrom=${this._cDateFrom}
+            .timeFrom=${this._timeFrom}
+            timeFormat=${this.timeFormat}
+            size=${this.size}
+            month=${this._cMonth}
+            year=${this._cYear}
+            ?showTime=${this.showTime}
+            ?rangeDate=${this.rangeDate}
+            ?displayGoToday=${this.displayGoToday}
+            ?displayOk=${this.displayOk}
+            @date-changed=${(e: any) => this.handleDate(e.detail?.dateFrom)}
+            locale=${this.locale}
+            themeColor=${this.themeColor}
+            .disabledDate=${this.disabledDate}
+          >
+            ${footerSlot
+              ? html`<slot name="footer" slot="footer"></slot>`
+              : nothing}
+          </ssk-calendar>
+        </div>
       </div>
-    </div> `;
+    `;
   }
   static styles = css`
     ssk-icon.clear {
@@ -258,6 +369,20 @@ export class DatePicker extends LitElement {
       background-color: white;
       border: 1px solid var(--ssk-colors-gray-200);
       border-radius: var(--rounded);
+      z-index: 9;
+      width: var(--width-calender);
+    }
+
+    .hidden {
+      border: 0;
+    }
+
+    .calendar-container.left {
+      left: 1rem;
+    }
+
+    .calendar-container.right {
+      right: 1rem;
     }
   `;
 }
