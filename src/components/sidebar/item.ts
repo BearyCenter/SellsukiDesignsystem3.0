@@ -58,7 +58,7 @@ export class SidebarItems extends LitElement {
 
     this.state?.setSelectedItem(
       this.key,
-      !this.state.selectedItems.includes(this.key)
+      !this.state.selectedItems.includes(this.key),
     );
   }
 

@@ -27,7 +27,7 @@ export class IdbI18nStore implements I18nStore {
 
   private async initDb(
     namespace: string = DB_NAMESPACE,
-    version: number = DB_VERSION
+    version: number = DB_VERSION,
   ) {
     return openDB<I18nStoreData>(namespace, version, {
       upgrade: (db) => {
@@ -64,17 +64,17 @@ export class IdbI18nStore implements I18nStore {
             return db.put(
               this.namespace,
               { key, lang, value: values[key][lang] },
-              `${key}-${lang}`
+              `${key}-${lang}`,
             );
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
   public async sets(
     key: string,
-    values: { [lang: string]: string }
+    values: { [lang: string]: string },
   ): Promise<void> {
     const db = await this.db;
     const keys = Object.keys(values);
@@ -83,28 +83,26 @@ export class IdbI18nStore implements I18nStore {
         return db.put(
           this.namespace,
           { key, lang, value: values[lang] },
-          `${key}-${lang}`
+          `${key}-${lang}`,
         );
-      })
+      }),
     );
   }
 
   public async get(
     key: string,
     lang: string,
-    fallbackLang?: string
+    fallbackLang?: string,
   ): Promise<string> {
     const db = await this.db;
 
     const v = await db.get(this.namespace, `${key}-${lang}`);
-
     if (!v && fallbackLang) {
       return (
-        (await db.get(this.namespace, `${key}-${fallbackLang}`))?.value ?? ""
+        (await db.get(this.namespace, `${key}-${fallbackLang}`))?.value ?? key
       );
     }
-
-    return v?.value ?? "";
+    return v?.value ?? key;
   }
 
   public async getAll(): Promise<I18nData> {
@@ -122,7 +120,7 @@ export class IdbI18nStore implements I18nStore {
           }
           data[v.key][v.lang] = v.value;
         }
-      })
+      }),
     );
 
     return data;
@@ -132,7 +130,7 @@ export class IdbI18nStore implements I18nStore {
     key: string,
     lang: string,
     metadata: any,
-    fallbackLang?: string
+    fallbackLang?: string,
   ): Promise<string> {
     const value = await this.get(key, lang, fallbackLang);
 
