@@ -5,15 +5,9 @@ import "../../../src/components/tabs";
 import "../../../src/elements/badge";
 import "../../../src/elements/text";
 import { Tabs } from "../../../src/components/tabs";
-import {
-  AutoLitProperty,
-  baseArgsTypes,
-  genericEvents,
-  addPrefixToObject,
-} from "../helper";
+import { AutoLitProperty, baseArgsTypes } from "../helper";
 
 type TabsWithLabel = AutoLitProperty<Tabs> & { labels: string };
-// type TabsEventArgs = addPrefixToObject<Omit<TabsWithLabel, "name">, "@">;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
