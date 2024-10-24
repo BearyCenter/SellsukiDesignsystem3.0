@@ -271,6 +271,14 @@ export class Tabs extends LitElement {
 
   handleTabClick(index: number) {
     this.activeIndex = index;
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { 
+          label: this.labels[index], 
+          index,
+         },
+      }),
+    );
   }
 
   static styles = css`
