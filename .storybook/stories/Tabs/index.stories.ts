@@ -75,8 +75,8 @@ const meta = {
         },
       },
     },
-    "@tab-changed": {
-      action: "@tab-changed",
+    "@change": {
+      action: "@change",
       table: {
         category: "Events props",
       },
