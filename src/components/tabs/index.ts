@@ -248,7 +248,7 @@ export class Tabs extends LitElement {
         (title, index) => html`
           <div
             class="tab ${this.activeIndex === index ? "active" : ""}"
-            @click=${() => this.handleTabClick(title, index)}
+            @click=${() => this.handleTabClick(index)}
           >
             ${title}
             <div class="tab-badge">
@@ -269,11 +269,14 @@ export class Tabs extends LitElement {
     `;
   }
 
-  handleTabClick(label: string, index: number) {
+  handleTabClick(index: number) {
     this.activeIndex = index;
     this.dispatchEvent(
       new CustomEvent("change", {
-        detail: { label, index },
+        detail: { 
+          label: this.labels[index], 
+          index,
+         },
       }),
     );
   }
