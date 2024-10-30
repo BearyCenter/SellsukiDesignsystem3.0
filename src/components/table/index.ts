@@ -24,7 +24,7 @@ interface Column {
   width?: string;
   sortable?: boolean;
   sortDirection?: "asc" | "desc";
-  onSort?: (direction: "asc" | "desc") => void;
+  onSort?: (direction: "asc" | "desc", data: RowData[]) => RowData[];
 }
 
 interface RowData {
@@ -184,20 +184,34 @@ export class Table extends LitElement {
   }
 
   handleSort(col: Column) {
-    if (col.sortable && col.onSort) {
-      const newDirection = col.sortDirection === "asc" ? "desc" : "asc";
-      col.onSort(newDirection);
+    if (!col.sortable) return;
 
-      this.data = [...this.data].sort((a, b) => {
-        const aValue = a[col.dataIndex || ""];
-        const bValue = b[col.dataIndex || ""];
-        if (aValue < bValue) return newDirection === "asc" ? -1 : 1;
-        if (aValue > bValue) return newDirection === "asc" ? 1 : -1;
-        return 0;
-      });
+    const newDirection = col.sortDirection === "asc" ? "desc" : "asc";
+    col.sortDirection = newDirection;
 
-      col.sortDirection = newDirection;
+    if (col.onSort) {
+      const sortedData = col.onSort(newDirection, this.data);
+      if (Array.isArray(sortedData)) {
+        this.data = sortedData;
+        return;
+      }
     }
+
+    this.data = [...this.data].sort((a, b) => {
+      const aValue = a[col.dataIndex || ""];
+      const bValue = b[col.dataIndex || ""];
+
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        return newDirection === "asc"
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      } else if (aValue < bValue) {
+        return newDirection === "asc" ? -1 : 1;
+      } else if (aValue > bValue) {
+        return newDirection === "asc" ? 1 : -1;
+      }
+      return 0;
+    });
   }
 
   renderHeader(col: Column): TemplateResult {
@@ -394,7 +408,7 @@ export class Table extends LitElement {
 
           --height-table: auto;
           tbody {
-            display: ${hasItems ? "block" : "none"};
+            display: ${hasItems ? "content" : "none"};
           }
         }
       </style>
@@ -451,8 +465,7 @@ export class Table extends LitElement {
       table-layout: fixed;
     }
 
-    thead,
-    tbody {
+    thead {
       display: block;
     }
 
@@ -482,9 +495,9 @@ export class Table extends LitElement {
       font-weight: var(--font-weight);
       line-height: var(--line-height);
       box-sizing: border-box;
-      overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      position: relative;
     }
 
     th {

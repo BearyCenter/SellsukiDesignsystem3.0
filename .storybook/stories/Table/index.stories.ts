@@ -24,6 +24,20 @@ const handleSort = (header: any, direction: string) => {
   console.log(`Sorting ${header.title} in ${direction} order`);
 };
 
+const handleSortDate = (direction: string, data: any) => {
+  return [...data].sort((a, b) => {
+    const [dayA, monthA, yearA] = a.date.split("/").map(Number);
+    const [dayB, monthB, yearB] = b.date.split("/").map(Number);
+
+    const dateA = new Date(yearA, monthA - 1, dayA);
+    const dateB = new Date(yearB, monthB - 1, dayB);
+
+    if (dateA < dateB) return direction === "asc" ? -1 : 1;
+    if (dateA > dateB) return direction === "asc" ? 1 : -1;
+    return 0;
+  });
+};
+
 const customCellConfig = {
   pricing: {
     render: (value: string) => {
@@ -91,7 +105,7 @@ const commonData = [
     product: "Product Name B",
     pricing: "200.00",
     payment: "Pending",
-    date: "17/09/2023",
+    date: "17/11/2023",
     status: "Inactive",
   },
   {
@@ -468,8 +482,8 @@ export const TableWithHeaderSort: Story = {
         dataIndex: "date",
         sortable: true,
         sortDirection: "asc",
-        onSort: (direction: "asc" | "desc") =>
-          handleSort({ title: "Create Date" }, direction),
+        onSort: (direction: "asc" | "desc", data: any) =>
+          handleSortDate(direction, data),
       },
       { title: "Status", dataIndex: "status" },
     ],
@@ -643,8 +657,8 @@ export const TableEmpty: Story = {
         dataIndex: "date",
         sortable: true,
         sortDirection: "asc",
-        onSort: (direction: "asc" | "desc") =>
-          handleSort({ title: "Create Date" }, direction),
+        onSort: (direction: "asc" | "desc", data: any) =>
+          handleSortDate(direction, data),
       },
       { title: "Status", dataIndex: "status" },
       { title: "Icon", align: "center" },
