@@ -187,7 +187,7 @@ export class Sidebar extends LitElement {
     .sidebar {
       display: grid;
       grid-template-rows: auto 1fr auto;
-      grid-template-columns: 256px;
+      min-width: 256px;
       height: 100%;
       box-sizing: border-box;
       overflow-x: hidden;
