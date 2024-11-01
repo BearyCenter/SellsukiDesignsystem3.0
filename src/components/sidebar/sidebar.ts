@@ -195,10 +195,11 @@ export class Sidebar extends LitElement {
       gap: 8px;
       border-right: 1px solid var(--border-color);
       background-color: var(--ssk-colors-background-50);
-      transition: width 0.2s ease-out;
+      transition: min-width 0.2s ease-out;
     }
 
     .sidebar.collapsed {
+      min-width: 92px;
       width: 92px;
     }
 
