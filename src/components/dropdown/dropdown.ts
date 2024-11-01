@@ -316,7 +316,7 @@ export class Dropdown extends LitElement {
       z-index: 4;
       left: 0;
       background-color: var(--options-background-color);
-      box-shadow: 0px 5px 5px 0px #11182730;
+      box-shadow: 0px 19px 5px 0px rgba(17, 24, 39, 0.00), 0px 12px 5px 0px rgba(17, 24, 39, 0.01), 0px 7px 4px 0px rgba(17, 24, 39, 0.03), 0px 3px 3px 0px rgba(17, 24, 39, 0.05), 0px 1px 2px 0px rgba(17, 24, 39, 0.07), 0px 0px 0px 0px rgba(17, 24, 39, 0.09);
       border-radius: var(--rounded);
       border: 1px solid var(--ssk-colors-gray-200);
       padding: 0.5em 0.25em;
