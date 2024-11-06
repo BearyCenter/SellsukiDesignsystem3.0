@@ -11,6 +11,9 @@ export class HeaderCell extends LitElement {
   @property({ attribute: false })
   public tableState?: TableState;
 
+  @property({ type: String })
+  align: "left" | "center" | "right" = "center";
+
   @property({ type: Boolean })
   sortable = false;
 
@@ -46,7 +49,16 @@ export class HeaderCell extends LitElement {
 
     return html`
       <div class="table-header-cell">
-        <slot></slot>
+        <div
+          class="table-header-title"
+          style="justify-content: ${this.align === "left"
+            ? "flex-start"
+            : this.align === "center"
+            ? "center"
+            : "flex-end"}"
+        >
+          <slot></slot>
+        </div>
         ${iconName
           ? html`<ssk-icon
               name="${iconName}"
@@ -64,14 +76,19 @@ export class HeaderCell extends LitElement {
     }
 
     .table-header-cell {
-      display: grid;
-      grid-template-columns: 1fr auto;
+      display: flex;
       gap: var(--table-spacing);
       padding: var(--table-spacing);
       border-bottom: 1px solid var(--table-border-color);
       height: 100%;
       box-sizing: border-box;
       /* background-color: var(--table-background-color); */
+    }
+
+    .table-header-title {
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
     }
   `;
 }

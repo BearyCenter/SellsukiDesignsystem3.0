@@ -30,6 +30,14 @@ const meta = {
         <ssk-table-cell>John</ssk-table-cell>
         <ssk-table-cell>Smith</ssk-table-cell>
         <ssk-table-cell>40</ssk-table-cell>
+
+        <ssk-table-cell>John</ssk-table-cell>
+        <ssk-table-cell>Smith</ssk-table-cell>
+        <ssk-table-cell>40</ssk-table-cell>
+
+        <ssk-table-cell>John</ssk-table-cell>
+        <ssk-table-cell>Smith</ssk-table-cell>
+        <ssk-table-cell>40</ssk-table-cell>
       </ssk-dynamic-table>
     `;
   },
@@ -47,7 +55,7 @@ export const Default: Story = {
     testId: "test-id",
     ".columnsWidth": ["300px", "150px", "auto"],
     backgroundColor: "#fff",
-    stripedBackgroundColor: "#777",
+    stripedBackgroundColor: "gray",
   },
   parameters: {
     design: {

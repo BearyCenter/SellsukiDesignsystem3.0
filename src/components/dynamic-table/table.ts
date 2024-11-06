@@ -64,6 +64,13 @@ export class DynamicTable extends LitElement {
       ? this.columnsWidth?.join(" ")
       : `repeat(${columnsCount}, 1fr)`;
 
+    let stripedSelector = [];
+    for (let i = 1; i <= columnsCount; i++) {
+      stripedSelector.push(
+        `::slotted(:nth-child(${columnsCount * 2}n + ${i}))`
+      );
+    }
+    console.log(stripedSelector.join(", "));
     let additionalStyle = html`
       <style>
         :host {
@@ -90,6 +97,10 @@ export class DynamicTable extends LitElement {
             cssVar("colors", "fiord", 100)
           )};
         }
+
+        ${stripedSelector.join(", ")} {
+          background-color: var(--table-background-color-striped);
+        }
       </style>
     `;
 
@@ -110,24 +121,18 @@ export class DynamicTable extends LitElement {
     .table-container {
       display: grid;
       grid-template-columns: var(--table-template-column);
-      grid-auto-rows: auto;
       border-style: solid;
       border-width: 1px;
       border-color: var(--table-border-color);
-      /* border-collapse: collapse; */
-
-      /* box-sizing: border-box; */
-
       background-color: var(--table-background-color);
     }
-    /* Striped background for odd rows */
-    .table-container > :nth-child(2n + 1) {
-      background-color: var(--table-background-color-striped);
-    }
 
-    /* Ensure header row doesn't get striped */
-    .table-container > *:nth-child(1) {
-      background-color: var(--table-background-color-striped);
+    /* Style for header row */
+    ::slotted([slot="headers"]) {
+      background-color: var(
+        --table-background-color-striped,
+        --table-background-color
+      );
     }
   `;
 }
