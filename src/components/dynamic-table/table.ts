@@ -1,4 +1,4 @@
-import { consume, createContext } from "@lit/context";
+import { consume, createContext, provide } from "@lit/context";
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
@@ -42,6 +42,13 @@ export class DynamicTable extends LitElement {
   @property({ type: String })
   stripedBackgroundColor?: string;
 
+  @provide({ context: dynamicTableContext })
+  @property({ attribute: false })
+  state: TableState = {
+    sortingColumnId: undefined,
+    stripedBackgroundColor: this.stripedBackgroundColor,
+  };
+
   render() {
     if (this.hidden) {
       return nothing;
@@ -60,6 +67,7 @@ export class DynamicTable extends LitElement {
     let additionalStyle = html`
       <style>
         :host {
+          --columns-count: ${columnsCount};
           --table-template-column: ${tableTemplateColumns};
 
           --table-spacing: ${parseVariables(cssVar("spacing", "md"))};
@@ -110,6 +118,8 @@ export class DynamicTable extends LitElement {
 
       background-color: var(--table-background-color);
     }
+
+    /* if --table-background-color-striped and --columns-count change row n%2 background */
   `;
 }
 
