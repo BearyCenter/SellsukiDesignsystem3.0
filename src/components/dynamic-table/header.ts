@@ -59,6 +59,10 @@ export class HeaderCell extends LitElement {
   }
 
   static styles = css`
+    :host {
+      background-color: inherit;
+    }
+
     .table-header-cell {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -67,6 +71,7 @@ export class HeaderCell extends LitElement {
       border-bottom: 1px solid var(--table-border-color);
       height: 100%;
       box-sizing: border-box;
+      /* background-color: var(--table-background-color); */
     }
   `;
 }

@@ -75,12 +75,14 @@ export class DynamicTable extends LitElement {
           --table-background-color: ${parseVariables(
             cssVar("colors", this.backgroundColor),
             cssVar("colors", this.backgroundColor, 50),
+            this.backgroundColor,
             cssVar("colors", "white", 50)
           )};
 
           --table-background-color-striped: ${parseVariables(
             cssVar("colors", this.stripedBackgroundColor),
             cssVar("colors", this.stripedBackgroundColor, 50),
+            this.stripedBackgroundColor,
             cssVar("colors", "gray", 50)
           )};
 
@@ -118,8 +120,15 @@ export class DynamicTable extends LitElement {
 
       background-color: var(--table-background-color);
     }
+    /* Striped background for odd rows */
+    .table-container > :nth-child(2n + 1) {
+      background-color: var(--table-background-color-striped);
+    }
 
-    /* if --table-background-color-striped and --columns-count change row n%2 background */
+    /* Ensure header row doesn't get striped */
+    .table-container > *:nth-child(1) {
+      background-color: var(--table-background-color-striped);
+    }
   `;
 }
 

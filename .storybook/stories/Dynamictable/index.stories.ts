@@ -19,17 +19,17 @@ const meta = {
         <ssk-header-cell slot="headers" sortable>Last Name</ssk-header-cell>
         <ssk-header-cell slot="headers">Age</ssk-header-cell>
 
-        <div>John</div>
-        <div>Doe</div>
-        <div>30</div>
+        <ssk-table-cell>John</ssk-table-cell>
+        <ssk-table-cell>Doe</ssk-table-cell>
+        <ssk-table-cell>30</ssk-table-cell>
 
-        <div>Jane</div>
-        <div>Doe</div>
-        <div>25</div>
+        <ssk-table-cell>Jane</ssk-table-cell>
+        <ssk-table-cell>Doe</ssk-table-cell>
+        <ssk-table-cell>25</ssk-table-cell>
 
-        <div>John</div>
-        <div>Smith</div>
-        <div>40</div>
+        <ssk-table-cell>John</ssk-table-cell>
+        <ssk-table-cell>Smith</ssk-table-cell>
+        <ssk-table-cell>40</ssk-table-cell>
       </ssk-dynamic-table>
     `;
   },
@@ -43,7 +43,12 @@ export default meta;
 type Story = StoryObj<TableArgs>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    testId: "test-id",
+    ".columnsWidth": ["300px", "150px", "auto"],
+    backgroundColor: "#fff",
+    stripedBackgroundColor: "#777",
+  },
   parameters: {
     design: {
       type: "figma",
