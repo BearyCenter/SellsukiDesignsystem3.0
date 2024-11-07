@@ -2,7 +2,6 @@ import { createContext, provide } from "@lit/context";
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { IdbI18nStore } from "./idb";
-;
 
 export type I18nData = {
   [key: string]: { [lang: string]: string };
@@ -36,6 +35,9 @@ export class I18nProvider extends LitElement {
 
   @property({ attribute: true })
   lang: string = "en";
+
+  @property({ attribute: true, type: Number })
+  lastUpdate: number = 0;
 
   render() {
     this.store.currentLang = this.lang;

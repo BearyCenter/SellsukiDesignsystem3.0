@@ -7,9 +7,9 @@ import "../../../src/elements/i18n/translate";
 
 const meta = {
   title: "Example/I18n/Provider",
-  tags: [],
+  tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html` <style>
+    return html`<style>
         main {
           display: flex;
           flex-direction: column;
@@ -30,6 +30,13 @@ const meta = {
           gap: 0.5rem;
         }
 
+        .preview {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+
         textarea {
           width: 100%;
           height: 100%;
@@ -42,7 +49,7 @@ const meta = {
           .value=${until(
             window.__SSK_I18N_STORE__
               .getAll()
-              .then((s) => JSON.stringify(s, null, 2)),
+              .then((s) => JSON.stringify(s, null, 2))
           )}
         ></textarea>
         <div class="actions">
@@ -89,7 +96,7 @@ const meta = {
             @click=${async () => {
               try {
                 const t = document.getElementById(
-                  "store",
+                  "store"
                 ) as HTMLTextAreaElement;
                 await window.__SSK_I18N_STORE__.bulkSet(JSON.parse(t.value));
                 location.reload();
@@ -110,6 +117,13 @@ const meta = {
           >
             Clear
           </ssk-button>
+        </div>
+        <div class="preview">
+          <ssk-i18n-translate key="hello"></ssk-i18n-translate>
+          <ssk-i18n-template
+            key="greeting"
+            .data=${{ name: "John", place: "Paris" }}
+          ></ssk-i18n-template>
         </div>
       </main>`;
   },

@@ -43,7 +43,7 @@ const preview: Preview = {
         </style>
 
         <ssk-theme-provider>
-          <ssk-i18n-provider .store=${globalThis.__SSK_I18N_STORE__}>
+          <ssk-i18n-provider .store=${globalThis.__SSK_I18N_STORE__} lang="th">
             <ssk-toast-provider .toast=${window.__SSK_TOAST_STORE__}>
               <div id="main-container">${story()}</div>
             </ssk-toast-provider>
