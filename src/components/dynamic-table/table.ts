@@ -33,6 +33,9 @@ export class DynamicTable extends LitElement {
   @property({ type: Boolean })
   hidden = false;
 
+  @property({ type: String })
+  height?: string;
+
   @property({ type: Array })
   columnsWidth?: string[];
 
@@ -70,14 +73,13 @@ export class DynamicTable extends LitElement {
         `::slotted(:nth-child(${columnsCount * 2}n + ${i}))`
       );
     }
-    console.log(stripedSelector.join(", "));
+
     let additionalStyle = html`
       <style>
         :host {
-          --columns-count: ${columnsCount};
           --table-template-column: ${tableTemplateColumns};
-
-          --table-spacing: ${parseVariables(cssVar("spacing", "md"))};
+          --table-padding: 16px 24px;
+          --table-gap: 8px;
 
           --table-background-color: ${parseVariables(
             cssVar("colors", this.backgroundColor),
@@ -86,11 +88,17 @@ export class DynamicTable extends LitElement {
             cssVar("colors", "white", 50)
           )};
 
-          --table-background-color-striped: ${parseVariables(
+          --table-background-color-header: ${parseVariables(
             cssVar("colors", this.stripedBackgroundColor),
             cssVar("colors", this.stripedBackgroundColor, 50),
             this.stripedBackgroundColor,
             cssVar("colors", "gray", 50)
+          )};
+
+          --table-background-color-striped: ${parseVariables(
+            cssVar("colors", this.stripedBackgroundColor),
+            cssVar("colors", this.stripedBackgroundColor, 50),
+            this.stripedBackgroundColor
           )};
 
           --table-border-color: ${parseVariables(
@@ -98,8 +106,12 @@ export class DynamicTable extends LitElement {
           )};
         }
 
+        .table-container {
+          height: ${this.height || "auto"};
+        }
+
         ${stripedSelector.join(", ")} {
-          background-color: var(--table-background-color-striped);
+          --table-background-color: var(--table-background-color-striped);
         }
       </style>
     `;
@@ -111,28 +123,42 @@ export class DynamicTable extends LitElement {
       ${additionalStyle}
 
       <div class="table-container" data-testid=${this.testId || nothing}>
-        <slot name="headers"></slot>
-
-        <slot></slot>
+        <div class="table">
+          <slot name="headers"></slot>
+          <slot></slot>
+        </div>
+        <div class="footer-spaner">
+          <div class="placeholder">
+            <slot name="placeholder"></slot>
+          </div>
+          <slot name="footer"></slot>
+        </div>
       </div>`;
   }
 
   static styles = css`
     .table-container {
       display: grid;
-      grid-template-columns: var(--table-template-column);
+      grid-template-rows: auto 1fr;
+      background-color: var(--table-background-color);
       border-style: solid;
       border-width: 1px;
       border-color: var(--table-border-color);
-      background-color: var(--table-background-color);
     }
 
-    /* Style for header row */
-    ::slotted([slot="headers"]) {
-      background-color: var(
-        --table-background-color-striped,
-        --table-background-color
-      );
+    .table {
+      display: grid;
+      grid-template-columns: var(--table-template-column);
+      overflow: auto;
+    }
+
+    .footer-spaner {
+      display: grid;
+      grid-template-rows: 1fr auto;
+    }
+
+    .placeholder {
+      border-bottom: 1px solid var(--table-border-color);
     }
   `;
 }

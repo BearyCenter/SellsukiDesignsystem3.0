@@ -20,9 +20,6 @@ export class HeaderCell extends LitElement {
   @property({ type: String })
   sortDirection?: "asc" | "desc";
 
-  @property({ type: String })
-  spacing = "md";
-
   private handleSortIconClick() {
     this.dispatchEvent(
       new CustomEvent("sort-changed", {
@@ -48,17 +45,15 @@ export class HeaderCell extends LitElement {
     }
 
     return html`
-      <div class="table-header-cell">
-        <div
-          class="table-header-title"
-          style="justify-content: ${this.align === "left"
-            ? "flex-start"
-            : this.align === "center"
-            ? "center"
-            : "flex-end"}"
-        >
-          <slot></slot>
-        </div>
+      <div
+        class="table-header-cell"
+        style="justify-content: ${this.align === "left"
+          ? "flex-start"
+          : this.align === "center"
+          ? "center"
+          : "flex-end"}"
+      >
+        <slot></slot>
         ${iconName
           ? html`<ssk-icon
               name="${iconName}"
@@ -73,22 +68,22 @@ export class HeaderCell extends LitElement {
   static styles = css`
     :host {
       background-color: inherit;
+
+      position: sticky;
+      top: 0;
+      z-index: 1;
     }
 
     .table-header-cell {
       display: flex;
-      gap: var(--table-spacing);
-      padding: var(--table-spacing);
+      padding: var(--table-padding);
+      gap: var(--table-gap);
       border-bottom: 1px solid var(--table-border-color);
       height: 100%;
       box-sizing: border-box;
-      /* background-color: var(--table-background-color); */
-    }
-
-    .table-header-title {
-      display: flex;
       align-items: center;
-      flex-grow: 1;
+
+      background-color: var(--table-background-color-header);
     }
   `;
 }

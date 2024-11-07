@@ -32,16 +32,16 @@ export class TableCell extends LitElement {
   }
 
   static styles = css`
-    :host {
-      background-color: inherit;
-    }
-
     .table-table-cell {
       display: flex;
-      padding: var(--table-spacing);
+      padding: var(--table-padding);
+      gap: var(--table-gap);
       border-bottom: 1px solid var(--table-border-color);
       height: 100%;
       box-sizing: border-box;
+      align-items: center;
+
+      background-color: var(--table-background-color);
     }
   `;
 }
