@@ -234,17 +234,25 @@ export const LoadingTable: Story = {
           height: 100%;
         }
 
-        .content ssk-icon {
-          animation: spin 1s cubic-bezier(0.6, 0.28, 0.735, 0.045) infinite;
+        @keyframes spin-wobble {
+          0%,
+          100% {
+            transform: rotate(0deg) scale(1);
+          }
+          25% {
+            transform: rotate(90deg) scale(1.2);
+          }
+          50% {
+            transform: rotate(180deg) scale(0.8);
+          }
+          75% {
+            transform: rotate(270deg) scale(1.1);
+          }
         }
 
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
+        .content ssk-icon {
+          animation: spin-wobble 3s cubic-bezier(0.68, -0.55, 0.27, 1.55)
+            infinite;
         }
       </style>
       <ssk-dynamic-table ${spread({ ...args })}>
@@ -258,6 +266,99 @@ export const LoadingTable: Story = {
         <ssk-header-cell slot="headers" sortable>Last Name</ssk-header-cell>
         <ssk-header-cell slot="headers">Age</ssk-header-cell>
         <ssk-header-cell slot="headers">Action</ssk-header-cell>
+
+        <ssk-pagination
+          slot="footer"
+          showrowspage
+          showRowsPerPage
+          totalPages="10"
+        ></ssk-pagination>
+
+        <div class="content" slot="placeholder">
+          <ssk-icon iconName="solid-spinner" size="64px"></ssk-icon>
+        </div>
+      </ssk-dynamic-table>
+    `;
+  },
+};
+
+export const LoadingMoreTable: Story = {
+  args: {
+    testId: "test-id",
+    ".columnsWidth": ["300px", "150px", "80px", "auto"],
+    ".backgroundColor": "#fff",
+    ".stripedBackgroundColor": "gray",
+    ".height": "800px",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=1145%3A69931&mode=dev",
+    },
+  },
+  render: ({ ...args }) => {
+    return html`
+      <style>
+        .content {
+          display: grid;
+          place-items: center;
+          height: 100%;
+        }
+
+        @keyframes spin-squash {
+          0% {
+            transform: rotate(0deg) scale(1, 1);
+          }
+          25% {
+            transform: rotate(90deg) scale(1.2, 0.8);
+          }
+          50% {
+            transform: rotate(180deg) scale(1, 1);
+          }
+          75% {
+            transform: rotate(270deg) scale(0.8, 1.2);
+          }
+          100% {
+            transform: rotate(360deg) scale(1, 1);
+          }
+        }
+
+        .content ssk-icon {
+          animation: spin-squash 2s cubic-bezier(0.68, -0.55, 0.27, 1.55)
+            infinite;
+        }
+      </style>
+      <ssk-dynamic-table ${spread({ ...args })}>
+        <ssk-header-cell
+          slot="headers"
+          sortable
+          sortDirection="asc"
+          align="left"
+          >First Name</ssk-header-cell
+        >
+        <ssk-header-cell slot="headers" sortable>Last Name</ssk-header-cell>
+        <ssk-header-cell slot="headers">Age</ssk-header-cell>
+        <ssk-header-cell slot="headers">Action</ssk-header-cell>
+
+        <ssk-table-cell align="left">Jane</ssk-table-cell>
+        <ssk-table-cell>Doe</ssk-table-cell>
+        <ssk-table-cell>25</ssk-table-cell>
+        <ssk-table-cell>
+          <ssk-button>Click me</ssk-button>
+          <ssk-button themeColor="pink">
+            <ssk-icon iconName="solid-user-plus"></ssk-icon>
+          </ssk-button>
+        </ssk-table-cell>
+
+        <ssk-table-cell align="left">James</ssk-table-cell>
+        <ssk-table-cell>Smith</ssk-table-cell>
+        <ssk-table-cell>40</ssk-table-cell>
+        <ssk-table-cell>
+          <ssk-button>Click me</ssk-button>
+          <ssk-button themeColor="pink">
+            <ssk-icon iconName="solid-user-plus"></ssk-icon>
+          </ssk-button>
+        </ssk-table-cell>
 
         <ssk-pagination
           slot="footer"
