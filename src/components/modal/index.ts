@@ -2,8 +2,8 @@ import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, eventOptions, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
-import "../../elements/icon";
 import "../../elements/divider";
+import "../../elements/icon";
 
 import { redispatchEvents } from "../../helpers/lit";
 import {
@@ -32,6 +32,9 @@ export class Modal extends LitElement {
   show = false;
 
   @property({ type: Boolean })
+  showModal = false;
+
+  @property({ type: Boolean })
   hideCloseButton = false;
 
   @property({ type: Boolean })
@@ -49,16 +52,16 @@ export class Modal extends LitElement {
           --width: ${parseVariables(
             cssVar("width", this.width),
             this.width,
-            "100%",
+            "100%"
           )};
 
           --background-color-footer: ${parseVariables(
-            cssVar("colors", "white", 200),
+            cssVar("colors", "white", 200)
           )};
 
           --border-color: ${parseVariables(
             cssVar("colors", "border", 100),
-            "#ddd",
+            "#ddd"
           )};
 
           --header-display: flex;
@@ -123,7 +126,7 @@ export class Modal extends LitElement {
   }
 
   static styles = css`
-    :host([show]) {
+    :host([show]), :host([showModal])  {
       top: 0;
       left: 0;
       width: 100%;
