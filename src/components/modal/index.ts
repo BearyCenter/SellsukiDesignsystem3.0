@@ -32,9 +32,6 @@ export class Modal extends LitElement {
   show = false;
 
   @property({ type: Boolean })
-  showModal = false;
-
-  @property({ type: Boolean })
   hideCloseButton = false;
 
   @property({ type: Boolean })
@@ -50,19 +47,19 @@ export class Modal extends LitElement {
       <style>
         :host {
           --width: ${parseVariables(
-            cssVar("width", this.width),
-            this.width,
-            "100%"
-          )};
+          cssVar("width", this.width),
+          this.width,
+          "100%"
+        )};
 
           --background-color-footer: ${parseVariables(
-            cssVar("colors", "white", 200)
-          )};
+          cssVar("colors", "white", 200)
+        )};
 
           --border-color: ${parseVariables(
-            cssVar("colors", "border", 100),
-            "#ddd"
-          )};
+          cssVar("colors", "border", 100),
+          "#ddd"
+        )};
 
           --header-display: flex;
           --header-justify-content: space-between;
@@ -73,6 +70,8 @@ export class Modal extends LitElement {
 
           --footer-display: flex;
           --footer-justify-content: flex-end;
+
+          ${this.show ? "--show-modal: 1;" : ""};
         }
       </style>
     `;
@@ -126,7 +125,7 @@ export class Modal extends LitElement {
   }
 
   static styles = css`
-    :host([show]), :host([showModal])  {
+    :host([style*="--show-modal"]) {
       top: 0;
       left: 0;
       width: 100%;
