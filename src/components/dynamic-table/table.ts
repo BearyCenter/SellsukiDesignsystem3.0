@@ -104,10 +104,8 @@ export class DynamicTable extends LitElement {
           --table-border-color: ${parseVariables(
             cssVar("colors", "fiord", 100)
           )};
-        }
 
-        .table-container {
-          height: ${this.height || "auto"};
+          --table-height: ${this.height || "auto"};
         }
 
         ${stripedSelector.join(", ")} {
@@ -137,6 +135,12 @@ export class DynamicTable extends LitElement {
   }
 
   static styles = css`
+    :host {
+      display: block;
+      height: var(--table-height);
+      overflow: hidden;
+    }
+
     .table-container {
       display: grid;
       grid-template-rows: auto 1fr;
@@ -144,6 +148,7 @@ export class DynamicTable extends LitElement {
       border-style: solid;
       border-width: 1px;
       border-color: var(--table-border-color);
+      height: var(--table-height);
     }
 
     .table {
