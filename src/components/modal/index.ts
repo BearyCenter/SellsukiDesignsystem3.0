@@ -47,19 +47,19 @@ export class Modal extends LitElement {
       <style>
         :host {
           --width: ${parseVariables(
-          cssVar("width", this.width),
-          this.width,
-          "100%"
-        )};
+            cssVar("width", this.width),
+            this.width,
+            "100%"
+          )};
 
           --background-color-footer: ${parseVariables(
-          cssVar("colors", "white", 200)
-        )};
+            cssVar("colors", "white", 200)
+          )};
 
           --border-color: ${parseVariables(
-          cssVar("colors", "border", 100),
-          "#ddd"
-        )};
+            cssVar("colors", "border", 100),
+            "#ddd"
+          )};
 
           --header-display: flex;
           --header-justify-content: space-between;
@@ -70,11 +70,15 @@ export class Modal extends LitElement {
 
           --footer-display: flex;
           --footer-justify-content: flex-end;
-
-          ${this.show ? "--show-modal: 1;" : ""};
         }
       </style>
     `;
+
+    if (this.show) {
+      this.classList.add("show-modal");
+    } else {
+      this.classList.remove("show-modal");
+    }
 
     const bodySlotExists = this.querySelector('[slot="body"]');
     const footerSlotExists = this.querySelector('[slot="footer"]');
@@ -125,7 +129,7 @@ export class Modal extends LitElement {
   }
 
   static styles = css`
-    :host([style*="--show-modal"]) {
+    :host(.show-modal) {
       top: 0;
       left: 0;
       width: 100%;
