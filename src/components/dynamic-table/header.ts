@@ -71,7 +71,6 @@ export class HeaderCell extends LitElement {
 
       position: sticky;
       top: 0;
-      z-index: 1;
     }
 
     .table-header-cell {
