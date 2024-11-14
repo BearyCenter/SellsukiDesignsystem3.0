@@ -181,6 +181,7 @@ export class Modal extends LitElement {
     .title {
       font-size: 28px;
       font-weight: 500;
+      width: 100%;
     }
 
     .body {

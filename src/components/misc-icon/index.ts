@@ -135,13 +135,13 @@ export class MiscIcon extends LitElement {
       background: radial-gradient(
             transparent 1.2em,
             var(--icon-misc-border-1-color) 1.2em,
-            var(--icon-misc-border-1-color) calc(1.2em + 2.8px),
-            transparent calc(1.2em + 3px)
+            var(--icon-misc-border-1-color) calc(1.2em + 2px),
+            transparent calc(1.2em + 2px)
           )
           center,
         radial-gradient(
-            transparent calc(2em - 2.8px),
-            var(--icon-misc-border-2-color) calc(2em - 3px),
+            transparent calc(2em - 2px),
+            var(--icon-misc-border-2-color) calc(2em - 2px),
             var(--icon-misc-border-2-color) 2em,
             transparent 2em
           )
