@@ -1626,6 +1626,28 @@ export const defaultTheme: Theme = {
         lg: "24px",
       },
     },
+    miscIcon: {
+      fontSize: {
+        xs: "14px",
+        sm: "16px",
+        md: "20px",
+        lg: "24px",
+        xl: "32px",
+        "2xl": "48px",
+        "3xl": "64px",
+        "4xl": "96px",
+      },
+      padding: {
+        xs: "7px",
+        sm: "8px",
+        md: "10px",
+        lg: "12px",
+        xl: "16px",
+        "2xl": "25px",
+        "3xl": "32px",
+        "4xl": "48px",
+      },
+    },
   },
 };
 
@@ -1646,7 +1668,7 @@ const deepMerge = <T = object | any[]>(src: T, target: T): T => {
               ? deepMerge((src as any)[key], (target as any)[key])
               : (target as any)[key],
         }),
-        {},
+        {}
       ),
     };
   }
