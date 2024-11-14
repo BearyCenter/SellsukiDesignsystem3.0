@@ -42,6 +42,7 @@ export * from "./components/date-picker";
 export * from "./components/download-file";
 export * from "./components/dropdown";
 export * from "./components/dynamic-table";
+export * from "./components/misc-icon";
 export * from "./components/modal";
 export * from "./components/pagination";
 export * from "./components/progress-bar";
