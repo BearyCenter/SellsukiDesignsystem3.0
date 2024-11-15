@@ -24,7 +24,7 @@ export class HeaderCell extends LitElement {
     this.dispatchEvent(
       new CustomEvent("sort-changed", {
         detail: {
-          order: this.sortDirection === "asc" ? "desc" : "asc",
+          sortDirection: this.sortDirection === "asc" ? "desc" : "asc",
         },
       })
     );
@@ -58,7 +58,7 @@ export class HeaderCell extends LitElement {
           ? html`<ssk-icon
               name="${iconName}"
               style="cursor: ${cursor}"
-              on:click=${this.handleSortIconClick}
+              @click=${this.handleSortIconClick}
             ></ssk-icon>`
           : nothing}
       </div>
