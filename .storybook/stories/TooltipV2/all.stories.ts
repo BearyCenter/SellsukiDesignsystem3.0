@@ -1,13 +1,13 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/components/tooltip";
-import { Tooltip, type Placement } from "../../../src/components/tooltip";
+import "../../../src/components/tooltip-v2";
+import { TooltipV2, type Placement } from "../../../src/components/tooltip-v2";
 import "../../../src/elements/button";
 
 import { baseArgsTypes } from "../helper";
 
-type TooltipArgs = {} & Tooltip;
+type TooltipArgs = {} & TooltipV2;
 
 const placement: Placement[] = [
   "bottom",

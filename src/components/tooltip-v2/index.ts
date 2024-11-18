@@ -30,8 +30,9 @@ export type Placement =
   | "rightbottom";
 
 export type Trigger = "hover" | "click";
+
 @customElement("ssk-tooltip")
-export class Tooltip extends LitElement implements ThemeValue {
+export class TooltipV2 extends LitElement implements ThemeValue {
   static registeredName = "ssk-tooltip";
 
   @consume({ context: themeContext, subscribe: true })
@@ -393,6 +394,6 @@ export class Tooltip extends LitElement implements ThemeValue {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ssk-tooltip": Tooltip;
+    "ssk-tooltip-v2": TooltipV2;
   }
 }
