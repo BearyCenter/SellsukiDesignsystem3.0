@@ -165,7 +165,7 @@ export class Tooltip extends LitElement implements ThemeValue {
       visibility: var(--content-visible);
 
       width: max-content;
-      max-width: 100%
+      max-width: 100%;
       position: relative;
       background-color: var(--content-bg-color);
       color: var(--content-color);
