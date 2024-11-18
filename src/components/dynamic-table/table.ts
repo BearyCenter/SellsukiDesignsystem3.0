@@ -161,10 +161,6 @@ export class DynamicTable extends LitElement {
       display: grid;
       grid-template-rows: 1fr auto;
     }
-
-    .placeholder {
-      border-bottom: 1px solid var(--table-border-color);
-    }
   `;
 }
 
