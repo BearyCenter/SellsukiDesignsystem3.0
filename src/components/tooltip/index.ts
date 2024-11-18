@@ -65,6 +65,8 @@ export class Tooltip extends LitElement implements ThemeValue {
   label: string = "";
   @property({ type: String })
   areaPosition: string = "100%";
+  @property({ type: String })
+  maxWidth?: string = "max-content";
 
   @state()
   _isOpen: boolean = false;
@@ -105,6 +107,7 @@ export class Tooltip extends LitElement implements ThemeValue {
 
     --arrow-visible: var(--content-visible);
     --area-position: ${this.areaPosition};
+    --tooltip-max-width: ${this.maxWidth};
     `;
 
     if (this.hideArrow) {
@@ -165,7 +168,7 @@ export class Tooltip extends LitElement implements ThemeValue {
       visibility: var(--content-visible);
 
       width: max-content;
-      max-width: 100%;
+      max-width: var(--tooltip-max-width);
       position: relative;
       background-color: var(--content-bg-color);
       color: var(--content-color);
