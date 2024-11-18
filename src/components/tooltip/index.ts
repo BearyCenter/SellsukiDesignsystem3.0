@@ -1,18 +1,18 @@
+import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import "../../../src/elements/text";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
-import { consume } from "@lit/context";
-import "../../../src/elements/text";
 
 import {
   ColorName,
   ColorRole,
   Size,
   Theme,
+  cssVar,
   parseThemeToCssVariables,
   parseVariables,
-  cssVar,
 } from "../../types/theme";
 
 export type Placement =
@@ -92,12 +92,12 @@ export class Tooltip extends LitElement implements ThemeValue {
     --content-visible: ${this._handleVisibleTooltip()};
     --content-bg-color: ${parseVariables(
       cssVar("colors", this.themeColor, 500),
-      "#111827",
+      "#111827"
     )};
     --content-color: ${parseVariables(
       cssVar("colors", this.color),
       this.color,
-      "#fff",
+      "#fff"
     )};
 
     --padding: ${parseVariables(cssVar("padding", this.size))};
@@ -145,6 +145,10 @@ export class Tooltip extends LitElement implements ThemeValue {
   }
 
   static styles = css`
+    :host {
+      max-width: 100%;
+    }
+
     .tooltip {
       position: relative;
     }
@@ -161,6 +165,7 @@ export class Tooltip extends LitElement implements ThemeValue {
       visibility: var(--content-visible);
 
       width: max-content;
+      max-width: 100%
       position: relative;
       background-color: var(--content-bg-color);
       color: var(--content-color);
