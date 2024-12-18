@@ -162,7 +162,8 @@ export class Input extends LitElement {
       <div class="container ${this.error ? "error" : ""}">
         <span class="label">
           <label for="input">
-            ${this.label} ${this.required ? html`<span>*</span>` : nothing}
+            ${this.label}
+            ${this.required ? html`<span class="required">*</span>` : nothing}
           </label>
           <slot name="label"></slot>
         </span>
@@ -287,7 +288,7 @@ export class Input extends LitElement {
       justify-content: space-between;
     }
 
-    div.container > label > span {
+    span.required {
       color: red;
     }
 

@@ -1,6 +1,7 @@
 import { consume } from "@lit/context";
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { redispatchEvents } from "../../helpers/lit";
 import {
   ColorName,
   ColorRole,
@@ -13,7 +14,6 @@ import {
   Theme,
   themeContext,
 } from "../../main";
-import { redispatchEvents } from "../../helpers/lit";
 
 @customElement("ssk-input-range")
 export class InputRange extends LitElement {
@@ -122,49 +122,49 @@ export class InputRange extends LitElement {
             cssVar("colors", this.color),
             cssVar("colors", this.color, 800),
             this.color,
-            cssVar("colors", "text", 800),
+            cssVar("colors", "text", 800)
           )};
           --color-disabled: ${parseVariables(cssVar("colors", "text", 300))};
           --color-helper: ${parseVariables(
             cssVar("colors", this.color),
             cssVar("colors", this.color, 300),
             this.color,
-            cssVar("colors", "text", 300),
+            cssVar("colors", "text", 300)
           )};
           --color-error: ${parseVariables(cssVar("colors", "error", 600))};
           --color-helper-error: ${parseVariables(
-            cssVar("colors", "error", 600),
+            cssVar("colors", "error", 600)
           )};
 
           --background-color-disabled: ${parseVariables(
-            cssVar("colors", "border", 50),
+            cssVar("colors", "border", 50)
           )};
           --border-color: ${parseVariables(
             cssVar("colors", this.color, 100),
-            cssVar("colors", "border", 100),
+            cssVar("colors", "border", 100)
           )};
           --border-color-active: ${parseVariables(
-            cssVar("colors", this.themeColor, 600),
+            cssVar("colors", this.themeColor, 600)
           )};
           --border-color-disabled: ${parseVariables(
-            cssVar("colors", "border", 100),
+            cssVar("colors", "border", 100)
           )};
           --border-color-error: ${parseVariables(
-            cssVar("colors", "error", 600),
+            cssVar("colors", "error", 600)
           )};
 
           --outline-color-active: ${parseVariables(
-            cssVar("colors", this.themeColor, 200),
+            cssVar("colors", this.themeColor, 200)
           )};
           --outline-color-error: ${parseVariables(
-            cssVar("colors", "error", 300),
+            cssVar("colors", "error", 300)
           )};
 
           --font-family: ${parseVariables(
-            cssVar("font-family", this.fontFamilyGroup),
+            cssVar("font-family", this.fontFamilyGroup)
           )};
           --font-weight: ${parseVariables(
-            cssVar("font-weight", this.fontWeight),
+            cssVar("font-weight", this.fontWeight)
           )};
           --font-size: ${parseVariables(cssVar("font-size", this.size))};
           --line-height: ${parseVariables(cssVar("font-size", this.size))};
@@ -179,7 +179,8 @@ export class InputRange extends LitElement {
 
       <div class="container ${this.error ? "error" : ""}">
         <label for="input">
-          ${this.label} ${this.required ? html`<span>*</span>` : nothing}
+          ${this.label}
+          ${this.required ? html`<span class="required">*</span>` : nothing}
         </label>
         <div class=${`input-container ${this.disabled ? "disabled" : ""}`}>
           <slot name="prefix"></slot>
@@ -263,7 +264,7 @@ export class InputRange extends LitElement {
       outline: 4px solid var(--outline-color-active);
     }
 
-    div.container > label > span {
+    span.required {
       color: red;
     }
 
