@@ -1,5 +1,5 @@
 import { IDBPDatabase, openDB } from "idb";
-import { I18nData, I18nStore } from ".";
+import { I18nData, I18nStore, STORE_UPDATED_EVENT } from ".";
 
 // mustache
 import mustache from "mustache";
@@ -70,6 +70,8 @@ export class IdbI18nStore implements I18nStore {
         );
       })
     );
+
+    window.dispatchEvent(new Event(STORE_UPDATED_EVENT));
   }
 
   public async sets(
@@ -87,6 +89,7 @@ export class IdbI18nStore implements I18nStore {
         );
       })
     );
+    window.dispatchEvent(new Event(STORE_UPDATED_EVENT));
   }
 
   public async get(

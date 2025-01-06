@@ -1,9 +1,7 @@
 import type { Preview } from "@storybook/web-components";
 import { html } from "lit";
-import "../src/contexts/i18n";
+import "../main";
 import { IdbI18nStore } from "../src/contexts/i18n/idb";
-import "../src/contexts/theme";
-import "../src/contexts/toast";
 import { ToastStore } from "../src/contexts/toast";
 import { InMemoryToastStore } from "../src/contexts/toast/in-memory";
 
@@ -42,13 +40,13 @@ const preview: Preview = {
           }
         </style>
 
-        <ssk-theme-provider>
-          <ssk-i18n-provider .store=${globalThis.__SSK_I18N_STORE__} lang="th">
-            <ssk-toast-provider .toast=${window.__SSK_TOAST_STORE__}>
-              <div id="main-container">${story()}</div>
-            </ssk-toast-provider>
-          </ssk-i18n-provider>
-        </ssk-theme-provider>`;
+        <ssk-provider
+          .i18nStore=${globalThis.__SSK_I18N_STORE__}
+          .toastStore=${window.__SSK_TOAST_STORE__}
+          i18nDefaultLang="en"
+        >
+          <div id="main-container">${story()}</div>
+        </ssk-provider>`;
 
       return h;
     },

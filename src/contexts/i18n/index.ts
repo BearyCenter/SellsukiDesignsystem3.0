@@ -1,11 +1,13 @@
 import { createContext, provide } from "@lit/context";
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { IdbI18nStore } from "./idb";
+import { DummyI18nStore } from "./dummy";
 
 export type I18nData = {
   [key: string]: { [lang: string]: string };
 };
+
+export const STORE_UPDATED_EVENT = "i18n-store-updated";
 
 export interface I18nStore {
   currentLang: string;
@@ -31,7 +33,7 @@ export const i18nContext = createContext<I18nStore>("ssk-i18n-context");
 export class I18nProvider extends LitElement {
   @provide({ context: i18nContext })
   @property({ attribute: false })
-  store: I18nStore = new IdbI18nStore();
+  store: I18nStore = new DummyI18nStore();
 
   @property({ attribute: true })
   lang: string = "en";
