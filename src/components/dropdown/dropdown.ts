@@ -77,9 +77,6 @@ export class Dropdown extends LitElement {
   disabled = false;
 
   @property({ type: Boolean })
-  hover = false;
-
-  @property({ type: Boolean })
   hidden = false;
 
   @property({ type: Boolean })
@@ -126,6 +123,18 @@ export class Dropdown extends LitElement {
     isError: this.error,
   };
 
+  private isHovered = false;
+
+  private handleMouseEnter = () => {
+    this.isHovered = true;
+    this.requestUpdate();
+  };
+
+  private handleMouseLeave = () => {
+    this.isHovered = false;
+    this.requestUpdate();
+  };
+
   protected willUpdate(
     changedProperties: Map<string | number | symbol, unknown>
   ): void {
@@ -169,6 +178,12 @@ export class Dropdown extends LitElement {
   firstUpdated() {
     window.addEventListener("click", this.handleClickOutside);
 
+    const container = this.shadowRoot?.querySelector(".dropdown-container");
+    if (container) {
+      container.addEventListener("mouseenter", this.handleMouseEnter);
+      container.addEventListener("mouseleave", this.handleMouseLeave);
+    }
+
     const resizeObserver = new ResizeObserver(() => {
       if (this.state.isOpened) {
         this.updateOptionsPosition();
@@ -183,6 +198,13 @@ export class Dropdown extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+
+    const container = this.shadowRoot?.querySelector(".dropdown-container");
+    if (container) {
+      container.removeEventListener("mouseenter", this.handleMouseEnter);
+      container.removeEventListener("mouseleave", this.handleMouseLeave);
+    }
+
     window.removeEventListener("click", this.handleClickOutside);
     if (Dropdown.currentOpenDropdown === this) {
       Dropdown.currentOpenDropdown = null;
@@ -195,7 +217,7 @@ export class Dropdown extends LitElement {
   }
 
   getBackgroundColor() {
-    return this.hover
+    return this.isHovered
       ? parseVariables(cssVar("colors", "background", 50))
       : parseVariables(
           cssVar("colors", this.themeColor, 50),
@@ -203,12 +225,12 @@ export class Dropdown extends LitElement {
         );
   }
   getBorderColor() {
-    return this.hover
+    return this.isHovered
       ? parseVariables(cssVar("colors", "border", 50))
       : parseVariables(cssVar("colors", this.themeColor, 100));
   }
   getFontColor() {
-    return this.hover
+    return this.isHovered
       ? parseVariables(cssVar("colors", this.themeColor, 500))
       : parseVariables(cssVar("colors", "text", 500));
   }
