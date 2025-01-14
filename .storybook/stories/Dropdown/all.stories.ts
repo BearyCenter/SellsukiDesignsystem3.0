@@ -205,6 +205,13 @@ const meta = {
       </main>`;
   },
   argTypes: {
+    maxOptionsHeight: {
+      control: {
+        type: "range",
+        min: 0,
+        max: 1000,
+      },
+    },
     optionsAnchor: {
       control: {
         type: "select",
