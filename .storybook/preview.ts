@@ -4,6 +4,7 @@ import { IdbI18nStore } from "../src/contexts/i18n/idb";
 import { ToastStore } from "../src/contexts/toast";
 import { InMemoryToastStore } from "../src/contexts/toast/in-memory";
 import "../src/main";
+import { defaultTheme } from "../src/main";
 
 window.__SSK_I18N_STORE__ = new IdbI18nStore("storybook-i18n-store"); // isolate the store from the app
 window.__SSK_TOAST_STORE__ = new InMemoryToastStore();
@@ -39,14 +40,16 @@ const preview: Preview = {
             min-height: 100dvh;
           }
         </style>
-
-        <ssk-provider
-          .i18nStore=${globalThis.__SSK_I18N_STORE__}
-          .toastStore=${window.__SSK_TOAST_STORE__}
-          i18nDefaultLang="en"
-        >
-          <div id="main-container">${story()}</div>
-        </ssk-provider>`;
+        <ssk-theme-provider .theme=${defaultTheme}>
+          <div id="overlay-container"></div>
+          <ssk-provider
+            .i18nStore=${globalThis.__SSK_I18N_STORE__}
+            .toastStore=${window.__SSK_TOAST_STORE__}
+            i18nDefaultLang="en"
+          >
+            <div id="main-container">${story()}</div>
+          </ssk-provider>
+        </ssk-theme-provider>`;
 
       return h;
     },

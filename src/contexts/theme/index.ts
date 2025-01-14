@@ -1,7 +1,7 @@
-import "../../assets/global.css";
 import { createContext, provide } from "@lit/context";
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import "../../assets/global.css";
 import { Theme, parseThemeToCssVariables } from "../../types/theme";
 import { defaultTheme } from "./default";
 export * from "./default";
@@ -20,6 +20,8 @@ export class ThemeProvider extends LitElement {
 
   static styles = css`
     :host {
+      font-family: var(--ssk-font-family-sans);
+
       --scrollbar-size: 6px;
       --scrollbar-color-trumb: var(--ssk-colors-gray-500);
       --scrollbar-color-trumb-hover: var(--ssk-colors-gray-600);
