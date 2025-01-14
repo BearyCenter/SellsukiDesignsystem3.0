@@ -4,9 +4,8 @@ import { useArgs } from "@storybook/client-api";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "../../../src/components/dropdown";
 import { Dropdown } from "../../../src/components/dropdown";
-import "../../../src/elements/icon";
+import "../../../src/main";
 import { AutoLitProperty, baseArgsTypes } from "../helper";
 
 type DropdownWithLabel = AutoLitProperty<Dropdown> & {
@@ -83,29 +82,79 @@ const meta = {
   render: ({ ...args }) => {
     const [{}, updateArgs] = useArgs();
 
-    return html`<ssk-dropdown
-      ${spread({ ...args })}
-      @change=${(e: any) => {
-        action("@change")(e);
-        updateArgs({ value: e.target.value });
-      }}
-    >
-      <ssk-dropdown-button slot="selected">
-        <ssk-dropdown-preview value=${ifDefined(args["value"])}>
-          <ssk-icon slot="prefix" name=${ifDefined(args["value"])}></ssk-icon>
-          ${args["value"] || args["placeholder"]}
-        </ssk-dropdown-preview>
-      </ssk-dropdown-button>
-      ${options.map((option) => {
-        return html`<ssk-dropdown-option value=${option}>
-          <ssk-icon name=${option} slot="prefix"></ssk-icon>
-          ${option}
-        </ssk-dropdown-option>`;
-      })}
-    </ssk-dropdown>`;
+    return html` <style lang="css">
+        .container {
+          display: grid;
+          place-items: center;
+          width: 200dvw;
+          height: 200dvh;
+        }
+
+        .note {
+          background-color: red;
+          color: white;
+          padding: 1rem;
+          border-radius: 8px;
+          font-size: 2rem;
+        }
+      </style>
+
+      <div class="note">
+        Dropdown On the bottom-right of the screen use scrollbar for demo auto
+        container options position
+      </div>
+      <div class="container">
+        <ssk-dropdown
+          ${spread({ ...args })}
+          @change=${(e: any) => {
+            action("@change")(e);
+            updateArgs({ value: e.target.value });
+          }}
+        >
+          <ssk-dropdown-button slot="selected">
+            <ssk-dropdown-preview value=${ifDefined(args["value"])}>
+              <ssk-icon
+                slot="prefix"
+                name=${ifDefined(args["value"])}
+              ></ssk-icon>
+              ${args["value"] || args["placeholder"]}
+            </ssk-dropdown-preview>
+          </ssk-dropdown-button>
+          ${options.map((option) => {
+            return html`<ssk-dropdown-option value=${option}>
+              <ssk-icon name=${option} slot="prefix"></ssk-icon>
+              ${option}
+            </ssk-dropdown-option>`;
+          })}
+        </ssk-dropdown>
+      </div>`;
   },
   argTypes: {
-    ...baseArgsTypes,
+    maxOptionsHeight: {
+      control: {
+        type: "range",
+        min: 0,
+        max: 1000,
+      },
+    },
+    optionsAnchor: {
+      control: {
+        type: "select",
+      },
+      options: ["top", "bottom"],
+    },
+    optionsAlign: {
+      control: {
+        type: "select",
+      },
+      options: ["left", "right"],
+    },
+    optionsWidth: {
+      control: {
+        type: "select",
+      },
+      options: ["auto", "full"],
+    },
     value: {
       description: "The value of the dropdown",
       control: {
@@ -135,8 +184,9 @@ const meta = {
     "?hover": {
       control: {
         type: "boolean",
-      }
-    }
+      },
+    },
+    ...baseArgsTypes,
   },
 } satisfies Meta<DropdownWithLabel>;
 
@@ -144,44 +194,18 @@ export default meta;
 
 type Story = StoryObj<DropdownWithLabel>;
 
-// More on writing stories with args: https://storybook.js.org/docs/web-components/writing-stories/args
-export const Medium: Story = {
+export const AutoDirection: Story = {
   args: {
     size: "md",
     label: "Dropdown",
     placeholder: "Placeholder",
     helperText: "Helper text",
     value: "",
-  },
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1123-65244",
-    },
-  },
-};
-
-export const Large: Story = {
-  args: {
-    size: "lg",
-    label: "Dropdown",
-    placeholder: "Placeholder",
-    helperText: "Helper text",
-  },
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1123-65244",
-    },
-  },
-};
-
-export const Small: Story = {
-  args: {
-    size: "sm",
-    label: "Dropdown",
-    placeholder: "Placeholder",
-    helperText: "Helper text",
+    width: "220px",
+    optionsWidth: "auto",
+    maxOptionsHeight: 200,
+    optionsAnchor: "bottom",
+    optionsAlign: "left",
   },
   parameters: {
     design: {

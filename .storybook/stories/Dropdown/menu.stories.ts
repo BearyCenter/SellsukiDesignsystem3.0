@@ -84,37 +84,80 @@ const meta = {
   render: ({ ...args }) => {
     const [{}, updateArgs] = useArgs();
 
-    return html`<ssk-dropdown
-      themeColor="primary"
-      optionsWidth="auto"
-      ${spread({ ...args })}
-    >
-      <ssk-avatar
-        slot="selected"
-        src="/Avatar.png"
-        alt="demo avatar"
-        shape="circle"
-        boxsize="40px"
-      ></ssk-avatar>
-      Account
-      <ssk-dropdown-option>
-        <ssk-icon slot="prefix" size="sm" name="outline-envelope"></ssk-icon>
-        <ssk-text size="sm">{userProfile?.data?.email}</ssk-text>
-      </ssk-dropdown-option>
-      <ssk-divider size="xs"></ssk-divider>
-      <ssk-dropdown-option>
-        <ssk-icon
-          slot="prefix"
-          size="sm"
-          name="solid-arrow-right-on-rectangle"
-        ></ssk-icon>
-        <ssk-text size="sm">Sign out</ssk-text>
-        <ssk-icon slot="postfix" size="sm" name="solid-arrow-right"></ssk-icon>
-      </ssk-dropdown-option>
-    </ssk-dropdown>`;
+    return html`<style lang="css">
+        .nav {
+          display: flex;
+          flex-direction: column;
+          align-items: end;
+          width: 100%;
+        }
+      </style>
+
+      <div class="nav">
+        <ssk-dropdown
+          themeColor="primary"
+          optionsWidth="auto"
+          ${spread({ ...args })}
+        >
+          <ssk-avatar
+            slot="selected"
+            src="/Avatar.png"
+            alt="demo avatar"
+            shape="circle"
+            boxsize="40px"
+          ></ssk-avatar>
+          Account
+          <ssk-dropdown-option>
+            <ssk-icon
+              slot="prefix"
+              size="sm"
+              name="outline-envelope"
+            ></ssk-icon>
+            <ssk-text size="sm">{userProfile?.data?.email}</ssk-text>
+          </ssk-dropdown-option>
+          <ssk-divider size="xs"></ssk-divider>
+          <ssk-dropdown-option>
+            <ssk-icon
+              slot="prefix"
+              size="sm"
+              name="solid-arrow-right-on-rectangle"
+            ></ssk-icon>
+            <ssk-text size="sm">Sign out</ssk-text>
+            <ssk-icon
+              slot="postfix"
+              size="sm"
+              name="solid-arrow-right"
+            ></ssk-icon>
+          </ssk-dropdown-option>
+        </ssk-dropdown>
+      </div>`;
   },
   argTypes: {
-    ...baseArgsTypes,
+    maxOptionsHeight: {
+      control: {
+        type: "range",
+        min: 0,
+        max: 1000,
+      },
+    },
+    optionsAnchor: {
+      control: {
+        type: "select",
+      },
+      options: ["top", "bottom"],
+    },
+    optionsAlign: {
+      control: {
+        type: "select",
+      },
+      options: ["left", "right"],
+    },
+    optionsWidth: {
+      control: {
+        type: "select",
+      },
+      options: ["auto", "full"],
+    },
     value: {
       description: "The value of the dropdown",
       control: {
@@ -136,6 +179,7 @@ const meta = {
         type: "boolean",
       },
     },
+    ...baseArgsTypes,
   },
 } satisfies Meta<DropdownWithLabel>;
 

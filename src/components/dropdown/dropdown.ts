@@ -31,6 +31,8 @@ export const valueContext = createContext<DropdownState>(
 export class Dropdown extends LitElement {
   static registeredName = "ssk-dropdown";
 
+  private static currentOpenDropdown: Dropdown | null = null;
+
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
@@ -75,9 +77,6 @@ export class Dropdown extends LitElement {
   disabled = false;
 
   @property({ type: Boolean })
-  hover = false;
-
-  @property({ type: Boolean })
   hidden = false;
 
   @property({ type: Boolean })
@@ -101,6 +100,9 @@ export class Dropdown extends LitElement {
   @property({ type: Boolean })
   hideOptions = false;
 
+  @property({ type: Number })
+  maxOptionsHeight: number = 344;
+
   @provide({ context: valueContext })
   @property({ attribute: false })
   state: DropdownState = {
@@ -121,6 +123,18 @@ export class Dropdown extends LitElement {
     isError: this.error,
   };
 
+  private isHovered = false;
+
+  private handleMouseEnter = () => {
+    this.isHovered = true;
+    this.requestUpdate();
+  };
+
+  private handleMouseLeave = () => {
+    this.isHovered = false;
+    this.requestUpdate();
+  };
+
   protected willUpdate(
     changedProperties: Map<string | number | symbol, unknown>
   ): void {
@@ -133,32 +147,77 @@ export class Dropdown extends LitElement {
     }
   }
 
-  private setupOnClickContainer = (e: MouseEvent) => {
+  private handleClickContainer = (e: MouseEvent) => {
     e.stopPropagation();
 
     if (this.disabled) {
       return;
     }
+    // Close the currently open dropdown if it's not this one
+    if (Dropdown.currentOpenDropdown && Dropdown.currentOpenDropdown !== this) {
+      Dropdown.currentOpenDropdown.state.isOpened = false;
+      Dropdown.currentOpenDropdown.requestUpdate();
+    }
 
     this.state.isOpened = !this.state.isOpened;
+    Dropdown.currentOpenDropdown = this.state.isOpened ? this : null;
+
+    if (this.state.isOpened) {
+      requestAnimationFrame(this.updateOptionsPosition);
+    }
+
     this.requestUpdate();
   };
 
-  private setupClickOutside = (_e: MouseEvent) => {
+  private handleClickOutside = (_e: MouseEvent) => {
     this.state.isOpened = false;
+    Dropdown.currentOpenDropdown = null;
     this.requestUpdate();
   };
 
   firstUpdated() {
-    window.addEventListener("click", this.setupClickOutside);
+    window.addEventListener("click", this.handleClickOutside);
+
+    const container = this.shadowRoot?.querySelector(".dropdown-container");
+    if (container) {
+      container.addEventListener("mouseenter", this.handleMouseEnter);
+      container.addEventListener("mouseleave", this.handleMouseLeave);
+    }
+
+    const resizeObserver = new ResizeObserver(() => {
+      if (this.state.isOpened) {
+        this.updateOptionsPosition();
+      }
+    });
+
+    resizeObserver.observe(document.body);
+    this.addEventListener("disconnected", () => {
+      resizeObserver.disconnect();
+    });
   }
 
   disconnectedCallback() {
-    window.removeEventListener("click", this.setupClickOutside);
+    super.disconnectedCallback();
+
+    const container = this.shadowRoot?.querySelector(".dropdown-container");
+    if (container) {
+      container.removeEventListener("mouseenter", this.handleMouseEnter);
+      container.removeEventListener("mouseleave", this.handleMouseLeave);
+    }
+
+    window.removeEventListener("click", this.handleClickOutside);
+    if (Dropdown.currentOpenDropdown === this) {
+      Dropdown.currentOpenDropdown = null;
+    }
+  }
+
+  // update position on attribute changed
+  updated() {
+    this.updateOptionsPosition();
   }
 
   getBackgroundColor() {
-    return this.hover
+    return this.isHovered
       ? parseVariables(cssVar("colors", "background", 50))
       : parseVariables(
           cssVar("colors", this.themeColor, 50),
@@ -166,18 +225,71 @@ export class Dropdown extends LitElement {
         );
   }
   getBorderColor() {
-    return this.hover
+    return this.isHovered
       ? parseVariables(cssVar("colors", "border", 50))
-      : parseVariables(
-          cssVar("colors", this.themeColor, 100)
-        );
+      : parseVariables(cssVar("colors", this.themeColor, 100));
   }
   getFontColor() {
-    return this.hover
+    return this.isHovered
       ? parseVariables(cssVar("colors", this.themeColor, 500))
-      : parseVariables(
-          cssVar("colors", "text", 500)
-        );
+      : parseVariables(cssVar("colors", "text", 500));
+  }
+
+  private calculatePosition() {
+    const container = this.shadowRoot?.querySelector(".dropdown-container");
+    const options = this.shadowRoot?.querySelector(".options-container");
+
+    if (!container || !options)
+      return { anchor: this.optionsAnchor, align: this.optionsAlign };
+
+    const containerRect = container.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+    const optionsHeight = this.maxOptionsHeight + 6; // max-height of options
+    const optionsWidth = options.getBoundingClientRect().width;
+
+    // Calculate vertical position
+    const spaceBelow = viewportHeight - containerRect.bottom;
+    const spaceAbove = containerRect.top;
+    let anchor = this.optionsAnchor;
+
+    if (this.optionsAnchor === "top") {
+      if (spaceAbove < optionsHeight) {
+        anchor = "bottom";
+      }
+    } else if (this.optionsAnchor === "bottom") {
+      if (spaceBelow < optionsHeight) {
+        anchor = "top";
+      }
+    }
+
+    // Calculate horizontal position
+    const spaceRight = viewportWidth - containerRect.right;
+    const spaceLeft = containerRect.left;
+    let align = this.optionsAlign;
+
+    if (this.optionsAlign === "left") {
+      if (spaceRight < optionsWidth) {
+        align = "right";
+      }
+    } else if (this.optionsAlign === "right") {
+      if (spaceLeft < optionsWidth) {
+        align = "left";
+      }
+    }
+
+    return { anchor, align };
+  }
+
+  private updateOptionsPosition() {
+    if (!this.state.isOpened) return;
+
+    const { anchor, align } = this.calculatePosition();
+    const options = this.shadowRoot?.querySelector(".options-container");
+
+    if (options) {
+      options.className = `options-container show ${anchor} ${align} ${this.optionsWidth}`;
+    }
   }
 
   render() {
@@ -255,6 +367,10 @@ export class Dropdown extends LitElement {
             "auto"
           )};
         }
+
+        div.options-container.show {
+          max-height: ${this.maxOptionsHeight}px;
+        }
       </style>
 
       <div class="container ${this.error ? "error" : ""}" id="container">
@@ -265,18 +381,15 @@ export class Dropdown extends LitElement {
             >`
           : nothing}
         <div class="dropdown-container">
-          <slot name="selected" @click=${this.setupOnClickContainer}></slot>
+          <slot name="selected" @click=${this.handleClickContainer}></slot>
 
-          ${this.hideOptions
-            ? nothing
-            : html` <div
-                class="options-container ${this.state.isOpened
-                  ? "show"
-                  : ""} ${this.optionsAnchor} ${this.optionsAlign} ${this
-                  .optionsWidth}"
-              >
-                <slot></slot>
-              </div>`}
+          <div
+            class="options-container ${this.state.isOpened
+              ? "show"
+              : ""}  ${this.optionsWidth}"
+          >
+            <slot></slot>
+          </div>
         </div>
         ${this.helperText
           ? html`<label class="helper">${this.helperText}</label>`
@@ -316,7 +429,12 @@ export class Dropdown extends LitElement {
       z-index: 4;
       left: 0;
       background-color: var(--options-background-color);
-      box-shadow: 0px 19px 5px 0px rgba(17, 24, 39, 0.00), 0px 12px 5px 0px rgba(17, 24, 39, 0.01), 0px 7px 4px 0px rgba(17, 24, 39, 0.03), 0px 3px 3px 0px rgba(17, 24, 39, 0.05), 0px 1px 2px 0px rgba(17, 24, 39, 0.07), 0px 0px 0px 0px rgba(17, 24, 39, 0.09);
+      box-shadow: 0px 19px 5px 0px rgba(17, 24, 39, 0),
+        0px 12px 5px 0px rgba(17, 24, 39, 0.01),
+        0px 7px 4px 0px rgba(17, 24, 39, 0.03),
+        0px 3px 3px 0px rgba(17, 24, 39, 0.05),
+        0px 1px 2px 0px rgba(17, 24, 39, 0.07),
+        0px 0px 0px 0px rgba(17, 24, 39, 0.09);
       border-radius: var(--rounded);
       border: 1px solid var(--ssk-colors-gray-200);
       padding: 0.5em 0.25em;
@@ -359,7 +477,6 @@ export class Dropdown extends LitElement {
       display: flex;
       flex-direction: column;
       gap: 0.125em;
-      max-height: 344px;
     }
 
     label.helper {
