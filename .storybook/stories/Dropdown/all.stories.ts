@@ -205,6 +205,24 @@ const meta = {
       </main>`;
   },
   argTypes: {
+    optionsAnchor: {
+      control: {
+        type: "select",
+      },
+      options: ["top", "bottom"],
+    },
+    optionsAlign: {
+      control: {
+        type: "select",
+      },
+      options: ["left", "right"],
+    },
+    optionsWidth: {
+      control: {
+        type: "select",
+      },
+      options: ["auto", "full"],
+    },
     label: {
       description: "The content of the dropdown",
       control: "text",

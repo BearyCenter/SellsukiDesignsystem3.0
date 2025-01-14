@@ -31,6 +31,8 @@ export const valueContext = createContext<DropdownState>(
 export class Dropdown extends LitElement {
   static registeredName = "ssk-dropdown";
 
+  private static currentOpenDropdown: Dropdown | null = null;
+
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
@@ -133,28 +135,39 @@ export class Dropdown extends LitElement {
     }
   }
 
-  private setupOnClickContainer = (e: MouseEvent) => {
+  private handleClickContainer = (e: MouseEvent) => {
     e.stopPropagation();
 
     if (this.disabled) {
       return;
     }
+    // Close the currently open dropdown if it's not this one
+    if (Dropdown.currentOpenDropdown && Dropdown.currentOpenDropdown !== this) {
+      Dropdown.currentOpenDropdown.state.isOpened = false;
+      Dropdown.currentOpenDropdown.requestUpdate();
+    }
 
     this.state.isOpened = !this.state.isOpened;
+    Dropdown.currentOpenDropdown = this.state.isOpened ? this : null;
     this.requestUpdate();
   };
 
-  private setupClickOutside = (_e: MouseEvent) => {
+  private handleClickOutside = (_e: MouseEvent) => {
     this.state.isOpened = false;
+    Dropdown.currentOpenDropdown = null;
     this.requestUpdate();
   };
 
   firstUpdated() {
-    window.addEventListener("click", this.setupClickOutside);
+    window.addEventListener("click", this.handleClickOutside);
   }
 
   disconnectedCallback() {
-    window.removeEventListener("click", this.setupClickOutside);
+    super.disconnectedCallback();
+    window.removeEventListener("click", this.handleClickOutside);
+    if (Dropdown.currentOpenDropdown === this) {
+      Dropdown.currentOpenDropdown = null;
+    }
   }
 
   getBackgroundColor() {
@@ -168,16 +181,12 @@ export class Dropdown extends LitElement {
   getBorderColor() {
     return this.hover
       ? parseVariables(cssVar("colors", "border", 50))
-      : parseVariables(
-          cssVar("colors", this.themeColor, 100)
-        );
+      : parseVariables(cssVar("colors", this.themeColor, 100));
   }
   getFontColor() {
     return this.hover
       ? parseVariables(cssVar("colors", this.themeColor, 500))
-      : parseVariables(
-          cssVar("colors", "text", 500)
-        );
+      : parseVariables(cssVar("colors", "text", 500));
   }
 
   render() {
@@ -265,7 +274,7 @@ export class Dropdown extends LitElement {
             >`
           : nothing}
         <div class="dropdown-container">
-          <slot name="selected" @click=${this.setupOnClickContainer}></slot>
+          <slot name="selected" @click=${this.handleClickContainer}></slot>
 
           ${this.hideOptions
             ? nothing
@@ -316,7 +325,12 @@ export class Dropdown extends LitElement {
       z-index: 4;
       left: 0;
       background-color: var(--options-background-color);
-      box-shadow: 0px 19px 5px 0px rgba(17, 24, 39, 0.00), 0px 12px 5px 0px rgba(17, 24, 39, 0.01), 0px 7px 4px 0px rgba(17, 24, 39, 0.03), 0px 3px 3px 0px rgba(17, 24, 39, 0.05), 0px 1px 2px 0px rgba(17, 24, 39, 0.07), 0px 0px 0px 0px rgba(17, 24, 39, 0.09);
+      box-shadow: 0px 19px 5px 0px rgba(17, 24, 39, 0),
+        0px 12px 5px 0px rgba(17, 24, 39, 0.01),
+        0px 7px 4px 0px rgba(17, 24, 39, 0.03),
+        0px 3px 3px 0px rgba(17, 24, 39, 0.05),
+        0px 1px 2px 0px rgba(17, 24, 39, 0.07),
+        0px 0px 0px 0px rgba(17, 24, 39, 0.09);
       border-radius: var(--rounded);
       border: 1px solid var(--ssk-colors-gray-200);
       padding: 0.5em 0.25em;
