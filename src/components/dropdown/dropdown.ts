@@ -97,9 +97,6 @@ export class Dropdown extends LitElement {
   @property({ type: Boolean })
   required = false;
 
-  @property({ type: Boolean })
-  hideOptions = false;
-
   @property({ type: Number })
   maxOptionsHeight: number = 344;
 
