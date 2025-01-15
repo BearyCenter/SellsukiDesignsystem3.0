@@ -169,6 +169,12 @@ export class Dropdown extends LitElement {
     this.requestUpdate();
   };
 
+  private scrollHandler = () => {
+    if (this.state.isOpened) {
+      this.updateOptionsPosition();
+    }
+  };
+
   private handleClickOutside = (_e: MouseEvent) => {
     this.state.isOpened = false;
     Dropdown.currentOpenDropdown = null;
@@ -177,6 +183,7 @@ export class Dropdown extends LitElement {
 
   firstUpdated() {
     window.addEventListener("click", this.handleClickOutside);
+    window.addEventListener("scroll", this.scrollHandler, true);
 
     const container = this.shadowRoot?.querySelector(".dropdown-container");
     if (container) {
@@ -206,6 +213,8 @@ export class Dropdown extends LitElement {
     }
 
     window.removeEventListener("click", this.handleClickOutside);
+    window.removeEventListener("scroll", this.scrollHandler, true);
+
     if (Dropdown.currentOpenDropdown === this) {
       Dropdown.currentOpenDropdown = null;
     }
