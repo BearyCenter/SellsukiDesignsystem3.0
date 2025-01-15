@@ -57,6 +57,7 @@ export class HeaderCell extends LitElement {
         ${iconName
           ? html`<ssk-icon
               name="${iconName}"
+              color="info"
               style="cursor: ${cursor}"
               @click=${this.handleSortIconClick}
             ></ssk-icon>`
