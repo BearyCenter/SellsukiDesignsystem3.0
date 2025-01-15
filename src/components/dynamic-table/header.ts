@@ -26,7 +26,7 @@ export class HeaderCell extends LitElement {
         detail: {
           sortDirection: this.sortDirection === "asc" ? "desc" : "asc",
         },
-      })
+      }),
     );
   }
 
@@ -35,9 +35,9 @@ export class HeaderCell extends LitElement {
     let cursor = "pointer";
 
     if (this.sortDirection === "asc") {
-      iconName = "solid-bars-arrow-up";
+      iconName = "solid-chevron-sort-up";
     } else if (this.sortDirection === "desc") {
-      iconName = "solid-bars-arrow-down";
+      iconName = "solid-chevron-sort-down";
     } else if (this.sortable) {
       iconName = "solid-bars-3-bottom-left";
     } else {
