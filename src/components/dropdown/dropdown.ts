@@ -21,6 +21,8 @@ export type DropdownState = {
   isOpened?: boolean;
   disabled?: boolean;
   isError?: boolean;
+  value?: string;
+  multiSelect?: boolean;
 };
 
 export const valueContext = createContext<DropdownState>(
@@ -100,16 +102,31 @@ export class Dropdown extends LitElement {
   @property({ type: Number })
   maxOptionsHeight: number = 344;
 
+  @property({ type: Boolean })
+  multiSelect = false;
+
   @provide({ context: valueContext })
   @property({ attribute: false })
   state: DropdownState = {
     setValue: (value: string) => {
-      if (this.value === value) {
-        return;
-      }
+      if (this.multiSelect) {
+        const selectedValues = this.value ? this.value.split(',') : [];
+        const valueIndex = selectedValues.indexOf(value);
+        if (valueIndex > -1) {
+          selectedValues.splice(valueIndex, 1);
+        } else {
+          selectedValues.push(value);
+        }
+        this.value = selectedValues.join(',');
+        this.state.isOpened = true;
 
-      this.value = value;
-      this.state.isOpened = false;
+      } else {
+        if (this.value === value) {
+          return;
+        }
+        this.value = value;
+        this.state.isOpened = false;
+      }
 
       this.requestUpdate();
 
@@ -118,6 +135,8 @@ export class Dropdown extends LitElement {
     isOpened: false,
     disabled: this.disabled,
     isError: this.error,
+    multiSelect: this.multiSelect,
+    value: '',
   };
 
   private isHovered = false;
@@ -141,6 +160,14 @@ export class Dropdown extends LitElement {
 
     if (changedProperties.has("error")) {
       this.state.isError = this.error;
+    }
+
+    if (changedProperties.has("value")) {
+      this.state.value = this.value || '';
+    }
+
+    if (changedProperties.has("multiSelect")) {
+      this.state.multiSelect = this.multiSelect ;
     }
   }
 

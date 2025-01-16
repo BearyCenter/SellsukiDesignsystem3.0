@@ -2,6 +2,7 @@ import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
+import "../../../src/elements/checkbox";
 import {
   ColorName,
   ColorRole,
@@ -47,14 +48,31 @@ export class DropdownOption extends LitElement {
   @property({ type: String })
   value: string = "";
 
-  private handleClick = () => {
-    this.state?.setValue(this.value, this);
+  private isSelected: boolean = false;
+
+  private handleClick = (event: MouseEvent) => {
+    event.stopPropagation();
+    if (this.state) {
+      const isCurrentlySelected = this.state.value?.split(',').includes(this.value) || false;
+
+      this.isSelected = this.state.multiSelect ? !isCurrentlySelected : true;
+
+      this.state?.setValue(this.value, this);
+
+      this.requestUpdate();
+    }
+    this.dispatchEvent(new CustomEvent('select', { detail: this.value }));
   };
+
+  private get gridTemplateColumns() {
+    return this.state?.multiSelect ? "auto 0fr 1fr" : "auto 1fr auto";
+  }
 
   render() {
     if (this.hidden) {
       return nothing;
     }
+    const multiSelect = this.state?.multiSelect;
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.dropdown, ":host")}
@@ -62,8 +80,19 @@ export class DropdownOption extends LitElement {
       <span
         class="container"
         @click=${this.handleClick}
+        style="grid-template-columns: ${this.gridTemplateColumns};"
         data-testid=${this.testId || nothing}
       >
+      ${multiSelect 
+        ? html`<ssk-checkbox
+            .checked="${this.isSelected}"
+            @click="${(e: MouseEvent) => {
+              e.stopPropagation();
+              this.handleClick(e);
+            }}"
+          ></ssk-checkbox>`
+        : nothing}
+
         <slot name="prefix"></slot>
         <span class="label">
           <slot></slot>
@@ -76,7 +105,6 @@ export class DropdownOption extends LitElement {
   static styles = css`
     .container {
       display: grid;
-      grid-template-columns: auto 1fr auto;
       grid-gap: 0.5em;
       padding: 0.25em 0.5em;
 

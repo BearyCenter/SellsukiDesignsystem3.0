@@ -186,6 +186,11 @@ const meta = {
         type: "boolean",
       },
     },
+    "?multiSelect": {
+      control: {
+        type: "boolean",
+      },
+    },
     ...baseArgsTypes,
   },
 } satisfies Meta<DropdownWithLabel>;
@@ -206,6 +211,23 @@ export const AutoDirection: Story = {
     maxOptionsHeight: 200,
     optionsAnchor: "bottom",
     optionsAlign: "left",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1123-65244",
+    },
+  },
+};
+
+export const DropdownSelect: Story = {
+  args: {
+    size: "md",
+    label: "Dropdown Select",
+    placeholder: "Placeholder",
+    helperText: "Helper text",
+    value: "",
+    multiSelect:true,
   },
   parameters: {
     design: {
