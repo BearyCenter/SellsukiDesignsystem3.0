@@ -76,6 +76,12 @@ export class Inputtag extends LitElement {
     @property({ type: Boolean })
     multiline = false;
 
+    @property({ type: Number })
+    maxTagLength?: number;
+
+    @property({ type: String })
+    value: string = "";
+
     totalChars: number = 0;
 
     calculateTotalChars() {
@@ -163,6 +169,7 @@ export class Inputtag extends LitElement {
                         @input=${this.handleTagInput}
                         @keydown=${this.addTag}
                         @change=${(e: any) => this.handleTagInput(e, true)}
+                        .value=${this.value}
                         .tags=${this.tags}
                         ?multiline=${this.multiline}
                     >
@@ -181,7 +188,15 @@ export class Inputtag extends LitElement {
 
     handleTagInput(e: Event, redispatch: boolean = false) {
         const target = e.target as HTMLInputElement;
-        const newValue = target.value;
+        let newValue = target.value;
+
+        if (this.maxTagLength && newValue.length > this.maxTagLength) {
+            newValue = newValue.slice(0, this.maxTagLength);
+        }
+
+        target.value = newValue;
+        this.value = newValue;
+
         if (this.limit && this.limit > 0 && newValue.length > (this.limit - this.totalChars)) {
             target.value = newValue.slice(0, this.limit - this.totalChars);
         }
@@ -198,6 +213,11 @@ export class Inputtag extends LitElement {
 
             const target = e.target as HTMLInputElement;
             let tag = target.value.trim();
+
+            if (this.maxTagLength && tag.length > this.maxTagLength) {
+                tag = tag.slice(0, this.maxTagLength);
+            }
+
             if (tag.length >= 1) {
                 if (!this.tags.includes(tag)) {
                     this.tags = [...this.tags, tag];

@@ -21,7 +21,7 @@ export type DropdownState = {
   isOpened?: boolean;
   disabled?: boolean;
   isError?: boolean;
-  value?: string;
+  value?: string | string[];
   multiSelect?: boolean;
 };
 
@@ -110,14 +110,14 @@ export class Dropdown extends LitElement {
   state: DropdownState = {
     setValue: (value: string) => {
       if (this.multiSelect) {
-        const selectedValues = this.value ? this.value.split(',') : [];
+        const selectedValues = this.value ? this.value.split(', ') : [];
         const valueIndex = selectedValues.indexOf(value);
         if (valueIndex > -1) {
           selectedValues.splice(valueIndex, 1);
         } else {
           selectedValues.push(value);
         }
-        this.value = selectedValues.join(',');
+        this.value = selectedValues.join(', ');
         this.state.isOpened = true;
 
       } else {
