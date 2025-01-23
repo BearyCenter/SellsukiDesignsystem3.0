@@ -53,6 +53,8 @@ export const InputTag: Story = {
         placeholder: "Placeholder",
         helperText: "Helper text",
         limit: 69,
+        maxTagLength: 10,
+        value:'aaa'
     },
     parameters: {
         design: {

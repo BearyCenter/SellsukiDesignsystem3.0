@@ -53,7 +53,13 @@ export class DropdownOption extends LitElement {
   private handleClick = (event: MouseEvent) => {
     event.stopPropagation();
     if (this.state) {
-      const isCurrentlySelected = this.state.value?.split(',').includes(this.value) || false;
+      let isCurrentlySelected = false;
+
+      if (typeof this.state.value === 'string') {
+          isCurrentlySelected = this.state.value.split(',').includes(this.value);
+      } else if (Array.isArray(this.state.value)) {
+          isCurrentlySelected = this.state.value.includes(this.value);
+      }
 
       this.isSelected = this.state.multiSelect ? !isCurrentlySelected : true;
 
@@ -65,7 +71,7 @@ export class DropdownOption extends LitElement {
   };
 
   private get gridTemplateColumns() {
-    return this.state?.multiSelect ? "auto 0fr 1fr" : "auto 1fr auto";
+    return this.state?.multiSelect ? "auto auto 1fr" : "auto auto 1fr";
   }
 
   render() {
@@ -105,7 +111,7 @@ export class DropdownOption extends LitElement {
   static styles = css`
     .container {
       display: grid;
-      grid-gap: 0.5em;
+      grid-gap: 0.25em;
       padding: 0.25em 0.5em;
 
       color: var(--color);
