@@ -2,6 +2,7 @@ import { ColorPalette, Size, Theme } from "../../types/theme";
 
 export const defaultColorPallete: ColorPalette = {
   primary: {
+    "50": "#e8f5fe",
     "100": "#e8f5fe",
     "200": "#9dd4fc",
     "300": "#6fc1fa",
@@ -14,6 +15,7 @@ export const defaultColorPallete: ColorPalette = {
     "1000": "#0c466f",
   },
   secondary: {
+    "50": "#F8FAFC",
     "100": "#fdf0eb",
     "200": "#f6bda8",
     "300": "#f19e80",

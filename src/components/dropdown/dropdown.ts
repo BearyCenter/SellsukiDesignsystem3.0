@@ -139,18 +139,6 @@ export class Dropdown extends LitElement {
     value: '',
   };
 
-  private isHovered = false;
-
-  private handleMouseEnter = () => {
-    this.isHovered = true;
-    this.requestUpdate();
-  };
-
-  private handleMouseLeave = () => {
-    this.isHovered = false;
-    this.requestUpdate();
-  };
-
   protected willUpdate(
     changedProperties: Map<string | number | symbol, unknown>
   ): void {
@@ -209,12 +197,6 @@ export class Dropdown extends LitElement {
     window.addEventListener("click", this.handleClickOutside);
     window.addEventListener("scroll", this.scrollHandler, true);
 
-    const container = this.shadowRoot?.querySelector(".dropdown-container");
-    if (container) {
-      container.addEventListener("mouseenter", this.handleMouseEnter);
-      container.addEventListener("mouseleave", this.handleMouseLeave);
-    }
-
     const resizeObserver = new ResizeObserver(() => {
       if (this.state.isOpened) {
         this.updateOptionsPosition();
@@ -230,12 +212,6 @@ export class Dropdown extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
 
-    const container = this.shadowRoot?.querySelector(".dropdown-container");
-    if (container) {
-      container.removeEventListener("mouseenter", this.handleMouseEnter);
-      container.removeEventListener("mouseleave", this.handleMouseLeave);
-    }
-
     window.removeEventListener("click", this.handleClickOutside);
     window.removeEventListener("scroll", this.scrollHandler, true);
 
@@ -247,25 +223,6 @@ export class Dropdown extends LitElement {
   // update position on attribute changed
   updated() {
     this.updateOptionsPosition();
-  }
-
-  getBackgroundColor() {
-    return this.isHovered
-      ? parseVariables(cssVar("colors", "background", 50))
-      : parseVariables(
-          cssVar("colors", this.themeColor, 50),
-          cssVar("colors", "background", 50)
-        );
-  }
-  getBorderColor() {
-    return this.isHovered
-      ? parseVariables(cssVar("colors", "border", 50))
-      : parseVariables(cssVar("colors", this.themeColor, 100));
-  }
-  getFontColor() {
-    return this.isHovered
-      ? parseVariables(cssVar("colors", this.themeColor, 500))
-      : parseVariables(cssVar("colors", "text", 500));
   }
 
   private calculatePosition() {
@@ -326,10 +283,6 @@ export class Dropdown extends LitElement {
   }
 
   render() {
-    const backgroundColor = this.getBackgroundColor();
-    const borderColor = this.getBorderColor();
-    const fontColor = this.getFontColor();
-
     if (this.hidden) {
       return nothing;
     }
@@ -348,7 +301,9 @@ export class Dropdown extends LitElement {
             cssVar("colors", "background", 50)
           )};
 
-          --background-color: ${backgroundColor};
+          --background-color: ${parseVariables(
+            cssVar("colors", "background", 50)
+          )};
 
           --background-color-hover: ${parseVariables(
             cssVar("colors", this.themeColor, 50)
@@ -358,8 +313,10 @@ export class Dropdown extends LitElement {
             cssVar("colors", "border", 50)
           )};
 
-          --border-color: ${borderColor};
-          --font-color: ${fontColor};
+          --border-color: ${parseVariables(cssVar("colors", "border", 50))};
+          --font-color: ${parseVariables(
+            cssVar("colors", this.themeColor, 500)
+          )};
           --border-color-active: ${parseVariables(
             cssVar("colors", this.themeColor, 600)
           )};
