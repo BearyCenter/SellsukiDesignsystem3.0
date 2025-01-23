@@ -57,7 +57,8 @@ export class DropdownOption extends LitElement {
 
       if (typeof this.state.value === 'string') {
           isCurrentlySelected = this.state.value.split(',').includes(this.value);
-      } else if (Array.isArray(this.state.value)) {
+      }
+      if (Array.isArray(this.state.value)) {
           isCurrentlySelected = this.state.value.includes(this.value);
       }
 
