@@ -8,6 +8,7 @@ export type ToastData = {
   message: string;
   type: "success" | "error" | "info" | "warning";
   timeout: number;
+  testId?: string;
 };
 
 export interface ToastStore {
@@ -55,6 +56,7 @@ export class ToastProvider extends LitElement {
         ${this.toast.toasts.map(
           (toast) => html`
             <ssk-toast
+              testId=${toast.testId}
               heading=${toast.title}
               content=${toast.message}
               type=${toast.type}
@@ -64,7 +66,7 @@ export class ToastProvider extends LitElement {
               }}
               width="60dvw"
             ></ssk-toast>
-          `
+          `,
         )}
       </div>
     `;
