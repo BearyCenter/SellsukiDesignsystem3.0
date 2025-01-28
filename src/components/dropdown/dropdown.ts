@@ -128,7 +128,6 @@ export class Dropdown extends LitElement {
         }
       } else {
         this.value = value as string;
-        console.log(this.value);
       }
       
       this.state.isOpened = false;
