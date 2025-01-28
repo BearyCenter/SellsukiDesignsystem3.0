@@ -2,6 +2,7 @@ import { consume, provide } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
+
 import "../../elements/icon";
 import {
   ColorName,
@@ -23,6 +24,8 @@ export type DropdownState = {
   isError?: boolean;
   value?: string | string[];
   multiSelect?: boolean;
+  showClearButton?: boolean;
+  isSelected?: string[];
 };
 
 export const valueContext = createContext<DropdownState>(
@@ -70,7 +73,7 @@ export class Dropdown extends LitElement {
   name: string | undefined;
 
   @property({ type: String })
-  value: string | undefined;
+  value: string | string[] = "";
 
   @property({ type: String })
   status: "error" | "success" | undefined;
@@ -105,39 +108,52 @@ export class Dropdown extends LitElement {
   @property({ type: Boolean })
   multiSelect = false;
 
+  @property({ type: Array })
+  isSelected: string[] = [];
+
+  @property({ type: Boolean, reflect: true })
+  clearValue: boolean = false;
+
   @provide({ context: valueContext })
   @property({ attribute: false })
   state: DropdownState = {
-    setValue: (value: string) => {
+    setValue: (value: string | string[]) => {
       if (this.multiSelect) {
-        const selectedValues = this.value ? this.value.split(', ') : [];
-        const valueIndex = selectedValues.indexOf(value);
-        if (valueIndex > -1) {
-          selectedValues.splice(valueIndex, 1);
+        const selectedValues: string[] = Array.isArray(this.value) ? this.value : [];
+        if (selectedValues.includes(value as string)) {
+          this.value = selectedValues.filter(v => v !== value);
         } else {
-          selectedValues.push(value);
+          selectedValues.push(value as string);
+          this.value = selectedValues;
         }
-        this.value = selectedValues.join(', ');
-        this.state.isOpened = true;
-
       } else {
-        if (this.value === value) {
-          return;
-        }
-        this.value = value;
-        this.state.isOpened = false;
+        this.value = value as string;
       }
-
+      
+      this.state.isOpened = false;
       this.requestUpdate();
 
       this.dispatchEvent(new Event("change"));
     },
+  
     isOpened: false,
     disabled: this.disabled,
     isError: this.error,
     multiSelect: this.multiSelect,
-    value: '',
+    value: [],
+    isSelected: this.isSelected,
   };
+
+  private clearSelection() {
+    this.value = '';
+    this.state.value = '';
+    this.state.isOpened = false;
+    this.isSelected = []
+    this.state.isSelected = []; 
+
+    this.requestUpdate();
+    this.dispatchEvent(new Event("change"));
+  }
 
   protected willUpdate(
     changedProperties: Map<string | number | symbol, unknown>
@@ -156,6 +172,11 @@ export class Dropdown extends LitElement {
 
     if (changedProperties.has("multiSelect")) {
       this.state.multiSelect = this.multiSelect ;
+    }
+
+    if (changedProperties.has("clearValue") && this.clearValue) {
+      this.clearSelection();
+      this.clearValue = false;
     }
   }
 

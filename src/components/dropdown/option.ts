@@ -48,38 +48,22 @@ export class DropdownOption extends LitElement {
   @property({ type: String })
   value: string = "";
 
-  private isSelected: boolean = false;
 
   private handleClick = (event: MouseEvent) => {
     event.stopPropagation();
-    if (this.state) {
-      let isCurrentlySelected = false;
-
-      if (typeof this.state.value === 'string') {
-          isCurrentlySelected = this.state.value.split(',').includes(this.value);
-      }
-      if (Array.isArray(this.state.value)) {
-          isCurrentlySelected = this.state.value.includes(this.value);
-      }
-
-      this.isSelected = this.state.multiSelect ? !isCurrentlySelected : true;
-
-      this.state?.setValue(this.value, this);
-
+    if (this.state && this.state.multiSelect === false) {
+      this.state.isSelected = [this.value];
+      this.state.setValue(this.value, this); 
       this.requestUpdate();
+      this.dispatchEvent(new CustomEvent('select', { detail: this.value }));
     }
-    this.dispatchEvent(new CustomEvent('select', { detail: this.value }));
   };
 
-  private get gridTemplateColumns() {
-    return this.state?.multiSelect ? "auto auto 1fr" : "auto auto 1fr";
-  }
 
   render() {
     if (this.hidden) {
       return nothing;
     }
-    const multiSelect = this.state?.multiSelect;
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.dropdown, ":host")}
@@ -87,19 +71,8 @@ export class DropdownOption extends LitElement {
       <span
         class="container"
         @click=${this.handleClick}
-        style="grid-template-columns: ${this.gridTemplateColumns};"
         data-testid=${this.testId || nothing}
       >
-      ${multiSelect 
-        ? html`<ssk-checkbox
-            .checked="${this.isSelected}"
-            @click="${(e: MouseEvent) => {
-              e.stopPropagation();
-              this.handleClick(e);
-            }}"
-          ></ssk-checkbox>`
-        : nothing}
-
         <slot name="prefix"></slot>
         <span class="label">
           <slot></slot>
@@ -112,7 +85,8 @@ export class DropdownOption extends LitElement {
   static styles = css`
     .container {
       display: grid;
-      grid-gap: 0.25em;
+      grid-template-columns: auto 1fr auto;
+      grid-gap: 0.5em;
       padding: 0.25em 0.5em;
 
       color: var(--color);

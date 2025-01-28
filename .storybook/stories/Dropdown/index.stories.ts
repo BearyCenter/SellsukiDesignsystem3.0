@@ -2,11 +2,12 @@ import { spread } from "@open-wc/lit-helpers";
 import { action } from "@storybook/addon-actions";
 import { useArgs } from "@storybook/client-api";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { Dropdown } from "../../../src/components/dropdown";
 import "../../../src/main";
 import { AutoLitProperty, baseArgsTypes } from "../helper";
+import "../../../src/elements/checkbox"; 
 
 type DropdownWithLabel = AutoLitProperty<Dropdown> & {
   placeholder: string;
@@ -97,6 +98,24 @@ const meta = {
           border-radius: 8px;
           font-size: 2rem;
         }
+        .option-row {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          gap: 0.2rem;
+        }
+      
+        ssk-dropdown-option {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+        }
+        .lables {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          width: 100%;
+        }
       </style>
 
       <div class="note">
@@ -112,19 +131,50 @@ const meta = {
           }}
         >
           <ssk-dropdown-button slot="selected">
-            <ssk-dropdown-preview value=${ifDefined(args["value"])}>
-              <ssk-icon
-                slot="prefix"
-                name=${ifDefined(args["value"])}
-              ></ssk-icon>
-              ${args["value"] || args["placeholder"]}
+            <ssk-dropdown-preview value=${ifDefined(args["multiSelect"]
+              ? Array.isArray(args["value"]) && args["value"].length > 0
+                ? args["value"].join(", ")
+                : args["placeholder"]
+              : args["value"] || args["placeholder"])}>
+              ${args["multiSelect"]
+                ? html`
+                    ${Array.isArray(args["value"]) && args["value"].length > 0
+                      ? args["value"].join(", ")
+                      : args["placeholder"]}
+                  `
+                : html`
+                    <ssk-icon
+                      slot="prefix"
+                      name=${args["value"] || ""}
+                    ></ssk-icon>
+                    ${args["value"] || args["placeholder"]}
+                  `}
             </ssk-dropdown-preview>
           </ssk-dropdown-button>
           ${options.map((option) => {
-            return html`<ssk-dropdown-option value=${option}>
-              <ssk-icon name=${option} slot="prefix"></ssk-icon>
-              ${option}
-            </ssk-dropdown-option>`;
+            const selectedValues = Array.isArray(args.value) ? args.value : [];
+            return html`
+            <ssk-dropdown-option value=${option}>
+              <div class="option-row">
+              ${args.multiSelect
+                ? html`
+                    <ssk-checkbox
+                      .checked="${selectedValues.includes(option)}"
+                      @click="${(e: MouseEvent) => {
+                        e.stopPropagation();
+                        const newSelectedValues = selectedValues.includes(option)
+                          ? selectedValues.filter((v: string) => v !== option)
+                          : [...selectedValues, option];
+                        updateArgs({ value: newSelectedValues });
+                      }}"
+                    ></ssk-checkbox>`
+                    : nothing}
+                  <ssk-icon name=${option} slot="prefix"></ssk-icon>
+                  <div class="lables">
+                    ${option}
+                  </div>
+                </div>
+              </ssk-dropdown-option>`;
           })}
         </ssk-dropdown>
       </div>`;
@@ -181,12 +231,12 @@ const meta = {
         type: "boolean",
       },
     },
-    "?hover": {
+    "?multiSelect": {
       control: {
         type: "boolean",
       },
     },
-    "?multiSelect": {
+    "?clearValue": {
       control: {
         type: "boolean",
       },
@@ -226,8 +276,9 @@ export const DropdownSelect: Story = {
     label: "Dropdown Select",
     placeholder: "Placeholder",
     helperText: "Helper text",
-    value: "",
-    multiSelect:true,
+    value: [],
+    multiSelect: true,
+    clearValue: false,
   },
   parameters: {
     design: {
