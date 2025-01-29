@@ -173,7 +173,9 @@ export class Input extends LitElement {
         <div class=${`input-container ${this.disabled ? "disabled" : ""}`}>
           <input
             id="input"
-            data-testid=${this.testId + ".input." + this.id || nothing}
+            data-testid=${this.testId
+              ? `${this.testId}.input${this.id && `.${this.id}`}`
+              : nothing}
             maxlength=${ifDefined(this.limit)}
             placeholder=${this.placeholder || ""}
             name=${this.name || ""}
@@ -190,7 +192,9 @@ export class Input extends LitElement {
         <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
           <label
             class="helper"
-            data-testid=${this.testId + ".text.input.error-message" || nothing}
+            data-testid=${this.testId
+              ? `${this.testId}.text.input.error-message`
+              : nothing}
             >${this.helperText}</label
           >
           ${this.showLimit

@@ -179,7 +179,11 @@ export class Textarea extends LitElement {
         </label>
         <textarea
           id="textarea"
-          data-testid=${this.testId + ".textarea." + this.id || nothing}
+          data-testid=${
+            this.testId
+              ? `${this.testId}.textarea${this.id && `.${this.id}`}`
+              : nothing
+          }
           placeholder=${this.placeholder || ""}
           name=${this.name || ""}
           .value=${this.value || ""}
@@ -192,8 +196,9 @@ export class Textarea extends LitElement {
         <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
           <label
             class="helper"
-            data-testid=${this.testId + ".textarea.error-message" || nothing}
-            >${this.helperText}</label
+            data-testid=${
+              this.testId ? `${this.testId}.textarea.error-message` : nothing
+            }
           >
           <label class="helper ${this.limit ? "" : "hidden"}">
             (${this.value?.length || 0}/${this.limit})
