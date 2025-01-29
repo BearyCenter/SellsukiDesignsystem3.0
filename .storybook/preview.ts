@@ -36,8 +36,7 @@ const preview: Preview = {
               )
               50% / 20px 20px;
           }
-
-          #main-container {
+          assada 3 #main-dcontainer {
             min-height: 100dvh;
           }
         </style>

@@ -10,6 +10,7 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@storybook/addon-designs",
     "@storybook/addon-mdx-gfm",
+    "dddd",
   ],
   framework: {
     name: "@storybook/web-components-vite",
