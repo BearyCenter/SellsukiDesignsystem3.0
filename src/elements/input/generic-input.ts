@@ -28,6 +28,9 @@ export class Input extends LitElement {
   @property({ type: String })
   testId?: string;
 
+  @property({ type: String })
+  id: string = "";
+
   // ThemeValue
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
@@ -105,7 +108,7 @@ export class Input extends LitElement {
             cssVar("colors", this.color),
             cssVar("colors", this.color, 700),
             this.color,
-            cssVar("colors", "text", 700)
+            cssVar("colors", "text", 700),
           )};
           --color-disabled: ${parseVariables(cssVar("colors", "text", 300))};
 
@@ -113,30 +116,30 @@ export class Input extends LitElement {
             cssVar("colors", this.color),
             cssVar("colors", this.color, 300),
             this.color,
-            cssVar("colors", "text", 300)
+            cssVar("colors", "text", 300),
           )};
 
           --background-color-disabled: ${parseVariables(
-            cssVar("colors", "border", 50)
+            cssVar("colors", "border", 50),
           )};
 
           --border-color: ${parseVariables(cssVar("colors", "border", 100))};
           --border-color-active: ${parseVariables(
-            cssVar("colors", this.themeColor, 600)
+            cssVar("colors", this.themeColor, 600),
           )};
           --border-color-disabled: ${parseVariables(
-            cssVar("colors", "border", 100)
+            cssVar("colors", "border", 100),
           )};
 
           --outline-color-active: ${parseVariables(
-            cssVar("colors", this.themeColor, 200)
+            cssVar("colors", this.themeColor, 200),
           )};
 
           --font-family: ${parseVariables(
-            cssVar("font-family", this.fontFamilyGroup)
+            cssVar("font-family", this.fontFamilyGroup),
           )};
           --font-weight: ${parseVariables(
-            cssVar("font-weight", this.fontWeight)
+            cssVar("font-weight", this.fontWeight),
           )};
           --font-size: ${parseVariables(cssVar("font-size", this.size))};
           --line-height: ${parseVariables(cssVar("font-size", this.size))};
@@ -146,13 +149,13 @@ export class Input extends LitElement {
 
           --color-error: ${parseVariables(cssVar("colors", "error", 600))};
           --color-helper-error: ${parseVariables(
-            cssVar("colors", "error", 600)
+            cssVar("colors", "error", 600),
           )};
           --border-color-error: ${parseVariables(
-            cssVar("colors", "error", 600)
+            cssVar("colors", "error", 600),
           )};
           --outline-color-error: ${parseVariables(
-            cssVar("colors", "error", 300)
+            cssVar("colors", "error", 300),
           )};
 
           --width: ${parseVariables(cssVar("width", this.width), "auto")};
@@ -170,7 +173,7 @@ export class Input extends LitElement {
         <div class=${`input-container ${this.disabled ? "disabled" : ""}`}>
           <input
             id="input"
-            data-testid=${this.testId || nothing}
+            data-testid=${this.testId + ".input." + this.id || nothing}
             maxlength=${ifDefined(this.limit)}
             placeholder=${this.placeholder || ""}
             name=${this.name || ""}
@@ -185,7 +188,11 @@ export class Input extends LitElement {
           <slot name="postfix"></slot>
         </div>
         <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
-          <label class="helper">${this.helperText}</label>
+          <label
+            class="helper"
+            data-testid=${this.testId + ".text.input.error-message" || nothing}
+            >${this.helperText}</label
+          >
           ${this.showLimit
             ? html`<label class="helper ${this.limit ? "" : "hidden"}"
                 >(${this.value?.length || 0}/${this.limit})</label

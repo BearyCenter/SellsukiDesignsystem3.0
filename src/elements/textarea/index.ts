@@ -27,6 +27,9 @@ export class Textarea extends LitElement {
   @property({ type: String })
   testId?: string;
 
+  @property({ type: String })
+  id: string = "";
+
   // ThemeValue
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
@@ -176,7 +179,7 @@ export class Textarea extends LitElement {
         </label>
         <textarea
           id="textarea"
-          data-testid=${this.testId || nothing}
+          data-testid=${this.testId + ".textarea." + this.id || nothing}
           placeholder=${this.placeholder || ""}
           name=${this.name || ""}
           .value=${this.value || ""}
@@ -187,7 +190,11 @@ export class Textarea extends LitElement {
           maxlength=${this.limit!}
         ></textarea>
         <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
-          <label class="helper">${this.helperText}</label>
+          <label
+            class="helper"
+            data-testid=${this.testId + ".textarea.error-message" || nothing}
+            >${this.helperText}</label
+          >
           <label class="helper ${this.limit ? "" : "hidden"}">
             (${this.value?.length || 0}/${this.limit})
           </label>
