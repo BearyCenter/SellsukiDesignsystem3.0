@@ -187,7 +187,14 @@ export class Textarea extends LitElement {
           maxlength=${this.limit!}
         ></textarea>
         <div class="footer ${this.helperText || this.limit ? "" : "hidden"}">
-          <label class="helper">${this.helperText}</label>
+          <label
+            class="helper"
+            data-testid=${this.testId
+              ? `${this.testId}.error-message`
+              : nothing}
+          >
+            ${this.helperText}
+          </label>
           <label class="helper ${this.limit ? "" : "hidden"}">
             (${this.value?.length || 0}/${this.limit})
           </label>
