@@ -190,7 +190,7 @@ export class Textarea extends LitElement {
           <label
             class="helper"
             data-testid=${this.testId
-              ? `${this.testId}.textarea.error-message`
+              ? `${this.testId}.error-message`
               : nothing}
           >
             ${this.helperText}

@@ -188,7 +188,7 @@ export class Input extends LitElement {
           <label
             class="helper"
             data-testid=${this.testId
-              ? `${this.testId}.input.error-message`
+              ? `${this.testId}.error-message`
               : nothing}
             >${this.helperText}</label
           >
