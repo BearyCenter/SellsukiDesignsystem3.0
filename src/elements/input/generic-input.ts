@@ -28,9 +28,6 @@ export class Input extends LitElement {
   @property({ type: String })
   testId?: string;
 
-  @property({ type: String })
-  id: string = "";
-
   // ThemeValue
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
@@ -173,9 +170,7 @@ export class Input extends LitElement {
         <div class=${`input-container ${this.disabled ? "disabled" : ""}`}>
           <input
             id="input"
-            data-testid=${this.testId
-              ? [`${this.testId}.input`, this.id].filter(Boolean).join(".")
-              : nothing}
+            data-testid=${this.testId || nothing}
             maxlength=${ifDefined(this.limit)}
             placeholder=${this.placeholder || ""}
             name=${this.name || ""}
@@ -193,7 +188,7 @@ export class Input extends LitElement {
           <label
             class="helper"
             data-testid=${this.testId
-              ? `${this.testId}.text.input.error-message`
+              ? `${this.testId}.input.error-message`
               : nothing}
             >${this.helperText}</label
           >

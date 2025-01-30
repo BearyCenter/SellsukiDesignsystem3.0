@@ -27,9 +27,6 @@ export class Textarea extends LitElement {
   @property({ type: String })
   testId?: string;
 
-  @property({ type: String })
-  id: string = "";
-
   // ThemeValue
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
@@ -179,9 +176,7 @@ export class Textarea extends LitElement {
         </label>
         <textarea
           id="textarea"
-          data-testid=${this.testId
-            ? [`${this.testId}.textarea`, this.id].filter(Boolean).join(".")
-            : nothing}
+          data-testid=${this.testId || nothing}
           placeholder=${this.placeholder || ""}
           name=${this.name || ""}
           .value=${this.value || ""}
@@ -195,7 +190,7 @@ export class Textarea extends LitElement {
           <label
             class="helper"
             data-testid=${this.testId
-              ? `${this.testId}.textarea.error-message`
+              ? `${this.testId}.error-message`
               : nothing}
           >
             ${this.helperText}
