@@ -198,6 +198,7 @@ export class Textarea extends LitElement {
               ? `${this.testId}.textarea.error-message`
               : nothing}
           >
+            ${this.helperText}
           </label>
           <label class="helper ${this.limit ? "" : "hidden"}">
             (${this.value?.length || 0}/${this.limit})
