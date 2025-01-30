@@ -181,7 +181,7 @@ export class Textarea extends LitElement {
           id="textarea"
           data-testid=${
             this.testId
-              ? `${this.testId}.textarea${this.id && `.${this.id}`}`
+              ? [`${this.testId}.textarea`, this.id].filter(Boolean).join(".")
               : nothing
           }
           placeholder=${this.placeholder || ""}

@@ -174,7 +174,7 @@ export class Input extends LitElement {
           <input
             id="input"
             data-testid=${this.testId
-              ? `${this.testId}.input${this.id && `.${this.id}`}`
+              ? [`${this.testId}.input`, this.id].filter(Boolean).join(".")
               : nothing}
             maxlength=${ifDefined(this.limit)}
             placeholder=${this.placeholder || ""}
