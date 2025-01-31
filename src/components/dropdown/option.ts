@@ -48,7 +48,7 @@ export class DropdownOption extends LitElement {
   @property({ type: String })
   value: string = "";
 
-  private handleClick = (_: MouseEvent) => {
+  private handleClick = () => {
     if (this.state && this.state.multiSelect === false) {
       this.state.isSelected = [this.value];
       this.state.setValue(this.value, this);
