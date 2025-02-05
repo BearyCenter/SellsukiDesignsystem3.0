@@ -83,14 +83,17 @@ export const Default: Story = {
 
         .company-header .name {
           grid-area: name;
-          font-size: 24px;
+          font-size: 1.2em;
           color: var(--ssk-colors-text-900);
           text-align: start;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
 
         .company-header .branch {
           grid-area: branch;
-          font-size: 20px;
+          font-size: 0.8em;
           color: var(--ssk-colors-primary-500);
           text-align: start;
         }
@@ -132,7 +135,7 @@ export const Default: Story = {
           ></ssk-avatar>
           <!-- Expanded -->
           <ssk-dropdown themeColor="primary" width="full" hideChevron>
-            <ssk-dropdown-preview slot="selected">
+            <ssk-dropdown-button slot="selected">
               <div class="company-header">
                 <ssk-avatar
                   class="avatar"
@@ -140,10 +143,10 @@ export const Default: Story = {
                   alt="demo avatar"
                   shape="circle"
                 ></ssk-avatar>
-                <label class="name">Sellsuki company</label>
+                <label class="name">Sellsuki company eiei eiei</label>
                 <label class="branch">สาขา รัชดาภิเษก</label>
               </div>
-            </ssk-dropdown-preview>
+            </ssk-dropdown-button>
 
             <ssk-dropdown-item>item 1</ssk-dropdown-item>
             <ssk-dropdown-item>item 2</ssk-dropdown-item>

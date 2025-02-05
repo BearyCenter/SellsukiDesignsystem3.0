@@ -53,6 +53,9 @@ export class Sidebar extends LitElement {
   @property({ type: Array })
   expandedGroups: string[] = [];
 
+  @property({ type: String })
+  width?: string = "256px";
+
   @provide({ context: stateContext })
   @property({ attribute: false })
   state: State = {
@@ -160,6 +163,12 @@ export class Sidebar extends LitElement {
           )};
 
           --border-color: ${parseVariables(cssVar("colors", "gray", 200))};
+
+          --expanded-width: ${parseVariables(
+            cssVar("width", this.width),
+            this.width,
+            "auto"
+          )};
         }
       </style>
 
@@ -196,6 +205,7 @@ export class Sidebar extends LitElement {
       border-right: 1px solid var(--border-color);
       background-color: var(--ssk-colors-background-50);
       transition: min-width 0.2s ease-out;
+      width: var(--expanded-width);
     }
 
     .sidebar.collapsed {
