@@ -37,8 +37,9 @@ export class DropdownButton extends LitElement {
         class=${`dropdown ${this.state?.disabled ? "disabled" : ""} ${
           this.state?.isOpened ? "active" : ""
         } ${this.state?.isError ? "error" : ""}`}
+        data-testid=${this.testId || nothing}
       >
-        <span class="label-value" data-testid=${this.testId || nothing}>
+        <span class="label-value">
           <slot></slot>
         </span>
         ${this.hideChevron
