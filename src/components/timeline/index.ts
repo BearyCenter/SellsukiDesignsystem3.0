@@ -284,10 +284,14 @@ export class Timeline extends LitElement {
         margin: 15px 0 0 15px;
         font-size: 20px;
         color: var(--ssk-colors-gray-800);
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
     }
     .timeline.horizontal .timeline-description {
         font-size: 20px;
-        width: 200px;
+        width: 180px;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
