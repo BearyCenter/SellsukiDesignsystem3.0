@@ -52,5 +52,6 @@ export * from "./components/table";
 export * from "./components/tabs";
 export * from "./components/time";
 export * from "./components/tooltip";
+export * from "./components/timeline";
 
 import "./assets/fonts.css";

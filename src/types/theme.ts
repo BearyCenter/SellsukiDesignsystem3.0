@@ -245,6 +245,7 @@ export type Theme = {
     progressBar?: Partial<ThemeField>;
     downloadFile?: Partial<ThemeField>;
     miscIcon?: Partial<ThemeField>;
+    timeline?: Partial<ThemeField>;
   };
 } & ThemeField;
 
