@@ -16,7 +16,7 @@ import "../../../src/elements/icon";
 export interface TimelineItem {
     title: string;
     description: string;
-    date: string;
+    subTitle: string;
     status: "completed" | "in-progress" | "pending";
 }
 
@@ -59,29 +59,14 @@ export class Timeline extends LitElement {
     @property({ type: String })
     fontWeight: FontWeight = "normal";
 
-    // @property({ type: Array })
-    // steps: Step[] = [];
-
     @property({ type: Array })
     Items: TimelineItem[] = [];
-    @property({ type: Number })
-    currentStep = 0;
-
-    @property({ type: Number })
-    activeIndex = 0;
-
-    @property({ type: String })
-    errorStep = "error";
 
     @property({ type: Boolean })
     hidden = false;
 
-    @property({ type: Number })
-    percent: number | undefined;
-
     @property({ type: String })
-    display: "vertical" | "horizontal" = "vertical"; // ค่าเริ่มต้นเป็น horizontal
-
+    display: "vertical" | "horizontal" = "vertical";
     render() {
         if (this.hidden) {
             return nothing;
@@ -123,7 +108,7 @@ export class Timeline extends LitElement {
               >
                 <div class="timeline-content ${this.display}">
                   <p class="timeline-title">${item.title}</p>
-                  <span class="date">${item.date}</span>
+                  <span class="date">${item.subTitle}</span>
                   <p class="timeline-description">${item.description}</p>
                 </div>
               </li>
@@ -164,12 +149,13 @@ export class Timeline extends LitElement {
         background-color: var(--timeline-dot-color, #3498db);
         border-radius: 50%;
         z-index: 1;
+        margin-top: 10px;
     }
     .timeline li::after {
         content: "";
         position: absolute;
         left: 14px;
-        top: 14px;
+        top: 24px;
         width: 2px;
         max-height: 120px;
         height: calc(100% - 14px);
@@ -226,6 +212,7 @@ export class Timeline extends LitElement {
     .timeline.horizontal li::before {
         left: 50%;
         transform: translateX(-50%);
+        margin-top: 0;
     }
     .timeline.horizontal li::after {
         top: 2px;
