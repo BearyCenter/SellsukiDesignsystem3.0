@@ -26,20 +26,24 @@ export class HeaderCell extends LitElement {
         detail: {
           sortDirection: this.sortDirection === "asc" ? "desc" : "asc",
         },
-      }),
+      })
     );
   }
 
   render() {
     let iconName = "";
     let cursor = "pointer";
+    let color = "info";
 
     if (this.sortDirection === "asc") {
       iconName = "solid-chevron-sort-up";
+      color = "info";
     } else if (this.sortDirection === "desc") {
       iconName = "solid-chevron-sort-down";
+      color = "info";
     } else if (this.sortable) {
-      iconName = "solid-bars-3-bottom-left";
+      iconName = "solid-chevron-sort";
+      color = "gray";
     } else {
       cursor = "default";
     }
@@ -57,7 +61,7 @@ export class HeaderCell extends LitElement {
         ${iconName
           ? html`<ssk-icon
               name="${iconName}"
-              color="info"
+              color="{color}"
               style="cursor: ${cursor}"
               @click=${this.handleSortIconClick}
             ></ssk-icon>`
