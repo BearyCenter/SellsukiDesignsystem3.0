@@ -31,38 +31,36 @@ export class HeaderCell extends LitElement {
   }
 
   render() {
-    let iconName = "";
-    let cursor = "pointer";
-    let color = "info";
-
-    if (this.sortDirection === "asc") {
-      iconName = "solid-chevron-sort-up";
-      color = "info";
-    } else if (this.sortDirection === "desc") {
-      iconName = "solid-chevron-sort-down";
-      color = "info";
-    } else if (this.sortable) {
-      iconName = "solid-chevron-sort";
-      color = "gray";
-    } else {
-      cursor = "default";
-    }
-
     return html`
-      <div
-        class="table-header-cell"
-        style="justify-content: ${this.align === "left"
+      <style>
+        .table-header-cell {
+          justify-content: ${this.align === "left"
           ? "flex-start"
           : this.align === "center"
           ? "center"
-          : "flex-end"}"
-      >
+          : "flex-end"};
+
+        /* --down-arrow-color, --up-arrow-color */
+          ${this.sortDirection === "asc"
+          ? css`
+              --down-arrow-color: var(--ssk-colors-info-500);
+            `
+          : this.sortDirection === "desc"
+          ? css`
+              --up-arrow-color: var(--ssk-colors-info-500);
+            `
+          : nothing}
+
+        }
+      </style>
+
+      <div class="table-header-cell">
         <slot></slot>
-        ${iconName
+        ${this.sortDirection ?? this.sortable
           ? html`<ssk-icon
-              name="${iconName}"
-              color="${color}"
-              style="cursor: ${cursor}"
+              name="solid-chevron-sort"
+              color="gray.400"
+              style="cursor: pointer"
               @click=${this.handleSortIconClick}
             ></ssk-icon>`
           : nothing}
