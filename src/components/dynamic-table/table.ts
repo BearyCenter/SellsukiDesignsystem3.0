@@ -154,7 +154,7 @@ export class DynamicTable extends LitElement {
     .table {
       display: grid;
       grid-template-columns: var(--table-template-column);
-      overflow: auto;
+      overflow: unset;
     }
 
     .footer-spaner {
