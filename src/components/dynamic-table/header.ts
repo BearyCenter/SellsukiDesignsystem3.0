@@ -43,11 +43,11 @@ export class HeaderCell extends LitElement {
         /* --down-arrow-color, --up-arrow-color */
           ${this.sortDirection === "asc"
           ? css`
-              --down-arrow-color: var(--ssk-colors-info-500);
+              --up-arrow-color: var(--ssk-colors-info-500);
             `
           : this.sortDirection === "desc"
           ? css`
-              --up-arrow-color: var(--ssk-colors-info-500);
+              --down-arrow-color: var(--ssk-colors-info-500);
             `
           : nothing}
 
