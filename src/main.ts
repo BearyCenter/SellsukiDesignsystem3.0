@@ -16,6 +16,7 @@ export * from "./elements/card-select/group";
 export * from "./elements/checkbox";
 export * from "./elements/code-block";
 export * from "./elements/container";
+export * from "./elements/date-display";
 export * from "./elements/divider";
 export * from "./elements/heading";
 export * from "./elements/i18n/template";
@@ -51,7 +52,7 @@ export * from "./components/stepper";
 export * from "./components/table";
 export * from "./components/tabs";
 export * from "./components/time";
-export * from "./components/tooltip";
 export * from "./components/timeline";
+export * from "./components/tooltip";
 
 import "./assets/fonts.css";
