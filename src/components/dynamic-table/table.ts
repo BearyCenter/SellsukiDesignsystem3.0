@@ -138,16 +138,13 @@ export class DynamicTable extends LitElement {
     :host {
       display: block;
       height: var(--table-height);
-      overflow: hidden;
+      overflow: unset;
     }
 
     .table-container {
       display: grid;
       grid-template-rows: auto 1fr;
       background-color: var(--table-background-color);
-      border-style: solid;
-      border-width: 1px;
-      border-color: var(--table-border-color);
       height: var(--table-height);
     }
 
