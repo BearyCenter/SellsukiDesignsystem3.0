@@ -9,7 +9,11 @@ import "../../../src/components/addon-phone-country";
 import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
 
 type InputWithLabel = AutoLitProperty<Input> &
-  AutoLitProperty<InputRange> & { label: string };
+  AutoLitProperty<InputRange> & { label: string } & {
+    countries: { code: string; name?: string; phoneCode?: string }[];
+    allowedCountries?: Array<string>;
+    value: string;
+  };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
@@ -331,6 +335,7 @@ export const WithAddonPhoneCountry: Story = {
     label: "Input",
     placeholder: "Placeholder",
     helperText: "Helper text",
+    countries: countries,
   },
   parameters: {
     design: {
@@ -338,7 +343,7 @@ export const WithAddonPhoneCountry: Story = {
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=585%3A57607&mode=dev",
     },
   },
-  render: ({ ...args }) => {
+  render: ({ countries, ...args }) => {
     const handleCountryChange = (event: CustomEvent) => {
       console.log("Selected country:", event.detail.country);
       console.log("Selected value:", event.detail.value);
@@ -363,6 +368,8 @@ export const WithAddonPhoneCountryAllowedCountries: Story = {
     label: "Input",
     placeholder: "Placeholder",
     helperText: "Helper text",
+    countries: countries,
+    allowedCountries: ["THA", "JPN", "KOR", "LAO", "USA"],
   },
   parameters: {
     design: {
@@ -370,7 +377,7 @@ export const WithAddonPhoneCountryAllowedCountries: Story = {
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=585%3A57607&mode=dev",
     },
   },
-  render: ({ ...args }) => {
+  render: ({ countries, allowedCountries, ...args }) => {
     const handleCountryChange = (event: CustomEvent) => {
       console.log("Selected country:", event.detail.country);
       console.log("Selected value:", event.detail.value);
@@ -381,7 +388,7 @@ export const WithAddonPhoneCountryAllowedCountries: Story = {
         slot="prefix"
         ${spread({ ...args })}
         .countries=${countries}
-        .allowedCountries=${["THA", "JPN", "KOR", "LAO", "USA"]}
+        .allowedCountries=${allowedCountries}
         value="THA"
         @change=${handleCountryChange}
       >
