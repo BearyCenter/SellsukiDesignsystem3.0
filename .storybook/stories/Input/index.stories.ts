@@ -197,7 +197,9 @@ export const WithAddon: Story = {
       <ssk-input-addon slot="postfix">
         <ssk-icon name="outline-ellipsis-horizontal-circle"></ssk-icon>
       </ssk-input-addon>
-      <ssk-input-addon slot="prefix"> +69 </ssk-input-addon>
+      <ssk-input-addon slot="prefix" color="white.100" themeColor="primary">
+        +69
+      </ssk-input-addon>
     </ssk-input>`;
   },
 };
