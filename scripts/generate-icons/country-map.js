@@ -43,7 +43,7 @@ export const countryToISO = {
   Costa_Rica: "CRI",
   Croatia: "HRV",
   Cuba: "CUB",
-  Curaçao: "CUW",
+  Curaçao: "CUW",
   Cyprus: "CYP",
   Czech_Republic: "CZE",
   DR_Congo: "COD",

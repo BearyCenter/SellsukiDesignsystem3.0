@@ -3,26 +3,22 @@ import fs from "fs";
 import * as glob from "glob";
 import { countryToISO } from "./country-map.js";
 
-const icons = glob.sync("./scripts/generate-country-icons/icons/Country=*.svg");
+const icons = glob.sync("./scripts/generate-icons/icons/country/*.svg");
 
 const iconList = icons
   .map((icon) => {
-    let countryName = icon.match(/Country=([^.]+)\.svg$/)[1];
-
-    countryName = countryName
-      .replace(/\s+/g, "_")
-      .replace(/\band\b/g, "_and_")
-      .replace(/-/g, "_")
-      .trim();
+    let countryName = icon.match(/\/([^/]+)\.svg$/)[1];
 
     const isoCode = countryToISO[countryName] || null;
+
     const content = fs.readFileSync(icon, "utf8");
+
     return { name: isoCode, content };
   })
-  .filter((icon) => icon.iso !== null);
+  .filter((icon) => icon.name !== null);
 
 const template = fs.readFileSync(
-  "./scripts/generate-country-icons/index.ts.ejs",
+  "./scripts/generate-icons/index-country.ts.ejs",
   "utf8",
 );
 

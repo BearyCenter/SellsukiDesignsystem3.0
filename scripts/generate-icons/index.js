@@ -2,7 +2,7 @@ import * as ejs from "ejs";
 import fs from "fs";
 import * as glob from "glob";
 
-const icons = glob.sync("./scripts/generate-icons/icons/*/*.svg");
+const icons = glob.sync("./scripts/generate-icons/icons/**/!(*country)/*.svg");
 
 // generate a list of icons
 // { name: string, variant: string, content: string }[]

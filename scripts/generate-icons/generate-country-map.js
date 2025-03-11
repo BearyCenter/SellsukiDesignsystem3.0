@@ -2,14 +2,12 @@ import fs from "fs";
 import * as glob from "glob";
 
 const generateCountryMap = () => {
-  const icons = glob.sync(
-    "./scripts/generate-country-icons/icons/Country=*.svg",
-  );
+  const icons = glob.sync("./scripts/generate-icons/icons/country/*.svg");
 
   let existingCountryToISO = {};
-  if (fs.existsSync("./scripts/generate-country-icons/country-map.js")) {
+  if (fs.existsSync("./scripts/generate-icons/country-map.js")) {
     const existingFileContent = fs.readFileSync(
-      "./scripts/generate-country-icons/country-map.js",
+      "./scripts/generate-icons/country-map.js",
       "utf-8",
     );
     const match = existingFileContent.match(
@@ -23,13 +21,9 @@ const generateCountryMap = () => {
   let countryToISO = { ...existingCountryToISO };
 
   icons.forEach((icon) => {
-    let countryName = icon.match(/Country=([^.]+)\.svg$/)[1];
+    let countryName = icon.match(/\/([^/]+)\.svg$/)[1];
 
-    countryName = countryName
-      .replace(/\s+/g, "_")
-      .replace(/\band\b/g, "_and_")
-      .replace(/-/g, "_")
-      .trim();
+    countryName = countryName.trim();
 
     if (!countryToISO[countryName]) {
       countryToISO[countryName] = "";
@@ -47,10 +41,7 @@ const generateCountryMap = () => {
     sortedCountryToISO,
   )};`;
 
-  fs.writeFileSync(
-    "./scripts/generate-country-icons/country-map.js",
-    fileContent,
-  );
+  fs.writeFileSync("./scripts/generate-icons/country-map.js", fileContent);
 };
 
 const generateObjectString = (obj) => {
