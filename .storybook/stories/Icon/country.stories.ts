@@ -14,7 +14,7 @@ const meta = {
     return html`<ssk-country-icon ${spread(args)}></ssk-country-icon>`;
   },
   argTypes: {
-    name: {
+    code: {
       description:
         "The country's ISO 3166-1 alpha-3 code (3-letter code). Example: 'THA' for Thailand, 'USA' for United States.",
       table: {
@@ -39,7 +39,7 @@ type Story = StoryObj<CountryIconArgs>;
 
 export const Default: Story = {
   args: {
-    name: "THA",
+    code: "THA",
   },
   parameters: {
     design: {

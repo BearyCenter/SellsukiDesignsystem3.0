@@ -5,7 +5,7 @@ import { addPrefixToObject, baseArgsTypes, genericEvents } from "../helper";
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 
-type CountryIconArgs = addPrefixToObject<Omit<CountryIcon, "name">, "@">;
+type CountryIconArgs = addPrefixToObject<Omit<CountryIcon, "code">, "@">;
 
 const meta = {
   title: "Example/Icon/CountryIcon",
@@ -46,10 +46,10 @@ const meta = {
       </style>
       <main>
         ${Object.keys(CountryIcon.svgs).map(
-          (name) =>
+          (code) =>
             html`<div class="icon-container">
-              <ssk-country-icon ${spread(args)} name=${name}></ssk-country-icon>
-              <div class="icon-name">${name}</div>
+              <ssk-country-icon ${spread(args)} code=${code}></ssk-country-icon>
+              <div class="icon-name">${code}</div>
             </div>`,
         )}
       </main>`;

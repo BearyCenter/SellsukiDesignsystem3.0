@@ -243,7 +243,7 @@ export class AddonPhoneCountry extends LitElement implements BaseAttributes {
             ${selectedCountry
               ? html`
                   <ssk-country-icon
-                    name=${selectedCountry.code}
+                    code=${selectedCountry.code}
                   ></ssk-country-icon>
                   <span>
                     ${selectedCountry.phoneCode
@@ -272,7 +272,7 @@ export class AddonPhoneCountry extends LitElement implements BaseAttributes {
                   : nothing}"
               >
                 <ssk-country-icon
-                  name=${country.code}
+                  code=${country.code}
                   slot="prefix"
                 ></ssk-country-icon>
                 <span>

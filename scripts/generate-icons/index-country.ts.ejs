@@ -38,7 +38,7 @@ export class CountryIcon extends LitElement {
   onClick?: () => void;
 
   @property({ type: String })
-  name: string = "";
+  code: string = "";
 
   @property({ type: String })
   iconName: string = "";
@@ -86,7 +86,7 @@ export class CountryIcon extends LitElement {
         }
       </style>
       
-      ${CountryIcon.svgs[this.name || this.iconName]}
+      ${CountryIcon.svgs[this.code || this.iconName]}
     `;
   }
 

@@ -74,7 +74,11 @@ export class InputAddon
   hidden = false;
 
   get hasPrefix(): boolean {
-    return this.querySelector('[slot="prefix"]') !== null;
+    return this.getAttribute("slot") === "prefix";
+  }
+
+  get hasPostfix(): boolean {
+    return this.getAttribute("slot") === "postfix";
   }
 
   render() {
@@ -108,10 +112,15 @@ export class InputAddon
           )};
           --font-size: ${parseVariables(cssVar("font-size", this.size))};
           --line-height: ${parseVariables(cssVar("font-size", this.size))};
+          --rounded: ${parseVariables(cssVar("rounded", this.size))};
         }
       </style>
 
-      <div class="addon">
+      <div
+        class="addon ${this.hasPrefix ? "prefix" : ""} ${this.hasPostfix
+          ? "postfix"
+          : ""}"
+      >
         <slot class="prefix-control"></slot>
       </div>
     `;
@@ -130,6 +139,16 @@ export class InputAddon
       color: var(--color);
       height: 100%;
       padding: 0 0.333em;
+    }
+
+    div.prefix {
+      border-top-left-radius: var(--rounded);
+      border-bottom-left-radius: var(--rounded);
+    }
+
+    div.postfix {
+      border-top-right-radius: var(--rounded);
+      border-bottom-right-radius: var(--rounded);
     }
   `;
 }
