@@ -90,21 +90,21 @@ export class InputAddon
           --color: ${parseVariables(
             cssVar("colors", this.color),
             cssVar("colors", "text", 400),
-            this.color
+            this.color,
           )};
 
           --background-color: ${parseVariables(
-            cssVar("colors", this.themeColor, 500)
+            cssVar("colors", this.themeColor, 500),
           )};
           --background-color-disabled: ${parseVariables(
-            cssVar("colors", "text", 50)
+            cssVar("colors", "text", 50),
           )};
 
           --font-family: ${parseVariables(
-            cssVar("font-family", this.fontFamilyGroup)
+            cssVar("font-family", this.fontFamilyGroup),
           )};
           --font-weight: ${parseVariables(
-            cssVar("font-weight", this.fontWeight)
+            cssVar("font-weight", this.fontWeight),
           )};
           --font-size: ${parseVariables(cssVar("font-size", this.size))};
           --line-height: ${parseVariables(cssVar("font-size", this.size))};

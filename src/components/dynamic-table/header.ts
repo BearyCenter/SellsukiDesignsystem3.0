@@ -26,7 +26,7 @@ export class HeaderCell extends LitElement {
         detail: {
           sortDirection: this.sortDirection === "asc" ? "desc" : "asc",
         },
-      })
+      }),
     );
   }
 

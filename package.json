@@ -24,6 +24,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest",
+    "generate:country-map": "node scripts/generate-country-icons/generate-country-map.js",
+    "generate:country-icon": "node scripts/generate-country-icons/index.js",
     "generate:icon": "node scripts/generate-icons/index.js",
     "generate:font": "node scripts/generate-fonts/index.js",
     "chromatic": "npx chromatic",

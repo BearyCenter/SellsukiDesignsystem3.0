@@ -41,4 +41,17 @@ const ts = ejs.render(
 );
 
 // write the generated code to "./src/elements/icon/index.ts"
-fs.writeFileSync("./src/elements/icon/index.ts", ts);
+fs.writeFileSync("./src/elements/icon/icon.ts", ts);
+
+const indexPath = "./src/elements/icon/index.ts";
+if (!fs.existsSync(indexPath)) {
+  const indexTsContent = `export * from "./icon";`;
+  fs.writeFileSync(indexPath, indexTsContent);
+} else {
+  let indexTsContent = fs.readFileSync(indexPath, "utf8");
+
+  if (!indexTsContent.includes('export * from "./icon";')) {
+    indexTsContent += '\nexport * from "./icon";';
+    fs.writeFileSync(indexPath, indexTsContent);
+  }
+}
