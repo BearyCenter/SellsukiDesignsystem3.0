@@ -35,8 +35,8 @@ export class AddonPhoneCountry extends LitElement implements BaseAttributes {
 
   private typingTimeout: NodeJS.Timeout | null = null;
 
-  private getDecreasedSize(currentSize: Size): Size {
-    const sizeOrder: Size[] = [
+  private getIconSize(currentSize: Size): Size {
+    const sizeList: Size[] = [
       "xs",
       "sm",
       "md",
@@ -46,9 +46,9 @@ export class AddonPhoneCountry extends LitElement implements BaseAttributes {
       "3xl",
       "4xl",
     ];
-    const currentIndex = sizeOrder.indexOf(currentSize);
+    const currentIndex = sizeList.indexOf(currentSize);
     if (currentIndex > 0) {
-      return sizeOrder[currentIndex - 1];
+      return sizeList[currentIndex - 1];
     }
     return currentSize;
   }
@@ -219,7 +219,7 @@ export class AddonPhoneCountry extends LitElement implements BaseAttributes {
       (country) => country.code === this.value,
     );
     const filteredCountries = this.getFilteredCountries();
-    const iconSize = this.getDecreasedSize(this.size);
+    const iconSize = this.getIconSize(this.size);
 
     return html`
       <div
@@ -232,12 +232,13 @@ export class AddonPhoneCountry extends LitElement implements BaseAttributes {
           size=${this.size}
           role="combobox"
           @keydown=${this._handleKeydown}
+          testId="${this.testId ? `${this.testId}.dropdown` : nothing}"
         >
           <div
             class="phone-addon"
             slot="selected"
             tabindex="0"
-            data-testid="${this.testId}-selected"
+            data-testid="${this.testId ? `${this.testId}.selected` : nothing}"
           >
             ${selectedCountry
               ? html`
@@ -266,6 +267,9 @@ export class AddonPhoneCountry extends LitElement implements BaseAttributes {
                 aria-selected="${this.valueOption === country.code}"
                 tabindex="${this.valueOption === country.code ? "0" : "-1"}"
                 @click=${() => this._handleChange(country.code)}
+                testId="${this.testId
+                  ? `${this.testId}.option-${country.code}`
+                  : nothing}"
               >
                 <ssk-country-icon
                   name=${country.code}

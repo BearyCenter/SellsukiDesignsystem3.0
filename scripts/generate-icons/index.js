@@ -40,7 +40,7 @@ const ts = ejs.render(
   {},
 );
 
-// write the generated code to "./src/elements/icon/index.ts"
+// write the generated code to "./src/elements/icon/icon.ts"
 fs.writeFileSync("./src/elements/icon/icon.ts", ts);
 
 const indexPath = "./src/elements/icon/index.ts";

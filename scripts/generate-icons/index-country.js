@@ -24,6 +24,7 @@ const template = fs.readFileSync(
 
 const ts = ejs.render(template, { icons: iconList }, {});
 
+// write the generated code to "./src/elements/icon/country-icon.ts"
 fs.writeFileSync("./src/elements/icon/country-icon.ts", ts);
 
 const indexPath = "./src/elements/icon/index.ts";
