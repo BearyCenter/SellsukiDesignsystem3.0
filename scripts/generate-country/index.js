@@ -19,7 +19,7 @@ function getCountryISOCode(countryName) {
 }
 
 export function generateCountryIcons() {
-  const icons = glob.sync("./scripts/generate-icons/icons/country/*.svg");
+  const icons = glob.sync("./scripts/generate-country/icons/*.svg");
 
   const iconList = icons
     .map((icon) => {
@@ -28,7 +28,7 @@ export function generateCountryIcons() {
       const isoCode = getCountryISOCode(countryName);
 
       if (!isoCode) {
-        console.warn(`⚠️  ไม่พบรหัส ISO-3 สำหรับประเทศ: ${countryName}`);
+        console.warn(`⚠️  No ISO-3 code found for country : ${countryName}`);
       }
       const content = fs.readFileSync(icon, "utf8");
 
@@ -37,7 +37,7 @@ export function generateCountryIcons() {
     .filter((icon) => icon.name !== null);
 
   const template = fs.readFileSync(
-    "./scripts/generate-icons/country-icons/index.ts.ejs",
+    "./scripts/generate-country/index.ts.ejs",
     "utf8",
   );
 
