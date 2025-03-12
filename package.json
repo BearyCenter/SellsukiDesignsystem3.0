@@ -24,8 +24,6 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest",
-    "generate:country-map": "node scripts/generate-icons/generate-country-map.js",
-    "generate:country-icon": "node scripts/generate-icons/index-country.js",
     "generate:icon": "node scripts/generate-icons/index.js",
     "generate:font": "node scripts/generate-fonts/index.js",
     "chromatic": "npx chromatic",
@@ -38,6 +36,7 @@
     "date-fns-tz": "^3.1.3",
     "glob": "^10.3.3",
     "idb": "^7.1.1",
+    "iso-3166-1": "^2.1.1",
     "lit": "^3.2.1",
     "mustache": "^4.2.0",
     "prismjs": "^1.29.0"

@@ -87,7 +87,7 @@ export class CountryIcon extends LitElement {
 </clipPath>
 </defs>
 </svg>
-`, "VIR": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+`, "VGB": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_20468_6379)">
 <rect width="21" height="15" rx="3" fill="white"/>
 <mask id="mask0_20468_6379" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="15">
@@ -175,6 +175,20 @@ export class CountryIcon extends LitElement {
 </g>
 <defs>
 <clipPath id="clip0_20468_6420">
+<rect width="21" height="15" rx="3" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+`, "TZA": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_20468_6479)">
+<rect width="21" height="15" rx="3" fill="#249F58"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 15H21V2L0 13V15Z" fill="#3ECBF8"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 14L21 3V-1L0 10V14Z" fill="#FFDA2C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 16L21 5V1L0 12V16Z" fill="#FFDA2C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 15L21 4V0L0 11V15Z" fill="#151515"/>
+</g>
+<defs>
+<clipPath id="clip0_20468_6479">
 <rect width="21" height="15" rx="3" fill="white"/>
 </clipPath>
 </defs>
@@ -308,20 +322,6 @@ export class CountryIcon extends LitElement {
 </clipPath>
 </defs>
 </svg>
-`, "TZA": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_20468_6479)">
-<rect width="21" height="15" rx="3" fill="#249F58"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 15H21V2L0 13V15Z" fill="#3ECBF8"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 14L21 3V-1L0 10V14Z" fill="#FFDA2C"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 16L21 5V1L0 12V16Z" fill="#FFDA2C"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 15L21 4V0L0 11V15Z" fill="#151515"/>
-</g>
-<defs>
-<clipPath id="clip0_20468_6479">
-<rect width="21" height="15" rx="3" fill="white"/>
-</clipPath>
-</defs>
-</svg>
 `, "TJK": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_20468_6484)">
 <rect width="21" height="15" rx="3" fill="white"/>
@@ -363,6 +363,24 @@ export class CountryIcon extends LitElement {
 </clipPath>
 </defs>
 </svg>
+`, "SWZ": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_20468_7012)">
+<rect width="21" height="15" rx="3" fill="#FFDA2C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 12H21V15H0V12ZM0 0H21V3H0V0Z" fill="#4769C1"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 4H21V11H0V4Z" fill="#BC0A33"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M4 8H17V9H4V8ZM6 6H16V7H6V6Z" fill="#FFDA2C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16 6H18V7H16V6Z" fill="#CBCBCB"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 10C12.985 10 15 7.5 15 7.5C15 7.5 12.985 5 10.5 5C8.015 5 6 7.5 6 7.5C6 7.5 8.015 10 10.5 10Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M13 7H14V8H13V7Z" fill="#151515" stroke="#151515"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 10C11 10 12 7.5 12 7.5C12 7.5 11 5 10.5 5C8.015 5 6 7.5 6 7.5C6 7.5 8.015 10 10.5 10Z" fill="#151515"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8 7H9V8H8V7ZM10 7H11V8H10V7Z" fill="#CBCBCB"/>
+</g>
+<defs>
+<clipPath id="clip0_20468_7012">
+<rect width="21" height="15" rx="3" fill="white"/>
+</clipPath>
+</defs>
+</svg>
 `, "SUR": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_20468_6496)">
 <rect width="21" height="15" rx="3" fill="white"/>
@@ -386,6 +404,19 @@ export class CountryIcon extends LitElement {
 </g>
 <defs>
 <clipPath id="clip0_20468_6501">
+<rect width="21" height="15" rx="3" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+`, "PSE": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_20468_6674)">
+<rect width="21" height="15" rx="3" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 10H21V15H0V10Z" fill="#249F58"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H21V5H0V0Z" fill="#151515"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0V15.033L10 7.5L0 0Z" fill="#F93939"/>
+</g>
+<defs>
+<clipPath id="clip0_20468_6674">
 <rect width="21" height="15" rx="3" fill="white"/>
 </clipPath>
 </defs>
@@ -441,12 +472,6 @@ export class CountryIcon extends LitElement {
 <rect width="21" height="15" rx="3" fill="white"/>
 </clipPath>
 </defs>
-</svg>
-`, "KOR": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="21" height="15" rx="3" fill="white"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M14 7.5C14 9.433 12.433 11 10.5 11C8.567 11 7 9.433 7 7.5C7 6.38 9.35 5.91 11.328 6.087C11.538 6.031 11.764 6 12 6C13.105 6 14 6.672 14 7.5Z" fill="#232C80"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M10 7C10 7 10.895 6 12 6C13.105 6 14 6.672 14 7.5C14 5.567 12.433 4 10.5 4C9.103 4 7.897 4.818 7.336 6.002C7 7 7 7.292 7 7.5C7.5 8 8.056 8 8.5 8C8.944 8 9.343 7.807 9.618 7.5L10 7Z" fill="#F93939"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M15 5H17L15 3H14L15 5ZM6 5H4L6 3H7L6 5ZM15 10H17L15 12H14L15 10ZM6 10H4L6 12H7L6 10Z" fill="#151515"/>
 </svg>
 `, "ZAF": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_20468_6534)">
@@ -682,6 +707,28 @@ export class CountryIcon extends LitElement {
 </clipPath>
 </defs>
 </svg>
+`, "MDA": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_20468_6768)">
+<rect width="21" height="15" rx="3" fill="#FFDA2C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8 5H13V10H8V5ZM8 10L10.5 12L13 10H8ZM10 4H11V5H10V4Z" fill="#AE6A3E"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9 8H12V9.5H9V8ZM9 9.5L10.5 10.5L12 9.5H9Z" fill="#1A47B8"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9 6H12V8H9V6Z" fill="#AF010D"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 7C10.776 7 11 7.214 11 7.505V8.495C11 8.775 10.768 9 10.5 9C10.224 9 10 8.786 10 8.495V7.505C10 7.225 10.232 7 10.5 7V7Z" fill="#FFDA2C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14 0H21V15H14V0Z" fill="#AF010D"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H7V15H0V0Z" fill="#1A47B8"/>
+</g>
+<defs>
+<clipPath id="clip0_20468_6768">
+<rect width="21" height="15" rx="3" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+`, "KOR": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="21" height="15" rx="3" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14 7.5C14 9.433 12.433 11 10.5 11C8.567 11 7 9.433 7 7.5C7 6.38 9.35 5.91 11.328 6.087C11.538 6.031 11.764 6 12 6C13.105 6 14 6.672 14 7.5Z" fill="#232C80"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10 7C10 7 10.895 6 12 6C13.105 6 14 6.672 14 7.5C14 5.567 12.433 4 10.5 4C9.103 4 7.897 4.818 7.336 6.002C7 7 7 7.292 7 7.5C7.5 8 8.056 8 8.5 8C8.944 8 9.343 7.807 9.618 7.5L10 7Z" fill="#F93939"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M15 5H17L15 3H14L15 5ZM6 5H4L6 3H7L6 5ZM15 10H17L15 12H14L15 10ZM6 10H4L6 12H7L6 10Z" fill="#151515"/>
+</svg>
 `, "QAT": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="21" height="15" rx="3" fill="#AF010D"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M5 0L8 1L5 2L8 3L5 4L8 5L5 6L8 7L5 8L8 9L5 10L8 11L5 12L8 13L5 14L8 15H0V0H5Z" fill="white"/>
@@ -773,19 +820,6 @@ export class CountryIcon extends LitElement {
 </clipPath>
 </defs>
 </svg>
-`, "PSE": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_20468_6674)">
-<rect width="21" height="15" rx="3" fill="white"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 10H21V15H0V10Z" fill="#249F58"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H21V5H0V0Z" fill="#151515"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0V15.033L10 7.5L0 0Z" fill="#F93939"/>
-</g>
-<defs>
-<clipPath id="clip0_20468_6674">
-<rect width="21" height="15" rx="3" fill="white"/>
-</clipPath>
-</defs>
-</svg>
 `, "PLW": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="21" height="15" rx="3" fill="#3A99FF"/>
 <path d="M9.5 12C11.9853 12 14 9.98528 14 7.5C14 5.01472 11.9853 3 9.5 3C7.01472 3 5 5.01472 5 7.5C5 9.98528 7.01472 12 9.5 12Z" fill="#FFDA2C"/>
@@ -828,28 +862,6 @@ export class CountryIcon extends LitElement {
 <rect width="21" height="15" rx="3" fill="white"/>
 </clipPath>
 </defs>
-</svg>
-`, "MKD": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_20468_6695)">
-<rect width="21" height="15" rx="3" fill="#AF010D"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0L10 7H11L4 0H0ZM0 15L10 8H11L4 15H0Z" fill="#FFDA2C"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M11 7H10L17 0H21L11 7ZM11 8H10L17 15H21L11 8ZM8 7L0 6V9L8 8V7ZM13 7L21 6V9L13 8V7ZM10 5L9 0H12L11 5H10ZM10 10L9 15H12L11 10" fill="#FFDA2C"/>
-<path d="M10.5 10C11.8807 10 13 8.88071 13 7.5C13 6.11929 11.8807 5 10.5 5C9.11929 5 8 6.11929 8 7.5C8 8.88071 9.11929 10 10.5 10Z" fill="#AF010D"/>
-<path d="M10.5 9C11.3284 9 12 8.32843 12 7.5C12 6.67157 11.3284 6 10.5 6C9.67157 6 9 6.67157 9 7.5C9 8.32843 9.67157 9 10.5 9Z" fill="#FFDA2C"/>
-</g>
-<defs>
-<clipPath id="clip0_20468_6695">
-<rect width="21" height="15" rx="3" fill="white"/>
-</clipPath>
-</defs>
-</svg>
-`, "PRK": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="21" height="15" rx="3" fill="#1A47B8"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 11H21V12H0V11Z" fill="white"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 4H21V11H0V4Z" fill="#F93939"/>
-<path d="M5.5 10C6.88071 10 8 8.88071 8 7.5C8 6.11929 6.88071 5 5.5 5C4.11929 5 3 6.11929 3 7.5C3 8.88071 4.11929 10 5.5 10Z" fill="white"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M5.49811 8.47597L4.29811 9.10597L4.52811 7.77097L3.55811 6.82697L4.89811 6.63197L5.49811 5.41797L6.09811 6.63297L7.43811 6.82897L6.46811 7.77397L6.69811 9.10997" fill="#F93939"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 3H21V4H0V3Z" fill="white"/>
 </svg>
 `, "NGA": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_20468_6706)">
@@ -1009,26 +1021,6 @@ export class CountryIcon extends LitElement {
 <rect width="21" height="15" rx="3" fill="#AF010D"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M0 8H21V15H0V8Z" fill="white"/>
 </svg>
-`, "MDA": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_20468_6768)">
-<rect width="21" height="15" rx="3" fill="#FFDA2C"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M8 5H13V10H8V5ZM8 10L10.5 12L13 10H8ZM10 4H11V5H10V4Z" fill="#AE6A3E"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M9 8H12V9.5H9V8ZM9 9.5L10.5 10.5L12 9.5H9Z" fill="#1A47B8"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M9 6H12V8H9V6Z" fill="#AF010D"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 7C10.776 7 11 7.214 11 7.505V8.495C11 8.775 10.768 9 10.5 9C10.224 9 10 8.786 10 8.495V7.505C10 7.225 10.232 7 10.5 7V7Z" fill="#FFDA2C"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M14 0H21V15H14V0Z" fill="#AF010D"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H7V15H0V0Z" fill="#1A47B8"/>
-</g>
-<defs>
-<clipPath id="clip0_20468_6768">
-<rect width="21" height="15" rx="3" fill="white"/>
-</clipPath>
-</defs>
-</svg>
-`, "FSM": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="21" height="15" rx="3" fill="#3A99FF"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M10 4H9.495C9.215 4 9 4.224 9 4.5C9 4.768 9.222 5 9.495 5H10V5.505C10 5.785 10.224 6 10.5 6C10.768 6 11 5.778 11 5.505V5H11.505C11.785 5 12 4.776 12 4.5C12 4.232 11.778 4 11.505 4H11V3.495C11 3.215 10.776 3 10.5 3C10.232 3 10 3.222 10 3.495V4ZM14 7H13.495C13.215 7 13 7.224 13 7.5C13 7.768 13.222 8 13.495 8H14V8.505C14 8.785 14.224 9 14.5 9C14.768 9 15 8.778 15 8.505V8H15.505C15.785 8 16 7.776 16 7.5C16 7.232 15.778 7 15.505 7H15V6.495C15 6.215 14.776 6 14.5 6C14.232 6 14 6.222 14 6.495V7ZM10 10H9.495C9.215 10 9 10.224 9 10.5C9 10.768 9.222 11 9.495 11H10V11.505C10 11.785 10.224 12 10.5 12C10.768 12 11 11.778 11 11.505V11H11.505C11.785 11 12 10.776 12 10.5C12 10.232 11.778 10 11.505 10H11V9.495C11 9.215 10.776 9 10.5 9C10.232 9 10 9.222 10 9.495V10ZM6 7H5.495C5.215 7 5 7.224 5 7.5C5 7.768 5.222 8 5.495 8H6V8.505C6 8.785 6.224 9 6.5 9C6.768 9 7 8.778 7 8.505V8H7.505C7.785 8 8 7.776 8 7.5C8 7.232 7.778 7 7.505 7H7V6.495C7 6.215 6.776 6 6.5 6C6.232 6 6 6.222 6 6.495V7Z" fill="white"/>
-</svg>
 `, "MEX": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_20468_6777)">
 <rect width="21" height="15" rx="3" fill="white"/>
@@ -1139,6 +1131,20 @@ export class CountryIcon extends LitElement {
 </g>
 <defs>
 <clipPath id="clip0_20468_6822">
+<rect width="21" height="15" rx="3" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+`, "MKD": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_20468_6695)">
+<rect width="21" height="15" rx="3" fill="#AF010D"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0L10 7H11L4 0H0ZM0 15L10 8H11L4 15H0Z" fill="#FFDA2C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M11 7H10L17 0H21L11 7ZM11 8H10L17 15H21L11 8ZM8 7L0 6V9L8 8V7ZM13 7L21 6V9L13 8V7ZM10 5L9 0H12L11 5H10ZM10 10L9 15H12L11 10" fill="#FFDA2C"/>
+<path d="M10.5 10C11.8807 10 13 8.88071 13 7.5C13 6.11929 11.8807 5 10.5 5C9.11929 5 8 6.11929 8 7.5C8 8.88071 9.11929 10 10.5 10Z" fill="#AF010D"/>
+<path d="M10.5 9C11.3284 9 12 8.32843 12 7.5C12 6.67157 11.3284 6 10.5 6C9.67157 6 9 6.67157 9 7.5C9 8.32843 9.67157 9 10.5 9Z" fill="#FFDA2C"/>
+</g>
+<defs>
+<clipPath id="clip0_20468_6695">
 <rect width="21" height="15" rx="3" fill="white"/>
 </clipPath>
 </defs>
@@ -1321,18 +1327,6 @@ export class CountryIcon extends LitElement {
 </clipPath>
 </defs>
 </svg>
-`, "CIV": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_20468_6891)">
-<path d="M19 0H2C0.89543 0 0 0.89543 0 2V13C0 14.1046 0.89543 15 2 15H19C20.1046 15 21 14.1046 21 13V2C21 0.89543 20.1046 0 19 0Z" fill="white"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M14 0H21V15H14V0Z" fill="#249F58"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H7V15H0V0Z" fill="#FF6C2D"/>
-</g>
-<defs>
-<clipPath id="clip0_20468_6891">
-<rect width="21" height="15" rx="3" fill="white"/>
-</clipPath>
-</defs>
-</svg>
 `, "ITA": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_20468_6895)">
 <rect width="21" height="15" rx="3" fill="white"/>
@@ -1348,6 +1342,20 @@ export class CountryIcon extends LitElement {
 `, "ISR": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="21" height="15" rx="3" fill="white"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M0 11H21V13H0V11ZM0 2H21V4H0V2ZM9.875 9H8L8.938 7.5L8 6H9.875L10.5 5L11.125 6H13L12.062 7.5L13 9H11.125L10.5 10L9.875 9ZM9.5 7.5L10.5 6.5L11.5 7.5L10.5 8.5L9.5 7.5Z" fill="#1A47B8"/>
+</svg>
+`, "IRN": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_20468_6908)">
+<rect width="21" height="15" rx="3" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 10H21V15H0V10Z" fill="#F93939"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 9C11.88 9 13 8.328 13 7.5C13 6.672 11.88 6 10.5 6C9.12 6 8 6.672 8 7.5C8 8.328 9.12 9 10.5 9ZM10.5 8.25C11.328 8.25 12 7.746 12 7.125C12 6.505 11.328 6 10.5 6C9.672 6 9 6.504 9 7.125C9 7.745 9.672 8.25 10.5 8.25Z" fill="#F93939"/>
+<path d="M10.5 8C10.7761 8 11 7.55228 11 7C11 6.44772 10.7761 6 10.5 6C10.2239 6 10 6.44772 10 7C10 7.55228 10.2239 8 10.5 8Z" fill="#AF010D"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H21V5H0V0Z" fill="#00B731"/>
+</g>
+<defs>
+<clipPath id="clip0_20468_6908">
+<rect width="21" height="15" rx="3" fill="white"/>
+</clipPath>
+</defs>
 </svg>
 `, "IRL": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_20468_6900)">
@@ -1370,20 +1378,6 @@ export class CountryIcon extends LitElement {
 </g>
 <defs>
 <clipPath id="clip0_20468_6904">
-<rect width="21" height="15" rx="3" fill="white"/>
-</clipPath>
-</defs>
-</svg>
-`, "IRN": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_20468_6908)">
-<rect width="21" height="15" rx="3" fill="white"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 10H21V15H0V10Z" fill="#F93939"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 9C11.88 9 13 8.328 13 7.5C13 6.672 11.88 6 10.5 6C9.12 6 8 6.672 8 7.5C8 8.328 9.12 9 10.5 9ZM10.5 8.25C11.328 8.25 12 7.746 12 7.125C12 6.505 11.328 6 10.5 6C9.672 6 9 6.504 9 7.125C9 7.745 9.672 8.25 10.5 8.25Z" fill="#F93939"/>
-<path d="M10.5 8C10.7761 8 11 7.55228 11 7C11 6.44772 10.7761 6 10.5 6C10.2239 6 10 6.44772 10 7C10 7.55228 10.2239 8 10.5 8Z" fill="#AF010D"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H21V5H0V0Z" fill="#00B731"/>
-</g>
-<defs>
-<clipPath id="clip0_20468_6908">
 <rect width="21" height="15" rx="3" fill="white"/>
 </clipPath>
 </defs>
@@ -1481,6 +1475,18 @@ export class CountryIcon extends LitElement {
 </clipPath>
 </defs>
 </svg>
+`, "GIN": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_20468_6957)">
+<path d="M19 0H2C0.89543 0 0 0.89543 0 2V13C0 14.1046 0.89543 15 2 15H19C20.1046 15 21 14.1046 21 13V2C21 0.89543 20.1046 0 19 0Z" fill="#FFDA2C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14 0H21V15H14V0Z" fill="#249F58"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H7V15H0V0Z" fill="#F93939"/>
+</g>
+<defs>
+<clipPath id="clip0_20468_6957">
+<rect width="21" height="15" rx="3" fill="white"/>
+</clipPath>
+</defs>
+</svg>
 `, "GNB": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_20468_6952)">
 <rect width="21" height="15" rx="3" fill="#FFDA2C"/>
@@ -1491,18 +1497,6 @@ export class CountryIcon extends LitElement {
 </g>
 <defs>
 <clipPath id="clip0_20468_6952">
-<rect width="21" height="15" rx="3" fill="white"/>
-</clipPath>
-</defs>
-</svg>
-`, "GIN": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_20468_6957)">
-<path d="M19 0H2C0.89543 0 0 0.89543 0 2V13C0 14.1046 0.89543 15 2 15H19C20.1046 15 21 14.1046 21 13V2C21 0.89543 20.1046 0 19 0Z" fill="#FFDA2C"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M14 0H21V15H14V0Z" fill="#249F58"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H7V15H0V0Z" fill="#F93939"/>
-</g>
-<defs>
-<clipPath id="clip0_20468_6957">
 <rect width="21" height="15" rx="3" fill="white"/>
 </clipPath>
 </defs>
@@ -1629,6 +1623,10 @@ export class CountryIcon extends LitElement {
 <path d="M9 1H2C1.44772 1 1 1.44772 1 2V7C1 7.55228 1.44772 8 2 8H9C9.55229 8 10 7.55228 10 7V2C10 1.44772 9.55229 1 9 1Z" fill="white"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M5 5H2V4H5V2H6V4H9V5H6V7H5V5ZM7.5 6V7H9V6H7.5ZM7.5 2V3H9V2H7.5ZM2 6V7H3.5V6H2ZM2 2V3H3.5V2H2Z" fill="#F93939"/>
 </svg>
+`, "FSM": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="21" height="15" rx="3" fill="#3A99FF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10 4H9.495C9.215 4 9 4.224 9 4.5C9 4.768 9.222 5 9.495 5H10V5.505C10 5.785 10.224 6 10.5 6C10.768 6 11 5.778 11 5.505V5H11.505C11.785 5 12 4.776 12 4.5C12 4.232 11.778 4 11.505 4H11V3.495C11 3.215 10.776 3 10.5 3C10.232 3 10 3.222 10 3.495V4ZM14 7H13.495C13.215 7 13 7.224 13 7.5C13 7.768 13.222 8 13.495 8H14V8.505C14 8.785 14.224 9 14.5 9C14.768 9 15 8.778 15 8.505V8H15.505C15.785 8 16 7.776 16 7.5C16 7.232 15.778 7 15.505 7H15V6.495C15 6.215 14.776 6 14.5 6C14.232 6 14 6.222 14 6.495V7ZM10 10H9.495C9.215 10 9 10.224 9 10.5C9 10.768 9.222 11 9.495 11H10V11.505C10 11.785 10.224 12 10.5 12C10.768 12 11 11.778 11 11.505V11H11.505C11.785 11 12 10.776 12 10.5C12 10.232 11.778 10 11.505 10H11V9.495C11 9.215 10.776 9 10.5 9C10.232 9 10 9.222 10 9.495V10ZM6 7H5.495C5.215 7 5 7.224 5 7.5C5 7.768 5.222 8 5.495 8H6V8.505C6 8.785 6.224 9 6.5 9C6.768 9 7 8.778 7 8.505V8H7.505C7.785 8 8 7.776 8 7.5C8 7.232 7.778 7 7.505 7H7V6.495C7 6.215 6.776 6 6.5 6C6.232 6 6 6.222 6 6.495V7Z" fill="white"/>
+</svg>
 `, "ETH": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_20468_7006)">
 <path d="M19 0H2C0.89543 0 0 0.89543 0 2V13C0 14.1046 0.89543 15 2 15H19C20.1046 15 21 14.1046 21 13V2C21 0.89543 20.1046 0 19 0Z" fill="#FFDA2C"/>
@@ -1639,24 +1637,6 @@ export class CountryIcon extends LitElement {
 </g>
 <defs>
 <clipPath id="clip0_20468_7006">
-<rect width="21" height="15" rx="3" fill="white"/>
-</clipPath>
-</defs>
-</svg>
-`, "SWZ": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_20468_7012)">
-<rect width="21" height="15" rx="3" fill="#FFDA2C"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 12H21V15H0V12ZM0 0H21V3H0V0Z" fill="#4769C1"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 4H21V11H0V4Z" fill="#BC0A33"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M4 8H17V9H4V8ZM6 6H16V7H6V6Z" fill="#FFDA2C"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M16 6H18V7H16V6Z" fill="#CBCBCB"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 10C12.985 10 15 7.5 15 7.5C15 7.5 12.985 5 10.5 5C8.015 5 6 7.5 6 7.5C6 7.5 8.015 10 10.5 10Z" fill="white"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M13 7H14V8H13V7Z" fill="#151515" stroke="#151515"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 10C11 10 12 7.5 12 7.5C12 7.5 11 5 10.5 5C8.015 5 6 7.5 6 7.5C6 7.5 8.015 10 10.5 10Z" fill="#151515"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M8 7H9V8H8V7ZM10 7H11V8H10V7Z" fill="#CBCBCB"/>
-</g>
-<defs>
-<clipPath id="clip0_20468_7012">
 <rect width="21" height="15" rx="3" fill="white"/>
 </clipPath>
 </defs>
@@ -1805,6 +1785,14 @@ export class CountryIcon extends LitElement {
 </clipPath>
 </defs>
 </svg>
+`, "PRK": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="21" height="15" rx="3" fill="#1A47B8"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 11H21V12H0V11Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 4H21V11H0V4Z" fill="#F93939"/>
+<path d="M5.5 10C6.88071 10 8 8.88071 8 7.5C8 6.11929 6.88071 5 5.5 5C4.11929 5 3 6.11929 3 7.5C3 8.88071 4.11929 10 5.5 10Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.49811 8.47597L4.29811 9.10597L4.52811 7.77097L3.55811 6.82697L4.89811 6.63197L5.49811 5.41797L6.09811 6.63297L7.43811 6.82897L6.46811 7.77397L6.69811 9.10997" fill="#F93939"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 3H21V4H0V3Z" fill="white"/>
+</svg>
 `, "COD": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_20468_7079)">
 <rect width="21" height="15" rx="3" fill="#3A99FF"/>
@@ -1815,6 +1803,18 @@ export class CountryIcon extends LitElement {
 </g>
 <defs>
 <clipPath id="clip0_20468_7079">
+<rect width="21" height="15" rx="3" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+`, "CIV": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_20468_6891)">
+<path d="M19 0H2C0.89543 0 0 0.89543 0 2V13C0 14.1046 0.89543 15 2 15H19C20.1046 15 21 14.1046 21 13V2C21 0.89543 20.1046 0 19 0Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14 0H21V15H14V0Z" fill="#249F58"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H7V15H0V0Z" fill="#FF6C2D"/>
+</g>
+<defs>
+<clipPath id="clip0_20468_6891">
 <rect width="21" height="15" rx="3" fill="white"/>
 </clipPath>
 </defs>
@@ -1965,13 +1965,6 @@ export class CountryIcon extends LitElement {
 </clipPath>
 </defs>
 </svg>
-`, "CPV": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="21" height="15" rx="3" fill="#1A47B8"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 10H21V11H0V10Z" fill="white"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 9H21V10H0V9Z" fill="#F93939"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M0 8H21V9H0V8Z" fill="white"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M5 7H6V8H5V7ZM7 6H8V7H7V6ZM9 7H10V8H9V7ZM10 9H11V10H10V9ZM4 9H5V10H4V9ZM9 11H10V12H9V11ZM7 12H8V13H7V12ZM5 11H6V12H5V11Z" fill="#FFDA2C"/>
-</svg>
 `, "CAN": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_20468_7148)">
 <rect width="21" height="15" rx="3" fill="white"/>
@@ -2011,6 +2004,13 @@ export class CountryIcon extends LitElement {
 <rect width="21" height="15" rx="3" fill="white"/>
 </clipPath>
 </defs>
+</svg>
+`, "CPV": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="21" height="15" rx="3" fill="#1A47B8"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 10H21V11H0V10Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 9H21V10H0V9Z" fill="#F93939"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 8H21V9H0V8Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5 7H6V8H5V7ZM7 6H8V7H7V6ZM9 7H10V8H9V7ZM10 9H11V10H10V9ZM4 9H5V10H4V9ZM9 11H10V12H9V11ZM7 12H8V13H7V12ZM5 11H6V12H5V11Z" fill="#FFDA2C"/>
 </svg>
 `, "BDI": svg`<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_20468_7162)">
