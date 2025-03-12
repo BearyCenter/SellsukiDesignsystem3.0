@@ -54,5 +54,6 @@ export * from "./components/tabs";
 export * from "./components/time";
 export * from "./components/timeline";
 export * from "./components/tooltip";
+export * from "./components/addon-phone-country";
 
 import "./assets/fonts.css";

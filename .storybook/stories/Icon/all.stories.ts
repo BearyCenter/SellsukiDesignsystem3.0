@@ -50,7 +50,7 @@ const meta = {
             html`<div class="icon-container">
               <ssk-icon ${spread(args)} name=${name}></ssk-icon>
               <div class="icon-name">${name}</div>
-            </div>`
+            </div>`,
         )}
       </main>`;
   },

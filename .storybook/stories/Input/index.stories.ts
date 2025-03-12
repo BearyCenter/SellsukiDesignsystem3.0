@@ -5,10 +5,15 @@ import "../../../src/elements/icon";
 import "../../../src/elements/input";
 import { Input, InputRange } from "../../../src/elements/input";
 import "../../../src/elements/input/addon";
+import "../../../src/components/addon-phone-country";
 import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
 
 type InputWithLabel = AutoLitProperty<Input> &
-  AutoLitProperty<InputRange> & { label: string };
+  AutoLitProperty<InputRange> & { label: string } & {
+    countries: { code: string; name?: string; phoneCode?: string }[];
+    allowedCountries?: Array<string>;
+    value: string;
+  };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
@@ -295,5 +300,101 @@ export const InputRangeWithRightAddon: Story = {
         <ssk-icon name="outline-ellipsis-horizontal-circle"></ssk-icon>
       </ssk-input-addon>
     </ssk-input-range>`;
+  },
+};
+
+const countries = [
+  { code: "THA", name: "Thailand", phoneCode: "+66" },
+  { code: "JPN" },
+  { code: "KOR", name: "Korea", phoneCode: "+82" },
+  { code: "LAO", name: "Laos", phoneCode: "+856" },
+  { code: "TUR", name: "Turkey", phoneCode: "+90" },
+  { code: "USA", phoneCode: "+1" },
+  { code: "CHN", name: "China", phoneCode: "+86" },
+  { code: "IND", name: "India", phoneCode: "+91" },
+  { code: "GBR", name: "United Kingdom", phoneCode: "+44" },
+  { code: "FRA", name: "France", phoneCode: "+33" },
+  { code: "DEU", name: "Germany", phoneCode: "+49" },
+  { code: "RUS", name: "Russia", phoneCode: "+7" },
+  { code: "BRA", name: "Brazil", phoneCode: "+55" },
+  { code: "CAN", name: "Canada", phoneCode: "+1" },
+  { code: "AUS", name: "Australia", phoneCode: "+61" },
+  { code: "SGP", name: "Singapore", phoneCode: "+65" },
+  { code: "MYS", name: "Malaysia", phoneCode: "+60" },
+  { code: "IDN", name: "Indonesia", phoneCode: "+62" },
+  { code: "VNM", name: "Vietnam", phoneCode: "+84" },
+  { code: "PHL", name: "Philippines", phoneCode: "+63" },
+  { code: "SAU", name: "Saudi Arabia", phoneCode: "+966" },
+  { code: "ZAF", name: "South Africa", phoneCode: "+27" },
+  { code: "MEX", name: "Mexico", phoneCode: "+52" },
+  { code: "ITA", name: "Italy", phoneCode: "+39" },
+  { code: "ESP", name: "Spain", phoneCode: "+34" },
+];
+
+export const WithAddonPhoneCountry: Story = {
+  args: {
+    size: "md",
+    label: "Input",
+    placeholder: "Placeholder",
+    helperText: "Helper text",
+    countries: countries,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=585%3A57607&mode=dev",
+    },
+  },
+  render: ({ countries, ...args }) => {
+    const handleCountryChange = (event: CustomEvent) => {
+      console.log("Selected country:", event.detail.country);
+      console.log("Selected value:", event.detail.value);
+    };
+
+    return html`<ssk-input ${spread({ ...args })}>
+      <ssk-addon-phone-country
+        slot="prefix"
+        ${spread({ ...args })}
+        .countries=${countries}
+        value="THA"
+        @change=${handleCountryChange}
+      >
+      </ssk-addon-phone-country>
+    </ssk-input>`;
+  },
+};
+
+export const WithAddonPhoneCountryAllowedCountries: Story = {
+  args: {
+    size: "md",
+    label: "Input",
+    placeholder: "Placeholder",
+    helperText: "Helper text",
+    countries: countries,
+    allowedCountries: ["THA", "JPN", "KOR", "LAO", "USA"],
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=585%3A57607&mode=dev",
+    },
+  },
+  render: ({ countries, allowedCountries, ...args }) => {
+    const handleCountryChange = (event: CustomEvent) => {
+      console.log("Selected country:", event.detail.country);
+      console.log("Selected value:", event.detail.value);
+    };
+
+    return html`<ssk-input ${spread({ ...args })}>
+      <ssk-addon-phone-country
+        slot="prefix"
+        ${spread({ ...args })}
+        .countries=${countries}
+        .allowedCountries=${allowedCountries}
+        value="THA"
+        @change=${handleCountryChange}
+      >
+      </ssk-addon-phone-country>
+    </ssk-input>`;
   },
 };
