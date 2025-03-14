@@ -324,6 +324,38 @@ export const DisableScopeDays: Story = {
     },
   },
 };
+export const DisableScopeYears: Story = {
+  args: {
+    size: "md",
+    year: year,
+    month: month,
+    themeColor: "primary",
+    ".disabledYears": [2022, 2023],
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const DisableMaxYearMinYear: Story = {
+  args: {
+    size: "md",
+    year: year,
+    month: month,
+    themeColor: "primary",
+    ".minYear": 2020,
+    ".maxYear": 2025,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
 
 export const ShowTodayAndOkDefaultFooter: Story = {
   args: {

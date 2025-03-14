@@ -72,6 +72,13 @@ export class DatePicker extends LitElement {
   @property({ type: Function })
   disabledDate?: (date: number) => boolean;
 
+  @property({ type: Array })
+  disabledYears?: number[];
+  @property({ type: Number })
+  minYear?: number;
+  @property({ type: Number })
+  maxYear?: number;
+
   @state()
   _hideCalendar: boolean = true;
   @state()
@@ -350,6 +357,9 @@ export class DatePicker extends LitElement {
             locale=${this.locale}
             themeColor=${this.themeColor}
             .disabledDate=${this.disabledDate}
+            .disabledYears=${this.disabledYears}
+            .minYear=${this.minYear}
+            .maxYear=${this.maxYear}
           >
             ${footerSlot
               ? html`<slot name="footer" slot="footer"></slot>`

@@ -83,6 +83,13 @@ export class RangeDatePicker extends LitElement {
   @property({ type: Function })
   disabledDate?: (date: number) => boolean;
 
+  @property({ type: Array })
+  disabledYears?: number[];
+  @property({ type: Number })
+  minYear?: number;
+  @property({ type: Number })
+  maxYear?: number;
+
   @state()
   _hideCalendar: boolean = true;
   @state()
@@ -565,6 +572,9 @@ export class RangeDatePicker extends LitElement {
                 locale=${this.locale}
                 themeColor=${this.themeColor}
                 .disabledDate=${this.disabledDate}
+                .disabledYears=${this.disabledYears}
+                .minYear=${this.minYear}
+                .maxYear=${this.maxYear}
               >
                 >
                 ${footerSlot
@@ -588,6 +598,9 @@ export class RangeDatePicker extends LitElement {
                   locale=${this.locale}
                   themeColor=${this.themeColor}
                   .disabledDate=${this.disabledDate}
+                  .disabledYears=${this.disabledYears}
+                  .minYear=${this.minYear}
+                  .maxYear=${this.maxYear}
                 >
                   >
                   ${footerSlot
@@ -611,6 +624,9 @@ export class RangeDatePicker extends LitElement {
                   locale=${this.locale}
                   themeColor=${this.themeColor}
                   .disabledDate=${this.disabledDate}
+                  .disabledYears=${this.disabledYears}
+                  .minYear=${this.minYear}
+                  .maxYear=${this.maxYear}
                 >
                   >
                   ${footerSlot
