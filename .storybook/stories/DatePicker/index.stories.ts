@@ -310,6 +310,49 @@ export const DatePickerDisableScopeDays: Story = {
   },
 };
 
+export const DatePickerDisableScopeYears: Story = {
+  args: {
+    label: "Select date",
+    placeholder: "Select date",
+    helperText: "Wrong format",
+    size: "md",
+    format: "dd-MM-yyyy",
+    ".value": today,
+    "?rangeDate": false,
+    locale: "th",
+    alignCalendar: "left",
+    ".disabledYears": [2024, 2025],
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
+export const DatePickerDisableMinYearMaxYear: Story = {
+  args: {
+    label: "Select date",
+    placeholder: "Select date",
+    helperText: "Wrong format",
+    size: "md",
+    format: "dd-MM-yyyy",
+    ".value": today,
+    "?rangeDate": false,
+    locale: "th",
+    alignCalendar: "left",
+    ".minYear": 2020,
+    ".maxYear": 2025,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+};
+
 export const RangeDatePicker: Story = {
   args: {
     label: "Select date",
@@ -414,6 +457,63 @@ export const RangeDatePickerDisableScopeDays: Story = {
       const dayOfWeek = startOfDay(date).getDay();
       return dayOfWeek === 0 || dayOfWeek === 6; // Sunday and Saturday
     },
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+  render: ({ ...args }) => {
+    return html` <ssk-range-date-picker ${spread(
+      args,
+    )}></ssk-range-date-picker`;
+  },
+};
+
+export const RangeDatePickerDisableScopeYear: Story = {
+  args: {
+    label: "Select date",
+    placeholderFrom: "Select date from",
+    placeholderTo: "Select date to",
+    helperText: "Wrong format",
+    size: "md",
+    format: "dd-MM-yyyy",
+    ".valueFrom": today,
+    ".valueTo": addDays(today, 32),
+    "?rangeDate": true,
+    locale: "th",
+    alignCalendar: "left",
+    ".disabledYears": [2023, 2024],
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=15147-13519&t=NW0y9ffIfYaozZ0D-0",
+    },
+  },
+  render: ({ ...args }) => {
+    return html` <ssk-range-date-picker ${spread(
+      args,
+    )}></ssk-range-date-picker`;
+  },
+};
+
+export const RangeDatePickerDisableMinYearMaxYear: Story = {
+  args: {
+    label: "Select date",
+    placeholderFrom: "Select date from",
+    placeholderTo: "Select date to",
+    helperText: "Wrong format",
+    size: "md",
+    format: "dd-MM-yyyy",
+    ".valueFrom": today,
+    ".valueTo": addDays(today, 32),
+    "?rangeDate": true,
+    locale: "th",
+    alignCalendar: "left",
+    ".minYear": 2020,
+    ".maxYear": 2025,
   },
   parameters: {
     design: {
