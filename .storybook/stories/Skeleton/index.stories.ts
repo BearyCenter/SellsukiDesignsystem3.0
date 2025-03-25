@@ -5,7 +5,8 @@ import "../../../src/components/skeleton";
 import { Skeleton } from "../../../src/components/skeleton";
 import { AutoLitProperty } from "../helper";
 
-type SkeletonArgs = AutoLitProperty<Skeleton> & { label: string };
+type SkeletonArgs = AutoLitProperty<Skeleton>;
+// const sizes: Skeleton["skeletonSize"][] = ["xs", "sm", "md", "lg", "xl", "2xl"];
 
 const meta: Meta<Skeleton> = {
   title: "Example/Skeleton",
@@ -19,8 +20,23 @@ const meta: Meta<Skeleton> = {
     `;
   },
   argTypes: {
-    
-  },
+    skeletonShape: {
+      control: { type: 'select' },
+      options: ['rectangle', 'circle', 'square'],
+      description: 'Shape of the skeleton loader',
+      defaultValue: 'rectangle'
+    },
+    skeletonSize: {
+      control: { type: 'select' },
+      options: [
+        '3xs', '2xs', 'xs', 'md', 'xl', 
+        '2xl', '3xl', '4xl', '5xl', 
+        '6xl', '7xl', '8xl', '9xl'
+      ],
+      description: 'Size of the skeleton loader',
+      defaultValue: 'md'
+    }
+  }
 };
 
 export default meta;

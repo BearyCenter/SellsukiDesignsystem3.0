@@ -132,6 +132,21 @@ export type TabSize = "md" | "sm";
 
 export type CardSize = "md" | "sm";
 
+export type SkeletonSize = 
+  | "3xs" 
+  | "2xs"
+  | "xs"
+  | "md"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "5xl"
+  | "6xl"
+  | "7xl"
+  | "8xl"
+  | "9xl";
+
 export type Color =
   | {
       [key: ColorScale | string]: string;
@@ -246,6 +261,7 @@ export type Theme = {
     downloadFile?: Partial<ThemeField>;
     miscIcon?: Partial<ThemeField>;
     timeline?: Partial<ThemeField>;
+    skeleton?: Partial<ThemeField>;
   };
 } & ThemeField;
 
