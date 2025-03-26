@@ -1,25 +1,80 @@
-import { LitElement, css, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import { SkeletonSize } from "../../types/theme";
+import { LitElement, css, html } from "lit"; 
+import { customElement, property } from "lit/decorators.js"; 
+import { SkeletonSize } from "../../types/theme";  
 
-@customElement("ssk-skeleton")
-export class Skeleton extends LitElement {
-  static registeredName = "ssk-skeleton";
-
-  @property({ type: String })
-  skeletonShape: "rectangle" | "circle" | "square" = "rectangle";
+@customElement("ssk-skeleton") 
+export class Skeleton extends LitElement {   
+  static registeredName = "ssk-skeleton";    
 
   @property({ type: String })
-  skeletonSize: SkeletonSize = "md";
+  skeletonShape: "rectangle" | "circle" | "square" = "rectangle";    
+
+  @property({ type: String })
+  skeletonSize?: SkeletonSize;
+
+  @property({ type: String })
+  width?: string;
+
+  @property({ type: String })
+  height?: string;
+
+  @property({ type: Number })
+  animationDuration: number = 800;
 
   render() {
+    const dynamicStyles = {
+      width: this.width || this.getSizeWidth(),
+      height: this.height || this.getSizeHeight(),
+    };
+
+    const durationInSeconds = this.animationDuration / 1000;
+
     return html`
       <div 
         class="skeleton-item ${this.skeletonShape} ${this.skeletonSize}"
+        style="width: ${dynamicStyles.width}; height: ${dynamicStyles.height}; --skeleton-animation-duration: ${durationInSeconds}s;"
       >
         ${this.renderSkeletonContent()}
       </div>
     `;
+  }
+
+  private getSizeWidth(): string {
+    const sizeWidths = {
+      'xs3': '8px',
+      'xs2': '16px',
+      'xs': '20px',
+      'md': '24px',
+      'xl': '32px',
+      'xl2': '40px',
+      'xl3': '48px',
+      'xl4': '56px',
+      'xl5': '64px',
+      'xl6': '72px',
+      'xl7': '80px',
+      'xl8': '96px',
+      'xl9': '128px'
+    };
+    return this.skeletonSize ? (sizeWidths[this.skeletonSize] || '24px') : '24px';
+  }
+
+  private getSizeHeight(): string {
+    const sizeHeights = {
+      'xs3': '8px',
+      'xs2': '16px',
+      'xs': '20px',
+      'md': '24px',
+      'xl': '32px',
+      'xl2': '40px',
+      'xl3': '48px',
+      'xl4': '56px',
+      'xl5': '64px',
+      'xl6': '72px',
+      'xl7': '80px',
+      'xl8': '96px',
+      'xl9': '128px'
+    };
+    return this.skeletonSize ? (sizeHeights[this.skeletonSize] || '24px') : '24px';
   }
 
   private renderSkeletonContent() {
@@ -50,11 +105,11 @@ export class Skeleton extends LitElement {
       height: 100%;
       background: linear-gradient(
         90deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.3), 
+        transparent,
+        rgba(255, 255, 255, 0.3),
         transparent
       );
-      animation: loading 1.5s infinite;
+      animation: loading var(--skeleton-animation-duration, 0.8s) infinite;
     }
 
     @keyframes loading {
@@ -64,60 +119,6 @@ export class Skeleton extends LitElement {
       100% {
         left: 100%;
       }
-    }
-
-    /* Size definitions */
-    .xs3 {
-      height: 8px;
-      width: 8px;
-    }
-    .xs2 {
-      height: 16px;
-      width: 16px;
-    }
-    .xs {
-      height: 20px;
-      width: 20px;
-    }
-    .md {
-      height: 24px;
-      width: 24px;
-    }
-    .xl {
-      height: 32px;
-      width: 32px;
-    }
-    .xl2 {
-      height: 40px;
-      width: 40px;
-    }
-    .xl3 {
-      height: 48px;
-      width: 48px;
-    }
-    .xl4 {
-      height: 56px;
-      width: 56px;
-    }
-    .xl5 {
-      height: 64px;
-      width: 64px;
-    }
-    .xl6 {
-      height: 72px;
-      width: 72px;
-    }
-    .xl7 {
-      height: 80px;
-      width: 80px;
-    }
-    .xl8 {
-      height: 96px;
-      width: 96px;
-    }
-    .xl9 {
-      height: 128px;
-      width: 128px;
     }
 
     /* Shape specific styles */
@@ -131,20 +132,19 @@ export class Skeleton extends LitElement {
 
     .rectangle {
       border-radius: 999px;
-      min-width: 332px;
     }
 
-    .circle-content, 
-    .square-content, 
+    .circle-content,
+    .square-content,
     .rectangle-content {
       width: 100%;
       height: 100%;
     }
-  `;
+  `; 
 }
 
 declare global {
   interface HTMLElementTagNameMap {
     "ssk-skeleton": Skeleton;
-  }
+  } 
 }

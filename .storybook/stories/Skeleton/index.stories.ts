@@ -19,19 +19,32 @@ const meta: Meta<Skeleton> = {
     skeletonShape: {
       control: { type: 'select' },
       options: ['rectangle', 'circle', 'square'],
-      description: 'Shape of the skeleton loader',
+      description: 'Shape of the skeleton loader (default: rectangle).\n\n**Note:** When no width is provided, the shape adapts to maintain aspect ratio.\n\n**For example**, a "rectangle" shape without width will render as a circular loader with a default size. This design provides flexibility across different use cases and layouts.',
       defaultValue: 'rectangle'
     },
     skeletonSize: {
       control: { type: 'select' },
-      options: [
-        'xs3', 'xs2', 'xs', 'md', 'xl', 
-        'xl2', 'xl3', '4xl', 'xl5', 
+      options: [ 
+        '', 'xs3', 'xs2', 'xs', 'md', 'xl', 
+        'xl2', 'xl3', 'xl4', 'xl5', 
         'xl6', 'xl7', 'xl8', 'xl9'
       ],
       description: 'Size of the skeleton loader',
       defaultValue: 'md'
-    }
+    },
+    width: {
+      control: { type: 'text' },
+      description: 'Custom width of the skeleton loader',
+    },
+    height: {
+      control: { type: 'text' },
+      description: 'Custom height of the skeleton loader',
+    },
+    animationDuration: {
+      control: { type: 'number', min: 100, step: 100 },
+      description: 'Animation duration in milliseconds',
+      defaultValue: 800
+    },
   }
 };
 
