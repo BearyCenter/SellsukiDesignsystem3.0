@@ -133,19 +133,19 @@ export type TabSize = "md" | "sm";
 export type CardSize = "md" | "sm";
 
 export type SkeletonSize = 
-  | "3xs" 
-  | "2xs"
+  | "xs3"
+  | "xs2"
   | "xs"
   | "md"
   | "xl"
-  | "2xl"
-  | "3xl"
-  | "4xl"
-  | "5xl"
-  | "6xl"
-  | "7xl"
-  | "8xl"
-  | "9xl";
+  | "xl2"
+  | "xl3"
+  | "xl4"
+  | "xl5"
+  | "xl6"
+  | "xl7"
+  | "xl8"
+  | "xl9";
 
 export type Color =
   | {

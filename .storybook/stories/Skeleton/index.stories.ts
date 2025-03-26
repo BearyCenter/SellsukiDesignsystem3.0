@@ -6,17 +6,13 @@ import { Skeleton } from "../../../src/components/skeleton";
 import { AutoLitProperty } from "../helper";
 
 type SkeletonArgs = AutoLitProperty<Skeleton>;
-// const sizes: Skeleton["skeletonSize"][] = ["xs", "sm", "md", "lg", "xl", "2xl"];
 
 const meta: Meta<Skeleton> = {
   title: "Example/Skeleton",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`
-      <ssk-skeleton " 
-      ${spread({ ...args })}
-      >
-      </ssk-skeleton>
+     <ssk-skeleton ${spread({ ...args })}></ssk-skeleton>
     `;
   },
   argTypes: {
@@ -29,9 +25,9 @@ const meta: Meta<Skeleton> = {
     skeletonSize: {
       control: { type: 'select' },
       options: [
-        '3xs', '2xs', 'xs', 'md', 'xl', 
-        '2xl', '3xl', '4xl', '5xl', 
-        '6xl', '7xl', '8xl', '9xl'
+        'xs3', 'xs2', 'xs', 'md', 'xl', 
+        'xl2', 'xl3', '4xl', 'xl5', 
+        'xl6', 'xl7', 'xl8', 'xl9'
       ],
       description: 'Size of the skeleton loader',
       defaultValue: 'md'

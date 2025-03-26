@@ -1,6 +1,6 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Size, SkeletonSize } from "../../types/theme";
+import { SkeletonSize } from "../../types/theme";
 
 @customElement("ssk-skeleton")
 export class Skeleton extends LitElement {
@@ -10,24 +10,7 @@ export class Skeleton extends LitElement {
   skeletonShape: "rectangle" | "circle" | "square" = "rectangle";
 
   @property({ type: String })
-  skeletonSize: SkeletonSize = "xs";
-
-
-    // private skeletonSize: Record<SkeletonSize, Size> = {
-    //   "3xs": "3xs",
-    //   "2xs": "2xs",
-    //   xs: "xs",
-    //   md: "md",
-    //   xl: "xl",
-    //   "2xl": "2xl",
-    //   "3xl": "3xl",
-    //   "4xl": "4xl",
-    //   "5xl": "5xl",
-    //   "6xl": "6xl",
-    //   "7xl": "7xl",
-    //   "8xl": "8xl",
-    //   "9xl": "9xl",
-    // };
+  skeletonSize: SkeletonSize = "md";
 
   render() {
     return html`
@@ -83,74 +66,72 @@ export class Skeleton extends LitElement {
       }
     }
 
+    /* Size definitions */
+    .xs3 {
+      height: 8px;
+      width: 8px;
+    }
+    .xs2 {
+      height: 16px;
+      width: 16px;
+    }
+    .xs {
+      height: 20px;
+      width: 20px;
+    }
+    .md {
+      height: 24px;
+      width: 24px;
+    }
+    .xl {
+      height: 32px;
+      width: 32px;
+    }
+    .xl2 {
+      height: 40px;
+      width: 40px;
+    }
+    .xl3 {
+      height: 48px;
+      width: 48px;
+    }
+    .xl4 {
+      height: 56px;
+      width: 56px;
+    }
+    .xl5 {
+      height: 64px;
+      width: 64px;
+    }
+    .xl6 {
+      height: 72px;
+      width: 72px;
+    }
+    .xl7 {
+      height: 80px;
+      width: 80px;
+    }
+    .xl8 {
+      height: 96px;
+      width: 96px;
+    }
+    .xl9 {
+      height: 128px;
+      width: 128px;
+    }
+
+    /* Shape specific styles */
     .circle {
       border-radius: 50%;
-      width: 100%;
-      max-width: 80px;
     }
 
     .square {
       border-radius: 4px;
-      width: 100%;
     }
 
     .rectangle {
       border-radius: 999px;
       min-width: 332px;
-      width: 100%;
-    }
-
-    /* Size definitions */
-    .3xs { 
-      height: 8px;
-      width: 8px;
-    }
-    .2xs { 
-      height: 16px; 
-      width: 16px;
-    }
-    .xs { 
-      height: 20px; 
-      width: 20px;
-    }
-    .md { 
-      height: 24px; 
-      width: 24px;
-    }
-    .xl { 
-      height: 32px; 
-      width: 32px;
-    }
-    .2xl { 
-      height: 40px; 
-      width: 40px;
-    }
-    .3xl { 
-      height: 48px;
-      width: 48x;}
-    .4xl { 
-      height: 56px;
-      width: 56x;
-      }
-    .5xl { 
-      height: 64px;
-      width: 64px;
-    }
-    .6xl { 
-      height: 72px;
-      width: 72px;
-    }
-    .7xl { 
-      height: 80px; 
-      width: 80px;
-    }
-    .8xl { 
-      height: 96px;
-      width: 96px;
-    }
-    .9xl { 
-      height: 128px;
-      width: 128px;
     }
 
     .circle-content, 
