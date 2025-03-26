@@ -44,7 +44,7 @@ const meta: Meta<Skeleton> = {
       control: { type: 'number', min: 100, step: 100 },
       description: 'Animation duration in milliseconds',
       defaultValue: 800
-    },
+    }
   }
 };
 

@@ -1,10 +1,13 @@
-import { LitElement, css, html } from "lit"; 
+import { LitElement, css, html, nothing } from "lit"; 
 import { customElement, property } from "lit/decorators.js"; 
 import { SkeletonSize } from "../../types/theme";  
 
 @customElement("ssk-skeleton") 
 export class Skeleton extends LitElement {   
   static registeredName = "ssk-skeleton";    
+
+  @property({ type: String })
+  testId?: string;
 
   @property({ type: String })
   skeletonShape: "rectangle" | "circle" | "square" = "rectangle";    
@@ -22,6 +25,10 @@ export class Skeleton extends LitElement {
   animationDuration: number = 800;
 
   render() {
+    if (this.hidden) {
+      return nothing;
+    }
+
     const dynamicStyles = {
       width: this.width || this.getSizeWidth(),
       height: this.height || this.getSizeHeight(),
@@ -33,6 +40,7 @@ export class Skeleton extends LitElement {
       <div 
         class="skeleton-item ${this.skeletonShape} ${this.skeletonSize}"
         style="width: ${dynamicStyles.width}; height: ${dynamicStyles.height}; --skeleton-animation-duration: ${durationInSeconds}s;"
+        data-testid=${this.testId || nothing}
       >
         ${this.renderSkeletonContent()}
       </div>
