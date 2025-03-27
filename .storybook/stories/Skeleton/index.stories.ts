@@ -18,9 +18,9 @@ const meta: Meta<Skeleton> = {
   argTypes: {
     skeletonShape: {
       control: { type: 'select' },
-      options: ['rectangle', 'circle', 'square'],
-      description: 'Shape of the skeleton loader (default: rectangle).\n\n**Note:** When no width is provided, the shape adapts to maintain aspect ratio.\n\n**For example**, a "rectangle" shape without width will render as a circular loader with a default size. This design provides flexibility across different use cases and layouts.',
-      defaultValue: 'rectangle'
+      options: ['capsule', 'circle', 'square'],
+      description: 'Shape of the skeleton loader (default: capsule).\n\n**Note:** When no width is provided, the shape adapts to maintain aspect ratio.\n\n**For example**, a "capsule" shape without width will render as a circular loader with a default size. This design provides flexibility across different use cases and layouts.',
+      defaultValue: 'capsule'
     },
     size: {
       control: { type: 'select' },

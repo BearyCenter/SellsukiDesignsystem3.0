@@ -10,7 +10,7 @@ export class Skeleton extends LitElement {
   testId?: string;
 
   @property({ type: String })
-  skeletonShape: "rectangle" | "circle" | "square" = "rectangle";    
+  skeletonShape: "capsule" | "circle" | "square" = "capsule";    
 
   @property({ type: String })
   size?: Size;
@@ -91,9 +91,9 @@ export class Skeleton extends LitElement {
         return html`<div class="circle-content"></div>`;
       case 'square':
         return html`<div class="square-content"></div>`;
-      case 'rectangle':
+      case 'capsule':
       default:
-        return html`<div class="rectangle-content"></div>`;
+        return html`<div class="capsule-content"></div>`;
     }
   }
 
