@@ -138,21 +138,6 @@ export type TabSize = "md" | "sm";
 
 export type CardSize = "md" | "sm";
 
-export type SkeletonSize = 
-  | "xs3"
-  | "xs2"
-  | "xs"
-  | "md"
-  | "xl"
-  | "xl2"
-  | "xl3"
-  | "xl4"
-  | "xl5"
-  | "xl6"
-  | "xl7"
-  | "xl8"
-  | "xl9";
-
 export type Color =
   | {
       [key: ColorScale | string]: string;

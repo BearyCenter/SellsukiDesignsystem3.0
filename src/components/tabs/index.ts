@@ -236,7 +236,7 @@ export class Tabs extends LitElement {
       <div class="tabs" data-testid=${this.testId || nothing}>
         ${this.renderTabs()}
       </div>
-      <div class="tab-content" data-testid=${this.testId || nothing}>
+      <div class="tab-content" data-testid=${this.testId ? `${this.testId}.content` : nothing}">
         ${this.renderTabContent()}
       </div>
     `;
