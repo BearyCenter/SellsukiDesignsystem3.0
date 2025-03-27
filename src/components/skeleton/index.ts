@@ -1,6 +1,6 @@
 import { LitElement, css, html, nothing } from "lit"; 
 import { customElement, property } from "lit/decorators.js"; 
-import { SkeletonSize } from "../../types/theme";  
+import { Size } from "../../types/theme";  
 
 @customElement("ssk-skeleton") 
 export class Skeleton extends LitElement {   
@@ -13,7 +13,7 @@ export class Skeleton extends LitElement {
   skeletonShape: "rectangle" | "circle" | "square" = "rectangle";    
 
   @property({ type: String })
-  skeletonSize?: SkeletonSize;
+  size?: Size;
 
   @property({ type: String })
   width?: string;
@@ -38,7 +38,7 @@ export class Skeleton extends LitElement {
 
     return html`
       <div 
-        class="skeleton-item ${this.skeletonShape} ${this.skeletonSize}"
+        class="skeleton-item ${this.skeletonShape} ${this.size}"
         style="width: ${dynamicStyles.width}; height: ${dynamicStyles.height}; --skeleton-animation-duration: ${durationInSeconds}s;"
         data-testid=${this.testId || nothing}
       >
@@ -49,40 +49,40 @@ export class Skeleton extends LitElement {
 
   private getSizeWidth(): string {
     const sizeWidths = {
-      'xs3': '8px',
-      'xs2': '16px',
+      '3xs': '8px',
+      '2xs': '16px',
       'xs': '20px',
       'md': '24px',
       'xl': '32px',
-      'xl2': '40px',
-      'xl3': '48px',
-      'xl4': '56px',
-      'xl5': '64px',
-      'xl6': '72px',
-      'xl7': '80px',
-      'xl8': '96px',
-      'xl9': '128px'
+      '2xl': '40px',
+      '3xl': '48px',
+      '4xl': '56px',
+      '5xl': '64px',
+      '6xl': '72px',
+      '7xl': '80px',
+      '8xl': '96px',
+      '9xl': '128px'
     };
-    return this.skeletonSize ? (sizeWidths[this.skeletonSize] || '24px') : '24px';
+    return this.size ? sizeWidths[this.size as keyof typeof sizeWidths] : '24px';
   }
 
   private getSizeHeight(): string {
     const sizeHeights = {
-      'xs3': '8px',
-      'xs2': '16px',
+      '3xs': '8px',
+      '2xs': '16px',
       'xs': '20px',
       'md': '24px',
       'xl': '32px',
-      'xl2': '40px',
-      'xl3': '48px',
-      'xl4': '56px',
-      'xl5': '64px',
-      'xl6': '72px',
-      'xl7': '80px',
-      'xl8': '96px',
-      'xl9': '128px'
+      '2xl': '40px',
+      '3xl': '48px',
+      '4xl': '56px',
+      '5xl': '64px',
+      '6xl': '72px',
+      '7xl': '80px',
+      '8xl': '96px',
+      '9xl': '128px'
     };
-    return this.skeletonSize ? (sizeHeights[this.skeletonSize] || '24px') : '24px';
+    return this.size ? sizeHeights[this.size as keyof typeof sizeHeights] : '24px';
   }
 
   private renderSkeletonContent() {
@@ -129,7 +129,6 @@ export class Skeleton extends LitElement {
       }
     }
 
-    /* Shape specific styles */
     .circle {
       border-radius: 50%;
     }

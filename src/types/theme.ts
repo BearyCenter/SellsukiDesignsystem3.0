@@ -12,6 +12,8 @@ export type SizeSystem =
 
 export type Size =
   | string // e.g. __em, __rem, __vh, __vw, __%, __px
+  | "3xs"
+  | "2xs"
   | "xs"
   | "sm"
   | "md"
@@ -20,7 +22,11 @@ export type Size =
   | "2xl"
   | "3xl"
   | "4xl"
-  | "5xl";
+  | "5xl"
+  | "6xl"
+  | "7xl"
+  | "8xl"
+  | "9xl";
 
 export type FontWeight =
   | "thin"
