@@ -233,10 +233,10 @@ export class Tabs extends LitElement {
         }
       </style>
 
-      <div class="tabs" data-testid=${this.renderTabs()}>
+      <div class="tabs" data-testid=${this.testId || nothing}>
         ${this.renderTabs()}
       </div>
-      <div class="tab-content" data-testid=${this.renderTabContent()}>
+      <div class="tab-content" data-testid=${this.testId ? `${this.testId}.content` : nothing}">
         ${this.renderTabContent()}
       </div>
     `;

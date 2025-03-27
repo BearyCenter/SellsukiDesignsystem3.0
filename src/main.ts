@@ -48,6 +48,7 @@ export * from "./components/modal";
 export * from "./components/pagination";
 export * from "./components/progress-bar";
 export * from "./components/sidebar";
+export * from "./components/skeleton";
 export * from "./components/stepper";
 export * from "./components/table";
 export * from "./components/tabs";
