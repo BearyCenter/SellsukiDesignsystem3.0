@@ -137,13 +137,13 @@ export class Skeleton extends LitElement {
       border-radius: 4px;
     }
 
-    .rectangle {
+    .capsule {
       border-radius: 999px;
     }
 
     .circle-content,
     .square-content,
-    .rectangle-content {
+    .capsule-content {
       width: 100%;
       height: 100%;
     }
