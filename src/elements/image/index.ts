@@ -146,7 +146,11 @@ export class Image extends LitElement implements ThemeValue {
 
       object-fit: ${this.objectFit};
 
-      border-radius: ${parseVariables(cssVar("rounded", this.rounded), "0px")};
+      border-radius: ${parseVariables(
+        cssVar("rounded", this.rounded),
+        this.rounded,
+        "0px"
+      )};
       border-style: ${parseVariables(this.borderStyle, "solid")};
       border-width: ${parseVariables(
         cssVar("border-width", this.borderWidth),
