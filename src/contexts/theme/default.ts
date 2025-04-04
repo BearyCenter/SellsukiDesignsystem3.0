@@ -1644,7 +1644,7 @@ export const defaultTheme: Theme = {
         sm: "8px",
         md: "10px",
         lg: "12px",
-        xl: "16px",
+        xl: "12px",
         "2xl": "25px",
         "3xl": "32px",
         "4xl": "48px",
@@ -1670,7 +1670,7 @@ const deepMerge = <T = object | any[]>(src: T, target: T): T => {
               ? deepMerge((src as any)[key], (target as any)[key])
               : (target as any)[key],
         }),
-        {}
+        {},
       ),
     };
   }
