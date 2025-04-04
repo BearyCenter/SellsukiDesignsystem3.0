@@ -56,5 +56,6 @@ export * from "./components/time";
 export * from "./components/timeline";
 export * from "./components/tooltip";
 export * from "./components/addon-phone-country";
+export * from "./components/wave-icon";
 
 import "./assets/fonts.css";
