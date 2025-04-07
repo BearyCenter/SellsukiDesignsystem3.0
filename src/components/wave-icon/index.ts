@@ -29,6 +29,7 @@ export class WaveIcon extends LitElement {
   themeColor: string = "black";
 
   @state()
+  // NOTE: In design system, fixed XL size of misc icon
   _size: Size = "xl";
 
   // NOTE: In design system, fixed opacity in each wave circle
@@ -77,17 +78,22 @@ export class WaveIcon extends LitElement {
           --theme-color: ${_themeColor};
       </style>
 
-      <div class="icon-wave-container">
-        ${this.renderWave()}
+      <div class="container">
+        <div class="icon-wave-container">
+          ${this.renderWave()}
 
-        <div class="icon-wrapper">
-          <div class="icon-container">
-            <ssk-misc-icon
-              iconname=${this.iconName}
-              size=${this._size}
-              themecolor=${this.themeColor}
-            />
+          <div class="icon-wrapper">
+            <div class="icon-container">
+              <ssk-misc-icon
+                iconname=${this.iconName}
+                size=${this._size}
+                themecolor=${this.themeColor}
+              />
+            </div>
           </div>
+        </div>
+        <div class="slot-container">
+          <slot />
         </div>
       </div>`;
   }
@@ -111,21 +117,28 @@ export class WaveIcon extends LitElement {
       display: inline-block;
     }
 
+    .container {
+      position: relative;
+    }
+
+    .slot-container {
+      position: absolute;
+      justify-self: anchor-center;
+      top: 62%;
+    }
+
     .icon-wave-container {
       position: relative;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       width: var(--container-size);
       height: var(--container-size);
     }
 
     .icon-wrapper {
-      position: relative;
       display: flex;
       justify-content: center;
-      align-items: center;
-      z-index: 1;
+      z-index: 0;
     }
 
     .wave {
@@ -135,7 +148,6 @@ export class WaveIcon extends LitElement {
       transform: translate(-50%, -50%);
       border: 1px solid var(--theme-color);
       border-radius: 50%;
-      transform-origin: center;
       opacity: var(--circle-opacity);
       width: var(--circle-size);
       height: var(--circle-size);
