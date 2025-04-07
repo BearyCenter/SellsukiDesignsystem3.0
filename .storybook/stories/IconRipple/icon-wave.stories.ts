@@ -49,6 +49,7 @@ const meta = {
       },
     },
     themeColor: baseArgsTypes.themeColor,
+    "?hidden": baseArgsTypes["?hidden"],
   },
 } satisfies Meta<IconArgs>;
 
