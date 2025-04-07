@@ -1,15 +1,29 @@
 import { consume } from "@lit/context";
 import { css, html, LitElement, nothing } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
-import {
-  cssVar,
-  parseThemeToCssVariables,
-  parseVariables,
-  Size,
-  Theme,
-} from "../../types/theme";
+import { cssVar, parseVariables, Size, Theme } from "../../types/theme";
 import "../../../src/components/misc-icon";
+
+// NOTE: In design system, distance of first circle is 2.5rem (40px) and next distance of each circle is 4rem (64px)
+// waveSizeConfig is distances of each wave circle from the center, in rem.
+// - The first circle is 2.5rem from the center (equivalent to 40px in the design system).
+// - Subsequent circles are spaced 4rem (64px) apart from the previous one, cumulatively from the center.
+//   e.g., the second circle is 2.5rem + 4rem = 6.5rem from the center.
+const _waveSizeConfig: number[] = [2.5, 6.5, 10.5, 14.5, 18.5, 22.5];
+
+// NOTE: In design system, fixed opacity in each wave circle
+const _waveOpacityConfig: number[] = [0.45, 0.35, 0.25, 0.15, 0.05, 0.025];
+
+// NOTE: In design system, fixed XL size of misc icon
+const _size: Size = "xl";
+
+const _iconSizeMap: { [key: string]: number } = {
+  sm: 32,
+  md: 40,
+  lg: 48,
+  xl: 56,
+};
 
 @customElement("ssk-wave-icon")
 export class WaveIcon extends LitElement {
@@ -28,30 +42,6 @@ export class WaveIcon extends LitElement {
   @property({ type: String })
   themeColor: string = "black";
 
-  @state()
-  // NOTE: In design system, fixed XL size of misc icon
-  _size: Size = "xl";
-
-  // NOTE: In design system, fixed opacity in each wave circle
-  @state()
-  _waveOpacityConfig: number[] = [0.45, 0.35, 0.25, 0.15, 0.05, 0.025];
-
-  // NOTE: In design system, distance of first circle is 2.5rem (40px) and next distance of each circle is 4rem (64px)
-  // waveSizeConfig is distances of each wave circle from the center, in rem.
-  // - The first circle is 2.5rem from the center (equivalent to 40px in the design system).
-  // - Subsequent circles are spaced 4rem (64px) apart from the previous one, cumulatively from the center.
-  //   e.g., the second circle is 2.5rem + 4rem = 6.5rem from the center.
-  @state()
-  _waveSizeConfig: number[] = [2.5, 6.5, 10.5, 14.5, 18.5, 22.5];
-
-  @state()
-  _iconSizeMap: { [key: string]: number } = {
-    sm: 32,
-    md: 40,
-    lg: 48,
-    xl: 56,
-  };
-
   render() {
     if (this.hidden) {
       return nothing;
@@ -63,8 +53,8 @@ export class WaveIcon extends LitElement {
       cssVar("colors", "primary", 500),
     );
 
-    const waveContainerSize = `calc(${this._iconSizeMap[this._size]}px + ${
-      this._waveSizeConfig[this._waveSizeConfig.length - 1]
+    const waveContainerSize = `calc(${_iconSizeMap[_size]}px + ${
+      _waveSizeConfig[_waveSizeConfig.length - 1]
     }rem)`;
 
     return html` <style>
@@ -81,7 +71,7 @@ export class WaveIcon extends LitElement {
             <div class="icon-container">
               <ssk-misc-icon
                 iconname=${this.iconName}
-                size=${this._size}
+                size=${_size}
                 themecolor=${this.themeColor}
               />
             </div>
@@ -94,15 +84,13 @@ export class WaveIcon extends LitElement {
   }
 
   renderWave() {
-    return html`${this._waveSizeConfig.map(
+    return html`${_waveSizeConfig.map(
       (circleSize, index) =>
         html`<div
           class="wave"
-          style="--circle-opacity:${this._waveOpacityConfig[
+          style="--circle-opacity:${_waveOpacityConfig[
             index
-          ]}; --circle-size: calc(${`${
-            this._iconSizeMap[this._size]
-          }px + ${circleSize}rem`});"
+          ]}; --circle-size: calc(${`${_iconSizeMap[_size]}px + ${circleSize}rem`});"
         />`,
     )}`;
   }
