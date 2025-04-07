@@ -48,7 +48,7 @@ const meta = {
         type: "select",
       },
     },
-    ...baseArgsTypes,
+    themeColor: baseArgsTypes.themeColor,
   },
 } satisfies Meta<IconArgs>;
 

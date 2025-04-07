@@ -67,12 +67,7 @@ export class WaveIcon extends LitElement {
       this._waveSizeConfig[this._waveSizeConfig.length - 1]
     }rem)`;
 
-    return html`${parseThemeToCssVariables(
-        this.theme?.components?.miscIcon,
-        ":host",
-      )}
-
-      <style>
+    return html` <style>
         :host {
           --container-size: ${waveContainerSize};
           --theme-color: ${_themeColor};
