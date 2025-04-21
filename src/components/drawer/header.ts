@@ -33,7 +33,9 @@ export class DrawerHeader extends LitElement {
           </div>
         </div>
 
-        <ssk-text fontWeight="normal"> ${this.description} </ssk-text>
+        <ssk-text color="background.600" fontWeight="normal">
+          ${this.description}
+        </ssk-text>
       </div>
     `;
   }

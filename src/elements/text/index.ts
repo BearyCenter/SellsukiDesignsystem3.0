@@ -29,7 +29,7 @@ export class Text extends LitElement {
   @property({ type: String })
   themeColor: ColorRole | ColorName = "";
   @property({ type: String })
-  color?: ColorRole | ColorName = "background.600";
+  color?: ColorRole | ColorName = "background.900";
 
   @property({ type: String })
   size: Size = "md";
