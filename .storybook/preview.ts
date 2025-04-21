@@ -38,7 +38,7 @@ const preview: Preview = {
           }
 
           #main-container {
-            min-height: 100dvh;
+            min-height: 100%;
           }
         </style>
 
