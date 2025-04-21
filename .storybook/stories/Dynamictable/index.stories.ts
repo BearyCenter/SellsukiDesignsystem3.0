@@ -591,11 +591,7 @@ export const LazyLoadingTable: Story = {
       updateArgs({ loading: true });
 
       setTimeout(() => {
-        const moreData = Array.from({ length: 5 }, (_, index) => ({
-          firstName: fNames[index],
-          lastName: lNames[index],
-          age: fNames[index].length + lNames[index].length * 3,
-        }));
+        const moreData = Array.from({ length: 10 }, getRandomTableData);
 
         updateArgs({
           data: [...args.data, ...moreData],
@@ -613,8 +609,9 @@ export const LazyLoadingTable: Story = {
           align-items: center;
           height: 100%;
 
-          padding: 1rem 0;
+          padding: 2rem 0;
           gap: 8px;
+          box-sizing: border-box;
         }
       </style>
       <ssk-dynamic-table ${spread(args)} @scrollend=${handleScrollEnd}>
@@ -643,14 +640,6 @@ export const LazyLoadingTable: Story = {
             </ssk-table-cell>
           `
         )}
-
-        <ssk-pagination
-          slot="footer"
-          showrowspage
-          showRowsPerPage
-          totalPages="10"
-        ></ssk-pagination>
-
         ${args.loading
           ? html`<div class="content" slot="placeholder">
               <ssk-spinner size="sm"></ssk-spinner>
