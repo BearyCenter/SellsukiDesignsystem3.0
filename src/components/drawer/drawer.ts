@@ -36,9 +36,6 @@ export class Drawer extends LitElement {
   }
 
   render() {
-    const bodySlotExists = this.querySelector('[slot="body"]');
-    const footerSlotExists = this.querySelector('[slot="footer"]');
-
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.container, ":host")}
       <style>
