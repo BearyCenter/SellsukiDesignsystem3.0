@@ -29,7 +29,7 @@ export class Text extends LitElement {
   @property({ type: String })
   themeColor: ColorRole | ColorName = "";
   @property({ type: String })
-  color?: ColorRole | ColorName = "black.900";
+  color?: ColorRole | ColorName = "background.600";
 
   @property({ type: String })
   size: Size = "md";
@@ -74,32 +74,32 @@ export class Text extends LitElement {
 
     let additionalCss = `
     --font-family: ${parseVariables(
-      cssVar("font-family", this.fontFamilyGroup),
+      cssVar("font-family", this.fontFamilyGroup)
     )};
     --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
     --font-size: ${parseVariables(
       cssVar("font-size", this.fontSize),
-      cssVar("font-size", this.size),
+      cssVar("font-size", this.size)
     )};
     --line-height: ${parseVariables(
       cssVar("line-height", this.lineHeight),
-      cssVar("font-size", this.size),
+      cssVar("font-size", this.size)
     )};
 
     --padding: ${parseVariables(
       cssVar("padding", this.padding),
-      cssVar("padding", this.size),
+      cssVar("padding", this.size)
     )};
     --margin: ${parseVariables(
       cssVar("margin", this.margin),
-      cssVar("margin", this.size),
+      cssVar("margin", this.size)
     )};
     ${
       this.color
         ? `--color: ${parseVariables(
             cssVar("colors", this.color, 500),
             cssVar("colors", this.color),
-            this.color,
+            this.color
           )};`
         : "--color: currentColor;"
     }

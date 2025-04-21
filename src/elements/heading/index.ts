@@ -37,7 +37,7 @@ export class Heading extends LitElement {
   @property({ type: String })
   themeColor: ColorRole | ColorName = "";
   @property({ type: String })
-  color?: ColorRole | ColorName = "black.900";
+  color?: ColorRole | ColorName = "background.900";
 
   @property({ type: String })
   size: Size = "md";
@@ -113,6 +113,12 @@ export class Heading extends LitElement {
       cssVar("margin", this.margin),
       cssVar("margin", this.size)
     )};
+    --color: ${parseVariables(
+      cssVar("colors", this.color),
+      cssVar("colors", this.themeColor),
+      cssVar("colors", this.color, 700),
+      this.color
+    )}
     `;
 
     if (this.italic) {
