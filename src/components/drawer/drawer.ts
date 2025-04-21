@@ -27,7 +27,6 @@ export class Drawer extends LitElement {
   @property({ type: String }) bodyPadding?: string = "24px";
   @property({ type: String }) side: "left" | "right" = "left";
   @property({ type: Boolean }) show = false;
-  @property({ type: Boolean }) hideCloseButton = false;
   @property({ type: Boolean }) hideDivider = false;
 
   @eventOptions({ capture: false, once: false, passive: true })

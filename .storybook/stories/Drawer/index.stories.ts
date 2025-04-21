@@ -34,6 +34,7 @@ const meta: Meta<DrawerWithLabel> = {
           title=${label}
           description="Drawer description goes here"
           @close=${() => updateArgs({ "?show": false })}
+          ?hideCloseButton=${args["?hideCloseButton"]}
         >
           <ssk-button @click=${() => alert(1)}> Action </ssk-button>
         </ssk-drawer-header>
