@@ -119,9 +119,11 @@ export class Dropdown extends LitElement {
   state: DropdownState = {
     setValue: (value: string | string[]) => {
       if (this.multiSelect) {
-        const selectedValues: string[] = Array.isArray(this.value) ? this.value : [];
+        const selectedValues: string[] = Array.isArray(this.value)
+          ? this.value
+          : [];
         if (selectedValues.includes(value as string)) {
-          this.value = selectedValues.filter(v => v !== value);
+          this.value = selectedValues.filter((v) => v !== value);
         } else {
           selectedValues.push(value as string);
           this.value = selectedValues;
@@ -129,13 +131,13 @@ export class Dropdown extends LitElement {
       } else {
         this.value = value as string;
       }
-      
+
       this.state.isOpened = false;
       this.requestUpdate();
 
       this.dispatchEvent(new Event("change"));
     },
-  
+
     isOpened: false,
     disabled: this.disabled,
     isError: this.error,
@@ -145,11 +147,11 @@ export class Dropdown extends LitElement {
   };
 
   private clearSelection() {
-    this.value = '';
-    this.state.value = '';
+    this.value = "";
+    this.state.value = "";
     this.state.isOpened = false;
-    this.isSelected = []
-    this.state.isSelected = []; 
+    this.isSelected = [];
+    this.state.isSelected = [];
 
     this.requestUpdate();
     this.dispatchEvent(new Event("change"));
@@ -167,11 +169,11 @@ export class Dropdown extends LitElement {
     }
 
     if (changedProperties.has("value")) {
-      this.state.value = this.value || '';
+      this.state.value = this.value || "";
     }
 
     if (changedProperties.has("multiSelect")) {
-      this.state.multiSelect = this.multiSelect ;
+      this.state.multiSelect = this.multiSelect;
     }
 
     if (changedProperties.has("clearValue") && this.clearValue) {
@@ -292,7 +294,7 @@ export class Dropdown extends LitElement {
     return { anchor, align };
   }
 
-  private updateOptionsPosition() {
+  private updateOptionsPosition = () => {
     if (!this.state.isOpened) return;
 
     const { anchor, align } = this.calculatePosition();
@@ -301,7 +303,7 @@ export class Dropdown extends LitElement {
     if (options) {
       options.className = `options-container show ${anchor} ${align} ${this.optionsWidth}`;
     }
-  }
+  };
 
   render() {
     if (this.hidden) {

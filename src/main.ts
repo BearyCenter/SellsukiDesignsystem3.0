@@ -32,12 +32,14 @@ export * from "./elements/menu/items";
 export * from "./elements/pin-code";
 export * from "./elements/radio";
 export * from "./elements/radio/group";
+export * from "./elements/spinner";
 export * from "./elements/tag";
 export * from "./elements/text";
 export * from "./elements/textarea";
 export * from "./elements/toggle";
 export * from "./elements/top-navbar";
 
+export * from "./components/addon-phone-country";
 export * from "./components/calendar";
 export * from "./components/date-picker";
 export * from "./components/download-file";
@@ -55,7 +57,6 @@ export * from "./components/tabs";
 export * from "./components/time";
 export * from "./components/timeline";
 export * from "./components/tooltip";
-export * from "./components/addon-phone-country";
 export * from "./components/wave-icon";
 
 import "./assets/fonts.css";

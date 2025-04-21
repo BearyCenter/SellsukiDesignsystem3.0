@@ -1650,6 +1650,13 @@ export const defaultTheme: Theme = {
         "4xl": "48px",
       },
     },
+    spinner: {
+      width: {
+        sm: "44px",
+        md: "80px",
+        lg: "120px",
+      },
+    },
   },
 };
 
@@ -1670,7 +1677,7 @@ const deepMerge = <T = object | any[]>(src: T, target: T): T => {
               ? deepMerge((src as any)[key], (target as any)[key])
               : (target as any)[key],
         }),
-        {},
+        {}
       ),
     };
   }

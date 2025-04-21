@@ -52,6 +52,23 @@ export class DynamicTable extends LitElement {
     stripedBackgroundColor: this.stripedBackgroundColor,
   };
 
+  updated() {
+    requestAnimationFrame(() => this.checkScrollEnd());
+  }
+
+  private checkScrollEnd() {
+    const table = this.renderRoot?.querySelector(".table") as HTMLElement;
+    if (!table) return;
+
+    const isScrollable = table.scrollHeight > table.clientHeight;
+    const isScrolledToEnd =
+      table.scrollTop + table.clientHeight >= table.scrollHeight - 1;
+
+    if (!isScrollable || isScrolledToEnd) {
+      this.dispatchEvent(new CustomEvent("scrollend", { bubbles: true }));
+    }
+  }
+
   render() {
     if (this.hidden) {
       return nothing;
@@ -121,7 +138,7 @@ export class DynamicTable extends LitElement {
       ${additionalStyle}
 
       <div class="table-container" data-testid=${this.testId || nothing}>
-        <div class="table">
+        <div class="table" @scrollend=${this.checkScrollEnd}>
           <slot name="headers"></slot>
           <slot></slot>
         </div>
@@ -152,6 +169,7 @@ export class DynamicTable extends LitElement {
       display: grid;
       grid-template-columns: var(--table-template-column);
       overflow: unset;
+      overflow-y: auto;
     }
 
     .footer-spaner {

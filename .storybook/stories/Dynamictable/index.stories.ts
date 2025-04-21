@@ -1,4 +1,5 @@
 import { spread } from "@open-wc/lit-helpers";
+import { useArgs } from "@storybook/client-api";
 import { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/dynamic-table";
@@ -6,6 +7,8 @@ import { DynamicTable } from "../../../src/components/dynamic-table";
 import "../../../src/components/pagination";
 import "../../../src/elements/button";
 import "../../../src/elements/image";
+import "../../../src/elements/spinner";
+
 import { AutoLitProperty, baseArgsTypes } from "../helper";
 
 type TableArgs = AutoLitProperty<DynamicTable>;
@@ -193,7 +196,7 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<TableArgs>;
+export type Story = StoryObj<TableArgs>;
 
 export const Default: Story = {
   args: {
@@ -232,6 +235,7 @@ export const LoadingTable: Story = {
           display: grid;
           place-items: center;
           height: 100%;
+          gap: 1rem;
         }
 
         @keyframes spin-wobble {
@@ -474,4 +478,192 @@ export const EmptyTable2: Story = {
       </ssk-dynamic-table>
     `;
   },
+};
+
+const fNames = [
+  "Alex",
+  "Bob",
+  "Charlie",
+  "David",
+  "Emily",
+  "Frank",
+  "Grace",
+  "Henry",
+  "Isabella",
+  "Jack",
+  "Kate",
+  "Liam",
+  "Mia",
+  "Noah",
+  "Olivia",
+  "Parker",
+  "Quinn",
+  "Riley",
+  "Sophia",
+  "Thomas",
+  "Victoria",
+  "William",
+  "Xavier",
+  "Yasmine",
+  "Zachary",
+];
+
+const lNames = [
+  "Smith",
+  "Johnson",
+  "Williams",
+  "Jones",
+  "Brown",
+  "Davis",
+  "Miller",
+  "Wilson",
+  "Moore",
+  "Taylor",
+  "Anderson",
+  "Thomas",
+  "Jackson",
+  "White",
+  "Harris",
+  "Martin",
+  "Thompson",
+  "Garcia",
+  "Martinez",
+  "Robinson",
+  "Clark",
+  "Rodriguez",
+  "Lewis",
+  "Lee",
+  "Walker",
+  "Hall",
+  "Allen",
+  "Young",
+  "Hernandez",
+  "King",
+  "Wright",
+  "Lopez",
+  "Hill",
+  "Scott",
+  "Green",
+  "Adams",
+  "Baker",
+  "Gonzalez",
+];
+
+const getRandomTableData = (): TableData => {
+  return {
+    firstName: fNames[Math.floor(Math.random() * fNames.length)],
+    lastName: lNames[Math.floor(Math.random() * lNames.length)],
+    age: Math.floor(Math.random() * 100),
+  };
+};
+
+export const LazyLoadingTable: Story = {
+  args: {
+    testId: "test-id",
+    ".columnsWidth": ["300px", "150px", "80px", "auto"],
+    ".backgroundColor": "#fff",
+    ".stripedBackgroundColor": "gray",
+    ".height": "800px",
+    loading: false,
+    data: Array.from({ length: 5 }, (_, index) => ({
+      firstName: fNames[index],
+      lastName: lNames[index],
+      age: fNames[index].length + lNames[index].length * 3,
+    })),
+  },
+
+  argTypes: {
+    data: {
+      control: "object",
+      description: "Table data (for lazy loading)",
+    },
+    loading: {
+      control: "boolean",
+      description: "Loading state (shows spinner in placeholder)",
+    },
+  },
+
+  render: (args) => {
+    const [{}, updateArgs] = useArgs();
+    const handleScrollEnd = () => {
+      if (args.loading) return;
+
+      updateArgs({ loading: true });
+
+      setTimeout(() => {
+        const moreData = Array.from({ length: 5 }, (_, index) => ({
+          firstName: fNames[index],
+          lastName: lNames[index],
+          age: fNames[index].length + lNames[index].length * 3,
+        }));
+
+        updateArgs({
+          data: [...args.data, ...moreData],
+          loading: false,
+        });
+      }, Math.floor(Math.random() * 3000) + 1000);
+    };
+
+    return html`
+      <style>
+        .content {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+
+          padding: 1rem 0;
+          gap: 8px;
+        }
+      </style>
+      <ssk-dynamic-table ${spread(args)} @scrollend=${handleScrollEnd}>
+        <ssk-header-cell
+          slot="headers"
+          sortable
+          sortDirection="asc"
+          align="left"
+        >
+          First Name
+        </ssk-header-cell>
+        <ssk-header-cell slot="headers" sortable>Last Name</ssk-header-cell>
+        <ssk-header-cell slot="headers">Age</ssk-header-cell>
+        <ssk-header-cell slot="headers">Action</ssk-header-cell>
+
+        ${args.data.map(
+          (item: any) => html`
+            <ssk-table-cell align="left">${item.firstName}</ssk-table-cell>
+            <ssk-table-cell>${item.lastName}</ssk-table-cell>
+            <ssk-table-cell>${item.age}</ssk-table-cell>
+            <ssk-table-cell>
+              <ssk-button>Click me</ssk-button>
+              <ssk-button themeColor="pink">
+                <ssk-icon iconName="solid-user-plus"></ssk-icon>
+              </ssk-button>
+            </ssk-table-cell>
+          `
+        )}
+
+        <ssk-pagination
+          slot="footer"
+          showrowspage
+          showRowsPerPage
+          totalPages="10"
+        ></ssk-pagination>
+
+        ${args.loading
+          ? html`<div class="content" slot="placeholder">
+              <ssk-spinner size="sm"></ssk-spinner>
+              กำลังโหลดข้อมูล
+            </div>`
+          : ""}
+      </ssk-dynamic-table>
+    `;
+  },
+};
+
+type TableData = {
+  firstName: string;
+  lastName: string;
+  age: number;
 };

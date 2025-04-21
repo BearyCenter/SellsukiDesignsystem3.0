@@ -253,6 +253,7 @@ export type Theme = {
     miscIcon?: Partial<ThemeField>;
     timeline?: Partial<ThemeField>;
     skeleton?: Partial<ThemeField>;
+    spinner?: Partial<ThemeField>;
   };
 } & ThemeField;
 
