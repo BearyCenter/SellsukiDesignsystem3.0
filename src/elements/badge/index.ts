@@ -61,7 +61,7 @@ export class Badge extends LitElement {
     let additionalCss = `
       --font-size: ${parseVariables(cssVar("font-size", this.size), "1rem")};
       --font-family: ${parseVariables(
-        cssVar("font-family", this.fontFamilyGroup),
+        cssVar("font-family", this.fontFamilyGroup)
       )};
       --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
 
@@ -72,10 +72,10 @@ export class Badge extends LitElement {
       case "solid":
         additionalCss += `
         --background-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
+          cssVar("colors", this.themeColor, 500)
         )};
         --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
+          cssVar("colors", this.themeColor, 500)
         )};
         --border-width: 0px;
 
@@ -83,7 +83,7 @@ export class Badge extends LitElement {
           cssVar("colors", this.color, 200),
           cssVar("colors", this.color),
           this.color,
-          cssVar("colors", "white", 100),
+          cssVar("colors", "white", 100)
         )};
           `;
         break;
@@ -92,7 +92,7 @@ export class Badge extends LitElement {
         additionalCss += `
         --background-color: ${parseVariables(cssVar("colors", "white", 100))};
         --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500),
+          cssVar("colors", this.themeColor, 500)
         )};
         --border-width: 1px;
 
@@ -103,10 +103,10 @@ export class Badge extends LitElement {
       case "subtle":
         additionalCss += `
         --background-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 50),
+          cssVar("colors", this.themeColor, 50)
         )};
         --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 100),
+          cssVar("colors", this.themeColor, 100)
         )};
         --border-width: 1px;
 
@@ -131,6 +131,10 @@ export class Badge extends LitElement {
   }
 
   static styles = css`
+    :host {
+      display: flex;
+    }
+
     span {
       display: inline-flex;
       align-items: center;
