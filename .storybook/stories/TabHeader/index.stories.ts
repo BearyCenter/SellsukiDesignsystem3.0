@@ -84,7 +84,90 @@ export const Default: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=2260-34872&mode=design&t=7zLQqFkUWnN3q4pJ-0",
+      url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=2260-34872&p=f&t=mq4JAueJwMhllnA9-0",
     },
+  },
+};
+
+export const AllCombinations: Story = {
+  render: (args) => {
+    const variants: TabHeader["variant"][] = ["inline", "button"];
+    const sizes: TabHeader["size"][] = ["sm", "md"];
+    const aligns: TabHeader["align"][] = ["left", "center", "right"];
+    const buttonWidths = ["auto", "full"];
+
+    return html`
+      <div style="display: grid; gap: 2rem;">
+        ${variants.map(
+          (variant) => html`
+            <div>
+              <h3>Variant: ${variant}</h3>
+              ${sizes.map(
+                (size) => html`
+                  <div>
+                    <h4>Size: ${size}</h4>
+                    ${aligns.map(
+                      (align) => html`
+                        <div>
+                          <h5>Align: ${align}</h5>
+                          <div
+                            style="display: flex; flex-direction: column; gap: 1rem;"
+                          >
+                            ${buttonWidths.map(
+                              (buttonWidth) => html`
+                                <div>
+                                  <p>
+                                    <strong>buttonWidth: ${buttonWidth}</strong>
+                                  </p>
+                                  <ssk-tab-header
+                                    variant=${variant}
+                                    size=${size}
+                                    align=${align}
+                                    color=${args.color!}
+                                  >
+                                    <ssk-tab-button
+                                      active
+                                      variant=${variant}
+                                      width=${buttonWidth}
+                                      color=${args.color!}
+                                    >
+                                      content 1
+                                      <ssk-badge variant="subtle" size="sm"
+                                        >2</ssk-badge
+                                      >
+                                    </ssk-tab-button>
+                                    <ssk-tab-button
+                                      variant=${variant}
+                                      width=${buttonWidth}
+                                      color=${args.color!}
+                                    >
+                                      content 2
+                                    </ssk-tab-button>
+                                    <ssk-tab-button
+                                      variant=${variant}
+                                      width=${buttonWidth}
+                                      color=${args.color!}
+                                    >
+                                      content 3
+                                    </ssk-tab-button>
+                                  </ssk-tab-header>
+                                </div>
+                              `
+                            )}
+                          </div>
+                        </div>
+                      `
+                    )}
+                  </div>
+                `
+              )}
+            </div>
+          `
+        )}
+      </div>
+    `;
+  },
+  args: {
+    color: "primary",
   },
 };
