@@ -57,7 +57,7 @@ export class Dropdown extends LitElement {
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
   @property({ type: String })
-  fontWeight: FontWeight = "normal";
+  fontWeight?: FontWeight;
 
   @property({ type: String })
   width?: string | undefined;

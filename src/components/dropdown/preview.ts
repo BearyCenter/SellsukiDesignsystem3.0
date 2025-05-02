@@ -42,7 +42,7 @@ export class DropdownPreview extends LitElement {
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
   @property({ type: String })
-  fontWeight: FontWeight = "normal";
+  fontWeight?: FontWeight;
 
   @property({ type: String })
   value?: string = "";
@@ -60,6 +60,7 @@ export class DropdownPreview extends LitElement {
         <span class="label">
           <slot></slot>
         </span>
+        <slot name="postfix"></slot>
       </span>
     `;
   }

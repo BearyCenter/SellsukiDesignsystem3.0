@@ -1,8 +1,8 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { themeContext } from "../../contexts/theme";
 import "../../../src/elements/checkbox";
+import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
   ColorRole,
@@ -43,7 +43,7 @@ export class DropdownOption extends LitElement {
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
   @property({ type: String })
-  fontWeight: FontWeight = "normal";
+  fontWeight?: FontWeight;
 
   @property({ type: String })
   value: string = "";

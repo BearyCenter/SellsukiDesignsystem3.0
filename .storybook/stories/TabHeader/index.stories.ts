@@ -171,3 +171,68 @@ export const AllCombinations: Story = {
     color: "primary",
   },
 };
+
+export const DynamicHeaderContent: Story = {
+  render: (args) => {
+    return html`
+      <ssk-tab-header ${spread({ ...args })}>
+        <ssk-tab-button
+          active
+          ${spread({ ...args })}
+          width="${args.buttonWidth}"
+        >
+          <ssk-dropdown
+            themeColor="primary"
+            optionsWidth="auto"
+            ${spread({ ...args })}
+          >
+            <ssk-dropdown-preview slot="selected">
+              Dropdown item
+
+              <ssk-icon
+                slot="postfix"
+                size="sm"
+                name="outline-chevron-down"
+              ></ssk-icon>
+            </ssk-dropdown-preview>
+            <ssk-dropdown-option>
+              <ssk-icon
+                slot="prefix"
+                size="sm"
+                name="outline-envelope"
+              ></ssk-icon>
+              <ssk-text size="sm">Dropdown item</ssk-text>
+            </ssk-dropdown-option>
+            <ssk-divider size="xs"></ssk-divider>
+            <ssk-dropdown-option>
+              <ssk-icon
+                slot="prefix"
+                size="sm"
+                name="solid-arrow-right-on-rectangle"
+              ></ssk-icon>
+              <ssk-text size="sm">Sign out</ssk-text>
+              <ssk-icon
+                slot="postfix"
+                size="sm"
+                name="solid-arrow-right"
+              ></ssk-icon>
+            </ssk-dropdown-option>
+          </ssk-dropdown>
+        </ssk-tab-button>
+        <ssk-tab-button ${spread({ ...args })} width="${args.buttonWidth}">
+          content 2
+        </ssk-tab-button>
+        <ssk-tab-button ${spread({ ...args })} width="${args.buttonWidth}">
+          content 3
+        </ssk-tab-button>
+      </ssk-tab-header>
+    `;
+  },
+  args: {
+    variant: "button",
+    size: "md",
+    align: "left",
+    color: "primary",
+    buttonWidth: "auto",
+  },
+};
