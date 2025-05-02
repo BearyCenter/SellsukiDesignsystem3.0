@@ -27,16 +27,6 @@ const preview: Preview = {
       // __SSK_I18N_STORE__ need to be access  in another story (./stories/I18n/provider.stories.ts)
 
       const h = html`<style>
-          body.sb-main-padded.sb-show-main {
-            /* margin: 0;
-            padding: 0; */
-            background: repeating-conic-gradient(
-                #d3d3d3 0% 25%,
-                transparent 0% 50%
-              )
-              50% / 20px 20px;
-          }
-
           #main-container {
             min-height: 100%;
           }
