@@ -33,6 +33,7 @@ export * from "./elements/pin-code";
 export * from "./elements/radio";
 export * from "./elements/radio/group";
 export * from "./elements/spinner";
+export * from "./elements/tab-header";
 export * from "./elements/tag";
 export * from "./elements/text";
 export * from "./elements/textarea";

@@ -84,7 +84,7 @@ const meta = {
   render: ({ ...args }) => {
     const [{}, updateArgs] = useArgs();
 
-    return html`<style lang="css">
+    return html`<style>
         .nav {
           display: flex;
           flex-direction: column;
