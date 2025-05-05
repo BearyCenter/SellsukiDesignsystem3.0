@@ -47,6 +47,7 @@ export * from "./components/download-file";
 export * from "./components/drawer";
 export * from "./components/dropdown";
 export * from "./components/dynamic-table";
+export * from "./components/image-cropper";
 export * from "./components/misc-icon";
 export * from "./components/modal";
 export * from "./components/pagination";
