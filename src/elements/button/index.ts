@@ -293,10 +293,10 @@ export class Button extends LitElement {
       </style>
 
       <button data-testid=${this.testId || nothing} .disabled=${this.disabled}>
-        <div class="button-content">
-          <div class="prefix"><slot name="prefix"></slot></div>
+        <div>
+          <slot name="prefix"></slot>
           <slot></slot>
-          <div class="postfix"><slot name="postfix"></slot></div>
+          <slot name="postfix"></slot>
         </div>
       </button>
     `;
@@ -322,27 +322,29 @@ export class Button extends LitElement {
       width: var(--width);
     }
 
-    .button-content {
+    div {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       gap: var(--gap);
     }
 
-    .button-content .prefix,
-    .button-content .postfix {
+    ::slotted([slot="prefix"]) {
       display: flex;
       align-items: center;
+      order: 0;
     }
 
-    .button-content .prefix {
-      margin-left: var(--prefix-margin-left, auto);
-      margin-right: var(--prefix-margin-right, 0);
+    ::slotted([slot="postfix"]) {
+      display: flex;
+      align-items: center;
+      order: 2;
     }
 
-    .button-content .postfix {
-      margin-left: var(--postfix-margin-left, 0);
-      margin-right: var(--postfix-margin-right, auto);
+    ::slotted(:not([slot])) {
+      order: 1;
+      flex-grow: 1;
+      text-align: center;
     }
 
     button:hover:enabled {
