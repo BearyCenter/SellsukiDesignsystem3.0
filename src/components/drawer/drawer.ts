@@ -35,6 +35,9 @@ export class Drawer extends LitElement {
   }
 
   render() {
+    const headerSlot = this.querySelector('[slot="header"]');
+    const footerSlot = this.querySelector('[slot="footer"]');
+
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.container, ":host")}
       <style>
@@ -70,17 +73,21 @@ export class Drawer extends LitElement {
           @click=${(e: Event) => e.stopPropagation()}
           data-testid=${this.testId || nothing}
         >
-          <div class="header">
-            <slot name="header"></slot>
-          </div>
+          ${headerSlot
+            ? html`<div class="header">
+                <slot name="header"></slot>
+              </div>`
+            : nothing}
 
           <div class="body">
             <slot name="body"></slot>
           </div>
 
-          <div class="footer">
-            <slot name="footer"></slot>
-          </div>
+          ${footerSlot
+            ? html`<div class="footer">
+                <slot name="footer"></slot>
+              </div>`
+            : nothing}
         </div>
       </div>
     `;

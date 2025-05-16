@@ -12,6 +12,7 @@ type DrawerWithLabel = AutoLitProperty<Drawer> & { label: string };
 
 const meta: Meta<DrawerWithLabel> = {
   title: "Example/Drawer",
+  tags: ["autodocs"],
   render: ({ label, ...args }) => {
     const [{}, updateArgs] = useArgs();
 
