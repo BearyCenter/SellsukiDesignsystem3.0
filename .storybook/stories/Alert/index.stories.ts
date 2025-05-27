@@ -69,6 +69,13 @@ const meta = {
       action: "@close",
       table: { category: "Events" },
     },
+    "?hideCloseButton": {
+      description: "Hide button top close",
+      control: "boolean",
+      table: {
+        category: "Props",
+      },
+    },
     size: baseArgsTypes.size,
     padding: baseArgsTypes.padding,
     margin: baseArgsTypes.margin,

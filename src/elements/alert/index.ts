@@ -49,6 +49,8 @@ export class Alert extends LitElement implements ThemeValue {
   message?: string | undefined;
   @property({ type: String })
   topic?: string | undefined;
+  @property({ type: Boolean })
+  hideCloseButton = false;
 
   @eventOptions({ capture: false, once: false, passive: true })
   private close(e: Event) {
@@ -99,7 +101,10 @@ export class Alert extends LitElement implements ThemeValue {
             <div class="alert-message">${this.message}</div>
           </div>
         </div>
-        <div class="close" @click=${this.close}></div>
+        <div
+          class="close${this.hideCloseButton ? "-hide" : ""}"
+          @click=${this.close}
+        ></div>
         <div class="alert-footer">
           <slot name="close-button-slot"></slot>
           <slot name="ok-button-slot"></slot>
@@ -146,6 +151,10 @@ export class Alert extends LitElement implements ThemeValue {
     }
     .close:after {
       transform: rotate(-45deg);
+    }
+
+    .close-hide {
+      display: none;
     }
 
     .alert-footer {
