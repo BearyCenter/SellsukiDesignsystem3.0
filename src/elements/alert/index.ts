@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, eventOptions, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
 import { ThemeValue } from "../../types/base-attributes";
@@ -50,6 +50,11 @@ export class Alert extends LitElement implements ThemeValue {
   @property({ type: String })
   topic?: string | undefined;
 
+  @eventOptions({ capture: false, once: false, passive: true })
+  private close(e: Event) {
+    redispatchEvents(e, this, "close");
+  }
+
   render() {
     if (this.hidden) {
       return nothing;
@@ -94,10 +99,7 @@ export class Alert extends LitElement implements ThemeValue {
             <div class="alert-message">${this.message}</div>
           </div>
         </div>
-        <div
-          class="close"
-          @click=${(e: Event) => redispatchEvents(e, this)}
-        ></div>
+        <div class="close" @click=${this.close}></div>
         <div class="alert-footer">
           <slot name="close-button-slot"></slot>
           <slot name="ok-button-slot"></slot>

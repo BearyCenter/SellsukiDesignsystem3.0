@@ -1,12 +1,14 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
+import { action } from "@storybook/addon-actions";
+import { useArgs } from "@storybook/client-api";
 import { html } from "lit";
 import "../../../src/elements/alert";
 import "../../../src/elements/icon";
 import "../../../src/elements/button";
 
 import { Alert, Type } from "../../../src/elements/alert";
-import { baseArgsTypes } from "../helper";
+import { baseArgsTypes, genericEvents } from "../helper";
 
 type AlertArgs = {} & Alert;
 
@@ -16,7 +18,13 @@ const meta = {
   title: "Example/Alert",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html`<ssk-alert ${spread(args)}
+    const [{}, updateArgs] = useArgs();
+    return html`<ssk-alert
+      ${spread(args)}
+      @close=${() => {
+        updateArgs({ "?hidden": true });
+        action("@close")();
+      }}
       ><ssk-icon
         name="outline-information-circle"
         themeColor="${args.type}"
@@ -55,6 +63,11 @@ const meta = {
         },
       },
       control: "select",
+    },
+    "@close": {
+      description: "Emitted when alert is closed",
+      action: "@close",
+      table: { category: "Events" },
     },
     size: baseArgsTypes.size,
     padding: baseArgsTypes.padding,
