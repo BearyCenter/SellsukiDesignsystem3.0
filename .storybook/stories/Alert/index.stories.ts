@@ -1,5 +1,7 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
+import { action } from "@storybook/addon-actions";
+import { useArgs } from "@storybook/client-api";
 import { html } from "lit";
 import "../../../src/elements/alert";
 import "../../../src/elements/icon";
@@ -16,13 +18,30 @@ const meta = {
   title: "Example/Alert",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    return html`<ssk-alert ${spread(args)}
-      ><ssk-icon
-        name="outline-information-circle"
-        themeColor="${args.type}"
-        slot="icon-slot"
-      ></ssk-icon>
-    </ssk-alert>`;
+    const [{ "?hidden": hidden }, updateArgs] = useArgs();
+    return html` <style>
+        div.container {
+          display: grid;
+          gap: 0.5em;
+        }
+      </style>
+      <div class="container">
+        <ssk-button @click=${() => updateArgs({ "?hidden": !hidden })}>
+          ${hidden ? "Show" : "Hide"} Alert
+        </ssk-button>
+        <ssk-alert
+          ${spread(args)}
+          @close=${() => {
+            updateArgs({ "?hidden": true });
+            action("@close")();
+          }}
+          ><ssk-icon
+            name="outline-information-circle"
+            themeColor="${args.type}"
+            slot="icon-slot"
+          ></ssk-icon>
+        </ssk-alert>
+      </div>`;
   },
   argTypes: {
     message: {
@@ -55,6 +74,18 @@ const meta = {
         },
       },
       control: "select",
+    },
+    "@close": {
+      description: "Emitted when alert is closed",
+      action: "@close",
+      table: { category: "Events" },
+    },
+    "?hideCloseButton": {
+      description: "Hide button top close",
+      control: "boolean",
+      table: {
+        category: "Props",
+      },
     },
     size: baseArgsTypes.size,
     padding: baseArgsTypes.padding,
@@ -98,35 +129,52 @@ export const AlertWithFooter: Story = {
     },
   },
   render: ({ ...args }) => {
-    return html` <ssk-alert ${spread(args)}
-      ><ssk-icon
-        name="outline-information-circle"
-        themeColor="${args.type}"
-        slot="icon-slot"
-      ></ssk-icon>
-      <ssk-button
-        themeColor="gray"
-        padding="sm"
-        variant="ghost"
-        slot="close-button-slot"
-      >
-        <ssk-icon
-          slot="postfix"
-          size="sm"
-          name="outline-ellipsis-horizontal-circle"
-          size="md"
-        ></ssk-icon>
-        Dismiss
-      </ssk-button>
-      <ssk-button padding="sm" variant="ghost" slot="ok-button-slot">
-        <ssk-icon
-          slot="postfix"
-          size="sm"
-          name="outline-ellipsis-horizontal-circle"
-          size="md"
-        ></ssk-icon>
-        View changes
-      </ssk-button>
-    </ssk-alert>`;
+    const [{ "?hidden": hidden }, updateArgs] = useArgs();
+    return html`<style>
+        div.container {
+          display: grid;
+          gap: 0.5em;
+        }
+      </style>
+      <div class="container">
+        <ssk-button @click=${() => updateArgs({ "?hidden": !hidden })}>
+          ${hidden ? "Show" : "Hide"} Alert
+        </ssk-button>
+        <ssk-alert
+          ${spread(args)}
+          @close=${() => {
+            updateArgs({ "?hidden": true });
+            action("@close")();
+          }}
+          ><ssk-icon
+            name="outline-information-circle"
+            themeColor="${args.type}"
+            slot="icon-slot"
+          ></ssk-icon>
+          <ssk-button
+            themeColor="gray"
+            padding="sm"
+            variant="ghost"
+            slot="close-button-slot"
+          >
+            <ssk-icon
+              slot="postfix"
+              size="sm"
+              name="outline-ellipsis-horizontal-circle"
+              size="md"
+            ></ssk-icon>
+            Dismiss
+          </ssk-button>
+          <ssk-button padding="sm" variant="ghost" slot="ok-button-slot">
+            <ssk-icon
+              slot="postfix"
+              size="sm"
+              name="outline-ellipsis-horizontal-circle"
+              size="md"
+            ></ssk-icon>
+            View changes
+          </ssk-button>
+        </ssk-alert>
+      </div>`;
   },
 };

@@ -7,6 +7,8 @@ import "../../../src/elements/button";
 
 import { Alert } from "../../../src/elements/alert";
 import { baseArgsTypes } from "../helper";
+import { useArgs } from "@storybook/client-api";
+import { action } from "@storybook/addon-actions";
 
 type AlertArgs = {} & Alert;
 const type: Alert["type"][] = [
@@ -32,6 +34,7 @@ const meta = {
   title: "Example/Alert",
   tags: [],
   render: ({ ...args }) => {
+    const [{ "?hidden": hidden }, updateArgs] = useArgs();
     return html`<style>
         main {
           display: flex;
@@ -54,12 +57,20 @@ const meta = {
         }
       </style>
       <main>
+        <ssk-button @click=${() => updateArgs({ "?hidden": !hidden })}>
+          ${hidden ? "Show" : "Hide"} Alert
+        </ssk-button>
         ${hasFooter.map(
           (f) => html` <section class="alert-hasfooter-${f}">
             ${type.map(
               (t) => html`
                 <div class="container">
-                  <ssk-alert ${spread({ ...args, type: t })}
+                  <ssk-alert
+                    ${spread({ ...args, type: t })}
+                    @close=${() => {
+                      updateArgs({ "?hidden": true });
+                      action("@close")();
+                    }}
                     ><ssk-icon
                       name=${getIcon(t)}
                       themeColor="${t}"
@@ -95,13 +106,26 @@ const meta = {
                       </ssk-button>`}
                   </ssk-alert>
                 </div>
-              `,
+              `
             )}
-          </section>`,
+          </section>`
         )}
       </main>`;
   },
   argTypes: {
+    "@close": {
+      description: "Emitted when alert is closed",
+      action: "@close",
+      table: { category: "Events" },
+    },
+    "?hideCloseButton": {
+      description: "Hide button top close",
+      control: "boolean",
+      table: {
+        category: "Props",
+      },
+    },
+    "?hidden": baseArgsTypes["?hidden"],
     ...baseArgsTypes,
   },
 } satisfies Meta<AlertArgs>;

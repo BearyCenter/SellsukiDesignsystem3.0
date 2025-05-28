@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, eventOptions, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
 import { ThemeValue } from "../../types/base-attributes";
@@ -49,6 +49,13 @@ export class Alert extends LitElement implements ThemeValue {
   message?: string | undefined;
   @property({ type: String })
   topic?: string | undefined;
+  @property({ type: Boolean })
+  hideCloseButton = false;
+
+  @eventOptions({ capture: false, once: false, passive: true })
+  private close(e: Event) {
+    redispatchEvents(e, this, "close");
+  }
 
   render() {
     if (this.hidden) {
@@ -95,8 +102,8 @@ export class Alert extends LitElement implements ThemeValue {
           </div>
         </div>
         <div
-          class="close"
-          @click=${(e: Event) => redispatchEvents(e, this)}
+          class="close${this.hideCloseButton ? "-hide" : ""}"
+          @click=${this.close}
         ></div>
         <div class="alert-footer">
           <slot name="close-button-slot"></slot>
@@ -144,6 +151,10 @@ export class Alert extends LitElement implements ThemeValue {
     }
     .close:after {
       transform: rotate(-45deg);
+    }
+
+    .close-hide {
+      display: none;
     }
 
     .alert-footer {
