@@ -132,3 +132,44 @@ export const GridModal: Story = {
     `;
   },
 };
+
+export const ModalScrollable: Story = {
+  args: {
+    label: "Example Modal Scrollable",
+    width: "500px",
+    "?show": true,
+    "?hideDivider": true,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1253-75169&mode=design&t=pTwjadNPUzRZF6jG-0",
+    },
+  },
+  render: ({ label, ...args }) => {
+    return html`
+      <style>
+        ssk-modal {
+          --footer-display: grid;
+          --footer-justify-content: normal;
+        }
+      </style>
+      <ssk-modal ${spread(args)}>
+        <div slot="header">${label}</div>
+        <div slot="body">
+          ${Array(500)
+            .fill(0)
+            .map((_, i) => html` <p>Modal Content Goes Here ${i + 1}</p> `)}
+        </div>
+        <div slot="footer">
+          <ssk-button width="full" @click=${args["@close"]}> Close </ssk-button>
+        </div>
+        <div slot="footer">
+          <ssk-button width="full" @click=${args["@close"]}>
+            Save Changes
+          </ssk-button>
+        </div>
+      </ssk-modal>
+    `;
+  },
+};

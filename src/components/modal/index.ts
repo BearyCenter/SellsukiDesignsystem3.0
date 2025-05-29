@@ -192,6 +192,8 @@ export class Modal extends LitElement {
 
     .body {
       grid-area: body;
+      min-height: 0;
+      overflow: hidden;
     }
 
     .body-slot {
@@ -201,6 +203,8 @@ export class Modal extends LitElement {
       display: var(--body-display);
       justify-content: var(--body-justify-content);
       overflow: auto;
+      height: 100%;
+      box-sizing: border-box;
     }
 
     .footer {
