@@ -57,7 +57,7 @@ export class Modal extends LitElement {
           )};
 
           --border-color: ${parseVariables(
-            cssVar("colors", "border", 100),
+            cssVar("colors", "background", 300),
             "#ddd"
           )};
 
@@ -80,15 +80,15 @@ export class Modal extends LitElement {
       this.classList.remove("show-modal");
     }
 
-    const bodySlotExists = this.querySelector('[slot="body"]');
-    const footerSlotExists = this.querySelector('[slot="footer"]');
-
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.container, ":host")}
       ${additionalCss}
 
       <div class="backdrop">
-        <div class="container" data-testid=${this.testId || nothing}>
+        <div
+          class="container ${this.hideDivider ? "" : "divider"}"
+          data-testid=${this.testId || nothing}
+        >
           <div class="close-button${this.hideCloseButton ? "-hide" : ""}">
             <ssk-icon
               ?hidden=${this.hideCloseButton}
@@ -97,31 +97,21 @@ export class Modal extends LitElement {
             >
             </ssk-icon>
           </div>
+
           <div class="header">
             <span class="title">
               <slot name="header"></slot>
             </span>
           </div>
-              ${
-                this.hideDivider
-                  ? nothing
-                  : html`<ssk-divider size="xs"></ssk-divider>`
-              }
-          ${
-            bodySlotExists
-              ? html`<div class="body">
-                    <slot name="body"></slot>
-                  </div>
-                  ${this.hideDivider
-                    ? nothing
-                    : html`<ssk-divider size="xs"></ssk-divider>`} `
-              : nothing
-          }
-          ${
-            footerSlotExists
-              ? html`<div class="footer"><slot name="footer"></slot></div>`
-              : nothing
-          }
+
+          <div class="body">
+            <div class="body-slot">
+              <slot name="body"></slot>
+            </div>
+          </div>
+
+          <div class="footer">
+            <slot name="footer"></slot>
           </div>
         </div>
       </div>
@@ -134,7 +124,7 @@ export class Modal extends LitElement {
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 1000;
+      z-index: var(--z-index-modal, 1000);
       overflow: hidden;
       visibility: visible;
       opacity: 1;
@@ -158,7 +148,7 @@ export class Modal extends LitElement {
       align-items: center;
       justify-content: center;
       background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
+      z-index: var(--z-index-modal, 1000);
     }
 
     .container {
@@ -167,13 +157,29 @@ export class Modal extends LitElement {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       overflow: hidden;
       width: var(--width);
-      position: relative;
+      display: grid;
+      grid-template-areas:
+        "header x"
+        "body body"
+        "footer footer";
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto 1fr auto;
+      max-width: calc(100dvw - var(--padding-container, 24px));
+      max-height: calc(100dvh - var(--padding-container, 24px));
+    }
+
+    .divider > .header,
+    .divider > .close-button,
+    .divider > .body {
+      margin: var(--divider-margin);
+      border-bottom: 1px solid var(--border-color);
     }
 
     .header {
+      grid-area: header;
       padding: 16px;
-      display: var(--header-display);
-      justify-content: var(--header-justify-content);
+      display: var(--header-display, flex);
+      justify-content: var(--header-justify-content, space-between);
       align-items: center;
       gap: 1em;
     }
@@ -185,14 +191,20 @@ export class Modal extends LitElement {
     }
 
     .body {
+      grid-area: body;
+    }
+
+    .body-slot {
       padding: var(--padding-body);
       font-size: 24px;
       font-weight: 400;
       display: var(--body-display);
       justify-content: var(--body-justify-content);
+      overflow: auto;
     }
 
     .footer {
+      grid-area: footer;
       padding: 16px;
       background-color: var(--background-color-footer);
       display: var(--footer-display);
@@ -201,9 +213,9 @@ export class Modal extends LitElement {
     }
 
     .close-button {
-      position: absolute;
-      right: 1em;
-      top: 1em;
+      cursor: pointer;
+      grid-area: x;
+      padding: 16px;
     }
 
     .close-button-hide {
