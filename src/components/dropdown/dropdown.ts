@@ -147,7 +147,7 @@ export class Dropdown extends LitElement {
   };
 
   @property({ type: Boolean, reflect: true })
-  forceOpen = false;
+  forceOpen = undefined;
 
   private clearSelection() {
     this.value = "";
@@ -188,6 +188,10 @@ export class Dropdown extends LitElement {
   private handleClickContainer = (e: MouseEvent) => {
     e.stopPropagation();
 
+    if (this.forceOpen !== undefined) {
+      return;
+    }
+
     if (this.disabled) {
       return;
     }
@@ -214,6 +218,10 @@ export class Dropdown extends LitElement {
   };
 
   private handleClickOutside = (_e: MouseEvent) => {
+    if (this.forceOpen !== undefined) {
+      return;
+    }
+
     this.state.isOpened = false;
     Dropdown.currentOpenDropdown = null;
     this.requestUpdate();
@@ -224,7 +232,7 @@ export class Dropdown extends LitElement {
     window.addEventListener("scroll", this.scrollHandler, true);
 
     const resizeObserver = new ResizeObserver(() => {
-      if (this.state.isOpened) {
+      if (this.state.isOpened || this.forceOpen) {
         this.updateOptionsPosition();
       }
     });
