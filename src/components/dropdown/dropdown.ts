@@ -146,6 +146,9 @@ export class Dropdown extends LitElement {
     isSelected: this.isSelected,
   };
 
+  @property({ type: Boolean, reflect: true })
+  forceOpen = false;
+
   private clearSelection() {
     this.value = "";
     this.state.value = "";
@@ -295,7 +298,7 @@ export class Dropdown extends LitElement {
   }
 
   private updateOptionsPosition = () => {
-    if (!this.state.isOpened) return;
+    if (!(this.state.isOpened || this.forceOpen)) return;
 
     const { anchor, align } = this.calculatePosition();
     const options = this.shadowRoot?.querySelector(".options-container");
@@ -397,7 +400,7 @@ export class Dropdown extends LitElement {
           <slot name="selected" @click=${this.handleClickContainer}></slot>
 
           <div
-            class="options-container ${this.state.isOpened
+            class="options-container ${this.state.isOpened || this.forceOpen
               ? "show"
               : ""}  ${this.optionsWidth}"
           >
