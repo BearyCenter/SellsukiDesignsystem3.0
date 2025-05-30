@@ -123,6 +123,8 @@ export class DynamicTable extends LitElement {
           )};
 
           --table-height: ${this.height || "auto"};
+          --table-overflow-x: unset;
+          --table-overflow-y: auto;
         }
 
         ${stripedSelector.join(", ")} {
@@ -168,8 +170,8 @@ export class DynamicTable extends LitElement {
     .table {
       display: grid;
       grid-template-columns: var(--table-template-column);
-      overflow: unset;
-      overflow-y: auto;
+      overflow-x: var(--table-overflow-x);
+      overflow-y: var(--table-overflow-y);
     }
 
     .footer-spaner {
