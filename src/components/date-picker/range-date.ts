@@ -539,12 +539,14 @@ export class RangeDatePicker extends LitElement {
             <ssk-icon name="solid-arrow-long-right"></ssk-icon>
           </ssk-input-addon>
           <ssk-input-addon slot="postfix" @click=${this.handleIcon.bind(this)}>
+          <div class="icon-style">
+            ${this.error 
+              ? html`<ssk-icon name="outline-exclamation-circle" themecolor="error"></ssk-icon>` 
+              : nothing}
             ${this._isClear
-              ? html`<ssk-icon
-                  class="clear"
-                  name="outline-x-circle"
-                ></ssk-icon>`
-              : html`<ssk-icon name="outline-calendar-days"></ssk-icon> `}
+              ? html`<ssk-icon class="clear" name="outline-x-circle"></ssk-icon>`
+              : html`<ssk-icon name="outline-calendar-days"></ssk-icon>`}
+          </div>
           </ssk-input-addon>
         </ssk-input-range>
         <div
@@ -662,6 +664,11 @@ export class RangeDatePicker extends LitElement {
 
     .calendar-container.right {
       right: 1rem;
+    }
+    .icon-style {
+      display: flex; /* ใช้ flexbox */
+      align-items: center; /* จัดแนวไอคอนให้ตรงกลาง */
+      gap: 8px;
     }
   `;
 }

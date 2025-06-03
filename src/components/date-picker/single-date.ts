@@ -328,12 +328,14 @@ export class DatePicker extends LitElement {
           color=${this.color}
         >
           <ssk-input-addon slot="postfix" @click=${this.handleIcon.bind(this)}>
+          <div class="icon-style">
+            ${this.error 
+              ? html`<ssk-icon name="outline-exclamation-circle" themecolor="error"></ssk-icon>` 
+              : nothing}
             ${this._isClear
-              ? html`<ssk-icon
-                  class="clear"
-                  name="outline-x-circle"
-                ></ssk-icon>`
-              : html`<ssk-icon name="outline-calendar-days"></ssk-icon> `}
+              ? html`<ssk-icon class="clear" name="outline-x-circle"></ssk-icon>`
+              : html`<ssk-icon name="outline-calendar-days"></ssk-icon>`}
+          </div>
           </ssk-input-addon>
         </ssk-input>
         <div
@@ -393,6 +395,11 @@ export class DatePicker extends LitElement {
 
     .calendar-container.right {
       right: 1rem;
+    }
+    .icon-style {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
   `;
 }
