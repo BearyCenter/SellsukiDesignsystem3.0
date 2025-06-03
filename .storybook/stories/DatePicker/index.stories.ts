@@ -156,6 +156,17 @@ const meta = {
         },
       },
     },
+    "?error": {
+      description: "show error validate",
+      control: {
+        type: "boolean",
+      },
+      table: {
+        category: "Props",
+        defaultValue: { summary: false },
+        type: { summary: "boolean" },
+      },
+    },
     "@change": genericEvents["@change"],
     ...baseArgsTypes,
   },
