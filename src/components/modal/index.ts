@@ -49,16 +49,16 @@ export class Modal extends LitElement {
           --width: ${parseVariables(
             cssVar("width", this.width),
             this.width,
-            "100%"
+            "100%",
           )};
 
           --background-color-footer: ${parseVariables(
-            cssVar("colors", "white", 200)
+            cssVar("colors", "white", 200),
           )};
 
           --border-color: ${parseVariables(
             cssVar("colors", "background", 300),
-            "#ddd"
+            "#ddd",
           )};
 
           --header-display: flex;
@@ -152,6 +152,7 @@ export class Modal extends LitElement {
     }
 
     .container {
+      position: relative;
       background-color: #fff;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -220,6 +221,8 @@ export class Modal extends LitElement {
       cursor: pointer;
       grid-area: x;
       padding: 16px;
+      position: absolute;
+      right: 0;
     }
 
     .close-button-hide {
