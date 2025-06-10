@@ -165,11 +165,6 @@ export class Modal extends LitElement {
       overflow: hidden;
       width: var(--width);
       display: grid;
-      grid-template-areas:
-        "header x"
-        "body body"
-        "footer footer";
-      grid-template-columns: 1fr auto;
       grid-template-rows: auto 1fr auto;
       max-width: calc(100dvw - var(--padding-container, 24px));
       max-height: calc(100dvh - var(--padding-container, 24px));
@@ -182,7 +177,6 @@ export class Modal extends LitElement {
     }
 
     .header {
-      grid-area: header;
       padding: 16px;
       display: var(--header-display, flex);
       justify-content: var(--header-justify-content, space-between);
@@ -197,7 +191,6 @@ export class Modal extends LitElement {
     }
 
     .body {
-      grid-area: body;
       min-height: 0;
       overflow: hidden;
     }
@@ -214,7 +207,6 @@ export class Modal extends LitElement {
     }
 
     .footer {
-      grid-area: footer;
       padding: 16px;
       background-color: var(--background-color-footer);
       display: var(--footer-display);
@@ -223,8 +215,10 @@ export class Modal extends LitElement {
     }
 
     .close-button {
+      position: absolute;
+      top: 0px;
+      right: 0px;
       cursor: pointer;
-      grid-area: x;
       padding: 16px;
       position: absolute;
       right: 0;
