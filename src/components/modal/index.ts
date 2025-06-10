@@ -112,7 +112,7 @@ export class Modal extends LitElement {
                 <div class="body-slot">
                   <slot name="body"></slot>
                 </div>
-              </div> `
+              </div>`
             : nothing}
           ${footerSlotExists
             ? html`<div class="footer">
