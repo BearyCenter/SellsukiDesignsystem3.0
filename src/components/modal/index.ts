@@ -80,6 +80,9 @@ export class Modal extends LitElement {
       this.classList.remove("show-modal");
     }
 
+    const bodySlotExists = this.querySelector('[slot="body"]');
+    const footerSlotExists = this.querySelector('[slot="footer"]');
+
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.container, ":host")}
       ${additionalCss}
@@ -104,15 +107,18 @@ export class Modal extends LitElement {
             </span>
           </div>
 
-          <div class="body">
-            <div class="body-slot">
-              <slot name="body"></slot>
-            </div>
-          </div>
-
-          <div class="footer">
-            <slot name="footer"></slot>
-          </div>
+          ${bodySlotExists
+            ? html`<div class="body">
+                <div class="body-slot">
+                  <slot name="body"></slot>
+                </div>
+              </div>`
+            : nothing}
+          ${footerSlotExists
+            ? html`<div class="footer">
+                <slot name="footer"></slot>
+              </div>`
+            : nothing}
         </div>
       </div>
     `;
@@ -165,7 +171,6 @@ export class Modal extends LitElement {
     }
 
     .divider > .header,
-    .divider > .close-button,
     .divider > .body {
       margin: var(--divider-margin);
       border-bottom: 1px solid var(--border-color);
