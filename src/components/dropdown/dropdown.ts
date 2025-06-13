@@ -390,6 +390,8 @@ export class Dropdown extends LitElement {
             this.width,
             "auto"
           )};
+
+          --overflow-options: auto;
         }
 
         div.options-container.show {
@@ -501,6 +503,7 @@ export class Dropdown extends LitElement {
       display: flex;
       flex-direction: column;
       gap: 0.125em;
+      overflow: var(--overflow-options);
     }
 
     label.helper {
