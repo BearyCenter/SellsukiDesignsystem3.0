@@ -1,7 +1,7 @@
 import { spread } from "@open-wc/lit-helpers";
 import { useArgs } from "@storybook/client-api";
 import { Meta, StoryObj } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import "../../../src/components/dynamic-table";
 import { DynamicTable } from "../../../src/components/dynamic-table";
 import "../../../src/components/pagination";
@@ -549,6 +549,8 @@ const lNames = [
   "Gonzalez",
 ];
 
+const expandedRows = new Set<number>();
+
 const getRandomTableData = (): TableData => {
   return {
     firstName: fNames[Math.floor(Math.random() * fNames.length)],
@@ -646,6 +648,174 @@ export const LazyLoadingTable: Story = {
               กำลังโหลดข้อมูล
             </div>`
           : ""}
+      </ssk-dynamic-table>
+    `;
+  },
+};
+export const ExpandableRowsTable: Story = {
+  args: {
+    testId: "test-id",
+    ".columnsWidth": ["78px", "300px", "150px", "80px", "auto"],
+    ".height": "600px",
+  },
+  render: (args) => {
+    const [{}, updateArgs] = useArgs();
+
+    const toggleExpand = (index: number) => {
+      if (expandedRows.has(index)) {
+        expandedRows.delete(index);
+      } else {
+        expandedRows.add(index);
+      }
+      updateArgs({});
+    };
+
+    return html`
+      <style>
+        .content {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+
+          padding: 2rem 0;
+          gap: 8px;
+          box-sizing: border-box;
+        }
+        .expand-button {
+          cursor: pointer;
+          background: none;
+          border: none;
+        }
+      </style>
+      <ssk-dynamic-table ${spread(args)}>
+        <ssk-header-cell slot="headers"></ssk-header-cell>
+        <ssk-header-cell
+          slot="headers"
+          sortable
+          sortDirection="asc"
+          align="left"
+        >
+          First Name
+        </ssk-header-cell>
+        <ssk-header-cell slot="headers" sortable>Last Name</ssk-header-cell>
+        <ssk-header-cell slot="headers">Age</ssk-header-cell>
+        <ssk-header-cell slot="headers">Action</ssk-header-cell>
+
+        <ssk-table-cell align="left">
+          <ssk-icon
+            class="expand-button"
+            @click=${() => toggleExpand(0)}
+            iconName=${
+              expandedRows.has(0)
+                ? "outline-chevron-up"
+                : "outline-chevron-down"
+            }
+          ></ssk-icon>
+        </ssk-table-cell>
+        <ssk-table-cell align="left">John</ssk-table-cell>
+        <ssk-table-cell>Doe</ssk-table-cell>
+        <ssk-table-cell>30</ssk-table-cell>
+        <ssk-table-cell>
+          <ssk-button>Click me</ssk-button>
+          <ssk-button themeColor="pink">
+            <ssk-icon iconName="solid-user-plus"></ssk-icon>
+          </ssk-button>
+        </ssk-table-cell>
+
+        <!-- Expanded content row -->
+
+        <ssk-table-row expanded=${expandedRows.has(0)} padding="none" borderBottom="none">
+          <ssk-dynamic-table
+              columnsWidth='["78px", "300px", "150px", "80px", "auto"]'
+              height="auto"
+              backgroundColor="#f9fafb"
+              >
+                <ssk-table-cell></ssk-table-cell>
+                <ssk-table-cell align="left">Text</ssk-table-cell>
+                <ssk-table-cell>Text</ssk-table-cell>
+                <ssk-table-cell>Text</ssk-table-cell>
+                <ssk-table-cell>Text</ssk-table-cell>
+
+                <ssk-table-cell></ssk-table-cell>
+                <ssk-table-cell align="left">Text</ssk-table-cell>
+                <ssk-table-cell>Text</ssk-table-cell>
+                <ssk-table-cell>Text</ssk-table-cell>
+                <ssk-table-cell>Text</ssk-table-cell>
+          </ssk-dynamic-table>
+        </ssk-table-row>
+    
+        <ssk-table-cell align="left"></ssk-icon>
+        </ssk-table-cell>
+        <ssk-table-cell align="left">John</ssk-table-cell>
+        <ssk-table-cell>Doe</ssk-table-cell>
+        <ssk-table-cell>30</ssk-table-cell>
+        <ssk-table-cell>
+          <ssk-button>Click me</ssk-button>
+          <ssk-button themeColor="pink">
+            <ssk-icon iconName="solid-user-plus"></ssk-icon>
+          </ssk-button>
+        </ssk-table-cell>
+
+        <ssk-table-cell align="left">
+          <ssk-icon
+            class="expand-button"
+            @click=${() => toggleExpand(2)}
+            iconName=${
+              expandedRows.has(2)
+                ? "outline-chevron-up"
+                : "outline-chevron-down"
+            }
+          ></ssk-icon>
+        </ssk-table-cell>
+        <ssk-table-cell align="left">John</ssk-table-cell>
+        <ssk-table-cell>Doe</ssk-table-cell>
+        <ssk-table-cell>30</ssk-table-cell>
+        <ssk-table-cell>
+          <ssk-button>Click me</ssk-button>
+          <ssk-button themeColor="pink">
+            <ssk-icon iconName="solid-user-plus"></ssk-icon>
+          </ssk-button>
+        </ssk-table-cell>
+
+        <!-- Expanded content row -->
+        <ssk-table-row expanded=${expandedRows.has(2)}> 
+          Expanded Row Content 
+        </ssk-table-row> 
+
+        <ssk-table-cell align="left">
+          <ssk-icon
+            class="expand-button"
+            @click=${() => toggleExpand(3)}
+            iconName=${
+              expandedRows.has(3)
+                ? "outline-chevron-up"
+                : "outline-chevron-down"
+            }
+          ></ssk-icon>
+        </ssk-table-cell>
+        <ssk-table-cell align="left">John</ssk-table-cell>
+        <ssk-table-cell>Doe</ssk-table-cell>
+        <ssk-table-cell>30</ssk-table-cell>
+        <ssk-table-cell>
+          <ssk-button>Click me</ssk-button>
+          <ssk-button themeColor="pink">
+            <ssk-icon iconName="solid-user-plus"></ssk-icon>
+          </ssk-button>
+        </ssk-table-cell>
+
+        <!-- Expanded content row -->
+        <ssk-table-row expanded=${expandedRows.has(3)}> 
+          Expanded Row Content 
+        </ssk-table-row> 
+
+        <ssk-pagination
+          slot="footer"
+          showrowspage
+          showRowsPerPage
+          totalPages="10"
+        ></ssk-pagination>
       </ssk-dynamic-table>
     `;
   },
