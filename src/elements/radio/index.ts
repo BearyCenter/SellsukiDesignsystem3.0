@@ -65,6 +65,7 @@ export class Radio extends LitElement implements ThemeValue {
       return nothing;
     }
 
+    const labelSlot = this.querySelector('[slot="label"]');
     let additionalCss = `
     --active-100: ${parseVariables(cssVar("colors", this.themeColor, 100))};
     --active-500: ${parseVariables(cssVar("colors", this.themeColor, 500))};
@@ -96,7 +97,9 @@ export class Radio extends LitElement implements ThemeValue {
           .checked=${this.checked}
           @change=${(e: Event) => this._onChange(e)}
         />
-        <label for="radio">${this.label}</label>
+        <label for="radio">
+          ${labelSlot ? html`<slot name="label"></slot>` : this.label}
+        </label>
       </div>
     `;
   }
@@ -133,11 +136,13 @@ export class Radio extends LitElement implements ThemeValue {
       }
 
       .radio-wrapper input[type="radio"] + label {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
         vertical-align: middle;
         cursor: pointer;
         margin-left: calc(0.2 * var(--font-size));
         font-size: var(--font-size);
+        gap: 0.2em;
       }
 
       .radio-wrapper input[type="radio"]:hover:not(:disabled) {
