@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/elements/radio";
 import "../../../src/elements/radio/group";
+import "../../../src/elements/icon";
 import { Radio } from "../../../src/elements/radio";
 import { baseArgsTypes, genericEvents } from "../helper";
 
@@ -92,6 +93,27 @@ export const Default: Story = {
       type: "figma",
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=854-63034&mode=design",
     },
+  },
+};
+
+export const RadioSlotLabel: Story = {
+  args: {
+    label: "Radio Group",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=854-63034&mode=design",
+    },
+  },
+  render: ({ ...agrs }) => {
+    return html`
+      <div>
+        <ssk-radio ${spread(agrs)}>
+          <ssk-icon slot="label" name="solid-shake-hand" />
+        </ssk-radio>
+      </div>
+    `;
   },
 };
 
