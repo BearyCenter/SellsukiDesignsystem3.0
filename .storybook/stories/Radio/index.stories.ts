@@ -4,6 +4,7 @@ import { html } from "lit";
 import "../../../src/elements/radio";
 import "../../../src/elements/radio/group";
 import "../../../src/elements/icon";
+import "../../../src/elements/text";
 import { Radio } from "../../../src/elements/radio";
 import { baseArgsTypes, genericEvents } from "../helper";
 
@@ -98,7 +99,7 @@ export const Default: Story = {
 
 export const RadioSlotLabel: Story = {
   args: {
-    label: "Radio Group",
+    label: "",
   },
   parameters: {
     design: {
@@ -110,7 +111,8 @@ export const RadioSlotLabel: Story = {
     return html`
       <div>
         <ssk-radio ${spread(agrs)}>
-          <ssk-icon slot="label" name="solid-shake-hand" />
+          <ssk-icon slot="label" name="solid-shake-hand"></ssk-icon>
+          <ssk-text slot="label" size="md">Radio Slot</ssk-text>
         </ssk-radio>
       </div>
     `;
