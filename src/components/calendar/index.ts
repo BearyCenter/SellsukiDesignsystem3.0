@@ -485,10 +485,11 @@ export class Calendar extends LitElement {
         locale: locales[this.locale],
       });
       this.year = yearPlusString;
-      this.dispatchEvent(
-        new CustomEvent("next-year", { detail: { value: this.year } }),
-      );
     }
+
+    this.dispatchEvent(
+      new CustomEvent("next-year", { detail: { value: this.year } }),
+    );
     this.dispatchEvent(
       new CustomEvent("next-month", { detail: { value: this.month } }),
     );
@@ -506,10 +507,10 @@ export class Calendar extends LitElement {
         locale: locales[this.locale],
       });
       this.year = yearMinusString;
-      this.dispatchEvent(
-        new CustomEvent("prev-year", { detail: { value: this.year } }),
-      );
     }
+    this.dispatchEvent(
+      new CustomEvent("prev-year", { detail: { value: this.year } }),
+    );
     this.dispatchEvent(
       new CustomEvent("prev-month", { detail: { value: this.month } }),
     );
@@ -643,8 +644,10 @@ export class Calendar extends LitElement {
     const year = getYear(date);
     const isYearDisabled = Array.isArray(this.disabledYears)
       ? this.disabledYears.includes(year)
-      : this.disabledYears === year
-    const isOutsideRange = (this.minYear !== undefined && year < this.minYear) || (this.maxYear !== undefined && year > this.maxYear)
+      : this.disabledYears === year;
+    const isOutsideRange =
+      (this.minYear !== undefined && year < this.minYear) ||
+      (this.maxYear !== undefined && year > this.maxYear);
 
     return dd || isYearDisabled || isOutsideRange;
   }
@@ -699,7 +702,8 @@ export class Calendar extends LitElement {
             ${this.month === m ? "selected" : null} 
             ${this.isCurrentMonth(m) ? "currently" : null}
             ${this.isMonthDisabled(m) ? "disabled" : ""}"
-            @click=${() => !this.isMonthDisabled(m) && this.handleMonthChanged(m)}
+            @click=${() =>
+              !this.isMonthDisabled(m) && this.handleMonthChanged(m)}
           >
             <ssk-text size=${this.size}>
               <span>${this.computeMonthName(m, "MMM")}</span>
@@ -738,9 +742,13 @@ export class Calendar extends LitElement {
                 class="item 
                   ${+this.year === y ? "selected" : null}
                   ${this.isCurrentYear(y) ? "currently" : null}
-                  ${this.checkDisabled(new Date(y, 0, 1).getTime()) ? "disabled" : ""}
+                  ${this.checkDisabled(new Date(y, 0, 1).getTime())
+                  ? "disabled"
+                  : ""}
                 "
-                @click=${() => !this.checkDisabled(new Date(y, 0, 1).getTime()) && this.handleYearChanged(y)}
+                @click=${() =>
+                  !this.checkDisabled(new Date(y, 0, 1).getTime()) &&
+                  this.handleYearChanged(y)}
               >
                 <ssk-text size=${this.size}>
                   <span>${this.computeYearName(y.toString(), "yyyy")}</span>
@@ -1078,7 +1086,7 @@ export class Calendar extends LitElement {
       cursor: not-allowed;
       pointer-events: none;
     }
-    .disabled  span {
+    .disabled span {
       color: #b3b3b3;
     }
     .selected.disabled {
@@ -1086,7 +1094,6 @@ export class Calendar extends LitElement {
       color: lightgray;
       cursor: not-allowed;
     }
-  
   `;
 }
 
