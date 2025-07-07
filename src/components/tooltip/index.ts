@@ -130,7 +130,7 @@ export class Tooltip extends LitElement implements ThemeValue {
       <div class="tooltip ${this.trigger}" @click=${this._handleClickable}>
         <div class="content tooltip-${this.placement}">
           <div class="label">
-            <ssk-text size=${this.size}>${this.label}</ssk-text>
+            <ssk-text color="${this.color}" size=${this.size}>${this.label}</ssk-text>
           </div>
           <div class="close-button${this.hideCloseButton ? "-hide" : ""}">
             <ssk-icon
