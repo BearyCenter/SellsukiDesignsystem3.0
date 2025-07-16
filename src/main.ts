@@ -39,6 +39,7 @@ export * from "./elements/text";
 export * from "./elements/textarea";
 export * from "./elements/toggle";
 export * from "./elements/top-navbar";
+export * from "./elements/accordion";
 
 export * from "./components/addon-phone-country";
 export * from "./components/calendar";

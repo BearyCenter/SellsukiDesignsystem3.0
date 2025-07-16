@@ -1657,6 +1657,28 @@ export const defaultTheme: Theme = {
         lg: "120px",
       },
     },
+    accordion: {
+      padding: {
+        xs: "0px",
+        sm: "2px",
+        md: "4px",
+        lg: "6px",
+        xl: "12px",
+        "2xl": "16px",
+        "3xl": "24px",
+        "4xl": "32px",
+      },
+      rounded: {
+        xs: "0px",
+        sm: "2px",
+        md: "3px",
+        lg: "4px",
+        xl: "8px",
+        "2xl": "10px",
+        "3xl": "10px",
+        "4xl": "10px",
+      },
+    },
   },
 };
 
