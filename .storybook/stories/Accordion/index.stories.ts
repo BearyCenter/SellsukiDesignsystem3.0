@@ -1,11 +1,33 @@
 import { html } from "lit";
+import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
 import "../../../src/elements/accordion";
 import "../../../src/elements/icon";
+import "../../../src/elements/checkbox";
 import { Accordion } from "../../../src/elements/accordion";
 
 type AccordionArgs = AutoLitProperty<Accordion>;
+
+const accordionItems = [
+  {
+    id: "1",
+    title: "Accordion Item 1",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  },
+  {
+    id: "2",
+    title: "Accordion Item 2",
+    content:
+      "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  },
+  {
+    id: "3",
+    title: "Accordion Item 3",
+    content:
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+  },
+];
 
 const meta = {
   title: "Example/Accordion",
@@ -13,21 +35,19 @@ const meta = {
   render: ({ ...args }) => {
     return html`
       <ssk-accordion
-        mode=${args.mode}
-        align=${args.align}
-        variant=${args.variant}
+        ${spread(args)}
         @change=${(e: Event) =>
           console.log("onChange", (e as CustomEvent).detail)}
       >
-        <ssk-accordion-item id="1" title="Accordion Item 1">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </ssk-accordion-item>
-        <ssk-accordion-item id="2" title="Accordion Item 2">
-          Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </ssk-accordion-item>
-        <ssk-accordion-item id="3" title="Accordion Item 3">
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
-        </ssk-accordion-item>
+        ${accordionItems.map(
+          (item) => html`
+            <ssk-accordion-item id=${item.id} title=${item.title}>
+              <ssk-icon slot="icon-open" name="solid-chevron-up"></ssk-icon>
+              <ssk-icon slot="icon-close" name="solid-chevron-down"></ssk-icon>
+              ${item.content}
+            </ssk-accordion-item>
+          `
+        )}
       </ssk-accordion>
     `;
   },
@@ -130,4 +150,48 @@ export const AllCombinations: Story = {
     `;
   },
   args: {},
+};
+
+export const WithCheckboxTwoColumns: StoryObj<AccordionArgs> = {
+  render: (args) => html`
+    <ssk-accordion ${spread(args)}>
+      <ssk-accordion-item id="courier-company" title="บริษัทขนส่ง">
+        <ssk-icon slot="icon-open" name="solid-chevron-up"></ssk-icon>
+        <ssk-icon slot="icon-close" name="solid-chevron-down"></ssk-icon>
+        <div>
+          <div style="margin-bottom: 0.25rem;">Standard</div>
+          <div
+            style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem 1rem;"
+          >
+            <ssk-checkbox label="ไม่ระบุ"></ssk-checkbox>
+            <ssk-checkbox label="KEX Express"></ssk-checkbox>
+            <ssk-checkbox label="Flash Express"></ssk-checkbox>
+            <ssk-checkbox label="Thailand Post"></ssk-checkbox>
+            <ssk-checkbox label="J&T Express"></ssk-checkbox>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <div style="margin-bottom: 0.25rem;">Sameday</div>
+          <div
+            style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem 1rem;"
+          >
+            <ssk-checkbox label="ไม่ระบุ"></ssk-checkbox>
+            <ssk-checkbox label="Messenger"></ssk-checkbox>
+            <ssk-checkbox label="Line Man"></ssk-checkbox>
+            <ssk-checkbox label="Grab"></ssk-checkbox>
+            <ssk-checkbox label="Lalamove"></ssk-checkbox>
+            <ssk-checkbox label="Deliveree"></ssk-checkbox>
+            <ssk-checkbox label="Skootar"></ssk-checkbox>
+            <ssk-checkbox label="MakeSend"></ssk-checkbox>
+          </div>
+        </div>
+      </ssk-accordion-item>
+    </ssk-accordion>
+  `,
+  args: {
+    mode: "single",
+    align: "left",
+    variant: "clean",
+  },
 };

@@ -26,7 +26,9 @@ export class AccordionItem extends LitElement {
   render() {
     return html`
       <div class="header" @click=${this.handleToggle}>
-        <span class="header-text">${this.title}</span>
+        <span class="header-text">
+          <slot name="title">${this.title}</slot>
+        </span>
         ${this.open
           ? html`<slot name="icon-open"></slot>`
           : html`<slot name="icon-close"></slot>`}
@@ -66,6 +68,7 @@ export class AccordionItem extends LitElement {
     .header-text {
       flex-grow: 1;
       text-align: left;
+      font-weight: 500;
     }
 
     :host([align="center"]) .header-text {
