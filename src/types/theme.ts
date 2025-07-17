@@ -242,7 +242,7 @@ export type Theme = {
     tab?: Partial<ThemeField>;
     stepper?: Partial<ThemeField>;
     table?: Partial<ThemeField>;
-    row?:Partial<ThemeField>;
+    row?: Partial<ThemeField>;
     pagination?: Partial<ThemeField>;
     pinCode?: Partial<ThemeField>;
     cardSelect?: Partial<ThemeField>;
@@ -255,6 +255,7 @@ export type Theme = {
     timeline?: Partial<ThemeField>;
     skeleton?: Partial<ThemeField>;
     spinner?: Partial<ThemeField>;
+    accordion?: Partial<ThemeField>;
   };
 } & ThemeField;
 
