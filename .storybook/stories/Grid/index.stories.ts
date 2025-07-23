@@ -50,10 +50,8 @@ const meta: Meta<GridStoryArgs> = {
     decorators: [
         (story) => html`
         <style>
-        /* สไตล์สำหรับ grid-item ที่จะใช้กับ slotted content */
         .grid-item {
-            position: absolute; /* กำหนดโดย JavaScript ของ ssk-grid */
-            background-color: #2196f3;
+            position: absolute;
             color: white;
             font-weight: bold;
             font-size: 14px;
@@ -63,7 +61,6 @@ const meta: Meta<GridStoryArgs> = {
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
             transition: box-shadow 0.3s ease;
             user-select: none;
             box-sizing: border-box; /* ทำให้ padding ไม่เพิ่มขนาดรวมของ item */
@@ -73,7 +70,6 @@ const meta: Meta<GridStoryArgs> = {
 
         .grid-item:active {
             cursor: grabbing;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
         }
         </style>
         ${story()}
@@ -202,212 +198,11 @@ export const CustomSizeItems: Story = {
     },
 };
 
-// export const StaticItems: Story = {
-//     args: {
-//         gap: "16px",      // กำหนด gap ที่นี่
-//         gridItemSize: 72, // กำหนด gridItemSize ที่นี่
-//         maxColumns: 12,
-//     },
-//     render: (args) => {
-//         // items array มีแค่ id, x, y
-//         const items = [
-//             { id: 1, x: 0, y: 0 },
-//             { id: 2, x: 2, y: 0 },
-//             { id: 3, x: 5, y: 0 },
-//             { id: 4, x: 9, y: 0 },
-//             { id: 5, x: 0, y: 3 },
-//             { id: 6, x: 3, y: 3 },
-//             { id: 7, x: 6, y: 3 },
-//             { id: 8, x: 9, y: 3 },
-//             { id: 9, x: 0, y: 5 },
-//     ];
-
-//         return html`
-//         <ssk-grid .items=${items} ${spread(args)}>
-//             <div class="grid-item" data-id="1" data-width="2" data-height="2" style="background-color: #f44336;">
-//                 <h3>2x2</h3><p>Item 1</p>
-//             </div>
-//             <div class="grid-item" data-id="2" data-width="3" data-height="1" style="background-color: #e91e63;">
-//                 <h3>3x1</h3><p>Item 2</p>
-//             </div>
-//             <div class="grid-item" data-id="3" data-width="1" data-height="2" style="background-color: #9c27b0;">
-//                 <h3>1x2</h3><p>Item 3</p>
-//             </div>
-//             <div class="grid-item" data-id="4" data-width="1" data-height="1" style="background-color:rgb(244, 244, 244); color:red;">
-//                 <h3>1x1</h3><p>Item 4</p>
-//             </div>
-//             <div class="grid-item" data-id="5" data-width="3" data-height="2" style="background-color:rgb(244, 244, 244); color:red;">
-//                 <h3>2x3</h3><p>Item 5</p>
-//             </div>
-//             <div class="grid-item" data-id="6" data-width="3" data-height="2" style="background-color:rgb(244, 244, 244); color:red;">
-//                 <h3>2x3</h3><p>Item 6</p>
-//             </div>
-//             <div class="grid-item" data-id="7" data-width="3" data-height="2" style="background-color:rgb(244, 244, 244); color:red;">
-//                 <h3>2x3</h3><p>Item 7</p>
-//             </div>
-//             <div class="grid-item" data-id="8" data-width="3" data-height="2" style="background-color:rgb(244, 244, 244); color:red;">
-//                 <h3>2x3</h3><p>Item 8</p>
-//             </div>
-//             <div data-id="9" data-width="3" data-height="2" style="background-color:rgb(62, 201, 47); color:red;">
-//                 <h3>2x3s</h3><p>Item 8</p>
-//             </div>
-//         </ssk-grid>
-//         `;
-//     },
-// };
-// export const StaticItems: Story = {
-//     args: {
-//         gap: "32px",      // กำหนด gap ที่นี่
-//         gridItemSize: 72, // กำหนด gridItemSize ที่นี่
-//         maxColumns: 12,
-//     },
-//     render: (args) => {
-//         const baseSizePx = args.gridItemSize; // 72px
-
-//         // **สำคัญ: Items array มีแค่ id, x, y เท่านั้น**
-//         const items = [
-//             { id: 1, x: 0, y: 0 }, // Item 1: 2x2
-//             { id: 2, x: 2, y: 0 }, // Item 2: 3x1
-//             { id: 3, x: 5, y: 0 }, // Item 3: 1x2
-//             { id: 4, x: 9, y: 0 }, // Item 4: 1x1
-//             { id: 5, x: 0, y: 3 }, // Item 5: 3x2 (แก้ไขตำแหน่ง Y เดิม: 3, เปลี่ยนจาก 2x3 เพื่อให้พอดีกับภาพตัวอย่าง)
-//             { id: 6, x: 3, y: 3 }, // Item 6: 3x2
-//             { id: 7, x: 6, y: 3 }, // Item 7: 3x2
-//             { id: 8, x: 9, y: 3 }, // Item 8: 3x2
-//             { id: 9, x: 0, y: 5 }, // Item 9: 3x2 (แก้ไข ID และตำแหน่ง Y เดิม: 5)
-//         ];
-
-//         return html`
-//         <ssk-grid .items=${items} ${spread(args)}>
-//             <div class="grid-item" data-id="1" style="
-//                 background-color: #f44336;
-//                 width: ${baseSizePx * 2}px; /* 2 units wide = 144px */
-//                 height: ${baseSizePx * 2}px; /* 2 units high = 144px */
-//             ">
-//                 <h3>2x2</h3><p>Item 1</p>
-//             </div>
-//             <div class="grid-item" data-id="2" style="
-//                 background-color: #e91e63;
-//                 width: ${baseSizePx * 3}px; /* 3 units wide = 216px */
-//                 height: ${baseSizePx * 1}px; /* 1 unit high = 72px */
-//             ">
-//                 <h3>3x1</h3><p>Item 2</p>
-//             </div>
-//             <div class="grid-item" data-id="3" style="
-//                 background-color: #9c27b0;
-//                 width: ${baseSizePx * 1}px; /* 1 unit wide = 72px */
-//                 height: ${baseSizePx * 2}px; /* 2 units high = 144px */
-//             ">
-//                 <h3>1x2</h3><p>Item 3</p>
-//             </div>
-//             <div class="grid-item" data-id="4" style="
-//                 background-color:rgb(244, 244, 244); color:red;
-//                 width: ${baseSizePx * 1}px; /* 1 unit wide = 72px */
-//                 height: ${baseSizePx * 1}px; /* 1 unit high = 72px */
-//             ">
-//                 <h3>1x1</h3><p>Item 4</p>
-//             </div>
-//             <div class="grid-item" data-id="5" style="
-//                 background-color: orange; /* เปลี่ยนสีเพื่อความชัดเจน */
-//                 width: ${baseSizePx * 3}px; /* 3 units wide = 216px */
-//                 height: ${baseSizePx * 2}px; /* 2 units high = 144px */
-//             ">
-//                 <h3>3x2</h3><p>Item 5</p>
-//             </div>
-//             <div class="grid-item" data-id="6" style="
-//                 background-color: darkgoldenrod; /* เปลี่ยนสีเพื่อความชัดเจน */
-//                 width: ${baseSizePx * 3}px;
-//                 height: ${baseSizePx * 2}px;
-//             ">
-//                 <h3>3x2</h3><p>Item 6</p>
-//             </div>
-//             <div class="grid-item" data-id="7" style="
-//                 background-color: peru; /* เปลี่ยนสีเพื่อความชัดเจน */
-//                 width: ${baseSizePx * 3}px;
-//                 height: ${baseSizePx * 2}px;
-//             ">
-//                 <h3>3x2</h3><p>Item 7</p>
-//             </div>
-//             <div class="grid-item" data-id="8" style="
-//                 background-color: chocolate; /* เปลี่ยนสีเพื่อความชัดเจน */
-//                 width: ${baseSizePx * 3}px;
-//                 height: ${baseSizePx * 2}px;
-//             ">
-//                 <h3>3x2</h3><p>Item 8</p>
-//             </div>
-//             <div class="grid-item" data-id="9" style="
-//                 background-color: saddlebrown; /* เปลี่ยนสีเพื่อความชัดเจน */
-//                 width: ${baseSizePx * 3}px;
-//                 height: ${baseSizePx * 2}px;
-//             ">
-//                 <h3>3x2</h3><p>Item 9</p>
-//             </div>
-//         </ssk-grid>
-//         `;
-//     },
-// };
-
-// export const StaticItems2: Story = {
-//     args: {
-//         gap: "32x",
-//         gridItemSize: 72,
-//         maxColumns: 12,
-//     },
-//     render: (args) => {
-//         const items = [
-//             { id: 1, x: 0, y: 0 },
-//             { id: 2, x: 2, y: 0 },
-//             { id: 3, x: 5, y: 0 },
-//             { id: 4, x: 9, y: 0 },
-//             { id: 5, x: 0, y: 3 },
-//             { id: 6, x: 3, y: 3 },
-//             { id: 7, x: 6, y: 3 },
-//             { id: 8, x: 9, y: 3 },
-//             { id: 9, x: 0, y: 5 },
-//         ];
-
-//         return html`
-//         <ssk-grid .items=${items} ${spread(args)}>
-//             <div class="grid-item" data-id="1" data-width="2" data-height="2" style="background-color: #f44336;">
-//                 <h3>2x2</h3><p>Item 1</p>
-//             </div>
-//             <div class="grid-item" data-id="2" data-width="3" data-height="1" style="background-color: #e91e63;">
-//                 <h3>3x1</h3><p>Item 2</p>
-//             </div>
-//             <div class="grid-item" data-id="3" data-width="1" data-height="2" style="background-color: #9c27b0;">
-//                 <h3>1x2</h3><p>Item 3</p>
-//             </div>
-//             <div class="grid-item" data-id="4" data-width="1" data-height="1" style="background-color:rgb(244, 244, 244); color:red;">
-//                 <h3>1x1</h3><p>Item 4</p>
-//             </div>
-//             <div class="grid-item" data-id="5" data-width="3" data-height="2" style="background-color:rgb(244, 244, 244); color:red;">
-//                 <h3>3x2</h3><p>Item 5</p>
-//             </div>
-//             <div class="grid-item" data-id="6" data-width="3" data-height="2" style="background-color:rgb(244, 244, 244); color:red;">
-//                 <h3>3x2</h3><p>Item 6</p>
-//             </div>
-//             <div class="grid-item" data-id="7" data-width="3" data-height="2" style="background-color:rgb(244, 244, 244); color:red;">
-//                 <h3>3x2</h3><p>Item 7</p>
-//             </div>
-//             <div class="grid-item" data-id="8" data-width="3" data-height="2" style="background-color:rgb(244, 244, 244); color:red;">
-//                 <h3>3x2</h3><p>Item 8</p>
-//             </div>
-//             <div class="grid-item" data-id="9" data-width="3" data-height="2" style="background-color:rgb(62, 201, 47); color:red;">
-//                 <h3>3x2</h3><p>Item 9</p>
-//             </div>
-//             <div class="grid-item" data-id="1"  style="height:144px; width:144px;background-color: #f44336;">
-//                 <h3>2x2</h3><p>Item 1</p>
-//             </div>
-//         </ssk-grid>
-//         `;
-//     },
-// };
-
-
+// v5
 export const StaticItems: Story = {
     args: {
-        gap: "16px", // ตั้งค่า gap เป็น 16px ตามที่ต้องการ
-        gridItemSize: 72, // Base unit size for grid positioning
+        gap: "16px",
+        gridItemSize: 72,
         maxColumns: 12,
     },
     render: (args) => {
@@ -422,91 +217,215 @@ export const StaticItems: Story = {
             { id: 8, x: 9, y: 3 },
             { id: 9, x: 0, y: 5 },
         ];
+        const calculatePixelSize = (gridUnits: number, itemSize: number): string => {
+            if (gridUnits <= 0) return '0px';
+            return `${(gridUnits * itemSize)}px`; // Removed (gridUnits - 1) * gapSize
+        };
+
+        const gapPx = parseFloat(args.gap || "16px"); // ยังคงต้องส่งค่า gap ไปให้ ssk-grid เพื่อใช้ในการจัดตำแหน่ง
 
         return html`
-        <ssk-grid .items=${items} ${spread(args)}>
-            <div class="grid-item" data-id="1" data-width="2" data-height="2" style="width:144px; height:144px; background-color: #f44336;">
-                <h3>2x2 (144x144px)</h3><p>Item 1</p>
+       <ssk-grid .items=${items} ${spread(args)}>
+            <div class="grid-item" data-id="1" 
+                 style="background-color: #f44336; 
+                        width: ${calculatePixelSize(2, args.gridItemSize)}; 
+                        height: ${calculatePixelSize(2, args.gridItemSize)};">
+                <h3>2x2</h3><p>Item 1</p>
             </div>
-            <div class="grid-item" data-id="2" style="width:216px; height:72px; background-color: #e91e63;">
-                <h3>3x1 (216x72px)</h3><p>Item 2</p>
+            <div class="grid-item" data-id="2" 
+                style="background-color: #e91e63; 
+                        width: ${calculatePixelSize(3, args.gridItemSize)}; 
+                        height: ${calculatePixelSize(1, args.gridItemSize)};">
+                <h3>3x1</h3><p>Item 2</p>
             </div>
-            <div class="grid-item" data-id="3" style="width:72px; height:144px; background-color: #9c27b0;">
-                <h3>1x2 (72x144px)</h3><p>Item 3</p>
+            <div class="grid-item" data-id="3" 
+                 style="background-color: #9c27b0; 
+                        width: ${calculatePixelSize(1, args.gridItemSize)}; 
+                        height: ${calculatePixelSize(2, args.gridItemSize)};">
+                <h3>1x2</h3><p>Item 3</p>
             </div>
-            <div class="grid-item" data-id="4"  style="width:72px; height:72px; background-color:rgb(244, 244, 244); color:red;">
-                <h3>1x1 (72x72px)</h3><p>Item 4</p>
+            <div class="grid-item" data-id="4" 
+                 style="background-color:rgb(244, 244, 244); color:red; 
+                        width: ${calculatePixelSize(1, args.gridItemSize)}; 
+                        height: ${calculatePixelSize(1, args.gridItemSize)};">
+                <h3>1x1</h3><p>Item 4</p>
             </div>
-            <div class="grid-item" data-id="5"  style="width:216px; height:144px; background-color:rgb(244, 244, 244); color:red;">
-                <h3>3x2 (216x144px)</h3><p>Item 5</p>
+            <div class="grid-item" data-id="5" 
+                 style="background-color:rgb(244, 244, 244); color:red; 
+                        width: ${calculatePixelSize(3, args.gridItemSize)}; 
+                        height: ${calculatePixelSize(2, args.gridItemSize)};">
+                <h3>3x2</h3><p>Item 5</p>
             </div>
-            <div class="grid-item" data-id="6"  style="width:216px; height:144px; background-color:rgb(244, 244, 244); color:red;">
-                <h3>3x2 (216x144px)</h3><p>Item 6</p>
+            <div class="grid-item" data-id="6" 
+                 style="background-color:rgb(244, 244, 244); color:red; 
+                        width: ${calculatePixelSize(3, args.gridItemSize)}; 
+                        height: ${calculatePixelSize(2, args.gridItemSize)};">
+                <h3>3x2</h3><p>Item 6</p>
             </div>
-            <div class="grid-item" data-id="7"  style="width:216px; height:144px; background-color:rgb(244, 244, 244); color:red;">
-                <h3>3x2 (216x144px)</h3><p>Item 7</p>
+            <div class="grid-item" data-id="7" 
+                 style="background-color:rgb(244, 244, 244); color:red; 
+                        width: ${calculatePixelSize(3, args.gridItemSize)}; 
+                        height: ${calculatePixelSize(2, args.gridItemSize)};">
+                <h3>3x2</h3><p>Item 7</p>
             </div>
-            <div class="grid-item" data-id="8"  style="width:216px; height:144px; background-color:rgb(244, 244, 244); color:red;">
-                <h3>3x2 (216x144px)</h3><p>Item 8</p>
+            <div class="grid-item" data-id="8" 
+                 style="background-color:rgb(244, 244, 244); color:red; 
+                        width: ${calculatePixelSize(3, args.gridItemSize)}; 
+                        height: ${calculatePixelSize(2, args.gridItemSize)};">
+                <h3>3x2</h3><p>Item 8</p>
             </div>
-            <div class="grid-item" data-id="9" style="width:288px; height:144px; background-color:rgb(62, 201, 47); color:red;">
-                <h3>3x2 (216x144px)</h3><p>Item 9</p>
+            <div class="grid-item" data-id="9" 
+                style="background-color:rgb(62, 201, 47); color:red; 
+                        width: ${calculatePixelSize(4, args.gridItemSize)}; 
+                        height: ${calculatePixelSize(2, args.gridItemSize)};">
+                <h3>4x2</h3><p>Item 9</p>
             </div>
         </ssk-grid>
         `;
     },
 };
 
-export const RandomItems: Story = {
-    args: {
-        gap: "10px",
-        gridItemSize: 60,
-        maxColumns: 12,
-    },
-    render: (args) => {
-        const items = [];
-        let currentX = 0;
-        let currentY = 0;
-        let idCounter = 1;
-        let rowMaxHeight = 0;
-        const numberOfItems = 25; // จำนวนไอเท็มที่ต้องการสร้าง
+// export const StaticItems: Story = {
+//     args: {
+//         gap: "0px", // MODIFICATION: Set gap to 0px explicitly in story args
+//         gridItemSize: 88,
+//         maxColumns: 12,
+//     },
+//     render: (args) => {
+//         const items = [
+//             { id: 1, x: 0, y: 0 },
+//             { id: 2, x: 2, y: 0 }, // Item 2's x should be 2, directly next to item 1 (w=2)
+//             { id: 3, x: 5, y: 0 }, // Item 3's x should be 5
+//             { id: 4, x: 9, y: 0 }, // Item 4's x should be 9
+//             { id: 5, x: 0, y: 3 },
+//             { id: 6, x: 3, y: 3 },
+//             { id: 7, x: 6, y: 3 },
+//             { id: 8, x: 9, y: 3 },
+//             { id: 9, x: 0, y: 5 },
+//             { id: 10, x: 0, y: 7 },
+//         ];
 
-        for (let i = 0; i < numberOfItems; i++) {
-            const w = Math.floor(Math.random() * 3) + 1; // กว้าง 1 ถึง 3 หน่วย
-            const h = Math.floor(Math.random() * 3) + 1; // สูง 1 ถึง 3 หน่วย
+//         const calculatePixelSize = (gridUnits: number, itemSize: number): string => {
+//             if (gridUnits <= 0) return '0px';
+//             return `${(gridUnits * itemSize)}px`;
+//         };
 
-            if (currentX + w > args.maxColumns) {
-                currentX = 0;
-                currentY += rowMaxHeight;
-                rowMaxHeight = 0;
-            }
-
-            items.push({
-                id: idCounter,
-                x: currentX,
-                y: currentY,
-                w,
-                h,
-            });
-
-            currentX += w;
-            rowMaxHeight = Math.max(rowMaxHeight, h);
-            idCounter++;
-        }
-
-        return html`
-        <ssk-grid .items=${items} ${spread(args)}>
-            ${items.map(
-                (item) => html`
-                <div class="grid-item"
-                    data-id="${item.id}"
-                    data-width="${item.w}"   data-height="${item.h}"  style="background-color: hsl(${item.id * 15 % 360}, 75%, 55%);">
-                    <h4>${item.w} x ${item.h}</h4>
-                    <p>ID: ${item.id}</p>
-                </div>
-                `
-            )}
-        </ssk-grid>
-        `;
-    },
-};
+//         return html`
+//         <style>
+//         .a {
+//             background-color: blue;
+//             width: 144px;
+//             height: 144px;
+//         }
+//         .b {
+//             background-color: #e91e63;
+//             width: 232px;
+//             height: 56px;
+//         }
+//         .c {
+//             background-color: #9c27b0;
+//             width: 56px;
+//             height: 144px;
+//         }
+//         .d {
+//             background-color: rgb(224, 30, 30);
+//             width: 56px;
+//             height: 56px;
+//         }
+//         .e {
+//             background-color: rgb(15, 189, 202);
+//             width: 232px;
+//             height: 144px;
+//         }
+//         .f {
+//             background-color: rgb(164, 236, 123);
+//             width: 320px;
+//             height: 144px;
+//         }
+//         </style>
+//         <ssk-grid .items=${items} ${spread(args)}>
+//             <div class="grid-item" data-id="1" 
+//             style="background-color:rgb(255, 255, 255); 
+//             width: ${calculatePixelSize(2, args.gridItemSize)}; 
+//             height: ${calculatePixelSize(2, args.gridItemSize)};
+//             ">
+//                 <div class="a">
+//                     <h3>2x2</h3><p>Item 1</p>
+//                 </div>
+//             </div>
+//             <div class="grid-item" data-id="2" 
+//                 style="background-color:rgb(255, 255, 255); 
+//                         width: ${calculatePixelSize(3, args.gridItemSize)}; 
+//                         height: ${calculatePixelSize(1, args.gridItemSize)};">
+//                 <div class="b">
+//                     <h3>3:1</h3><p>Item 2</p>
+//                 </div>
+//             </div>
+//             <div class="grid-item" data-id="3" 
+//             style="background-color:rgb(255, 255, 255); 
+//             width: ${calculatePixelSize(1, args.gridItemSize)}; 
+//             height: ${calculatePixelSize(2, args.gridItemSize)};">
+//                 <div class="c">
+//                     <h3>1x2</h3><p>Item 3</p>
+//                 </div>
+//             </div>
+//             <div data-id="4" 
+//             style="background-color:rgb(255, 255, 255); 
+//             width: ${calculatePixelSize(1, args.gridItemSize)}; 
+//             height: ${calculatePixelSize(1, args.gridItemSize)};">
+//                 <div class="d">
+//                     <h3>1x1</h3><p>Item 4</p>
+//                 </div>
+//             </div>
+//             <div class="grid-item" data-id="5" 
+//             style="background-color:rgb(255, 255, 255);
+//             width: ${calculatePixelSize(3, args.gridItemSize)}; 
+//             height: ${calculatePixelSize(2, args.gridItemSize)};">
+//                 <div class="e">
+//                     <h3>3:2</h3><p>Item 5</p>
+//                 </div>
+//             </div>
+//             <div class="grid-item" data-id="6" 
+//             style="background-color:rgb(255, 255, 255); 
+//             width: ${calculatePixelSize(3, args.gridItemSize)}; 
+//             height: ${calculatePixelSize(2, args.gridItemSize)};">
+//                 <div class="e">
+//                     <h3>3:2</h3><p>Item 6</p>
+//                 </div>
+//             </div>
+//             <div class="grid-item" data-id="7" 
+//             style="background-color:rgb(255, 255, 255);
+//             width: ${calculatePixelSize(3, args.gridItemSize)}; 
+//             height: ${calculatePixelSize(2, args.gridItemSize)};">
+//                 <div class="e">
+//                     <h3>3:2</h3><p>Item 7</p>
+//                 </div>
+//             </div>
+//             <div class="grid-item" data-id="8" 
+//             style="background-color:rgb(255, 255, 255);
+//             width: ${calculatePixelSize(3, args.gridItemSize)}; 
+//             height: ${calculatePixelSize(2, args.gridItemSize)};">
+//                 <div class="e">
+//                     <h3>3:2</h3><p>Item 8</p>
+//                 </div>
+//             </div>
+//             <div class="grid-item" data-id="9" 
+//             style="background-color:rgb(255, 255, 255);
+//             width: ${calculatePixelSize(4, args.gridItemSize)}; 
+//             height: ${calculatePixelSize(2, args.gridItemSize)};">
+//                 <div class="f">
+//                     <h3>4:2</h3><p>Item 9</p>
+//                 </div>
+//             </div>
+//             <div data-id="10" 
+//             style="background-color:rgb(255, 255, 255); 
+//             width: ${calculatePixelSize(1, args.gridItemSize)}; 
+//             height: ${calculatePixelSize(1, args.gridItemSize)};">
+//                 <div class="d">
+//                     <h3>1x1</h3><p>Item 10</p>
+//                 </div>
+//             </div>
+//         </ssk-grid>
+//         `;
+//     },
+// };
