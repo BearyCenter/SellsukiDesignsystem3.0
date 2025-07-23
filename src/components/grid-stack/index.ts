@@ -26,9 +26,9 @@ interface InternalGridItemData extends GridItem {
     element: HTMLElement;
 }
 
-@customElement("ssk-grid")
+@customElement("ssk-grid-stack")
 export class Grid extends LitElement {
-    static registeredName = "ssk-grid";
+    static registeredName = "ssk-grid-stack";
 
     @consume({ context: themeContext, subscribe: true })
     @property({ attribute: false })
@@ -79,7 +79,6 @@ export class Grid extends LitElement {
     }
     private _updateInternalGridDataFromSlottedElements() {
         if (!this._slot) {
-            console.warn("ssk-grid: Slot element not found during _updateInternalGridDataFromSlottedElements.");
             return;
         }
 
@@ -395,15 +394,13 @@ export class Grid extends LitElement {
         `;
 
         return html`
-        ${parseThemeToCssVariables(this.theme?.components?.container, ":host")}
+        ${parseThemeToCssVariables(this.theme?.components?.gridstack, ":host")}
         ${additionalCss}
 
         <div
             class="grid-container"
             data-testid=${this.testId || nothing}
-            style="
-            padding: 0px;
-            "
+            style="padding: 0px;"
         >
             <slot></slot>
         </div>
@@ -452,6 +449,6 @@ export class Grid extends LitElement {
 
 declare global {
     interface HTMLElementTagNameMap {
-        "ssk-grid": Grid;
+        "ssk-grid-stack": Grid;
     }
 }

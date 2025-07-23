@@ -1,8 +1,8 @@
 import { spread } from "@open-wc/lit-helpers";
 import { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../src/components/grid";
-import { Grid } from "../../../src/components/grid";
+import "../../../src/components/grid-stack";
+import { Grid } from "../../../src/components/grid-stack";
 import "../../../src/elements/button";
 import "../../../src/elements/icon";
 import { AutoLitProperty, baseArgsTypes } from "../helper";
@@ -10,7 +10,7 @@ import { AutoLitProperty, baseArgsTypes } from "../helper";
 type GridStoryArgs = AutoLitProperty<Grid>;
 
 const meta: Meta<GridStoryArgs> = {
-    title: "Example/Grid",
+    title: "Example/GridStack",
     tags: ["autodocs"],
     render: (args) => {
         const items = [
@@ -36,7 +36,7 @@ const meta: Meta<GridStoryArgs> = {
                 text-align: center;
             }
         </style>
-        <ssk-grid .items=${items} ${spread(args)}>
+        <ssk-grid-stack .items=${items} ${spread(args)}>
             <div class="grid-item" data-id="1"
             style="background-color:transparent;
             width: ${calculatePixelSize(3, args.gridItemSize)};
@@ -46,7 +46,7 @@ const meta: Meta<GridStoryArgs> = {
                     <h3>Widget</h3><p>3x2 (Default)</p>
                 </div>
             </div>
-        </ssk-grid>
+        </ssk-grid-stack>
         `;
     },
     argTypes: {
@@ -55,6 +55,12 @@ const meta: Meta<GridStoryArgs> = {
             control: "text",
             table: { category: "Props" },
         },
+        maxColumns: {
+            description: "Maximum number of columns the grid can have.",
+            control: "number",
+            table: { category: "Props" },
+        },
+
         ...baseArgsTypes,
     },
     decorators: [
@@ -102,6 +108,9 @@ export const BasicGrid: Story = {
 };
 
 export const FullSizeGrid: Story = {
+    args: {
+        maxColumns: 12,
+    },
     render: (args) => {
         const items = [
             { id: 1, x: 0, y: 0 },
@@ -156,7 +165,7 @@ export const FullSizeGrid: Story = {
             color: black;
         }
         </style>
-        <ssk-grid .items=${items} ${spread(args)}>
+        <ssk-grid-stack .items=${items} .maxColumns=${args.maxColumns}>
             <div class="grid-item" data-id="1" 
             style="background-color:transparent; 
             width: ${calculatePixelSize(3, args.gridItemSize)}; 
@@ -257,12 +266,15 @@ export const FullSizeGrid: Story = {
                     <h3>Widget 12</h3><p>12:8</p>
                 </div>
             </div>
-        </ssk-grid>
+        </ssk-grid-stack>
         `;
     },
 };
 
 export const StaticItems: Story = {
+    args: {
+        maxColumns: 8,
+    },
     render: (args) => {
         const items = [
             { id: 1, x: 0, y: 0 },
@@ -315,7 +327,9 @@ export const StaticItems: Story = {
             height: 144px;
         }
         </style>
-        <ssk-grid .items=${items} ${spread(args)}>
+        <ssk-grid-stack .items=${items}
+        .maxColumns=${args.maxColumns}
+        >
             <div class="grid-item" data-id="1" 
             style="background-color:transparent; 
             width: ${calculatePixelSize(2, args.gridItemSize)}; 
@@ -381,7 +395,7 @@ export const StaticItems: Story = {
                     <h3>4:2</h3><p>Item 9</p>
                 </div>
             </div>
-        </ssk-grid>
+        </ssk-grid-stack>
         `;
     },
 };
