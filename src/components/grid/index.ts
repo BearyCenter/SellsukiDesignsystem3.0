@@ -12,7 +12,6 @@ import {
     parseVariables,
 } from "../../types/theme";
 
-// GridItem interface will now ONLY store ID, X, Y
 export interface GridItem {
     id: number;
     x: number;
@@ -193,93 +192,16 @@ export class Grid extends LitElement {
         this._draggedItem.style.left = `${moveX}px`;
         this._draggedItem.style.top = `${moveY}px`;
     }
-
-    private _handleMouseUp(e: MouseEvent) {
-        if (!this._draggedItem) return;
-
-        const draggedItemElement = this._draggedItem;
-        this._draggedItem = null;
-        draggedItemElement.style.zIndex = '';
-        draggedItemElement.style.cursor = 'grab';
-
-        const gridRect = this.getBoundingClientRect();
-        const finalItemPixelX = e.clientX - gridRect.left - this._offsetX;
-        const finalItemPixelY = e.clientY - gridRect.top - this._offsetY;
-
-        const draggedItemId = Number(draggedItemElement.dataset.id);
-        const draggedInternalData = this._itemIdToInternalDataMap.get(draggedItemId);
-
-        if (!draggedInternalData) {
-            return;
-        }
-
-        let snappedCol = Math.round(finalItemPixelX / this.gridItemSize);
-        let snappedRow = Math.round(finalItemPixelY / this.gridItemSize);
-
-        const wUnits = draggedInternalData.w;
-        const hUnits = draggedInternalData.h;
-
-        if (snappedCol < 0) snappedCol = 0;
-        if (snappedCol + wUnits > this.maxColumns) snappedCol = this.maxColumns - wUnits;
-        if (snappedRow < 0) snappedRow = 0;
-
-        // Find the final row: try to place at snappedRow, but push down if collision occurs
-        let finalYRow = snappedRow;
-        while (this._checkCollision(draggedInternalData, snappedCol, finalYRow)) {
-            finalYRow++; // Move down one row if collision
-        }
-
-        const snappedX = snappedCol * this.gridItemSize;
-        const snappedY = finalYRow * this.gridItemSize;
-
-        draggedItemElement.style.left = `${snappedX}px`;
-        draggedItemElement.style.top = `${snappedY}px`;
-
-        const originalGridItem = this.items.find(item => item.id === draggedItemId);
-        if (originalGridItem) {
-            originalGridItem.x = snappedCol;
-            originalGridItem.y = finalYRow;
-        } else {
-            this.items = [...this.items, { id: draggedItemId, x: snappedCol, y: finalYRow }];
-        }
-
-        draggedInternalData.x = snappedCol;
-        draggedInternalData.y = finalYRow;
-
-        this._layoutGridItems();
-
-        this.dispatchEvent(new CustomEvent('grid-item-moved', {
-            detail: {
-                movedGridItemData: {
-                    id: draggedInternalData.id,
-                    x: draggedInternalData.x,
-                    y: draggedInternalData.y,
-                    w: draggedInternalData.w,
-                    h: draggedInternalData.h,
-                    actualWidth: draggedInternalData.actualWidth,
-                    actualHeight: draggedInternalData.actualHeight
-                },
-                newPosition: { col: snappedCol, row: finalYRow },
-                draggedElement: draggedItemElement
-            },
-            bubbles: true,
-            composed: true
-        }));
-    }
-
     private _checkCollision(
         testItemData: InternalGridItemData,
         testCol: number,
         testRow: number
-    ): boolean {
-        // const gapPx = parseFloat(this.gap); // Not needed for collision if no gap
+    ): InternalGridItemData | null {
         const EPSILON = 0.001;
-
         const testX = testCol * this.gridItemSize;
         const testY = testRow * this.gridItemSize;
-
-        const testWidth = (testItemData.w * this.gridItemSize);
-        const testHeight = (testItemData.h * this.gridItemSize);
+        const testWidth = testItemData.w * this.gridItemSize;
+        const testHeight = testItemData.h * this.gridItemSize;
 
         const testRect = {
             left: testX,
@@ -293,9 +215,8 @@ export class Grid extends LitElement {
 
             const otherX = otherItemData.x * this.gridItemSize;
             const otherY = otherItemData.y * this.gridItemSize;
-
-            const otherWidth = (otherItemData.w * this.gridItemSize);
-            const otherHeight = (otherItemData.h * this.gridItemSize);
+            const otherWidth = otherItemData.w * this.gridItemSize;
+            const otherHeight = otherItemData.h * this.gridItemSize;
 
             const otherRect = {
                 left: otherX,
@@ -311,9 +232,151 @@ export class Grid extends LitElement {
                 testRect.top >= otherRect.bottom - EPSILON
             );
 
-            if (overlap) return true;
+            if (overlap) return otherItemData;
         }
-        return false;
+        return null;
+    }
+
+    private _handleMouseUp(e: MouseEvent) {
+        if (!this._draggedItem) return;
+
+        const draggedItemElement = this._draggedItem;
+        this._draggedItem = null;
+        draggedItemElement.style.zIndex = '';
+        draggedItemElement.style.cursor = 'grab';
+
+        const gridRect = this.getBoundingClientRect();
+        const finalItemPixelX = e.clientX - gridRect.left - this._offsetX;
+        const finalItemPixelY = e.clientY - gridRect.top - this._offsetY;
+
+        const draggedItemId = Number(draggedItemElement.dataset.id);
+        const draggedInternalData = this._itemIdToInternalDataMap.get(draggedItemId);
+        if (!draggedInternalData) return;
+
+        let snappedCol = Math.round(finalItemPixelX / this.gridItemSize);
+        let snappedRow = Math.round(finalItemPixelY / this.gridItemSize);
+
+        const wUnits = draggedInternalData.w;
+        const hUnits = draggedInternalData.h;
+
+        snappedCol = Math.max(0, Math.min(this.maxColumns - wUnits, snappedCol));
+        snappedRow = Math.max(0, snappedRow);
+
+        // ตรวจสอบชน
+        const collidedItems = this._getAllCollidedItems(draggedInternalData, snappedCol, snappedRow);
+
+        draggedInternalData.x = snappedCol;
+        draggedInternalData.y = snappedRow;
+
+        const existingItem = this.items.find(i => i.id === draggedItemId);
+        if (existingItem) {
+            existingItem.x = snappedCol;
+            existingItem.y = snappedRow;
+        } else {
+            this.items = [...this.items, {
+                id: draggedItemId,
+                x: snappedCol,
+                y: snappedRow
+            }];
+        }
+
+        // ดันทุก item ที่ชนไปข้างหน้า
+        for (const item of collidedItems) {
+            this.shiftItemForward(item);
+            // this.shiftItemForward(item, new Set());
+        }
+
+        // อัปเดต layout
+        this._layoutGridItems();
+
+        this.dispatchEvent(new CustomEvent('grid-item-moved', {
+            detail: {
+                movedGridItemData: {
+                    id: draggedInternalData.id,
+                    x: draggedInternalData.x,
+                    y: draggedInternalData.y,
+                    w: draggedInternalData.w,
+                    h: draggedInternalData.h,
+                    actualWidth: draggedInternalData.actualWidth,
+                    actualHeight: draggedInternalData.actualHeight
+                },
+                newPosition: { col: draggedInternalData.x, row: draggedInternalData.y },
+                draggedElement: draggedItemElement
+            },
+            bubbles: true,
+            composed: true
+        }));
+    }
+    private _getAllCollidedItems(
+        testItemData: InternalGridItemData,
+        testCol: number,
+        testRow: number
+    ): InternalGridItemData[] {
+        const EPSILON = 0.001;
+        const testX = testCol * this.gridItemSize;
+        const testY = testRow * this.gridItemSize;
+        const testWidth = testItemData.w * this.gridItemSize;
+        const testHeight = testItemData.h * this.gridItemSize;
+
+        const testRect = {
+            left: testX,
+            top: testY,
+            right: testX + testWidth,
+            bottom: testY + testHeight
+        };
+
+        const collided: InternalGridItemData[] = [];
+
+        for (let otherItemData of this._internalItemsData) {
+            if (otherItemData.id === testItemData.id) continue;
+
+            const otherX = otherItemData.x * this.gridItemSize;
+            const otherY = otherItemData.y * this.gridItemSize;
+            const otherWidth = otherItemData.w * this.gridItemSize;
+            const otherHeight = otherItemData.h * this.gridItemSize;
+
+            const otherRect = {
+                left: otherX,
+                top: otherY,
+                right: otherX + otherWidth,
+                bottom: otherY + otherHeight
+            };
+
+            const overlap = !(
+                testRect.right <= otherRect.left + EPSILON ||
+                testRect.left >= otherRect.right - EPSILON ||
+                testRect.bottom <= otherRect.top + EPSILON ||
+                testRect.top >= otherRect.bottom - EPSILON
+            );
+
+            if (overlap) collided.push(otherItemData);
+        }
+
+        return collided;
+    }
+
+    private shiftItemForward(item: InternalGridItemData) {
+        let row = item.y;
+
+        while (true) {
+            for (let col = 0; col <= this.maxColumns - item.w; col++) {
+                if (!this._checkCollision(item, col, row)) {
+                    // อัปเดตตำแหน่งใน internal และ items[]
+                    const existing = this.items.find(i => i.id === item.id);
+                    if (existing) {
+                        existing.x = col;
+                        existing.y = row;
+                    }
+
+                    item.x = col;
+                    item.y = row;
+
+                    return;
+                }
+            }
+            // ถ้า loop แล้วไม่เจอช่องว่างในแถวนี้ ให้ขยับลงแถวใหม่
+            row += 1;
+        }
     }
 
     render() {

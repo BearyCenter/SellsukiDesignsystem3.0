@@ -163,7 +163,7 @@ export const FullSizeGrid: Story = {
             height: ${calculatePixelSize(2, args.gridItemSize)};
             ">
                 <div class="widget-a">
-                    <h3>Widget</h3><p>3:2</p>
+                    <h3>Widget 1</h3><p>3:2</p>
                 </div>
             </div>
             <div class="grid-item" data-id="2" 
@@ -172,7 +172,7 @@ export const FullSizeGrid: Story = {
             height: ${calculatePixelSize(2, args.gridItemSize)};
             ">
                 <div class="widget-a">
-                    <h3>Widget</h3><p>3:2</p>
+                    <h3>Widget 2</h3><p>3:2</p>
                 </div>
             </div>
             <div class="grid-item" data-id="3" 
@@ -181,7 +181,7 @@ export const FullSizeGrid: Story = {
             height: ${calculatePixelSize(2, args.gridItemSize)};
             ">
                 <div class="widget-a">
-                    <h3>Widget</h3><p>3:2</p>
+                    <h3>Widget 3</h3><p>3:2</p>
                 </div>
             </div>
             <div class="grid-item" data-id="4" 
@@ -190,7 +190,7 @@ export const FullSizeGrid: Story = {
             height: ${calculatePixelSize(2, args.gridItemSize)};
             ">
                 <div class="widget-a">
-                    <h3>Widget</h3><p>3:2</p>
+                    <h3>Widget 4</h3><p>3:2</p>
                 </div>
             </div>
             <div class="grid-item" data-id="5" 
@@ -198,7 +198,7 @@ export const FullSizeGrid: Story = {
                         width: ${calculatePixelSize(4, args.gridItemSize)}; 
                         height: ${calculatePixelSize(4, args.gridItemSize)};">
                 <div class="widget-b">
-                    <h3>Widget</h3><p>4:4</p>
+                    <h3>Widget 5</h3><p>4:4</p>
                 </div>
             </div>
             <div class="grid-item" data-id="6" 
@@ -206,7 +206,7 @@ export const FullSizeGrid: Story = {
                         width: ${calculatePixelSize(4, args.gridItemSize)}; 
                         height: ${calculatePixelSize(4, args.gridItemSize)};">
                 <div class="widget-b">
-                    <h3>Widget</h3><p>4:4</p>
+                    <h3>Widget 6</h3><p>4:4</p>
                 </div>
             </div>
             <div class="grid-item" data-id="7" 
@@ -214,7 +214,7 @@ export const FullSizeGrid: Story = {
                         width: ${calculatePixelSize(4, args.gridItemSize)}; 
                         height: ${calculatePixelSize(4, args.gridItemSize)};">
                 <div class="widget-b">
-                    <h3>Widget</h3><p>4:4</p>
+                    <h3>Widget 7</h3><p>4:4</p>
                 </div>
             </div>
             <div class="grid-item" data-id="8" 
@@ -222,7 +222,7 @@ export const FullSizeGrid: Story = {
             width: ${calculatePixelSize(8, args.gridItemSize)}; 
             height: ${calculatePixelSize(4, args.gridItemSize)};">
                 <div class="widget-c">
-                    <h3>Widget</h3><p>8:4</p>
+                    <h3>Widget 8</h3><p>8:4</p>
                 </div>
             </div>
             <div class="grid-item" data-id="9" 
@@ -230,7 +230,7 @@ export const FullSizeGrid: Story = {
                         width: ${calculatePixelSize(4, args.gridItemSize)}; 
                         height: ${calculatePixelSize(4, args.gridItemSize)};">
                 <div class="widget-b">
-                    <h3>Widget</h3><p>4:4</p>
+                    <h3>Widget 9</h3><p>4:4</p>
                 </div>
             </div>
             <div class="grid-item" data-id="10" 
@@ -238,7 +238,7 @@ export const FullSizeGrid: Story = {
                         width: ${calculatePixelSize(6, args.gridItemSize)}; 
                         height: ${calculatePixelSize(4, args.gridItemSize)};">
                 <div class="widget-d">
-                    <h3>Widget</h3><p>6:4</p>
+                    <h3>Widget 10</h3><p>6:4</p>
                 </div>
             </div>
             <div class="grid-item" data-id="11" 
@@ -246,7 +246,7 @@ export const FullSizeGrid: Story = {
                         width: ${calculatePixelSize(6, args.gridItemSize)}; 
                         height: ${calculatePixelSize(4, args.gridItemSize)};">
                 <div class="widget-d">
-                    <h3>Widget</h3><p>6:4</p>
+                    <h3>Widget 11</h3><p>6:4</p>
                 </div>
             </div>
             <div class="grid-item" data-id="12" 
@@ -254,7 +254,7 @@ export const FullSizeGrid: Story = {
                         width: ${calculatePixelSize(12, args.gridItemSize)}; 
                         height: ${calculatePixelSize(8, args.gridItemSize)};">
                 <div class="widget-e">
-                    <h3>Widget</h3><p>12:8</p>
+                    <h3>Widget 12</h3><p>12:8</p>
                 </div>
             </div>
         </ssk-grid>
