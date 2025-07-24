@@ -72,6 +72,12 @@ export class Grid extends LitElement {
     }
 
     updated(changedProperties: Map<string, any>) {
+        if (changedProperties.has('maxColumns')) {
+            if (this.maxColumns < 3) {
+                this.maxColumns = 3;
+            }
+        }
+
         // If items (x,y) change, or layout properties (gap, gridItemSize, maxColumns) change
         if (changedProperties.has('items') || changedProperties.has('gap') || changedProperties.has('gridItemSize') || changedProperties.has('maxColumns')) {
             this.updateGridItemsFromSlot();
