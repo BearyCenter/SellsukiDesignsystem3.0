@@ -12,9 +12,13 @@ type GridStoryArgs = AutoLitProperty<Grid>;
 const meta: Meta<GridStoryArgs> = {
     title: "Example/GridStack",
     tags: ["autodocs"],
+    args: {
+        maxColumns: 12,
+    },
     render: (args) => {
         const items = [
             { id: 1, x: 0, y: 0 },
+            { id: 2, x: 2, y: 2 },
         ];
 
         const calculatePixelSize = (gridUnits: number, itemSize: number): string => {
@@ -35,8 +39,14 @@ const meta: Meta<GridStoryArgs> = {
                 align-items: center;
                 text-align: center;
             }
+            .widget-size {
+                background-color:rgb(219, 216, 216);
+                width: 56px;
+                height: 56px;
+                color: black;
+            }
         </style>
-        <ssk-grid-stack .items=${items} ${spread(args)}>
+        <ssk-grid-stack .items=${items} .maxColumns=${args.maxColumns}>
             <div class="grid-item" data-id="1"
             style="background-color:transparent;
             width: ${calculatePixelSize(3, args.gridItemSize)};
@@ -44,6 +54,15 @@ const meta: Meta<GridStoryArgs> = {
             ">
                 <div class="widget-a">
                     <h3>Widget</h3><p>3x2 (Default)</p>
+                </div>
+            </div>
+            <div class="grid-item" data-id="2"
+            style="background-color:transparent;
+            width: ${calculatePixelSize(1, args.gridItemSize)};
+            height: ${calculatePixelSize(1, args.gridItemSize)};
+            ">
+                <div class="widget-size">
+                    <h3>88</h3>
                 </div>
             </div>
         </ssk-grid-stack>
