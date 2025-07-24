@@ -52,40 +52,40 @@ export class Grid extends LitElement {
     @query('slot')
     _slot!: HTMLSlotElement;
 
-    private _draggedItem: HTMLElement | null = null;
-    private _offsetX = 0;
-    private _offsetY = 0;
+    private draggedItem: HTMLElement | null = null;
+    private offsetX = 0;
+    private offsetY = 0;
 
     // Internal array to hold calculated item data (including w/h and element ref)
-    private _internalItemsData: InternalGridItemData[] = [];
-    private _itemIdToInternalDataMap = new Map<number, InternalGridItemData>();
+    private internalItemsData: InternalGridItemData[] = [];
+    private itemIdToInternalDataMap = new Map<number, InternalGridItemData>();
 
 
     firstUpdated() {
-        this._updateInternalGridDataFromSlottedElements(); // Initial data extraction and layout
-        this._setupDragAndDrop();
+        this.updateGridItemsFromSlot(); // Initial data extraction and layout
+        this.initializeDragAndDrop();
 
         this._slot.addEventListener('slotchange', () => {
-            this._updateInternalGridDataFromSlottedElements(); // Update data and relayout on slot changes
-            this._setupDragAndDrop();         // Must re-setup because element references might change
+            this.updateGridItemsFromSlot(); // Update data and relayout on slot changes
+            this.initializeDragAndDrop();         // Must re-setup because element references might change
         });
     }
 
     updated(changedProperties: Map<string, any>) {
         // If items (x,y) change, or layout properties (gap, gridItemSize, maxColumns) change
         if (changedProperties.has('items') || changedProperties.has('gap') || changedProperties.has('gridItemSize') || changedProperties.has('maxColumns')) {
-            this._updateInternalGridDataFromSlottedElements();
+            this.updateGridItemsFromSlot();
         }
     }
-    private _updateInternalGridDataFromSlottedElements() {
+    private updateGridItemsFromSlot() {
         if (!this._slot) {
             return;
         }
 
         const currentSlottedElements = Array.from(this._slot.assignedElements({ flatten: true }) as HTMLElement[]);
 
-        this._internalItemsData = [];
-        this._itemIdToInternalDataMap.clear();
+        this.internalItemsData = [];
+        this.itemIdToInternalDataMap.clear();
         currentSlottedElements.forEach(el => {
             const id = Number(el.dataset.id);
 
@@ -114,15 +114,15 @@ export class Grid extends LitElement {
                 actualHeight: actualHeight,
                 element: el
             };
-            this._internalItemsData.push(internalData);
-            this._itemIdToInternalDataMap.set(id, internalData);
+            this.internalItemsData.push(internalData);
+            this.itemIdToInternalDataMap.set(id, internalData);
         });
-        this._layoutGridItems();
+        this.positionGridItems();
     }
 
-    private _layoutGridItems() {
+    private positionGridItems() {
         let maxBottom = 0;
-        for (const itemData of this._internalItemsData) {
+        for (const itemData of this.internalItemsData) {
             const el = itemData.element;
 
             const left = itemData.x * this.gridItemSize;
@@ -144,59 +144,58 @@ export class Grid extends LitElement {
         this.style.height = `${maxBottom}px`;
     }
 
-    private _setupDragAndDrop() {
-        this._internalItemsData.forEach(itemData => {
-            itemData.element.removeEventListener('mousedown', this._handleMouseDownBound);
+    private initializeDragAndDrop() {
+        this.internalItemsData.forEach(itemData => {
+            itemData.element.removeEventListener('mousedown', this.handleMouseDownBound);
         });
 
-        this._internalItemsData.forEach(itemData => {
-            itemData.element.addEventListener('mousedown', this._handleMouseDownBound);
+        this.internalItemsData.forEach(itemData => {
+            itemData.element.addEventListener('mousedown', this.handleMouseDownBound);
         });
 
-        document.removeEventListener('mousemove', this._handleMouseMoveBound);
-        document.removeEventListener('mouseup', this._handleMouseUpBound);
+        document.removeEventListener('mousemove', this.handleMouseMoveBound);
+        document.removeEventListener('mouseup', this.handleMouseUpBound);
 
-        document.addEventListener('mousemove', this._handleMouseMoveBound);
-        document.addEventListener('mouseup', this._handleMouseUpBound);
+        document.addEventListener('mousemove', this.handleMouseMoveBound);
+        document.addEventListener('mouseup', this.handleMouseUpBound);
     }
 
-    private _handleMouseDownBound = this._handleMouseDown.bind(this);
-    private _handleMouseMoveBound = this._handleMouseMove.bind(this);
-    private _handleMouseUpBound = this._handleMouseUp.bind(this);
+    private handleMouseDownBound = this.onMouseDown.bind(this);
+    private handleMouseMoveBound = this.onMouseMove.bind(this);
+    private handleMouseUpBound = this.onMouseUp.bind(this);
 
-    private _handleMouseDown(e: MouseEvent) {
+    private onMouseDown(e: MouseEvent) {
         const target = e.currentTarget as HTMLElement;
         const itemId = Number(target.dataset.id);
-        const internalItemData = this._itemIdToInternalDataMap.get(itemId);
+        const internalItemData = this.itemIdToInternalDataMap.get(itemId);
         if (!internalItemData) return;
 
         if (e.button !== 0) return;
 
-        this._draggedItem = target;
-        this._offsetX = e.offsetX;
-        this._offsetY = e.offsetY;
-        this._draggedItem.style.zIndex = '1000';
-        this._draggedItem.style.cursor = 'grabbing';
+        this.draggedItem = target;
+        this.offsetX = e.offsetX;
+        this.offsetY = e.offsetY;
+        this.draggedItem.style.zIndex = '1000';
+        this.draggedItem.style.cursor = 'grabbing';
 
         e.preventDefault();
     }
 
-    private _handleMouseMove(e: MouseEvent) {
-        if (!this._draggedItem) return;
+    private onMouseMove(e: MouseEvent) {
+        if (!this.draggedItem) return;
 
         const gridRect = this.getBoundingClientRect();
-        const moveX = e.clientX - gridRect.left - this._offsetX;
-        const moveY = e.clientY - gridRect.top - this._offsetY;
+        const moveX = e.clientX - gridRect.left - this.offsetX;
+        const moveY = e.clientY - gridRect.top - this.offsetY;
 
-        this._draggedItem.style.left = `${moveX}px`;
-        this._draggedItem.style.top = `${moveY}px`;
+        this.draggedItem.style.left = `${moveX}px`;
+        this.draggedItem.style.top = `${moveY}px`;
     }
-    private _checkCollision(
+    private detectCollision(
         testItemData: InternalGridItemData,
         testCol: number,
         testRow: number
     ): InternalGridItemData | null {
-        const EPSILON = 0.001;
         const testX = testCol * this.gridItemSize;
         const testY = testRow * this.gridItemSize;
         const testWidth = testItemData.w * this.gridItemSize;
@@ -209,7 +208,7 @@ export class Grid extends LitElement {
             bottom: testY + testHeight
         };
 
-        for (let otherItemData of this._internalItemsData) {
+        for (let otherItemData of this.internalItemsData) {
             if (otherItemData.id === testItemData.id) continue;
 
             const otherX = otherItemData.x * this.gridItemSize;
@@ -225,45 +224,44 @@ export class Grid extends LitElement {
             };
 
             const overlap = !(
-                testRect.right <= otherRect.left + EPSILON ||
-                testRect.left >= otherRect.right - EPSILON ||
-                testRect.bottom <= otherRect.top + EPSILON ||
-                testRect.top >= otherRect.bottom - EPSILON
+                testRect.right <= otherRect.left ||
+                testRect.left >= otherRect.right ||
+                testRect.bottom <= otherRect.top ||
+                testRect.top >= otherRect.bottom 
             );
 
             if (overlap) return otherItemData;
         }
         return null;
     }
+    private onMouseUp(e: MouseEvent) {
+        if (!this.draggedItem) return;
 
-    private _handleMouseUp(e: MouseEvent) {
-        if (!this._draggedItem) return;
-
-        const draggedItemElement = this._draggedItem;
-        this._draggedItem = null;
+        const draggedItemElement = this.draggedItem;
+        this.draggedItem = null;
         draggedItemElement.style.zIndex = '';
         draggedItemElement.style.cursor = 'grab';
 
         const gridRect = this.getBoundingClientRect();
-        const finalItemPixelX = e.clientX - gridRect.left - this._offsetX;
-        const finalItemPixelY = e.clientY - gridRect.top - this._offsetY;
+        const finalItemPixelX = e.clientX - gridRect.left - this.offsetX;
+        const finalItemPixelY = e.clientY - gridRect.top - this.offsetY;
 
         const draggedItemId = Number(draggedItemElement.dataset.id);
-        const draggedInternalData = this._itemIdToInternalDataMap.get(draggedItemId);
+        const draggedInternalData = this.itemIdToInternalDataMap.get(draggedItemId);
         if (!draggedInternalData) return;
 
         let snappedCol = Math.round(finalItemPixelX / this.gridItemSize);
         let snappedRow = Math.round(finalItemPixelY / this.gridItemSize);
 
         const wUnits = draggedInternalData.w;
-        const hUnits = draggedInternalData.h;
 
         snappedCol = Math.max(0, Math.min(this.maxColumns - wUnits, snappedCol));
         snappedRow = Math.max(0, snappedRow);
 
-        // ตรวจสอบชน
-        const collidedItems = this._getAllCollidedItems(draggedInternalData, snappedCol, snappedRow);
+        // Check for collisions
+        const collidedItems = this.findCollidingItems(draggedInternalData, snappedCol, snappedRow);
 
+        // Update position
         draggedInternalData.x = snappedCol;
         draggedInternalData.y = snappedRow;
 
@@ -279,14 +277,12 @@ export class Grid extends LitElement {
             }];
         }
 
-        // ดันทุก item ที่ชนไปข้างหน้า
         for (const item of collidedItems) {
-            this.shiftItemForward(item);
-            // this.shiftItemForward(item, new Set());
+            this.shiftItemRightOrDown(item, snappedRow);
         }
 
-        // อัปเดต layout
-        this._layoutGridItems();
+        // update position
+        this.positionGridItems();
 
         this.dispatchEvent(new CustomEvent('grid-item-moved', {
             detail: {
@@ -306,12 +302,11 @@ export class Grid extends LitElement {
             composed: true
         }));
     }
-    private _getAllCollidedItems(
+    private findCollidingItems(
         testItemData: InternalGridItemData,
         testCol: number,
         testRow: number
     ): InternalGridItemData[] {
-        const EPSILON = 0.001;
         const testX = testCol * this.gridItemSize;
         const testY = testRow * this.gridItemSize;
         const testWidth = testItemData.w * this.gridItemSize;
@@ -326,7 +321,7 @@ export class Grid extends LitElement {
 
         const collided: InternalGridItemData[] = [];
 
-        for (let otherItemData of this._internalItemsData) {
+        for (let otherItemData of this.internalItemsData) {
             if (otherItemData.id === testItemData.id) continue;
 
             const otherX = otherItemData.x * this.gridItemSize;
@@ -342,10 +337,10 @@ export class Grid extends LitElement {
             };
 
             const overlap = !(
-                testRect.right <= otherRect.left + EPSILON ||
-                testRect.left >= otherRect.right - EPSILON ||
-                testRect.bottom <= otherRect.top + EPSILON ||
-                testRect.top >= otherRect.bottom - EPSILON
+                testRect.right <= otherRect.left ||
+                testRect.left >= otherRect.right ||
+                testRect.bottom <= otherRect.top ||
+                testRect.top >= otherRect.bottom 
             );
 
             if (overlap) collided.push(otherItemData);
@@ -354,13 +349,14 @@ export class Grid extends LitElement {
         return collided;
     }
 
-    private shiftItemForward(item: InternalGridItemData) {
-        let row = item.y;
+    private shiftItemRightOrDown(item: InternalGridItemData, startRow: number) {
+        let row = startRow;
 
         while (true) {
+            // Check if the item can fit in the current row
             for (let col = 0; col <= this.maxColumns - item.w; col++) {
-                if (!this._checkCollision(item, col, row)) {
-                    // อัปเดตตำแหน่งใน internal และ items[]
+                if (!this.detectCollision(item, col, row)) {
+                    // Update internal and items[]
                     const existing = this.items.find(i => i.id === item.id);
                     if (existing) {
                         existing.x = col;
@@ -373,7 +369,6 @@ export class Grid extends LitElement {
                     return;
                 }
             }
-            // ถ้า loop แล้วไม่เจอช่องว่างในแถวนี้ ให้ขยับลงแถวใหม่
             row += 1;
         }
     }
@@ -383,10 +378,10 @@ export class Grid extends LitElement {
         const additionalCss = html`
         <style>
         :host {
-            --grid-gap: ${parseVariables( // Still expose as CSS var, but value is 0
+            --grid-gap: ${parseVariables(
             cssVar("spacing", this.gap),
             this.gap,
-            "0px", // Default for CSS var fallback (changed to 0px)
+            "0px",
         )};
             --grid-item-size: ${this.gridItemSize}px;
         }

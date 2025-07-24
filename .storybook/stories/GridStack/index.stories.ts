@@ -304,17 +304,12 @@ export const StaticItems: Story = {
         .b {
             background-color: #e91e63;
             width: 232px;
-            height: 56px;
+            height: 232px;
         }
         .c {
             background-color: #9c27b0;
             width: 56px;
             height: 144px;
-        }
-        .d {
-            background-color: rgb(224, 30, 30);
-            width: 56px;
-            height: 56px;
         }
         .e {
             background-color: rgb(15, 189, 202);
@@ -336,15 +331,15 @@ export const StaticItems: Story = {
             height: ${calculatePixelSize(2, args.gridItemSize)};
             ">
                 <div class="a">
-                    <h3>2x2</h3><p>Item 1</p>
+                    <h3>2:2</h3><p>Item 1</p>
                 </div>
             </div>
             <div class="grid-item" data-id="2" 
                 style="background-color:transparent; 
                         width: ${calculatePixelSize(3, args.gridItemSize)}; 
-                        height: ${calculatePixelSize(1, args.gridItemSize)};">
+                        height: ${calculatePixelSize(3, args.gridItemSize)};">
                 <div class="b">
-                    <h3>3:1</h3><p>Item 2</p>
+                    <h3>3:3</h3><p>Item 2</p>
                 </div>
             </div>
             <div class="grid-item" data-id="3" 
@@ -352,7 +347,7 @@ export const StaticItems: Story = {
             width: ${calculatePixelSize(1, args.gridItemSize)}; 
             height: ${calculatePixelSize(2, args.gridItemSize)};">
                 <div class="c">
-                    <h3>1x2</h3><p>Item 3</p>
+                    <h3>1:2</h3><p>Item 3</p>
                 </div>
             </div>
             <div class="grid-item" data-id="5" 
