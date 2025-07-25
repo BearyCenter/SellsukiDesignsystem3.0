@@ -256,6 +256,7 @@ export type Theme = {
     skeleton?: Partial<ThemeField>;
     spinner?: Partial<ThemeField>;
     accordion?: Partial<ThemeField>;
+    gridstack?: Partial<ThemeField>;
   };
 } & ThemeField;
 
