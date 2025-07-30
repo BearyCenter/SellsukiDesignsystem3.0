@@ -129,18 +129,28 @@ export class Tooltip extends LitElement implements ThemeValue {
 
       <div class="tooltip ${this.trigger}" @click=${this._handleClickable}>
         <div class="content tooltip-${this.placement}">
-          <div class="label">
-            <ssk-text color="${this.color}" size=${this.size}>${this.label}</ssk-text>
+          <div
+            class="content-wrapper${this.hideCloseButton
+              ? ""
+              : "-with-close-button"}"
+          >
+            <div class="label">
+              <ssk-text color="${this.color}" size=${this.size}
+                >${this.label}</ssk-text
+              >
+            </div>
+            ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
           </div>
-          <div class="close-button${this.hideCloseButton ? "-hide" : ""}">
+          <div
+            @click=${this._close}
+            class="close-button${this.hideCloseButton ? "-hide" : ""}"
+          >
             <ssk-icon
               ?hidden=${this.hideCloseButton}
               size=${this.size}
               name="outline-x-mark"
-              @click=${this._close}
             ></ssk-icon>
           </div>
-          ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
         </div>
         <slot></slot>
       </div>
@@ -174,8 +184,18 @@ export class Tooltip extends LitElement implements ThemeValue {
       color: var(--content-color);
       border-radius: var(--rounded);
       z-index: 1;
-      padding: var(--padding);
       box-shadow: 0px 3px 6px 0px var(--ssk-colors-gray-300);
+    }
+
+    .content-wrapper {
+      padding: var(--padding);
+    }
+
+    .content-wrapper-with-close-button {
+      padding: var(--padding) 0 var(--padding) var(--padding);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .tooltip .content::after {
@@ -372,12 +392,20 @@ export class Tooltip extends LitElement implements ThemeValue {
       grid-template-columns: auto auto;
     }
 
+    .close-button {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
     .close-button-hide {
       display: none;
     }
 
     ssk-icon {
-      cursor: pointer;
       float: right;
     }
   `;

@@ -116,6 +116,21 @@ const meta = {
         },
       },
     },
+    maxWidth: {
+      control: {
+        type: "text",
+      },
+      description: "Maximum width of tooltip",
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "max-content",
+        },
+        type: {
+          summary: "string",
+        },
+      },
+    },
     themeColor: baseArgsTypes.themeColor,
     color: baseArgsTypes.color,
     size: baseArgsTypes.size,

@@ -14,6 +14,57 @@ type TooltipArgs = {} & Tooltip;
 const meta = {
   title: "Example/Tooltip",
   tags: ["autodocs"],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+The \`<ssk-tooltip>\` component supports multiple ways of defining content:
+
+---
+
+### 1. **Using \`label\` Prop**
+
+For simple text content:
+
+\`\`\`html
+<ssk-tooltip label="yeahhh!!">
+  <ssk-text>Hover me</ssk-text>
+</ssk-tooltip>
+\`\`\`
+
+---
+
+### 2. **Using \`slot="content"\`**
+
+For custom content (images, formatting, etc):
+
+\`\`\`html
+<ssk-tooltip>
+  <ssk-text>Hover me</ssk-text>
+  <div slot="content">
+    <ssk-text>Tooltip body with <b>HTML</b></ssk-text>
+  </div>
+</ssk-tooltip>
+\`\`\`
+
+---
+
+### 3. **Combining \`label\` and \`slot="content"\`**
+
+Use \`label\` as a title, and \`slot="content"\` as a detailed body:
+
+\`\`\`html
+<ssk-tooltip label="Title">
+  <ssk-text>Hover me</ssk-text>
+  <div slot="content">
+    <ssk-text>Additional details shown in the body.</ssk-text>
+  </div>
+</ssk-tooltip>
+\`\`\`
+`.trim(),
+      },
+    },
+  },
   render: ({ ...args }) => {
     return html` <style>
         div.container {
@@ -96,6 +147,21 @@ const meta = {
         category: "Props",
         defaultValue: {
           summary: "hover",
+        },
+        type: {
+          summary: "string",
+        },
+      },
+    },
+    maxWidth: {
+      control: {
+        type: "text",
+      },
+      description: "Maximum width of tooltip",
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "max-content",
         },
         type: {
           summary: "string",
