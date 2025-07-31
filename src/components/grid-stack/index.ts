@@ -4,6 +4,7 @@ import { customElement, property, query } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import "../../elements/divider";
 import "../../elements/icon";
+import { GridStack, GridStackElement} from "./gs/gridstack"
 
 import {
     Theme,
@@ -52,399 +53,183 @@ export class Grid extends LitElement {
     @query('slot')
     _slot!: HTMLSlotElement;
 
-    private draggedItem: HTMLElement | null = null;
-    private offsetX = 0;
-    private offsetY = 0;
-
-    // Internal array to hold calculated item data (including w/h and element ref)
-    private internalItemsData: InternalGridItemData[] = [];
-    private itemIdToInternalDataMap = new Map<number, InternalGridItemData>();
-
+    private grid: GridStack | null = null;
 
     firstUpdated() {
-        this.updateGridItemsFromSlot(); // Initial data extraction and layout
-        this.initializeDragAndDrop();
-
-        this._slot.addEventListener('slotchange', () => {
-            this.updateGridItemsFromSlot(); // Update data and relayout on slot changes
-            this.initializeDragAndDrop();         // Must re-setup because element references might change
-        });
-    }
-
-    updated(changedProperties: Map<string, any>) {
-        if (changedProperties.has('maxColumns')) {
-            if (this.maxColumns < 3) {
-                this.maxColumns = 3;
-            }
-        }
-
-        // If items (x,y) change, or layout properties (gap, gridItemSize, maxColumns) change
-        if (changedProperties.has('items') || changedProperties.has('gap') || changedProperties.has('gridItemSize') || changedProperties.has('maxColumns')) {
-            this.updateGridItemsFromSlot();
-        }
-    }
-    private updateGridItemsFromSlot() {
-        if (!this._slot) {
-            return;
-        }
-
-        const currentSlottedElements = Array.from(this._slot.assignedElements({ flatten: true }) as HTMLElement[]);
-
-        this.internalItemsData = [];
-        this.itemIdToInternalDataMap.clear();
-        currentSlottedElements.forEach(el => {
-            const id = Number(el.dataset.id);
-
-            const actualWidth = el.offsetWidth;
-            const actualHeight = el.offsetHeight;
-
-            if (isNaN(id) || actualWidth <= 0 || actualHeight <= 0) {
-                return;
-            }
-
-            const w = Math.round(actualWidth / this.gridItemSize);
-            const h = Math.round(actualHeight / this.gridItemSize);
-
-            const calculatedW = Math.max(1, w);
-            const calculatedH = Math.max(1, h);
-
-            const existingItemData = this.items.find(item => item.id === id);
-
-            const internalData: InternalGridItemData = {
-                id: id,
-                x: existingItemData ? existingItemData.x : 0,
-                y: existingItemData ? existingItemData.y : 0,
-                w: calculatedW,
-                h: calculatedH,
-                actualWidth: actualWidth,
-                actualHeight: actualHeight,
-                element: el
-            };
-            this.internalItemsData.push(internalData);
-            this.itemIdToInternalDataMap.set(id, internalData);
-        });
-        this.positionGridItems();
-    }
-
-    private positionGridItems() {
-        let maxBottom = 0;
-        for (const itemData of this.internalItemsData) {
-            const el = itemData.element;
-
-            const left = itemData.x * this.gridItemSize;
-            const top = itemData.y * this.gridItemSize;
-
-            const width = (itemData.w * this.gridItemSize);
-            const height = (itemData.h * this.gridItemSize);
-
-            el.style.position = 'absolute';
-            el.style.left = `${left}px`;
-            el.style.top = `${top}px`;
-            el.style.width = `${width}px`;
-            el.style.height = `${height}px`;
-
-            maxBottom = Math.max(maxBottom, top + height);
-            el.classList.add('grid-item');
-        }
-
-        this.style.height = `${maxBottom}px`;
-    }
-
-    private initializeDragAndDrop() {
-        this.internalItemsData.forEach(itemData => {
-            itemData.element.removeEventListener('mousedown', this.handleMouseDownBound);
-        });
-
-        this.internalItemsData.forEach(itemData => {
-            itemData.element.addEventListener('mousedown', this.handleMouseDownBound);
-        });
-
-        document.removeEventListener('mousemove', this.handleMouseMoveBound);
-        document.removeEventListener('mouseup', this.handleMouseUpBound);
-
-        document.addEventListener('mousemove', this.handleMouseMoveBound);
-        document.addEventListener('mouseup', this.handleMouseUpBound);
-    }
-
-    private handleMouseDownBound = this.onMouseDown.bind(this);
-    private handleMouseMoveBound = this.onMouseMove.bind(this);
-    private handleMouseUpBound = this.onMouseUp.bind(this);
-
-    private onMouseDown(e: MouseEvent) {
-        const target = e.currentTarget as HTMLElement;
-        const itemId = Number(target.dataset.id);
-        const internalItemData = this.itemIdToInternalDataMap.get(itemId);
-        if (!internalItemData) return;
-
-        if (e.button !== 0) return;
-
-        this.draggedItem = target;
-        this.offsetX = e.offsetX;
-        this.offsetY = e.offsetY;
-        this.draggedItem.style.zIndex = '1000';
-        this.draggedItem.style.cursor = 'grabbing';
-
-        e.preventDefault();
-    }
-
-    private onMouseMove(e: MouseEvent) {
-        if (!this.draggedItem) return;
-
-        const gridRect = this.getBoundingClientRect();
-        const moveX = e.clientX - gridRect.left - this.offsetX;
-        const moveY = e.clientY - gridRect.top - this.offsetY;
-
-        this.draggedItem.style.left = `${moveX}px`;
-        this.draggedItem.style.top = `${moveY}px`;
-    }
-    private detectCollision(
-        testItemData: InternalGridItemData,
-        testCol: number,
-        testRow: number
-    ): InternalGridItemData | null {
-        const testX = testCol * this.gridItemSize;
-        const testY = testRow * this.gridItemSize;
-        const testWidth = testItemData.w * this.gridItemSize;
-        const testHeight = testItemData.h * this.gridItemSize;
-
-        const testRect = {
-            left: testX,
-            top: testY,
-            right: testX + testWidth,
-            bottom: testY + testHeight
-        };
-
-        for (let otherItemData of this.internalItemsData) {
-            if (otherItemData.id === testItemData.id) continue;
-
-            const otherX = otherItemData.x * this.gridItemSize;
-            const otherY = otherItemData.y * this.gridItemSize;
-            const otherWidth = otherItemData.w * this.gridItemSize;
-            const otherHeight = otherItemData.h * this.gridItemSize;
-
-            const otherRect = {
-                left: otherX,
-                top: otherY,
-                right: otherX + otherWidth,
-                bottom: otherY + otherHeight
-            };
-
-            const overlap = !(
-                testRect.right <= otherRect.left ||
-                testRect.left >= otherRect.right ||
-                testRect.bottom <= otherRect.top ||
-                testRect.top >= otherRect.bottom 
-            );
-
-            if (overlap) return otherItemData;
-        }
-        return null;
-    }
-    private onMouseUp(e: MouseEvent) {
-        if (!this.draggedItem) return;
-
-        const draggedItemElement = this.draggedItem;
-        this.draggedItem = null;
-        draggedItemElement.style.zIndex = '';
-        draggedItemElement.style.cursor = 'grab';
-
-        const gridRect = this.getBoundingClientRect();
-        const finalItemPixelX = e.clientX - gridRect.left - this.offsetX;
-        const finalItemPixelY = e.clientY - gridRect.top - this.offsetY;
-
-        const draggedItemId = Number(draggedItemElement.dataset.id);
-        const draggedInternalData = this.itemIdToInternalDataMap.get(draggedItemId);
-        if (!draggedInternalData) return;
-
-        let snappedCol = Math.round(finalItemPixelX / this.gridItemSize);
-        let snappedRow = Math.round(finalItemPixelY / this.gridItemSize);
-
-        const wUnits = draggedInternalData.w;
-
-        snappedCol = Math.max(0, Math.min(this.maxColumns - wUnits, snappedCol));
-        snappedRow = Math.max(0, snappedRow);
-
-        // Check for collisions
-        const collidedItems = this.findCollidingItems(draggedInternalData, snappedCol, snappedRow);
-
-        // Update position
-        draggedInternalData.x = snappedCol;
-        draggedInternalData.y = snappedRow;
-
-        const existingItem = this.items.find(i => i.id === draggedItemId);
-        if (existingItem) {
-            existingItem.x = snappedCol;
-            existingItem.y = snappedRow;
-        } else {
-            this.items = [...this.items, {
-                id: draggedItemId,
-                x: snappedCol,
-                y: snappedRow
-            }];
-        }
-
-        for (const item of collidedItems) {
-            this.shiftItemRightOrDown(item, snappedRow);
-        }
-
-        // update position
-        this.positionGridItems();
-
-        this.dispatchEvent(new CustomEvent('grid-item-moved', {
-            detail: {
-                movedGridItemData: {
-                    id: draggedInternalData.id,
-                    x: draggedInternalData.x,
-                    y: draggedInternalData.y,
-                    w: draggedInternalData.w,
-                    h: draggedInternalData.h,
-                    actualWidth: draggedInternalData.actualWidth,
-                    actualHeight: draggedInternalData.actualHeight
-                },
-                newPosition: { col: draggedInternalData.x, row: draggedInternalData.y },
-                draggedElement: draggedItemElement
-            },
-            bubbles: true,
-            composed: true
-        }));
-    }
-    private findCollidingItems(
-        testItemData: InternalGridItemData,
-        testCol: number,
-        testRow: number
-    ): InternalGridItemData[] {
-        const testX = testCol * this.gridItemSize;
-        const testY = testRow * this.gridItemSize;
-        const testWidth = testItemData.w * this.gridItemSize;
-        const testHeight = testItemData.h * this.gridItemSize;
-
-        const testRect = {
-            left: testX,
-            top: testY,
-            right: testX + testWidth,
-            bottom: testY + testHeight
-        };
-
-        const collided: InternalGridItemData[] = [];
-
-        for (let otherItemData of this.internalItemsData) {
-            if (otherItemData.id === testItemData.id) continue;
-
-            const otherX = otherItemData.x * this.gridItemSize;
-            const otherY = otherItemData.y * this.gridItemSize;
-            const otherWidth = otherItemData.w * this.gridItemSize;
-            const otherHeight = otherItemData.h * this.gridItemSize;
-
-            const otherRect = {
-                left: otherX,
-                top: otherY,
-                right: otherX + otherWidth,
-                bottom: otherY + otherHeight
-            };
-
-            const overlap = !(
-                testRect.right <= otherRect.left ||
-                testRect.left >= otherRect.right ||
-                testRect.bottom <= otherRect.top ||
-                testRect.top >= otherRect.bottom 
-            );
-
-            if (overlap) collided.push(otherItemData);
-        }
-
-        return collided;
-    }
-
-    private shiftItemRightOrDown(item: InternalGridItemData, startRow: number) {
-        let row = startRow;
-
-        while (true) {
-            // Check if the item can fit in the current row
-            for (let col = 0; col <= this.maxColumns - item.w; col++) {
-                if (!this.detectCollision(item, col, row)) {
-                    // Update internal and items[]
-                    const existing = this.items.find(i => i.id === item.id);
-                    if (existing) {
-                        existing.x = col;
-                        existing.y = row;
-                    }
-
-                    item.x = col;
-                    item.y = row;
-
-                    return;
-                }
-            }
-            row += 1;
-        }
+          let items = [
+                {x:0, y:0, w:2, content: 'item 0'},
+                {x:0, y:1, content: 'item 1'}
+            ];
+            let grid = this.renderRoot?.querySelector('.grid-stack') as GridStackElement | undefined;
+            this.grid = GridStack.init({float: false}, grid);
+            this.grid.load(items);
     }
 
     render() {
 
-        const additionalCss = html`
-        <style>
-        :host {
-            --grid-gap: ${parseVariables(
-            cssVar("spacing", this.gap),
-            this.gap,
-            "0px",
-        )};
-            --grid-item-size: ${this.gridItemSize}px;
-        }
-        </style>
-        `;
-
         return html`
         ${parseThemeToCssVariables(this.theme?.components?.gridstack, ":host")}
-        ${additionalCss}
-
-        <div
-            class="grid-container"
-            data-testid=${this.testId || nothing}
-            style="padding: 0px;"
-        >
-            <slot></slot>
-        </div>
+            <div class="grid-stack"></div>
         `;
     }
 
     static styles = css`
-    :host {
-        display: block;
+        .grid-stack {
         position: relative;
-        box-sizing: border-box;
-        background: none;
-        user-select: none;
-    }
-
-    .grid-container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        box-sizing: border-box;
-        margin:0;
-    }
-
-    ::slotted(.grid-item) {
-        position: absolute;
-        color: white;
-        font-weight: bold;
-        font-size: 14px;
-        border-radius: 6px;
-        cursor: grab;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: box-shadow 0.3s ease;
-        box-sizing: border-box;
-    }
-    ::slotted(.grid-item > *) {
-        margin: 0;
-        padding: 0;
-    }
-    ::slotted(.grid-item:active) {
-        cursor: grabbing;
-    }
+        }
+        .grid-stack-rtl {
+            direction: ltr;
+        }
+        .grid-stack-rtl > .grid-stack-item {
+            direction: rtl;
+        }
+        .grid-stack-placeholder > .placeholder-content {
+            background-color: rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: absolute;
+            width: auto;
+            z-index: 0 !important;
+        }
+        .grid-stack > .grid-stack-item {
+            position: absolute;
+            padding: 0;
+            top: 0;
+            left: 0;
+            width: var(--gs-column-width);
+            height: var(--gs-cell-height);
+        }
+        .grid-stack-item-content {
+            text-align: center;
+            background-color: #18bc9c;
+        }
+        .grid-stack > .grid-stack-item > .grid-stack-item-content {
+            margin: 0;
+            position: absolute;
+            width: auto;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .grid-stack > .grid-stack-item.size-to-content:not(.size-to-content-max) > .grid-stack-item-content {
+            overflow-y: hidden;
+        }
+        .grid-stack > .grid-stack-item > .grid-stack-item-content, .grid-stack > .grid-stack-placeholder > .placeholder-content {
+            top: var(--gs-item-margin-top);
+            right: var(--gs-item-margin-right);
+            bottom: var(--gs-item-margin-bottom);
+            left: var(--gs-item-margin-left);
+        }
+        .grid-stack-item > .ui-resizable-handle {
+            position: absolute;
+            font-size: 0.1px;
+            display: block;
+            -ms-touch-action: none;
+            touch-action: none;
+        }
+        .grid-stack-item.ui-resizable-disabled > .ui-resizable-handle, .grid-stack-item.ui-resizable-autohide > .ui-resizable-handle {
+            display: none;
+        }
+        .grid-stack-item > .ui-resizable-ne, .grid-stack-item > .ui-resizable-nw, .grid-stack-item > .ui-resizable-se, .grid-stack-item > .ui-resizable-sw {
+            background-image: url('data:image/svg+xml;
+            utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="%23666" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 20 20"><path d="m10 3 2 2H8l2-2v14l-2-2h4l-2 2"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .grid-stack-item > .ui-resizable-ne {
+            transform: rotate(45deg);
+        }
+        .grid-stack-item > .ui-resizable-sw {
+            transform: rotate(45deg);
+        }
+        .grid-stack-item > .ui-resizable-nw {
+            transform: rotate(-45deg);
+        }
+        .grid-stack-item > .ui-resizable-se {
+            transform: rotate(-45deg);
+        }
+        .grid-stack-item > .ui-resizable-nw {
+            cursor: nw-resize;
+            width: 20px;
+            height: 20px;
+            top: var(--gs-item-margin-top);
+            left: var(--gs-item-margin-left);
+        }
+        .grid-stack-item > .ui-resizable-n {
+            cursor: n-resize;
+            height: 10px;
+            top: var(--gs-item-margin-top);
+            left: 25px;
+            right: 25px;
+        }
+        .grid-stack-item > .ui-resizable-ne {
+            cursor: ne-resize;
+            width: 20px;
+            height: 20px;
+            top: var(--gs-item-margin-top);
+            right: var(--gs-item-margin-right);
+        }
+        .grid-stack-item > .ui-resizable-e {
+            cursor: e-resize;
+            width: 10px;
+            top: 15px;
+            bottom: 15px;
+            right: var(--gs-item-margin-right);
+        }
+        .grid-stack-item > .ui-resizable-se {
+            cursor: se-resize;
+            width: 20px;
+            height: 20px;
+            bottom: var(--gs-item-margin-bottom);
+            right: var(--gs-item-margin-right);
+        }
+        .grid-stack-item > .ui-resizable-s {
+            cursor: s-resize;
+            height: 10px;
+            left: 25px;
+            bottom: var(--gs-item-margin-bottom);
+            right: 25px;
+        }
+        .grid-stack-item > .ui-resizable-sw {
+            cursor: sw-resize;
+            width: 20px;
+            height: 20px;
+            bottom: var(--gs-item-margin-bottom);
+            left: var(--gs-item-margin-left);
+        }
+        .grid-stack-item > .ui-resizable-w {
+            cursor: w-resize;
+            width: 10px;
+            top: 15px;
+            bottom: 15px;
+            left: var(--gs-item-margin-left);
+        }
+        .grid-stack-item.ui-draggable-dragging > .ui-resizable-handle {
+            display: none !important;
+        }
+        .grid-stack-item.ui-draggable-dragging {
+            will-change: left, top;
+        }
+        .grid-stack-item.ui-resizable-resizing {
+            will-change: width, height;
+        }
+        .ui-draggable-dragging, .ui-resizable-resizing {
+            z-index: 10000;
+        }
+        .ui-draggable-dragging > .grid-stack-item-content, .ui-resizable-resizing > .grid-stack-item-content {
+            box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.2);
+            opacity: 0.8;
+        }
+        .grid-stack-animate, .grid-stack-animate .grid-stack-item {
+            transition: left 0.3s, top 0.3s, height 0.3s, width 0.3s;
+        }
+        .grid-stack-animate .grid-stack-item.ui-draggable-dragging, .grid-stack-animate .grid-stack-item.ui-resizable-resizing, .grid-stack-animate .grid-stack-item.grid-stack-placeholder {
+            transition: left 0s, top 0s, height 0s, width 0s;
+        }
+        .grid-stack > .grid-stack-item[gs-y="0"] {
+            top: 0px;
+        }
+        .grid-stack > .grid-stack-item[gs-x="0"] {
+            left: 0%;
+        }
     `;
 }
 
