@@ -400,14 +400,15 @@ export class RangeDatePicker extends LitElement {
   }
 
   protected firstUpdated() {
-    if (!this._cMonthFrom && !this._cMonthFrom) {
-      // set default
+    if (!this._cMonthFrom && !this._cMonthTo) {
+      const currentDate = new Date();
+      this._cMonthFrom = getMonthString(currentDate);
 
-      const currentMonth = getMonthString(new Date());
-      this._cMonthFrom = currentMonth;
+      const nextMonthDate = addMonths(currentDate, 1);
+      this._cMonthTo = format(nextMonthDate, "MM");
 
-      const nextMonth = parse(this._cMonthFrom, "MM", new Date());
-      this._cMonthTo = format(addMonths(nextMonth, 1), "MM");
+      this._cYearFrom = currentDate.getFullYear().toString();
+      this._cYearTo = nextMonthDate.getFullYear().toString();
     }
     var popover = this.shadowRoot?.querySelector(
       "div.calendar-container",
