@@ -76,14 +76,13 @@ export class Grid extends LitElement {
             if (this.maxColumns < 3) {
                 this.maxColumns = 3;
             }
-            this.reflowGridLayout();
         }
 
-        if (changedProperties.has('items') || changedProperties.has('gap') || changedProperties.has('gridItemSize')) {
+        // If items (x,y) change, or layout properties (gap, gridItemSize, maxColumns) change
+        if (changedProperties.has('items') || changedProperties.has('gap') || changedProperties.has('gridItemSize') || changedProperties.has('maxColumns')) {
             this.updateGridItemsFromSlot();
         }
     }
-    
     private updateGridItemsFromSlot() {
         if (!this._slot) {
             return;
@@ -198,7 +197,6 @@ export class Grid extends LitElement {
         this.draggedItem.style.left = `${moveX}px`;
         this.draggedItem.style.top = `${moveY}px`;
     }
-    
     private detectCollision(
         testItemData: InternalGridItemData,
         testCol: number,
@@ -242,7 +240,6 @@ export class Grid extends LitElement {
         }
         return null;
     }
-
     private onMouseUp(e: MouseEvent) {
         if (!this.draggedItem) return;
 
@@ -267,76 +264,31 @@ export class Grid extends LitElement {
         snappedCol = Math.max(0, Math.min(this.maxColumns - wUnits, snappedCol));
         snappedRow = Math.max(0, snappedRow);
 
-        let newPos = { col: snappedCol, row: snappedRow };
-        
-        let collidingItem: InternalGridItemData | null = null;
-        for (let r = 0; r < draggedInternalData.h; r++) {
-            for (let c = 0; c < draggedInternalData.w; c++) {
-                collidingItem = this.detectCollision(draggedInternalData, newPos.col + c, newPos.row + r);
-                if (collidingItem) {
-                    break;
-                }
-            }
-            if (collidingItem) break;
-        }
+        // Check for collisions
+        const collidedItems = this.findCollidingItems(draggedInternalData, snappedCol, snappedRow);
 
-        // Remove the dragged item from the list temporarily to find a new position
-        const otherItems = this.internalItemsData.filter(item => item.id !== draggedInternalData.id);
+        // Update position
+        draggedInternalData.x = snappedCol;
+        draggedInternalData.y = snappedRow;
 
-        if (collidingItem) {
-            // Find a spot to "insert" the dragged item
-            // Check for a perfect spot first (same size item)
-            if (draggedInternalData.w === collidingItem.w && draggedInternalData.h === collidingItem.h) {
-                // Swap positions
-                const tempX = draggedInternalData.x;
-                const tempY = draggedInternalData.y;
-                
-                draggedInternalData.x = collidingItem.x;
-                draggedInternalData.y = collidingItem.y;
-
-                collidingItem.x = tempX;
-                collidingItem.y = tempY;
-
-                const existingDragged = this.items.find(i => i.id === draggedItemId);
-                if (existingDragged) {
-                    existingDragged.x = draggedInternalData.x;
-                    existingDragged.y = draggedInternalData.y;
-                }
-                const existingCollided = this.items.find(i => i.id === collidingItem.id);
-                if (existingCollided) {
-                    existingCollided.x = collidingItem.x;
-                    existingCollided.y = collidingItem.y;
-                }
-            } else {
-                // If sizes are different, just place the dragged item and let reflow push the others down
-                draggedInternalData.x = newPos.col;
-                draggedInternalData.y = newPos.row;
-
-                const existingDragged = this.items.find(i => i.id === draggedItemId);
-                if (existingDragged) {
-                    existingDragged.x = draggedInternalData.x;
-                    existingDragged.y = draggedInternalData.y;
-                }
-            }
+        const existingItem = this.items.find(i => i.id === draggedItemId);
+        if (existingItem) {
+            existingItem.x = snappedCol;
+            existingItem.y = snappedRow;
         } else {
-            // No collision, just update position
-            draggedInternalData.x = newPos.col;
-            draggedInternalData.y = newPos.row;
-
-            const existingItem = this.items.find(i => i.id === draggedItemId);
-            if (existingItem) {
-                existingItem.x = newPos.col;
-                existingItem.y = newPos.row;
-            } else {
-                this.items = [...this.items, {
-                    id: draggedItemId,
-                    x: newPos.col,
-                    y: newPos.row
-                }];
-            }
+            this.items = [...this.items, {
+                id: draggedItemId,
+                x: snappedCol,
+                y: snappedRow
+            }];
         }
-        
-        this.reflowGridLayout();
+
+        for (const item of collidedItems) {
+            this.shiftItemRightOrDown(item, snappedRow);
+        }
+
+        // update position
+        this.positionGridItems();
 
         this.dispatchEvent(new CustomEvent('grid-item-moved', {
             detail: {
@@ -349,89 +301,68 @@ export class Grid extends LitElement {
                     actualWidth: draggedInternalData.actualWidth,
                     actualHeight: draggedInternalData.actualHeight
                 },
-                newPosition: newPos,
+                newPosition: { col: draggedInternalData.x, row: draggedInternalData.y },
                 draggedElement: draggedItemElement
             },
             bubbles: true,
             composed: true
         }));
     }
-    
-    // ค้นหาตำแหน่งว่างในกริดสำหรับไอเท็มที่กำหนด
-    private findAvailablePosition(itemToPlace: InternalGridItemData): { col: number; row: number } | null {
-        for (let row = 0; row < Infinity; row++) {
-            for (let col = 0; col <= this.maxColumns - itemToPlace.w; col++) {
-                let isFree = true;
-                for (let h = 0; h < itemToPlace.h; h++) {
-                    for (let w = 0; w < itemToPlace.w; w++) {
-                        const testItem = { ...itemToPlace, x: col, y: row };
-                        const collision = this.detectCollision(testItem, col + w, row + h);
-                        if (collision) {
-                            isFree = false;
-                            break;
-                        }
-                    }
-                    if (!isFree) break;
-                }
-                
-                if (isFree) {
-                    return { col, row };
-                }
-            }
+    private findCollidingItems(
+        testItemData: InternalGridItemData,
+        testCol: number,
+        testRow: number
+    ): InternalGridItemData[] {
+        const testX = testCol * this.gridItemSize;
+        const testY = testRow * this.gridItemSize;
+        const testWidth = testItemData.w * this.gridItemSize;
+        const testHeight = testItemData.h * this.gridItemSize;
+
+        const testRect = {
+            left: testX,
+            top: testY,
+            right: testX + testWidth,
+            bottom: testY + testHeight
+        };
+
+        const collided: InternalGridItemData[] = [];
+
+        for (let otherItemData of this.internalItemsData) {
+            if (otherItemData.id === testItemData.id) continue;
+
+            const otherX = otherItemData.x * this.gridItemSize;
+            const otherY = otherItemData.y * this.gridItemSize;
+            const otherWidth = otherItemData.w * this.gridItemSize;
+            const otherHeight = otherItemData.h * this.gridItemSize;
+
+            const otherRect = {
+                left: otherX,
+                top: otherY,
+                right: otherX + otherWidth,
+                bottom: otherY + otherHeight
+            };
+
+            const overlap = !(
+                testRect.right <= otherRect.left ||
+                testRect.left >= otherRect.right ||
+                testRect.bottom <= otherRect.top ||
+                testRect.top >= otherRect.bottom 
+            );
+
+            if (overlap) collided.push(otherItemData);
         }
-        return null;
+
+        return collided;
     }
-    
-    private reflowGridLayout() {
-        const sortedItems = [...this.internalItemsData].sort((a, b) => a.y - b.y || a.x - b.x);
-
-        const newGridState: InternalGridItemData[] = [];
-        const occupiedCells = new Set<string>();
-
-        for (const item of sortedItems) {
-            let foundPosition = false;
-            for (let row = 0; row < Infinity; row++) {
-                for (let col = 0; col <= this.maxColumns - item.w; col++) {
-                    let isFree = true;
-                    for (let h = 0; h < item.h; h++) {
-                        for (let w = 0; w < item.w; w++) {
-                            if (occupiedCells.has(`${col + w}-${row + h}`)) {
-                                isFree = false;
-                                break;
-                            }
-                        }
-                        if (!isFree) break;
-                    }
-
-                    if (isFree) {
-                        item.x = col;
-                        item.y = row;
-                        newGridState.push(item);
-                        for (let h = 0; h < item.h; h++) {
-                            for (let w = 0; w < item.w; w++) {
-                                occupiedCells.add(`${col + w}-${row + h}`);
-                            }
-                        }
-                        foundPosition = true;
-                        break;
-                    }
-                }
-                if (foundPosition) break;
-            }
-        }
-        
-        this.internalItemsData = newGridState;
-        this.items = newGridState.map(i => ({ id: i.id, x: i.x, y: i.y }));
-        this.positionGridItems();
-    }
-
 
     private shiftItemRightOrDown(item: InternalGridItemData, startRow: number) {
         let row = startRow;
 
         while (true) {
+            // Check if the item can fit in the current row
             for (let col = 0; col <= this.maxColumns - item.w; col++) {
                 if (!this.detectCollision(item, col, row)) {
+                    // Update internal and items[]
                     const existing = this.items.find(i => i.id === item.id);
                     if (existing) {
                         existing.x = col;
@@ -506,7 +437,6 @@ export class Grid extends LitElement {
         align-items: center;
         transition: box-shadow 0.3s ease;
         box-sizing: border-box;
-        transition: all 0.25s ease-in-out;
     }
     ::slotted(.grid-item > *) {
         margin: 0;
