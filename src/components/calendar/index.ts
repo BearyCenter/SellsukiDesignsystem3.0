@@ -485,11 +485,10 @@ export class Calendar extends LitElement {
         locale: locales[this.locale],
       });
       this.year = yearPlusString;
+      this.dispatchEvent(
+        new CustomEvent("next-year", { detail: { value: this.year } }),
+      );
     }
-
-    this.dispatchEvent(
-      new CustomEvent("next-year", { detail: { value: this.year } }),
-    );
     this.dispatchEvent(
       new CustomEvent("next-month", { detail: { value: this.month } }),
     );
@@ -507,10 +506,10 @@ export class Calendar extends LitElement {
         locale: locales[this.locale],
       });
       this.year = yearMinusString;
+      this.dispatchEvent(
+        new CustomEvent("prev-year", { detail: { value: this.year } }),
+      );
     }
-    this.dispatchEvent(
-      new CustomEvent("prev-year", { detail: { value: this.year } }),
-    );
     this.dispatchEvent(
       new CustomEvent("prev-month", { detail: { value: this.month } }),
     );
