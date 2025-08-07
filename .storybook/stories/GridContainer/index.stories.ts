@@ -3,11 +3,11 @@ import { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/grid-container";
 import { Grid, GridItem } from "../../../src/components/grid-container"; // Import GridItem interface
-// import '../src/components/grid-container/gs/gridstack.css';
 // import '../../../src/components/grid-container/gs/gridstack.css'
 import "../../../src/elements/button";
 import "../../../src/elements/icon";
 import { AutoLitProperty, baseArgsTypes } from "../helper";
+import { add } from "date-fns";
 
 type GridStoryArgs = AutoLitProperty<Grid>;
 
@@ -152,17 +152,62 @@ export const StaticItems: Story = {
 export const ItemsSlot: Story = {
     args: {
         maxColumns: 12,
+        testId: "grid-container-slot",
     },
+
     render: (args) => {
+
+        function testClick() {
+             const addelement = document.querySelector('.testAdd') // Clear existing children
+             const myDiv = document.createElement('div');
+             myDiv.textContent = "New Item";
+             addelement?.appendChild(myDiv);
+             console.log("Item added to slot");
+        }
         return html`
-        <ssk-grid-container>
-            <div class="grid-stack-item" gs-x="0" gs-y="0" gs-w="2" gs-h="1">
-                <div class="grid-stack-item-content">Item A</div>
+        <script type="text/javascript">
+            const sidebars = document.querySelectorAll('.sidebar-item');
+            const addelement = document.querySelector('.testAdd');
+            addelement.SetupDragIn(sidebars);
+        </script>
+        <style>
+            .sidebar {
+                background: rgb(215, 243, 215);
+                padding: 25px 0;
+                height: 100px;
+                text-align: center;
+            }
+            .sidebar > .grid-stack-item,
+            .sidebar-item {
+                width: 100px;
+                height: 50px;
+                border: 2px dashed green;
+                text-align: center;
+                line-height: 35px;
+                background: rgb(192, 231, 192);
+                cursor: default;
+                display: inline-block;
+            }
+        </style>
+        <div>
+            <div class="row">
+                <div class="sidebar">
+                  
+                    <div class="sidebar-item"><ssk-button @click=${testClick}>${args.testId}</ssk-button></div>
+                    <!-- constrained in code using GridStackWidget[] sidebarContent -->
+                    <div class="sidebar-item">2x1, max=3</div>
+                    <!-- DOM JSON spelling GridStackWidget. NOTE: require content:'xyz' to work and RenderCB() to render -->
+                    <div class="sidebar-item" data-gs-widget='{"w":3, "content":"drop w:3"}'>w:3</div>
+                    <!-- DOM id handled by myClone() case -->
+                    <div class="sidebar-item" gs-id="manual">gs-id case</div>
+                </div>
             </div>
-            <div class="grid-stack-item" gs-x="2" gs-y="0" gs-w="1" gs-h="2">
-                <div class="grid-stack-item-content">Item B</div>
-            </div>
-        </ssk-grid-container>
+            <ssk-grid-container class="testAdd">
+            <div class="test" gs-x="0" gs-y="0" gs-w="2" gs-h="2" style="background:red; width:100%; height:100%"><ssk-button @click=${testClick}>${args.testId}</ssk-button></div>
+            <div gs-x="2" gs-y="0" gs-w="2" gs-h="2" style="background:orange; width:100%; height:100%"><button @click=${testClick}>Click Me</button></div>
+            <div gs-x="0" gs-y="0" gs-w="2" gs-h="2" style="background:green; width:100%; height:100%">Yatta</div>
+            </ssk-grid-container>
+        </div>
         `;
     },
 };

@@ -18,6 +18,8 @@ import {
     parseThemeToCssVariables,
     parseVariables,
 } from "../../types/theme";
+import { c } from "vitest/dist/reporters-5f784f42.js";
+import { th } from "date-fns/locale";
 
 export interface GridItem {
     id: number;
@@ -51,24 +53,22 @@ export class Grid extends LitElement {
     @property({ type: Array })
     items: GridItem[] = [];
 
+    slottedChildren: Node[] = [];
+
+    constructor() {
+        super();
+        this.slottedChildren = [...this.childNodes];
+    }
+    
 
     private grid: GridStack | null = null;
 
-    @query('slot') private _slot!: HTMLSlotElement;
    
     static styles = [
         gridstackSheet, // <--- style gridstack.css
         css`
             :host {
                 display: block;
-            }
-            .grid-stack-item-content {
-                background-color: var(--grid-item-background, rgb(188, 111, 24));
-                color: var(--grid-item-color, white);
-            }
-            ::slotted(.grid-stack-item-content) {
-                background-color: var(--grid-item-background, rgb(188, 111, 24));
-                color: var(--grid-item-color, white);
             }
         `
     ];
@@ -80,65 +80,109 @@ export class Grid extends LitElement {
                 column: this.maxColumns,
                 cellHeight: this.gridItemSize,
                 margin: 16,
+                acceptWidgets: function(el) { return true },
             }, grid);
-            // Check if there are items to load
-            if (this.items && this.items.length > 0) {
-                const widgets: GridStackWidget[] = this.items.map(item => ({
-                    x: item.x,
-                    y: item.y,
-                    w: item.w || 1, 
-                    h: item.h || 1,
-                    content: item.content || `Item ${item.id}`,
-                }));
-                this.grid.load(widgets);
-            }
         }
+
+        const gridstackRoot = this.renderRoot.querySelector('.grid-stack') // Clear existing children
+        gridstackRoot?.replaceChildren();
+        this.slottedChildren.forEach((child) => {
+                if (child instanceof HTMLElement) {
+                    console.log("Adding child to slot", child);
+                    const myDiv = document.createElement('div');
+                    myDiv.className = "grid-stack-item";
+                    myDiv.setAttribute('gs-x', child.getAttribute('gs-x') || '0');
+                    myDiv.setAttribute('gs-y', child.getAttribute('gs-y') || '0');
+                    myDiv.setAttribute('gs-w', child.getAttribute('gs-w') || '1');
+                    myDiv.setAttribute('gs-h', child.getAttribute('gs-h') || '1');
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = "grid-stack-item-content";
+                    contentDiv.appendChild(child);
+                    myDiv.appendChild(contentDiv);
+                    this.grid?.makeWidget(myDiv);
+                }
+        });
+
+        
+        const config = { attributes: false, childList: true, subtree: false };
+        const callback = (mutationList, observer) => {
+            for (const mutation of mutationList) {
+                if (mutation.type === "childList") {
+                    console.log("A child node has been added or removed.");
+                    this.updateChildren();
+                } 
+            }
+        };
+
+        // Create an observer instance linked to the callback function
+        const observer = new MutationObserver(callback);
+
+        // Start observing the target node for configured mutations
+        observer.observe(this, config);
+    }
+
+    SetupDragIn(elements: HTMLElement[]) {
+        console.log("Setting up drag in");
+        GridStack.setupDragIn(elements, { helper: this.myClone })
+    }
+
+    myClone(el: HTMLElement): HTMLElement {
+      return el.cloneNode(true) as HTMLElement;
+
+    }
+
+    updateChildren() {
+        this.slottedChildren = [...this.childNodes];
+        console.log("Updating children", this.slottedChildren);
+        this.slottedChildren.forEach((child) => {
+            if (child instanceof HTMLElement) {
+                console.log("Adding child to slot", child);
+                const myDiv = document.createElement('div');
+                myDiv.className = "grid-stack-item";
+                myDiv.setAttribute('gs-x', child.getAttribute('gs-x') || '0');
+                myDiv.setAttribute('gs-y', child.getAttribute('gs-y') || '0');
+                myDiv.setAttribute('gs-w', child.getAttribute('gs-w') || '1');
+                myDiv.setAttribute('gs-h', child.getAttribute('gs-h') || '1');
+                const contentDiv = document.createElement('div');
+                contentDiv.className = "grid-stack-item-content";
+                contentDiv.appendChild(child.cloneNode(true) as HTMLElement);
+                myDiv.appendChild(contentDiv);
+                this.grid?.makeWidget(myDiv);
+            }
+        });
     }
 
 
-    // firstUpdated() {
-    //     //v1
-    //     // const grid = this.renderRoot?.querySelector('.grid-stack') as GridStackElement | undefined;
+    updated() {
+        // console.log("Updated grid with slotted children", ...this.childNodes);
+        // const gridstackRoot = this.renderRoot.querySelector('.grid-stack') // Clear existing children
+        // gridstackRoot?.replaceChildren();
+        // this.slottedChildren.forEach((child) => {
+        //         if (child instanceof HTMLElement) {
+        //             console.log("Adding child to slot", child);
+        //             const myDiv = document.createElement('div');
+        //             myDiv.className = "grid-stack-item";
+        //             myDiv.setAttribute('gs-x', child.getAttribute('gs-x') || '0');
+        //             myDiv.setAttribute('gs-y', child.getAttribute('gs-y') || '0');
+        //             myDiv.setAttribute('gs-w', child.getAttribute('gs-w') || '1');
+        //             myDiv.setAttribute('gs-h', child.getAttribute('gs-h') || '1');
+        //             const contentDiv = document.createElement('div');
+        //             contentDiv.className = "grid-stack-item-content";
+        //             contentDiv.appendChild(child);
+        //             myDiv.appendChild(contentDiv);
+        //             this.grid?.makeWidget(myDiv);
+        //         }
+        // });
+    }
 
-    //     // // รอ slot render ก่อนเรียก init
-    //     // const slottedElements = this._slot.assignedElements({ flatten: true });
-        
-    //     // if (grid && slottedElements.length > 0) {
-    //     //     // Initialize GridStack
-    //     //     this.grid = GridStack.init({
-    //     //     float: false,
-    //     //     column: this.maxColumns,
-    //     //     cellHeight: this.gridItemSize,
-    //     //     margin: 16,
-    //     //     }, grid);
-    //     // }
-        
 
-    //     // //v2
-    //     // const grid = this.renderRoot?.querySelector('.grid-stack');
-    //     // // wait for slotted content
-    //     // requestAnimationFrame(() => {
-    //     //     const GridStack = (window as any).GridStack;
-    //     //     if (GridStack && grid) {
-    //     //         this.grid = GridStack.init({
-    //     //         column: this.maxColumns,
-    //     //         float: false,
-    //     //         cellHeight: this.gridItemSize,
-    //     //         margin: parseInt(this.gap),
-    //     //         }, grid);
-    //     //     } else {
-    //     //         console.warn("GridStack is not available");
-    //     //     }
-    //     // });
-
-    // }
 
     render() {
+        
+
         return html`
         ${parseThemeToCssVariables(this.theme?.components?.gridcontainer, ":host")}
-            <div class="grid-stack">
-                <slot></slot>
-            </div>
+            <div class="grid-stack"></div>
         `;
     }
 
