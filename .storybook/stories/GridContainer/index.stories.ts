@@ -3,6 +3,8 @@ import { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/grid-container";
 import { Grid, GridItem } from "../../../src/components/grid-container"; // Import GridItem interface
+// import '../src/components/grid-container/gs/gridstack.css';
+// import '../../../src/components/grid-container/gs/gridstack.css'
 import "../../../src/elements/button";
 import "../../../src/elements/icon";
 import { AutoLitProperty, baseArgsTypes } from "../helper";
@@ -12,15 +14,9 @@ type GridStoryArgs = AutoLitProperty<Grid>;
 const meta: Meta<GridStoryArgs> = {
     title: "Example/GridContainer",
     tags: ["autodocs"],
+    component: 'ssk-grid-container',
     args: {
         maxColumns: 12,
-    },
-    // The render function for the main meta should be a generic one
-    render: (args) => {
-        // This render is now a placeholder. Each story will have its own render function.
-        return html`
-            <ssk-grid-container .maxColumns=${args.maxColumns}></ssk-grid-container>
-        `;
     },
     argTypes: {
         testId: {
@@ -34,145 +30,56 @@ const meta: Meta<GridStoryArgs> = {
             table: { category: "Props" },
         },
         ...baseArgsTypes,
+        // ...
     },
-    decorators: [
-        (story) => html`
-        <style>
-        .grid-item {
-            position: absolute;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-            border-radius: 6px;
-            cursor: grab;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: box-shadow 0.3s ease;
-            user-select: none;
-            box-sizing: border-box;
-            text-align: center;
-        }
-
-        .grid-item:active {
-            cursor: grabbing;
-        }
-        </style>
-        ${story()}
-        `,
-    ],
 };
 
 export default meta;
 
 type Story = StoryObj<GridStoryArgs>;
 
-// --- Story 1: Using Slots (Drag and Drop enabled) ---
 export const BasicGridWithSlots: Story = {
     name: "Basic Grid (Slots)",
     args: {
-        maxColumns: 10,
+        maxColumns: 12,
     },
     render: (args) => html`
         <style>
-            .widget-a {
-                background-color: rgb(219, 216, 216);
+            .widget-content {
+                background-color: #f0f0f0;
                 color: black;
+                height: 100%;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 text-align: center;
-                height: 100%;
-            }
-            .widget-size {
-                background-color: rgb(219, 216, 216);
-                color: black;
-                height: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                border-radius: 5px;
             }
         </style>
         <ssk-grid-container .maxColumns=${args.maxColumns}>
             <div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-w="3" data-gs-h="2">
                 <div class="grid-stack-item-content">
-                    <div class="widget-a">
+                    <div class="widget-content">
                         <h3>Widget</h3><p>3x2</p>
                     </div>
                 </div>
             </div>
             <div class="grid-stack-item" data-gs-x="3" data-gs-y="0" data-gs-w="1" data-gs-h="1">
                 <div class="grid-stack-item-content">
-                    <div class="widget-size">
+                    <div class="widget-content">
                         <h3>1x1</h3>
                     </div>
                 </div>
             </div>
         </ssk-grid-container>
     `,
-    parameters: {
-        design: {
-            type: "figma",
-            url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=24642-38098&t=3hx9kkCIh7ETZkq6-0",
-        },
-    },
-};
-
-// --- Story 2: Using the 'items' Property ---
-export const BasicGridWithProperty: Story = {
-    name: "Basic Grid (Property)",
-    args: {
-        maxColumns: 10,
-    },
-    render: (args) => {
-        const items: GridItem[] = [
-            { id: 1, x: 0, y: 0, w: 3, h: 2, content: `<div class="widget-a"><h3>Widget</h3><p>3x2</p></div>` },
-            { id: 2, x: 3, y: 0, w: 1, h: 1, content: `<div class="widget-size"><h3>1x1</h3></div>` },
-        ];
-        
-        return html`
-        <style>
-            .widget-a {
-                background-color: rgb(219, 216, 216);
-                color: black;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-                height: 100%;
-            }
-            .widget-size {
-                background-color: rgb(219, 216, 216);
-                color: black;
-                height: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-        </style>
-        <ssk-grid-container .items=${items} .maxColumns=${args.maxColumns}>
-            <div data-id="1">
-                <div class="grid-stack-item-content">
-                    <div class="my-widget my-widget-a">4:2</div>
-                </div>
-            </div>
-            <div data-id="2">
-                <div class="grid-stack-item-content">
-                    <div class="my-widget my-widget-a">4:2</div>
-                </div>
-            </div>
-        </ssk-grid-container>
-        `;
-    },
 };
 
 // --- Story 3: Full Size Grid with Property ---
 export const FullSizeGrid: Story = {
     args: {
-        maxColumns: 10,
+        maxColumns: 12,
     },
     render: (args) => {
         const items: GridItem[] = [
@@ -206,7 +113,7 @@ export const FullSizeGrid: Story = {
 // --- Story 4: Static Items with Property ---
 export const StaticItems: Story = {
     args: {
-        maxColumns: 8,
+        maxColumns: 12,
     },
     render: (args) => {
         const items: GridItem[] = [
@@ -242,90 +149,18 @@ export const StaticItems: Story = {
         `;
     },
 };
-
-// export const ItemsSlot: Story = {
-//     args: {
-//         maxColumns: 12,
-//     },
-//     render: (args) => {
-//         const items: GridItem[] = [
-//             { id: 1, x: 0, y: 0, w: 2, h: 2, content: `<div class="a"><h3>2:2</h3><p>Item 1</p></div>` },
-//             { id: 2, x: 2, y: 0, w: 3, h: 3, content: `<div class="b"><h3>3:3</h3><p>Item 2</p></div>` },
-//         ];
-//         return html`
-//         <style>
-//         .my-widget {
-//             height: 100%;
-//             display: flex;
-//             flex-direction: column;
-//             justify-content: center;
-//             align-items: center;
-//             color: black;
-//             font-weight: bold;
-//             font-size: 14px;
-//             border-radius: 6px;
-//             text-align: center;
-//         }
-//         .my-widget-a {
-//             background-color: blue;
-//         }
-//         .my-widget-b {
-//             background-color: #e91e63;
-//         }
-//         </style>
-//         <ssk-grid-container .items=${items} .maxColumns=${args.maxColumns}>
-//             <div class="grid-stack-item"  id="1" data-gs-x="0" data-gs-y="0" data-gs-w="4" data-gs-h="2">
-//                 <div class="grid-stack-item-content">
-//                     <div class="my-widget my-widget-a">4:2</div>
-//                 </div>
-//             </div>
-
-//             <div class="grid-stack-item" id="2" data-gs-x="4" data-gs-y="0" data-gs-w="4" data-gs-h="4">
-//                 <div class="grid-stack-item-content">
-//                     <div class="my-widget my-widget-b">4:4</div>
-//                 </div>
-//             </div>
-//         </ssk-grid-container>
-//         `;
-//     },
-// };
-
 export const ItemsSlot: Story = {
     args: {
         maxColumns: 12,
     },
     render: (args) => {
-        // GridStack.init();
         return html`
-        <style>
-        .my-widget {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: black;
-            font-weight: bold;
-            font-size: 14px;
-            border-radius: 6px;
-            text-align: center;
-        }
-        .my-widget-a {
-            background-color: blue;
-        }
-        .my-widget-b {
-            background-color: #e91e63;
-        }
-        </style>
-        <ssk-grid-container .maxColumns=${args.maxColumns}>
-        
-            <div class="grid-stack">
-                <div class="grid-stack-item">
-                    <div class="grid-stack-item-content">Item 1</div>
-                </div>
-                <div class="grid-stack-item" gs-w="2">
-                    <div class="grid-stack-item-content">Item 2 wider</div>
-                </div>
+        <ssk-grid-container>
+            <div class="grid-stack-item" gs-x="0" gs-y="0" gs-w="2" gs-h="1">
+                <div class="grid-stack-item-content">Item A</div>
+            </div>
+            <div class="grid-stack-item" gs-x="2" gs-y="0" gs-w="1" gs-h="2">
+                <div class="grid-stack-item-content">Item B</div>
             </div>
         </ssk-grid-container>
         `;
