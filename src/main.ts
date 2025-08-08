@@ -40,6 +40,7 @@ export * from "./elements/textarea";
 export * from "./elements/toggle";
 export * from "./elements/top-navbar";
 export * from "./elements/accordion";
+export * from "./elements/widget-example";
 
 export * from "./components/addon-phone-country";
 export * from "./components/calendar";
@@ -62,6 +63,6 @@ export * from "./components/time";
 export * from "./components/timeline";
 export * from "./components/tooltip";
 export * from "./components/wave-icon";
-export * from "./components/grid-stack";
+export * from "./components/grid-container";
 
 import "./assets/fonts.css";
