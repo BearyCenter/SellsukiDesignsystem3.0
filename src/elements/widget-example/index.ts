@@ -10,9 +10,7 @@ import {
     FontWeight,
     Size,
     Theme,
-    cssVar,
     parseThemeToCssVariables,
-    parseVariables,
 } from "../../types/theme";
 
 @customElement("ssk-widget-example")

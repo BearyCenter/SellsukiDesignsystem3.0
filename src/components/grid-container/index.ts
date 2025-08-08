@@ -1,19 +1,17 @@
 import { consume } from "@lit/context";
-import { LitElement, css, html, nothing } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { LitElement, css, html } from "lit";
+import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import "../../elements/divider";
 import "../../elements/icon";
-import { GridStack, GridStackElement, GridStackWidget } from "./gs/gridstack"
+import { GridStack, GridStackElement } from "./gs/gridstack"
 import gridstackStyles from './gs/gridstack.css?inline';
 const gridstackSheet = new CSSStyleSheet();
 gridstackSheet.replaceSync(gridstackStyles);
 
 import {
     Theme,
-    cssVar,
     parseThemeToCssVariables,
-    parseVariables,
 } from "../../types/theme";
 
 export interface GridItem {
