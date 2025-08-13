@@ -19,9 +19,9 @@ export interface GridItem {
   content?: string
 }
 
-@customElement('ssk-grid-container')
+@customElement('ssk-widget-grid')
 export class Grid extends LitElement {
-  static registeredName = 'ssk-grid-container'
+  static registeredName = 'ssk-widget-grid'
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
@@ -107,7 +107,7 @@ export class Grid extends LitElement {
     const width = this.gridItemSize * this.maxColumns
     return html`
       ${parseThemeToCssVariables(
-        this.theme?.components?.gridcontainer,
+        this.theme?.components?.widgetgrid,
         ':host'
       )}
       <div class="grid-stack" style="--grid-width: ${width}px"></div>
@@ -117,6 +117,6 @@ export class Grid extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'ssk-grid-container': Grid
+    'ssk-widget-grid': Grid
   }
 }

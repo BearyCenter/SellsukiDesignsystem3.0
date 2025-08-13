@@ -63,6 +63,6 @@ export * from "./components/time";
 export * from "./components/timeline";
 export * from "./components/tooltip";
 export * from "./components/wave-icon";
-export * from "./components/grid-container";
+export * from "./components/widget-grid";
 
 import "./assets/fonts.css";

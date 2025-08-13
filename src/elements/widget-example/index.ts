@@ -55,13 +55,6 @@ export class WidgetExample extends LitElement implements Widget, ThemeValue {
   private _defaultHeight = '2'
 
   isValidSize(): boolean {
-    // if (
-    //   (this.widgetWidth == '2' && this.widgetHeight == '2') ||
-    //   (this.widgetWidth == '4' && this.widgetHeight == '2') ||
-    //   (this.widgetWidth == '6' && this.widgetHeight == '2')
-    // )
-    //   return true
-    // return false
     return true
   }
 
