@@ -53,8 +53,6 @@ export const BasicGridWithSlots: Story = {
         <div>
             <ssk-widget-grid .maxColumns=${args.maxColumns} .gridItemSize=${args.gridItemSize}>
                 <ssk-widget-example x="0" y="0" widgetWidth="3" widgetHeight="2"></ssk-widget-example>
-                <ssk-widget-example x="4" y="0" widgetWidth="6" widgetHeight="2"></ssk-widget-example>
-                <ssk-widget-example x="8" y="0" widgetWidth="8" widgetHeight="4"></ssk-widget-example>
             </ssk-widget-grid>
         </div>
     `,
