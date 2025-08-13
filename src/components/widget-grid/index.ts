@@ -1,15 +1,14 @@
 import { consume } from '@lit/context'
-import { LitElement, css, html } from 'lit'
+import { LitElement, css, html, unsafeCSS } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import { themeContext } from '../../contexts/theme'
 import '../../elements/divider'
 import '../../elements/icon'
 import { GridStack, GridStackElement } from 'gridstack'
 import gridstackStyles from 'gridstack/dist/gridstack.min.css?inline'
-const gridstackSheet = new CSSStyleSheet()
-gridstackSheet.replaceSync(gridstackStyles)
 
 import { Theme, parseThemeToCssVariables } from '../../types/theme'
+import { Widget } from '../../types/widget'
 
 export interface GridItem {
   id: number
@@ -20,9 +19,9 @@ export interface GridItem {
   content?: string
 }
 
-@customElement('ssk-grid-container')
+@customElement('ssk-widget-grid')
 export class Grid extends LitElement {
-  static registeredName = 'ssk-grid-container'
+  static registeredName = 'ssk-widget-grid'
 
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
@@ -53,7 +52,6 @@ export class Grid extends LitElement {
   private grid: GridStack | null = null
 
   static styles = [
-    gridstackSheet,
     css`
       :host {
         display: block;
@@ -61,9 +59,12 @@ export class Grid extends LitElement {
       .grid-stack {
         width: var(--grid-width);
       }
-    `
+    `,
+    unsafeCSS(gridstackStyles)
   ]
+
   firstUpdated() {
+    this.slottedChildren = [...this.childNodes]
     const grid = this.renderRoot?.querySelector('.grid-stack') as
       | GridStackElement
       | undefined
@@ -83,18 +84,21 @@ export class Grid extends LitElement {
     gridstackRoot?.replaceChildren()
     this.slottedChildren.forEach((child) => {
       if (child instanceof HTMLElement) {
-        const myDiv = document.createElement('div')
-        myDiv.className = 'grid-stack-item'
-        myDiv.setAttribute('gs-x', child.getAttribute('gs-x') || '0')
-        myDiv.setAttribute('gs-y', child.getAttribute('gs-y') || '0')
-        myDiv.setAttribute('gs-w', child.getAttribute('gs-w') || '1')
-        myDiv.setAttribute('gs-h', child.getAttribute('gs-h') || '1')
-        myDiv.setAttribute('gs-no-resize', 'true')
-        const contentDiv = document.createElement('div')
-        contentDiv.className = 'grid-stack-item-content'
-        contentDiv.appendChild(child)
-        myDiv.appendChild(contentDiv)
-        this.grid?.makeWidget(myDiv)
+        try {
+          let size = (child as unknown as Widget).getSize()
+          const gridItem = document.createElement('div')
+          gridItem.className = 'grid-stack-item'
+          gridItem.setAttribute('gs-x', child.getAttribute('x') || '0')
+          gridItem.setAttribute('gs-y', child.getAttribute('y') || '0')
+          gridItem.setAttribute('gs-w', size[0] || '1')
+          gridItem.setAttribute('gs-h', size[1] || '1')
+          gridItem.setAttribute('gs-no-resize', 'true')
+          const gridContent = document.createElement('div')
+          gridContent.className = 'grid-stack-item-content'
+          gridContent.appendChild(child)
+          gridItem.appendChild(gridContent)
+          this.grid?.makeWidget(gridItem)
+        } catch (e) {}
       }
     })
   }
@@ -103,7 +107,7 @@ export class Grid extends LitElement {
     const width = this.gridItemSize * this.maxColumns
     return html`
       ${parseThemeToCssVariables(
-        this.theme?.components?.gridcontainer,
+        this.theme?.components?.widgetgrid,
         ':host'
       )}
       <div class="grid-stack" style="--grid-width: ${width}px"></div>
@@ -113,6 +117,6 @@ export class Grid extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'ssk-grid-container': Grid
+    'ssk-widget-grid': Grid
   }
 }
