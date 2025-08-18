@@ -39,6 +39,7 @@ const meta = {
         showSubtext: true,
         showIconLeft: true,
         showButtonIcon: true,
+        showTooltipLabel: true,
         buttonIcon: "solid-arrow-right-circle",
     },
     argTypes: {

@@ -287,7 +287,8 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
         border-radius: 8px;
         height: 144px;
         display: grid;
-        box-sizing: border-box; 
+        box-sizing: border-box;
+        position: fixed;
     }
     .text-style {
         color: #1f2937;
