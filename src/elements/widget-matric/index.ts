@@ -55,27 +55,29 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
   private _defaultWidth = '3'
   private _defaultHeight = '2'
     // property data
-  @property({ type: String }) label = "Label Subtext";
-  @property({ type: String }) subtext = "Subtext";
-  @property({ type: String }) badgetext = "3.25%";
-  @property({ type: String }) badgecolor = "success";
-  @property({ type: String }) badgeicon = "solid-arrow-up-right";
-  @property({ type: String }) iconleftcolor = "gray";
-  @property({ type: String }) iconleft = "outline-ellipsis-horizontal-circle";
-  @property({ type: String }) imgurl = "https://fastly.picsum.photos/id/216/200/300.jpg?hmac=c3OXbiUxWPMgwnaFpX8ZAfBL5TZzWjnof6mb4OwuSPs";
-  @property({ type: String }) buttoncolor = "primary";
-  @property({ type: String }) buttonvariant = "outline";
-  @property({ type: String }) buttonicon = "solid-arrow-right-circle";
-  @property({ type: String }) iconrightcolor = "gray";
-  @property({ type: String }) iconright = "outline-ellipsis-horizontal-circle";
+  @property({ type: String }) label = "Label";
+  @property({ type: String }) subText = "subText";
+  @property({ type: String }) badgeText = "3.25%";
+  @property({ type: String }) badgeColor = "success";
+  @property({ type: String }) badgeIcon = "solid-arrow-up-right";
+  @property({ type: String }) iconLeftColor = "gray";
+  @property({ type: String }) iconLeft = "outline-ellipsis-horizontal-circle";
+  @property({ type: String }) imgUrl = "https://fastly.picsum.photos/id/216/200/300.jpg?hmac=c3OXbiUxWPMgwnaFpX8ZAfBL5TZzWjnof6mb4OwuSPs";
+  @property({ type: String }) buttonColor = "primary";
+  @property({ type: String }) buttonVariant = "outline";
+  @property({ type: String }) buttonIcon = "solid-arrow-right-circle";
+  @property({ type: String }) iconRightColor = "gray";
+  @property({ type: String }) iconRight = "outline-ellipsis-horizontal-circle";
 
   // property ควบคุมการแสดง
-  @property({ type: Boolean }) showSubtext = true
-  @property({ type: Boolean }) showImage = false
-  @property({ type: Boolean }) showMiscIconLeft = true
-  @property({ type: Boolean }) showButtonIcon =true
-  @property({ type: Boolean }) showBadge = false
-  @property({ type: Boolean }) showMiscIconRight = false
+  @property({ type: Boolean }) showSubtext = true;
+  @property({ type: Boolean }) showImage = false;
+  @property({ type: Boolean }) showIconLeft = false;
+  @property({ type: Boolean }) showButtonIcon = false;
+  @property({ type: Boolean }) showBadge = false;
+  @property({ type: Boolean }) showIconRight = false;
+  @property({ type: Boolean }) showTooltipLabel = true;
+  @property({ type: Boolean }) showTooltipSubtext = false;
 
   isValidSize(): boolean {
      if (
@@ -99,17 +101,6 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
     return [this.getWidth(), this.getHeight()]
   }
 
-  private truncateText(text: string, maxLength: number): string {
-    if (!text) return '';
-    return text.length > maxLength ? text.slice(0, maxLength) + '…' : text;
- }
- private formatNumberWithCommas(value: string): string {
-    const num = parseFloat(value);
-    if (isNaN(num)) {
-      return value;
-    }
-    return num.toLocaleString();
- }
  private getContainerStyles() {
     const widthValue = parseInt(this.getWidth(), 10);
     const calculatedWidth = (widthValue * 88) - 32;
@@ -118,30 +109,58 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
     };
   }
 
-  private renderLabel() {
-    const formattedLabel = this.formatNumberWithCommas(this.label);
-    const maxLength = 8;
-    const isTruncated = formattedLabel.length > maxLength;
+  private handleButtonClick(e: Event) {
+    e.stopPropagation();
+    const event = new CustomEvent('click', {
+      bubbles: true,
+      composed: true
+    });
+    this.dispatchEvent(event);
 
-    if (isTruncated) {
-      // show tooltip
-      return html`
-        <ssk-tooltip size="sm" hideclosebutton themecolor="black" color="white">
-          <ssk-text size="2xl" color="gray.800" fontWeight="bold">
-            ${this.truncateText(formattedLabel, maxLength)}
-          </ssk-text>
-          <div slot="content" class="tooltip-name">
-            <ssk-text color="white" size="sx">${formattedLabel}</ssk-text>
-          </div>
-        </ssk-tooltip>
+  }
+
+  private renderLabel() {
+     const labelContent = html`
+        <div>
+            <ssk-text size="2xl" color="gray.800" fontWeight="bold">
+                <div class="label-wrapper">${this.label}</div>
+            </ssk-text>
+        </div>
       `;
-    } else {
-      return html`
-        <ssk-text size="2xl" color="gray.800" fontWeight="bold">
-          ${formattedLabel}
-        </ssk-text>
+
+      if (this.showTooltipLabel) {
+        return html`
+            <ssk-tooltip size="sm" hideclosebutton themecolor="black" color="white">
+                ${labelContent}
+                <div slot="content" class="tooltip-name">
+                    <ssk-text color="white" size="sx">${this.label}</ssk-text>
+                </div>
+            </ssk-tooltip>
+        `;
+      }
+      return labelContent;
+  }
+
+   private renderSubtext() {
+      const subtextContent = html`
+        <div>
+            <ssk-text size="md" color="background.600">
+                <div class="subtext-wrapper">${this.subText}</div>
+            </ssk-text>
+        </div>
       `;
-    }
+
+      if (this.showTooltipSubtext) {
+        return html`
+            <ssk-tooltip size="sm" hideclosebutton themecolor="black" color="white">
+                ${subtextContent}
+                <div slot="content" class="tooltip-name">
+                    <ssk-text color="white" size="sx">${this.subText}</ssk-text>
+                </div>
+            </ssk-tooltip>
+        `;
+      }
+      return subtextContent;
   }
 
   render() {
@@ -150,22 +169,44 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
         this.theme?.components?.WidgetMatric,
         ':host'
       )}
-      <div class="container" style=${styleMap(this.getContainerStyles())}>
+      <div class="container" style=${styleMap(this.getContainerStyles())}
+        data-testid=${this.testId || nothing}
+        .showImage=${this.showImage}
+        .showIconLeft=${this.showIconLeft}
+        .showBadge=${this.showBadge}
+        .showButtonIcon=${this.showButtonIcon}
+        .showIconRight=${this.showIconRight}
+        .label=${this.label}
+        .subText=${this.subText}
+        .badgeText=${this.badgeText}
+        .badgeColor=${this.badgeColor}
+        .badgeIcon=${this.badgeIcon}
+        .iconLeftColor=${this.iconLeftColor}
+        .iconLeft=${this.iconLeft}
+        .imgUrl=${this.imgUrl}
+        .buttonColor=${this.buttonColor}
+        .buttonVariant=${this.buttonVariant}
+        .buttonIcon=${this.buttonIcon}
+        .iconRightColor=${this.iconRightColor}
+        .iconRight=${this.iconRight}
+        .showTooltipLabel=${this.showTooltipLabel}
+        .showTooltipSubtext=${this.showTooltipSubtext}
+        >
         <div class="matric-style">
             <div class="matric-left">
                 ${this.showImage
                 ? html`
                     <div>
-                        <ssk-image src="${this.imgurl}" alt="demo image" width="56px" height="56px"></ssk-image>
+                        <ssk-image src="${this.imgUrl}" alt="demo image" width="56px" height="56px"></ssk-image>
                     </div>
                     `
-                : this.showMiscIconLeft
+                : this.showIconLeft
                     ? html`
                         <div>
                             <ssk-misc-icon
-                            iconname="${this.iconleft}"
+                            iconname="${this.iconLeft}"
                             size="sm"
-                            themecolor="${this.iconleftcolor}"
+                            themecolor="${this.iconLeftColor}"
                             variant="light"
                             ></ssk-misc-icon>
                         </div>
@@ -173,16 +214,14 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
                     : nothing
                 }
                 
-                <div>
+                <div class="text-content">
                     <div>
                         ${this.renderLabel()}
                     </div>
                     ${this.showSubtext
                         ? html`
                         <div style="padding-top:8px;">
-                            <ssk-text size="md" color="background.600">
-                            ${this.subtext}
-                            </ssk-text>
+                            ${this.renderSubtext()}
                         </div>
                         `
                         : nothing
@@ -196,12 +235,12 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
                             <ssk-badge
                             variant="subtle"
                             size="sm"
-                            themecolor="${this.badgecolor}">
+                            themecolor="${this.badgeColor}">
                                 <ssk-icon
-                                    name="${this.badgeicon}"
-                                    themeColor="${this.badgecolor}"
+                                    name="${this.badgeIcon}"
+                                    themeColor="${this.badgeColor}"
                                     size="sm"
-                                ></ssk-icon>${this.badgetext}
+                                ></ssk-icon>${this.badgeText}
                             </ssk-badge>
                         </div>
                         `
@@ -209,23 +248,24 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
                     ? html`
                         <div>
                             <ssk-button 
-                            variant="${this.buttonvariant}"
-                            themecolor="${this.buttoncolor}"
-                            size="sm">
+                            variant="${this.buttonVariant}"
+                            themecolor="${this.buttonColor}"
+                            size="sm"
+                            @click=${this.handleButtonClick}>
                             <ssk-icon slot="prefix"
-                            name="${this.buttonicon}"
+                            name="${this.buttonIcon}"
                             size="sm">
                             </ssk-icon>
                             </ssk-button>
                         </div>
                         `
-                    : this.showMiscIconRight
+                    : this.showIconRight
                     ? html`
                         <div>
                             <ssk-misc-icon
-                            iconname="${this.iconright}"
+                            iconname="${this.iconRight}"
                             size="sm"
-                            themecolor="${this.iconrightcolor}"
+                            themecolor="${this.iconRightColor}"
                             variant="light"
                             ></ssk-misc-icon>
                         </div>
@@ -263,16 +303,34 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
         display: flex;
         gap: 16px;
         align-items: center;
+        min-width: 0;
+        flex: 1;
     }
     .matric-right {
         margin-left: auto;
     }
-    .label-text {
-        white-space: nowrap;
+    .label-wrapper {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 150px;
-        display: block;
+        line-height: 1.2;
+        white-space: normal;
+        word-break: break-word;
+    }
+    .subtext-wrapper {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.2;
+        white-space: normal;
+        word-break: break-word;
+    }
+    .text-content {
+        min-width: 0;
     }
   `
 }
