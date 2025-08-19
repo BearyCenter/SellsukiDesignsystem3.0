@@ -258,6 +258,7 @@ export type Theme = {
     accordion?: Partial<ThemeField>;
     widgetgrid?: Partial<ThemeField>;
     widgetexample?: Partial<ThemeField>;
+    WidgetMatric?: Partial<ThemeField>;
   };
 } & ThemeField;
 

@@ -6,6 +6,7 @@ import { Grid, GridItem } from "../../../src/components/widget-grid";
 import "../../../src/elements/button";
 import "../../../src/elements/icon";
 import "../../../src/elements/widget-example"
+import "../../../src/elements/widget-matric"
 import { AutoLitProperty, baseArgsTypes } from "../helper";
 
 type GridStoryArgs = AutoLitProperty<Grid>;
@@ -102,6 +103,25 @@ export const ItemsSlot: Story = {
                 <ssk-widget-example x="0" y="3" widgetWidth="4" widgetHeight="2"></ssk-widget-example>
                 <ssk-widget-example x="6" y="3" widgetWidth="3" widgetHeight="2"></ssk-widget-example>
                 <ssk-widget-example x="0" y="3" widgetWidth="8" widgetHeight="4"></ssk-widget-example>
+            </ssk-widget-grid>
+        </div>
+        `;
+    },
+};
+export const TestWidgetMatric: Story = {
+    name: "Widget Matric",
+    args: {
+        maxColumns: 12,
+        gridItemSize: 88,
+        testId: "grid-container-slot",
+    },
+
+    render: (args) => {
+        return html`
+        <div>
+            <ssk-widget-grid .maxColumns=${args.maxColumns} .gridItemSize=${args.gridItemSize}>
+                <ssk-widget-matric x="0" y="0" widgetWidth="3" widgetHeight="2" label="1,250,000" subtext="Total Sales" badgetext="3.25%" showbadge="true"></ssk-widget-matric>
+                <ssk-widget-matric x="2" y="0" widgetWidth="6" widgetHeight="2" label="View Details" subtext="Click the button" showsubtext="true" showiconleft="true" showbuttonicon="true" .buttonicon="solid-arrow-right-circle"></ssk-widget-matric>
             </ssk-widget-grid>
         </div>
         `;
