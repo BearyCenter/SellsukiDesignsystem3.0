@@ -26,8 +26,6 @@ const meta = {
             .showButtonIcon=${args.showButtonIcon}
             .showBadge=${args.showBadge}
             .showIconRight=${args.showIconRight}
-            .showTooltipLabel=${args.showTooltipLabel}
-            .showTooltipSubtext=${args.showTooltipSubtext}
             @click=${(e: Event) => onClickAction(e)}>
         </ssk-widget-matric>
     `;
@@ -39,7 +37,6 @@ const meta = {
         showSubtext: true,
         showIconLeft: true,
         showButtonIcon: true,
-        showTooltipLabel: true,
         buttonIcon: "solid-arrow-right-circle",
     },
     argTypes: {
@@ -71,8 +68,6 @@ const meta = {
         showButtonIcon: { control: "boolean", table: { category: "Display Control" } },
         showBadge: { control: "boolean", table: { category: "Display Control" } },
         showIconRight: { control: "boolean", table: { category: "Display Control" } },
-        showTooltipLabel: { control: "boolean", table: { category: "Display Control" } },
-        showTooltipSubtext: { control: "boolean", table: { category: "Display Control" } },
         // --- Style & Layout Properties ---
         widgetWidth: {
             control: { type: 'select' },

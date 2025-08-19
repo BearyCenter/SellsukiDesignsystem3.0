@@ -1,6 +1,6 @@
 import { consume } from '@lit/context'
-import { LitElement, css, html, nothing } from 'lit'
-import { customElement, property } from 'lit/decorators.js'
+import { LitElement, css, html, nothing, PropertyValues } from 'lit'
+import { customElement, property, state, query } from 'lit/decorators.js'
 import { themeContext } from '../../contexts/theme'
 import { ThemeValue } from '../../types/base-attributes'
 import { styleMap } from 'lit/directives/style-map.js' 
@@ -76,8 +76,67 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
   @property({ type: Boolean }) showButtonIcon = false;
   @property({ type: Boolean }) showBadge = false;
   @property({ type: Boolean }) showIconRight = false;
-  @property({ type: Boolean }) showTooltipLabel = true;
-  @property({ type: Boolean }) showTooltipSubtext = false;
+
+  @state()
+  private isLabelClamped = false;
+
+  @query('.label-wrapper')
+  private labelWrapperEl!: HTMLDivElement;
+
+  @state()
+  private isSubtextClamped = false;
+
+  @query('.subtext-wrapper')
+  private subtextWrapperEl!: HTMLDivElement;
+
+  private boundCheckLabelEllipsis = this.checkLabelEllipsis.bind(this);
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('resize', this.boundCheckLabelEllipsis);
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('resize', this.boundCheckLabelEllipsis);
+    super.disconnectedCallback();
+  }
+  
+  firstUpdated() {
+    this.checkLabelEllipsis();
+  }
+
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('label') || changedProperties.has('subText') || changedProperties.has('widgetWidth')) {
+        this.checkAllEllipsis();
+    }
+  }
+
+  private checkAllEllipsis() {
+    this.checkLabelEllipsis();
+    this.checkSubtextEllipsis();
+  }
+
+  private checkLabelEllipsis() {
+    requestAnimationFrame(() => {
+        if (this.labelWrapperEl) {
+            const isClamped = this.labelWrapperEl.scrollHeight > this.labelWrapperEl.offsetHeight;
+            if (isClamped !== this.isLabelClamped) {
+                this.isLabelClamped = isClamped;
+            }
+        }
+    });
+  }
+
+  private checkSubtextEllipsis() {
+    requestAnimationFrame(() => {
+        if (this.subtextWrapperEl) {
+            const isClamped = this.subtextWrapperEl.scrollHeight > this.subtextWrapperEl.offsetHeight;
+            if (isClamped !== this.isSubtextClamped) {
+                this.isSubtextClamped = isClamped;
+            }
+        }
+    });
+  }
 
   isValidSize(): boolean {
      if (
@@ -128,7 +187,7 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
         </div>
       `;
 
-      if (this.showTooltipLabel) {
+      if (this.isLabelClamped) {
         return html`
             <ssk-tooltip size="sm" hideclosebutton themecolor="black" color="white">
                 ${labelContent}
@@ -150,7 +209,7 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
         </div>
       `;
 
-      if (this.showTooltipSubtext) {
+      if (this.isSubtextClamped) {
         return html`
             <ssk-tooltip size="sm" hideclosebutton themecolor="black" color="white">
                 ${subtextContent}
@@ -189,8 +248,6 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
         .buttonIcon=${this.buttonIcon}
         .iconRightColor=${this.iconRightColor}
         .iconRight=${this.iconRight}
-        .showTooltipLabel=${this.showTooltipLabel}
-        .showTooltipSubtext=${this.showTooltipSubtext}
         >
         <div class="matric-style">
             <div class="matric-left">
