@@ -30,6 +30,9 @@ export class Grid extends LitElement {
   @property({ type: String })
   testId?: string
 
+  @property({ type: Boolean, attribute: 'draggable' })
+  draggable = true;
+
   @property({ type: String, attribute: 'gap' })
   gap = '16px'
 
@@ -80,6 +83,10 @@ export class Grid extends LitElement {
       )
     }
 
+    if (!this.draggable) {
+      this.grid?.disable();
+    }
+
     const gridstackRoot = this.renderRoot.querySelector('.grid-stack')
     gridstackRoot?.replaceChildren()
     this.slottedChildren.forEach((child) => {
@@ -101,6 +108,17 @@ export class Grid extends LitElement {
         } catch (e) {}
       }
     })
+  }
+
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
+    super.updated(changedProperties);
+    if (changedProperties.has('draggable') && this.grid) {
+      if (this.draggable) {
+        this.grid.enable();
+      } else {
+        this.grid.disable();
+      }
+    }
   }
 
   render() {

@@ -30,6 +30,7 @@ const meta: Meta<GridStoryArgs> = {
             control: "number",
             table: { category: "Props" },
         },
+        draggable: { control: "boolean", table: { category: "Props" } },
         ...baseArgsTypes,
     },
     parameters: {
@@ -91,12 +92,13 @@ export const ItemsSlot: Story = {
         maxColumns: 10,
         gridItemSize: 88,
         testId: "grid-container-slot",
+        draggable: false
     },
 
     render: (args) => {
         return html`
         <div>
-            <ssk-widget-grid .maxColumns=${args.maxColumns} .gridItemSize=${args.gridItemSize}>
+            <ssk-widget-grid .maxColumns=${args.maxColumns} .gridItemSize=${args.gridItemSize} .draggable="${args.draggable}">
                 <ssk-widget-example x="0" y="0" widgetWidth="2" widgetHeight="2"></ssk-widget-example>
                 <ssk-widget-example x="2" y="0" widgetWidth="3" widgetHeight="2"></ssk-widget-example>
                 <ssk-widget-example x="0" y="0" widgetWidth="1" widgetHeight="1"></ssk-widget-example>
