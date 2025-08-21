@@ -82,7 +82,7 @@ const meta = {
         buttonColor: { control: "text", description: "Theme color for the button.", table: { category: "Style & Layout" } },
         buttonVariant: {
             control: { type: 'select' },
-            options: ['outline', 'solid', 'ghost'],
+            options: ['outline', 'solid', 'ghost', 'solid-light'],
             description: "Variant style for the button.",
             table: { category: "Style & Layout" },
         },
