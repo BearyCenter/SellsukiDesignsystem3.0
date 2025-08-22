@@ -222,6 +222,29 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
       return subtextContent;
   }
 
+   private renderBadgeText() {
+    let maxLength: number;
+    switch (this.widgetWidth) {
+        case '3':
+            maxLength = 5;
+            break;
+        case '4':
+            maxLength = 10;
+            break;
+        case '6':
+            maxLength = 15;
+            break;
+        default:
+            return this.badgeText;
+    }
+
+    if (this.badgeText && this.badgeText.length > maxLength) {
+        return this.badgeText.slice(0, maxLength);
+    }
+
+    return this.badgeText;
+  }
+
   render() {
     return html`
       ${parseThemeToCssVariables(
@@ -297,7 +320,8 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
                                     name="${this.badgeIcon}"
                                     themeColor="${this.badgeColor}"
                                     size="sm"
-                                ></ssk-icon>${this.badgeText}
+                                ></ssk-icon>
+                                <label>${this.renderBadgeText()}</label>
                             </ssk-badge>
                         </div>
                         `
