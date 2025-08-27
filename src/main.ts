@@ -45,6 +45,7 @@ export * from "./elements/widget-matric";
 
 export * from "./components/addon-phone-country";
 export * from "./components/calendar";
+export * from "./components/card";
 export * from "./components/date-picker";
 export * from "./components/download-file";
 export * from "./components/drawer";
