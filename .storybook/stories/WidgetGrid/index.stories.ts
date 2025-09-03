@@ -7,6 +7,8 @@ import "../../../src/elements/button";
 import "../../../src/elements/icon";
 import "../../../src/elements/widget-example"
 import "../../../src/elements/widget-matric"
+import "../../../src/elements/widget-user-detail"
+import { sectionItem } from "../../../src/elements/widget-user-detail";
 import { AutoLitProperty, baseArgsTypes } from "../helper";
 
 type GridStoryArgs = AutoLitProperty<Grid>;
@@ -44,6 +46,24 @@ const meta: Meta<GridStoryArgs> = {
 export default meta;
 
 type Story = StoryObj<GridStoryArgs>;
+const comprehensiveMockItems: sectionItem[] = [
+    {
+        id: 'comp-1',
+        label: 'Status',
+        description: 'Completed',
+        showButton: true,
+        buttonIcon: 'solid-check-circle',
+        buttonColor: 'success',
+        showTooltip: true,
+        tooltipText: 'Mark as pending'
+    },
+    {
+        id: 'comp-2',
+        label: 'Very Long Label to Showcase Ellipsis Truncation text',
+        description: 'This is a very long description to showcase how the text truncates',
+        showButton: false,
+    }
+];
 
 export const BasicGridWithSlots: Story = {
     name: "Basic Grid (Slots)",
@@ -111,7 +131,7 @@ export const ItemsSlot: Story = {
     },
 };
 export const TestWidgetMatric: Story = {
-    name: "Widget Matric",
+    name: "Widget Matric & User Detail",
     args: {
         maxColumns: 12,
         gridItemSize: 88,
@@ -124,6 +144,17 @@ export const TestWidgetMatric: Story = {
             <ssk-widget-grid .maxColumns=${args.maxColumns} .gridItemSize=${args.gridItemSize}>
                 <ssk-widget-matric x="0" y="0" widgetWidth="3" widgetHeight="2" label="1,250,000" subtext="Total Sales" badgetext="3.25%" showbadge="true"></ssk-widget-matric>
                 <ssk-widget-matric x="2" y="0" widgetWidth="6" widgetHeight="2" label="View Details" subtext="Click the button" showsubtext="true" showiconleft="true" showbuttonicon="true" .buttonicon="solid-arrow-right-circle"></ssk-widget-matric>
+                <ssk-widget-user-detail 
+                    x="0" 
+                    y="2" 
+                    widgetWidth="4" 
+                    widgetHeight="3" 
+                    label="Project Alpha" 
+                    subtext="Last updated 2 hours ago" 
+                    showImage="true" 
+                    imgUrl="https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"
+                    .rowItems=${comprehensiveMockItems}>
+                </ssk-widget-user-detail>
             </ssk-widget-grid>
         </div>
         `;

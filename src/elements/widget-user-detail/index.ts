@@ -202,9 +202,7 @@ export class WidgetUserDetail extends LitElement implements Widget, ThemeValue {
       const clamped = this.clampedStates.get(String(item.id)) || { label: false, description: false };
 
       const bottomButtonIconTemplate = html`
-                  <ssk-button variant="ghost" themecolor=${item.buttonColor || 'primary'} size="xs"  @click=${(e: Event) => {
-          this.handleButtonItemClick(item);
-        }}>
+      <ssk-button variant="ghost" themecolor=${item.buttonColor || 'primary'} size="xs" @click=${() => {this.handleButtonItemClick(item);}}>
                     <ssk-icon name=${item.buttonIcon || 'outline-ellipsis-horizontal-circle'} size="xs" color=${item.buttonIconColor || 'primary'}  ></ssk-icon>
                   </ssk-button>
                 `;
@@ -247,6 +245,7 @@ export class WidgetUserDetail extends LitElement implements Widget, ThemeValue {
         flex-direction: column;
         gap: 8px;
         box-sizing: border-box;
+        position: fixed;
     }
     .widget-style {
         display: flex;
@@ -285,7 +284,7 @@ export class WidgetUserDetail extends LitElement implements Widget, ThemeValue {
     .bottom-section {
         display: flex;
         flex-direction: column;
-        gap: 0; /* ระยะห่างระหว่างแถว label และแถว description */
+        gap: 0;
     }
     .bottom-section-content {
         display: flex;
