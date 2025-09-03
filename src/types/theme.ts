@@ -259,6 +259,7 @@ export type Theme = {
     widgetgrid?: Partial<ThemeField>;
     widgetexample?: Partial<ThemeField>;
     WidgetMatric?: Partial<ThemeField>;
+    WidgetUserDetail?: Partial<ThemeField>;
   };
 } & ThemeField;
 

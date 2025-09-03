@@ -42,6 +42,7 @@ export * from "./elements/top-navbar";
 export * from "./elements/accordion";
 export * from "./elements/widget-example";
 export * from "./elements/widget-matric";
+export * from "./elements/widget-user-detail";
 
 export * from "./components/addon-phone-country";
 export * from "./components/calendar";
