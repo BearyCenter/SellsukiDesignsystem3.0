@@ -21,10 +21,10 @@ export interface sectionItem {
   description: string;
   showButton?: boolean;
   buttonIcon?: string;
-  buttonIconColor?: string;
   buttonColor?: string;
   showTooltip?: boolean;
   tooltipText?: string;
+  disabledButton?: boolean;
 }
 
 @customElement('ssk-widget-user-detail')
@@ -202,9 +202,14 @@ export class WidgetUserDetail extends LitElement implements Widget, ThemeValue {
       const clamped = this.clampedStates.get(String(item.id)) || { label: false, description: false };
 
       const bottomButtonIconTemplate = html`
-      <ssk-button variant="ghost" themecolor=${item.buttonColor || 'primary'} size="xs" @click=${() => {this.handleButtonItemClick(item);}}>
-                    <ssk-icon name=${item.buttonIcon || 'outline-ellipsis-horizontal-circle'} size="xs" color=${item.buttonIconColor || 'primary'}  ></ssk-icon>
-                  </ssk-button>
+          <ssk-button 
+            variant="ghost" 
+            themecolor=${item.buttonColor} 
+            size="xs" 
+            .disabled=${item.disabledButton} 
+            @click=${() => {this.handleButtonItemClick(item);}}>
+                <ssk-icon slot="prefix" name=${item.buttonIcon || 'outline-ellipsis-horizontal-circle'} size="xs"></ssk-icon>
+          </ssk-button>
                 `;
 
       return html`
