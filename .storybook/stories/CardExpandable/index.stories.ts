@@ -19,231 +19,6 @@ const meta: Meta<ExpandableCard> = {
           <ssk-text size="md" fontWeight="medium">Content</ssk-text>
         </div>
       </ssk-expandable-card>
-
-      <br/>
-
-      <ssk-expandable-card ${spread({ ...args })} type="expand-footer">
-        <div slot="expand" style="display:flex; align-items:center; justify-content:center; padding: 16px;">
-          <ssk-text size="md" fontWeight="medium">Content</ssk-text>
-        </div>
-      </ssk-expandable-card>
-
-      <div 
-        style="
-          display: grid;
-          grid-template-columns: 1fr 1fr;"
-        >
-      
-        <h2>-- Header Expandable --</h2>
-        <h2>-- Header Expandable --</h2>
-          <ssk-expandable-card
-              variant="outlined"
-              type="expand-header"
-              title="Text 1"
-              subtitle="Text 2"
-          >
-            <div slot="expand" style="display:flex; align-items:center; justify-content:center; padding: 16px;">
-              <ssk-text size="md" fontWeight="medium">Content</ssk-text>
-            </div>
-          </ssk-expandable-card>
-          <ssk-expandable-card
-              variant="elevated"
-              type="expand-header"
-              title="Text 1"
-              subtitle="Text 2"
-          >
-            <div slot="expand" style="display:flex; align-items:center; justify-content:center; padding: 16px;">
-              <ssk-text size="md" fontWeight="medium">Content</ssk-text>
-            </div>
-          </ssk-expandable-card>
-
-        <h2>-- Expand from header-Outlined-Loading --</h2>
-        <h2>-- Expand from header-Elevated-Loading --</h2>
-          <ssk-expandable-card
-              variant="outlined"
-              type="expand-header"
-              loading
-          >
-          </ssk-expandable-card>
-
-          <ssk-expandable-card
-              variant="elevated"
-              type="expand-header"
-              loading
-          >
-          </ssk-expandable-card>
-
-          <h2>--------</h2>
-          <h2>--------</h2>
-
-          <ssk-expandable-card
-              variant="outlined"
-              type="expand-header"
-              title="Text 1"
-              subtitle="Text 2"
-          >
-            <div slot="header" style="width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; background:#eef; ">
-              <ssk-icon name="solid-cube"></ssk-icon>
-            </div>
-            <div slot="expand" style="display:flex; align-items:center; justify-content:center; padding: 16px;">
-              <ssk-text size="md" fontWeight="medium">Content</ssk-text>
-            </div>
-          </ssk-expandable-card>
-
-          <ssk-expandable-card
-              variant="elevated"
-              type="expand-header"
-              title="Text 1"
-              subtitle="Text 2"
-          >
-            <div slot="header" style="width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; background:#eef; ">
-              <ssk-icon name="solid-cube"></ssk-icon>
-            </div>
-            <div slot="expand" style="display:flex; align-items:center; justify-content:center; padding: 16px;">
-              <ssk-text size="md" fontWeight="medium">Content</ssk-text>
-            </div>
-          </ssk-expandable-card>
-
-          <h2>--------</h2>
-          <h2>--------</h2>
-
-          <ssk-expandable-card
-              variant="outlined"
-              type="expand-header"
-              title="Text 1"
-              subtitle="Text 2"
-          >
-            <div slot="header" style="width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; background:#eef; ">
-              <ssk-icon name="solid-cube"></ssk-icon>
-            </div>
-            <div slot="expand" style="display: flex; flex-direction: column; gap: 12px; padding: 12px;">
-              <ssk-skeleton width="180px" skeletonshape="capsule" height="" size="md"></ssk-skeleton>
-              <ssk-skeleton width="240px" skeletonshape="capsule" height="" size="md"></ssk-skeleton>
-            </div>
-          </ssk-expandable-card>
-
-          <ssk-expandable-card
-              variant="elevated"
-              type="expand-header"
-              title="Text 1"
-              subtitle="Text 2"
-          >
-            <div slot="header" style="width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; background:#eef; ">
-              <ssk-icon name="solid-cube"></ssk-icon>
-            </div>
-            <div slot="expand" style="display: flex; flex-direction: column; gap: 12px; padding: 12px;">
-              <ssk-skeleton width="180px" skeletonshape="capsule" height="" size="md"></ssk-skeleton>
-              <ssk-skeleton width="240px" skeletonshape="capsule" height="" size="md"></ssk-skeleton>
-            </div>
-          </ssk-expandable-card>
-
-          <h2>--------</h2>
-          <h2>--------</h2>
-
-          <ssk-expandable-card
-              variant="outlined"
-              type="expand-header"
-              title="Text 1"
-          >
-            <div slot="header" style="width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; background:#eef; ">
-              <ssk-icon name="solid-cube"></ssk-icon>
-            </div>
-            <div slot="expand" style="display: flex; flex-direction: column; gap: 12px; padding: 12px;">
-              <ssk-skeleton width="180px" skeletonshape="capsule" height="" size="md"></ssk-skeleton>
-              <ssk-skeleton width="240px" skeletonshape="capsule" height="" size="md"></ssk-skeleton>
-            </div>
-          </ssk-expandable-card>
-
-          <ssk-expandable-card
-              variant="elevated"
-              type="expand-header"
-              title="Text 1"
-          >
-            <div slot="header" style="width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; background:#eef; ">
-              <ssk-icon name="solid-cube"></ssk-icon>
-            </div>
-            <div slot="expand" style="display: flex; flex-direction: column; gap: 12px; padding: 12px;">
-              <ssk-skeleton width="180px" skeletonshape="capsule" height="" size="md"></ssk-skeleton>
-              <ssk-skeleton width="240px" skeletonshape="capsule" height="" size="md"></ssk-skeleton>
-            </div>
-          </ssk-expandable-card>
-
-          <h2>-- Expand from footer-Outlined-Default --</h2>
-          <h2>-- Expand from footer-Elevated-Default --</h2>
-
-          <ssk-expandable-card
-              variant="outlined"
-              type="expand-footer"
-          >
-            <div slot="content" style="display:flex; align-items:center; justify-content:center; padding: 16px;">
-              <ssk-text size="md" fontWeight="medium">Content</ssk-text>
-            </div>
-            <div slot="expand" style="display:flex; align-items:center; justify-content:center; padding: 16px;">
-              <ssk-text size="md" fontWeight="medium">expand</ssk-text>
-            </div>
-          </ssk-expandable-card>
-          
-          <ssk-expandable-card
-              variant="elevated"
-              type="expand-footer"
-          >
-            <div slot="content" style="display:flex; align-items:center; justify-content:center; padding: 16px;">
-              <ssk-text size="md" fontWeight="medium">Content</ssk-text>
-            </div>
-            <div slot="expand" style="display:flex; align-items:center; justify-content:center; padding: 16px;">
-              <ssk-text size="md" fontWeight="medium">expand</ssk-text>
-            </div>
-          </ssk-expandable-card>
-
-          <h2>-- Expand from footer-Outlined-Loading --</h2>
-          <h2>-- Expand from footer-Elevated-Loading --</h2>
-
-          <ssk-expandable-card
-            variant="outlined"
-            type="expand-footer"
-            loading
-          >
-          </ssk-expandable-card>
-
-          <ssk-expandable-card
-            variant="elevated"
-            type="expand-footer"
-            loading
-          >
-          </ssk-expandable-card>
-
-          <h2>--------</h2>
-          <h2>--------</h2>
-
-          <ssk-expandable-card
-            variant="outlined"
-            type="expand-footer"
-          >
-            <div slot="content" style="display:flex; align-items:center; justify-content:center; padding: 16px;">
-              <ssk-text size="md" fontWeight="medium">Content</ssk-text>
-            </div>
-            <div slot="expand" style="display: flex; flex-direction: column; gap: 12px; padding: 12px;">
-              <ssk-skeleton width="180px" skeletonshape="capsule" height="" size="md"></ssk-skeleton>
-              <ssk-skeleton width="240px" skeletonshape="capsule" height="" size="md"></ssk-skeleton>
-            </div>
-          </ssk-expandable-card>
-
-          <ssk-expandable-card
-            variant="elevated"
-            type="expand-footer"
-          >
-            <div slot="content" style="display:flex; align-items:center; justify-content:center; padding: 16px;">
-              <ssk-text size="md" fontWeight="medium">Content</ssk-text>
-            </div>
-            <div slot="expand" style="display: flex; flex-direction: column; gap: 12px; padding: 12px;">
-              <ssk-skeleton width="180px" skeletonshape="capsule" height="" size="md"></ssk-skeleton>
-              <ssk-skeleton width="240px" skeletonshape="capsule" height="" size="md"></ssk-skeleton>
-            </div>
-          </ssk-expandable-card>
-
-
-          <h2>--------</h2>
-          <h2>--------</h2>
     `;
   },
   argTypes: {
@@ -275,8 +50,13 @@ const meta: Meta<ExpandableCard> = {
     },
     width: {
       control: { type: "text" },
-      defaultValue: "100%",
+      defaultValue: "366px",
       description: "The width of the expandable card",
+    },
+    height: {
+      control: { type: "text" },
+      defaultValue: "auto",
+      description: "The height of the expandable card",
     },
   },
 };
@@ -287,7 +67,6 @@ type Story = StoryObj<CardExpandableComponentArgs>;
 
 export const Default: Story = {
   args: {
-    
   },
   parameters: {
     design: {
@@ -297,7 +76,7 @@ export const Default: Story = {
   },
 };
 
-export const CardExpandTable: Story = {
+export const CardExpandWithTable: Story = {
   args: {
     width: "100%",
     title: "เงิน",
@@ -327,7 +106,7 @@ export const CardExpandTable: Story = {
         }
 
         .toggle-container{
-          height: 100%;
+          height: 366px;
           justify-content:center;
         }
 
@@ -352,7 +131,7 @@ export const CardExpandTable: Story = {
           padding: 0.25rem;
           padding-left: 0.75rem;
           background: white;
-          width: 100%;
+          width: 366px;
           text-overflow: ellipsis;
 
           font-size: 24px;
@@ -369,8 +148,8 @@ export const CardExpandTable: Story = {
             <ssk-image
               src="https://img.advice.co.th/images_nas/pic_product4/A0164288/A0164288OK_BIG_1.jpg"
               objectfit="cover"
-              width="100%"
-              height="100%"
+              width="366px"
+              height="366px"
             />
           </div>
           <div slot="expand">
@@ -437,8 +216,8 @@ export const CardExpandTable: Story = {
                         <ssk-image
                           src="https://img.advice.co.th/images_nas/pic_product4/A0164288/A0164288OK_BIG_1.jpg"
                           objectfit="cover"
-                          width="100%"
-                          height="100%"
+                          width="366px"
+                          height="366px"
                         />
                       </figure>
                       <section class="product-info">
@@ -475,8 +254,8 @@ export const CardExpandTable: Story = {
                         <ssk-image
                           src="https://img.advice.co.th/images_nas/pic_product4/A0164288/A0164288OK_BIG_1.jpg"
                           objectfit="cover"
-                          width="100%"
-                          height="100%"
+                          width="366px"
+                          height="366px"
                         />
                       </figure>
                       <section class="product-info">
