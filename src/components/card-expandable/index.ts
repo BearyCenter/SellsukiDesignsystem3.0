@@ -238,7 +238,6 @@ export class ExpandableCard extends LitElement {
       display:flex; align-items:center; gap:12px; min-width:0; flex:1;
     }
     .slot-header { max-width: 48px; max-height: 48px; }
-    .title-group{ min-width:0; display:grid; gap:2px; }
     .title{ font-weight:600; line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .subtitle{ font-size:12px; color:#6b7280; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .expand-toggle{ 
@@ -252,6 +251,31 @@ export class ExpandableCard extends LitElement {
     .chev{ transition: transform .15s ease; }
     [aria-expanded="true"] .chev{ transform: rotate(-180deg); }
 
+    .header-slot[hidden]{ display:none !important; }
+    .headers-left.no-header{ gap:0; }
+
+    .title-group{
+      flex:1;
+      min-width:0;
+      display:grid;
+    }
+
+    .title-group ssk-text{
+      display:block;
+      max-width:100%;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    slot[name="content"]::slotted(*){
+      display:block;
+      max-width:100%;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
     /* ===== expand-footer style ===== */
     .expand-footer .content{ padding: 0; }
     .expand-footer .expand-toggle{ 
@@ -261,9 +285,8 @@ export class ExpandableCard extends LitElement {
     .footer-bar{ border-top:1px solid #f3f4f6; }
     .toggle-btn.footer{
       display:flex; justify-content:center; align-items:center; gap:8px;
-      padding: 24px ; background:transparent; border:none; cursor:pointer; color:#1f2937;
+      padding: var(--toggle-btn-footer-padding, 16px); background:transparent; border:none; cursor:pointer; color:#1f2937;
     }
-    .toggle-btn.footer:hover{ background:#f9fafb; }
     .toggle-text{ font-size:14px; }
     .expand-panel{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .22s ease; }
     .expand-panel.open{ grid-template-rows:1fr; }
