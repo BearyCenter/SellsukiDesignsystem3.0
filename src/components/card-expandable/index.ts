@@ -84,7 +84,7 @@ export class ExpandableCard extends LitElement {
           aria-expanded=${String(this.expanded)}
         >
           ${this.hideText ? nothing : html`
-            <ssk-text size="md" color="info" fontweight="normal">${label}</ssk-text>
+            <ssk-text size="md" color="info" fontweight="medium">${label}</ssk-text>
           `}
           <slot name="footer"></slot>
           ${this.hideToggle ? nothing : html`
@@ -243,16 +243,21 @@ export class ExpandableCard extends LitElement {
 
     /* ===== expand-footer style ===== */
     .expand-footer .content{ padding: 0; }
+    .expand-footer .expand-toggle{ 
+      width: 24px;
+      height: 24px;
+    }
     .footer-bar{ border-top:1px solid #f3f4f6; }
     .toggle-btn.footer{
-      width:100%; display:flex; justify-content:center; align-items:center; gap:8px;
-      padding:12px; background:transparent; border:none; cursor:pointer; color:#1f2937;
+      display:flex; justify-content:center; align-items:center; gap:8px;
+      padding: 24px ; background:transparent; border:none; cursor:pointer; color:#1f2937;
     }
     .toggle-btn.footer:hover{ background:#f9fafb; }
     .toggle-text{ font-size:14px; }
     .expand-panel{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .22s ease; }
     .expand-panel.open{ grid-template-rows:1fr; }
-    .expand-panel > .inner { overflow: hidden;}
+    .expand-header .expand-panel > .inner { overflow: hidden; border-top: 1px solid #e5e7eb; }
+    .expand-panel > .inner { overflow: hidden; }
     .chev{ transition: transform .15s ease; }
     [aria-expanded="true"] .chev{ transform: rotate(-180deg); }
 
