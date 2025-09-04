@@ -19,7 +19,8 @@ const mockRowItems: sectionItem[] = [
         showButton: false,
         buttonIcon: 'solid-chart-bar',
         showTooltip: true,
-        tooltipText: 'View sales details'
+        tooltipText: 'View sales details',
+        buttonColor: 'primary',
     },
     {
         id: 2,
@@ -28,6 +29,7 @@ const mockRowItems: sectionItem[] = [
         showButton: true,
         buttonIcon: 'solid-user-plus',
         showTooltip: false,
+        buttonColor: 'primary',
     },
     {
         id: 3,
@@ -35,6 +37,7 @@ const mockRowItems: sectionItem[] = [
         description: 'Very Long Description Text to Ensure Ellipsis Works as Expected',
         showButton: true,
         buttonIcon: 'solid-home',
+        buttonColor: 'primary',
     },
     {
         id: 4,
@@ -42,8 +45,10 @@ const mockRowItems: sectionItem[] = [
         description: '25.7%',
         showButton: true,
         buttonIcon: 'solid-cursor-arrow-rays',
-        showTooltip: true,
-        tooltipText: 'Analyze conversion funnel'
+        showTooltip: false,
+        tooltipText: 'Analyze conversion funnel',
+        disabledButton: true,
+        buttonColor: 'primary',
     },
     {
         id: 5,
@@ -52,13 +57,15 @@ const mockRowItems: sectionItem[] = [
         showButton: true,
         buttonIcon: 'solid-shopping-cart',
         showTooltip: true,
-        tooltipText: 'See value trends'
+        tooltipText: 'See value trends',
+        buttonColor: 'primary',
     },
     {
         id: 6,
         label: 'Server Uptime',
         description: '99.98%',
         showButton: true,
+        buttonColor: 'primary',
     },
     {
         id: 7,
@@ -67,7 +74,9 @@ const mockRowItems: sectionItem[] = [
         showButton: true,
         buttonIcon: 'solid-inbox-stack',
         showTooltip: true,
-        tooltipText: 'Go to support queue'
+        tooltipText: 'Go to support queue',
+        disabledButton: false,
+        buttonColor: 'success',
     },
     {
         id: 8,
