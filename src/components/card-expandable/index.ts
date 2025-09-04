@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ColorName, ColorRole } from "../../types/theme";
+import "../../../src/components/skeleton";
 
 @customElement("ssk-expandable-card")
 export class ExpandableCard extends LitElement {
@@ -299,18 +300,6 @@ export class ExpandableCard extends LitElement {
     .headers-skeleton {
       padding: 24px 16px;
     }
-    .is-loading .skeleton{
-      background: linear-gradient(90deg,#f3f4f6 25%,#e5e7eb 37%,#f3f4f6 63%);
-      background-size: 400% 100%; animation: shimmer 1.4s ease-in-out infinite; border-radius: 10px;
-    }
-    .skeleton.line{ height:12px; margin:6px 0; }
-    .skeleton.line.lg{ height:16px; }
-    .skeleton.line.short{ width:40%; }
-    .skeleton.pill.sm{ width:334px; height:28px; border-radius:999px; }
-    .skeleton.bar{ height:36px; border-radius:8px; }
-    .skeleton.square{ width:20px; height:20px; border-radius:6px; }
-    @keyframes shimmer { 0%{background-position:200% 0;} 100%{background-position:-200% 0;} }
-
 
     .headers-left.no-header{ gap:0; }
     .header-slot[hidden]{ display:none !important; }
