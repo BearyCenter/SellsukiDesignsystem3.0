@@ -253,20 +253,30 @@ const meta: Meta<ExpandableCard> = {
       table: {
         defaultValue: { summary: "card" },
       },
+      description: "The variant style of the expandable card",
+    },
+    type: {
+      control: { type: "select" },
+      options: ["expand-header", "expand-footer"],
+      table: {
+        defaultValue: { summary: "expand-header" },
+      },
+      description: "The type of the expandable card",
     },
     title: {
       control: { type: "text" },
       defaultValue: "Product name Product name Product name",
-      description: "The title of the card",
+      description: "The title of the expandable card",
     },
     subtitle: {
       control: { type: "text" },
       defaultValue: "100 baht",
-      description: "The subtitle of the card",
+      description: "The subtitle of the expandablecard",
     },
     width: {
       control: { type: "text" },
       defaultValue: "100%",
+      description: "The width of the expandable card",
     },
   },
 };
@@ -352,6 +362,7 @@ export const CardExpandTable: Story = {
       </style>
 
       <div>
+        <h2>Card Expandable with Table Example case that's use in Product Catalog</h2>
         <ssk-expandable-card ${spread(args)}>
 
           <div slot="header">
