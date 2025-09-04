@@ -10,13 +10,14 @@ export class ExpandableCard extends LitElement {
   type: "expand-header" | "expand-footer" = "expand-header";
 
   @property({ type: Boolean }) loading = false;
+  @property({ type: Boolean }) hideToggle = false;
 
   @property({ type: String }) title = "";
   @property({ type: String }) subtitle = "";
 
   @property({ type: String }) width = "366px";
   @property({ type: String }) height = "auto";
-  @property({ type: String }) radius = "12px";
+  @property({ type: String }) radius = "8px";
 
   // expand behavior
   @property({ type: Boolean, reflect: true }) expanded = false;
@@ -124,33 +125,33 @@ export class ExpandableCard extends LitElement {
       <article class=${this.cardClasses} style=${`--card-w:${this.width};--card-h:${this.height};--radius:${this.radius};`}>
           ${isHeader
             ? html`
-                <!-- HEADER VARIANT -->
-              <div class="content">
-                <header class="headers">
-                  <div class="headers-left">
-                    <div class="slot-header">
-                      <slot name="header"></slot>
+                <div class="content">
+                  <header class="headers">
+                    <div class="headers-left">
+                      <div class="slot-header">
+                        <slot name="header"></slot>
+                      </div>
+                      <div class="title-group">
+                        ${this.title
+                          ? html`<ssk-text size="md" fontWeight="medium""
+                              >${this.title}</ssk-text
+                            >`
+                          : nothing}
+                        ${this.subtitle
+                          ? html`<ssk-text size="sm" color="gray.500" fontWeight="normal"
+                              >${this.subtitle}</ssk-text
+                            >`
+                          : nothing}
+                          <slot name="content"></slot>
+                      </div>
                     </div>
-                    <div class="title-group">
-                      ${this.title
-                        ? html`<ssk-text size="md" fontWeight="medium""
-                            >${this.title}</ssk-text
-                          >`
-                        : nothing}
-                      ${this.subtitle
-                        ? html`<ssk-text size="sm" color="gray.500" fontWeight="normal"
-                            >${this.subtitle}</ssk-text
-                          >`
-                        : nothing}
+                    <div class="expand-toggle">
+                      <slot name="toggle"></slot>
+                      ${this.hideToggle ? nothing : this.renderHeaderToggle()}
                     </div>
                   </div>
-                  <div class="expand-toggle">
-                    ${this.renderHeaderToggle()}
-                  </div>
-                </div>
-                </header>
+                  </header>
 
-                <!-- expandable panel -->
                 ${this.renderPanel()}
                 </div>
               `
@@ -159,8 +160,7 @@ export class ExpandableCard extends LitElement {
           ${isFooter
             ? html`
                 <div class="content">
-                <div class="preview-area">
-                  <slot name="preview"></slot>
+                  <slot name="content"></slot>
                 </div>
 
                 ${this.renderPanel()}
@@ -179,7 +179,7 @@ export class ExpandableCard extends LitElement {
     .card {
       width: var(--card-w, 320px);
       height: var(--card-h, auto);
-      border-radius: var(--radius, 12px);
+      border-radius: var(--radius, 8px);
       background: white;
       box-sizing: border-box;
       transition: box-shadow .2s ease, border-color .2s ease;
@@ -198,7 +198,8 @@ export class ExpandableCard extends LitElement {
     .content { display: grid; }
 
     /* ===== expand-header style ===== */
-    .expand-header .content { padding: 12px 8px 12px 16px; display: grid;}
+    .expand-header .content { padding: var(--content-padding, 12px 8px 12px 16px); display: grid;}
+    .expand-footer .content { padding: var(--content-padding, 12px 8px 12px 16px); display: grid;}
     .headers{
       display:flex; align-items:center; gap:12px;
     }
@@ -222,7 +223,6 @@ export class ExpandableCard extends LitElement {
 
     /* ===== expand-footer style ===== */
     .expand-footer .content{ padding: 0; }
-    .preview-area{ padding: 12px; }
     .footer-bar{ border-top:1px solid #f3f4f6; }
     .toggle-btn.footer{
       width:100%; display:flex; justify-content:center; align-items:center; gap:8px;
@@ -232,7 +232,7 @@ export class ExpandableCard extends LitElement {
     .toggle-text{ font-size:14px; }
     .expand-panel{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .22s ease; }
     .expand-panel.open{ grid-template-rows:1fr; }
-    .expand-panel > .inner { overflow: hidden; border-top: 1px solid #e5e7eb;}
+    .expand-panel > .inner { overflow: hidden;}
     .chev{ transition: transform .15s ease; }
     [aria-expanded="true"] .chev{ transform: rotate(-180deg); }
 
