@@ -6,31 +6,46 @@ import { ColorName, ColorRole } from "../../types/theme";
 export class ExpandableCard extends LitElement {
   static registeredName = "ssk-expandable-card";
 
-  @property({ type: String }) variant: "outlined" | "elevated" = "outlined";
+  @property({ type: String })
+  testId?: string;
+  @property({ type: String })
+  color?: ColorRole | ColorName;
+  @property({ type: String })
+  themeColor: ColorRole | ColorName = "primary";
+
+  @property({ type: String })
+  variant: "outlined" | "elevated" = "outlined";
   @property({ type: String })
   type: "expand-header" | "expand-footer" = "expand-header";
 
-  @property({ type: Boolean }) loading = false;
-  @property({ type: Boolean }) hideToggle = false;
-  @property({ type: Boolean }) hideText = false;
+  @property({ type: Boolean })
+  loading = false;
+  @property({ type: Boolean })
+  hideToggle = false;
+  @property({ type: Boolean })
+  hideText = false;
+  @property({ type: Boolean, reflect: true })
+  expanded = false;
 
-  @property({ type: String }) title = "";
-  @property({ type: String }) subtitle = "";
+  @property({ type: String })
+  title = "";
+  @property({ type: String })
+  subtitle = "";
 
-  @property({ type: String }) width = "366px";
-  @property({ type: String }) height = "auto";
-  @property({ type: String }) radius = "8px";
+  @property({ type: String })
+  width = "366px";
+  @property({ type: String })
+  height = "auto";
+  @property({ type: String })
+  radius = "8px";
 
-  @property({ type: String }) color?: ColorRole | ColorName;
-  @property({ type: String }) themeColor: ColorRole | ColorName = "primary";
+  @property({ type: Boolean })
+  lazy = true;
+  @property({ type: String, attribute: "more-label" })
+  moreLabel = "View more";
+  @property({ type: String, attribute: "less-label" })
+  lessLabel = "View less";
 
-  // expand behavior
-  @property({ type: Boolean, reflect: true }) expanded = false;
-  @property({ type: Boolean }) lazy = true;
-  @property({ type: String, attribute: "more-label" }) moreLabel = "View more";
-  @property({ type: String, attribute: "less-label" }) lessLabel = "View less";
-
-  @state() private panelId = `ec-${Math.random().toString(36).slice(2, 9)}`;
   @state() private hasHeader = false;
 
   private get cardClasses() {
@@ -47,13 +62,11 @@ export class ExpandableCard extends LitElement {
     this.dispatchEvent(new CustomEvent("expanded-changed", { detail: { expanded: this.expanded }, bubbles: true, composed: true }));
   };
 
-  // --- toggles ---
   private renderHeaderToggle() {
     return html`
       <div
         class="toggle-btn header"
         @click=${this.toggle}
-        aria-controls=${this.panelId}
         aria-expanded=${String(this.expanded)}
         title=${this.expanded ? "Collapse" : "Expand"}
       >
@@ -70,7 +83,7 @@ export class ExpandableCard extends LitElement {
   }
 
   private renderFooterToggle() {
-     if (this.hidden) {
+    if (this.hidden) {
       return nothing;
     }
 
@@ -80,7 +93,6 @@ export class ExpandableCard extends LitElement {
         <div
           class="toggle-btn footer"
           @click=${this.toggle}
-          aria-controls=${this.panelId}
           aria-expanded=${String(this.expanded)}
         >
           ${this.hideText ? nothing : html`
@@ -107,7 +119,7 @@ export class ExpandableCard extends LitElement {
   private renderPanel() {
     const inner = this.lazy && !this.expanded ? nothing : html`<div class="inner"><slot name="expand"></slot></div>`;
     return html`
-      <div id=${this.panelId} class=${`expand-panel ${this.expanded ? "open" : ""}`} role="region" aria-hidden=${String(!this.expanded)}>
+      <div class=${`expand-panel ${this.expanded ? "open" : ""}`} role="region" aria-hidden=${String(!this.expanded)}>
         ${inner}
       </div>
     `;
@@ -117,12 +129,12 @@ export class ExpandableCard extends LitElement {
     return html`
       <article class=${this.cardClasses} style=${`--card-w:${this.width};--card-h:${this.height};--radius:${this.radius};`} aria-busy="true">
         ${this.type === "expand-header"
-          ? html`
+        ? html`
               <div class="headers-skeleton">
                     <ssk-skeleton width="180px" skeletonshape="capsule" size="md"></ssk-skeleton>
               </div>
             `
-          : html`
+        : html`
               <div class="headers-skeleton" style="display: flex; flex-direction: column; gap: 8px; padding: 12px 16px;">
                     <ssk-skeleton width="180px" skeletonshape="capsule" size="md"></ssk-skeleton>
                     <ssk-skeleton width="240px" skeletonshape="capsule" size="md" style="padding-bottom: 14px;"></ssk-skeleton>
@@ -142,25 +154,25 @@ export class ExpandableCard extends LitElement {
     const isFooter = this.type === "expand-footer";
 
     return html`
-      <article class=${this.cardClasses} style=${`--card-w:${this.width};--card-h:${this.height};--radius:${this.radius};`}>
+      <article class=${this.cardClasses} style=${`--card-w:${this.width};--card-h:${this.height};--radius:${this.radius};`} data-testid=${this.testId || nothing}>
           ${isHeader
             ? html`
-                <div class="content">
+                <div class="content" data-testid=${this.testId ? `${this.testId}.content` : nothing}>
                   <header class="headers">
-                   <div class="headers-left ${this.hasHeader ? 'has-header' : 'no-header'}">
+                    <div class="headers-left ${this.hasHeader ? 'has-header' : 'no-header'}">
                       <div class="header-slot" ?hidden=${!this.hasHeader} style="--header-size:48px">
                         <slot name="header" @slotchange=${this.onHeaderSlotChange}></slot>
                       </div>
                       <div class="title-group">
                         ${this.title
                           ? html`<ssk-text size="md" fontWeight="medium""
-                              >${this.title}</ssk-text
-                            >`
+                                            >${this.title}</ssk-text
+                                          >`
                           : nothing}
-                        ${this.subtitle
+                                      ${this.subtitle
                           ? html`<ssk-text size="sm" color="gray.500" fontWeight="normal"
-                              >${this.subtitle}</ssk-text
-                            >`
+                                            >${this.subtitle}</ssk-text
+                                          >`
                           : nothing}
                           <slot name="content"></slot>
                       </div>
@@ -175,21 +187,20 @@ export class ExpandableCard extends LitElement {
                 ${this.renderPanel()}
                 </div>
               `
-            : nothing}
+          : nothing}
 
           ${isFooter
             ? html`
-                <div class="content">
-                  <slot name="content"></slot>
-                </div>
+                    <div class="content">
+                      <slot name="content"></slot>
+                    </div>
 
-                ${this.renderPanel()}
+                    ${this.renderPanel()}
 
-                ${this.renderFooterToggle()}
-                </div>
-              `
+                    ${this.renderFooterToggle()}
+                    </div>
+                  `
             : nothing}
-        
       </article>
     `;
   }
