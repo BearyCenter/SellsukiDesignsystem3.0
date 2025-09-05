@@ -369,7 +369,6 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
         height: 144px;
         display: grid;
         box-sizing: border-box;
-        position: fixed;
     }
     .text-style {
         color: #1f2937;
