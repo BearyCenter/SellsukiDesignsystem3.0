@@ -187,22 +187,30 @@ export class Button extends LitElement {
         --background-color-disabled: ${parseVariables(
           cssVar("colors", "white", 200)
         )};
-        --color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
+        --color: ${parseVariables(
+          cssVar("colors", this.color, 500),
+          cssVar("colors", this.themeColor, 500)
+        )};
         --color-hover: ${parseVariables(
+          cssVar("colors", this.color, 700),
           cssVar("colors", this.themeColor, 700)
         )};
         --color-active: ${parseVariables(
+          cssVar("colors", this.color, 600),
           cssVar("colors", this.themeColor, 600)
         )};
         --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
 
         --border-color: ${parseVariables(
+          cssVar("colors", this.borderColor),
           cssVar("colors", this.themeColor, 500)
         )};
         --border-color-hover: ${parseVariables(
+          cssVar("colors", this.borderColor),
           cssVar("colors", this.themeColor, 500)
         )};
         --border-color-disabled: ${parseVariables(
+          cssVar("colors", this.borderColor),
           cssVar("colors", "gray", 400)
         )};
         --border-width: 1px;

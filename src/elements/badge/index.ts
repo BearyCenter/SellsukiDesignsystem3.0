@@ -32,6 +32,10 @@ export class Badge extends LitElement {
   themeColor: ColorRole | ColorName = "primary";
   @property({ type: String })
   color?: ColorRole | ColorName;
+  @property({ type: String })
+  backgroundColor?: string | undefined;
+  @property({ type: String })
+  borderColor?: string | undefined;
 
   @property({ type: String })
   size: Size = "md";
@@ -90,13 +94,20 @@ export class Badge extends LitElement {
 
       case "outline":
         additionalCss += `
-        --background-color: ${parseVariables(cssVar("colors", "white", 100))};
+        --background-color: ${parseVariables(
+          cssVar("colors", this.backgroundColor),
+          cssVar("colors", "white", 100)
+        )};
         --border-color: ${parseVariables(
+          cssVar("colors", this.borderColor),
           cssVar("colors", this.themeColor, 500)
         )};
         --border-width: 1px;
 
-        --color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
+        --color: ${parseVariables(
+          cssVar("colors", this.color, 500),
+          cssVar("colors", this.themeColor, 500)
+        )};
           `;
         break;
 
