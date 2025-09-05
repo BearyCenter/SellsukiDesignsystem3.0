@@ -33,8 +33,6 @@ export class Badge extends LitElement {
   @property({ type: String })
   color?: ColorRole | ColorName;
   @property({ type: String })
-  backgroundColor?: string | undefined;
-  @property({ type: String })
   borderColor?: string | undefined;
 
   @property({ type: String })
@@ -94,10 +92,7 @@ export class Badge extends LitElement {
 
       case "outline":
         additionalCss += `
-        --background-color: ${parseVariables(
-          cssVar("colors", this.backgroundColor),
-          cssVar("colors", "white", 100)
-        )};
+        --background-color: ${parseVariables(cssVar("colors", "white", 100))};
         --border-color: ${parseVariables(
           cssVar("colors", this.borderColor),
           cssVar("colors", this.themeColor, 500)
