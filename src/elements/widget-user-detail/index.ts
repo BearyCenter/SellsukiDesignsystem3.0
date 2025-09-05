@@ -250,7 +250,6 @@ export class WidgetUserDetail extends LitElement implements Widget, ThemeValue {
         flex-direction: column;
         gap: 8px;
         box-sizing: border-box;
-        position: fixed;
     }
     .widget-style {
         display: flex;
