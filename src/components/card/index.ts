@@ -33,7 +33,7 @@ export class Card extends LitElement {
   @property({ type: String })
   styleCard: StyleCard = "outlined";
   @property({ type: String }) 
-    width = "280px";
+    width = "";
   @property({ type: String }) 
     height = "auto";
   @property({ type: Boolean }) 
@@ -43,13 +43,21 @@ export class Card extends LitElement {
   render() {
 
     const contentSlotExists = this.querySelector('[slot="content"]');
-    this.style.setProperty("--card-width", this.width);
+    // แก้ไขตรรกะให้ถูกต้อง - ใส่วงเล็บให้ชัดเจน
+    const defaultWidth = this.width || (this.type === "horizontal" ? "376px" : "280px");
+    this.style.setProperty("--card-width", defaultWidth);
+
+    console.log(this.type);
+    console.log(this.width);
+    console.log('defaultWidth', defaultWidth);
+    
+    
 
     
 
     if (this.loading) {
       return html`
-        <div class="card ${this.styleCard}" data-testid=${this.testId || nothing} style="--card-width: ${this.width}">
+        <div class="card ${this.styleCard}" data-testid=${this.testId || nothing} style="--card-width: ${defaultWidth}">
             ${this.type === "stacked" ? html`
             <div class="card-content ${this.type}">
                 <div class="media-section ${this.type}">
@@ -62,9 +70,6 @@ export class Card extends LitElement {
                     <div class="content-section-price ${this.type}">
                         <ssk-skeleton  width="100%" height="24px"></ssk-skeleton>
                     </div>
-                </div>
-                <div class="content-slot">
-                    <ssk-skeleton  width="100%" height="24px"></ssk-skeleton>
                 </div>
             </div>
             ` : html`
@@ -93,7 +98,7 @@ export class Card extends LitElement {
     }
     
     return html`
-      <div class="card ${this.styleCard}" data-testid=${this.testId || nothing} style="--card-width: ${this.width}">
+      <div class="card ${this.styleCard}" data-testid=${this.testId || nothing} style="--card-width: ${defaultWidth}">
         ${this.type === "stacked" ? html`
           <div class="card-content ${this.type}">
               <div class="media-section ${this.type}">
@@ -118,7 +123,7 @@ export class Card extends LitElement {
           ` : html`
           <div class="card-content ${this.type}">
               <div class="icons">
-                  <slot name="${this.icons}"></slot>
+                  <slot name="icon"></slot>
               </div>
 
               <div class="media-section ${this.type}">
@@ -129,9 +134,6 @@ export class Card extends LitElement {
                   `}
                   </div>
               <div class="content-section ${this.type}">
-                  <div class="icons">
-                      <slot name="icon"></slot>
-                  </div>
                   <div class="content-section-header ${this.type}">
                       <ssk-text size="sm"> <span class="content-section-text">${this.title}</span></ssk-text>
                   </div>
@@ -247,6 +249,13 @@ export class Card extends LitElement {
         padding: 10px 12px;
       
     }
+    
+    .icons {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    
     .content-section.horizontal {
       width: 100%;
     }
