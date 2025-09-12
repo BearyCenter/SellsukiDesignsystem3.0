@@ -1,6 +1,5 @@
 import { LitElement, html, css, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Size } from "../../types/theme";
 
 
 
@@ -16,30 +15,23 @@ export class Card extends LitElement {
 
 
   @property({ type: String })
-  productName: string | undefined;
+  title: string = "";
   @property({ type: String })
-  productPrice: string | undefined;
+  subTitle: string | undefined;
+  @property({ type: String })
+  description: string | undefined;
   @property({ type: String })
   productImage: string | undefined;
+
   @property({ type: String }) 
   icons = "";
 
-
-
-  //นเขียนขึ้นมาก่อนเพราะไม่แน่ใจว่าตรง slot สามารถใส่ อะไรเข้าไปได้บ้าง
-  @property({ type: String })
-  productDescription: string | undefined;
-  @property({ type: String })
-  productCategory: string | undefined;
-  @property({ type: String })
-  productStock: string | undefined;
+  
   // Layout props
   @property({ type: String })
   type: TypeCard = "stacked";
   @property({ type: String })
   styleCard: StyleCard = "outlined";
-  @property({ type: String })
-  size: Size = "md";
   @property({ type: String }) 
     width = "280px";
   @property({ type: String }) 
@@ -65,11 +57,14 @@ export class Card extends LitElement {
                 </div>
                 <div class="content-section ${this.type}">
                     <div class="content-section-header ${this.type}">
-                        <ssk-skeleton size=${this.size} width="70%" height="24px"></ssk-skeleton>
+                        <ssk-skeleton  width="70%" height="24px"></ssk-skeleton>
                     </div>
                     <div class="content-section-price ${this.type}">
-                        <ssk-skeleton size=${this.size} width="100%" height="24px"></ssk-skeleton>
+                        <ssk-skeleton  width="100%" height="24px"></ssk-skeleton>
                     </div>
+                </div>
+                <div class="content-slot">
+                    <ssk-skeleton  width="100%" height="24px"></ssk-skeleton>
                 </div>
             </div>
             ` : html`
@@ -82,11 +77,14 @@ export class Card extends LitElement {
                 </div>
                 <div class="content-section ${this.type}">
                     <div class="content-section-header ${this.type}">
-                        <ssk-skeleton size=${this.size} width="100%" height="20px"></ssk-skeleton>
+                        <ssk-skeleton  width="100%" height="20px"></ssk-skeleton>
                     </div>
                     <div class="content-section-price ${this.type}">
-                        <ssk-skeleton size=${this.size} width="50%" height="20px"></ssk-skeleton>
+                        <ssk-skeleton  width="50%" height="20px"></ssk-skeleton>
                     </div>
+                </div>
+                <div class="content-slot">
+                    <ssk-skeleton  width="100%" height="24px"></ssk-skeleton>
                 </div>
             </div>
             `}
@@ -100,17 +98,19 @@ export class Card extends LitElement {
           <div class="card-content ${this.type}">
               <div class="media-section ${this.type}">
                   ${this.productImage ? html`
-                  <img src="${this.productImage}" alt="${this.productName || ''}" />
+                  <img src="${this.productImage}" alt="${this.title || ''}" />
                   ` : html`
                   <div class="image-placeholder ${this.type}"></div>
                   `}
               </div>
-              <div class="content-section ${this.type}">
+              <div class="content-section ${this.type} ">
                       <div class="content-section-header ${this.type}">
-                          <ssk-text size=${this.size}>${this.productName}</ssk-text>
+                          <ssk-text size="sm">
+                          <span class="content-section-text">${this.title}</span>
+                          </ssk-text>
                       </div>
                       <div class="content-section-price ${this.type}">
-                          <ssk-text size=${this.size}>${this.productPrice}</ssk-text>
+                          <ssk-text color="aerospace-orange.500" size="md">${this.subTitle}</ssk-text>
                       </div>
               </div>
                   ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
@@ -118,12 +118,12 @@ export class Card extends LitElement {
           ` : html`
           <div class="card-content ${this.type}">
               <div class="icons">
-                  <slot name="icon"></slot>
+                  <slot name="${this.icons}"></slot>
               </div>
 
               <div class="media-section ${this.type}">
                   ${this.productImage ? html`
-                  <img src="${this.productImage}" alt="${this.productName || ''}" />
+                  <img src="${this.productImage}" alt="${this.title || ''}" />
                   ` : html`
                   <div class="image-placeholder ${this.type}"></div>
                   `}
@@ -133,14 +133,15 @@ export class Card extends LitElement {
                       <slot name="icon"></slot>
                   </div>
                   <div class="content-section-header ${this.type}">
-                      <ssk-text size=${this.size}>${this.productName}</ssk-text>
-                  </div>
-                  <div class="content-section-description ${this.type}">
-                      <ssk-text size=${this.size}>${this.productDescription}</ssk-text>
+                      <ssk-text size="sm"> <span class="content-section-text">${this.title}</span></ssk-text>
                   </div>
                   <div class="content-section-price ${this.type}">
-                      <ssk-text size=${this.size}>${this.productPrice}</ssk-text>
+                      <ssk-text size="xs" color="gray.500">${this.description}</ssk-text>
                   </div>
+                  <div class="content-section-description ${this.type}">
+                      <ssk-text color="aerospace-orange.500" size="md">${this.subTitle}</ssk-text>
+                  </div>
+                  
               </div>
               <div class="content-slot">
                   ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
@@ -155,18 +156,16 @@ export class Card extends LitElement {
 
   :host {
       display: block;
-      width: var(--card-width, 280px);
     }
 
     .card {
       background-color: #FFFFFF;
       border-radius: 8px;
-      width: 100%;
+      width: var(--card-width);
 
     }
     .card.outlined {
       border: 1px solid var(--ssk-colors-gray-300);
-      box-shadow: none;
     }
     .card.elevated {
       border: none;
@@ -178,6 +177,17 @@ export class Card extends LitElement {
          0px 19px 5px 0px #11182700;
 
     }
+
+    .content-section-text {
+      white-space: pre-wrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    
     /* --- stacked layout --- */
 
     .card-content.stacked {
@@ -212,25 +222,25 @@ export class Card extends LitElement {
 
 
     .content-section.stacked {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
       padding: 16px 12px;
       height: 100%;
     }
 
     .content-section-header.stacked {
-    margin-bottom: 4px;
     align-items: center;
     }
 
     .content-section-price.stacked {
-    display: flex
-    justify-content: space-between;
     align-items: center;
     }
     
     /* --- Horizontal layout --- */
 
     .card-content.horizontal {
-        display: flex !important;
+        display: flex;
         flex-direction: row;
         align-items: center;
         gap: 12px;
@@ -238,7 +248,7 @@ export class Card extends LitElement {
       
     }
     .content-section.horizontal {
-    width: 100%;
+      width: 100%;
     }
 
     .media-section.horizontal {
@@ -273,8 +283,6 @@ export class Card extends LitElement {
     }
 
     .content-section-price.horizontal {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
     }
   

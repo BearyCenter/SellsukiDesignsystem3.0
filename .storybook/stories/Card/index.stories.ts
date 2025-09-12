@@ -16,17 +16,16 @@ const meta: Meta<Card> = {
 
   `,
   argTypes: {
-    productName: { control: "text" },
-    productPrice: { control: "text" },
+    title: { control: "text" },
+    subTitle: { control: "text" },
     productImage: { control: "text" },
-    size: { control: "select", options: ["xs", "sm", "md", "lg", "xl"] },
     styleCard: { control: "select", options: ["outlined", "elevated"] },
     type: { control: "select", options: ["stacked", "horizontal"] },
     loading: { control: "boolean" },
     testId: { control: "text" },
     width: { control: "text" },
     height: { control: "text" },
-    productDescription: { control: "text" },
+    description: { control: "text" },
     icons: { control: "text" },
   },
 };
@@ -37,13 +36,12 @@ type Story = StoryObj<Card>;
 export const Default: Story = {
   args: {
     productImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
-    productName: "Premium Headphones",
-    productPrice: "฿3,500",
+    title: "Premium Headphones my name is brian i'm 24 years old, i'm from korea",
+    subTitle: "฿3,500",
     styleCard: "outlined",
-    size: "md",
     testId: "test-id",
     type: "stacked",
-    productDescription: "wasdsadwdsawds",
+    description: "wasdsadwdsawds",
   },
   parameters: {
     design: {
@@ -53,12 +51,106 @@ export const Default: Story = {
   }
 };
 
+export const StackedOutlinedDefault: Story = {
+  args: {
+    title: "Product name Product name Product name Product nameeeProduct name Product name",
+    subTitle: "Price",
+    styleCard: "outlined",
+    testId: "test-id",
+    type: "stacked",
+  },
+};
+export const StackedElevatedDefault: Story = {
+  args: {
+    title: "Product name Product name Product name Product nameeeProduct name Product name",
+    subTitle: "Price",
+    styleCard: "elevated",
+    testId: "test-id",
+    type: "stacked",
+  },
+};
+export const StackedOutlinedLoading: Story = {
+  args: {
+    loading: true,
+    styleCard: "outlined", 
+    testId: "loading-card",
+  },
+};
+
+export const ElevatedOutlinedLoading: Story = {
+  args: {
+    loading: true,
+    styleCard: "elevated", 
+    testId: "loading-card",
+  },
+};
+export const HorizontalOutlinedDefault: Story = {
+  args: {
+    styleCard: "outlined",
+    title: "Product name Product name Product name Product nameeeProduct name Product name",
+    subTitle: "Price",
+    description: "subtext",
+    testId: "horizontal-card-with-slot",
+    type: "horizontal",
+  },
+  render: ({...args}) => html`
+    <ssk-card
+     ${spread({...args})}
+    >
+      <ssk-icon slot="icon" color="red" name="outline-trash" size="md"></ssk-icon>
+    </ssk-card>
+  `,
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=25254-127368&t=iFV03SnDp3IkUdmJ-4",
+    },
+  },
+};
+
+export const HorizontalElevatedDefault: Story = {
+  args: {
+    styleCard: "elevated",
+    title: "Product name Product name Product name Product nameeeProduct name Product name",
+    subTitle: "Price",
+    description: "subtext",
+    testId: "horizontal-card-with-slot",
+    type: "horizontal",
+  },
+  render: ({...args}) => html`
+    <ssk-card
+     ${spread({...args})}
+    >
+      <ssk-icon slot="icon" color="red" name="outline-trash" size="md"></ssk-icon>
+    </ssk-card>
+  `,
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=25254-127368&t=iFV03SnDp3IkUdmJ-4",
+    },
+  },
+};
+export const HorizontalOutlinedLoading: Story = {
+  args: {
+    loading: true,
+    styleCard: "outlined", 
+    testId: "loading-card",
+  },
+};
+
+export const HorizontalElevatedLoading: Story = {
+  args: {
+    loading: true,
+    styleCard: "elevated", 
+    testId: "loading-card",
+  },
+};
+
+
 export const WithoutImage: Story = {
   args: {
-    productName: "No Product",
-    productPrice: "-",
     styleCard: "outlined",
-    size: "md",
     testId: "test-id",
     type: "stacked",
   },
@@ -67,10 +159,7 @@ export const WithoutImage: Story = {
 export const OutlinedStyle: Story = {
     args: {
       productImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
-      productName: "Outlined Card Style",
-      productPrice: "฿2,500",
       styleCard: "outlined",
-      size: "md",
       testId: "test-id",
       type: "stacked",
     },
@@ -79,29 +168,30 @@ export const OutlinedStyle: Story = {
 export const ElevatedStyle: Story = {
     args: {
       productImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
-      productName: "Elevated Card Style", 
-      productPrice: "฿3,500",
       styleCard: "elevated",
-      size: "md",
       testId: "test-id",
       type: "stacked",
     },
 };
 
-export const Loading: Story = {
+export const LoadingStacked: Story = {
     args: {
       loading: true,
       styleCard: "outlined", 
-      size: "md",
+      testId: "loading-card",
+    },
+  };
+  export const LoadingHorizontal: Story = {
+    args: {
+      loading: true,
+      styleCard: "outlined", 
+      type: "horizontal",
       testId: "loading-card",
     },
   };
 export const ContentSlot: Story = {
   args: {
-    productName: "Content Slot",
-    productPrice: "฿4,500",
     styleCard: "outlined",
-    size: "md",
     testId: "test-id",
     type: "stacked",
   },
@@ -122,13 +212,12 @@ export const ContentSlot: Story = {
 export const HorizontalWithSlotAndIcon: Story = {
   args: {
     productImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
-    productName: "Horizontal Card with Icon",
-    productPrice: "฿2,999",
-    productDescription: "This is a horizontal",
     styleCard: "outlined",
-    size: "md",
     testId: "horizontal-card-with-slot",
     type: "horizontal",
+    title: "Product name Product name Product name Product nameeeProduct name Product name",
+    subTitle: "Price",
+    description: "subtext",
   },
   render: ({...args}) => html`
     <ssk-card
@@ -146,4 +235,19 @@ export const HorizontalWithSlotAndIcon: Story = {
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=25254-127368&t=iFV03SnDp3IkUdmJ-4",
     },
   },
+};
+
+export const DefaultNoWidth: Story = {
+  args: {
+    productImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
+    styleCard: "outlined",
+    testId: "test-id",
+    type: "stacked",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=25254-127368&t=iFV03SnDp3IkUdmJ-4",
+    },
+  }
 };
