@@ -74,18 +74,15 @@ export class Card extends LitElement {
             </div>
             ` : html`
             <div class="card-content ${this.type}">
-                <div class="icons">
-                    <ssk-skeleton  width="24px" height="24px"></ssk-skeleton>
-                </div>
                 <div class="media-section ${this.type}">
                     <ssk-skeleton skeletonShape="square" width="56px" height="56px"></ssk-skeleton>
                 </div>
                 <div class="content-section ${this.type}">
                     <div class="content-section-header ${this.type}">
-                        <ssk-skeleton  width="100%" height="20px"></ssk-skeleton>
+                        <ssk-skeleton  width="66.18%" height="20px"></ssk-skeleton>
                     </div>
                     <div class="content-section-price ${this.type}">
-                        <ssk-skeleton  width="50%" height="20px"></ssk-skeleton>
+                        <ssk-skeleton  width="29.415%" height="18px"></ssk-skeleton>
                     </div>
                 </div>
                 <div class="content-slot">

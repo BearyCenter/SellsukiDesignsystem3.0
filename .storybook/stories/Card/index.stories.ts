@@ -136,6 +136,7 @@ export const HorizontalOutlinedLoading: Story = {
     loading: true,
     styleCard: "outlined", 
     testId: "loading-card",
+    type: "horizontal",
   },
 };
 
@@ -144,70 +145,58 @@ export const HorizontalElevatedLoading: Story = {
     loading: true,
     styleCard: "elevated", 
     testId: "loading-card",
+    type: "horizontal",
   },
 };
 
-
-export const WithoutImage: Story = {
+export const StackedProductCard: Story = {
   args: {
     styleCard: "outlined",
+    title: "CAT001",
+    subTitle: "฿100.00",
     testId: "test-id",
     type: "stacked",
   },
-};     
-
-export const OutlinedStyle: Story = {
-    args: {
-      productImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
-      styleCard: "outlined",
-      testId: "test-id",
-      type: "stacked",
-    },
 };
-  
-export const ElevatedStyle: Story = {
-    args: {
-      productImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
-      styleCard: "elevated",
-      testId: "test-id",
-      type: "stacked",
-    },
-};
-
-export const LoadingStacked: Story = {
-    args: {
-      loading: true,
-      styleCard: "outlined", 
-      testId: "loading-card",
-    },
-  };
-  export const LoadingHorizontal: Story = {
-    args: {
-      loading: true,
-      styleCard: "outlined", 
-      type: "horizontal",
-      testId: "loading-card",
-    },
-  };
-export const ContentSlot: Story = {
+export const HorizontalProductCardDefault: Story = {
   args: {
     styleCard: "outlined",
+    title: "CAT001",
+    subTitle: "฿100.00",
     testId: "test-id",
-    type: "stacked",
+    type: "horizontal",
   },
   render: ({...args}) => html`
     <ssk-card
      ${spread({...args})}
     >
-      <div slot="content">Content Slot</div>
+      <ssk-icon slot="icon" color="red" name="outline-trash" size="md"></ssk-icon>
+      <div slot="content">
+        <ssk-button size="sm" variant="secondary">Edit</ssk-button>
+      </div>
     </ssk-card>
   `,
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=25254-127368&t=iFV03SnDp3IkUdmJ-4",
-    },
+};
+
+export const HorizontalProductCardFull: Story = {
+  args: {
+    styleCard: "outlined",
+    title: "iPhone 16 Silicone Case with MagSafe – Ultramarine",
+    subTitle: "฿1990.00",
+    description: "ตัวเลือก:Subtext",
+    testId: "test-id",
+    type: "horizontal",
   },
+  render: ({...args}) => html`
+    <ssk-card
+     ${spread({...args})}
+    >
+      <ssk-icon slot="icon" color="red" name="outline-trash" size="md"></ssk-icon>
+      <div slot="content">
+        <ssk-button size="sm" variant="secondary">Edit</ssk-button>
+      </div>
+    </ssk-card>
+  `,
 };
 export const HorizontalWithSlotAndIcon: Story = {
   args: {
@@ -235,19 +224,4 @@ export const HorizontalWithSlotAndIcon: Story = {
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=25254-127368&t=iFV03SnDp3IkUdmJ-4",
     },
   },
-};
-
-export const DefaultNoWidth: Story = {
-  args: {
-    productImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
-    styleCard: "outlined",
-    testId: "test-id",
-    type: "stacked",
-  },
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=25254-127368&t=iFV03SnDp3IkUdmJ-4",
-    },
-  }
 };
