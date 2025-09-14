@@ -18,7 +18,7 @@ const meta: Meta<Card> = {
   argTypes: {
     title: { control: "text" },
     subTitle: { control: "text" },
-    productImage: { control: "text" },
+    cardImage: { control: "text" },
     styleCard: { control: "select", options: ["outlined", "elevated"] },
     type: { control: "select", options: ["stacked", "horizontal"] },
     loading: { control: "boolean" },
@@ -26,7 +26,6 @@ const meta: Meta<Card> = {
     width: { control: "text" },
     height: { control: "text" },
     description: { control: "text" },
-    icons: { control: "text" },
   },
 };
 
@@ -35,7 +34,7 @@ type Story = StoryObj<Card>;
 
 export const Default: Story = {
   args: {
-    productImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
+    cardImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
     title: "Premium Headphones my name is brian i'm 24 years old, i'm from korea",
     subTitle: "฿3,500",
     styleCard: "outlined",
@@ -156,10 +155,12 @@ export const StackedProductCard: Story = {
     subTitle: "฿100.00",
     testId: "test-id",
     type: "stacked",
+    cardImage: "https://placehold.co/600x400",
   },
 };
 export const HorizontalProductCardDefault: Story = {
   args: {
+    cardImage: "https://placehold.co/200x300",
     styleCard: "outlined",
     title: "CAT001",
     subTitle: "฿100.00",
@@ -172,7 +173,13 @@ export const HorizontalProductCardDefault: Story = {
     >
       <ssk-icon slot="icon" color="red" name="outline-trash" size="md"></ssk-icon>
       <div slot="content">
-        <ssk-button size="sm" variant="secondary">Edit</ssk-button>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <ssk-icon name="solid-plus" size="xs" margin="0 0 8px 0"></ssk-icon>
+          <div style="border: 1px solid #ccc; padding: 4px 8px; border-radius: 4px; width: 40px; height: 40px; text-align: center;">
+            <ssk-text size="md">1</ssk-text>
+          </div>
+          <ssk-icon name="solid-minus" size="xs"></ssk-icon>
+        </div>
       </div>
     </ssk-card>
   `,
@@ -180,8 +187,9 @@ export const HorizontalProductCardDefault: Story = {
 
 export const HorizontalProductCardFull: Story = {
   args: {
+    cardImage: "https://placehold.co/200x300",
     styleCard: "outlined",
-    title: "iPhone 16 Silicone Case with MagSafe – Ultramarine",
+    title: `iPhone 16 Silicone Case with MagSafe – Ultramarine`,
     subTitle: "฿1990.00",
     description: "ตัวเลือก:Subtext",
     testId: "test-id",
@@ -198,9 +206,59 @@ export const HorizontalProductCardFull: Story = {
     </ssk-card>
   `,
 };
+export const HorizontalProductCardWithOutButton: Story = {
+  args: {
+    cardImage: "https://placehold.co/200x300",
+    styleCard: "outlined",
+    title: "CAT0001",
+    subTitle: "฿100.00",
+    testId: "test-id",
+    type: "horizontal",
+  },
+  render: ({...args}) => html`
+    <ssk-card
+     ${spread({...args})}
+    >
+      <div slot="content">
+        <ssk-button size="sm" variant="secondary">Edit</ssk-button>
+      </div>
+    </ssk-card>
+  `,
+};
+
+export const HorizontalProductCardNoSlotSubtextOnly: Story = {
+  args: {
+    cardImage: "https://placehold.co/200x300",
+    styleCard: "outlined",
+    title: "iPhone 16 Silicone Case with MagSafe – Ultramarine",
+    description: "ตัวเลือก:Subtext",
+    testId: "test-id",
+    type: "horizontal",
+  },
+};
+export const HorizontalProductCardNoSlotPriceOnly: Story = {
+  args: {
+    cardImage: "https://placehold.co/200x300",
+    styleCard: "outlined",
+    testId: "test-id",
+    type: "horizontal",
+  },
+  render: ({...args}) => html`
+    <ssk-card
+     ${spread({...args})}
+    >
+      <div slot="content">
+      <content-section>
+          <ssk-text size="sm">iPhone 16 Silicone Case with MagSafe – Ultramarine</ssk-text>
+          <ssk-text size="md" color="info.500">1,990.00</ssk-text>
+        </content-section>
+      </div>
+    </ssk-card>
+  `,
+};
 export const HorizontalWithSlotAndIcon: Story = {
   args: {
-    productImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
+    cardImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
     styleCard: "outlined",
     testId: "horizontal-card-with-slot",
     type: "horizontal",
@@ -225,3 +283,5 @@ export const HorizontalWithSlotAndIcon: Story = {
     },
   },
 };
+
+

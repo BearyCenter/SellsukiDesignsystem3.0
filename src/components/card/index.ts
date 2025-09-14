@@ -21,10 +21,8 @@ export class Card extends LitElement {
   @property({ type: String })
   description: string | undefined;
   @property({ type: String })
-  productImage: string | undefined;
+  cardImage: string | undefined;
 
-  @property({ type: String }) 
-  icons = "";
 
   
   // Layout props
@@ -99,8 +97,8 @@ export class Card extends LitElement {
         ${this.type === "stacked" ? html`
           <div class="card-content ${this.type}">
               <div class="media-section ${this.type}">
-                  ${this.productImage ? html`
-                  <img src="${this.productImage}" alt="${this.title || ''}" />
+                  ${this.cardImage ? html`
+                  <img src="${this.cardImage}" alt="${this.title || ''}" />
                   ` : html`
                   <div class="image-placeholder ${this.type}"></div>
                   `}
@@ -124,8 +122,8 @@ export class Card extends LitElement {
               </div>
 
               <div class="media-section ${this.type}">
-                  ${this.productImage ? html`
-                  <img src="${this.productImage}" alt="${this.title || ''}" />
+                  ${this.cardImage ? html`
+                  <img src="${this.cardImage}" alt="${this.title || ''}" />
                   ` : html`
                   <div class="image-placeholder ${this.type}"></div>
                   `}
@@ -224,16 +222,17 @@ export class Card extends LitElement {
       display: flex;
       flex-direction: column;
       gap: 4px;
-      padding: 16px 12px;
-      height: 100%;
+      padding: 5px 12px 5px 12px;
+      height: 94px;
+      justify-content: space-between;
     }
 
     .content-section-header.stacked {
-    align-items: center;
+    justify-content: center;
     }
 
     .content-section-price.stacked {
-    align-items: center;
+    justify-content: center;
     }
     
     /* --- Horizontal layout --- */
