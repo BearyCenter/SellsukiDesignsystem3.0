@@ -61,30 +61,27 @@ export class Card extends LitElement {
                 <div class="media-section ${this.type}">
                     <ssk-skeleton skeletonShape="square" width="100%" height="210px"></ssk-skeleton>
                 </div>
-                <div class="content-section ${this.type}">
-                    <div class="content-section-header ${this.type}">
+                <div class="skeleton-content-section ${this.type}">
+                    <div class="skeleton-content-section-header ${this.type}">
                         <ssk-skeleton  width="70%" height="24px"></ssk-skeleton>
                     </div>
-                    <div class="content-section-price ${this.type}">
+                    <div class="skeleton-content-section-price ${this.type}">
                         <ssk-skeleton  width="100%" height="24px"></ssk-skeleton>
                     </div>
                 </div>
             </div>
             ` : html`
-            <div class="card-content ${this.type}">
+            <div class="skeleton-card-content ${this.type}">
                 <div class="media-section ${this.type}">
                     <ssk-skeleton skeletonShape="square" width="56px" height="56px"></ssk-skeleton>
                 </div>
-                <div class="content-section ${this.type}">
-                    <div class="content-section-header ${this.type}">
-                        <ssk-skeleton  width="66.18%" height="20px"></ssk-skeleton>
+                <div class="skeleton-content-section ${this.type}">
+                    <div class="skeleton-content-section-header ${this.type}">
+                        <ssk-skeleton  width="63.385%" height="20px"></ssk-skeleton>
                     </div>
-                    <div class="content-section-price ${this.type}">
-                        <ssk-skeleton  width="29.415%" height="18px"></ssk-skeleton>
+                    <div class="skeleton-content-section-price ${this.type}">
+                        <ssk-skeleton  width="28.174%" height="18px"></ssk-skeleton>
                     </div>
-                </div>
-                <div class="content-slot">
-                    <ssk-skeleton  width="100%" height="24px"></ssk-skeleton>
                 </div>
             </div>
             `}
@@ -138,10 +135,11 @@ export class Card extends LitElement {
                   <div class="content-section-description ${this.type}">
                       <ssk-text color="aerospace-orange.500" size="md">${this.subTitle}</ssk-text>
                   </div>
+                  ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
                   
               </div>
-              <div class="content-slot">
-                  ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
+              <div class="content-footer" ${this.type}>
+                <slot name="footer"></slot>
               </div>
           </div>
         `}
@@ -159,11 +157,11 @@ export class Card extends LitElement {
       background-color: #FFFFFF;
       border-radius: 8px;
       width: var(--card-width);
-
     }
     .card.outlined {
       border: 1px solid var(--ssk-colors-gray-300);
     }
+
     .card.elevated {
       border: none;
       box-shadow: 
@@ -189,32 +187,32 @@ export class Card extends LitElement {
 
     .card-content.stacked {
       width: 100%;
-    display: flex;
-    flex-direction: column;
+      display: flex;
+      flex-direction: column;
     }
 
-      .media-section.stacked {
-    width: 100%;
+    .media-section.stacked {
+      width: 100%;
     }
 
     .media-section.stacked img {
-    aspect-ratio: 4 / 3;
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    display: block;   
-    border-radius: 8px 8px 0 0;
+      aspect-ratio: 4 / 3;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      display: block;   
+      border-radius: 8px 8px 0 0;
     }
 
     .image-placeholder.stacked {
-    aspect-ratio: 4 / 3;
-    width: 100%;
-    height: auto;
-    background-color: #E5E7EB;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px 8px 0 0;
+      aspect-ratio: 4 / 3;
+      width: 100%;
+      height: auto;
+      background-color: #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px 8px 0 0;
     }
 
 
@@ -228,21 +226,23 @@ export class Card extends LitElement {
     }
 
     .content-section-header.stacked {
-    justify-content: center;
+      display: flex;
+      flex:1;
+      align-items: center;
     }
 
     .content-section-price.stacked {
-    justify-content: center;
+      justify-content: center;
     }
     
     /* --- Horizontal layout --- */
 
     .card-content.horizontal {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 12px;
-        padding: 10px 12px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+      padding:  0px 12px;
       
     }
     
@@ -254,43 +254,86 @@ export class Card extends LitElement {
     
     .content-section.horizontal {
       width: 100%;
+      height: 112px;
     }
 
     .media-section.horizontal {
-    width: 56px;
-    height: 56px;
-    overflow: hidden;
-    flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      overflow: hidden;
+      flex-shrink: 0;
     }
 
     .media-section.horizontal img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .image-placeholder.horizontal {
-    width: 100%;
-    height: 100%;
-    background-color: #E5E7EB;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+      width: 100%;
+      height: 100%;
+      background-color: #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .content-section-header.horizontal {
-    margin-bottom: 4px;
-    align-items: center;
+      display: flex;
+      flex:1;
+      margin-bottom: 4px;
+      margin-top: 12px;
+      padding-top: 10px;
+      align-items: center;
     }
+
     .content-section-description.horizontal {
-    margin-bottom: 4px;
-    align-items: center;
+      margin-bottom: 4px;
+      align-items: center;
     }
 
     .content-section-price.horizontal {
-    align-items: center;
+      align-items: center;
     }
-  
+
+    /* --- Skeleton layout stacked --- */
+
+    .skeleton-content-section.stacked {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 16px 12px;
+      height: 100%;
+    }
+    .skeleton-content-section-header.stacked {
+      align-items: center;
+    }
+    .skeleton-content-section-price.stacked {
+      align-items: center;
+    }
+
+    /* --- Skeleton layout horizontal --- */
+
+    .skeleton-card-content.horizontal {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+      padding:  28px 12px;
+    }
+
+    .skeleton-content-section.horizontal {
+      width: 100%;
+    }
+    .skeleton-content-section-header.horizontal {
+      margin-bottom: 4px;
+      align-items: center;
+    }
+    .skeleton-content-section-price.horizontal {
+      align-items: center;
+    }
+    
   `;
 }
   declare global {

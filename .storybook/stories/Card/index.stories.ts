@@ -172,10 +172,10 @@ export const HorizontalProductCardDefault: Story = {
      ${spread({...args})}
     >
       <ssk-icon slot="icon" color="red" name="outline-trash" size="md"></ssk-icon>
-      <div slot="content">
+      <div slot="footer">
         <div style="display: flex; flex-direction: column; align-items: center;">
           <ssk-icon name="solid-plus" size="xs" margin="0 0 8px 0"></ssk-icon>
-          <div style="border: 1px solid #ccc; padding: 4px 8px; border-radius: 4px; width: 40px; height: 40px; text-align: center;">
+          <div style="border: 1px solid #ccc; border-radius: 4px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
             <ssk-text size="md">1</ssk-text>
           </div>
           <ssk-icon name="solid-minus" size="xs"></ssk-icon>
@@ -200,8 +200,14 @@ export const HorizontalProductCardFull: Story = {
      ${spread({...args})}
     >
       <ssk-icon slot="icon" color="red" name="outline-trash" size="md"></ssk-icon>
-      <div slot="content">
-        <ssk-button size="sm" variant="secondary">Edit</ssk-button>
+      <div slot="footer">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <ssk-icon name="solid-plus" size="xs" margin="0 0 8px 0"></ssk-icon>
+          <div style="border: 1px solid #ccc; border-radius: 4px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
+            <ssk-text size="md">1</ssk-text>
+          </div>
+          <ssk-icon name="solid-minus" size="xs"></ssk-icon>
+        </div>
       </div>
     </ssk-card>
   `,
@@ -219,8 +225,14 @@ export const HorizontalProductCardWithOutButton: Story = {
     <ssk-card
      ${spread({...args})}
     >
-      <div slot="content">
-        <ssk-button size="sm" variant="secondary">Edit</ssk-button>
+      <div slot="footer">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <ssk-icon name="solid-plus" size="xs" margin="0 0 8px 0"></ssk-icon>
+          <div style="border: 1px solid #ccc; border-radius: 4px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
+            <ssk-text size="md">1</ssk-text>
+          </div>
+          <ssk-icon name="solid-minus" size="xs"></ssk-icon>
+        </div>
       </div>
     </ssk-card>
   `,
@@ -248,40 +260,13 @@ export const HorizontalProductCardNoSlotPriceOnly: Story = {
      ${spread({...args})}
     >
       <div slot="content">
-      <content-section>
-          <ssk-text size="sm">iPhone 16 Silicone Case with MagSafe – Ultramarine</ssk-text>
-          <ssk-text size="md" color="info.500">1,990.00</ssk-text>
-        </content-section>
+        <content-section>
+            <ssk-text size="sm">iPhone 16 Silicone Case with MagSafe – Ultramarine</ssk-text>
+            <ssk-text size="md" color="info.500">1,990.00</ssk-text>
+          </content-section>
       </div>
     </ssk-card>
   `,
-};
-export const HorizontalWithSlotAndIcon: Story = {
-  args: {
-    cardImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
-    styleCard: "outlined",
-    testId: "horizontal-card-with-slot",
-    type: "horizontal",
-    title: "Product name Product name Product name Product nameeeProduct name Product name",
-    subTitle: "Price",
-    description: "subtext",
-  },
-  render: ({...args}) => html`
-    <ssk-card
-     ${spread({...args})}
-    >
-      <ssk-icon slot="icon" name="outline-trash" size="md"></ssk-icon>
-      <div slot="content">
-        <ssk-button size="sm" variant="secondary">Edit</ssk-button>
-      </div>
-    </ssk-card>
-  `,
-  parameters: {
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=25254-127368&t=iFV03SnDp3IkUdmJ-4",
-    },
-  },
 };
 
 
