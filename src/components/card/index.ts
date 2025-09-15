@@ -127,7 +127,7 @@ export class Card extends LitElement {
                   </div>
               <div class="content-section ${this.type}">
                   <div class="content-section-header ${this.type}">
-                      <ssk-text size="sm"> <span class="content-section-text">${this.title}</span></ssk-text>
+                      <ssk-text size="sm"  height="100%"> <span class="content-section-text">${this.title}</span></ssk-text>
                   </div>
                   <div class="content-section-price ${this.type}">
                       <ssk-text size="xs" color="gray.500">${this.description}</ssk-text>
@@ -238,6 +238,7 @@ export class Card extends LitElement {
     /* --- Horizontal layout --- */
 
     .card-content.horizontal {
+     height: 112px;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -254,7 +255,10 @@ export class Card extends LitElement {
     
     .content-section.horizontal {
       width: 100%;
-      height: 112px;
+      height: 100%;
+      flex-direction: column;
+      justify-content: center;
+      display: flex;
     }
 
     .media-section.horizontal {
@@ -286,6 +290,7 @@ export class Card extends LitElement {
       margin-top: 12px;
       padding-top: 10px;
       align-items: center;
+      
     }
 
     .content-section-description.horizontal {
