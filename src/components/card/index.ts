@@ -17,11 +17,11 @@ export class Card extends LitElement {
   @property({ type: String })
   title: string = "";
   @property({ type: String })
-  subTitle: string | undefined;
+  subtitle: string | undefined;
   @property({ type: String })
   description: string | undefined;
   @property({ type: String })
-  cardImage: string | undefined;
+  image: string | undefined;
 
 
   
@@ -41,7 +41,6 @@ export class Card extends LitElement {
   render() {
 
     const contentSlotExists = this.querySelector('[slot="content"]');
-    // แก้ไขตรรกะให้ถูกต้อง - ใส่วงเล็บให้ชัดเจน
     const defaultWidth = this.width || (this.type === "horizontal" ? "376px" : "280px");
     this.style.setProperty("--card-width", defaultWidth);
 
@@ -58,28 +57,28 @@ export class Card extends LitElement {
         <div class="card ${this.styleCard}" data-testid=${this.testId || nothing} style="--card-width: ${defaultWidth}">
             ${this.type === "stacked" ? html`
             <div class="card-content ${this.type}">
-                <div class="media-section ${this.type}">
+                <div class="card-media-section ${this.type}">
                     <ssk-skeleton skeletonShape="square" width="100%" height="210px"></ssk-skeleton>
                 </div>
                 <div class="skeleton-content-section ${this.type}">
-                    <div class="skeleton-content-section-header ${this.type}">
-                        <ssk-skeleton  width="70%" height="24px"></ssk-skeleton>
+                    <div class="card-skeleton-title ${this.type}">
+                        <ssk-skeleton  width="70%" height="20px"></ssk-skeleton>
                     </div>
-                    <div class="skeleton-content-section-price ${this.type}">
-                        <ssk-skeleton  width="100%" height="24px"></ssk-skeleton>
+                    <div class="card-skeleton-subtitle ${this.type}">
+                        <ssk-skeleton  width="94%" height="20px"></ssk-skeleton>
                     </div>
                 </div>
             </div>
             ` : html`
             <div class="skeleton-card-content ${this.type}">
-                <div class="media-section ${this.type}">
+                <div class="card-media-section ${this.type}">
                     <ssk-skeleton skeletonShape="square" width="56px" height="56px"></ssk-skeleton>
                 </div>
                 <div class="skeleton-content-section ${this.type}">
-                    <div class="skeleton-content-section-header ${this.type}">
+                    <div class="card-skeleton-title ${this.type}">
                         <ssk-skeleton  width="63.385%" height="20px"></ssk-skeleton>
                     </div>
-                    <div class="skeleton-content-section-price ${this.type}">
+                    <div class="card-skeleton-subtitle ${this.type}">
                         <ssk-skeleton  width="28.174%" height="18px"></ssk-skeleton>
                     </div>
                 </div>
@@ -93,21 +92,23 @@ export class Card extends LitElement {
       <div class="card ${this.styleCard}" data-testid=${this.testId || nothing} style="--card-width: ${defaultWidth}">
         ${this.type === "stacked" ? html`
           <div class="card-content ${this.type}">
-              <div class="media-section ${this.type}">
-                  ${this.cardImage ? html`
-                  <img src="${this.cardImage}" alt="${this.title || ''}" />
+              <div class="card-media-section ${this.type}">
+                  ${this.image ? html`
+                  <img src="${this.image}" alt="${this.title || ''}" />
                   ` : html`
-                  <div class="image-placeholder ${this.type}"></div>
+                  <div class="card-image-placeholder ${this.type}"></div>
                   `}
               </div>
               <div class="content-section ${this.type} ">
-                      <div class="content-section-header ${this.type}">
+                      <div class="card-title ${this.type}">
                           <ssk-text size="sm">
-                          <span class="content-section-text">${this.title}</span>
+                          <span class="card-text-section two-line">${this.title}</span>
                           </ssk-text>
                       </div>
-                      <div class="content-section-price ${this.type}">
-                          <ssk-text color="aerospace-orange.500" size="md">${this.subTitle}</ssk-text>
+                      <div class="card-subtitle ${this.type}">
+                          <ssk-text color="aerospace-orange.500" size="md"> 
+                            <span class="card-text-section one-line">${this.subtitle}</span>
+                          </ssk-text>
                       </div>
               </div>
                   ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
@@ -118,22 +119,22 @@ export class Card extends LitElement {
                   <slot name="icon"></slot>
               </div>
 
-              <div class="media-section ${this.type}">
-                  ${this.cardImage ? html`
-                  <img src="${this.cardImage}" alt="${this.title || ''}" />
+              <div class="card-media-section ${this.type}">
+                  ${this.image ? html`
+                  <img src="${this.image}" alt="${this.title || ''}" />
                   ` : html`
-                  <div class="image-placeholder ${this.type}"></div>
+                  <div class="card-image-placeholder ${this.type}"></div>
                   `}
                   </div>
               <div class="content-section ${this.type}">
-                  <div class="content-section-header ${this.type}">
-                      <ssk-text size="sm"  height="100%"> <span class="content-section-text">${this.title}</span></ssk-text>
+                  <div class="card-title ${this.type}">
+                      <ssk-text size="sm"  height="100%"> <span class="card-text-section two-line">${this.title}</span></ssk-text>
                   </div>
-                  <div class="content-section-price ${this.type}">
-                      <ssk-text size="xs" color="gray.500">${this.description}</ssk-text>
+                  <div class="card-subtitle ${this.type}">
+                      <ssk-text size="xs" color="gray.500"> <span class="card-text-section one-line">${this.description}</span></ssk-text>
                   </div>
-                  <div class="content-section-description ${this.type}">
-                      <ssk-text color="aerospace-orange.500" size="md">${this.subTitle}</ssk-text>
+                  <div class="card-description ${this.type}">
+                      <ssk-text color="aerospace-orange.500" size="md"><span class="card-text-section one-line">${this.subtitle}</span></ssk-text>
                   </div>
                   ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
                   
@@ -158,6 +159,7 @@ export class Card extends LitElement {
       border-radius: 8px;
       width: var(--card-width);
     }
+
     .card.outlined {
       border: 1px solid var(--ssk-colors-gray-300);
     }
@@ -173,29 +175,37 @@ export class Card extends LitElement {
 
     }
 
-    .content-section-text {
-      white-space: pre-wrap;
+    .card-text-section {
+      white-space: pre-line;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
       -webkit-box-orient: vertical;
+      }
+
+    .card-text-section.one-line {
+      -webkit-line-clamp: 1;
     }
-    
+
+    .card-text-section.two-line {
+      -webkit-line-clamp: 2;
+    }
+
+
     /* --- stacked layout --- */
 
     .card-content.stacked {
       width: 100%;
       display: flex;
       flex-direction: column;
+      height: 306px;
     }
 
-    .media-section.stacked {
+    .card-media-section.stacked {
       width: 100%;
     }
 
-    .media-section.stacked img {
+    .card-media-section.stacked img {
       aspect-ratio: 4 / 3;
       width: 100%;
       height: auto;
@@ -204,7 +214,7 @@ export class Card extends LitElement {
       border-radius: 8px 8px 0 0;
     }
 
-    .image-placeholder.stacked {
+    .card-image-placeholder.stacked {
       aspect-ratio: 4 / 3;
       width: 100%;
       height: auto;
@@ -217,21 +227,21 @@ export class Card extends LitElement {
 
 
     .content-section.stacked {
+      height: 100%;
       display: flex;
       flex-direction: column;
       gap: 4px;
-      padding: 5px 12px 5px 12px;
-      height: 94px;
+      padding: 12px 16px 12px 16px;
       justify-content: space-between;
     }
 
-    .content-section-header.stacked {
+    .card-title.stacked {
       display: flex;
       flex:1;
       align-items: center;
     }
 
-    .content-section-price.stacked {
+    .card-subtitle.stacked {
       justify-content: center;
     }
     
@@ -261,45 +271,26 @@ export class Card extends LitElement {
       display: flex;
     }
 
-    .media-section.horizontal {
+    .card-media-section.horizontal {
       width: 56px;
       height: 56px;
       overflow: hidden;
       flex-shrink: 0;
     }
 
-    .media-section.horizontal img {
+    .card-media-section.horizontal img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    .image-placeholder.horizontal {
+    .card-image-placeholder.horizontal {
       width: 100%;
       height: 100%;
       background-color: #E5E7EB;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .content-section-header.horizontal {
-      display: flex;
-      flex:1;
-      margin-bottom: 4px;
-      margin-top: 12px;
-      padding-top: 10px;
-      align-items: center;
-      
-    }
-
-    .content-section-description.horizontal {
-      margin-bottom: 4px;
-      align-items: center;
-    }
-
-    .content-section-price.horizontal {
-      align-items: center;
     }
 
     /* --- Skeleton layout stacked --- */
@@ -311,10 +302,10 @@ export class Card extends LitElement {
       padding: 16px 12px;
       height: 100%;
     }
-    .skeleton-content-section-header.stacked {
+    .card-skeleton-title.stacked {
       align-items: center;
     }
-    .skeleton-content-section-price.stacked {
+    .card-skeleton-subtitle.stacked {
       align-items: center;
     }
 
@@ -331,11 +322,11 @@ export class Card extends LitElement {
     .skeleton-content-section.horizontal {
       width: 100%;
     }
-    .skeleton-content-section-header.horizontal {
+    .card-skeleton-title.horizontal {
       margin-bottom: 4px;
       align-items: center;
     }
-    .skeleton-content-section-price.horizontal {
+    .card-skeleton-subtitle.horizontal {
       align-items: center;
     }
     

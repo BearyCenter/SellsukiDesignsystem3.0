@@ -17,8 +17,8 @@ const meta: Meta<Card> = {
   `,
   argTypes: {
     title: { control: "text" },
-    subTitle: { control: "text" },
-    cardImage: { control: "text" },
+    subtitle: { control: "text" },
+    image: { control: "text" },
     styleCard: { control: "select", options: ["outlined", "elevated"] },
     type: { control: "select", options: ["stacked", "horizontal"] },
     loading: { control: "boolean" },
@@ -34,9 +34,9 @@ type Story = StoryObj<Card>;
 
 export const Default: Story = {
   args: {
-    cardImage: "https://i.pinimg.com/736x/6e/17/23/6e17234aac711f5d2de3ec7ba56a8c4b.jpg",
+    image: "https://placehold.co/600x400",
     title: "Premium Headphones my name is brian i'm 24 years old, i'm from korea",
-    subTitle: "฿3,500",
+    subtitle: "฿3,500",
     styleCard: "outlined",
     testId: "test-id",
     type: "stacked",
@@ -53,7 +53,7 @@ export const Default: Story = {
 export const StackedOutlinedDefault: Story = {
   args: {
     title: "Product name Product name Product name Product nameeeProduct name Product name",
-    subTitle: "Price",
+    subtitle: "Price",
     styleCard: "outlined",
     testId: "test-id",
     type: "stacked",
@@ -62,7 +62,7 @@ export const StackedOutlinedDefault: Story = {
 export const StackedElevatedDefault: Story = {
   args: {
     title: "Product name Product name Product name Product nameeeProduct name Product name",
-    subTitle: "Price",
+    subtitle: "Price",
     styleCard: "elevated",
     testId: "test-id",
     type: "stacked",
@@ -87,7 +87,7 @@ export const HorizontalOutlinedDefault: Story = {
   args: {
     styleCard: "outlined",
     title: "Product name Product name Product name Product nameeeProduct name Product name",
-    subTitle: "Price",
+    subtitle: "Price",
     description: "subtext",
     testId: "horizontal-card-with-slot",
     type: "horizontal",
@@ -111,7 +111,7 @@ export const HorizontalElevatedDefault: Story = {
   args: {
     styleCard: "elevated",
     title: "Product name Product name Product name Product nameeeProduct name Product name",
-    subTitle: "Price",
+    subtitle: "Price",
     description: "subtext",
     testId: "horizontal-card-with-slot",
     type: "horizontal",
@@ -152,18 +152,18 @@ export const StackedProductCard: Story = {
   args: {
     styleCard: "outlined",
     title: "CAT001",
-    subTitle: "฿100.00",
+    subtitle: "฿100.00",
     testId: "test-id",
     type: "stacked",
-    cardImage: "https://placehold.co/600x400",
+    image: "https://placehold.co/600x400",
   },
 };
 export const HorizontalProductCardDefault: Story = {
   args: {
-    cardImage: "https://placehold.co/200x300",
+    image: "https://placehold.co/200x300",
     styleCard: "outlined",
     title: "CAT001",
-    subTitle: "฿100.00",
+    subtitle: "฿100.00",
     testId: "test-id",
     type: "horizontal",
   },
@@ -187,10 +187,10 @@ export const HorizontalProductCardDefault: Story = {
 
 export const HorizontalProductCardFull: Story = {
   args: {
-    cardImage: "https://placehold.co/200x300",
+    image: "https://placehold.co/200x300",
     styleCard: "outlined",
     title: `iPhone 16 Silicone Case with MagSafe – Ultramarine`,
-    subTitle: "฿1990.00",
+    subtitle: "฿1990.00",
     description: "ตัวเลือก:Subtext",
     testId: "test-id",
     type: "horizontal",
@@ -214,10 +214,10 @@ export const HorizontalProductCardFull: Story = {
 };
 export const HorizontalProductCardWithOutButton: Story = {
   args: {
-    cardImage: "https://placehold.co/200x300",
+      image: "https://placehold.co/200x300",
     styleCard: "outlined",
     title: "CAT0001",
-    subTitle: "฿100.00",
+    subtitle: "฿100.00",
     testId: "test-id",
     type: "horizontal",
   },
@@ -240,7 +240,7 @@ export const HorizontalProductCardWithOutButton: Story = {
 
 export const HorizontalProductCardNoSlotSubtextOnly: Story = {
   args: {
-    cardImage: "https://placehold.co/200x300",
+    image: "https://placehold.co/200x300",
     styleCard: "outlined",
     title: "iPhone 16 Silicone Case with MagSafe – Ultramarine",
     description: "ตัวเลือก:Subtext",
@@ -250,7 +250,7 @@ export const HorizontalProductCardNoSlotSubtextOnly: Story = {
 };
 export const HorizontalProductCardNoSlotPriceOnly: Story = {
   args: {
-    cardImage: "https://placehold.co/200x300",
+    image: "https://placehold.co/200x300",
     styleCard: "outlined",
     testId: "test-id",
     type: "horizontal",
