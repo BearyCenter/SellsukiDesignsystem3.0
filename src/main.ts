@@ -44,6 +44,7 @@ export * from "./elements/widget-example";
 export * from "./elements/widget-matric";
 export * from "./elements/widget-user-detail";
 export * from "./elements/widget-title";
+export * from "./elements/widget-table";
 
 export * from "./components/addon-phone-country";
 export * from "./components/calendar";

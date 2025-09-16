@@ -261,6 +261,7 @@ export type Theme = {
     WidgetMatric?: Partial<ThemeField>;
     WidgetUserDetail?: Partial<ThemeField>;
     WidgetTitle?: Partial<ThemeField>;
+    WidgetTable?: Partial<ThemeField>;
   };
 } & ThemeField;
 
