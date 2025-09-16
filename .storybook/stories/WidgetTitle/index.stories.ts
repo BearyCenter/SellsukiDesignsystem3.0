@@ -11,6 +11,7 @@ import { baseArgsTypes } from "../helper";
 
 const onClickAction = action('click');
 
+
 type WidgetTitleArgs =   WidgetTitle & {
     dropdownOptions?: DropdownItem[];
 };
@@ -19,16 +20,22 @@ const meta = {
     title: "Example/WidgetTitle",
     tags: ["autodocs"],
     render: ({ ...args }) => {
-        return html`
-        <ssk-widget-title
-            ${spread(args)}
-            .showSubtext=${args.showSubtext}
-            .showButtonText=${args.showButtonText}
-            .showButtonIcon=${args.showButtonIcon}
-            .dropdownOptions=${args.dropdownOptions}
-            .disabledButton=${args.disabledButton}
-            @click=${(e: Event) => onClickAction(e)}>
-        </ssk-widget-title>
+        return html`<style>
+            div.container-title {
+                margin: 15%;
+            }
+        </style>
+        <div class="container-title">
+            <ssk-widget-title
+                ${spread(args)}
+                .showSubtext=${args.showSubtext}
+                .showButtonText=${args.showButtonText}
+                .showButtonIcon=${args.showButtonIcon}
+                .dropdownOptions=${args.dropdownOptions}
+                .disabledButton=${args.disabledButton}
+                @click=${(e: Event) => onClickAction(e)}>
+            </ssk-widget-title>
+        </div>
     `;
     },
     args: {
@@ -162,3 +169,5 @@ export const WithDropdownAction: Story = {
         },
     },
 };
+
+
