@@ -8,7 +8,9 @@ import "../../../src/elements/icon";
 import "../../../src/elements/widget-example"
 import "../../../src/elements/widget-matric"
 import "../../../src/elements/widget-user-detail"
+import "../../../src/elements/widget-title"
 import { sectionItem } from "../../../src/elements/widget-user-detail";
+import { DropdownItem } from "../../../src/elements/widget-title";
 import { AutoLitProperty, baseArgsTypes } from "../helper";
 
 type GridStoryArgs = AutoLitProperty<Grid>;
@@ -62,6 +64,33 @@ const comprehensiveMockItems: sectionItem[] = [
         label: 'Very Long Label to Showcase Ellipsis Truncation text',
         description: 'This is a very long description to showcase how the text truncates',
         showButton: false,
+    }
+];
+
+const dropdownOptions: DropdownItem[] = [
+    {
+        label: "day",
+        value: "รายวัน",
+    },
+    {
+        label: "week",
+        value: "รายสัปดาห์",
+    },
+    {
+        label: "month",
+        value: "รายเดือน",
+    },
+    {
+        label: "year",
+        value: "รายปี",
+    },
+    {
+        label: "3year",
+        value: "3ปี",
+    },
+    {
+        label: "test",
+        value: "Dog and Cat Festival Winter Season 2025",
     }
 ];
 
@@ -155,6 +184,28 @@ export const TestWidgetMatric: Story = {
                     imgUrl="https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"
                     .rowItems=${comprehensiveMockItems}>
                 </ssk-widget-user-detail>
+            </ssk-widget-grid>
+        </div>
+        `;
+    },
+};
+
+export const TestWidgetTitle: Story = {
+    name: "Widget Matric & WidgetTitle",
+    args: {
+        maxColumns: 12,
+        gridItemSize: 88,
+        testId: "grid-container-slot",
+    },
+
+    render: (args) => {
+        return html`
+        <div>
+            <ssk-widget-grid .maxColumns=${args.maxColumns} .gridItemSize=${args.gridItemSize}>
+                <ssk-widget-title titletext="Dashboard" subtext="สรุปยอดขายประจำปี" buttontext="Filters" showsubtext="true" showbuttontext="true" buttonicon="outline-funnel" actiontype="dropdown" .dropdownOptions=${dropdownOptions} widgetwidth="12"></ssk-widget-title>
+                <ssk-widget-matric x="0" y="0" widgetWidth="4" widgetHeight="2" label="1,250,000" subtext="Total Sales" badgetext="3.25%" showbadge="true"></ssk-widget-matric>
+                <ssk-widget-matric x="0" y="0" widgetWidth="4" widgetHeight="2" label="1,250,000" subtext="Total Sales" badgetext="3.25%" showbadge="true"></ssk-widget-matric>
+                <ssk-widget-matric x="0" y="0" widgetWidth="4" widgetHeight="2" label="1,250,000" subtext="Total Sales" badgetext="3.25%" showbadge="true"></ssk-widget-matric>
             </ssk-widget-grid>
         </div>
         `;

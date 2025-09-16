@@ -260,6 +260,7 @@ export type Theme = {
     widgetexample?: Partial<ThemeField>;
     WidgetMatric?: Partial<ThemeField>;
     WidgetUserDetail?: Partial<ThemeField>;
+    WidgetTitle?: Partial<ThemeField>;
   };
 } & ThemeField;
 
