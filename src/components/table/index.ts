@@ -25,6 +25,7 @@ interface Column {
   sortable?: boolean;
   sortDirection?: "asc" | "desc";
   onSort?: (direction: "asc" | "desc") => void;
+  sortIcons?: { asc: string; desc: string; neutral: string; color: string; };
 }
 
 interface RowData {
@@ -201,6 +202,23 @@ export class Table extends LitElement {
   }
 
   renderHeader(col: Column): TemplateResult {
+    let iconName: string;
+    let iconColor: string = '';
+
+    if (col.sortIcons) {
+      if (col.sortDirection === 'asc') {
+        iconName = col.sortIcons.asc;
+        iconColor = col.sortIcons.color || '';
+      } else if (col.sortDirection === 'desc') {
+        iconName = col.sortIcons.desc;
+        iconColor = col.sortIcons.color || '';
+      } else {
+        iconName = col.sortIcons.neutral;
+      }
+    } else {
+      iconName = 'solid-bars-arrow-down';
+    }
+
     return html`
       <th
         style="text-align: ${col.align || "left"}; width: ${col.width ||
@@ -213,12 +231,11 @@ export class Table extends LitElement {
                 class="header-icon"
                 @click="${() => this.handleSort(col)}"
               >
-                ${col.sortDirection
-                  ? html`<ssk-icon
-                      name="solid-bars-arrow-down"
-                      size="${this.size}"
-                    ></ssk-icon>`
-                  : nothing}
+                <ssk-icon
+                  name="${iconName}"
+                  size="sm"
+                  color="${iconColor}"
+                ></ssk-icon>
               </span>`
             : nothing}
         </div>
