@@ -24,7 +24,6 @@ const meta: Meta<Card> = {
     loading: { control: "boolean" },
     testId: { control: "text" },
     width: { control: "text" },
-    height: { control: "text" },
     description: { control: "text" },
   },
 };
@@ -173,13 +172,13 @@ export const HorizontalProductCardDefault: Story = {
     >
       <ssk-icon slot="icon" color="red" name="outline-trash" size="md"></ssk-icon>
       <div slot="footer">
-        <div style="display: flex; flex-direction: column; align-items: center;">
-          <ssk-icon name="solid-plus" size="xs" margin="0 0 8px 0"></ssk-icon>
-          <div style="border: 1px solid #ccc; border-radius: 4px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
-            <ssk-text size="md">1</ssk-text>
+          <div style="display: flex; flex-direction: column; align-items: center; width:56px">
+            <ssk-icon name="solid-plus" size="xs" margin="0 0 8px 0"></ssk-icon>
+            <div style="border: 1px solid #ccc; border-radius: 4px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
+              <ssk-text size="md">1</ssk-text>
+            </div>
+            <ssk-icon name="solid-minus" size="xs"></ssk-icon>
           </div>
-          <ssk-icon name="solid-minus" size="xs"></ssk-icon>
-        </div>
       </div>
     </ssk-card>
   `,
@@ -201,7 +200,7 @@ export const HorizontalProductCardFull: Story = {
     >
       <ssk-icon slot="icon" color="red" name="outline-trash" size="md"></ssk-icon>
       <div slot="footer">
-        <div style="display: flex; flex-direction: column; align-items: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; width:56px">
           <ssk-icon name="solid-plus" size="xs" margin="0 0 8px 0"></ssk-icon>
           <div style="border: 1px solid #ccc; border-radius: 4px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
             <ssk-text size="md">1</ssk-text>
