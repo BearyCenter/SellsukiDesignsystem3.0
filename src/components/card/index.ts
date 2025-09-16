@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 
 
 
-export type StyleCard = "outlined" | "elevated";
+export type VariantCard = "outlined" | "elevated";
 export type TypeCard = "stacked" | "horizontal";
 
 @customElement("ssk-card")
@@ -29,7 +29,7 @@ export class Card extends LitElement {
   @property({ type: String })
   type: TypeCard = "stacked";
   @property({ type: String })
-  styleCard: StyleCard = "outlined";
+  variant: VariantCard = "outlined";
   @property({ type: String }) 
     width = "";
   @property({ type: Boolean }) 
@@ -44,7 +44,7 @@ export class Card extends LitElement {
 
     if (this.loading) {
       return html`
-        <div class="card ${this.styleCard}" data-testid=${this.testId || nothing} style="--card-width: ${defaultWidth}">
+        <div class="card ${this.variant}" data-testid=${this.testId || nothing} style="--card-width: ${defaultWidth}">
             ${this.type === "stacked" ? html`
             <div class="card-content ${this.type}">
                 <div class="card-media-section ${this.type}">
@@ -79,7 +79,7 @@ export class Card extends LitElement {
     }
     
     return html`
-      <div class="card ${this.styleCard}" data-testid=${this.testId || nothing} style="--card-width: ${defaultWidth}">
+      <div class="card ${this.variant}" data-testid=${this.testId || nothing} style="--card-width: ${defaultWidth}">
         ${this.type === "stacked" ? html`
           <div class="card-content ${this.type}">
               <div class="card-media-section ${this.type}">

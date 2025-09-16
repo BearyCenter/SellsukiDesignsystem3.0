@@ -16,16 +16,76 @@ const meta: Meta<Card> = {
 
   `,
   argTypes: {
-    title: { control: "text" },
-    subtitle: { control: "text" },
-    image: { control: "text" },
-    styleCard: { control: "select", options: ["outlined", "elevated"] },
-    type: { control: "select", options: ["stacked", "horizontal"] },
-    loading: { control: "boolean" },
-    testId: { control: "text" },
-    width: { control: "text" },
-    description: { control: "text" },
-  },
+    title: { 
+      control:{type: "text"},
+      defaultValue: "Product name Product name Product name",
+      description: "The title of the card"
+    },
+    subtitle: { control: {type: "text"},
+      defaultValue: "Price",
+      description: "The subtitle of the card"
+     },
+    image: { control: {type: "text"},
+      defaultValue: "https://placehold.co/600x400",
+      description: "The image of the card"
+    },
+    variant: { control: {type: "select"},
+      defaultValue: "outlined",
+      options: ["outlined", "elevated"],
+      description: "The style of the card"
+    },
+    type: { control: {type: "select"},
+      defaultValue: "stacked",
+      options: ["stacked", "horizontal"],
+      description: "The type of the card"
+    },
+    loading: { control: {type: "boolean"},
+      defaultValue: false,
+      description: "The loading of the card"
+    },
+    testId: { control: {type: "text"},
+      defaultValue: "test-id",
+      description: "The test id of the card"
+    },
+    width: { control: {type: "text"},
+      description: "The width of the card"
+    },
+    description: { control: {type: "text"},
+      defaultValue: "wasdsadwdsawds",
+      description: "The description of the card"
+    },
+    
+    "slot:icon": { 
+      description: "The icon of the card horizontal",
+      table:{category: "Slots"},
+    },
+    "slot:content": { 
+      description: "The content of the card",
+      table:{category: "Slots"},
+    },
+    "slot:footer": { 
+      description: "The footer of the card",
+      table:{category: "Slots"},
+    },
+  } as any,
+  parameters: {
+    docs: {
+      argTypes: {
+        "slot:icon": { 
+          description: "The icon of the card horizontal",
+          table:{category: "Slots"},
+        },
+        "slot:content": { 
+          description: "The content of the card",
+          table:{category: "Slots"},
+        },
+        "slot:footer": { 
+          description: "The footer of the card",
+          table:{category: "Slots"},
+        },
+      }
+    }
+  }
 };
 
 export default meta;
@@ -36,7 +96,7 @@ export const Default: Story = {
     image: "https://placehold.co/600x400",
     title: "Premium Headphones my name is brian i'm 24 years old, i'm from korea",
     subtitle: "฿3,500",
-    styleCard: "outlined",
+    variant: "outlined",
     testId: "test-id",
     type: "stacked",
     description: "wasdsadwdsawds",
@@ -53,7 +113,7 @@ export const StackedOutlinedDefault: Story = {
   args: {
     title: "Product name Product name Product name Product nameeeProduct name Product name",
     subtitle: "Price",
-    styleCard: "outlined",
+    variant: "outlined",
     testId: "test-id",
     type: "stacked",
   },
@@ -62,7 +122,7 @@ export const StackedElevatedDefault: Story = {
   args: {
     title: "Product name Product name Product name Product nameeeProduct name Product name",
     subtitle: "Price",
-    styleCard: "elevated",
+    variant: "elevated",
     testId: "test-id",
     type: "stacked",
   },
@@ -70,7 +130,7 @@ export const StackedElevatedDefault: Story = {
 export const StackedOutlinedLoading: Story = {
   args: {
     loading: true,
-    styleCard: "outlined", 
+    variant: "outlined", 
     testId: "loading-card",
   },
 };
@@ -78,13 +138,13 @@ export const StackedOutlinedLoading: Story = {
 export const ElevatedOutlinedLoading: Story = {
   args: {
     loading: true,
-    styleCard: "elevated", 
+    variant: "elevated", 
     testId: "loading-card",
   },
 };
 export const HorizontalOutlinedDefault: Story = {
   args: {
-    styleCard: "outlined",
+    variant: "outlined",
     title: "Product name Product name Product name Product nameeeProduct name Product name",
     subtitle: "Price",
     description: "subtext",
@@ -108,7 +168,7 @@ export const HorizontalOutlinedDefault: Story = {
 
 export const HorizontalElevatedDefault: Story = {
   args: {
-    styleCard: "elevated",
+    variant: "elevated",  
     title: "Product name Product name Product name Product nameeeProduct name Product name",
     subtitle: "Price",
     description: "subtext",
@@ -132,7 +192,7 @@ export const HorizontalElevatedDefault: Story = {
 export const HorizontalOutlinedLoading: Story = {
   args: {
     loading: true,
-    styleCard: "outlined", 
+    variant: "outlined", 
     testId: "loading-card",
     type: "horizontal",
   },
@@ -141,7 +201,7 @@ export const HorizontalOutlinedLoading: Story = {
 export const HorizontalElevatedLoading: Story = {
   args: {
     loading: true,
-    styleCard: "elevated", 
+    variant: "elevated", 
     testId: "loading-card",
     type: "horizontal",
   },
@@ -149,7 +209,7 @@ export const HorizontalElevatedLoading: Story = {
 
 export const StackedProductCard: Story = {
   args: {
-    styleCard: "outlined",
+    variant: "outlined",
     title: "CAT001",
     subtitle: "฿100.00",
     testId: "test-id",
@@ -160,7 +220,7 @@ export const StackedProductCard: Story = {
 export const HorizontalProductCardDefault: Story = {
   args: {
     image: "https://placehold.co/200x300",
-    styleCard: "outlined",
+    variant: "outlined",
     title: "CAT001",
     subtitle: "฿100.00",
     testId: "test-id",
@@ -187,7 +247,7 @@ export const HorizontalProductCardDefault: Story = {
 export const HorizontalProductCardFull: Story = {
   args: {
     image: "https://placehold.co/200x300",
-    styleCard: "outlined",
+    variant: "outlined",
     title: `iPhone 16 Silicone Case with MagSafe – Ultramarine`,
     subtitle: "฿1990.00",
     description: "ตัวเลือก:Subtext",
@@ -214,7 +274,7 @@ export const HorizontalProductCardFull: Story = {
 export const HorizontalProductCardWithOutButton: Story = {
   args: {
       image: "https://placehold.co/200x300",
-    styleCard: "outlined",
+    variant: "outlined",
     title: "CAT0001",
     subtitle: "฿100.00",
     testId: "test-id",
@@ -240,7 +300,7 @@ export const HorizontalProductCardWithOutButton: Story = {
 export const HorizontalProductCardNoSlotSubtextOnly: Story = {
   args: {
     image: "https://placehold.co/200x300",
-    styleCard: "outlined",
+    variant: "outlined",
     title: "iPhone 16 Silicone Case with MagSafe – Ultramarine",
     description: "ตัวเลือก:Subtext",
     testId: "test-id",
@@ -250,7 +310,7 @@ export const HorizontalProductCardNoSlotSubtextOnly: Story = {
 export const HorizontalProductCardNoSlotPriceOnly: Story = {
   args: {
     image: "https://placehold.co/200x300",
-    styleCard: "outlined",
+    variant: "outlined",
     testId: "test-id",
     type: "horizontal",
   },
