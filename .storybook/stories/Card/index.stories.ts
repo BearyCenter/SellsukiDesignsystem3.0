@@ -144,7 +144,7 @@ const meta: Meta<Card> = {
       table:{category: "Slots"},
     },
     "slot:content": { 
-      description: "The content of the card",
+      description: "Choose either props or slot, not both. Use this slot only if no props (title, subtitle, description) are set.",
       table:{category: "Slots"},
     },
     "slot:footer": { 
@@ -300,11 +300,11 @@ export const HorizontalProductCardDefault: Story = {
       <ssk-icon slot="icon" color="red" name="outline-trash" size="md"></ssk-icon>
       <div slot="footer">
           <div style="display: flex; flex-direction: column; align-items: center; width:56px">
-            <ssk-icon name="solid-plus" size="xs" margin="0 0 8px 0"></ssk-icon>
+            <ssk-icon name="solid-plus" size="xs" margin="0 0 8px 0" cursor="pointer"></ssk-icon>
             <div style="border: 1px solid #ccc; border-radius: 4px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
               <ssk-text size="md">1</ssk-text>
             </div>
-            <ssk-icon name="solid-minus" size="xs"></ssk-icon>
+            <ssk-icon name="solid-minus" size="xs" cursor="pointer"></ssk-icon>
           </div>
       </div>
     </ssk-card>
@@ -327,12 +327,12 @@ export const HorizontalProductCardFull: Story = {
     >
       <ssk-icon slot="icon" color="red" name="outline-trash" size="md"></ssk-icon>
       <div slot="footer">
-        <div style="display: flex; flex-direction: column; align-items: center; width:56px">
-          <ssk-icon name="solid-plus" size="xs" margin="0 0 8px 0"></ssk-icon>
+        <div style="display: flex; flex-direction: column; align-items: center; width:56px ">
+          <ssk-icon name="solid-plus" size="xs" margin="0 0 8px 0" cursor="pointer"></ssk-icon>
           <div style="border: 1px solid #ccc; border-radius: 4px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
             <ssk-text size="md">1</ssk-text>
           </div>
-          <ssk-icon name="solid-minus" size="xs"></ssk-icon>
+          <ssk-icon name="solid-minus" size="xs" cursor="pointer"></ssk-icon>
         </div>
       </div>
     </ssk-card>
@@ -353,11 +353,11 @@ export const HorizontalProductCardWithOutButton: Story = {
     >
       <div slot="footer">
         <div style="display: flex; flex-direction: column; align-items: center;">
-          <ssk-icon name="solid-plus" size="xs" margin="0 0 8px 0"></ssk-icon>
+          <ssk-icon name="solid-plus" size="xs" margin="0 0 8px 0" cursor="pointer"></ssk-icon>
           <div style="border: 1px solid #ccc; border-radius: 4px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
             <ssk-text size="md">1</ssk-text>
           </div>
-          <ssk-icon name="solid-minus" size="xs"></ssk-icon>
+          <ssk-icon name="solid-minus" size="xs" cursor="pointer"></ssk-icon>
         </div>
       </div>
     </ssk-card>
@@ -390,6 +390,27 @@ export const HorizontalProductCardNoSlotPriceOnly: Story = {
             <ssk-text size="sm">iPhone 16 Silicone Case with MagSafe – Ultramarine</ssk-text>
             <ssk-text size="md" color="info.500">1,990.00</ssk-text>
           </content-section>
+      </div>
+    </ssk-card>
+  `,
+};
+
+export const StackedSlotContent: Story = {
+  args: {
+    image: "https://placehold.co/200x300",
+    variant: "outlined",
+    testId: "test-id",
+    type: "stacked",
+  },
+  render: ({...args}) => html`
+    <ssk-card
+     ${spread({...args})}
+    >
+      <div slot="content">
+        <div style="padding: 12px 16px;">
+            <ssk-text size="sm">iPhone 16 Silicone Case with MagSafe – Ultramarine</ssk-text>
+            <ssk-text size="md" color="info.500">1,990.00</ssk-text>
+          </div>
       </div>
     </ssk-card>
   `,

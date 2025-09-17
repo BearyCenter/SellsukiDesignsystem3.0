@@ -40,6 +40,7 @@ export class Card extends LitElement {
   render() {
 
     const contentSlotExists = this.querySelector('[slot="content"]');
+    const hasContent = this.title || this.subtitle || this.description;
     const defaultWidth = this.width || (this.type === "horizontal" ? "376px" : "280px");
     this.style.setProperty("--card-width", defaultWidth);
 
@@ -67,10 +68,10 @@ export class Card extends LitElement {
                 </div>
                 <div class="skeleton-content-section ${this.type}">
                     <div class="card-skeleton-title ${this.type}">
-                        <ssk-skeleton  width="63.385%" height="20px"></ssk-skeleton>
+                        <ssk-skeleton  width="65.4%" height="20px"></ssk-skeleton>
                     </div>
                     <div class="card-skeleton-subtitle ${this.type}">
-                        <ssk-skeleton  width="28.174%" height="18px"></ssk-skeleton>
+                        <ssk-skeleton  width="29%" height="18px"></ssk-skeleton>
                     </div>
                 </div>
             </div>
@@ -90,18 +91,20 @@ export class Card extends LitElement {
                   <div class="card-image-placeholder ${this.type}"></div>
                   `}
               </div>
-              <div class="content-section ${this.type} ">
-                      <div class="card-title ${this.type}">
-                          <ssk-text size="sm">
-                          <span class="card-text-section two-line">${this.title}</span>
-                          </ssk-text>
-                      </div>
-                      <div class="card-subtitle ${this.type}">
-                          <ssk-text color="aerospace-orange.500" size="md"> 
-                            <span class="card-text-section one-line">${this.subtitle}</span>
-                          </ssk-text>
-                      </div>
-              </div>
+              ${hasContent ? html`
+                <div class="content-section ${this.type} ">
+                        <div class="card-title ${this.type}">
+                            <ssk-text size="sm">
+                            <span class="card-text-section two-line">${this.title}</span>
+                            </ssk-text>
+                        </div>
+                        <div class="card-subtitle ${this.type}">
+                            <ssk-text color="aerospace-orange.500" size="md"> 
+                              <span class="card-text-section one-line">${this.subtitle}</span>
+                            </ssk-text>
+                        </div>
+                </div>
+              ` : nothing}
                   ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
           </div>
           ` : html`
@@ -117,25 +120,27 @@ export class Card extends LitElement {
                   <div class="card-image-placeholder ${this.type}"></div>
                   `}
               </div>
-              <div class="content-section ${this.type}">
-                  <div class="card-title ${this.type}">
-                      <ssk-text size="sm"  height="100%"> 
-                        <span class="card-text-section two-line">${this.title}</span>
-                      </ssk-text>
-                  </div>
-                  <div class="card-subtitle ${this.type}">
-                      <ssk-text size="xs" color="gray.500"> 
-                        <span class="card-text-section one-line">${this.description}</span>
-                      </ssk-text>
-                  </div>
-                  <div class="card-description ${this.type}">
-                      <ssk-text color="aerospace-orange.500" size="md">
-                        <span class="card-text-section one-line">${this.subtitle}</span>
-                      </ssk-text>
-                  </div>
-                  ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
-              </div>
-                <slot name="footer"></slot>
+              ${hasContent? html` 
+                <div class="content-section ${this.type}">
+                    <div class="card-title ${this.type}">
+                        <ssk-text size="sm"  height="100%"> 
+                          <span class="card-text-section two-line">${this.title}</span>
+                        </ssk-text>
+                    </div>
+                    <div class="card-subtitle ${this.type}">
+                        <ssk-text size="xs" color="gray.500"> 
+                          <span class="card-text-section one-line">${this.description}</span>
+                        </ssk-text>
+                    </div>
+                    <div class="card-description ${this.type}">
+                        <ssk-text color="aerospace-orange.500" size="md">
+                          <span class="card-text-section one-line">${this.subtitle}</span>
+                        </ssk-text>
+                    </div>
+                </div>
+              ` : nothing}
+              ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
+              <slot name="footer"></slot>
               
           </div>
         `}
@@ -156,7 +161,7 @@ export class Card extends LitElement {
     }
 
     .card.outlined {
-      border: 1px solid var(--ssk-colors-gray-300);
+      border: 1px solid var(--ssk-colors-gray-200);
     }
 
     .card.elevated {
@@ -213,7 +218,7 @@ export class Card extends LitElement {
       aspect-ratio: 4 / 3;
       width: 100%;
       height: auto;
-      background-color: #E5E7EB;
+      background-color: var(--ssk-colors-gray-300);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -226,7 +231,7 @@ export class Card extends LitElement {
       display: flex;
       flex-direction: column;
       gap: 4px;
-      padding: 12px 16px 12px 16px;
+      padding: 12px 16px;
       justify-content: space-between;
       flex: 1;
       min-height: 94px;
@@ -259,6 +264,7 @@ export class Card extends LitElement {
       display: flex;
       align-items: center;
       flex-shrink: 0;
+      cursor: pointer;
     }
     
     .content-section.horizontal {
@@ -283,19 +289,19 @@ export class Card extends LitElement {
       object-fit: cover;
       border-radius: 4px;
       box-sizing: border-box;
-      border: 1px solid var(--ssk-colors-gray-300);
+      border: 1px solid var(--ssk-colors-gray-200);
     }
 
     .card-image-placeholder.horizontal {
       width: 100%;
       height: 100%;
-      background-color: #E5E7EB;
+      background-color: var(--ssk-colors-gray-300);
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 4px;
       box-sizing: border-box;
-      border: 1px solid var(--ssk-colors-gray-300);
+      border: 1px solid var(--ssk-colors-gray-200);
     }
 
 
