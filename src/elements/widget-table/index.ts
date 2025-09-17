@@ -439,7 +439,6 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
                           <label>${this.renderBadgeText()}</label>
                   </ssk-badge>
               ` : nothing}
-<ssk-icon name="outline-play-circle" size="md" themeColor="primary" style="cursor: pointer;"></ssk-icon>
             </div>
             <div class="subtext-container">
                 ${this.showDescription ? subTextTemplate : nothing}
