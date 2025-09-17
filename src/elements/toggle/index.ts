@@ -154,11 +154,8 @@ export class Toggle extends LitElement implements ThemeValue {
     }
 
     input[type="checkbox"]:disabled + .slider {
-      background-color: var(--background-color-disabled);
-    }
-
-    input[type="checkbox"]:hover:disabled + .slider {
-      background-color: var(--background-color-disabled);
+      cursor: not-allowed;
+      opacity: 50%;
     }
 
     input[type="checkbox"]:checked + .slider:before {
@@ -173,7 +170,6 @@ export class Toggle extends LitElement implements ThemeValue {
     input[type="checkbox"]:disabled + .slider.round:before {
       box-shadow: none;
     }
-
     .slider.round {
       border-radius: 1em;
     }
