@@ -62,6 +62,10 @@ export class Grid extends LitElement {
       .grid-stack {
         width: var(--grid-width);
       }
+
+      .grid-stack > .grid-stack-item > .grid-stack-item-content {
+        overflow: visible !important;
+      }
     `,
     unsafeCSS(gridstackStyles)
   ]
