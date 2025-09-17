@@ -330,7 +330,7 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
               const iconName = rowIconConfig?.name || columnIconConfig?.name || '';
               const iconThemeColor = rowIconConfig?.color || columnIconConfig?.color;
 
-              return `<ssk-icon name="${iconName}" size="xs" themeColor="${iconThemeColor}" style="cursor: pointer;"></ssk-icon>`;
+              return `<ssk-icon name="${iconName}" size="lg" themeColor="${iconThemeColor}" style="cursor: pointer;"></ssk-icon>`;
             };
 
             config[column.dataIndex] = {
@@ -439,7 +439,6 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
                           <label>${this.renderBadgeText()}</label>
                   </ssk-badge>
               ` : nothing}
-
             </div>
             <div class="subtext-container">
                 ${this.showDescription ? subTextTemplate : nothing}
