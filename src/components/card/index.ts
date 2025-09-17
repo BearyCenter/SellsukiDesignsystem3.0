@@ -9,11 +9,12 @@ export type TypeCard = "stacked" | "horizontal";
 @customElement("ssk-card")
 export class Card extends LitElement {
   static registeredName = "ssk-card";
+
   // BaseAttributes
   @property({ type: String })
   testId?: string;
 
-
+  // CardAttributes
   @property({ type: String })
   title: string = "";
   @property({ type: String })
@@ -25,7 +26,7 @@ export class Card extends LitElement {
 
 
   
-  // Layout props
+  // LayoutAttributes
   @property({ type: String })
   type: TypeCard = "stacked";
   @property({ type: String })

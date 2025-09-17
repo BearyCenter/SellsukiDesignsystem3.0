@@ -17,43 +17,127 @@ const meta: Meta<Card> = {
   `,
   argTypes: {
     title: { 
-      control:{type: "text"},
-      defaultValue: "Product name Product name Product name",
-      description: "The title of the card"
+      control:{
+        type: "text"
+      },
+      description: "The title of the card",
+      table: {
+        category: "Props",
+        type: {
+          summary: "string",
+        },
+      },
+      
     },
-    subtitle: { control: {type: "text"},
-      defaultValue: "Price",
-      description: "The subtitle of the card"
+    subtitle: { 
+      control: {
+        type: "text"
+      },
+      description: "The subtitle of the card",
+      table: {
+        category: "Props",
+        type: {
+          summary: "string",
+        },
+      },
      },
-    image: { control: {type: "text"},
-      defaultValue: "https://placehold.co/600x400",
-      description: "The image of the card"
+    image: { 
+      control: {
+        type: "text"
+      },
+      description: "The image of the card",
+      table: {
+        category: "Props",
+      },
     },
-    variant: { control: {type: "select"},
-      defaultValue: "outlined",
+    variant: { 
+      control: {
+        type: "select"
+      },
       options: ["outlined", "elevated"],
-      description: "The style of the card"
+      description: "The style of the card",
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "outlined",
+        },
+        type: {
+          summary: "string",
+        },
+      },
     },
-    type: { control: {type: "select"},
-      defaultValue: "stacked",
+    type: { 
+      control: {
+        type: "select"
+      },
       options: ["stacked", "horizontal"],
-      description: "The type of the card"
+      description: "The type layout of the card",
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "stacked",
+        },
+      },
     },
-    loading: { control: {type: "boolean"},
-      defaultValue: false,
-      description: "The loading of the card"
+    loading: { 
+      control: {
+        type: "boolean"
+      },
+      description: "The loading of the card",
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: false,
+        },
+        type: {
+          summary: "boolean",
+        },
+      },
     },
-    testId: { control: {type: "text"},
-      defaultValue: "test-id",
-      description: "The test id of the card"
+    testId: { 
+      control: {
+        type: "text"
+      },
+      description: "The test ID for the card",
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "test-id",
+        },
+        type: {
+          summary: "string",
+        },
+      },
     },
-    width: { control: {type: "text"},
-      description: "The width of the card"
+    width: { 
+      control: {
+        type: "text"
+      },
+      description: "The width of the card",
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "376px",
+        },
+        type: {
+          summary: "string",
+        },
+      }
     },
-    description: { control: {type: "text"},
-      defaultValue: "wasdsadwdsawds",
-      description: "The description of the card"
-    },
+    description: { control: {
+      type: "text"
+      },
+      description: "The description of the card",
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "subtext",
+        },
+        type: {
+          summary: "string",
+        },
+    }
+  },
     
     "slot:icon": { 
       description: "The icon of the card horizontal",
@@ -64,28 +148,11 @@ const meta: Meta<Card> = {
       table:{category: "Slots"},
     },
     "slot:footer": { 
-      description: "The footer of the card",
+      description: "The slot for the footer of layout horizontal",
       table:{category: "Slots"},
     },
   } as any,
-  parameters: {
-    docs: {
-      argTypes: {
-        "slot:icon": { 
-          description: "The icon of the card horizontal",
-          table:{category: "Slots"},
-        },
-        "slot:content": { 
-          description: "The content of the card",
-          table:{category: "Slots"},
-        },
-        "slot:footer": { 
-          description: "The footer of the card",
-          table:{category: "Slots"},
-        },
-      }
-    }
-  }
+  
 };
 
 export default meta;
@@ -99,7 +166,7 @@ export const Default: Story = {
     variant: "outlined",
     testId: "test-id",
     type: "stacked",
-    description: "wasdsadwdsawds",
+    description: "subtext",
   },
   parameters: {
     design: {
