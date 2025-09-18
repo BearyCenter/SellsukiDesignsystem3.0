@@ -69,5 +69,6 @@ export * from "./components/timeline";
 export * from "./components/tooltip";
 export * from "./components/wave-icon";
 export * from "./components/widget-grid";
+export * from "./components/card";
 
 import "./assets/fonts.css";
