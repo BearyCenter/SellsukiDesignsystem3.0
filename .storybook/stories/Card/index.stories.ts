@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/card";
+import { baseArgsTypes } from "../helper";
 import { Card } from "../../../src/components/card";
 import { spread } from "@open-wc/lit-helpers";
 
@@ -138,6 +139,7 @@ const meta: Meta<Card> = {
         },
     }
   },
+  color: baseArgsTypes.color,
     
     "slot:icon": { 
       description: "The icon of the card horizontal",
@@ -161,8 +163,8 @@ type Story = StoryObj<Card>;
 export const Default: Story = {
   args: {
     image: "https://placehold.co/600x400",
-    title: "Premium Headphones my name is brian i'm 24 years old, i'm from korea",
-    subtitle: "฿3,500",
+    title: "CAT001",
+    subtitle: "฿100.00",
     variant: "outlined",
     testId: "test-id",
     type: "stacked",
@@ -273,17 +275,6 @@ export const HorizontalElevatedLoading: Story = {
     type: "horizontal",
   },
 };
-
-export const StackedProductCard: Story = {
-  args: {
-    variant: "outlined",
-    title: "CAT001",
-    subtitle: "฿100.00",
-    testId: "test-id",
-    type: "stacked",
-    image: "https://placehold.co/600x400",
-  },
-};
 export const HorizontalProductCardDefault: Story = {
   args: {
     image: "https://placehold.co/200x300",
@@ -320,6 +311,7 @@ export const HorizontalProductCardFull: Story = {
     description: "ตัวเลือก:Subtext",
     testId: "test-id",
     type: "horizontal",
+    color: "primary",
   },
   render: ({...args}) => html`
     <ssk-card

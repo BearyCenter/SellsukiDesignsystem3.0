@@ -1,5 +1,6 @@
 import { LitElement, html, css, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { ColorName, ColorRole } from "../../types/theme";
 
 
 
@@ -13,7 +14,9 @@ export class Card extends LitElement {
   // BaseAttributes
   @property({ type: String })
   testId?: string;
-
+  @property({ type: String })
+  color?: ColorRole | ColorName = "aerospace-orange.500";
+  
   // CardAttributes
   @property({ type: String })
   title: string = "";
@@ -100,7 +103,7 @@ export class Card extends LitElement {
                             </ssk-text>
                         </div>
                         <div class="card-subtitle ${this.type}">
-                            <ssk-text color="aerospace-orange.500" size="md"> 
+                            <ssk-text color="${this.color}" size="md"> 
                               <span class="card-text-section one-line">${this.subtitle}</span>
                             </ssk-text>
                         </div>
@@ -136,7 +139,7 @@ export class Card extends LitElement {
                         </ssk-text>
                     </div>
                     <div class="card-description ${this.type}">
-                        <ssk-text color="aerospace-orange.500" size="md">
+                        <ssk-text color="${this.color}" size="md">
                           <span class="card-text-section one-line">${this.subtitle}</span>
                         </ssk-text>
                     </div>
