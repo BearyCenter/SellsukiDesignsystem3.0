@@ -38,8 +38,9 @@ export class Card extends LitElement {
 
 
   render() {
-
     const contentSlotExists = this.querySelector('[slot="content"]');
+    const iconSlotExists = this.querySelector('[slot="icon"]');
+    const footerSlotExists = this.querySelector('[slot="footer"]');
     const hasContent = this.title || this.subtitle || this.description;
     const defaultWidth = this.width || (this.type === "horizontal" ? "376px" : "280px");
     this.style.setProperty("--card-width", defaultWidth);
@@ -105,13 +106,15 @@ export class Card extends LitElement {
                         </div>
                 </div>
               ` : nothing}
-                  ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
+              ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
           </div>
           ` : html`
           <div class="card-content ${this.type}">
+              ${iconSlotExists ? html`
               <div class="icons">
                   <slot name="icon"></slot>
               </div>
+              ` : nothing}
 
               <div class="card-media-section ${this.type}">
                   ${this.image ? html`
@@ -140,7 +143,7 @@ export class Card extends LitElement {
                 </div>
               ` : nothing}
               ${contentSlotExists ? html`<slot name="content"></slot>` : nothing}
-              <slot name="footer"></slot>
+              ${footerSlotExists ? html`<slot name="footer"></slot>` : nothing}
               
           </div>
         `}
