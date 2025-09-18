@@ -382,17 +382,17 @@ export const HorizontalProductCardNoSlotPriceOnly: Story = {
     type: "horizontal",
   },
   render: ({...args}) => html`
+  <div style="cursor: pointer;">
     <ssk-card
      ${spread({...args})}
     >
       <div slot="content">
-        <content-section>
             <ssk-text size="sm">iPhone 16 Silicone Case with MagSafe – Ultramarine</ssk-text>
             <ssk-text size="md" color="info.500">1,990.00</ssk-text>
-          </content-section>
       </div>
     </ssk-card>
-  `,
+  </div>
+  `,      
 };
 
 export const StackedSlotContent: Story = {
