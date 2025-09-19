@@ -98,7 +98,7 @@ export class Card extends LitElement {
               ${hasContent ? html`
                 <div class="content-section ${this.type} ">
                         <div class="card-title ${this.type}">
-                            <ssk-text size="sm">
+                            <ssk-text size="sm" style="width: 100%;">
                             <span class="card-text-section two-line">${this.title}</span>
                             </ssk-text>
                         </div>
@@ -242,16 +242,19 @@ export class Card extends LitElement {
       flex: 1;
       min-height: 94px;
       box-sizing: border-box;
+      width: 100%;
     }
 
     .card-title.stacked {
       display: flex;
       flex:1;
       align-items: center;
+      width: 100%;
     }
 
     .card-subtitle.stacked {
       justify-content: center;
+      width: 100%;
     }
     
     /* --- Horizontal layout --- */
@@ -280,6 +283,7 @@ export class Card extends LitElement {
       justify-content: center;
       display: flex;
       gap: 4px;
+      overflow: hidden;
     }
 
     .card-media-section.horizontal {
