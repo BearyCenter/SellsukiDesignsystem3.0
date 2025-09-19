@@ -181,7 +181,7 @@ export const Default: Story = {
     testId: "test-id",
     type: "stacked",
     description: "subtext",
-    color: "aerospace-orange.500",
+    color: "aerospace-orange",
   },
   parameters: {
     design: {
@@ -198,6 +198,7 @@ export const StackedOutlinedDefault: Story = {
     variant: "outlined",
     testId: "test-id",
     type: "stacked",
+    color: "aerospace-orange",
   },
 };
 export const StackedElevatedDefault: Story = {
@@ -207,6 +208,7 @@ export const StackedElevatedDefault: Story = {
     variant: "elevated",
     testId: "test-id",
     type: "stacked",
+    color: "aerospace-orange",
   },
 };
 export const StackedOutlinedLoading: Story = {
@@ -232,6 +234,7 @@ export const HorizontalOutlinedDefault: Story = {
     description: "subtext",
     testId: "horizontal-card-with-slot",
     type: "horizontal",
+    color: "aerospace-orange"
   },
   render: ({...args}) => html`
     <ssk-card
@@ -256,6 +259,7 @@ export const HorizontalElevatedDefault: Story = {
     description: "subtext",
     testId: "horizontal-card-with-slot",
     type: "horizontal",
+    color: "aerospace-orange"
   },
   render: ({...args}) => html`
     <ssk-card
@@ -296,6 +300,7 @@ export const HorizontalProductCardDefault: Story = {
     subtitle: "฿100.00",
     testId: "test-id",
     type: "horizontal",
+    color: "aerospace-orange"
   },
   render: ({...args}) => html`
     <ssk-card
@@ -351,6 +356,7 @@ export const HorizontalProductCardWithOutButton: Story = {
     subtitle: "฿100.00",
     testId: "test-id",
     type: "horizontal",
+    color: "aerospace-orange"
   },
   render: ({...args}) => html`
     <ssk-card
