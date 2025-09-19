@@ -139,7 +139,7 @@ const meta: Meta<Card> = {
         },
     }
   },
-  color: baseArgsTypes.color,
+    color: baseArgsTypes.color,
     
     "slot:icon": { 
       description: "The icon of the card horizontal",

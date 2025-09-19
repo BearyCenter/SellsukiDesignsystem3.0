@@ -280,6 +280,9 @@ export class Card extends LitElement {
       justify-content: center;
       display: flex;
       gap: 4px;
+      overflow: hidden;
+      word-break: break-word;
+      word-wrap: break-word;
     }
 
     .card-media-section.horizontal {
