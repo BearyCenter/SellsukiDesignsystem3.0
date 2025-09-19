@@ -139,7 +139,19 @@ const meta: Meta<Card> = {
         },
     }
   },
-    color: baseArgsTypes.color,
+    color: {
+        options: [...baseArgsTypes.color.options],
+        control: {
+            type: "select"
+            },
+      description: "The color of the subtitle card",
+      table: {
+        category: "Props",
+        defaultValue: {
+          summary: "aerospace-orange.500",
+        },
+    },
+},
     
     "slot:icon": { 
       description: "The icon of the card horizontal",
@@ -169,6 +181,7 @@ export const Default: Story = {
     testId: "test-id",
     type: "stacked",
     description: "subtext",
+    color: "aerospace-orange.500",
   },
   parameters: {
     design: {
