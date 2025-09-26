@@ -161,6 +161,7 @@ const meta = {
             .totalItems=${args.totalItems}
             .currentPage=${args.currentPage}
             .rowsPerPage=${args.rowsPerPage}
+            .emptyImage=${args.emptyImage}
             @table-sort=${(e: CustomEvent) => onSortAction(e.detail)}
             @button-click=${(e: CustomEvent) => onCellClickAction(e.detail)}
             @action-click=${(e: CustomEvent) => onActionClickAction(e.detail)}
@@ -197,7 +198,7 @@ const meta = {
         },
         buttonText: { control: "text", table: { category: "Data" } },
         badgeText: { control: "text", table: { category: "Data" } },
-
+        emptyImage: { control: "text", table: { category: "Data" } },
         totalItems: {
             control: "number",
             description: "Total number of items for server-side pagination. Set to 0 for client-side.",

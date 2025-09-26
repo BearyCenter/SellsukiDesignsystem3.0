@@ -9,7 +9,8 @@ import "../../../src/elements/widget-user-detail";
 import { WidgetUserDetail, sectionItem } from "../../../src/elements/widget-user-detail";
 import { baseArgsTypes } from "../helper";
 
-const onClickAction = action('click');
+const onClickAction = action('click-button');
+const onClickActionIcon = action('click-row-icon');
 
 const mockRowItems: sectionItem[] = [
     {
@@ -122,7 +123,8 @@ const meta = {
             .showButtonTooltip=${args.showButtonTooltip}
             .rowItems=${args.rowItems} 
             .disabledButton=${args.disabledButton}
-            @click=${(e: Event) => onClickAction(e)}>
+            @click-button=${(e: Event) => onClickAction(e)}
+            @click-row-icon=${(e: Event) => onClickActionIcon(e)}>
         </ssk-widget-user-detail>
     `;
     },
