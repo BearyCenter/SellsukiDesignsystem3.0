@@ -30,7 +30,7 @@ const meta = {
         type: "number",
       },
     },
-    "?showRowsPage": {
+    "showRowsPage": {
       description: "When true gives the menu a active apparence",
       table: {
         category: "Props",
@@ -43,7 +43,7 @@ const meta = {
         type: "boolean",
       },
     },
-    "?showRowsPerPage": {
+    "showRowsPerPage": {
       description: "When true gives the menu a active apparence",
       table: {
         category: "Props",
@@ -56,7 +56,7 @@ const meta = {
         type: "boolean",
       },
     },
-    "?showGoToPage": {
+    "showGoToPage": {
       description: "When true gives the menu a active apparence",
       table: {
         category: "Props",
@@ -69,7 +69,7 @@ const meta = {
         type: "boolean",
       },
     },
-    "?showBtnPage": {
+    "showBtnPage": {
       description: "When true gives the menu a active apparence",
       table: {
         category: "Props",
@@ -84,7 +84,7 @@ const meta = {
     },
     dropdownAnchor: {
       if: {
-        arg: "?showRowsPerPage",
+        arg: "showRowsPerPage",
         eq: true,
       },
       description:
@@ -131,7 +131,7 @@ type Story = StoryObj<PaginationDefault>;
 export const Default: Story = {
   args: {
     ".selectedItems": [10, 20, 50, 100],
-    "?showRowsPage": true,
+    "showRowsPage": true,
   },
   parameters: {
     design: {
@@ -144,7 +144,7 @@ export const Default: Story = {
 export const DropdownAnchor: Story = {
   args: {
     ".selectedItems": [10, 20, 50, 100],
-    "?showRowsPerPage": true,
+    "showRowsPerPage": true,
     dropdownAnchor: "top",
   },
   render: ({ ...args }) => {

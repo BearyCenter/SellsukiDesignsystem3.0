@@ -133,12 +133,12 @@ export class WidgetUserDetail extends LitElement implements Widget, ThemeValue {
   private getContainerStyles() { const heightValue = parseInt(this.getHeight(), 10); const calculatedHeight = (heightValue * 88) - 32; return { height: `${calculatedHeight}px` }; }
   private handleButtonClick(e: Event) {
     e.stopPropagation();
-    const event = new CustomEvent('click', { bubbles: true, composed: true });
+    const event = new CustomEvent('click-button', { bubbles: true, composed: true });
     this.dispatchEvent(event);
   }
 
   private handleButtonItemClick(item: sectionItem) {
-    const event = new CustomEvent('button-item-click', {
+    const event = new CustomEvent('click-row-icon', {
       detail: { item: item },
       bubbles: true,
       composed: true

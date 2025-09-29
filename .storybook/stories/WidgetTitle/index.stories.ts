@@ -9,7 +9,8 @@ import "../../../src/elements/widget-title";
 import { WidgetTitle , DropdownItem} from "../../../src/elements/widget-title";
 import { baseArgsTypes } from "../helper";
 
-const onClickAction = action('click');
+const onClickAction = action('click-button');
+const onClickActionDropdown = action('click-dropdown');
 
 
 type WidgetTitleArgs =   WidgetTitle & {
@@ -33,7 +34,8 @@ const meta = {
                 .showButtonIcon=${args.showButtonIcon}
                 .dropdownOptions=${args.dropdownOptions}
                 .disabledButton=${args.disabledButton}
-                @click=${(e: Event) => onClickAction(e)}>
+                @click-button=${(e: Event) => onClickAction(e)}
+                @click-dropdown'=${(e: Event) => onClickActionDropdown(e)}>
             </ssk-widget-title>
         </div>
     `;

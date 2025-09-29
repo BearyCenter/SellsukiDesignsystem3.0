@@ -43,21 +43,23 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
   @property({ type: String }) badgeText = "";
   @property({ type: String }) badgeColor = "success";
   @property({ type: String }) badgeIcon = "";
-  @property({ type: Boolean }) showBadge = true;
-  @property({ type: Boolean }) showDescription = true;
+  @property({ type: Boolean }) showBadge = false;
+  @property({ type: Boolean }) showDescription = false;
 
   @property({ type: String }) buttonColor = "primary";
   @property({ type: String }) buttonVariant = "outline";
   @property({ type: String }) buttonIcon = "";
   @property({ type: String }) buttonText = "";
   @property({ type: Boolean }) disabledButton = false;
-  @property({ type: Boolean }) showButtonIcon = true;
+  @property({ type: Boolean }) showButtonIcon = false;
 
   @property({ type: Array }) public tableColumns: any[] = [];
   @property({ type: Array }) public tableData: any[] = [];
   @property({ type: Number }) totalItems = 0;
   @property({ type: Number }) currentPage = 1;
   @property({ type: Number }) rowsPerPage = 10;
+
+  @property({ type: String }) emptyImage = '';
 
   @state() private internalTableData: any[] = [];
 
@@ -348,7 +350,7 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
   }
 
   render() {
-    const imgTable = '/public/Blank.svg'
+    const imgTable = this.emptyImage || '/Blank.svg'; 
     const mainButtonTemplate = html`
       <ssk-button 
         variant="${this.buttonVariant}" 

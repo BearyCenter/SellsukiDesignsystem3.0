@@ -187,7 +187,7 @@ export class WidgetTitle extends LitElement implements Widget, ThemeValue {
 
     private handleButtonClick(e: Event) {
         e.stopPropagation();
-        const event = new CustomEvent('click', {
+        const event = new CustomEvent('click-button', {
         bubbles: true,
         composed: true
         });
@@ -198,7 +198,16 @@ export class WidgetTitle extends LitElement implements Widget, ThemeValue {
         const value = (e as any)?.detail?.value ?? (e.target as HTMLSelectElement)?.value;
         this.selectedValue = value;
         this.requestUpdate();
-    };
+
+        const selectedData = this.dropdownOptions.find(option => option.value === value);
+        const event = new CustomEvent('click-dropdown', {
+            detail: selectedData,
+            bubbles: true,
+            composed: true
+        });
+
+        this.dispatchEvent(event);
+        };
  
     private renderTitle() {
         const titleContent = html`
