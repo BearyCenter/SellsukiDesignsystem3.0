@@ -77,13 +77,13 @@ export class Pagination extends LitElement {
   @property({ type: Array })
   selectedItems: number[] = [10, 20, 50, 100];
 
-  @property({ type: Boolean })
+  @property({ type: Boolean, attribute: "showrowspage" })
   showRowsPage: boolean = false;
-  @property({ type: Boolean })
+  @property({ type: Boolean, attribute: "showrowsperpage" })
   showRowsPerPage: boolean = false;
-  @property({ type: Boolean })
+  @property({ type: Boolean, attribute: "showgotopage" })
   showGoToPage: boolean = false;
-  @property({ type: Boolean })
+  @property({ type: Boolean, attribute: "showbtnpage" })
   showBtnPage: boolean = false;
 
   @property({ type: Boolean })
