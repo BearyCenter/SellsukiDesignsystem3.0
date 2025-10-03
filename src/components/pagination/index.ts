@@ -103,17 +103,18 @@ export class Pagination extends LitElement {
       numVisiblePages = 6;
     }
 
+    let currentVisiblePages = numVisiblePages;
     let startPage = Math.max(
       1,
-      this.currentPage - Math.floor(numVisiblePages / 2),
+      this.currentPage - Math.floor(currentVisiblePages / 2),
     );
 
-    let endPage = Math.min(startPage + numVisiblePages - 1, this.totalPages);
+    let endPage = Math.min(startPage + currentVisiblePages - 1, this.totalPages);
 
     if (startPage === 1) {
-      endPage = Math.min(numVisiblePages, this.totalPages);
+      endPage = Math.min(currentVisiblePages, this.totalPages);
     } else if (endPage === this.totalPages) {
-      startPage = Math.max(1, this.totalPages - numVisiblePages + 1);
+      startPage = Math.max(1, this.totalPages - currentVisiblePages + 1);
     }
 
     if (startPage > 1) {

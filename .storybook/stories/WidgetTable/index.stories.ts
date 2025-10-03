@@ -162,6 +162,7 @@ const meta = {
             .currentPage=${args.currentPage}
             .rowsPerPage=${args.rowsPerPage}
             .emptyImage=${args.emptyImage}
+            .maxVisiblePageButtons=${args.maxVisiblePageButtons}
             @table-sort=${(e: CustomEvent) => onSortAction(e.detail)}
             @button-click=${(e: CustomEvent) => onCellClickAction(e.detail)}
             @action-click=${(e: CustomEvent) => onActionClickAction(e.detail)}
@@ -206,7 +207,7 @@ const meta = {
         },
         currentPage: { control: "number", table: { category: "Pagination" } },
         rowsPerPage: { control: "number", table: { category: "Pagination" } },
-
+        maxVisiblePageButtons: { control: "number", table: { category: "Pagination" } },
         showDescription: { control: "boolean", table: { category: "Display Control" } },
         showButtonIcon: { control: "boolean", table: { category: "Display Control" } },
         disabledButton: { control: "boolean", table: { category: "Display Control" } },

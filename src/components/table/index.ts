@@ -115,6 +115,9 @@ export class Table extends LitElement {
   @property({ type: Number })
   totalPaginationPages: number = 0;
 
+  @property({ type: Number })
+  maxVisiblePageButtons: number = 0;
+
   @property({ type: Boolean })
   min = false;
 
@@ -127,6 +130,18 @@ export class Table extends LitElement {
     };
   } = {};
 
+  get restrictedTotalPages(): number {
+      const calculatedPages = 
+          this.totalPaginationPages > 0
+              ? Math.ceil(this.totalPaginationPages / this.rowsPerPage)
+              : Math.ceil(this.data.length / this.rowsPerPage);
+              
+      if (this.maxVisiblePageButtons > 0 && this.maxVisiblePageButtons < calculatedPages) {
+          return this.maxVisiblePageButtons;
+      }
+      
+      return calculatedPages;
+  }
   toggleSelectAll() {
     this.selectAll = !this.selectAll;
     if (this.selectAll) {
@@ -318,10 +333,7 @@ export class Table extends LitElement {
   }
 
   renderPaginationControls() {
-    const totalPages =
-      this.totalPaginationPages > 0
-        ? Math.ceil(this.totalPaginationPages / this.rowsPerPage)
-        : Math.ceil(this.data.length / this.rowsPerPage);
+    const totalPages = this.restrictedTotalPages; 
 
     let startIndex = (this.currentPage - 1) * this.rowsPerPage + 1;
     if (this.data.length === 0 || isNaN(startIndex)) {
@@ -331,8 +343,15 @@ export class Table extends LitElement {
     let endIndex = this.currentPage * this.rowsPerPage;
     endIndex = Math.min(endIndex, this.data.length);
 
+    const displayAllItems = this.totalPaginationPages > 0 
+        ? this.totalPaginationPages 
+        : this.data.length;
+
     if (this.data.length === 0) {
       endIndex = 0;
+    }
+    if (this.currentPage > totalPages) {
+        this.currentPage = totalPages;
     }
     return html`
       <ssk-pagination
@@ -340,7 +359,7 @@ export class Table extends LitElement {
         currentPage="${this.currentPage}"
         startItems="${startIndex}"
         endItems="${endIndex}"
-        allItems="${this.data.length}"
+        allItems="${displayAllItems}"
         @page-changed="${this.handlePageChanged}"
         @rows-per-page-changed="${this.updatedPage}"
         ?showRowsPage="${this.showPageNavigation}"

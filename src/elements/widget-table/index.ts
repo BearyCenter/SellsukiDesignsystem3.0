@@ -61,6 +61,8 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
 
   @property({ type: String }) emptyImage = '';
 
+  @property({ type: Number }) maxVisiblePageButtons: number = 0;
+
   @state() private internalTableData: any[] = [];
 
   @state() private activeSortColumn: string | null = null;
@@ -84,8 +86,7 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
 
   willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('tableData')) {
-      this.internalTableData = Array.isArray(this.tableData) ? [...this.tableData].slice(0, 100) : [];
-
+      this.internalTableData = this.tableData
       const initialSortColumn = this.tableColumns?.find(c => c.sortDirection === 'asc' || c.sortDirection === 'desc');
       if (initialSortColumn && this.activeSortColumn === null) {
         this.activeSortColumn = initialSortColumn.dataIndex;
@@ -397,6 +398,7 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
             @load-data=${this.handleLoadDataTable}
             ?showPaginationFooter=${true}
             ?showPageNavigation=${true}
+            .maxVisiblePageButtons=${this.maxVisiblePageButtons} 
           >
           </ssk-table>
         `
@@ -408,6 +410,7 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
           .customCell=${this.customCellConfig}
           ?showPaginationFooter=${false}
           ?showPageNavigation=${false}
+          .maxVisiblePageButtons=${this.maxVisiblePageButtons} 
           >
           <div slot="empty-content">
             <div class="content">
@@ -517,7 +520,7 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
       min-height: 0;
     }
     .table-style ssk-table {
-      --height-table: 426px;
+      --height-table: 408px;
     }
     .content {
       display: flex;
