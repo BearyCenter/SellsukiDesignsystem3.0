@@ -64,8 +64,6 @@ export class MiscIcon extends LitElement {
         break;
       case "light":
         bgColor = parseVariables(
-          cssVar("colors", this.iconColor),
-          this.iconColor,
           cssVar("colors", this.themeColor, 100),
           this.themeColor,
           cssVar("colors", "primary", 100)
@@ -84,15 +82,11 @@ export class MiscIcon extends LitElement {
           cssVar("colors", "primary", 500)
         );
         b1Color = parseVariables(
-          cssVar("colors", this.iconColor),
-          this.iconColor,
           cssVar("colors", this.themeColor, 300),
           this.themeColor,
           cssVar("colors", "primary", 300)
         );
         b2Color = parseVariables(
-          cssVar("colors", this.iconColor),
-          this.iconColor,
           cssVar("colors", this.themeColor, 100),
           this.themeColor,
           cssVar("colors", "primary", 100)
