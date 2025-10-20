@@ -112,8 +112,8 @@ export const Default: Story = {
     iconName: "outline-academic-cap",
     themeColor: "primary",
     size: "xl",
-    "icon-color": "",
-    "wave-color": "",
+    iconColor: "",
+    waveColor: "",
     // leave icon-color and wave-color undefined to honor themeColor by default
   },
   parameters: {

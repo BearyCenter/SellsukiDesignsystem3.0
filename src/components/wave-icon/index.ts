@@ -53,7 +53,7 @@ export class WaveIcon extends LitElement {
       return nothing;
     }
 
-    const _waveThemeColor = parseVariables(
+    const waveColor = parseVariables(
       cssVar("colors", this.waveColor),
       this.waveColor,
       cssVar("colors", this.themeColor, 500),
@@ -71,7 +71,7 @@ export class WaveIcon extends LitElement {
     return html` <style>
         :host {
           --container-size: ${waveContainerSize};
-          --theme-color: ${_waveThemeColor};
+          --theme-color: ${waveColor};
       </style>
 
       <div class="container">
