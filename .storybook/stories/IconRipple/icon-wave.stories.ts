@@ -114,7 +114,6 @@ export const Default: Story = {
     size: "xl",
     iconColor: "",
     waveColor: "",
-    // leave icon-color and wave-color undefined to honor themeColor by default
   },
   parameters: {
     design: {
