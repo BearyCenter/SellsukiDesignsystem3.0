@@ -55,6 +55,7 @@ export class WaveIcon extends LitElement {
 
     const waveColor = parseVariables(
       cssVar("colors", this.waveColor),
+      cssVar("colors", this.waveColor, 500),
       this.waveColor,
       cssVar("colors", this.themeColor, 500),
       cssVar("colors", "primary", 500)

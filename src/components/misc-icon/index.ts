@@ -54,6 +54,8 @@ export class MiscIcon extends LitElement {
       case "solid":
         bgColor = parseVariables(
           cssVar("colors", this.iconColor),
+          cssVar("colors", this.iconColor, 500),
+
           this.iconColor,
           cssVar("colors", this.themeColor, 500),
           this.themeColor,

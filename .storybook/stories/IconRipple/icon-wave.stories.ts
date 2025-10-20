@@ -3,36 +3,12 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/misc-icon";
 import { Icon } from "../../../src/elements/icon";
-import { baseArgsTypes } from "../helper";
+import { baseArgsTypes, colors, customColors } from "../helper";
 import "../../../src/components/wave-icon";
 import type { WaveIcon } from "../../../src/components/wave-icon";
 import "../../../src/elements/text";
-import { ColorName, ColorRole } from "../../../src/types/theme";
 
 type IconArgs = {} & WaveIcon;
-
-const customColors: (string | undefined)[] = [
-  "primary.500",
-  "primary.300",
-  "primary.700",
-  "secondary.500",
-  "#ff0000",
-  "#00ff00",
-  "#0000ff",
-  "#ff00ff",
-  "#00ffff",
-  "#ffff00",
-  "#000000",
-  "#ffffff",
-  "rgb(1,12,123)",
-  "rgba(0,0,0,0.5)",
-  "rgba(1,255,33,0.5)",
-  "hsl(0, 100%, 50%)",
-  "hsla(0, 100%, 50%, 0.5)",
-  "hwb(0, 0%, 0%)",
-  "hwb(0, 0%, 0%, 0.5)",
-  undefined,
-];
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
@@ -82,7 +58,7 @@ const meta = {
       control: { type: "inline-radio" },
     },
     iconColor: {
-      options: [...customColors],
+      options: [...colors, ...customColors],
       description: "Color of inner icon (falls back to themeColor)",
       control: "select",
       table: {
@@ -90,7 +66,7 @@ const meta = {
       },
     },
     waveColor: {
-      options: [...customColors],
+      options: [...colors, ...customColors],
       description: "Color of ripple circles (falls back to themeColor)",
       control: "select",
       table: {

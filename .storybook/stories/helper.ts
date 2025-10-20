@@ -2,7 +2,7 @@ import { ArgTypes } from "@storybook/web-components";
 import { BaseAttributes } from "../../src/types/base-attributes";
 import { ColorName, ColorRole, Size } from "../../src/types/theme";
 
-const colors: (ColorRole | ColorName)[] = [
+export const colors: (ColorRole | ColorName)[] = [
   "primary",
   "secondary",
   "success",
@@ -50,7 +50,7 @@ const colors: (ColorRole | ColorName)[] = [
   "gold",
 ];
 
-const customColors: (string | undefined)[] = [
+export const customColors: (string | undefined)[] = [
   "primary.500",
   "primary.300",
   "primary.700",
