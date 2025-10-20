@@ -2,7 +2,7 @@ import { consume } from "@lit/context";
 import { css, html, LitElement, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
-import { cssVar, parseVariables, Size, Theme } from "../../types/theme";
+import { cssVar, parseVariables, Theme } from "../../types/theme";
 import "../../../src/components/misc-icon";
 
 // NOTE: In design system, distance of first circle is 2.5rem (40px) and next distance of each circle is 4rem (64px)
@@ -14,9 +14,6 @@ const _waveSizeConfig: number[] = [2.5, 6.5, 10.5, 14.5, 18.5, 22.5];
 
 // NOTE: In design system, fixed opacity in each wave circle
 const _waveOpacityConfig: number[] = [0.45, 0.35, 0.25, 0.15, 0.05, 0.025];
-
-// NOTE: In design system, fixed XL size of misc icon
-const _size: Size = "xl";
 
 const _iconSizeMap: { [key: string]: number } = {
   sm: 32,
@@ -42,25 +39,39 @@ export class WaveIcon extends LitElement {
   @property({ type: String })
   themeColor: string = "black";
 
+  @property({ type: String })
+  iconColor?: string;
+
+  @property({ type: String })
+  waveColor?: string;
+
+  @property({ type: String })
+  size: string = "xl";
+
   render() {
     if (this.hidden) {
       return nothing;
     }
 
-    const _themeColor = parseVariables(
+    const _waveThemeColor = parseVariables(
+      cssVar("colors", this.waveColor),
+      this.waveColor,
       cssVar("colors", this.themeColor, 500),
-      this.themeColor,
-      cssVar("colors", "primary", 500),
+      cssVar("colors", "primary", 500)
     );
 
-    const waveContainerSize = `calc(${_iconSizeMap[_size]}px + ${
+    const basePx =
+      _iconSizeMap[this.size as keyof typeof _iconSizeMap] ??
+      _iconSizeMap["xl"];
+
+    const waveContainerSize = `calc(${basePx}px + ${
       _waveSizeConfig[_waveSizeConfig.length - 1]
     }rem)`;
 
     return html` <style>
         :host {
           --container-size: ${waveContainerSize};
-          --theme-color: ${_themeColor};
+          --theme-color: ${_waveThemeColor};
       </style>
 
       <div class="container">
@@ -71,8 +82,9 @@ export class WaveIcon extends LitElement {
             <div class="icon-container">
               <ssk-misc-icon
                 iconname=${this.iconName}
-                size=${_size}
+                size=${this.size}
                 themecolor=${this.themeColor}
+                iconcolor=${this.iconColor}
               />
             </div>
           </div>
@@ -84,14 +96,18 @@ export class WaveIcon extends LitElement {
   }
 
   renderWave() {
+    const basePx =
+      _iconSizeMap[this.size as keyof typeof _iconSizeMap] ??
+      _iconSizeMap["xl"];
+
     return html`${_waveSizeConfig.map(
       (circleSize, index) =>
         html`<div
           class="wave"
           style="--circle-opacity:${_waveOpacityConfig[
             index
-          ]}; --circle-size: calc(${`${_iconSizeMap[_size]}px + ${circleSize}rem`});"
-        />`,
+          ]}; --circle-size: calc(${`${basePx}px + ${circleSize}rem`});"
+        />`
     )}`;
   }
 

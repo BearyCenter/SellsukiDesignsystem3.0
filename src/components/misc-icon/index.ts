@@ -32,6 +32,9 @@ export class MiscIcon extends LitElement {
   @property({ type: String })
   themeColor: string = "black";
 
+  @property({ type: String })
+  iconColor?: string;
+
   render() {
     if (this.hidden) {
       return nothing;
@@ -50,6 +53,8 @@ export class MiscIcon extends LitElement {
     switch (this.variant) {
       case "solid":
         bgColor = parseVariables(
+          cssVar("colors", this.iconColor),
+          this.iconColor,
           cssVar("colors", this.themeColor, 500),
           this.themeColor,
           cssVar("colors", "primary", 500)
@@ -59,6 +64,8 @@ export class MiscIcon extends LitElement {
         break;
       case "light":
         bgColor = parseVariables(
+          cssVar("colors", this.iconColor),
+          this.iconColor,
           cssVar("colors", this.themeColor, 100),
           this.themeColor,
           cssVar("colors", "primary", 100)
@@ -77,11 +84,15 @@ export class MiscIcon extends LitElement {
           cssVar("colors", "primary", 500)
         );
         b1Color = parseVariables(
+          cssVar("colors", this.iconColor),
+          this.iconColor,
           cssVar("colors", this.themeColor, 300),
           this.themeColor,
           cssVar("colors", "primary", 300)
         );
         b2Color = parseVariables(
+          cssVar("colors", this.iconColor),
+          this.iconColor,
           cssVar("colors", this.themeColor, 100),
           this.themeColor,
           cssVar("colors", "primary", 100)
