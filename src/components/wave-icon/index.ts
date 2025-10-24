@@ -13,8 +13,7 @@ import "../../../src/components/misc-icon";
 const _waveSizeConfig: number[] = [2.5, 6.5, 10.5, 14.5, 18.5, 22.5];
 
 // NOTE: In design system, fixed opacity in each wave circle
-const _waveOpacityConfig: number[] = [0.45, 0.35, 0.25, 0.15, 0.05, 0.025];
-
+const _waveOpacityConfig: number[] = [1, 0.85, 0.7, 0.55, 0.4, 0.25];
 const _iconSizeMap: { [key: string]: number } = {
   sm: 32,
   md: 40,

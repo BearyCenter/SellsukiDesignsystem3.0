@@ -63,6 +63,7 @@ export const customColors: (string | undefined)[] = [
   "#ffff00",
   "#000000",
   "#ffffff",
+  "gray.200",
   "rgb(1,12,123)",
   "rgba(0,0,0,0.5)",
   "rgba(1,255,33,0.5)",
