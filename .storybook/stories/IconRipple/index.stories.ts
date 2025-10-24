@@ -4,7 +4,7 @@ import { html } from "lit";
 import "../../../src/components/misc-icon";
 import { MiscIcon } from "../../../src/components/misc-icon";
 import { Icon } from "../../../src/elements/icon";
-import { baseArgsTypes } from "../helper";
+import { baseArgsTypes, colors, customColors } from "../helper";
 
 type IconArgs = {} & MiscIcon;
 
@@ -42,6 +42,14 @@ const meta = {
       options: ["solid", "light", "outline"],
       control: {
         type: "select",
+      },
+    },
+    iconColor: {
+      options: [...colors, ...customColors],
+      description: "Color of inner icon (falls back to themeColor)",
+      control: "select",
+      table: {
+        category: "Base props",
       },
     },
     ...baseArgsTypes,

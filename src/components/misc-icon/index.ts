@@ -32,6 +32,9 @@ export class MiscIcon extends LitElement {
   @property({ type: String })
   themeColor: string = "black";
 
+  @property({ type: String })
+  iconColor?: string;
+
   render() {
     if (this.hidden) {
       return nothing;
@@ -50,6 +53,10 @@ export class MiscIcon extends LitElement {
     switch (this.variant) {
       case "solid":
         bgColor = parseVariables(
+          cssVar("colors", this.iconColor),
+          cssVar("colors", this.iconColor, 500),
+
+          this.iconColor,
           cssVar("colors", this.themeColor, 500),
           this.themeColor,
           cssVar("colors", "primary", 500)
