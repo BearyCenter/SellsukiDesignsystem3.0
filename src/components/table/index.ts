@@ -340,9 +340,15 @@ export class Table extends LitElement {
       startIndex = 0;
     }
 
-    let endIndex = this.currentPage * this.rowsPerPage;
-    endIndex = Math.min(endIndex, this.data.length);
+    let endIndex;
+    const isPaginatedByTotal = this.totalPaginationPages > 0;
 
+    if (isPaginatedByTotal) {
+      endIndex = Math.min(this.currentPage * this.rowsPerPage, this.totalPaginationPages);
+    } else {
+      endIndex = this.currentPage * this.rowsPerPage;
+      endIndex = Math.min(endIndex, this.data.length);
+    }
     const displayAllItems = this.totalPaginationPages > 0 
         ? this.totalPaginationPages 
         : this.data.length;
