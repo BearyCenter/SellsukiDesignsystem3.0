@@ -19,7 +19,7 @@ export class AccordionItem extends LitElement {
         detail: { id: this.id },
         bubbles: true,
         composed: true,
-      })
+      }),
     );
   }
 
@@ -85,7 +85,7 @@ export class AccordionItem extends LitElement {
 
     .content {
       padding: 0.2rem;
-      background: white;
+      background-color: var(--background-color, white);
     }
   `;
 }
