@@ -85,7 +85,7 @@ export class AccordionItem extends LitElement {
 
     .content {
       padding: 0.2rem;
-      background-color: var(--content-background-color, white);
+      background-color: var(--background-color, white);
     }
   `;
 }
