@@ -1,0 +1,14 @@
+:root {
+  /* ── Tier 2: Semantic — Border Radius ───────────────────── */
+  --radius-none:  var(--space-0);
+  --radius-xxs:   var(--space-2);
+  --radius-xs:    var(--space-4);
+  --radius-sm:    var(--space-6);
+  --radius-md:    var(--space-8);
+  --radius-lg:    var(--space-12);
+  --radius-xl:    var(--space-16);
+  --radius-2xl:   var(--space-20);
+  --radius-3xl:   var(--space-24);
+  --radius-4xl:   var(--space-32);
+  --radius-full:  var(--space-9999);
+}

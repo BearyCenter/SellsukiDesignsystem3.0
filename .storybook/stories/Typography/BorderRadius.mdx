@@ -1,0 +1,57 @@
+import { Meta } from '@storybook/blocks';
+import spacingRaw from '../../../src/assets/tokens/spacing.css?raw';
+import borderRadiusRaw from '../../../src/assets/tokens/border-radius.css?raw';
+
+<Meta title="Typography/Border Radius" />
+
+## Sellsuki Design System : Border Radius
+
+<table style={{ borderCollapse: 'collapse', width: '100%', marginTop: '16px' }}>
+  <thead>
+    <tr style={{ borderBottom: '1px solid #e2e8f0' }}>
+      <th style={{ padding: '8px 16px', textAlign: 'left', fontWeight: 600, color: '#6b7280', fontSize: '12px' }}>Name</th>
+      <th style={{ padding: '8px 16px', textAlign: 'left', fontWeight: 600, color: '#6b7280', fontSize: '12px' }}>Primitive</th>
+      <th style={{ padding: '8px 16px', textAlign: 'left', fontWeight: 600, color: '#6b7280', fontSize: '12px' }}>px</th>
+      <th style={{ padding: '8px 16px', textAlign: 'left', fontWeight: 600, color: '#6b7280', fontSize: '12px' }}>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    {(() => {
+      const tier1 = {};
+      spacingRaw.split('\n').forEach(line => {
+        const m = line.match(/^\s*--(space-[\w-]+):\s*([^;]+);/);
+        if (!m) return;
+        const remVal = m[2].trim();
+        const pxMatch = line.match(/\/\*\s*(\d+)px/);
+        if (remVal === '0') {
+          tier1[m[1]] = { pxLabel: '0', cssVal: '0px' };
+        } else if (pxMatch) {
+          const px = parseInt(pxMatch[1]);
+          tier1[m[1]] = { pxLabel: px + 'px', cssVal: px + 'px' };
+        } else {
+          tier1[m[1]] = { pxLabel: 'pill', cssVal: '9999px' };
+        }
+      });
+
+      const tokens = [];
+      borderRadiusRaw.split('\n').forEach(line => {
+        const m = line.match(/^\s*--(radius-[\w-]+):\s*var\(--(space-[\w-]+)\)/);
+        if (m) tokens.push({ name: m[1], primitive: m[2] });
+      });
+
+      return tokens.map(({ name, primitive }) => {
+        const t1 = tier1[primitive] || { pxLabel: '0', cssVal: '0px' };
+        return (
+          <tr key={name} style={{ borderBottom: '1px solid #f3f4f6' }}>
+            <td style={{ padding: '10px 16px', fontFamily: 'monospace', fontSize: '13px' }}>{name}</td>
+            <td style={{ padding: '10px 16px', fontFamily: 'monospace', fontSize: '13px', color: '#9ca3af' }}>{primitive}</td>
+            <td style={{ padding: '10px 16px', fontSize: '13px', color: '#9ca3af' }}>{t1.pxLabel}</td>
+            <td style={{ padding: '10px 16px' }}>
+              <div style={{ width: '48px', height: '48px', background: '#1b9cf7', borderRadius: t1.cssVal, opacity: t1.cssVal === '0px' ? 0.2 : 0.85 }} />
+            </td>
+          </tr>
+        );
+      });
+    })()}
+  </tbody>
+</table>
