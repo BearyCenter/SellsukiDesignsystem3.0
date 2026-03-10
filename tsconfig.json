@@ -20,8 +20,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx"
   },
-  "include": ["src/**/*.ts", "src/**/*.test.(ts|js)"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.test.(ts|js)"],
   "exclude": [".storybook/**/*.stories.ts"]
 }
