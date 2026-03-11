@@ -19,6 +19,7 @@ import {
 import { createContext } from "@lit/context";
 export type DropdownState = {
   setValue: (value: string, el: HTMLElement) => void;
+  clearValue?: () => void;
   isOpened?: boolean;
   disabled?: boolean;
   isError?: boolean;
@@ -117,6 +118,9 @@ export class Dropdown extends LitElement {
   @provide({ context: valueContext })
   @property({ attribute: false })
   state: DropdownState = {
+    clearValue: () => {
+      this.clearSelection();
+    },
     setValue: (value: string | string[]) => {
       if (this.multiSelect) {
         const selectedValues: string[] = Array.isArray(this.value)

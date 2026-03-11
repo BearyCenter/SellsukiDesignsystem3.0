@@ -2,6 +2,7 @@ import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "../../../src/elements/checkbox";
+import "../../elements/icon";
 import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
@@ -74,7 +75,13 @@ export class DropdownOption extends LitElement {
         <span class="label">
           <slot></slot>
         </span>
-        <slot name="postfix"></slot>
+        <span class="postfix">
+          <slot name="postfix">
+            ${this.state?.multiSelect === false && this.state?.isSelected?.includes(this.value)
+              ? html`<ssk-icon color="info" name="outline-check"></ssk-icon>`
+              : nothing}
+          </slot>
+        </span>
       </span>
     `;
   }
@@ -111,7 +118,13 @@ export class DropdownOption extends LitElement {
 
     .label {
       white-space: var(--white-space, normal);
-  overflow-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .postfix {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
     }
   `;
 }
