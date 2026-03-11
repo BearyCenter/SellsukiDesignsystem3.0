@@ -4,6 +4,7 @@ import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { Size, Theme } from "../../types/theme";
 import { DropdownState, valueContext } from "./dropdown";
+import "../../elements/icon";
 
 @customElement("ssk-dropdown-button")
 export class DropdownButton extends LitElement {
@@ -44,7 +45,8 @@ export class DropdownButton extends LitElement {
         </span>
         ${this.hideChevron
           ? nothing
-          : html`<ssk-icon name="outline-chevron-down"></ssk-icon>`}
+          : html`<ssk-icon name=${this.state?.isOpened ? "outline-chevron-up" : "outline-chevron-down"}></ssk-icon>`
+        }
       </button>
     `;
   }

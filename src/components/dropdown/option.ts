@@ -110,9 +110,8 @@ export class DropdownOption extends LitElement {
     }
 
     .label {
-      white-space: var(--white-space, nowrap);
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: var(--white-space, normal);
+  overflow-wrap: break-word;
     }
   `;
 }
