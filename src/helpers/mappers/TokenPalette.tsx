@@ -1,29 +1,11 @@
 import React from "react";
-import spacingRaw from "../../assets/tokens/spacing.css?raw";
-import borderRadiusRaw from "../../assets/tokens/border-radius.css?raw";
-import borderRaw from "../../assets/tokens/border.css?raw";
-
+import {
+  defaultBorderTokens,
+  defaultRadiusTokens,
+  defaultSpacePrimitives,
+  defaultSpacingTokens,
+} from "../../contexts/theme/default";
 // ── Helpers ────────────────────────────────────────────────────────────────
-
-function parseTier1(
-  css: string,
-): Record<string, { rem: string; px: number | null }> {
-  const map: Record<string, { rem: string; px: number | null }> = {};
-  css.split("\n").forEach((line: string) => {
-    const m = line.match(/^\s*--(space-[\w-]+):\s*([^;]+);/);
-    if (!m) return;
-    const remVal = m[2].trim();
-    const pxMatch = line.match(/\/\*\s*(\d+)px/);
-    if (remVal === "0") {
-      map[m[1]] = { rem: "0", px: 0 };
-    } else if (pxMatch) {
-      map[m[1]] = { rem: remVal, px: parseInt(pxMatch[1]) };
-    } else {
-      map[m[1]] = { rem: remVal, px: null };
-    }
-  });
-  return map;
-}
 
 function pxLabel(px: number | null): string {
   if (px === 0) return "0";
@@ -82,13 +64,6 @@ const tbodyRowStyle: React.CSSProperties = {
 // ── SpacingPalette ─────────────────────────────────────────────────────────
 
 export function SpacingPalette() {
-  const tier1 = parseTier1(spacingRaw);
-  const tokens: { name: string; primitive: string }[] = [];
-  spacingRaw.split("\n").forEach((line: string) => {
-    const m = line.match(/^\s*--(spacing-[\w-]+):\s*var\(--(space-[\w-]+)\)/);
-    if (m) tokens.push({ name: m[1], primitive: m[2] });
-  });
-
   return (
     <table style={tableStyle}>
       <thead>
@@ -101,12 +76,12 @@ export function SpacingPalette() {
         </tr>
       </thead>
       <tbody>
-        {tokens.map(({ name, primitive }) => {
-          const t1 = tier1[primitive] ?? { rem: "", px: 0 };
+        {Object.entries(defaultSpacingTokens).map(([name, primitiveKey]) => {
+          const t1 = defaultSpacePrimitives[primitiveKey];
           return (
             <tr key={name} style={tbodyRowStyle}>
               <td style={tdNameStyle}>{name}</td>
-              <td style={tdMutedStyle}>{primitive}</td>
+              <td style={tdMutedStyle}>{primitiveKey}</td>
               <td style={tdValueStyle}>{t1.rem}</td>
               <td style={tdValueStyle}>{pxLabel(t1.px)}</td>
               <td style={{ padding: "10px 16px", width: "40%" }}>
@@ -132,13 +107,6 @@ export function SpacingPalette() {
 // ── RadiusPalette ──────────────────────────────────────────────────────────
 
 export function RadiusPalette() {
-  const tier1 = parseTier1(spacingRaw);
-  const tokens: { name: string; primitive: string }[] = [];
-  borderRadiusRaw.split("\n").forEach((line: string) => {
-    const m = line.match(/^\s*--(radius-[\w-]+):\s*var\(--(space-[\w-]+)\)/);
-    if (m) tokens.push({ name: m[1], primitive: m[2] });
-  });
-
   return (
     <table style={tableStyle}>
       <thead>
@@ -150,13 +118,13 @@ export function RadiusPalette() {
         </tr>
       </thead>
       <tbody>
-        {tokens.map(({ name, primitive }) => {
-          const t1 = tier1[primitive] ?? { rem: "", px: 0 };
+        {Object.entries(defaultRadiusTokens).map(([name, primitiveKey]) => {
+          const t1 = defaultSpacePrimitives[primitiveKey];
           const cv = cssVal(t1.px);
           return (
             <tr key={name} style={tbodyRowStyle}>
               <td style={tdNameStyle}>{name}</td>
-              <td style={tdMutedStyle}>{primitive}</td>
+              <td style={tdMutedStyle}>{primitiveKey}</td>
               <td style={tdValueStyle}>{pxLabel(t1.px)}</td>
               <td style={{ padding: "10px 16px" }}>
                 <div
@@ -180,13 +148,6 @@ export function RadiusPalette() {
 // ── BorderPalette ──────────────────────────────────────────────────────────
 
 export function BorderPalette() {
-  const tier1 = parseTier1(spacingRaw);
-  const tokens: { name: string; primitive: string }[] = [];
-  borderRaw.split("\n").forEach((line: string) => {
-    const m = line.match(/^\s*--(border-[\w-]+):\s*var\(--(space-[\w-]+)\)/);
-    if (m) tokens.push({ name: m[1], primitive: m[2] });
-  });
-
   return (
     <table style={tableStyle}>
       <thead>
@@ -198,13 +159,13 @@ export function BorderPalette() {
         </tr>
       </thead>
       <tbody>
-        {tokens.map(({ name, primitive }) => {
-          const t1 = tier1[primitive] ?? { rem: "", px: 0 };
+        {Object.entries(defaultBorderTokens).map(([name, primitiveKey]) => {
+          const t1 = defaultSpacePrimitives[primitiveKey];
           const cv = cssVal(t1.px);
           return (
             <tr key={name} style={tbodyRowStyle}>
               <td style={tdNameStyle}>{name}</td>
-              <td style={tdMutedStyle}>{primitive}</td>
+              <td style={tdMutedStyle}>{primitiveKey}</td>
               <td style={tdValueStyle}>{pxLabel(t1.px)}</td>
               <td style={{ padding: "10px 16px" }}>
                 <div
