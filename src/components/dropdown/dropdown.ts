@@ -19,6 +19,7 @@ import {
 import { createContext } from "@lit/context";
 export type DropdownState = {
   setValue: (value: string, el: HTMLElement) => void;
+  clearValue?: () => void;
   isOpened?: boolean;
   disabled?: boolean;
   isError?: boolean;
@@ -103,7 +104,7 @@ export class Dropdown extends LitElement {
   required = false;
 
   @property({ type: Number })
-  maxOptionsHeight: number = 344;
+  maxOptionsHeight: number = 248;
 
   @property({ type: Boolean })
   multiSelect = false;
@@ -117,6 +118,9 @@ export class Dropdown extends LitElement {
   @provide({ context: valueContext })
   @property({ attribute: false })
   state: DropdownState = {
+    clearValue: () => {
+      this.clearSelection();
+    },
     setValue: (value: string | string[]) => {
       if (this.multiSelect) {
         const selectedValues: string[] = Array.isArray(this.value)
@@ -132,8 +136,7 @@ export class Dropdown extends LitElement {
         this.value = value as string;
       }
 
-      this.state.isOpened = false;
-      this.requestUpdate();
+      this.state = { ...this.state, isOpened: false };
 
       this.dispatchEvent(new Event("change"));
     },
@@ -151,10 +154,9 @@ export class Dropdown extends LitElement {
 
   private clearSelection() {
     this.value = "";
-    this.state.value = "";
-    this.state.isOpened = false;
     this.isSelected = [];
-    this.state.isSelected = [];
+    this.state = { ...this.state, value: "", isOpened: false, isSelected: [] };
+
 
     this.requestUpdate();
     this.dispatchEvent(new Event("change"));
@@ -164,19 +166,19 @@ export class Dropdown extends LitElement {
     changedProperties: Map<string | number | symbol, unknown>
   ): void {
     if (changedProperties.has("disabled")) {
-      this.state.disabled = this.disabled;
+      this.state = { ...this.state, disabled: this.disabled };
     }
 
     if (changedProperties.has("error")) {
-      this.state.isError = this.error;
+      this.state = { ...this.state, isError: this.error };
     }
 
     if (changedProperties.has("value")) {
-      this.state.value = this.value || "";
+      this.state = { ...this.state, value: this.value || "" };
     }
 
     if (changedProperties.has("multiSelect")) {
-      this.state.multiSelect = this.multiSelect;
+      this.state = { ...this.state, multiSelect: this.multiSelect };
     }
 
     if (changedProperties.has("clearValue") && this.clearValue) {
@@ -197,18 +199,15 @@ export class Dropdown extends LitElement {
     }
     // Close the currently open dropdown if it's not this one
     if (Dropdown.currentOpenDropdown && Dropdown.currentOpenDropdown !== this) {
-      Dropdown.currentOpenDropdown.state.isOpened = false;
-      Dropdown.currentOpenDropdown.requestUpdate();
+      Dropdown.currentOpenDropdown.state = { ...Dropdown.currentOpenDropdown.state, isOpened: false };
     }
 
-    this.state.isOpened = !this.state.isOpened;
+    this.state = { ...this.state, isOpened: !this.state.isOpened };
     Dropdown.currentOpenDropdown = this.state.isOpened ? this : null;
 
     if (this.state.isOpened) {
       requestAnimationFrame(this.updateOptionsPosition);
     }
-
-    this.requestUpdate();
   };
 
   private scrollHandler = () => {
@@ -222,9 +221,8 @@ export class Dropdown extends LitElement {
       return;
     }
 
-    this.state.isOpened = false;
+    this.state = { ...this.state, isOpened: false };
     Dropdown.currentOpenDropdown = null;
-    this.requestUpdate();
   };
 
   firstUpdated() {

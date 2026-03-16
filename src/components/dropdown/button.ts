@@ -4,6 +4,7 @@ import { customElement, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { Size, Theme } from "../../types/theme";
 import { DropdownState, valueContext } from "./dropdown";
+import "../../elements/icon";
 
 @customElement("ssk-dropdown-button")
 export class DropdownButton extends LitElement {
@@ -27,6 +28,12 @@ export class DropdownButton extends LitElement {
   @property({ type: Boolean })
   hideChevron = false;
 
+
+  private handleClearClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    this.state?.clearValue?.();
+  };
+
   render() {
     if (this.hidden) {
       return nothing;
@@ -42,9 +49,15 @@ export class DropdownButton extends LitElement {
         <span class="label-value">
           <slot></slot>
         </span>
-        ${this.hideChevron
-          ? nothing
-          : html`<ssk-icon name="outline-chevron-down"></ssk-icon>`}
+       <div class="icons">
+  ${this.state?.multiSelect === true
+    ? html`<ssk-icon name="outline-x-circle" @click=${this.handleClearClick}></ssk-icon>`
+    : nothing}
+  ${this.hideChevron
+    ? nothing
+    : html`<ssk-icon name=${this.state?.isOpened ? "outline-chevron-up" : "outline-chevron-down"}></ssk-icon>`
+  }
+</div>
       </button>
     `;
   }
@@ -108,6 +121,11 @@ export class DropdownButton extends LitElement {
       cursor: not-allowed;
       color: var(--color-disabled);
     }
+      .icons {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+}
   `;
 }
 
