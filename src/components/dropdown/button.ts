@@ -50,12 +50,12 @@ export class DropdownButton extends LitElement {
           <slot></slot>
         </span>
        <div class="icons">
-  ${this.state?.multiSelect === true
-    ? html`<ssk-icon name="outline-x-circle" @click=${this.handleClearClick}></ssk-icon>`
+  ${this.state?.multiSelect === true && (this.state?.value?.length ?? 0) > 0
+    ? html`<ssk-icon color="gray" name="outline-x-circle" @click=${this.handleClearClick}></ssk-icon>`
     : nothing}
   ${this.hideChevron
     ? nothing
-    : html`<ssk-icon name=${this.state?.isOpened ? "outline-chevron-up" : "outline-chevron-down"}></ssk-icon>`
+    : html`<ssk-icon color="gray" name=${this.state?.isOpened ? "outline-chevron-up" : "outline-chevron-down"}></ssk-icon>`
   }
 </div>
       </button>

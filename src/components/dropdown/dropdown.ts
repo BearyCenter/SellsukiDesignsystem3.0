@@ -92,7 +92,7 @@ export class Dropdown extends LitElement {
   search = false;
 
   @property({ type: String })
-  optionsAnchor: "top" | "bottom" = "bottom";
+  optionsAnchor: "top" | "bottom" | "left" | "right" = "bottom";
 
   @property({ type: String })
   optionsAlign: "left" | "right" = "right";
@@ -136,9 +136,11 @@ export class Dropdown extends LitElement {
         this.value = value as string;
       }
 
-      this.state = { ...this.state, isOpened: false };
+      if (!this.multiSelect) {
+        this.state = { ...this.state, isOpened: false };
+      }
 
-      this.dispatchEvent(new Event("change"));
+      this.dispatchEvent(new CustomEvent("change", { detail: { value: this.value } }));
     },
 
     isOpened: false,
@@ -153,13 +155,12 @@ export class Dropdown extends LitElement {
   forceOpen = undefined;
 
   private clearSelection() {
-    this.value = "";
+    this.value = this.multiSelect ? [] : "";
     this.isSelected = [];
-    this.state = { ...this.state, value: "", isOpened: false, isSelected: [] };
-
+    this.state = { ...this.state, value: this.value, isOpened: false, isSelected: [] };
 
     this.requestUpdate();
-    this.dispatchEvent(new Event("change"));
+    this.dispatchEvent(new CustomEvent("change", { detail: { value: this.value } }));
   }
 
   protected willUpdate(
@@ -411,6 +412,7 @@ export class Dropdown extends LitElement {
             class="options-container ${this.state.isOpened || this.forceOpen
               ? "show"
               : ""}  ${this.optionsWidth}"
+            @click=${(e: Event) => e.stopPropagation()}
           >
             <slot></slot>
           </div>
