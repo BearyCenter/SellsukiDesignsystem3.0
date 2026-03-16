@@ -274,6 +274,8 @@ export class Dropdown extends LitElement {
     // Calculate vertical position
     const spaceBelow = viewportHeight - containerRect.bottom;
     const spaceAbove = containerRect.top;
+    const spaceRight = viewportWidth - containerRect.right;
+    const spaceLeft = containerRect.left;
     let anchor = this.optionsAnchor;
 
     if (this.optionsAnchor === "top") {
@@ -284,19 +286,30 @@ export class Dropdown extends LitElement {
       if (spaceBelow < optionsHeight) {
         anchor = "top";
       }
+    } else if (this.optionsAnchor === "left") {
+      if (spaceRight < optionsWidth) {
+        anchor = "right";
+      }
+    } else if (this.optionsAnchor === "right") {
+      if (spaceLeft < optionsWidth) {
+        anchor = "left";
+      }
     }
 
     // Calculate horizontal position
-    const spaceRight = viewportWidth - containerRect.right;
-    const spaceLeft = containerRect.left;
+    
     let align = this.optionsAlign;
 
+    if (anchor === "left" || anchor === "right") {
+      return { anchor, align: "" }; 
+    }
+
     if (this.optionsAlign === "left") {
-      if (spaceRight < optionsWidth) {
+      if (spaceLeft < optionsWidth) {
         align = "right";
       }
     } else if (this.optionsAlign === "right") {
-      if (spaceLeft < optionsWidth) {
+      if (spaceRight < optionsWidth) {
         align = "left";
       }
     }
@@ -311,7 +324,7 @@ export class Dropdown extends LitElement {
     const options = this.shadowRoot?.querySelector(".options-container");
 
     if (options) {
-      options.className = `options-container show ${anchor} ${align} ${this.optionsWidth}`;
+      options.className = `options-container show ${anchor} ${align ? `align-${align}` : ""} ${this.optionsWidth}`;
     }
   };
 
@@ -480,16 +493,28 @@ export class Dropdown extends LitElement {
     div.options-container.top {
       bottom: calc(100% + 6px);
     }
-
+    
     div.options-container.left {
-      left: 0;
-      right: auto;
+      right: calc(100% + 6px);
+      left: auto;
+      top: 0;
     }
 
     div.options-container.right {
-      right: 0;
-      left: auto;
+      left: calc(100% + 6px);
+      right: auto;
+      top: 0;
     }
+
+  div.options-container.align-left {
+    left: 0;
+    right: auto;
+  }
+
+  div.options-container.align-right {
+    right: 0;
+    left: auto;
+  }
 
     div.options-container.auto {
       width: max-content;
