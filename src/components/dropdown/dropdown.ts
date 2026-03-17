@@ -73,7 +73,7 @@ export class Dropdown extends LitElement {
   @property({ type: String })
   name: string | undefined;
 
-  @property({ type: String })
+  @property({ type: String, attribute: false })
   value: string | string[] = "";
 
   @property({ type: String })
@@ -115,32 +115,50 @@ export class Dropdown extends LitElement {
   @property({ type: Boolean, reflect: true })
   clearValue: boolean = false;
 
+  @property({ type: Boolean })
+  allowUnselect: boolean = false;
+
   @provide({ context: valueContext })
   @property({ attribute: false })
   state: DropdownState = {
     clearValue: () => {
       this.clearSelection();
     },
-    setValue: (value: string | string[]) => {
+    setValue: (value: string) => {
       if (this.multiSelect) {
-        const selectedValues: string[] = Array.isArray(this.value)
-          ? this.value
-          : [];
-        if (selectedValues.includes(value as string)) {
-          this.value = selectedValues.filter((v) => v !== value);
-        } else {
-          selectedValues.push(value as string);
-          this.value = selectedValues;
-        }
+        const selected = Array.isArray(this.value) ? this.value : [];
+        const v = value as string;
+
+        this.value = selected.includes(v)
+          ? selected.filter(v2 => v2 !== v)
+          : [...selected, v];
+
       } else {
-        this.value = value as string;
+        const isSame = this.value === value;
+
+        if (isSame && this.allowUnselect) {
+          this.value = "";
+        } else {
+          this.value = value;
+        }
       }
 
-      if (!this.multiSelect) {
-        this.state = { ...this.state, isOpened: false };
-      }
+      this.state = {
+        ...this.state,
+        value: this.value,
+        isSelected: Array.isArray(this.value)
+          ? this.value
+          : this.value
+            ? [this.value]
+            : [],
+        isOpened: this.multiSelect ? true : false
+      };
 
-      this.dispatchEvent(new CustomEvent("change", { detail: { value: this.value } }));
+      this.dispatchEvent(
+        new CustomEvent("change", {
+          detail: this.value,
+        })
+      );
     },
 
     isOpened: false,

@@ -7,7 +7,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { Dropdown } from "../../../src/components/dropdown";
 import "../../../src/main";
 import { AutoLitProperty, baseArgsTypes } from "../helper";
-import "../../../src/elements/checkbox"; 
+import "../../../src/elements/checkbox";
 
 type DropdownWithLabel = AutoLitProperty<Dropdown> & {
   placeholder: string;
@@ -81,7 +81,7 @@ const meta = {
   title: "Example/Dropdown",
   tags: ["autodocs"],
   render: ({ ...args }) => {
-    const [{}, updateArgs] = useArgs();
+    const [{ }, updateArgs] = useArgs();
 
     return html` <style lang="css">
         .container {
@@ -126,23 +126,23 @@ const meta = {
         <ssk-dropdown
           ${spread({ ...args })}
           @change=${(e: any) => {
-            action("@change")(e);
-            updateArgs({ value: e.target.value });
-          }}
+        action("@change")(e);
+        updateArgs({ value: e.target.value });
+      }}
         >
           <ssk-dropdown-button slot="selected">
             <ssk-dropdown-preview value=${ifDefined(args["multiSelect"]
-              ? Array.isArray(args["value"]) && args["value"].length > 0
-                ? args["value"].join(", ")
-                : args["placeholder"]
-              : args["value"] || args["placeholder"])}>
+        ? Array.isArray(args["value"]) && args["value"].length > 0
+          ? args["value"].join(", ")
+          : args["placeholder"]
+        : args["value"] || args["placeholder"])}>
               ${args["multiSelect"]
-                ? html`
+        ? html`
                     ${Array.isArray(args["value"]) && args["value"].length > 0
-                      ? args["value"].join(", ")
-                      : args["placeholder"]}
+            ? args["value"].join(", ")
+            : args["placeholder"]}
                   `
-                : html`
+        : html`
                     <ssk-icon
                       slot="prefix"
                       name=${args["value"] || ""}
@@ -152,30 +152,30 @@ const meta = {
             </ssk-dropdown-preview>
           </ssk-dropdown-button>
           ${options.map((option) => {
-            const selectedValues = Array.isArray(args.value) ? args.value : [];
-            return html`
+          const selectedValues = Array.isArray(args.value) ? args.value : [];
+          return html`
             <ssk-dropdown-option value=${option}>
               <div class="option-row">
               ${args.multiSelect
-                ? html`
+              ? html`
                     <ssk-checkbox
                       .checked="${selectedValues.includes(option)}"
                       @click="${(e: MouseEvent) => {
-                        e.stopPropagation();
-                        const newSelectedValues = selectedValues.includes(option)
-                          ? selectedValues.filter((v: string) => v !== option)
-                          : [...selectedValues, option];
-                        updateArgs({ value: newSelectedValues });
-                      }}"
+                  e.stopPropagation();
+                  const newSelectedValues = selectedValues.includes(option)
+                    ? selectedValues.filter((v: string) => v !== option)
+                    : [...selectedValues, option];
+                  updateArgs({ value: newSelectedValues });
+                }}"
                     ></ssk-checkbox>`
-                    : nothing}
+              : nothing}
                   <ssk-icon name=${option} slot="prefix"></ssk-icon>
                   <div class="lables">
                     ${option}
                   </div>
                 </div>
               </ssk-dropdown-option>`;
-          })}
+        })}
         </ssk-dropdown>
       </div>`;
   },
@@ -241,6 +241,11 @@ const meta = {
         type: "boolean",
       },
     },
+    "?allowUnselect": {
+      control: {
+        type: "boolean",
+      },
+    },
     ...baseArgsTypes,
   },
 } satisfies Meta<DropdownWithLabel>;
@@ -285,5 +290,101 @@ export const DropdownSelect: Story = {
       type: "figma",
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1123-65244",
     },
+  },
+};
+
+export const DropdownSingle: Story = {
+  render: ({ ...args }) => {
+    const [{ }, updateArgs] = useArgs();
+
+
+
+
+    return html`
+      <div class="container">
+        <ssk-dropdown
+          ${spread({ ...args })}
+          @change=${(e: any) => {
+        updateArgs({ value: e.detail });
+      }}
+        >
+          <ssk-dropdown-button slot="selected">
+            <ssk-dropdown-preview
+              value=${ifDefined(args["value"] || args["placeholder"])}
+            >
+              <ssk-icon slot="prefix" name=${args["value"] || ""}></ssk-icon>
+              ${args["value"] || args["placeholder"]}
+            </ssk-dropdown-preview>
+          </ssk-dropdown-button>
+
+          ${options.map(
+        (option) => html`
+              <ssk-dropdown-option value=${option}>
+                <ssk-icon name=${option} slot="prefix"></ssk-icon>
+                <div class="lables">${option}</div>
+              </ssk-dropdown-option>
+            `
+      )}
+        </ssk-dropdown>
+      </div>
+    `;
+  },
+  args: {
+    size: "md",
+    label: "Dropdown Select Single",
+    placeholder: "Placeholder",
+    helperText: "Helper text",
+    value: "",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?type=design&node-id=1123-65244",
+    },
+  },
+};
+
+export const DropdownMulti: Story = {
+  render: ({ ...args }) => {
+    const [{ }, updateArgs] = useArgs();
+
+    const selectedValues = Array.isArray(args.value) ? args.value : [];
+
+    const label =
+      selectedValues.length > 0
+        ? selectedValues.join(", ")
+        : args.placeholder;
+
+    return html`
+      <div class="container">
+        <ssk-dropdown
+           ${spread({ ...args })}
+          @change=${(e: any) => {
+        updateArgs({ value: e.detail });
+      }}
+        >
+          <ssk-dropdown-button slot="selected">
+            <ssk-dropdown-preview value=${label}>
+              ${label}
+            </ssk-dropdown-preview>
+          </ssk-dropdown-button>
+
+          ${options.map((option) => html`
+            <ssk-dropdown-option value=${option} >
+              <ssk-icon name=${option} slot="prefix"></ssk-icon>
+              <div class="lables">${option}</div>
+            </ssk-dropdown-option>
+          `)}
+        </ssk-dropdown>
+      </div>
+    `;
+  },
+  args: {
+    size: "md",
+    label: "Dropdown Select Multi",
+    placeholder: "Placeholder",
+    helperText: "Helper text",
+    multiSelect: true,
+    value: [],
   },
 };
