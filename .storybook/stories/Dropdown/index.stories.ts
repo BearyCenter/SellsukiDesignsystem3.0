@@ -11,6 +11,8 @@ import "../../../src/elements/checkbox";
 
 type DropdownWithLabel = AutoLitProperty<Dropdown> & {
   placeholder: string;
+  disabledOptions: string[];
+  disabledOptionMessage: string;
 };
 
 const options = [
@@ -74,6 +76,19 @@ const options = [
   "solid-chart-pie",
   "solid-fire",
   "solid-puzzle-piece",
+];
+
+const testOptions2 = [
+  "pen",
+  "pencil",
+  "eraser",
+  "marker",
+  "paint",
+  "scissors",
+  "ruler",
+  "compass",
+  "calculator",
+  "notebook",
 ];
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
@@ -191,7 +206,7 @@ const meta = {
       control: {
         type: "select",
       },
-      options: ["top", "bottom"],
+      options: ["top", "bottom","right","left"],
     },
     optionsAlign: {
       control: {
@@ -245,6 +260,17 @@ const meta = {
       control: {
         type: "boolean",
       },
+    },
+    disabledOptions: {
+      description: "Options that are disabled",
+      control: {
+        type: "multi-select",
+      },
+      options: testOptions2,
+    },
+    disabledOptionMessage: {
+      description: "Message that is displayed when an option is disabled",
+      control: "text",
     },
     ...baseArgsTypes,
   },
@@ -350,12 +376,24 @@ export const DropdownMulti: Story = {
 
     const selectedValues = Array.isArray(args.value) ? args.value : [];
 
+    const disabledOptions: string[] = args["disabledOptions"] ?? [];
+    const disabledOptionMessage: string = args["disabledOptionMessage"] ?? "";
+
     const label =
       selectedValues.length > 0
         ? selectedValues.join(", ")
         : args.placeholder;
 
     return html`
+    <style>
+      .checkbox-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        cursor: pointer;
+      }
+    </style>
       <div class="container">
         <ssk-dropdown
            ${spread({ ...args })}
@@ -369,10 +407,24 @@ export const DropdownMulti: Story = {
             </ssk-dropdown-preview>
           </ssk-dropdown-button>
 
-          ${options.map((option) => html`
-            <ssk-dropdown-option value=${option} >
+          ${testOptions2.map((option) => html`
+            <ssk-dropdown-option value=${option} ?disabled="${disabledOptions.includes(option)}" disabledMessage=${disabledOptionMessage}>
+              <div class="checkbox-wrapper">
+                <ssk-checkbox
+                  .checked="${selectedValues.includes(option)}"
+                  ?disabled="${disabledOptions.includes(option)}"
+                  @click="${(e: MouseEvent) => {
+                    e.stopPropagation();
+                    if (disabledOptions.includes(option)) return;
+                    const newSelectedValues = selectedValues.includes(option)
+                      ? selectedValues.filter((v: string) => v !== option)
+                      : [...selectedValues, option];
+                    updateArgs({ value: newSelectedValues });
+                  }}"
+                ></ssk-checkbox>
               <ssk-icon name=${option} slot="prefix"></ssk-icon>
               <div class="lables">${option}</div>
+              </div>
             </ssk-dropdown-option>
           `)}
         </ssk-dropdown>
@@ -386,5 +438,9 @@ export const DropdownMulti: Story = {
     helperText: "Helper text",
     multiSelect: true,
     value: [],
+    width: "500px",
+    disabledOptions: [],
+    disabledOptionMessage: "This option is disabled",
   },
 };
+

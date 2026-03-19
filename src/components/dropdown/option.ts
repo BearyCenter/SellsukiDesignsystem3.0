@@ -49,11 +49,20 @@ export class DropdownOption extends LitElement {
   @property({ type: String })
   value: string = "";
 
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  @property({ type: String })
+  disabledMessage?: string;
+
   private handleClick = (e: MouseEvent) => {
     e.stopPropagation();
     if (!this.state) return;
+    if (this.disabled) return;
     this.state.setValue(this.value, this);
   };
+
+  
 
   render() {
     if (this.hidden) {
@@ -71,11 +80,15 @@ export class DropdownOption extends LitElement {
         <slot name="prefix"></slot>
         <span class="label">
           <slot></slot>
+          ${this.disabled
+            ? html`<span class="disabled-message">${this.disabledMessage}</span>`
+            : nothing}
+          
         </span>
         <span class="postfix">
           <slot name="postfix">
             ${this.state?.multiSelect === false && this.state?.isSelected?.includes(this.value)
-              ? html`<ssk-icon color="info" name="outline-check"></ssk-icon>`
+              ? html`<ssk-icon color=${this.disabled ? "gray" : "info"} name="outline-check"></ssk-icon>`
               : nothing}
           </slot>
         </span>
@@ -111,6 +124,15 @@ export class DropdownOption extends LitElement {
     .container:active {
       background-color: var(--background-color);
       color: var(--font-color);
+    }
+
+    :host([disabled]) .container {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    :host([disabled]) .container:hover {
+      background-color: transparent;
+      color: var(--color);
     }
 
     .label {
