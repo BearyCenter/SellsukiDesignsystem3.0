@@ -50,13 +50,16 @@ export class DropdownButton extends LitElement {
           <slot></slot>
         </span>
        <div class="icons">
-  ${this.state?.multiSelect === true && (this.state?.value?.length ?? 0) > 0
-    ? html`<ssk-icon color="gray" name="outline-x-circle" @click=${this.handleClearClick}></ssk-icon>`
-    : nothing}
-  ${this.hideChevron
-    ? nothing
-    : html`<ssk-icon color="gray" name=${this.state?.isOpened ? "outline-chevron-up" : "outline-chevron-down"}></ssk-icon>`
-  }
+        ${this.state?.multiSelect === true && (this.state?.value?.length ?? 0) > 0
+          ? html`<ssk-icon color="gray" name="outline-x-circle" @click=${this.handleClearClick}></ssk-icon>`
+          : nothing}
+        ${this.state?.isError
+          ? html`<ssk-icon color="red" name="outline-exclamation-circle"></ssk-icon>`
+          : nothing}
+        ${this.hideChevron
+          ? nothing
+          : html`<ssk-icon color="gray" name=${this.state?.isOpened ? "outline-chevron-up" : "outline-chevron-down"}></ssk-icon>`
+        }
 </div>
       </button>
     `;
@@ -84,6 +87,10 @@ export class DropdownButton extends LitElement {
 
       gap: var(--gap);
       cursor: pointer;
+    }
+
+    .dropdown:hover:not(.disabled):not(.error) {
+      border: 1px solid var(--ssk-colors-gray-300);
     }
 
     .dropdown.disabled {

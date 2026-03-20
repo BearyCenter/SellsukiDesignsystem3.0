@@ -27,6 +27,7 @@ export type DropdownState = {
   multiSelect?: boolean;
   showClearButton?: boolean;
   isSelected?: string[];
+  hideCheckIcon?: boolean;
 };
 
 export const valueContext = createContext<DropdownState>(
@@ -49,7 +50,7 @@ export class Dropdown extends LitElement {
 
   // ThemeValue
   @property({ type: String })
-  themeColor: ColorRole | ColorName = "background";
+  themeColor: ColorRole | ColorName = "info";
 
   @property({ type: String })
   size: Size = "md";
@@ -118,8 +119,12 @@ export class Dropdown extends LitElement {
   @property({ type: Boolean })
   allowUnselect: boolean = false;
 
+  @property({ type: Boolean })
+  hideCheckIcon: boolean = false;
+
   @provide({ context: valueContext })
   @property({ attribute: false })
+  
   state: DropdownState = {
     clearValue: () => {
       this.clearSelection();
@@ -203,6 +208,9 @@ export class Dropdown extends LitElement {
     if (changedProperties.has("clearValue") && this.clearValue) {
       this.clearSelection();
       this.clearValue = false;
+    }
+    if (changedProperties.has("hideCheckIcon")) {
+      this.state = { ...this.state, hideCheckIcon: this.hideCheckIcon };
     }
   }
 
@@ -377,7 +385,7 @@ export class Dropdown extends LitElement {
             cssVar("colors", "border", 50)
           )};
 
-          --border-color: ${parseVariables(cssVar("colors", "border", 50))};
+          --border-color: ${parseVariables(cssVar("colors", "gray", 200))};
           --font-color: ${parseVariables(
             cssVar("colors", this.themeColor, 500)
           )};

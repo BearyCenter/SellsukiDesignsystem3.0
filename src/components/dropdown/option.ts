@@ -83,11 +83,10 @@ export class DropdownOption extends LitElement {
           ${this.disabled
             ? html`<span class="disabled-message">${this.disabledMessage}</span>`
             : nothing}
-          
         </span>
         <span class="postfix">
           <slot name="postfix">
-            ${this.state?.multiSelect === false && this.state?.isSelected?.includes(this.value)
+            ${this.state?.multiSelect === false && !this.state?.hideCheckIcon && this.state?.isSelected?.includes(this.value)
               ? html`<ssk-icon color=${this.disabled ? "gray" : "info"} name="outline-check"></ssk-icon>`
               : nothing}
           </slot>
@@ -118,7 +117,7 @@ export class DropdownOption extends LitElement {
     }
 
     .container:hover {
-      background-color: var(--background-color-hover);
+      background-color: var(--ssk-colors-gray-50);
       color: var(--color-hover);
     }
     .container:active {
@@ -136,9 +135,14 @@ export class DropdownOption extends LitElement {
     }
 
     .label {
-      white-space: var(--white-space, normal);
-      overflow-wrap: break-word;
-    }
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5em;
+        white-space: var(--white-space, normal);
+        overflow-wrap: break-word;
+    } 
+    
 
     .postfix {
       margin-left: auto;

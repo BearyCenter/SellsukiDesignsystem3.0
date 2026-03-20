@@ -47,6 +47,9 @@ export class DropdownPreview extends LitElement {
   @property({ type: String })
   value?: string = "";
 
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
   render() {
     if (this.hidden) {
       return nothing;
@@ -86,6 +89,11 @@ export class DropdownPreview extends LitElement {
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
+    :host([disabled]) .container {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
   `;
 }
 
