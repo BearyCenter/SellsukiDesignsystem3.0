@@ -23,6 +23,8 @@ export type DropdownState = {
   isOpened?: boolean;
   disabled?: boolean;
   isError?: boolean;
+  isSuccess?: boolean;
+  isLoading?: boolean;
   value?: string | string[];
   multiSelect?: boolean;
   showClearButton?: boolean;
@@ -88,6 +90,12 @@ export class Dropdown extends LitElement {
 
   @property({ type: Boolean })
   error = false;
+  
+  @property({ type: Boolean })
+  success = false;
+
+  @property({ type: Boolean })
+  loading = false;
 
   @property({ type: Boolean })
   search = false;
@@ -169,9 +177,11 @@ export class Dropdown extends LitElement {
     isOpened: false,
     disabled: this.disabled,
     isError: this.error,
+    isSuccess: this.success,
     multiSelect: this.multiSelect,
     value: [],
     isSelected: this.isSelected,
+    isLoading: this.loading,
   };
 
   @property({ type: Boolean, reflect: true })
@@ -195,6 +205,14 @@ export class Dropdown extends LitElement {
 
     if (changedProperties.has("error")) {
       this.state = { ...this.state, isError: this.error };
+    }
+
+    if (changedProperties.has("success")) {
+      this.state = { ...this.state, isSuccess: this.success };
+    }
+
+    if (changedProperties.has("loading")) {
+      this.state = { ...this.state, isLoading: this.loading };
     }
 
     if (changedProperties.has("value")) {
@@ -359,6 +377,28 @@ export class Dropdown extends LitElement {
       return nothing;
     }
 
+   
+    if (this.loading) {
+      const buttonHeight: Record<string, string> = {
+        sm: "32px", md: "40px", lg: "48px",
+      };
+        const height = buttonHeight[this.size] ?? "40px";
+        return html`
+        <div class="container" style="--width: ${this.width ?? "auto"};">
+          ${this.label
+            ? html`<ssk-skeleton width="24.5%" height="14px" skeletonShape="capsule"></ssk-skeleton>`
+            : nothing}
+          <div class="loading-button" style="height: ${height};">
+            <div class="loading-text">
+              <ssk-skeleton width="47.5%" height="12px" skeletonShape="capsule"></ssk-skeleton>
+            </div>
+            <ssk-skeleton width="24px" height="24px" skeletonShape="circle"></ssk-skeleton>
+          </div>
+        </div>
+      `;
+      }
+    
+
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.dropdown, ":host")}
 
@@ -423,6 +463,15 @@ export class Dropdown extends LitElement {
             cssVar("colors", "error", 300)
           )};
 
+          --color-success: ${parseVariables(cssVar("colors", "success", 600))};
+          --color-helper-success: ${parseVariables(
+            cssVar("colors", "success", 600)
+          )};
+          --border-color-success: ${parseVariables(
+            cssVar("colors", "success", 600)
+          )};
+          
+
           --width: ${parseVariables(
             cssVar("width", this.width),
             this.width,
@@ -436,8 +485,8 @@ export class Dropdown extends LitElement {
           max-height: ${this.maxOptionsHeight}px;
         }
       </style>
-
-      <div class="container ${this.error ? "error" : ""}" id="container">
+     
+      <div class="container ${this.error ? "error" : ""} ${this.success ? "success" : ""}" id="container">
         ${this.label
           ? html` <label
               >${this.label}
@@ -570,9 +619,30 @@ export class Dropdown extends LitElement {
       }
     }
 
+    .success {
+      label.helper {
+        color: var(--color-helper-success);
+      }
+    }
+
     div.container > label > span {
       color: red;
     }
+
+    div.loading-button {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 0 1em;
+      height: var(--loading-height, 40px);
+      box-sizing: border-box;
+    }
+  div.loading-text {
+    flex: 1;
+    overflow: hidden;
+  }
   `;
 }
 

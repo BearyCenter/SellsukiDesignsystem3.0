@@ -122,7 +122,7 @@ export class DropdownOption extends LitElement {
     }
     .container:active {
       background-color: var(--background-color);
-      color: var(--font-color);
+      color: var(--ssk-colors-black-900);
     }
 
     :host([disabled]) .container {
