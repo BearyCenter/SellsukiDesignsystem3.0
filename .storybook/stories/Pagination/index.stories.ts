@@ -11,7 +11,7 @@ type PaginationDefault = AutoLitProperty<Pagination> & { labels: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Pagination",
+  title: "Components/Navigation/Pagination",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html` <ssk-pagination ${spread({ ...args })}> </ssk-pagination> `;

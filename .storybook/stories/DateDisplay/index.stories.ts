@@ -9,7 +9,7 @@ const sizes: DateDisplay["size"][] = ["xs", "sm", "md", "lg", "xl", "2xl"];
 const locales: string[] = ["th", "en", "fr", "de"];
 
 const meta = {
-  title: "Example/DateDisplay",
+  title: "Components/Data Display/DateDisplay",
   tags: [],
   render: ({ ...args }) => {
     return html`

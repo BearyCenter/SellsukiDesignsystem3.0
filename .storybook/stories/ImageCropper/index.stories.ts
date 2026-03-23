@@ -4,7 +4,7 @@ import "../../../src/components/image-cropper"; // make sure component is regist
 import { ImageCropper } from "../../../src/components/image-cropper";
 
 const meta: Meta<ImageCropper> = {
-  title: "Example/ImageCropper",
+  title: "Components/Media & Branding/ImageCropper",
   component: "ssk-image-cropper",
   tags: ["autodocs"],
   render: (args) => {

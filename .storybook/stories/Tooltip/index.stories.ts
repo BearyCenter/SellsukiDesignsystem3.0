@@ -12,7 +12,7 @@ import { ArgTypes, Meta, StoryObj } from "@storybook/web-components";
 type TooltipArgs = {} & Tooltip;
 
 const meta = {
-  title: "Example/Tooltip",
+  title: "Components/Overlay & Notification/Tooltip",
   tags: ["autodocs"],
   parameters: {
     docs: {

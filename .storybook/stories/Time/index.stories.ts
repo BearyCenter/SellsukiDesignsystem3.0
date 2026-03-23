@@ -14,7 +14,7 @@ type TimeWithArgs = AutoLitProperty<Time>;
 type TimeEventArgs = addPrefixToObject<Omit<TimeWithArgs, "name">, "@">;
 
 const meta = {
-  title: "Example/Time",
+  title: "Components/Data Display/Time",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<style>

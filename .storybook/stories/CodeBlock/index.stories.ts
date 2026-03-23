@@ -9,7 +9,7 @@ import { AutoLitProperty } from "../helper";
 type CodeBlockWithLabel = AutoLitProperty<CodeBlock>;
 
 const meta = {
-  title: "Example/CodeBlock",
+  title: "Components/Typography/CodeBlock",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html` <style></style>

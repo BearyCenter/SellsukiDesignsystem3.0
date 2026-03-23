@@ -30,7 +30,7 @@ const placement: Placement[] = [
 ];
 
 const meta = {
-  title: "Example/Tooltip",
+  title: "Components/Overlay & Notification/Tooltip",
   tags: [],
   render: ({ ...args }) => {
     return html`

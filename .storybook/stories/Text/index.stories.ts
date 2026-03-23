@@ -11,7 +11,7 @@ type TextArgs = {
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Text",
+  title: "Components/Typography/Text",
   tags: ["autodocs"],
   render: ({ content, ...args }) => {
     return html`<ssk-text ${spread(args)}>${content}</ssk-text>`;

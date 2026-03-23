@@ -8,7 +8,7 @@ import { AutoLitProperty } from "../helper";
 type SkeletonArgs = AutoLitProperty<Skeleton>;
 
 const meta: Meta<Skeleton> = {
-  title: "Example/Skeleton",
+  title: "Components/Feedback & Loading/Skeleton",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`

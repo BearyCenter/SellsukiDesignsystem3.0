@@ -9,7 +9,7 @@ type AvatarArgs = {} & Avatar;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Avatar",
+  title: "Components/Media & Branding/Avatar",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<ssk-avatar ${spread(args)}></ssk-avatar>`;

@@ -9,7 +9,7 @@ type LogoArgs = AutoLitProperty<Logo>;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Logo",
+  title: "Components/Media & Branding/Logo",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<ssk-logo ${spread(args)}></ssk-logo>`;

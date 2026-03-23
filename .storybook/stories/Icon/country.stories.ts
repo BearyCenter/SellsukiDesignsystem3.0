@@ -8,7 +8,7 @@ import { Meta, StoryObj } from "@storybook/web-components";
 type CountryIconArgs = {} & CountryIcon;
 
 const meta = {
-  title: "Example/Icon/CountryIcon",
+  title: "Components/Media & Branding/Icon/CountryIcon",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<ssk-country-icon ${spread(args)}></ssk-country-icon>`;

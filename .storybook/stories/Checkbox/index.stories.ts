@@ -9,7 +9,7 @@ type CheckboxArgs = {} & Checkbox;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Checkbox",
+  title: "Components/Form & Input/Checkbox",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<ssk-checkbox ${spread(args)}> </ssk-checkbox>`;

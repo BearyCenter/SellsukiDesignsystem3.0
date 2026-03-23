@@ -146,7 +146,7 @@ const sortData = (data, dataIndex, direction = 'asc') => {
 type WidgetTableArgs = WidgetTable;
 
 const meta = {
-    title: "Example/WidgetTable",
+    title: "Components/Widget/WidgetTable",
     tags: ["autodocs"],
     render: ({ ...args }) => {
         return html`

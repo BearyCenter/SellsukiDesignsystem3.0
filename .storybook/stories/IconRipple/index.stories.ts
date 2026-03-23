@@ -10,7 +10,7 @@ type IconArgs = {} & MiscIcon;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Misc Icon",
+  title: "Components/Media & Branding/Misc Icon",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<ssk-misc-icon ${spread(args)}></ssk-misc-icon>`;

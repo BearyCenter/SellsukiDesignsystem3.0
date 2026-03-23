@@ -6,7 +6,7 @@ import "../../../src/elements/button";
 import "../../../src/elements/i18n/translate";
 
 const meta = {
-  title: "Example/I18n/Provider",
+  title: "Components/Utility/i18n/Provider",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<style>

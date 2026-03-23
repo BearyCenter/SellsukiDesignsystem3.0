@@ -29,7 +29,7 @@ const state = [
 const size: Button["size"][] = ["xl", "lg", "md", "sm", "xs"];
 
 const meta = {
-  title: "Example/Button",
+  title: "Components/Form & Input/Button",
   tags: [],
   render: ({ label, click, ...args }) => {
     return html` <style>

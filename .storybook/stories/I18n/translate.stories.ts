@@ -8,7 +8,7 @@ import { Translate } from "../../../src/elements/i18n/translate";
 type TranslateArgs = {} & Translate;
 
 const meta = {
-  title: "Example/I18n/Translate",
+  title: "Components/Utility/i18n/Translate",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html` <ssk-i18n-translate ${spread(args)} />`;

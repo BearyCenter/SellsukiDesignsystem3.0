@@ -3,7 +3,7 @@ import { html } from "lit";
 import "../../../src/components/toast";
 
 export default {
-  title: "Example/Toast",
+  title: "Components/Overlay & Notification/Toast",
   component: "ssk-toast",
   argTypes: {
     testId: { control: "text" },

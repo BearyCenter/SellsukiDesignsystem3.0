@@ -8,7 +8,7 @@ import { AutoLitProperty, baseArgsTypes } from "../helper";
 type CardExpandableComponentArgs = AutoLitProperty<ExpandableCard> & { label: string };
 
 const meta: Meta<ExpandableCard> = {
-  title: "Example/CardExpandable",
+  title: "Components/Data Display/CardExpandable",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`

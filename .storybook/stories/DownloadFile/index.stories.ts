@@ -10,7 +10,7 @@ import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
 type DownloadFileWithLabel = AutoLitProperty<DownloadFile> & { label: string };
 
 const meta: Meta<DownloadFileWithLabel> = {
-  title: "Example/DownloadFile",
+  title: "Components/Utility/DownloadFile",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<ssk-download-file  ${spread(args)}

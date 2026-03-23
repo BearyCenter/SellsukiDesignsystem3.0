@@ -9,7 +9,7 @@ type LogoArgs = {} & Logo;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Logo",
+  title: "Components/Media & Branding/Logo",
   tags: [],
   render: ({ ...args }) => {
     return html`

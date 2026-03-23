@@ -15,7 +15,7 @@ type CalendarEventArgs = addPrefixToObject<Omit<CalendarArgs, "name">, "@">;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Calendar",
+  title: "Components/Data Display/Calendar",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html` <style>

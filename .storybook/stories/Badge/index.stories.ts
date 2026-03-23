@@ -11,7 +11,7 @@ type BadgeWithLabel = Badge &
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Badge",
+  title: "Components/Data Display/Badge",
   tags: ["autodocs"],
   render: ({ label, ...args }) => {
     return html`<ssk-badge ${spread(args)}>${label}</ssk-badge>`;

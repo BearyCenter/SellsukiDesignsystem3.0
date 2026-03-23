@@ -18,7 +18,7 @@ type WidgetTitleArgs =   WidgetTitle & {
 };
 
 const meta = {
-    title: "Example/WidgetTitle",
+    title: "Components/Widget/WidgetTitle",
     tags: ["autodocs"],
     render: ({ ...args }) => {
         return html`<style>

@@ -14,7 +14,7 @@ const onClickAction = action('click');
 type WidgetMatricArgs = {} & WidgetMatric;
 
 const meta = {
-    title: "Example/WidgetMatric",
+    title: "Components/Widget/WidgetMatric",
     tags: ["autodocs"],
     render: ({ ...args }) => {
         return html`

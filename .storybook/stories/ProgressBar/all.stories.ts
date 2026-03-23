@@ -10,7 +10,7 @@ import { AutoLitProperty, baseArgsTypes } from "../helper";
 type ProgressBarWithLabel = AutoLitProperty<ProgressBar> & { label: string };
 
 const meta: Meta<ProgressBarWithLabel> = {
-    title: "Example/ProgressBar",
+    title: "Components/Feedback & Loading/ProgressBar",
     tags: [""],
     render: ({ label, ...args }) => {
         return html`

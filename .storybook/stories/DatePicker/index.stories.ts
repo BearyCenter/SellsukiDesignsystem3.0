@@ -19,7 +19,7 @@ type DatePickerArgs = AutoLitProperty<DatePicker> &
 type DatePickerEventArgs = addPrefixToObject<Omit<DatePickerArgs, "name">, "@">;
 
 const meta = {
-  title: "Example/DatePicker",
+  title: "Components/Form & Input/DatePicker",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html` <ssk-date-picker ${spread(args)}> </ssk-date-picker> `;

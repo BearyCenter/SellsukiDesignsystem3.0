@@ -18,7 +18,7 @@ const size: Checkbox["size"][] = [
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Checkbox",
+  title: "Components/Form & Input/Checkbox",
   tags: [],
   render: ({ ...args }) => {
     return html`<style>

@@ -17,7 +17,7 @@ import { AutoLitProperty, baseArgsTypes } from "../helper";
 type GridStoryArgs = AutoLitProperty<Grid>;
 
 const meta: Meta<GridStoryArgs> = {
-    title: "Example/WidgetGrid",
+    title: "Components/Widget/WidgetGrid",
     tags: ["autodocs"],
     component: 'ssk-widget-grid',
     args: {

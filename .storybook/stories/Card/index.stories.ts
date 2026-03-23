@@ -6,7 +6,7 @@ import { Card } from "../../../src/components/card";
 import { spread } from "@open-wc/lit-helpers";
 
 const meta: Meta<Card> = {
-  title: "Example/Card",
+  title: "Components/Data Display/Card",
   component: "ssk-card",
   tags: ["autodocs"],
   render: ({...args}) => html`

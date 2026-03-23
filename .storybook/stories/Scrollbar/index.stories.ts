@@ -2,7 +2,7 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 
 const meta = {
-  title: "Example/Scrollbar",
+  title: "Components/Layout & Structure/Scrollbar",
   tags: [],
   render: ({ ...args }) => {
     return html`<style>

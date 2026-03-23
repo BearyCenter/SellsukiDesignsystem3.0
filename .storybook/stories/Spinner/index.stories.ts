@@ -10,7 +10,7 @@ type SpinnerProps = AutoLitProperty<Spinner>;
 const sizes = ["sm", "md", "lg"];
 
 const meta = {
-  title: "Example/Spinner",
+  title: "Components/Feedback & Loading/Spinner",
   tags: [],
   render: ({ ...args }) => {
     return html`

@@ -5,7 +5,7 @@ import { spread } from "@open-wc/lit-helpers";
 import { de } from "date-fns/locale";
 
 const meta: Meta = {
-    title: "Example/CardExpandable/ExpandFromFooter",
+    title: "Components/Data Display/CardExpandable/ExpandFromFooter",
     tags: ["autodocs"],
     argTypes: {
         "hideText?": {

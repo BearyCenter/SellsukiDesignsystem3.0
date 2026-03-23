@@ -30,7 +30,7 @@ const accordionItems = [
 ];
 
 const meta = {
-  title: "Example/Accordion",
+  title: "Components/Layout & Structure/Accordion",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`
