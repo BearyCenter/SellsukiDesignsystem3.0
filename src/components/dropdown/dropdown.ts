@@ -349,11 +349,11 @@ export class Dropdown extends LitElement {
     }
 
     if (this.optionsAlign === "left") {
-      if (spaceLeft < optionsWidth) {
+      if (spaceRight < optionsWidth) {
         align = "right";
       }
     } else if (this.optionsAlign === "right") {
-      if (spaceRight < optionsWidth) {
+      if (spaceLeft < optionsWidth) {
         align = "left";
       }
     }
@@ -380,7 +380,7 @@ export class Dropdown extends LitElement {
    
     if (this.loading) {
       const buttonHeight: Record<string, string> = {
-        sm: "32px", md: "40px", lg: "48px",
+        sm: "36px", md: "40px", lg: "44px",
       };
         const height = buttonHeight[this.size] ?? "40px";
         return html`

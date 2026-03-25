@@ -11,8 +11,7 @@ import "../../../src/elements/checkbox";
 
 type DropdownWithLabel = AutoLitProperty<Dropdown> & {
   placeholder: string;
-  disabledOptions: string[];
-  disabledOptionMessage: string;
+  disabledOptions: Record<string, string>;
 };
 
 const options = [
@@ -79,16 +78,15 @@ const options = [
 ];
 
 const testOptions2 = [
-  "pen",
-  "pencil",
-  "eraser",
-  "marker",
-  "paint",
-  "scissors",
-  "ruler",
-  "compass",
-  "calculator",
-  "notebook",
+  "item1",
+  "item2",
+  "item3",
+  "item4",
+  "item5",
+  "item6",
+  "item7",
+  "item8longtextxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxt",
+  "item9",
 ];
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
@@ -264,14 +262,16 @@ const meta = {
     disabledOptions: {
       description: "Options that are disabled",
       control: {
-        type: "multi-select",
+        type: "object",
       },
-      options: testOptions2,
-    },
-    disabledOptionMessage: {
-      description: "Message that is displayed when an option is disabled",
-      control: "text",
-    },
+      },
+      hideCheckIcon: {
+        description: "Whether to hide the check icon",
+        control: {
+          type: "boolean",
+        },
+      },
+    
     ...baseArgsTypes,
   },
 } satisfies Meta<DropdownWithLabel>;
@@ -323,10 +323,22 @@ export const DropdownSingle: Story = {
   render: ({ ...args }) => {
     const [{ }, updateArgs] = useArgs();
 
+    const disabledOption: Record<string, string> = args["disabledOptions"] ?? {};
 
+    const selectedValue = typeof args["value"] === "string" ? args["value"] : "";
 
+    const displayLabel = selectedValue?.length
+      ? selectedValue in disabledOption
+        ? `${selectedValue} ${disabledOption[selectedValue]}`
+        : selectedValue
+      : args["placeholder"];
 
     return html`
+    <style>
+      .label {
+        word-break: break-all;
+      }
+    </style>
       <div class="container">
         <ssk-dropdown
           ${spread({ ...args })}
@@ -336,18 +348,22 @@ export const DropdownSingle: Story = {
         >
           <ssk-dropdown-button slot="selected">
             <ssk-dropdown-preview
-              value=${ifDefined(args["value"] || args["placeholder"])}
+              value=${ifDefined(displayLabel)}
+              ?disabled=${(selectedValue ?? "") in disabledOption}
             >
-              <ssk-icon slot="prefix" name=${args["value"] || ""}></ssk-icon>
-              ${args["value"] || args["placeholder"]}
+              <ssk-icon slot="prefix" name=${selectedValue || ""}></ssk-icon>
+              ${displayLabel}
             </ssk-dropdown-preview>
           </ssk-dropdown-button>
 
           ${options.map(
         (option) => html`
-              <ssk-dropdown-option value=${option}>
+              <ssk-dropdown-option value=${option} ?disabled=${option in disabledOption}>
                 <ssk-icon name=${option} slot="prefix"></ssk-icon>
-                <div class="lables">${option}</div>
+                <div class="label">${option in disabledOption && disabledOption[option]
+                  ? `${option} ${disabledOption[option]}`
+                  : option}
+                </div>
               </ssk-dropdown-option>
             `
       )}
@@ -361,6 +377,7 @@ export const DropdownSingle: Story = {
     placeholder: "Placeholder",
     helperText: "Helper text",
     value: "",
+    disabledOptions: {},
   },
   parameters: {
     design: {
@@ -376,14 +393,30 @@ export const DropdownMulti: Story = {
 
     const selectedValues = Array.isArray(args.value) ? args.value : [];
 
-    const disabledOptions: string[] = args["disabledOptions"] ?? [];
-    const disabledOptionMessage: string = args["disabledOptionMessage"] ?? "";
+    const disabledOptions: Record<string, string> = args["disabledOptions"] ?? {};
 
     const label =
       selectedValues.length > 0
         ? selectedValues.join(", ")
         : args.placeholder;
 
+        const renderSelectedLabel = (
+          selectedValues: string[],
+          disabledOptions: Record<string, string>,
+          placeholder: string
+        ) => {
+          if (selectedValues.length === 0) {
+            return html`<span style="color: #9CA3AF">${placeholder}</span>`;
+          }
+          if (Object.keys(disabledOptions).length === 0 && selectedValues.length === testOptions2.length) {
+            return html`<span>Select All</span>`;
+          }
+          return selectedValues.map((v, i) => html`
+            <span style="color: ${v in disabledOptions ? '#9CA3AF' : '#1F2937'}">
+              ${v in disabledOptions ? `${v} ${disabledOptions[v]}` : v}
+            </span>${i < selectedValues.length - 1 ? ', ' : ''}
+          `);
+        };
     return html`
     <style>
       .checkbox-wrapper {
@@ -393,6 +426,26 @@ export const DropdownMulti: Story = {
         width: 100%;
         cursor: pointer;
       }
+      .disabled-checkbox-wrapper {
+        
+        cursor: not-allowed;
+      }
+      .labels {
+          word-break: break-all;
+        }
+
+      .disabled-labels {
+        opacity: 0.4;
+      }
+
+      .selected-values {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+      }
+
     </style>
       <div class="container">
         <ssk-dropdown
@@ -403,27 +456,34 @@ export const DropdownMulti: Story = {
         >
           <ssk-dropdown-button slot="selected">
             <ssk-dropdown-preview value=${label}>
-              ${label}
+            <span class="selected-values">
+              ${renderSelectedLabel(selectedValues, disabledOptions, args.placeholder)}
+            </span>
             </ssk-dropdown-preview>
           </ssk-dropdown-button>
 
           ${testOptions2.map((option) => html`
-            <ssk-dropdown-option value=${option} ?disabled="${disabledOptions.includes(option)}" disabledMessage=${disabledOptionMessage}>
-              <div class="checkbox-wrapper">
-                <ssk-checkbox
-                  .checked="${selectedValues.includes(option)}"
-                  ?disabled="${disabledOptions.includes(option)}"
-                  @click="${(e: MouseEvent) => {
+            <ssk-dropdown-option value=${option} ?disabled=${option in disabledOptions} }>
+              <div class="checkbox-wrapper ${option in disabledOptions ? 'disabled-checkbox-wrapper' : ''}" @click=${(e: Event) => {
+                  if (option in disabledOptions && selectedValues.includes(option)) {
                     e.stopPropagation();
-                    if (disabledOptions.includes(option)) return;
-                    const newSelectedValues = selectedValues.includes(option)
-                      ? selectedValues.filter((v: string) => v !== option)
-                      : [...selectedValues, option];
-                    updateArgs({ value: newSelectedValues });
-                  }}"
+                    const sskDropdown = (e.currentTarget as HTMLElement).closest('ssk-dropdown');
+                    if (sskDropdown) {
+                      (sskDropdown as any).state.setValue(option);
+                    }
+                  }
+                }}>
+                <ssk-checkbox
+                  slot="prefix"
+                  .checked="${selectedValues.includes(option)}"
+                    .disabled="${option in disabledOptions && !selectedValues.includes(option)}"
+                  @change="${(e: Event) => console.log(`${option}:`, (e.target as HTMLInputElement).checked ? 'checked' : 'unchecked')}"
                 ></ssk-checkbox>
-              <ssk-icon name=${option} slot="prefix"></ssk-icon>
-              <div class="lables">${option}</div>
+                <div class="labels ${option in disabledOptions ? 'disabled-labels' : ''}">
+                  ${option in disabledOptions && disabledOptions[option] 
+                    ? `${option} ${disabledOptions[option]}` 
+                    : option}
+                </div>
               </div>
             </ssk-dropdown-option>
           `)}
@@ -439,8 +499,380 @@ export const DropdownMulti: Story = {
     multiSelect: true,
     value: [],
     width: "500px",
-    disabledOptions: [],
-    disabledOptionMessage: "This option is disabled",
+    disabledOptions: {},
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=31565-11658",
+    },
   },
 };
 
+
+export const DropdownButton: Story = {
+  render: ({ ...args }) => {
+    const [{ optionsAnchor,isOpen }, updateArgs] = useArgs();
+    function getChevronIcon() {
+      if (optionsAnchor === "top") {
+        return "up";
+      } else if (optionsAnchor === "bottom") {
+        return "down";
+      }
+      return optionsAnchor;
+    }
+    return html`
+      <style>
+        .container {
+          width: 100%;
+          height: 100dvh;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+        }
+        .labels {
+          word-break: break-all;
+        }
+      </style>
+      <div class="container">
+        
+          <ssk-dropdown ${spread({ ...args })} label="Dropdown Placement">
+            <ssk-button slot="selected">
+              <ssk-text color="white">Dropdown</ssk-text>
+              <ssk-icon slot="postfix" name="solid-chevron-${getChevronIcon() || "down"}"></ssk-icon>
+            </ssk-button>
+            ${testOptions2.map(
+              (option) => html`
+                <ssk-dropdown-option value=${option}>
+                <div class="labels">
+                  <ssk-text>${option}</ssk-text>
+                  </div>
+                </ssk-dropdown-option>
+              `
+            )}
+          </ssk-dropdown>
+          <ssk-dropdown 
+            label="Dropdown with Chevron Toggle"
+            ${spread({ ...args })}
+            hideCheckIcon=${true}
+              @change=${(e: any) => {
+                updateArgs({ value: e.detail, isOpen: false });
+            }}>
+            <ssk-button slot="selected" @click=${() => { updateArgs({ isOpen: !isOpen });}}>
+              <ssk-text color="white">Dropdown</ssk-text>
+              <ssk-icon slot="postfix" name=${isOpen ? "solid-chevron-up" : "solid-chevron-down"}></ssk-icon>
+            </ssk-button>
+            ${testOptions2.map(
+              (option) => html`
+                <ssk-dropdown-option value=${option} >
+                  <div class="labels">
+                    <ssk-text>${option}</ssk-text>
+                  </div>
+                </ssk-dropdown-option>
+              `
+            )}
+          </ssk-dropdown>
+      </div>
+    `;
+  },
+  args: {
+    size: "md",
+    value: "",
+    optionsWidth: "fit",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=31281-11014",
+    },
+  },
+};
+
+export const DropdownIcon: Story = {
+  render: ({ ...args }) => {
+    return html`
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100dvh;
+      }
+      .labels {
+        word-break: break-all;
+        width: 200px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .labels ssk-avatar {
+        flex-shrink: 0;
+      }
+    </style>
+    <div class="container">
+      <div class="icon-avatar">
+        <ssk-dropdown ${spread({ ...args })}>
+          <ssk-icon  name="solid-point-3x3" slot="selected"></ssk-icon>
+        ${testOptions2.map(
+          (option) => html`
+            <ssk-dropdown-option value=${option}>
+            <div class="labels">
+              <ssk-avatar slot="prefix" src="/Avatar.png" alt="demo avatar" shape="circle" size="sm"></ssk-avatar>
+              <ssk-text>${option}</ssk-text>
+            </div>
+            </ssk-dropdown-option>
+          `
+        )}
+        </ssk-dropdown>
+      </div>
+    </div>
+    `;
+  },
+
+  args: {
+    size: "md",
+    optionsWidth: "auto",
+    value: "",
+    
+    disabledOptions: {},
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=31545-37880",
+    },
+  },
+};
+
+export const DropdownRadio: Story = {
+  render: ({ ...args }) => {
+    const [{}, updateArgs] = useArgs();
+    const disabledOptions: Record<string, string> = args["disabledOptions"] ?? {};
+    const selectedValue = typeof args["value"] === "string" ? args["value"] : "";
+    const displayLabel = selectedValue?.length
+      ? selectedValue in disabledOptions
+        ? `${selectedValue} ${disabledOptions[selectedValue]}`
+        : selectedValue
+      : args["placeholder"];
+
+
+    return html`
+      <style>
+        .lables {
+          word-break: break-all;
+        }
+      </style>
+      <div class="container">
+        <ssk-dropdown
+          ${spread({ ...args })}
+          @change=${(e: any) => {
+            action("@change")(e);
+            updateArgs({ value: e.detail });
+          }}
+          hideCheckIcon=${true}
+        >
+          <ssk-dropdown-button slot="selected">
+            <ssk-dropdown-preview
+              value=${ifDefined(displayLabel)}
+              ?disabled=${(selectedValue ?? "") in disabledOptions}
+            >
+              ${displayLabel}
+            </ssk-dropdown-preview>
+          </ssk-dropdown-button>
+          ${testOptions2.map(
+            (option) => html`
+              <ssk-dropdown-option
+                value=${option}
+                ?disabled=${option in disabledOptions}
+                disabledMessage=${disabledOptions[option] ?? ""}
+              >
+                <ssk-radio
+                  .checked="${args["value"] === option}"
+                  ?disabled="${option in disabledOptions}"
+                >
+                  
+                </ssk-radio>
+                <div class="lables">${option}</div>
+              </ssk-dropdown-option>
+            `
+          )}
+        </ssk-dropdown>
+      </div>
+    `;
+  },
+  args: {
+    size: "md",
+    label: "Label",
+    placeholder: "placeholder",
+    helperText: "helper text",
+    width: "300px",
+    optionsWidth: "fit",
+    value: "",
+    optionsAnchor: "bottom",
+    optionsAlign: "left",
+    disabledOptions: {},
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=31556-42175",
+    },
+  },
+};
+
+
+export const DropdownEmpty: Story = {
+  render: ({ ...args }) => {
+    const [{ isOpen }, updateArgs] = useArgs();
+    return html`
+      <style>
+        .empty-dropdown-container {
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          padding: 2rem;
+          min-height: 100dvh;
+        }
+      </style>
+      <div class="empty-dropdown-container">
+        <ssk-dropdown ${spread({ ...args })}>
+          <ssk-dropdown-button slot="selected">
+            <ssk-dropdown-preview value=${ifDefined(args["value"] || args["placeholder"])}>
+            <ssk-text color="gray">${args["value"] || args["placeholder"]}</ssk-text>
+            </ssk-dropdown-preview>
+          </ssk-dropdown-button>
+          <ssk-dropdown-option value="${args["placeholder"]}">
+          <ssk-icon color="gray" name="outline-user-circle" slot="prefix"></ssk-icon>
+          <ssk-text color="gray">Empty Data</ssk-text>
+          </ssk-dropdown-option>
+        </ssk-dropdown>
+
+        <ssk-dropdown optionsWidth= "auto">
+          <ssk-icon name="solid-ellipsis-vertical" slot="selected"></ssk-icon>
+          <ssk-dropdown-option value="${args["placeholder"]}">
+          <ssk-text color="gray">Empty Data</ssk-text>
+          </ssk-dropdown-option>
+        </ssk-dropdown>
+
+        <ssk-dropdown optionsWidth= "auto">
+          <ssk-button slot="selected">
+            <ssk-text color="white">Dropdown</ssk-text>
+              <ssk-icon slot="postfix" name=${isOpen ? "solid-chevron-up" : "solid-chevron-down"}></ssk-icon>
+          </ssk-button>
+          <ssk-dropdown-option value="${args["placeholder"]}">
+          <ssk-text color="gray">Empty Data</ssk-text>
+          </ssk-dropdown-option>
+        </ssk-dropdown>
+      </div>
+    `;
+  },
+  args: {
+    size: "md",
+    label: "label",
+    placeholder: "placeholder",
+    width: "300px",
+    optionsWidth: "fit",
+    helperText: "Empty state",
+    maxOptionsHeight:80,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=31281-11731",
+    },
+  },
+};
+export const DropdownSlotUsage: Story = {
+  render: ({ ...args }) => {
+    return html`
+      <style>
+        .empty-dropdown-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem;
+          min-height: 100dvh;
+        }
+        .loading-container {
+          height: 500px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          gap: 16px;
+        }
+      </style>
+      <div class="empty-dropdown-container">
+        <ssk-dropdown ${spread({ ...args })}>
+          <ssk-dropdown-button slot="selected">
+            <ssk-dropdown-preview value=${args["placeholder"]}>
+              ${args["placeholder"]}
+            </ssk-dropdown-preview>
+          </ssk-dropdown-button>
+          <div class="loading-container">
+          <ssk-spinner size="44px"></ssk-spinner>
+          <ssk-text>Loading...</ssk-text>
+          </div>
+        </ssk-dropdown>
+      </div>
+    `;
+  },
+  args: {
+    size: "md",
+    placeholder: "placeholder",
+    label: "Label",
+    width: "300px",
+    optionsWidth: "fit",
+    maxOptionsHeight:112,
+    helperText: "Loading...",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=31518-82794",
+    },
+  },
+};
+
+export const DropdownLoading: Story = {
+  render: ({ ...args }) => {
+    return html`
+      <style>
+        .wait-data-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem;
+          min-height: 100dvh;
+        }
+      </style>
+      <div class="wait-data-container">
+        <ssk-dropdown ${spread({ ...args })}>
+          <ssk-dropdown-button slot="selected">
+            <ssk-dropdown-preview value=${args["placeholder"]}>
+              ${args["placeholder"]}
+            </ssk-dropdown-preview>
+          </ssk-dropdown-button>
+        </ssk-dropdown>
+      </div>
+    `;
+  },
+  args: {
+    size: "md",
+    placeholder: "placeholder",
+    label: "Label",
+    
+    width: "328px",
+    loading: true,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=1123-66711",
+    },
+  },
+};
