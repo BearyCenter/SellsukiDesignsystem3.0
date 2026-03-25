@@ -2,6 +2,7 @@ import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "../../../src/elements/checkbox";
+import "../../elements/icon";
 import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
@@ -48,14 +49,17 @@ export class DropdownOption extends LitElement {
   @property({ type: String })
   value: string = "";
 
-  private handleClick = () => {
-    if (this.state && this.state.multiSelect === false) {
-      this.state.isSelected = [this.value];
-      this.state.setValue(this.value, this);
-      this.requestUpdate();
-      this.dispatchEvent(new CustomEvent("select", { detail: this.value }));
-    }
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  private handleClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    if (!this.state) return;
+    if (this.disabled) return;
+    this.state.setValue(this.value, this);
   };
+
+  
 
   render() {
     if (this.hidden) {
@@ -74,7 +78,13 @@ export class DropdownOption extends LitElement {
         <span class="label">
           <slot></slot>
         </span>
-        <slot name="postfix"></slot>
+        <span class="postfix">
+          <slot name="postfix">
+            ${this.state?.multiSelect === false && !this.state?.hideCheckIcon && this.state?.isSelected?.includes(this.value)
+              ? html`<ssk-icon color=${this.disabled ? "gray" : "info"} name="outline-check"></ssk-icon>`
+              : nothing}
+          </slot>
+        </span>
       </span>
     `;
   }
@@ -101,18 +111,37 @@ export class DropdownOption extends LitElement {
     }
 
     .container:hover {
-      background-color: var(--background-color-hover);
+      background-color: var(--ssk-colors-gray-50);
       color: var(--color-hover);
     }
     .container:active {
       background-color: var(--background-color);
-      color: var(--font-color);
+      color: var(--ssk-colors-black-900);
+    }
+    :host([disabled]) .container:hover {
+      background-color: transparent;
+      color: var(--color);
+    }
+    :host([disabled]) .container {
+      cursor: not-allowed;
     }
 
+}
+
     .label {
-      white-space: var(--white-space, nowrap);
-      overflow: hidden;
-      text-overflow: ellipsis;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5em;
+        white-space: var(--white-space, normal);
+        overflow-wrap: break-word;
+    } 
+    
+
+    .postfix {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
     }
   `;
 }

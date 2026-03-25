@@ -101,7 +101,7 @@ const meta = {
 
         div.row {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(4, 1fr);
           gap: 0.5em;
         }
       </style>
@@ -199,6 +199,37 @@ const meta = {
                   </ssk-dropdown-option>`;
                 })}
               </ssk-dropdown>
+
+              <ssk-dropdown
+                testId=${`dropdown-${s}-success`}
+                size=${s}
+                success
+                @change=${(e: any) => {
+                  action("@change")(e);
+                  updateArgs({ value: e.target.value });
+                }}
+                ${spread({ ...args })}
+              >
+                <ssk-dropdown-button slot="selected">
+                  <ssk-dropdown-preview
+                    value=${ifDefined(args["value"])}
+                  >
+                    <ssk-icon
+                      name=${ifDefined(args["value"])}
+                      slot="prefix"
+                      size=${s}
+                    ></ssk-icon>
+                    ${args["value"] || args["placeholder"]}
+                  </ssk-dropdown-preview>
+                </ssk-dropdown-button>
+                ${options.map((option) => {
+                  return html`<ssk-dropdown-option value=${option}>
+                    <ssk-icon name=${option}></ssk-icon>
+                    ${option}
+                  </ssk-dropdown-option>`;
+                })}
+              </ssk-dropdown>
+            
             </div>
           </section>`
         )}
