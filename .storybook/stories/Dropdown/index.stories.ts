@@ -338,6 +338,9 @@ export const DropdownSingle: Story = {
       .label {
         word-break: break-all;
       }
+      ssk-dropdown-option[disabled] .label {
+        opacity: 0.4;
+      }
     </style>
       <div class="container">
         <ssk-dropdown
@@ -359,11 +362,11 @@ export const DropdownSingle: Story = {
           ${options.map(
         (option) => html`
               <ssk-dropdown-option value=${option} ?disabled=${option in disabledOption}>
-                <ssk-icon name=${option} slot="prefix"></ssk-icon>
+                <ssk-icon name=${option} slot="prefix" color=${option in disabledOption ? "gray" : ""}></ssk-icon>
                 <div class="label">${option in disabledOption && disabledOption[option]
-                  ? `${option} ${disabledOption[option]}`
-                  : option}
-                </div>
+                    ? `${option} ${disabledOption[option]}`
+                    : option}
+                  </div>
               </ssk-dropdown-option>
             `
       )}
@@ -521,6 +524,10 @@ export const DropdownButton: Story = {
       }
       return optionsAnchor;
     }
+    const disabledOption: Record<string, string> = args["disabledOptions"] ?? {};
+
+
+
     return html`
       <style>
         .container {
@@ -543,9 +550,11 @@ export const DropdownButton: Story = {
             </ssk-button>
             ${testOptions2.map(
               (option) => html`
-                <ssk-dropdown-option value=${option}>
+                <ssk-dropdown-option value=${option} ?disabled=${option in disabledOption}>
                 <div class="labels">
-                  <ssk-text>${option}</ssk-text>
+                  <ssk-text color=${option in disabledOption ? "gray" : ""}>${option in disabledOption && disabledOption[option]
+                    ? `${option} ${disabledOption[option]}`
+                    : option}</ssk-text>
                   </div>
                 </ssk-dropdown-option>
               `
@@ -579,6 +588,7 @@ export const DropdownButton: Story = {
     size: "md",
     value: "",
     optionsWidth: "fit",
+    disabledOptions: {},
   },
   parameters: {
     design: {
@@ -590,6 +600,8 @@ export const DropdownButton: Story = {
 
 export const DropdownIcon: Story = {
   render: ({ ...args }) => {
+    const disabledOption: Record<string, string> = args["disabledOptions"] ?? {};
+
     return html`
     <style>
       .container {
@@ -617,10 +629,12 @@ export const DropdownIcon: Story = {
           <ssk-icon  name="solid-point-3x3" slot="selected"></ssk-icon>
         ${testOptions2.map(
           (option) => html`
-            <ssk-dropdown-option value=${option}>
+            <ssk-dropdown-option value=${option} ?disabled=${option in disabledOption}>
             <div class="labels">
               <ssk-avatar slot="prefix" src="/Avatar.png" alt="demo avatar" shape="circle" size="sm"></ssk-avatar>
-              <ssk-text>${option}</ssk-text>
+              <ssk-text color=${option in disabledOption ? "gray" : ""}>${option in disabledOption && disabledOption[option]
+                ? `${option} ${disabledOption[option]}`
+                : option}</ssk-text>
             </div>
             </ssk-dropdown-option>
           `
@@ -663,6 +677,7 @@ export const DropdownRadio: Story = {
         .lables {
           word-break: break-all;
         }
+          
       </style>
       <div class="container">
         <ssk-dropdown
@@ -689,6 +704,7 @@ export const DropdownRadio: Story = {
                 disabledMessage=${disabledOptions[option] ?? ""}
               >
                 <ssk-radio
+                  slot="prefix"
                   .checked="${args["value"] === option}"
                   ?disabled="${option in disabledOptions}"
                 >

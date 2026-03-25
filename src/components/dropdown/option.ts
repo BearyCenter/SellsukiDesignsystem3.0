@@ -122,6 +122,11 @@ export class DropdownOption extends LitElement {
       background-color: transparent;
       color: var(--color);
     }
+    :host([disabled]) .container {
+      cursor: not-allowed;
+    }
+
+}
 
     .label {
         display: flex;
