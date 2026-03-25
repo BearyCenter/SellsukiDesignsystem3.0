@@ -480,7 +480,6 @@ export const DropdownMulti: Story = {
                   slot="prefix"
                   .checked="${selectedValues.includes(option)}"
                     .disabled="${option in disabledOptions && !selectedValues.includes(option)}"
-                  @change="${(e: Event) => console.log(`${option}:`, (e.target as HTMLInputElement).checked ? 'checked' : 'unchecked')}"
                 ></ssk-checkbox>
                 <div class="labels ${option in disabledOptions ? 'disabled-labels' : ''}">
                   ${option in disabledOptions && disabledOptions[option] 
@@ -677,7 +676,7 @@ export const DropdownRadio: Story = {
         .lables {
           word-break: break-all;
         }
-          
+
       </style>
       <div class="container">
         <ssk-dropdown
