@@ -12,7 +12,7 @@ type InputWithLabel = Omit<Input, "disabled" | "size"> & {
 const size: Input["size"][] = ["lg", "md", "sm"];
 
 const meta = {
-  title: "Example/Input",
+  title: "Components/Form & Input/Input",
   tags: [],
   render: ({ ...args }) => {
     return html`<style>

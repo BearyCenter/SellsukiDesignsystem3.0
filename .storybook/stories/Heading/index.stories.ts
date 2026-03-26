@@ -11,7 +11,7 @@ type HeadingArgs = {
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Heading",
+  title: "Components/Typography/Heading",
   tags: ["autodocs"],
   render: ({ content, ...args }) => {
     return html`<ssk-heading ${spread(args)}>${content}</ssk-heading>`;

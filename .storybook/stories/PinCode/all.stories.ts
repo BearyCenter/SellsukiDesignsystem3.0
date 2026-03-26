@@ -12,7 +12,7 @@ type PinCodeProps = Omit<PinCode, "size">;
 const size: PinCode["size"][] = ["sm", "md"];
 
 const meta = {
-  title: "Example/PinCode",
+  title: "Components/Form & Input/PinCode",
   tags: [],
   render: ({ ...args }) => {
     const [{}, updateArgs] = useArgs();

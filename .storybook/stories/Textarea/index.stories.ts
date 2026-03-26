@@ -10,7 +10,7 @@ type TextareaWithLabel = AutoLitProperty<Textarea> & { label: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Textarea",
+  title: "Components/Form & Input/Textarea",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<ssk-textarea ${spread({ ...args })}> </ssk-textarea>`;

@@ -11,7 +11,7 @@ import { AutoLitProperty, baseArgsTypes } from "../helper";
 type DrawerWithLabel = AutoLitProperty<Drawer> & { label: string };
 
 const meta: Meta<DrawerWithLabel> = {
-  title: "Example/Drawer",
+  title: "Components/Overlay & Notification/Drawer",
   tags: ["autodocs"],
   render: ({ label, ...args }) => {
     const [{}, updateArgs] = useArgs();

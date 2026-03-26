@@ -8,7 +8,7 @@ import { Meta, StoryObj } from "@storybook/web-components";
 type CountryIconArgs = addPrefixToObject<Omit<CountryIcon, "code">, "@">;
 
 const meta = {
-  title: "Example/Icon/CountryIcon",
+  title: "Components/Media & Branding/Icon/CountryIcon",
   tags: [],
   render: ({ ...args }) => {
     return html`<style>

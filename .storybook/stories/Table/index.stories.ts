@@ -187,7 +187,7 @@ const commonData = [
 ];
 
 const meta = {
-  title: "Example/Table",
+  title: "Components/Table/Table",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html` <ssk-table ${spread({ ...args })}> </ssk-table> `;

@@ -27,7 +27,7 @@ const checked = [
 const size: Toggle["size"][] = ["xl", "lg", "md", "sm", "xs"];
 
 const meta = {
-  title: "Example/Toggle",
+  title: "Components/Form & Input/Toggle",
   tags: [],
   render: ({ click, ...args }) => {
     return html` <style>

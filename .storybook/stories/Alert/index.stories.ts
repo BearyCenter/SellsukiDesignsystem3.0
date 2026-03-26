@@ -15,7 +15,7 @@ type AlertArgs = {} & Alert;
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const alertType: Type[] = ["default", "error", "info", "success", "warning"];
 const meta = {
-  title: "Example/Alert",
+  title: "Components/Overlay & Notification/Alert",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     const [{ "?hidden": hidden }, updateArgs] = useArgs();

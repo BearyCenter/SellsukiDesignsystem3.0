@@ -10,7 +10,7 @@ import { AutoLitProperty, baseArgsTypes } from "../helper";
 type DownloadFileWithLabel = AutoLitProperty<DownloadFile> & { label: string };
 
 const meta: Meta<DownloadFileWithLabel> = {
-    title: "Example/DownloadFile",
+    title: "Components/Utility/DownloadFile",
     tags: [""],
     render: ({ label, ...args }) => {
         return html`

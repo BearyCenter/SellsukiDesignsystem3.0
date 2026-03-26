@@ -9,7 +9,7 @@ type TagWithLabel = AutoLitProperty<Tag> & { label: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Tag",
+  title: "Components/Data Display/Tag",
   tags: ["autodocs"],
   render: ({ label, ...args }) => {
     return html`<ssk-tag ${spread(args)}>${label}</ssk-tag>`;

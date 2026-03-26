@@ -9,7 +9,7 @@ import { ArgTypes, Meta, StoryObj } from "@storybook/web-components";
 type ToggleArgs = {} & Toggle;
 
 const meta = {
-  title: "Example/Toggle",
+  title: "Components/Form & Input/Toggle",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<ssk-toggle ${spread(args)}></ssk-toggle>`;

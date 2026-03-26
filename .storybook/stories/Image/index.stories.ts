@@ -9,7 +9,7 @@ type ImageArgs = {} & Image;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Image",
+  title: "Components/Media & Branding/Image",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<ssk-image ${spread(args)}></ssk-image>`;

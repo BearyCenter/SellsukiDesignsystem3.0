@@ -15,7 +15,7 @@ const variant: Tag["variant"][] = ["solid", "outline", "subtle"];
 const size: Tag["size"][] = ["lg", "md", "sm"];
 
 const meta = {
-  title: "Example/Tag",
+  title: "Components/Data Display/Tag",
   tags: [],
   render: ({ label, click, ...args }) => {
     return html` <style>

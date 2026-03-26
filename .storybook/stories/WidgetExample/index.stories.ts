@@ -11,7 +11,7 @@ import { baseArgsTypes } from "../helper";
 type WidgetExampleArgs = {} & WidgetExample;
 
 const meta = {
-    title: "Example/WidgetExample",
+    title: "Components/Widget/WidgetExample",
     tags: ["autodocs"],
     render: ({ ...args }) => {
         return html`

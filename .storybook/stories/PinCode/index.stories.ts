@@ -10,7 +10,7 @@ import { useArgs } from "@storybook/client-api";
 type PinCodeProps = Partial<PinCode>;
 
 const meta = {
-  title: "Example/PinCode",
+  title: "Components/Form & Input/PinCode",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     const [{}, updateArgs] = useArgs();

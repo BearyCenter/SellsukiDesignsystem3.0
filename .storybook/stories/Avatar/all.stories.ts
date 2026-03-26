@@ -11,7 +11,7 @@ const size: Avatar["size"][] = ["xl", "lg", "md", "sm"];
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Avatar",
+  title: "Components/Media & Branding/Avatar",
   tags: [],
   render: ({ ...args }) => {
     return html`<style>

@@ -12,7 +12,7 @@ type ContainerWithLabel = AutoLitProperty<Container>;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Container",
+  title: "Components/Layout & Structure/Container",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html` <style>

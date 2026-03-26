@@ -80,7 +80,7 @@ const options = [
 ];
 
 const meta = {
-  title: "Example/Dropdown",
+  title: "Components/Form & Input/Dropdown",
   tags: [],
   render: ({ ...args }) => {
     const [{}, updateArgs] = useArgs();

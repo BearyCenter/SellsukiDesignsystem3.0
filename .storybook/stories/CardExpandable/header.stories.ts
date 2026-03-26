@@ -4,7 +4,7 @@ import "../../../src/components/card-expandable";
 import { spread } from "@open-wc/lit-helpers";
 
 const meta: Meta = {
-    title: "Example/CardExpandable/ExpandFromHeader",
+    title: "Components/Data Display/CardExpandable/ExpandFromHeader",
     tags: ["autodocs"],
     argTypes: {
         variant: {

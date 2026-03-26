@@ -12,7 +12,7 @@ import { AutoLitProperty, baseArgsTypes, genericEvents } from "../helper";
 type SidebarArgs = AutoLitProperty<Sidebar>;
 
 const meta = {
-  title: "Example/Sidebar/Sidebar",
+  title: "Components/Navigation/Sidebar",
   tags: ["autodocs"],
   argTypes: {
     "?expanded": {

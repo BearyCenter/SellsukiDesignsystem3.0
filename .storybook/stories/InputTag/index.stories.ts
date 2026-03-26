@@ -10,7 +10,7 @@ type InputTagWithLabel = AutoLitProperty<Inputtag> & { label: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-    title: "Example/InputTag",
+    title: "Components/Form & Input/InputTag",
     tags: ["autodocs"],
     render: ({ ...args }) => {
         return html`<ssk-input-tag ${spread({ ...args })}> </ssk-input-tag>`;

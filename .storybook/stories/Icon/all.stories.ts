@@ -8,7 +8,7 @@ import { addPrefixToObject, baseArgsTypes, genericEvents } from "../helper";
 type IconArgs = addPrefixToObject<Omit<Icon, "name">, "@">;
 
 const meta = {
-  title: "Example/Icon",
+  title: "Components/Media & Branding/Icon",
   tags: [],
   render: ({ ...args }) => {
     return html`<style>

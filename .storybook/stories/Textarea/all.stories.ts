@@ -12,7 +12,7 @@ type TextareaWithLabel = Omit<Textarea, "disabled" | "size"> & {
 const size: Textarea["size"][] = ["lg", "md", "sm"];
 
 const meta = {
-  title: "Example/Textarea",
+  title: "Components/Form & Input/Textarea",
   tags: [],
   render: ({ ...args }) => {
     return html`<style>

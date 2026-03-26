@@ -17,7 +17,7 @@ type InputWithLabel = AutoLitProperty<Input> &
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Input",
+  title: "Components/Form & Input/Input",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<ssk-input ${spread({ ...args })}> </ssk-input>`;

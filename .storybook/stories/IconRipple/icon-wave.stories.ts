@@ -17,7 +17,7 @@ type IconArgs = AutoLitProperty<WaveIcon> & { label: string; subLabel: string };
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Misc Icon/Wave Icon",
+  title: "Components/Media & Branding/Misc Icon/Wave Icon",
   tags: ["autodocs"],
   render: ({ label, subLabel, ...args }) => {
     return html` <style>

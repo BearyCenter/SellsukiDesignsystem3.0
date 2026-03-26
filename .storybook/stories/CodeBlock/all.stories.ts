@@ -7,7 +7,7 @@ import { CodeBlock } from "../../../src/elements/code-block";
 type CodeBlockWithLabel = Omit<CodeBlock, "codeblock">;
 
 const meta = {
-  title: "Example/CodeBlock",
+  title: "Components/Typography/CodeBlock",
   tags: [],
   render: ({ ...args }) => {
     return html` <style></style>

@@ -12,7 +12,7 @@ import { AutoLitProperty, baseArgsTypes } from "../helper";
 type ModalWithLabel = AutoLitProperty<Modal> & { label: string };
 
 const meta: Meta<ModalWithLabel> = {
-  title: "Example/Modal",
+  title: "Components/Overlay & Notification/Modal",
   render: ({ label, ...args }) => {
     const [{}, updateArgs] = useArgs();
 

@@ -111,7 +111,7 @@ type WidgetUserDetailArgs = {
 } & WidgetUserDetail;
 
 const meta = {
-    title: "Example/WidgetUserDetail",
+    title: "Components/Widget/WidgetUserDetail",
     tags: ["autodocs"],
     render: ({ ...args }) => {
         return html`

@@ -20,7 +20,7 @@ const size: Divider["size"][] = [
 const orientation: Divider["orientation"][] = ["horizontal", "vertical"];
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Divider",
+  title: "Components/Layout & Structure/Divider",
   tags: [],
   render: ({ ...args }) => {
     return html`<style>

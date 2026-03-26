@@ -8,7 +8,7 @@ import { Template } from "../../../src/elements/i18n/template";
 type TemplateArgs = {} & Template;
 
 const meta = {
-  title: "Example/I18n/Template",
+  title: "Components/Utility/i18n/Template",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html` <ssk-i18n-template ${spread(args)} />`;

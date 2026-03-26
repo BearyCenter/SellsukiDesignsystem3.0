@@ -31,7 +31,7 @@ function getIcon(alertType: string): string {
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Alert",
+  title: "Components/Overlay & Notification/Alert",
   tags: [],
   render: ({ ...args }) => {
     const [{ "?hidden": hidden }, updateArgs] = useArgs();

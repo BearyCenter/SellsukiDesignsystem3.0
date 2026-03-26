@@ -12,7 +12,7 @@ type RadioArgs = {} & Radio;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Radio",
+  title: "Components/Form & Input/Radio",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<ssk-radio ${spread(args)}> </ssk-radio>`;

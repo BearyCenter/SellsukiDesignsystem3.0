@@ -9,7 +9,7 @@ type IconArgs = {} & Icon;
 
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction
 const meta = {
-  title: "Example/Icon",
+  title: "Components/Media & Branding/Icon",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`<ssk-icon ${spread(args)}></ssk-icon>`;

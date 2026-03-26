@@ -14,7 +14,7 @@ import { AutoLitProperty, baseArgsTypes } from "../helper";
 type TableArgs = AutoLitProperty<DynamicTable>;
 
 const meta = {
-  title: "Example/DynamicTable",
+  title: "Components/Table/DynamicTable",
   tags: ["autodocs"],
   render: ({ ...args }) => {
     return html`
