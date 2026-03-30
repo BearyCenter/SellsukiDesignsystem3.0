@@ -94,7 +94,7 @@ export class DropdownOption extends LitElement {
       display: grid;
       grid-template-columns: auto 1fr auto;
       grid-gap: 0.5em;
-      padding: 0.3em 0.3em;
+      padding: 0.32em 8px;
 
       color: var(--color);
 

@@ -393,10 +393,9 @@ export class Dropdown extends LitElement {
 
    
     if (this.loading) {
-      const buttonHeight: Record<string, string> = {
-        sm: "36px", md: "40px", lg: "44px",
-      };
-        const height = buttonHeight[this.size] ?? "40px";
+      const sizes = ["3xs", "2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl", "8xl", "9xl"];
+      const diff = sizes.includes(this.size) ? sizes.indexOf(this.size) - sizes.indexOf("md") : 0;
+      const height = `${40 + diff * 4}px`;
         return html`
         <div class="container" style="--width: ${this.width ?? "auto"};">
           ${this.label

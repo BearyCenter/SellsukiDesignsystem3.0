@@ -467,8 +467,12 @@ export const DropdownMulti: Story = {
         text-overflow: ellipsis;
         max-width: 100%;
       }
-
-
+      .checkbox-option {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 0.2rem;
+      }
     </style>
       <div class="container">
         <ssk-dropdown
@@ -498,17 +502,19 @@ export const DropdownMulti: Story = {
                     }
                   }
                 }}>
+                  <div class="checkbox-option">
                     <ssk-checkbox
                       slot="prefix"
                       .checked="${selectedValues.includes(option)}"
                       .disabled="${option in disabledOptions && !selectedValues.includes(option)}"
                       size="xl"
                     ></ssk-checkbox>
-                <div class="labels ${option in disabledOptions ? 'disabled-labels' : ''}">
-                  ${option in disabledOptions && disabledOptions[option] 
-                    ? `${option} ${disabledOptions[option]}` 
-                    : option}
-                </div>
+                    <div class="labels ${option in disabledOptions ? 'disabled-labels' : ''}">
+                      ${option in disabledOptions && disabledOptions[option] 
+                        ? `${option} ${disabledOptions[option]}` 
+                        : option}
+                    </div>
+                  </div>
               </div>
             </ssk-dropdown-option>
           `)}
@@ -523,7 +529,7 @@ export const DropdownMulti: Story = {
     helperText: "Helper text",
     multiSelect: true,
     value: [],
-    width: "500px",
+    width: "1000px",
     disabledOptions: {},
     hideErrorIcon: true,
     
