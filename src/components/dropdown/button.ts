@@ -53,10 +53,10 @@ export class DropdownButton extends LitElement {
         ${this.state?.multiSelect === true && (this.state?.value?.length ?? 0) > 0
           ? html`<ssk-icon color="gray" name="outline-x-circle" @click=${this.handleClearClick}></ssk-icon>`
           : nothing}
-        ${this.state?.isSuccess
+        ${this.state?.isSuccess && !this.state?.hideSuccessIcon
           ? html`<ssk-icon color="success.600" name="outline-check-circle"></ssk-icon>`
           : nothing}
-        ${this.state?.isError
+        ${this.state?.isError && !this.state?.hideErrorIcon
           ? html`<ssk-icon color="red" name="outline-exclamation-circle"></ssk-icon>`
           : nothing}
         ${this.hideChevron

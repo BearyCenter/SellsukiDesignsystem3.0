@@ -30,6 +30,8 @@ export type DropdownState = {
   showClearButton?: boolean;
   isSelected?: string[];
   hideCheckIcon?: boolean;
+  hideErrorIcon?: boolean;
+  hideSuccessIcon?: boolean;
 };
 
 export const valueContext = createContext<DropdownState>(
@@ -130,6 +132,12 @@ export class Dropdown extends LitElement {
   @property({ type: Boolean })
   hideCheckIcon: boolean = false;
 
+  @property({ type: Boolean })
+  hideErrorIcon: boolean = false;
+
+  @property({ type: Boolean })
+  hideSuccessIcon: boolean = false;
+
   @provide({ context: valueContext })
   @property({ attribute: false })
   
@@ -229,6 +237,12 @@ export class Dropdown extends LitElement {
     }
     if (changedProperties.has("hideCheckIcon")) {
       this.state = { ...this.state, hideCheckIcon: this.hideCheckIcon };
+    }
+    if (changedProperties.has("hideErrorIcon")) {
+      this.state = { ...this.state, hideErrorIcon: this.hideErrorIcon };
+    }
+    if (changedProperties.has("hideSuccessIcon")) {
+      this.state = { ...this.state, hideSuccessIcon: this.hideSuccessIcon };
     }
   }
 
@@ -407,7 +421,7 @@ export class Dropdown extends LitElement {
           --color: ${parseVariables(cssVar("colors", "text", 500))};
           --color-disabled: ${parseVariables(cssVar("colors", "text", 300))};
 
-          --color-helper: ${parseVariables(cssVar("colors", "text", 300))};
+          --color-helper: ${parseVariables(cssVar("colors", "gray", 500))};
 
           --options-background-color: ${parseVariables(
             cssVar("colors", "background", 50)
@@ -551,7 +565,7 @@ export class Dropdown extends LitElement {
         0px 0px 0px 0px rgba(17, 24, 39, 0.09);
       border-radius: var(--rounded);
       border: 1px solid var(--ssk-colors-gray-200);
-      padding: 0.5em 0.25em;
+      padding: 0.17em 0.17em;
       overflow-x: hidden;
 
       width: 100%;
