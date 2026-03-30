@@ -439,7 +439,7 @@ export const DropdownMulti: Story = {
             return html`<span style="color: #9CA3AF">${placeholder}</span>`;
           }
           if (Object.keys(disabledOptions).length === 0 && selectedValues.length === testOptions2.length) {
-            return html`<span>แสดงทุกค่า</span>`;
+            return html`<span>Selected All</span>`;
           }
           return selectedValues.map((v, i) => html`
             <span style="color: ${v in disabledOptions ? '#9CA3AF' : '#1F2937'}">
