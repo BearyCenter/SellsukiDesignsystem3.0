@@ -444,14 +444,14 @@ export const DropdownMulti: Story = {
       .checkbox-wrapper {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.7rem;
         width: 100%;
         cursor: pointer;
       }
       .disabled-checkbox-wrapper {
-        
         cursor: not-allowed;
       }
+
       .labels {
           word-break: break-all;
         }
@@ -467,6 +467,7 @@ export const DropdownMulti: Story = {
         text-overflow: ellipsis;
         max-width: 100%;
       }
+
 
     </style>
       <div class="container">
@@ -497,11 +498,12 @@ export const DropdownMulti: Story = {
                     }
                   }
                 }}>
-                <ssk-checkbox
-                  slot="prefix"
-                  .checked="${selectedValues.includes(option)}"
-                  .disabled="${option in disabledOptions && !selectedValues.includes(option)}"
-                ></ssk-checkbox>
+                    <ssk-checkbox
+                      slot="prefix"
+                      .checked="${selectedValues.includes(option)}"
+                      .disabled="${option in disabledOptions && !selectedValues.includes(option)}"
+                      size="xl"
+                    ></ssk-checkbox>
                 <div class="labels ${option in disabledOptions ? 'disabled-labels' : ''}">
                   ${option in disabledOptions && disabledOptions[option] 
                     ? `${option} ${disabledOptions[option]}` 
@@ -521,7 +523,7 @@ export const DropdownMulti: Story = {
     helperText: "Helper text",
     multiSelect: true,
     value: [],
-    width: "1000px",
+    width: "500px",
     disabledOptions: {},
     hideErrorIcon: true,
     
@@ -754,9 +756,13 @@ export const DropdownRadio: Story = {
         .lables {
           word-break: break-all;
         }
-
+        .radio-option {
+          display: grid;
+          grid-template-columns: auto 1fr auto;
+          align-items: center; 
+        }
       </style>
-      <div class="container">
+      <div class="radio-container">
         <ssk-dropdown
           ${spread({ ...args })}
           @change=${(e: any) => {
@@ -780,14 +786,22 @@ export const DropdownRadio: Story = {
                 ?disabled=${option in disabledOptions}
                 disabledMessage=${disabledOptions[option] ?? ""}
               >
-                <ssk-radio
-                  slot="prefix"
-                  .checked="${args["value"] === option}"
-                  ?disabled="${option in disabledOptions}"
-                >
-                  
-                </ssk-radio>
-                <div class="lables">${option}</div>
+                <div class="radio-option">
+                  <ssk-radio
+                    slot="prefix"
+                    size="2xl"
+                    .checked="${args["value"] === option}"
+                    ?disabled="${option in disabledOptions}"
+                  >
+                    </ssk-radio>
+                      <div class="lables">
+                        <ssk-text color=${option in disabledOptions ? "gray" : ""}>
+                        ${option in disabledOptions && disabledOptions[option]
+                        ? `${option} ${disabledOptions[option]}`
+                        : option}
+                        </ssk-text>
+                      </div>  
+                </div>
               </ssk-dropdown-option>
             `
           )}
