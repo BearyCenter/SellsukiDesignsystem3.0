@@ -355,6 +355,12 @@ export const DropdownSingle: Story = {
       ssk-dropdown-option[disabled] .label {
         opacity: 0.4;
       }
+      .option-row {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 0.5rem;
+      }
     </style>
       <div class="container">
         <ssk-dropdown
@@ -379,11 +385,13 @@ export const DropdownSingle: Story = {
           ${options.map(
         (option) => html`
               <ssk-dropdown-option value=${option} ?disabled=${option in disabledOption}>
-                <ssk-icon name=${option} slot="prefix" color=${option in disabledOption ? "gray" : ""}></ssk-icon>
-                <div class="label">${option in disabledOption && disabledOption[option]
-                    ? `${option} ${disabledOption[option]}`
-                    : option}
-                  </div>
+                <div class="option-row">
+                  <ssk-icon name=${option} slot="prefix" color=${option in disabledOption ? "gray" : ""}></ssk-icon>
+                  <div class="label">${option in disabledOption && disabledOption[option]
+                      ? `${option} ${disabledOption[option]}`
+                      : option}
+                    </div>
+                </div>
               </ssk-dropdown-option>
             `
       )}
@@ -766,6 +774,7 @@ export const DropdownRadio: Story = {
           display: grid;
           grid-template-columns: auto 1fr auto;
           align-items: center; 
+          gap: 0.2rem;
         }
       </style>
       <div class="radio-container">

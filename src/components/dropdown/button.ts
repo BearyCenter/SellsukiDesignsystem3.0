@@ -86,7 +86,7 @@ export class DropdownButton extends LitElement {
 
       border-radius: var(--rounded);
       border: 1px solid var(--border-color);
-      padding: 0 1em;
+      padding: 0 1.2em;
 
       gap: var(--gap);
       cursor: pointer;

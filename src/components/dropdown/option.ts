@@ -126,8 +126,6 @@ export class DropdownOption extends LitElement {
       cursor: not-allowed;
     }
 
-}
-
     .label {
         display: flex;
         flex-direction: row;
@@ -135,7 +133,7 @@ export class DropdownOption extends LitElement {
         gap: 0.5em;
         white-space: var(--white-space, normal);
         overflow-wrap: break-word;
-    } 
+    }
     
 
     .postfix {

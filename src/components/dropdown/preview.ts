@@ -35,7 +35,7 @@ export class DropdownPreview extends LitElement {
   @property({ type: String })
   color?: ColorRole | ColorName;
 
-  @property({ type: String })
+  @property({ type: String,reflect: true })
   size: Size = "md";
 
   // font
@@ -74,7 +74,7 @@ export class DropdownPreview extends LitElement {
       grid-auto-flow: column;
       align-items: center;
       gap: 0.5em;
-      padding: 0.2em;
+      padding: 0.2em 0;
 
       color: var(--color);
 
@@ -82,6 +82,10 @@ export class DropdownPreview extends LitElement {
       font-family: var(--font-family);
       font-weight: var(--font-weight);
       line-height: var(--line-height);
+    }
+
+    :host([size="sm"]) .container {
+      padding: 4px 0;
     }
 
     .label {
