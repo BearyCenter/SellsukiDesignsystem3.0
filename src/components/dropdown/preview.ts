@@ -9,7 +9,9 @@ import {
   FontWeight,
   Size,
   Theme,
+  cssVar,
   parseThemeToCssVariables,
+  parseVariables,
 } from "../../types/theme";
 import { DropdownState, valueContext } from "./dropdown";
 
@@ -57,6 +59,11 @@ export class DropdownPreview extends LitElement {
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.dropdown, ":host")}
+      <style>
+      :host {
+        --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
+      }
+    </style>
 
       <span class="container" data-testid=${this.testId || nothing}>
         <slot name="prefix"></slot>
@@ -95,9 +102,9 @@ export class DropdownPreview extends LitElement {
     }
 
     :host([disabled]) .container {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
+      color: var(--color-disabled);
+      cursor: not-allowed;
+    }
   `;
 }
 

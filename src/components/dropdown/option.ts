@@ -81,7 +81,7 @@ export class DropdownOption extends LitElement {
         <span class="postfix">
           <slot name="postfix">
             ${this.state?.multiSelect === false && !this.state?.hideCheckIcon && this.state?.isSelected?.includes(this.value)
-              ? html`<ssk-icon color=${this.disabled ? "gray" : "info"} name="outline-check"></ssk-icon>`
+              ? html`<ssk-icon color=${this.disabled ? "gray.400" : "info"} name="outline-check"></ssk-icon>`
               : nothing}
           </slot>
         </span>
