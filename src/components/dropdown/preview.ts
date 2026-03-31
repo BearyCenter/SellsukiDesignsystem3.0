@@ -9,7 +9,9 @@ import {
   FontWeight,
   Size,
   Theme,
+  cssVar,
   parseThemeToCssVariables,
+  parseVariables,
 } from "../../types/theme";
 import { DropdownState, valueContext } from "./dropdown";
 
@@ -35,7 +37,7 @@ export class DropdownPreview extends LitElement {
   @property({ type: String })
   color?: ColorRole | ColorName;
 
-  @property({ type: String })
+  @property({ type: String,reflect: true })
   size: Size = "md";
 
   // font
@@ -57,6 +59,11 @@ export class DropdownPreview extends LitElement {
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.dropdown, ":host")}
+      <style>
+      :host {
+        --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
+      }
+    </style>
 
       <span class="container" data-testid=${this.testId || nothing}>
         <slot name="prefix"></slot>
@@ -73,8 +80,8 @@ export class DropdownPreview extends LitElement {
       display: grid;
       grid-auto-flow: column;
       align-items: center;
-      gap: 0.5em;
-      padding: 0.2em;
+      gap: 8px;
+      padding: 0.2em 0;
 
       color: var(--color);
 
@@ -84,6 +91,10 @@ export class DropdownPreview extends LitElement {
       line-height: var(--line-height);
     }
 
+    :host([size="sm"]) .container {
+      padding: 4px 0;
+    }
+
     .label {
       white-space: nowrap;
       overflow: hidden;
@@ -91,9 +102,8 @@ export class DropdownPreview extends LitElement {
     }
 
     :host([disabled]) .container {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
+      color: var(--color-disabled);
+    }
   `;
 }
 

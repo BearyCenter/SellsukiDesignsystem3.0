@@ -11,7 +11,9 @@ import {
   FontWeight,
   Size,
   Theme,
+  cssVar,
   parseThemeToCssVariables,
+  parseVariables,
 } from "../../types/theme";
 import { DropdownState, valueContext } from "./dropdown";
 
@@ -65,9 +67,17 @@ export class DropdownOption extends LitElement {
     if (this.hidden) {
       return nothing;
     }
+    const smallSizes = new Set<Size>(["3xs", "2xs", "xs", "sm"]);
+    const currentSize = this.state?.size ?? this.size;
+    const iconSize = smallSizes.has(currentSize as Size) ? "sm" : "md";
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.dropdown, ":host")}
+      <style>
+      :host {
+        --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
+      }
+    </style>
 
       <span
         class="container"
@@ -81,7 +91,7 @@ export class DropdownOption extends LitElement {
         <span class="postfix">
           <slot name="postfix">
             ${this.state?.multiSelect === false && !this.state?.hideCheckIcon && this.state?.isSelected?.includes(this.value)
-              ? html`<ssk-icon color=${this.disabled ? "gray" : "info"} name="outline-check"></ssk-icon>`
+              ? html`<ssk-icon color=${this.disabled ? "gray.400" : "info"} name="outline-check" size=${iconSize}></ssk-icon>`
               : nothing}
           </slot>
         </span>
@@ -94,7 +104,7 @@ export class DropdownOption extends LitElement {
       display: grid;
       grid-template-columns: auto 1fr auto;
       grid-gap: 0.5em;
-      padding: 0.25em 0.5em;
+      padding: 0.32em 8px;
 
       color: var(--color);
 
@@ -120,13 +130,13 @@ export class DropdownOption extends LitElement {
     }
     :host([disabled]) .container:hover {
       background-color: transparent;
-      color: var(--color);
-    }
-    :host([disabled]) .container {
-      cursor: not-allowed;
+      color: var(--color-disabled);
     }
 
-}
+    :host([disabled]) .container {
+      cursor: not-allowed;
+      color: var(--color-disabled);
+    }
 
     .label {
         display: flex;
@@ -135,7 +145,7 @@ export class DropdownOption extends LitElement {
         gap: 0.5em;
         white-space: var(--white-space, normal);
         overflow-wrap: break-word;
-    } 
+    }
     
 
     .postfix {
