@@ -38,7 +38,9 @@ export class DropdownButton extends LitElement {
     if (this.hidden) {
       return nothing;
     }
-
+    const smallSizes = new Set<Size>(["3xs", "2xs", "xs", "sm"]);
+    const currentSize = this.state?.size ?? this.size;
+    const iconSize = smallSizes.has(currentSize as Size) ? "sm" : "md";
     return html`
       <button
         class=${`dropdown ${this.state?.disabled ? "disabled" : ""} ${
@@ -51,17 +53,17 @@ export class DropdownButton extends LitElement {
         </span>
        <div class="icons">
         ${this.state?.multiSelect === true && (this.state?.value?.length ?? 0) > 0
-          ? html`<ssk-icon color="gray" name="outline-x-circle" @click=${this.handleClearClick}></ssk-icon>`
+          ? html`<ssk-icon color="gray" name="outline-x-circle" @click=${this.handleClearClick} size=${iconSize}></ssk-icon>`
           : nothing}
         ${this.state?.isSuccess && !this.state?.hideSuccessIcon
-          ? html`<ssk-icon color="success.600" name="outline-check-circle"></ssk-icon>`
+          ? html`<ssk-icon color="success.600" name="outline-check-circle" size=${iconSize}></ssk-icon>`
           : nothing}
         ${this.state?.isError && !this.state?.hideErrorIcon
-          ? html`<ssk-icon color="red" name="outline-exclamation-circle"></ssk-icon>`
+          ? html`<ssk-icon color="red" name="outline-exclamation-circle" size=${iconSize}></ssk-icon>`
           : nothing}
         ${this.hideChevron
           ? nothing
-          : html`<ssk-icon color="gray" name=${this.state?.isOpened ? "outline-chevron-up" : "outline-chevron-down"}></ssk-icon>`
+          : html`<ssk-icon color="gray" name=${this.state?.isOpened ? "outline-chevron-up" : "outline-chevron-down"} size=${iconSize}></ssk-icon>`
         }
 </div>
       </button>

@@ -32,6 +32,7 @@ export type DropdownState = {
   hideCheckIcon?: boolean;
   hideErrorIcon?: boolean;
   hideSuccessIcon?: boolean;
+  size?: Size;
 };
 
 export const valueContext = createContext<DropdownState>(
@@ -190,6 +191,7 @@ export class Dropdown extends LitElement {
     value: [],
     isSelected: this.isSelected,
     isLoading: this.loading,
+    size: this.size,
   };
 
   @property({ type: Boolean, reflect: true })
@@ -243,6 +245,9 @@ export class Dropdown extends LitElement {
     }
     if (changedProperties.has("hideSuccessIcon")) {
       this.state = { ...this.state, hideSuccessIcon: this.hideSuccessIcon };
+    }
+    if (changedProperties.has("size")) {
+      this.state = { ...this.state, size: this.size };
     }
   }
 

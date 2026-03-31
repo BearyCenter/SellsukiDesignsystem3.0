@@ -67,6 +67,9 @@ export class DropdownOption extends LitElement {
     if (this.hidden) {
       return nothing;
     }
+    const smallSizes = new Set<Size>(["3xs", "2xs", "xs", "sm"]);
+    const currentSize = this.state?.size ?? this.size;
+    const iconSize = smallSizes.has(currentSize as Size) ? "sm" : "md";
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.dropdown, ":host")}
@@ -88,7 +91,7 @@ export class DropdownOption extends LitElement {
         <span class="postfix">
           <slot name="postfix">
             ${this.state?.multiSelect === false && !this.state?.hideCheckIcon && this.state?.isSelected?.includes(this.value)
-              ? html`<ssk-icon color=${this.disabled ? "gray.400" : "info"} name="outline-check"></ssk-icon>`
+              ? html`<ssk-icon color=${this.disabled ? "gray.400" : "info"} name="outline-check" size=${iconSize}></ssk-icon>`
               : nothing}
           </slot>
         </span>
@@ -129,7 +132,7 @@ export class DropdownOption extends LitElement {
       background-color: transparent;
       color: var(--color-disabled);
     }
-      
+
     :host([disabled]) .container {
       cursor: not-allowed;
       color: var(--color-disabled);
