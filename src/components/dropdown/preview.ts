@@ -103,7 +103,6 @@ export class DropdownPreview extends LitElement {
 
     :host([disabled]) .container {
       color: var(--color-disabled);
-      cursor: not-allowed;
     }
   `;
 }
