@@ -384,7 +384,8 @@ export const DropdownSingle: Story = {
               <ssk-dropdown-option value=${option} ?disabled=${option in disabledOption}>
                 <div class="option-row">
                   <ssk-icon name=${option} slot="prefix" color=${option in disabledOption ? "gray.400" : "gray.800"}></ssk-icon>
-                  <div class="label"> <ssk-text color=${option in disabledOption ? "gray.400" : "gray.800"}>
+                  <div class="label"> 
+                  <ssk-text color=${option in disabledOption ? "gray.400" : "gray.800"}>
                     ${option in disabledOption && disabledOption[option]
                       ? `${option} ${disabledOption[option]}`
                       : option}
@@ -601,7 +602,6 @@ export const DropdownButton: Story = {
           <ssk-dropdown 
             label="Dropdown with Chevron Toggle"
             ${spread({ ...args })}
-            hideCheckIcon=${true}
               @change=${(e: any) => {
                 updateArgs({ value: e.detail, isOpen: false });
             }} 
@@ -613,16 +613,17 @@ export const DropdownButton: Story = {
             ${testOptions2.map(
               (option) => html`
                 <ssk-dropdown-option value=${option} >
+                  <div class="labels">
                     <ssk-text color=${option in disabledOption ? "gray.400" : "gray.800"}>${option in disabledOption && disabledOption[option]
-                    ? `${option} ${disabledOption[option]}`
-                    : option}</ssk-text>                 
+                      ? `${option} ${disabledOption[option]}`
+                      : option}</ssk-text>                 
+                  </div>
                 </ssk-dropdown-option>
               `
             )}
           </ssk-dropdown>
 
           <ssk-dropdown label="Dropdown with icon" width="153px">
-          
             <ssk-button class="dropdown-button" slot="selected" width="full">
               <ssk-text color="white">Dropdown</ssk-text>
               <ssk-icon slot="postfix" name="solid-chevron-${getChevronIcon() || "down"}"></ssk-icon>
