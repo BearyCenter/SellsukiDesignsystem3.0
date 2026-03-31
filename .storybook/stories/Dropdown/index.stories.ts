@@ -352,6 +352,7 @@ export const DropdownSingle: Story = {
         word-break: break-all;
         
       }
+
       .option-row {
         display: grid;
         grid-template-columns: auto 1fr;
@@ -470,12 +471,14 @@ export const DropdownMulti: Story = {
         text-overflow: ellipsis;
         max-width: 100%;
       }
+
       .checkbox-option {
         display: grid;
         grid-template-columns: auto 1fr;
         align-items: center;
         gap: 0.2rem;
       }
+
     </style>
       <div class="container">
         <ssk-dropdown
@@ -581,7 +584,6 @@ export const DropdownButton: Story = {
 
       </style>
       <div class="container">
-        
           <ssk-dropdown ${spread({ ...args })} label="Dropdown Placement">
             <ssk-button slot="selected">
               <ssk-text color="white">Dropdown</ssk-text>
@@ -693,7 +695,6 @@ export const DropdownIcon: Story = {
         <span><ssk-text>Dropdown with icon user circle</ssk-text></span>
         <div class="dropdown-icon">
           <ssk-dropdown ${spread({ ...args })}>
-        
             <ssk-icon  slot="selected" name="solid-ellipsis-vertical" ></ssk-icon>
           ${testOptions2.map(
             (option) => html`
