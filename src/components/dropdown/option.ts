@@ -11,7 +11,9 @@ import {
   FontWeight,
   Size,
   Theme,
+  cssVar,
   parseThemeToCssVariables,
+  parseVariables,
 } from "../../types/theme";
 import { DropdownState, valueContext } from "./dropdown";
 
@@ -68,6 +70,11 @@ export class DropdownOption extends LitElement {
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.dropdown, ":host")}
+      <style>
+      :host {
+        --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
+      }
+    </style>
 
       <span
         class="container"
@@ -120,10 +127,12 @@ export class DropdownOption extends LitElement {
     }
     :host([disabled]) .container:hover {
       background-color: transparent;
-      color: var(--color);
+      color: var(--color-disabled);
     }
+      
     :host([disabled]) .container {
       cursor: not-allowed;
+      color: var(--color-disabled);
     }
 
     .label {

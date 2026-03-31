@@ -590,7 +590,7 @@ export const DropdownButton: Story = {
               (option) => html`
                 <ssk-dropdown-option value=${option} ?disabled=${option in disabledOption}>
                 <div class="labels">
-                  <ssk-text color=${option in disabledOption ? "gray" : ""}>${option in disabledOption && disabledOption[option]
+                  <ssk-text color=${option in disabledOption ? "gray.400" : "gray.800"}>${option in disabledOption && disabledOption[option]
                     ? `${option} ${disabledOption[option]}`
                     : option}</ssk-text>
                   </div>
@@ -613,9 +613,9 @@ export const DropdownButton: Story = {
             ${testOptions2.map(
               (option) => html`
                 <ssk-dropdown-option value=${option} >
-                  <div class="labels">
-                    <ssk-text>${option}</ssk-text>
-                  </div>
+                    <ssk-text color=${option in disabledOption ? "gray.400" : "gray.800"}>${option in disabledOption && disabledOption[option]
+                    ? `${option} ${disabledOption[option]}`
+                    : option}</ssk-text>                 
                 </ssk-dropdown-option>
               `
             )}
@@ -631,8 +631,8 @@ export const DropdownButton: Story = {
               (option) => html`
                 <ssk-dropdown-option value=${option} ?disabled=${option in disabledOption}>
                 <div class="labels">
-                  <ssk-icon slot="prefix" name="outline-user-circle" color=${option in disabledOption ? "gray" : ""}></ssk-icon>
-                  <ssk-text color=${option in disabledOption ? "gray" : ""}>${option in disabledOption && disabledOption[option]
+                  <ssk-icon slot="prefix" name="outline-user-circle" color=${option in disabledOption ? "gray.400" : "gray.800"}></ssk-icon>
+                  <ssk-text color=${option in disabledOption ? "gray.400" : "gray.800"}>${option in disabledOption && disabledOption[option]
                     ? `${option} ${disabledOption[option]}`
                     : option}</ssk-text>
                   </div>
@@ -698,8 +698,8 @@ export const DropdownIcon: Story = {
             (option) => html`
               <ssk-dropdown-option value=${option} ?disabled=${option in disabledOption}>
               <div class="labels">
-                <ssk-icon slot="prefix" name="outline-user-circle" color=${option in disabledOption ? "gray" : ""}></ssk-icon>
-                <ssk-text color=${option in disabledOption ? "gray" : ""}>${option in disabledOption && disabledOption[option]
+                <ssk-icon slot="prefix" name="outline-user-circle" color=${option in disabledOption ? "gray.400" : "gray.800"}></ssk-icon>
+                <ssk-text color=${option in disabledOption ? "gray.400" : "gray.800"}>${option in disabledOption && disabledOption[option]
                   ? `${option} ${disabledOption[option]}`
                   : option}</ssk-text>
               </div>
@@ -720,7 +720,7 @@ export const DropdownIcon: Story = {
               <ssk-dropdown-option value=${option} ?disabled=${option in disabledOption}>
               <div class="labels">
                 <ssk-avatar slot="prefix" src="/Avatar.png" alt="demo avatar" shape="circle" size="sm"></ssk-avatar>
-                <ssk-text color=${option in disabledOption ? "gray" : ""}>${option in disabledOption && disabledOption[option]
+                <ssk-text color=${option in disabledOption ? "gray.400" : "gray.800"}>${option in disabledOption && disabledOption[option]
                   ? `${option} ${disabledOption[option]}`
                   : option}</ssk-text>
               </div>
