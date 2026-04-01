@@ -53,6 +53,7 @@ export * from "./components/date-picker";
 export * from "./components/download-file";
 export * from "./components/drawer";
 export * from "./components/dropdown";
+export * from "./components/selection-dropdown";
 export * from "./components/dynamic-table";
 export * from "./components/image-cropper";
 export * from "./components/misc-icon";
