@@ -12,9 +12,8 @@ export type Brand = (typeof Brand)[keyof typeof Brand];
 
 // ── Palette refs ──────────────────────────────────────────────────────────────
 
-const colors = defaultColorPallete as Record<string, Record<string, string>>;
-const { gray, sky, emerald, amber, rose, white } = colors;
-const aerospaceOrange = colors["aerospace-orange"];
+const { gray, sky, emerald, amber, rose, white, aerospaceOrange } =
+  defaultColorPallete as Record<string, Record<string, string>>;
 
 // ── Semantic tokens per brand ─────────────────────────────────────────────────
 

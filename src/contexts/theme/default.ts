@@ -2,7 +2,6 @@ import { ColorPalette, Size, Theme } from "../../types/theme";
 
 // ── Spacing / Border tokens ─────────────────────────────────────────────────
 
-
 export const defaultSpacePrimitives: Record<string, { rem: string; px: number | null }> = {
   "space-0":    { rem: "0",        px: 0    },
   "space-1":    { rem: "0.065rem", px: 1    },
@@ -28,7 +27,6 @@ export const defaultSpacePrimitives: Record<string, { rem: string; px: number | 
   "space-9999": { rem: "9999rem",  px: null }, // pill radius
 };
 
-
 export const defaultSpacingTokens: Record<string, string> = {
   "spacing-none":  "space-0",
   "spacing-xxs":   "space-1",
@@ -53,14 +51,12 @@ export const defaultSpacingTokens: Record<string, string> = {
   "spacing-15xl":  "space-128",
 };
 
-
 export const defaultBorderTokens: Record<string, string> = {
   "border-none": "space-0",
   "border-xxs":  "space-1",
   "border-xs":   "space-2",
   "border-sm":   "space-4",
 };
-
 
 export const defaultRadiusTokens: Record<string, string> = {
   "radius-none": "space-0",
@@ -570,6 +566,18 @@ export const defaultColorPallete: ColorPalette = {
     "700": "#C2410C",
     "800": "#9A3412",
     "900": "#7C2D12",
+  },
+  aerospaceOrange: {
+    "50": "#FCEFE7",
+    "100": "#F9DDCE",
+    "200": "#F4BC9E",
+    "300": "#F19B70",
+    "400": "#EE7B46",
+    "500": "#EC5E2A",
+    "600": "#BC4B20",
+    "700": "#8D3816",
+    "800": "#5E250B",
+    "900": "#2F1203",
   },
   "aerospace-orange": {
     "50": "#FCEFE7",
