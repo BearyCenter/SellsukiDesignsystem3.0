@@ -5,7 +5,7 @@ import { ColorTokenPalette } from "../../../src/helpers/mappers/TokenPalette";
 
 ## Sellsuki Design System : Semantic Color Tokens
 
-Semantic tokens reference base palette vars — ไม่ hardcode hex ค่าสีเปลี่ยนตาม brand
+Semantic tokens derive ค่าจาก base palette โดยตรง — ไม่ hardcode hex ค่าสีเปลี่ยนตาม brand
 
 ---
 
@@ -13,7 +13,7 @@ Semantic tokens reference base palette vars — ไม่ hardcode hex ค่า
 
 ### Option 1: ผ่าน `ssk-theme-provider` (แนะนำ)
 
-ส่ง `brand` prop — ThemeProvider จะ inject `--palette-*` และ semantic vars บน `:root` ให้อัตโนมัติ
+ส่ง `brand` prop — ThemeProvider จะ inject semantic vars บน `:root` ให้อัตโนมัติ
 
 <Source code={`<!-- HTML / Lit -->
 <ssk-theme-provider brand="patona">
@@ -29,10 +29,9 @@ Semantic tokens reference base palette vars — ไม่ hardcode hex ค่า
 
 ใช้เมื่อไม่ได้ใช้ `ssk-theme-provider` หรือต้องการ inject ใน root ของ app เอง
 
-<Source code={`import { Brand, injectPaletteVars, injectSemanticTokens } from "@your-scope/sellsuki-components/theme/tokens";
+<Source code={`import { Brand, injectSemanticTokens } from "@your-scope/sellsuki-components/theme";
 
 // เรียกครั้งเดียวตอน app boot
-injectPaletteVars();
 injectSemanticTokens(Brand.patona);
 
 // เปลี่ยน brand ภายหลัง

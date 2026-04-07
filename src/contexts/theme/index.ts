@@ -4,7 +4,7 @@ import { LitElement, PropertyValues, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Theme, parseThemeToCssVariables } from "../../types/theme";
 import { defaultTheme } from "./default";
-import { Brand, injectPaletteVars, injectSemanticTokens } from "./semantic-tokens";
+import { Brand, injectSemanticTokens } from "./semantic-tokens";
 export * from "./default";
 export * from "./semantic-tokens";
 
@@ -21,7 +21,6 @@ export class ThemeProvider extends LitElement {
 
   updated(changed: PropertyValues) {
     if (changed.has("brand") && this.brand) {
-      injectPaletteVars();
       injectSemanticTokens(this.brand);
     }
   }

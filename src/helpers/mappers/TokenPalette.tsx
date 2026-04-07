@@ -5,7 +5,7 @@ import {
   defaultSpacePrimitives,
   defaultSpacingTokens,
 } from "../../contexts/theme/default";
-import { Brand, paletteVarMap, semanticTokens } from "../../contexts/theme/semantic-tokens";
+import { Brand, semanticTokens } from "../../contexts/theme/semantic-tokens";
 // ── Helpers ────────────────────────────────────────────────────────────────
 
 function pxLabel(px: number | null): string {
@@ -199,10 +199,6 @@ const COLOR_GROUPS: { label: string; prefix: string }[] = [
 
 const EXTRA_TOKENS = ["--link"];
 
-function resolveHex(paletteVar: string): string {
-  return paletteVarMap[paletteVar] ?? paletteVar;
-}
-
 function isLight(hex: string): boolean {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
@@ -210,14 +206,12 @@ function isLight(hex: string): boolean {
   return r * 0.299 + g * 0.587 + b * 0.114 > 186;
 }
 
-function ColorTokenRow({ tokenName, paletteVar }: { tokenName: string; paletteVar: string }) {
-  const hex = resolveHex(paletteVar);
-  const textColor = hex.startsWith("#") ? (isLight(hex) ? "#374151" : "#ffffff") : "#374151";
+function ColorTokenRow({ tokenName, hex }: { tokenName: string; hex: string }) {
+  const textColor = isLight(hex) ? "#374151" : "#ffffff";
 
   return (
     <tr style={tbodyRowStyle}>
       <td style={tdNameStyle}>{tokenName}</td>
-      <td style={tdMutedStyle}>{paletteVar}</td>
       <td style={{ padding: "10px 16px" }}>
         <div style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
           <div
@@ -263,13 +257,12 @@ function ColorTokenSection({ brand, groupPrefix, extraKeys = [] }: {
       <thead>
         <tr style={theadRowStyle}>
           <th style={thStyle}>Token</th>
-          <th style={thStyle}>Palette Ref</th>
           <th style={thStyle}>Value</th>
         </tr>
       </thead>
       <tbody>
-        {entries.map(([tokenName, paletteVar]) => (
-          <ColorTokenRow key={tokenName} tokenName={tokenName} paletteVar={paletteVar} />
+        {entries.map(([tokenName, hex]) => (
+          <ColorTokenRow key={tokenName} tokenName={tokenName} hex={hex} />
         ))}
       </tbody>
     </table>
