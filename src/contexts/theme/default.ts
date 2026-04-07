@@ -2,7 +2,7 @@ import { ColorPalette, Size, Theme } from "../../types/theme";
 
 // ── Spacing / Border tokens ─────────────────────────────────────────────────
 
-// prettier-ignore
+
 export const defaultSpacePrimitives: Record<string, { rem: string; px: number | null }> = {
   "space-0":    { rem: "0",        px: 0    },
   "space-1":    { rem: "0.065rem", px: 1    },
@@ -28,7 +28,7 @@ export const defaultSpacePrimitives: Record<string, { rem: string; px: number | 
   "space-9999": { rem: "9999rem",  px: null }, // pill radius
 };
 
-// prettier-ignore
+
 export const defaultSpacingTokens: Record<string, string> = {
   "spacing-none":  "space-0",
   "spacing-xxs":   "space-1",
@@ -53,7 +53,7 @@ export const defaultSpacingTokens: Record<string, string> = {
   "spacing-15xl":  "space-128",
 };
 
-// prettier-ignore
+
 export const defaultBorderTokens: Record<string, string> = {
   "border-none": "space-0",
   "border-xxs":  "space-1",
@@ -61,7 +61,7 @@ export const defaultBorderTokens: Record<string, string> = {
   "border-sm":   "space-4",
 };
 
-// prettier-ignore
+
 export const defaultRadiusTokens: Record<string, string> = {
   "radius-none": "space-0",
   "radius-xxs":  "space-2",
