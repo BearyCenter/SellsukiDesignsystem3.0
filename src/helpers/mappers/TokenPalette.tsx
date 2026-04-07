@@ -5,6 +5,7 @@ import {
   defaultSpacePrimitives,
   defaultSpacingTokens,
 } from "../../contexts/theme/default";
+import { Brand, paletteVarMap, semanticTokens } from "../../contexts/theme/semantic-tokens";
 // ── Helpers ────────────────────────────────────────────────────────────────
 
 function pxLabel(px: number | null): string {
@@ -183,5 +184,113 @@ export function BorderPalette() {
         })}
       </tbody>
     </table>
+  );
+}
+
+// ── ColorTokenPalette ──────────────────────────────────────────────────────
+
+const COLOR_GROUPS: { label: string; prefix: string }[] = [
+  { label: "Text",       prefix: "--text-" },
+  { label: "Stroke",     prefix: "--stroke-" },
+  { label: "Icon",       prefix: "--icon-" },
+  { label: "Background", prefix: "--bg-" },
+  { label: "Foreground", prefix: "--fg-" },
+];
+
+const EXTRA_TOKENS = ["--link"];
+
+function resolveHex(paletteVar: string): string {
+  return paletteVarMap[paletteVar] ?? paletteVar;
+}
+
+function isLight(hex: string): boolean {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return r * 0.299 + g * 0.587 + b * 0.114 > 186;
+}
+
+function ColorTokenRow({ tokenName, paletteVar }: { tokenName: string; paletteVar: string }) {
+  const hex = resolveHex(paletteVar);
+  const textColor = hex.startsWith("#") ? (isLight(hex) ? "#374151" : "#ffffff") : "#374151";
+
+  return (
+    <tr style={tbodyRowStyle}>
+      <td style={tdNameStyle}>{tokenName}</td>
+      <td style={tdMutedStyle}>{paletteVar}</td>
+      <td style={{ padding: "10px 16px" }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
+          <div
+            style={{
+              width: "32px",
+              height: "32px",
+              borderRadius: "6px",
+              background: hex,
+              border: "1px solid #e5e7eb",
+              flexShrink: 0,
+            }}
+          />
+          <span
+            style={{
+              fontFamily: "monospace",
+              fontSize: "13px",
+              background: hex,
+              color: textColor,
+              padding: "2px 8px",
+              borderRadius: "4px",
+            }}
+          >
+            {hex}
+          </span>
+        </div>
+      </td>
+    </tr>
+  );
+}
+
+function ColorTokenSection({ brand, groupPrefix, extraKeys = [] }: {
+  brand: Brand;
+  groupPrefix: string;
+  extraKeys?: string[];
+}) {
+  const entries = Object.entries(semanticTokens[brand]).filter(
+    ([k]) => k.startsWith(groupPrefix) || extraKeys.includes(k)
+  );
+  if (entries.length === 0) return null;
+
+  return (
+    <table style={tableStyle}>
+      <thead>
+        <tr style={theadRowStyle}>
+          <th style={thStyle}>Token</th>
+          <th style={thStyle}>Palette Ref</th>
+          <th style={thStyle}>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {entries.map(([tokenName, paletteVar]) => (
+          <ColorTokenRow key={tokenName} tokenName={tokenName} paletteVar={paletteVar} />
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+export function ColorTokenPalette({ brand }: { brand: Brand }) {
+  return (
+    <div>
+      {COLOR_GROUPS.map(({ label, prefix }) => (
+        <div key={label} style={{ marginBottom: "40px" }}>
+          <p style={{ fontSize: "14px", fontWeight: 700, color: "#374151", margin: "0 0 4px" }}>
+            {label}
+          </p>
+          <ColorTokenSection
+            brand={brand}
+            groupPrefix={prefix}
+            extraKeys={label === "Text" ? EXTRA_TOKENS : []}
+          />
+        </div>
+      ))}
+    </div>
   );
 }

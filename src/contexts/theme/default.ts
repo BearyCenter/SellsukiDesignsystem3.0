@@ -2,73 +2,76 @@ import { ColorPalette, Size, Theme } from "../../types/theme";
 
 // ── Spacing / Border tokens ─────────────────────────────────────────────────
 
-export const defaultSpacePrimitives: Record<string, { rem: string; px: number | null }> = {
-  "space-0":    { rem: "0",        px: 0    },
-  "space-1":    { rem: "0.065rem", px: 1    },
-  "space-2":    { rem: "0.125rem", px: 2    },
-  "space-4":    { rem: "0.25rem",  px: 4    },
-  "space-6":    { rem: "0.375rem", px: 6    },
-  "space-8":    { rem: "0.5rem",   px: 8    },
-  "space-10":   { rem: "0.625rem", px: 10   },
-  "space-12":   { rem: "0.75rem",  px: 12   },
-  "space-16":   { rem: "1rem",     px: 16   },
-  "space-20":   { rem: "1.25rem",  px: 20   },
-  "space-24":   { rem: "1.5rem",   px: 24   },
-  "space-32":   { rem: "2rem",     px: 32   },
-  "space-40":   { rem: "2.5rem",   px: 40   },
-  "space-44":   { rem: "2.75rem",  px: 44   },
-  "space-48":   { rem: "3rem",     px: 48   },
-  "space-56":   { rem: "3.5rem",   px: 56   },
-  "space-64":   { rem: "4rem",     px: 64   },
-  "space-72":   { rem: "4.5rem",   px: 72   },
-  "space-80":   { rem: "5rem",     px: 80   },
-  "space-96":   { rem: "6rem",     px: 96   },
-  "space-128":  { rem: "8rem",     px: 128  },
-  "space-9999": { rem: "9999rem",  px: null }, // pill radius
+export const defaultSpacePrimitives: Record<
+  string,
+  { rem: string; px: number | null }
+> = {
+  "space-0": { rem: "0", px: 0 },
+  "space-1": { rem: "0.065rem", px: 1 },
+  "space-2": { rem: "0.125rem", px: 2 },
+  "space-4": { rem: "0.25rem", px: 4 },
+  "space-6": { rem: "0.375rem", px: 6 },
+  "space-8": { rem: "0.5rem", px: 8 },
+  "space-10": { rem: "0.625rem", px: 10 },
+  "space-12": { rem: "0.75rem", px: 12 },
+  "space-16": { rem: "1rem", px: 16 },
+  "space-20": { rem: "1.25rem", px: 20 },
+  "space-24": { rem: "1.5rem", px: 24 },
+  "space-32": { rem: "2rem", px: 32 },
+  "space-40": { rem: "2.5rem", px: 40 },
+  "space-44": { rem: "2.75rem", px: 44 },
+  "space-48": { rem: "3rem", px: 48 },
+  "space-56": { rem: "3.5rem", px: 56 },
+  "space-64": { rem: "4rem", px: 64 },
+  "space-72": { rem: "4.5rem", px: 72 },
+  "space-80": { rem: "5rem", px: 80 },
+  "space-96": { rem: "6rem", px: 96 },
+  "space-128": { rem: "8rem", px: 128 },
+  "space-9999": { rem: "9999rem", px: null }, // pill radius
 };
 
 export const defaultSpacingTokens: Record<string, string> = {
-  "spacing-none":  "space-0",
-  "spacing-xxs":   "space-1",
-  "spacing-xs":    "space-2",
-  "spacing-sm":    "space-4",
-  "spacing-md":    "space-6",
-  "spacing-lg":    "space-8",
-  "spacing-xl":    "space-10",
-  "spacing-2xl":   "space-12",
-  "spacing-3xl":   "space-16",
-  "spacing-4xl":   "space-20",
-  "spacing-5xl":   "space-24",
-  "spacing-6xl":   "space-32",
-  "spacing-7xl":   "space-40",
-  "spacing-8xl":   "space-44",
-  "spacing-9xl":   "space-48",
-  "spacing-10xl":  "space-56",
-  "spacing-11xl":  "space-64",
-  "spacing-12xl":  "space-72",
-  "spacing-13xl":  "space-80",
-  "spacing-14xl":  "space-96",
-  "spacing-15xl":  "space-128",
+  "spacing-none": "space-0",
+  "spacing-xxs": "space-1",
+  "spacing-xs": "space-2",
+  "spacing-sm": "space-4",
+  "spacing-md": "space-6",
+  "spacing-lg": "space-8",
+  "spacing-xl": "space-10",
+  "spacing-2xl": "space-12",
+  "spacing-3xl": "space-16",
+  "spacing-4xl": "space-20",
+  "spacing-5xl": "space-24",
+  "spacing-6xl": "space-32",
+  "spacing-7xl": "space-40",
+  "spacing-8xl": "space-44",
+  "spacing-9xl": "space-48",
+  "spacing-10xl": "space-56",
+  "spacing-11xl": "space-64",
+  "spacing-12xl": "space-72",
+  "spacing-13xl": "space-80",
+  "spacing-14xl": "space-96",
+  "spacing-15xl": "space-128",
 };
 
 export const defaultBorderTokens: Record<string, string> = {
   "border-none": "space-0",
-  "border-xxs":  "space-1",
-  "border-xs":   "space-2",
-  "border-sm":   "space-4",
+  "border-xxs": "space-1",
+  "border-xs": "space-2",
+  "border-sm": "space-4",
 };
 
 export const defaultRadiusTokens: Record<string, string> = {
   "radius-none": "space-0",
-  "radius-xxs":  "space-2",
-  "radius-xs":   "space-4",
-  "radius-sm":   "space-6",
-  "radius-md":   "space-8",
-  "radius-lg":   "space-12",
-  "radius-xl":   "space-16",
-  "radius-2xl":  "space-20",
-  "radius-3xl":  "space-24",
-  "radius-4xl":  "space-32",
+  "radius-xxs": "space-2",
+  "radius-xs": "space-4",
+  "radius-sm": "space-6",
+  "radius-md": "space-8",
+  "radius-lg": "space-12",
+  "radius-xl": "space-16",
+  "radius-2xl": "space-20",
+  "radius-3xl": "space-24",
+  "radius-4xl": "space-32",
   "radius-full": "space-9999",
 };
 
@@ -1771,7 +1774,7 @@ const deepMerge = <T = object | any[]>(src: T, target: T): T => {
               ? deepMerge((src as any)[key], (target as any)[key])
               : (target as any)[key],
         }),
-        {}
+        {},
       ),
     };
   }
@@ -1788,3 +1791,4 @@ type DeepPartial<T> = T extends object
 export const applyTheme = (theme: DeepPartial<Theme>): Theme => {
   return deepMerge(theme as Theme, defaultTheme);
 };
+
