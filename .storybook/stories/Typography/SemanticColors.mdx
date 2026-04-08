@@ -1,0 +1,81 @@
+import { Meta, Source } from "@storybook/blocks";
+import { ColorTokenPalette } from "../../../src/helpers/mappers/TokenPalette";
+
+<Meta title="Typography/Semantic Colors" />
+
+## Sellsuki Design System : Semantic Color Tokens
+
+Semantic tokens derive ค่าจาก base palette โดยตรง — ไม่ hardcode hex ค่าสีเปลี่ยนตาม brand
+
+---
+
+## Usage
+
+### Option 1: ผ่าน `ssk-theme-provider` (แนะนำ)
+
+ส่ง `brand` prop — ThemeProvider จะ inject semantic vars บน `:root` ให้อัตโนมัติ
+
+<Source code={`<!-- HTML / Lit -->
+<ssk-theme-provider brand="patona">
+  <div class="card">...</div>
+</ssk-theme-provider>
+
+<!-- เปลี่ยน brand → vars เปลี่ยนทันที -->
+<ssk-theme-provider brand="ccs3">
+  <div class="card">...</div>
+</ssk-theme-provider>`} language="html" />
+
+### Option 2: Manual inject (JS/TS)
+
+ใช้เมื่อไม่ได้ใช้ `ssk-theme-provider` หรือต้องการ inject ใน root ของ app เอง
+
+<Source code={`import { Brand, injectSemanticTokens } from "@sellsuki-org/sellsuki-components";
+
+// เรียกครั้งเดียวตอน app boot
+injectSemanticTokens(Brand.patona);
+
+// เปลี่ยน brand ภายหลัง
+injectSemanticTokens(Brand.ccs3);`} language="typescript" />
+
+### ใช้ token ใน CSS
+
+หลัง inject แล้ว ใช้ CSS custom properties ได้ทันที — component เดิมเปลี่ยนสีตาม brand โดยไม่แก้โค้ด
+
+<Source code={`.button-primary {
+  background: var(--bg-brand-solid);       /* patona: #EC5E2A | ccs3: #32A9FF */
+  color: var(--text-white);                /* #ffffff */
+  border: 1px solid var(--stroke-brand-solid);
+}
+
+.button-primary:hover {
+  background: var(--bg-brand-solid-hover);
+}
+
+.label {
+  color: var(--text-brand-primary);
+}
+
+.card {
+  background: var(--bg-primary);
+  border: 1px solid var(--stroke-primary);
+}`} language="css" />
+
+---
+
+## Token Reference
+
+### Patona
+
+<ColorTokenPalette brand="patona" />
+
+---
+
+### CCS3 (Sellsuki Admin)
+
+<ColorTokenPalette brand="ccs3" />
+
+---
+
+### OC2Plus
+
+<ColorTokenPalette brand="oc2plus" />

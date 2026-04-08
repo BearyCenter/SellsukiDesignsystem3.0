@@ -1,10 +1,12 @@
 import "../../assets/global.css";
 import { createContext, provide } from "@lit/context";
-import { LitElement, css, html } from "lit";
+import { LitElement, PropertyValues, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Theme, parseThemeToCssVariables } from "../../types/theme";
 import { defaultTheme } from "./default";
+import { Brand, injectSemanticTokens } from "./semantic-tokens";
 export * from "./default";
+export * from "./semantic-tokens";
 
 export const themeContext = createContext<Theme>("ssk-theme-context");
 
@@ -13,6 +15,15 @@ export class ThemeProvider extends LitElement {
   @provide({ context: themeContext })
   @property({ attribute: false })
   theme: Theme = defaultTheme;
+
+  @property({ type: String })
+  brand?: Brand;
+
+  updated(changed: PropertyValues) {
+    if (changed.has("brand") && this.brand) {
+      injectSemanticTokens(this.brand);
+    }
+  }
 
   render() {
     return html`${parseThemeToCssVariables(this.theme, ":host")} <slot></slot>`;
