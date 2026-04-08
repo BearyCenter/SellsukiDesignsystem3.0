@@ -567,18 +567,6 @@ export const defaultColorPallete: ColorPalette = {
     "800": "#9A3412",
     "900": "#7C2D12",
   },
-  aerospaceOrange: {
-    "50": "#FCEFE7",
-    "100": "#F9DDCE",
-    "200": "#F4BC9E",
-    "300": "#F19B70",
-    "400": "#EE7B46",
-    "500": "#EC5E2A",
-    "600": "#BC4B20",
-    "700": "#8D3816",
-    "800": "#5E250B",
-    "900": "#2F1203",
-  },
   "aerospace-orange": {
     "50": "#FCEFE7",
     "100": "#F9DDCE",

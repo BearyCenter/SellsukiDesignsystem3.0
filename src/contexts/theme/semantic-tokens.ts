@@ -12,8 +12,21 @@ export type Brand = (typeof Brand)[keyof typeof Brand];
 
 // ── Palette refs ──────────────────────────────────────────────────────────────
 
-const { gray, sky, emerald, amber, rose, white, aerospaceOrange } =
-  defaultColorPallete as Record<string, Record<string, string>>;
+function getPaletteScale(name: string): Record<string, string> {
+  const entry = (defaultColorPallete as Record<string, unknown>)[name];
+  if (typeof entry !== "object" || entry === null) {
+    throw new Error(`Color palette "${name}" is not a scale`);
+  }
+  return entry as Record<string, string>;
+}
+
+const gray            = getPaletteScale("gray");
+const sky             = getPaletteScale("sky");
+const emerald         = getPaletteScale("emerald");
+const amber           = getPaletteScale("amber");
+const rose            = getPaletteScale("rose");
+const white           = getPaletteScale("white");
+const aerospaceOrange = getPaletteScale("aerospace-orange");
 
 // ── Semantic tokens per brand ─────────────────────────────────────────────────
 
@@ -158,7 +171,7 @@ const sellsukiSkyTokens: SemanticTokenMap = {
   "--icon-link":        sky["600"],
   // background
   "--bg-primary":           white["50"],
-  "--bg-primary-hover":     gray["50"],
+  "--bg-primary-hover":     gray["50"],  // lighter than patona (gray-100) — intentional for sky brand
   "--bg-secondary":         gray["100"],
   "--bg-tertiary":          gray["500"],
   "--bg-quaternary":        gray["50"],
