@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { css, html, LitElement } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { dynamicTableContext, TableState } from "./table";
 import {
   cssVar,
@@ -10,7 +10,6 @@ import {
   Theme,
 } from "../../types/theme";
 
-@customElement("ssk-table-row")
 export class TableRow extends LitElement {
   static registeredName = "ssk-table-row";
 
@@ -83,4 +82,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-table-row": TableRow;
   }
+}
+
+if (!customElements.get("ssk-table-row")) {
+  customElements.define("ssk-table-row", TableRow);
 }

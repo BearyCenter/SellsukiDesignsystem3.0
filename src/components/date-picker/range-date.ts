@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { css, html, LitElement, nothing, PropertyValues } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import {
   ColorName,
   ColorRole,
@@ -26,7 +26,6 @@ import {
 import { convertToAD, convertToBE, getMonthString } from "./util";
 
 type LocaleKey = "en" | "fr" | "th";
-@customElement("ssk-range-date-picker")
 export class RangeDatePicker extends LitElement {
   static registeredName = "ssk-range-date-picker";
 
@@ -678,4 +677,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-range-date-picker": RangeDatePicker;
   }
+}
+
+if (!customElements.get("ssk-range-date-picker")) {
+  customElements.define("ssk-range-date-picker", RangeDatePicker);
 }

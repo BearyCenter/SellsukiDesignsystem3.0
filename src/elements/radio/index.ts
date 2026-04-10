@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
 import { ThemeValue } from "../../types/base-attributes";
@@ -14,7 +14,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-radio")
 export class Radio extends LitElement implements ThemeValue {
   static registeredName = "ssk-radio";
 
@@ -193,4 +192,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-radio": Radio;
   }
+}
+
+if (!customElements.get("ssk-radio")) {
+  customElements.define("ssk-radio", Radio);
 }

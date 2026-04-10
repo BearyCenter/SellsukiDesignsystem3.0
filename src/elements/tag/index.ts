@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   BadgeVariants,
@@ -15,7 +15,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-tag")
 export class Tag extends LitElement {
   static registeredName = "ssk-tag";
 
@@ -164,4 +163,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-tag": Tag;
   }
+}
+
+if (!customElements.get("ssk-tag")) {
+  customElements.define("ssk-tag", Tag);
 }

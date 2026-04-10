@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
 import {
@@ -19,7 +19,6 @@ import {
  * @slot - This element has a slot
  * @csspart text
  */
-@customElement("ssk-divider")
 export class Divider extends LitElement implements ThemeValue {
   static registeredName = "ssk-divider";
 
@@ -172,4 +171,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-divider": Divider;
   }
+}
+
+if (!customElements.get("ssk-divider")) {
+  customElements.define("ssk-divider", Divider);
 }

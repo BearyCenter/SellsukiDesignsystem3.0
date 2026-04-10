@@ -1,7 +1,7 @@
 import "../../assets/global.css";
 import { createContext, provide } from "@lit/context";
 import { LitElement, PropertyValues, css, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { Theme, parseThemeToCssVariables } from "../../types/theme";
 import { defaultTheme } from "./default";
 import { Brand, injectSemanticTokens } from "./semantic-tokens";
@@ -10,7 +10,6 @@ export * from "./semantic-tokens";
 
 export const themeContext = createContext<Theme>("ssk-theme-context");
 
-@customElement("ssk-theme-provider")
 export class ThemeProvider extends LitElement {
   @provide({ context: themeContext })
   @property({ attribute: false })
@@ -46,4 +45,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-theme-provider": ThemeProvider;
   }
+}
+
+if (!customElements.get("ssk-theme-provider")) {
+  customElements.define("ssk-theme-provider", ThemeProvider);
 }

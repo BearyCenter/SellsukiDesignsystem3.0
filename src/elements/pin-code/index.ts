@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
@@ -15,7 +15,6 @@ import {
 } from "../../types/theme";
 import { redispatchEvents } from "../../helpers/lit";
 
-@customElement("ssk-pin-code")
 export class PinCode extends LitElement {
   static registeredName = "ssk-pin-code";
 
@@ -300,4 +299,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-pin-code": PinCode;
   }
+}
+
+if (!customElements.get("ssk-pin-code")) {
+  customElements.define("ssk-pin-code", PinCode);
 }

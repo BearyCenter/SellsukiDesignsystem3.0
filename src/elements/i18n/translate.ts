@@ -1,10 +1,9 @@
 import { consume } from "@lit/context";
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { until } from "lit/directives/until.js";
 import { I18nStore, i18nContext } from "../../contexts/i18n";
 
-@customElement("ssk-i18n-translate")
 export class Translate extends LitElement {
   static registeredName = "ssk-i18n-translate";
 
@@ -33,4 +32,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-i18n-translate": Translate;
   }
+}
+
+if (!customElements.get("ssk-i18n-translate")) {
+  customElements.define("ssk-i18n-translate", Translate);
 }

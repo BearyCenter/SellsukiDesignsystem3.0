@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import "../../../src/elements/checkbox";
 import "../../elements/icon";
 import { themeContext } from "../../contexts/theme";
@@ -17,7 +17,6 @@ import {
 } from "../../types/theme";
 import { DropdownState, valueContext } from "./dropdown";
 
-@customElement("ssk-dropdown-option")
 export class DropdownOption extends LitElement {
   static registeredName = "ssk-dropdown-option";
 
@@ -160,4 +159,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-dropdown-option": DropdownOption;
   }
+}
+
+if (!customElements.get("ssk-dropdown-option")) {
+  customElements.define("ssk-dropdown-option", DropdownOption);
 }

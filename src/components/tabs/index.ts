@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import "../../../src/elements/badge";
 import { themeContext } from "../../contexts/theme";
@@ -18,7 +18,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-tabs")
 export class Tabs extends LitElement {
   static registeredName = "ssk-tabs";
 
@@ -339,4 +338,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-tabs": Tabs;
   }
+}
+
+if (!customElements.get("ssk-tabs")) {
+  customElements.define("ssk-tabs", Tabs);
 }

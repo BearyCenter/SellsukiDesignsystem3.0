@@ -1,5 +1,5 @@
 import { LitElement, html, css, PropertyValues } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import "../../../src/elements/card-select";
 import "./index"
 import "../card-select"; 
@@ -13,7 +13,6 @@ interface Card {
     icon: string;
 }
 
-@customElement("ssk-card-group")
 export class CardGroup extends LitElement {
     @property({ type: Array }) cards: Card[] = [];
 
@@ -81,4 +80,8 @@ export class CardGroup extends LitElement {
     interface HTMLElementTagNameMap {
         "ssk-card-group": CardGroup;
     }
+}
+
+if (!customElements.get("ssk-card-group")) {
+  customElements.define("ssk-card-group", CardGroup);
 }

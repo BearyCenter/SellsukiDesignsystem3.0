@@ -1,6 +1,6 @@
 import { consume } from '@lit/context'
 import { LitElement, css, html, nothing, PropertyValues } from 'lit'
-import { customElement, property, state, query } from 'lit/decorators.js'
+import { property, state, query } from 'lit/decorators.js'
 import { themeContext } from '../../contexts/theme'
 import { ThemeValue } from '../../types/base-attributes'
 import { styleMap } from 'lit/directives/style-map.js' 
@@ -22,7 +22,6 @@ export interface DropdownItem {
   value: string;
 }
 
-@customElement('ssk-widget-title')
 export class WidgetTitle extends LitElement implements Widget, ThemeValue {
     static registeredName = 'ssk-widget-title'
     
@@ -426,4 +425,8 @@ declare global {
     interface HTMLElementTagNameMap {
         'ssk-widget-title': WidgetTitle
     }
+}
+
+if (!customElements.get("ssk-widget-title")) {
+  customElements.define("ssk-widget-title", WidgetTitle);
 }

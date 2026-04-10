@@ -7,14 +7,13 @@ import "dayjs/locale/th";
 import buddhistEra from "dayjs/plugin/buddhistEra";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ColorName, ColorRole, Size, Theme } from "../../types/theme";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(buddhistEra);
 
-@customElement("ssk-date-display")
 export class DateDisplay extends LitElement {
   static registeredName = "ssk-date-display";
 
@@ -114,4 +113,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-date-display": DateDisplay;
   }
+}
+
+if (!customElements.get("ssk-date-display")) {
+  customElements.define("ssk-date-display", DateDisplay);
 }

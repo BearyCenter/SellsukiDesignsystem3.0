@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
 import { redispatchEvents } from "../../helpers/lit";
@@ -25,7 +25,6 @@ export type radioOptions = {
     disabled?: boolean;
     value: string;
 };
-@customElement("ssk-radio-group")
 export class RadioGroup extends LitElement implements ThemeValue {
     static registeredName = "ssk-radio-group";
 
@@ -281,4 +280,8 @@ declare global {
     interface HTMLElementTagNameMap {
         "ssk-radio-group": RadioGroup;
     }
+}
+
+if (!customElements.get("ssk-radio-group")) {
+  customElements.define("ssk-radio-group", RadioGroup);
 }

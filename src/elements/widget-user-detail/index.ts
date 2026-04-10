@@ -1,6 +1,6 @@
 import { consume } from '@lit/context'
 import { LitElement, css, html, nothing, PropertyValues } from 'lit'
-import { customElement, property, state, query } from 'lit/decorators.js'
+import { property, state, query } from 'lit/decorators.js'
 import { themeContext } from '../../contexts/theme'
 import { ThemeValue } from '../../types/base-attributes'
 import { styleMap } from 'lit/directives/style-map.js'
@@ -27,7 +27,6 @@ export interface sectionItem {
   disabledButton?: boolean;
 }
 
-@customElement('ssk-widget-user-detail')
 export class WidgetUserDetail extends LitElement implements Widget, ThemeValue {
   static registeredName = 'ssk-widget-user-detail'
 
@@ -305,4 +304,8 @@ declare global {
   interface HTMLElementTagNameMap {
     'ssk-widget-user-detail': WidgetUserDetail
   }
+}
+
+if (!customElements.get("ssk-widget-user-detail")) {
+  customElements.define("ssk-widget-user-detail", WidgetUserDetail);
 }

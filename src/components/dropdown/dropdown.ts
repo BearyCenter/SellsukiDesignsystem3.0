@@ -1,6 +1,6 @@
 import { consume, provide } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 
 import "../../elements/icon";
@@ -39,7 +39,6 @@ export const valueContext = createContext<DropdownState>(
   "ssk-dropdown-context"
 );
 
-@customElement("ssk-dropdown")
 export class Dropdown extends LitElement {
   static registeredName = "ssk-dropdown";
 
@@ -668,4 +667,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-dropdown": Dropdown;
   }
+}
+
+if (!customElements.get("ssk-dropdown")) {
+  customElements.define("ssk-dropdown", Dropdown);
 }

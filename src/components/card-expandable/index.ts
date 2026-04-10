@@ -1,9 +1,8 @@
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { ColorName, ColorRole } from "../../types/theme";
 import "../../../src/components/skeleton";
 
-@customElement("ssk-expandable-card")
 export class ExpandableCard extends LitElement {
   static registeredName = "ssk-expandable-card";
 
@@ -324,4 +323,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-expandable-card": ExpandableCard;
   }
+}
+
+if (!customElements.get("ssk-expandable-card")) {
+  customElements.define("ssk-expandable-card", ExpandableCard);
 }

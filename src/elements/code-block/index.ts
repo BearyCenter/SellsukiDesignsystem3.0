@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import Prism from "prismjs";
 import prismStyle from "prismjs/themes/prism.min.css?inline";
@@ -18,7 +18,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-code-block")
 export class CodeBlock extends LitElement {
   static registeredName = "ssk-code-block";
 
@@ -243,4 +242,8 @@ declare global {
   interface HTMLElementContainerNameMap {
     "ssk-code-block": CodeBlock;
   }
+}
+
+if (!customElements.get("ssk-code-block")) {
+  customElements.define("ssk-code-block", CodeBlock);
 }

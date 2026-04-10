@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
@@ -12,7 +12,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-spinner")
 export class Spinner extends LitElement {
   static registeredName = "ssk-spinner";
 
@@ -114,4 +113,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-spinner": Spinner;
   }
+}
+
+if (!customElements.get("ssk-spinner")) {
+  customElements.define("ssk-spinner", Spinner);
 }

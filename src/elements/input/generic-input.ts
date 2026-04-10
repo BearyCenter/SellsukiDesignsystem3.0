@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
@@ -16,7 +16,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-input")
 export class Input extends LitElement {
   static registeredName = "ssk-input";
 
@@ -326,4 +325,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-input": Input;
   }
+}
+
+if (!customElements.get("ssk-input")) {
+  customElements.define("ssk-input", Input);
 }

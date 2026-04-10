@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
@@ -12,7 +12,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-logo")
 export class Logo extends LitElement implements ThemeValue {
   static registeredName = "ssk-logo";
 
@@ -144,4 +143,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-logo": Logo;
   }
+}
+
+if (!customElements.get("ssk-logo")) {
+  customElements.define("ssk-logo", Logo);
 }

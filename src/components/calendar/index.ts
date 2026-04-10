@@ -16,7 +16,7 @@ import {
   Day,
 } from "date-fns";
 import { enUS, fr, th } from "date-fns/locale";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import { themeContext } from "../../contexts/theme";
 
@@ -47,7 +47,6 @@ type typeDay = {
   date: number;
 };
 
-@customElement("ssk-calendar")
 export class Calendar extends LitElement {
   static registeredName = "ssk-calendar";
 
@@ -1100,4 +1099,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-calendar": Calendar;
   }
+}
+
+if (!customElements.get("ssk-calendar")) {
+  customElements.define("ssk-calendar", Calendar);
 }

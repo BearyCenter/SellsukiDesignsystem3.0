@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import "../../../src/elements/text";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
@@ -30,7 +30,6 @@ export type Placement =
   | "rightbottom";
 
 export type Trigger = "hover" | "click";
-@customElement("ssk-tooltip")
 export class Tooltip extends LitElement implements ThemeValue {
   static registeredName = "ssk-tooltip";
 
@@ -415,4 +414,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-tooltip": Tooltip;
   }
+}
+
+if (!customElements.get("ssk-tooltip")) {
+  customElements.define("ssk-tooltip", Tooltip);
 }

@@ -1,6 +1,6 @@
 import { consume, createContext, provide } from "@lit/context";
 import { LitElement, PropertyValueMap, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
@@ -25,7 +25,6 @@ export type State = {
 
 export const stateContext = createContext<State>("ssk-sidebar-state-context");
 
-@customElement("ssk-sidebar")
 export class Sidebar extends LitElement {
   static registeredName = "ssk-sidebar";
 
@@ -230,4 +229,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-sidebar": Sidebar;
   }
+}
+
+if (!customElements.get("ssk-sidebar")) {
+  customElements.define("ssk-sidebar", Sidebar);
 }

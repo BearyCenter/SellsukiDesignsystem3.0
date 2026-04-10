@@ -1,5 +1,5 @@
 import { LitElement, html, css, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { ColorName, ColorRole } from "../../types/theme";
 
 
@@ -7,7 +7,6 @@ import { ColorName, ColorRole } from "../../types/theme";
 export type VariantCard = "outlined" | "elevated";
 export type TypeCard = "stacked" | "horizontal";
 
-@customElement("ssk-card")
 export class Card extends LitElement {
   static registeredName = "ssk-card";
 
@@ -360,3 +359,6 @@ export class Card extends LitElement {
     }
   }
 
+if (!customElements.get("ssk-card")) {
+  customElements.define("ssk-card", Card);
+}

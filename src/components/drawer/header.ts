@@ -1,9 +1,8 @@
 import { LitElement, css, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import "../../../src/elements/heading";
 import "../../../src/elements/text";
 
-@customElement("ssk-drawer-header")
 export class DrawerHeader extends LitElement {
   @property({ type: String }) title = "";
   @property({ type: String }) description = "";
@@ -73,4 +72,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-drawer-header": DrawerHeader;
   }
+}
+
+if (!customElements.get("ssk-drawer-header")) {
+  customElements.define("ssk-drawer-header", DrawerHeader);
 }

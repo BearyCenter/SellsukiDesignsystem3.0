@@ -1,5 +1,5 @@
 import { LitElement, html, css, nothing } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import { themeContext } from "../../contexts/theme";
 import {
@@ -36,7 +36,6 @@ const locales = { en: enUS, fr, th };
 type LocaleKey = "en" | "fr" | "th";
 type TypeTime = "hms" | "hm" | "timeEvery30";
 
-@customElement("ssk-time")
 export class Time extends LitElement {
   static registeredName = "ssk-time";
 
@@ -343,4 +342,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-time": Time;
   }
+}
+
+if (!customElements.get("ssk-time")) {
+  customElements.define("ssk-time", Time);
 }

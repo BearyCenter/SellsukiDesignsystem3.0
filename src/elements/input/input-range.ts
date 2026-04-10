@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { css, html, LitElement, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { redispatchEvents } from "../../helpers/lit";
 import {
   ColorName,
@@ -15,7 +15,6 @@ import {
   themeContext,
 } from "../../main";
 
-@customElement("ssk-input-range")
 export class InputRange extends LitElement {
   static registeredName = "ssk-input-range";
 
@@ -338,4 +337,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-input-range": InputRange;
   }
+}
+
+if (!customElements.get("ssk-input-range")) {
+  customElements.define("ssk-input-range", InputRange);
 }

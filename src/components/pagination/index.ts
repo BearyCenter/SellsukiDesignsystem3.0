@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import "../../../src/elements/badge";
 import "../../../src/components/dropdown";
@@ -16,7 +16,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-pagination")
 export class Pagination extends LitElement {
   static registeredName = "ssk-pagination";
 
@@ -533,4 +532,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-pagination": Pagination;
   }
+}
+
+if (!customElements.get("ssk-pagination")) {
+  customElements.define("ssk-pagination", Pagination);
 }

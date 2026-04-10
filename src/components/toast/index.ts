@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, eventOptions, property } from "lit/decorators.js";
+import { eventOptions, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import "../../elements/icon";
 import { redispatchEvents } from "../../helpers/lit";
@@ -11,7 +11,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-toast")
 export class Toast extends LitElement {
   static registeredName = "ssk-toast";
 
@@ -159,4 +158,8 @@ declare global {
   interface HTMLElementToastNameMap {
     "ssk-toast": Toast;
   }
+}
+
+if (!customElements.get("ssk-toast")) {
+  customElements.define("ssk-toast", Toast);
 }

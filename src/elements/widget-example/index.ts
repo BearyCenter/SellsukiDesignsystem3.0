@@ -1,6 +1,6 @@
 import { consume } from '@lit/context'
 import { LitElement, css, html } from 'lit'
-import { customElement, property } from 'lit/decorators.js'
+import { property } from 'lit/decorators.js'
 import { themeContext } from '../../contexts/theme'
 import { ThemeValue } from '../../types/base-attributes'
 import {
@@ -14,7 +14,6 @@ import {
 } from '../../types/theme'
 import { Widget } from '../../types/widget'
 
-@customElement('ssk-widget-example')
 export class WidgetExample extends LitElement implements Widget, ThemeValue {
   static registeredName = 'ssk-widget-example'
 
@@ -106,4 +105,8 @@ declare global {
   interface HTMLElementTagNameMap {
     'ssk-widget-example': WidgetExample
   }
+}
+
+if (!customElements.get("ssk-widget-example")) {
+  customElements.define("ssk-widget-example", WidgetExample);
 }

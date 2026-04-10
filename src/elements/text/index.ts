@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
@@ -18,7 +18,6 @@ import {
  * @slot - This element has a slot
  * @csspart text
  */
-@customElement("ssk-text")
 export class Text extends LitElement {
   static registeredName = "ssk-text";
 
@@ -157,4 +156,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-text": Text;
   }
+}
+
+if (!customElements.get("ssk-text")) {
+  customElements.define("ssk-text", Text);
 }

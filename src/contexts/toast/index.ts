@@ -1,6 +1,6 @@
 import { createContext, provide } from "@lit/context";
 import { LitElement, css, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import "../../components/toast";
 export type ToastData = {
   id: string;
@@ -20,7 +20,6 @@ export interface ToastStore {
 
 export const toastContext = createContext<ToastStore>("ssk-toast-context");
 
-@customElement("ssk-toast-provider")
 export class ToastProvider extends LitElement {
   @provide({ context: toastContext })
   @property({ attribute: false })
@@ -100,4 +99,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-toast-provider": ToastProvider;
   }
+}
+
+if (!customElements.get("ssk-toast-provider")) {
+  customElements.define("ssk-toast-provider", ToastProvider);
 }

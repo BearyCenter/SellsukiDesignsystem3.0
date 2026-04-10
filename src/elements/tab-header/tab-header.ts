@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { css, html, LitElement } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
@@ -9,7 +9,6 @@ import {
   Theme,
 } from "../../types/theme";
 
-@customElement("ssk-tab-header")
 export class TabHeader extends LitElement {
   static registeredName = "ssk-tab-header";
 
@@ -95,4 +94,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-tab-header": TabHeader;
   }
+}
+
+if (!customElements.get("ssk-tab-header")) {
+  customElements.define("ssk-tab-header", TabHeader);
 }

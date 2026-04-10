@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, TemplateResult, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
@@ -26,7 +26,6 @@ const levelToSize: Record<1 | 2 | 3 | 4 | 5, Size> = {
  * @slot - This element has a slot
  * @csspart text
  */
-@customElement("ssk-heading")
 export class Heading extends LitElement {
   static registeredName = "ssk-heading";
 
@@ -182,4 +181,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-heading": Heading;
   }
+}
+
+if (!customElements.get("ssk-heading")) {
+  customElements.define("ssk-heading", Heading);
 }

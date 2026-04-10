@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import { themeContext } from "../../contexts/theme";
 import {
@@ -20,7 +20,6 @@ export interface TimelineItem {
     status: "completed" | "in-progress" | "pending";
 }
 
-@customElement("ssk-timeline")
 export class Timeline extends LitElement {
     static registeredName = "ssk-timeline";
 
@@ -291,4 +290,8 @@ declare global {
     interface HTMLElementTagNameMap {
         "ssk-timeline": Timeline;
     }
+}
+
+if (!customElements.get("ssk-timeline")) {
+  customElements.define("ssk-timeline", Timeline);
 }

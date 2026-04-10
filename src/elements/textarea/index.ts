@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
 import {
@@ -15,7 +15,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-textarea")
 export class Textarea extends LitElement {
   static registeredName = "ssk-textarea";
 
@@ -291,4 +290,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-textarea": Textarea;
   }
+}
+
+if (!customElements.get("ssk-textarea")) {
+  customElements.define("ssk-textarea", Textarea);
 }

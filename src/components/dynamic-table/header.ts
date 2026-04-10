@@ -1,9 +1,8 @@
 import { consume } from "@lit/context";
 import { css, html, LitElement, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { dynamicTableContext, TableState } from "./table";
 
-@customElement("ssk-header-cell")
 export class HeaderCell extends LitElement {
   static registeredName = "ssk-header-cell";
 
@@ -94,4 +93,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-header-cell": HeaderCell;
   }
+}
+
+if (!customElements.get("ssk-header-cell")) {
+  customElements.define("ssk-header-cell", HeaderCell);
 }

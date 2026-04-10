@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { css, html, LitElement, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { cssVar, parseVariables, Theme } from "../../types/theme";
 import "../../../src/components/misc-icon";
@@ -21,7 +21,6 @@ const _iconSizeMap: { [key: string]: number } = {
   xl: 56,
 };
 
-@customElement("ssk-wave-icon")
 export class WaveIcon extends LitElement {
   static registeredName = "ssk-wave-icon";
 
@@ -166,4 +165,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-wave-icon": WaveIcon;
   }
+}
+
+if (!customElements.get("ssk-wave-icon")) {
+  customElements.define("ssk-wave-icon", WaveIcon);
 }

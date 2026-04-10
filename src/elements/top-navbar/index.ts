@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
 import {
@@ -15,7 +15,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-top-navbar")
 export class TopNavbar extends LitElement implements ThemeValue {
   static registeredName = "ssk-top-navbar";
 
@@ -113,4 +112,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-top-navbar": TopNavbar;
   }
+}
+
+if (!customElements.get("ssk-top-navbar")) {
+  customElements.define("ssk-top-navbar", TopNavbar);
 }

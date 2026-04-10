@@ -1,11 +1,10 @@
 import { css, html, LitElement, nothing } from "lit";
 import { BaseAttributes } from "../../types/base-attributes";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import "../../elements/icon";
 import "../../components/dropdown";
 import { Size } from "../../main";
 
-@customElement("ssk-addon-phone-country")
 export class AddonPhoneCountry extends LitElement implements BaseAttributes {
   static registeredName = "ssk-addon-phone-country";
 
@@ -333,4 +332,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-addon-phone-country": AddonPhoneCountry;
   }
+}
+
+if (!customElements.get("ssk-addon-phone-country")) {
+  customElements.define("ssk-addon-phone-country", AddonPhoneCountry);
 }

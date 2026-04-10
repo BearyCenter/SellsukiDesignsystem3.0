@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { BaseAttributes, ThemeValue } from "../../types/base-attributes";
 import {
@@ -15,7 +15,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-input-addon")
 export class InputAddon
   extends LitElement
   implements ThemeValue, BaseAttributes
@@ -157,4 +156,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-input-addon": InputAddon;
   }
+}
+
+if (!customElements.get("ssk-input-addon")) {
+  customElements.define("ssk-input-addon", InputAddon);
 }

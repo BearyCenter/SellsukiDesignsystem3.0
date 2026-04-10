@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   BadgeVariants,
@@ -15,7 +15,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-container")
 export class Container extends LitElement {
   static registeredName = "ssk-container";
 
@@ -185,4 +184,8 @@ declare global {
   interface HTMLElementContainerNameMap {
     "ssk-container": Container;
   }
+}
+
+if (!customElements.get("ssk-container")) {
+  customElements.define("ssk-container", Container);
 }

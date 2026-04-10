@@ -1,7 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, html, css } from "lit";
 import {
-  customElement,
   property,
   queryAssignedElements,
 } from "lit/decorators.js";
@@ -18,7 +17,6 @@ import {
   Theme,
 } from "../../types/theme";
 
-@customElement("ssk-accordion")
 export class Accordion extends LitElement {
   static registeredName = "ssk-accordion";
 
@@ -158,4 +156,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-accordion": Accordion;
   }
+}
+
+if (!customElements.get("ssk-accordion")) {
+  customElements.define("ssk-accordion", Accordion);
 }

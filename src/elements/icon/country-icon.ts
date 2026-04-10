@@ -3,11 +3,10 @@
 
 import { consume } from "@lit/context";
 import { LitElement, TemplateResult, css, html, svg, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { Size, Theme, cssVar,  parseThemeToCssVariables, parseVariables } from "../../types/theme";
 import { themeContext } from "../../contexts/theme";
 
-@customElement("ssk-country-icon")
 export class CountryIcon extends LitElement {
   static registeredName = "ssk-country-icon";
 
@@ -2450,4 +2449,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-country-icon": CountryIcon;
   }
+}
+
+if (!customElements.get("ssk-country-icon")) {
+  customElements.define("ssk-country-icon", CountryIcon);
 }

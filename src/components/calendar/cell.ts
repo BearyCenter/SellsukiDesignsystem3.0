@@ -1,6 +1,6 @@
 import { LitElement, html, css, PropertyValues } from "lit";
 import { startOfDay, getTime } from "date-fns";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import {
   ColorName,
@@ -17,7 +17,6 @@ type typeDay = {
   title: number;
   date: number;
 };
-@customElement("ssk-cell")
 export class Cell extends LitElement {
   static registeredName = "ssk-cell";
 
@@ -285,4 +284,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-cell": Cell;
   }
+}
+
+if (!customElements.get("ssk-cell")) {
+  customElements.define("ssk-cell", Cell);
 }

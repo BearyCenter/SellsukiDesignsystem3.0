@@ -1,6 +1,6 @@
 import { consume } from '@lit/context'
 import { LitElement, css, html, nothing, PropertyValues } from 'lit'
-import { customElement, property, state, query } from 'lit/decorators.js'
+import { property, state, query } from 'lit/decorators.js'
 import { themeContext } from '../../contexts/theme'
 import { ThemeValue } from '../../types/base-attributes'
 import { styleMap } from 'lit/directives/style-map.js'
@@ -14,7 +14,6 @@ import {
 } from '../../types/theme'
 import { Widget } from '../../types/widget'
 
-@customElement('ssk-widget-table')
 export class WidgetTable extends LitElement implements Widget, ThemeValue {
   static registeredName = 'ssk-widget-table'
 
@@ -545,3 +544,6 @@ declare global {
   }
 }
 
+if (!customElements.get("ssk-widget-table")) {
+  customElements.define("ssk-widget-table", WidgetTable);
+}

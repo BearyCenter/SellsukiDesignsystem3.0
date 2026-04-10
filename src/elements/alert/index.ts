@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, eventOptions, property } from "lit/decorators.js";
+import { eventOptions, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
 import { ThemeValue } from "../../types/base-attributes";
@@ -15,7 +15,6 @@ import {
 } from "../../types/theme";
 
 export type Type = "default" | "info" | "error" | "warning" | "success";
-@customElement("ssk-alert")
 export class Alert extends LitElement implements ThemeValue {
   static registeredName = "ssk-alert";
   @consume({ context: themeContext, subscribe: true })
@@ -183,4 +182,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-alert": Alert;
   }
+}
+
+if (!customElements.get("ssk-alert")) {
+  customElements.define("ssk-alert", Alert);
 }

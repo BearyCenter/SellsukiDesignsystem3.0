@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
@@ -12,7 +12,6 @@ import {
   Theme,
 } from "../../types/theme";
 
-@customElement("ssk-progress-bar")
 export class ProgressBar extends LitElement {
   static registeredName = "ssk-progress-bar";
 
@@ -263,4 +262,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-progress-bar": ProgressBar;
   }
+}
+
+if (!customElements.get("ssk-progress-bar")) {
+  customElements.define("ssk-progress-bar", ProgressBar);
 }

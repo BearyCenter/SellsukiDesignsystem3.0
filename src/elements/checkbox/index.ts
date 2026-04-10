@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
 import { ThemeValue } from "../../types/base-attributes";
@@ -25,7 +25,6 @@ export type checkboxOptions = {
   disabled?: boolean;
   value: string;
 };
-@customElement("ssk-checkbox")
 export class Checkbox extends LitElement implements ThemeValue {
   static registeredName = "ssk-checkbox";
 
@@ -328,4 +327,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-checkbox": Checkbox;
   }
+}
+
+if (!customElements.get("ssk-checkbox")) {
+  customElements.define("ssk-checkbox", Checkbox);
 }

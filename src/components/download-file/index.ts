@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
 import {
@@ -14,7 +14,6 @@ import {
   FontFamilyGroup
 } from "../../types/theme";
 
-@customElement("ssk-download-file")
 export class DownloadFile extends LitElement {
   static registeredName = "ssk-download-file";
 
@@ -148,4 +147,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-download-file": DownloadFile;
   }
+}
+
+if (!customElements.get("ssk-download-file")) {
+  customElements.define("ssk-download-file", DownloadFile);
 }

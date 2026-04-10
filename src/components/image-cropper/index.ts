@@ -1,9 +1,8 @@
 import Croppie from "croppie";
 import "croppie/croppie.css";
 import { LitElement, css, html } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 
-@customElement("ssk-image-cropper")
 export class ImageCropper extends LitElement {
   @property({ type: String }) src = "";
   @property({ type: Number }) maskSize = 200;
@@ -120,4 +119,8 @@ export class ImageCropper extends LitElement {
       height: 100%;
     }
   `;
+}
+
+if (!customElements.get("ssk-image-cropper")) {
+  customElements.define("ssk-image-cropper", ImageCropper);
 }

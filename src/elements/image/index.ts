@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { themeContext } from "../../contexts/theme";
 import { ThemeValue } from "../../types/base-attributes";
@@ -20,7 +20,6 @@ import {
  * @slot - This element has a slot
  * @csspart text
  */
-@customElement("ssk-image")
 export class Image extends LitElement implements ThemeValue {
   static registeredName = "ssk-image";
 
@@ -203,4 +202,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-image": Image;
   }
+}
+
+if (!customElements.get("ssk-image")) {
+  customElements.define("ssk-image", Image);
 }

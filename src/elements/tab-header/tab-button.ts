@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { css, html, LitElement } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
@@ -11,7 +11,6 @@ import {
   Theme,
 } from "../../types/theme";
 
-@customElement("ssk-tab-button")
 export class TabButton extends LitElement {
   static registeredName = "ssk-tab-button";
 
@@ -126,4 +125,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-tab-button": TabButton;
   }
+}
+
+if (!customElements.get("ssk-tab-button")) {
+  customElements.define("ssk-tab-button", TabButton);
 }

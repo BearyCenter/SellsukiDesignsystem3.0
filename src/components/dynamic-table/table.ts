@@ -1,6 +1,6 @@
 import { consume, createContext, provide } from "@lit/context";
 import { css, html, LitElement, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   cssVar,
@@ -18,7 +18,6 @@ export const dynamicTableContext = createContext<TableState>(
   "ssk-custom-table-context"
 );
 
-@customElement("ssk-dynamic-table")
 export class DynamicTable extends LitElement {
   static registeredName = "ssk-dynamic-table";
 
@@ -185,4 +184,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-dynamic-table": DynamicTable;
   }
+}
+
+if (!customElements.get("ssk-dynamic-table")) {
+  customElements.define("ssk-dynamic-table", DynamicTable);
 }

@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
     ColorName,
@@ -15,7 +15,6 @@ import {
     CardSize,
 } from "../../types/theme";
 
-@customElement("ssk-card-select")
 export class CardSelect extends LitElement {
     static registeredName = "ssk-card-select";
 
@@ -214,4 +213,8 @@ declare global {
     interface HTMLElementTagNameMap {
         "ssk-card-select": CardSelect;
     }
+}
+
+if (!customElements.get("ssk-card-select")) {
+  customElements.define("ssk-card-select", CardSelect);
 }

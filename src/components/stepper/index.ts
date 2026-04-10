@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import { themeContext } from "../../contexts/theme";
 import {
@@ -21,7 +21,6 @@ interface Step {
     icon?: string;  // Optional to override the default icon  
 }
 
-@customElement("ssk-stepper")
 export class Stepper extends LitElement {
     
     static registeredName = "ssk-stepper";
@@ -336,4 +335,8 @@ declare global {
     interface HTMLElementTagNameMap {
         "ssk-stepper": Stepper;
     }
+}
+
+if (!customElements.get("ssk-stepper")) {
+  customElements.define("ssk-stepper", Stepper);
 }

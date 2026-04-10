@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { css, html, LitElement, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   cssVar,
@@ -9,7 +9,6 @@ import {
   Theme,
 } from "../../types/theme";
 
-@customElement("ssk-misc-icon")
 export class MiscIcon extends LitElement {
   static registeredName = "ssk-misc-icon";
 
@@ -161,4 +160,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-misc-icon": MiscIcon;
   }
+}
+
+if (!customElements.get("ssk-misc-icon")) {
+  customElements.define("ssk-misc-icon", MiscIcon);
 }

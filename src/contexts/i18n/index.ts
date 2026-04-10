@@ -1,6 +1,6 @@
 import { createContext, provide } from "@lit/context";
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { IdbI18nStore } from "./idb";
 
 export type I18nData = {
@@ -27,7 +27,6 @@ export interface I18nStore {
 
 export const i18nContext = createContext<I18nStore>("ssk-i18n-context");
 
-@customElement("ssk-i18n-provider")
 export class I18nProvider extends LitElement {
   @provide({ context: i18nContext })
   @property({ attribute: false })
@@ -50,4 +49,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-i18n-provider": I18nProvider;
   }
+}
+
+if (!customElements.get("ssk-i18n-provider")) {
+  customElements.define("ssk-i18n-provider", I18nProvider);
 }

@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
 import { ThemeValue } from "../../types/base-attributes";
@@ -17,7 +17,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-menu-items")
 export class MenuItems extends LitElement implements ThemeValue {
   static registeredName = "ssk-menu-items";
 
@@ -232,4 +231,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-menu-items": MenuItems;
   }
+}
+
+if (!customElements.get("ssk-menu-items")) {
+  customElements.define("ssk-menu-items", MenuItems);
 }

@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import { redispatchEvents } from "../../helpers/lit";
 import { ThemeValue } from "../../types/base-attributes";
@@ -14,7 +14,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-toggle")
 export class Toggle extends LitElement implements ThemeValue {
   static registeredName = "ssk-toggle";
 
@@ -211,4 +210,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-toggle": Toggle;
   }
+}
+
+if (!customElements.get("ssk-toggle")) {
+  customElements.define("ssk-toggle", Toggle);
 }

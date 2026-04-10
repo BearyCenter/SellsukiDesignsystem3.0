@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { css, html, LitElement, nothing } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import {
   ColorName,
   ColorRole,
@@ -17,7 +17,6 @@ import { format, isValid, parse } from "date-fns";
 import { convertToAD, convertToBE, getMonthString } from "./util";
 
 type LocaleKey = "en" | "fr" | "th";
-@customElement("ssk-date-picker")
 export class DatePicker extends LitElement {
   static registeredName = "ssk-date-picker";
 
@@ -408,4 +407,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-date-picker": DatePicker;
   }
+}
+
+if (!customElements.get("ssk-date-picker")) {
+  customElements.define("ssk-date-picker", DatePicker);
 }

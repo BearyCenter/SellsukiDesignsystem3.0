@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   ColorName,
@@ -15,7 +15,6 @@ import {
 } from "../../types/theme";
 import { DropdownState, valueContext } from "./dropdown";
 
-@customElement("ssk-dropdown-preview")
 export class DropdownPreview extends LitElement {
   static registeredName = "ssk-dropdown-preview";
 
@@ -111,4 +110,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-dropdown-preview": DropdownPreview;
   }
+}
+
+if (!customElements.get("ssk-dropdown-preview")) {
+  customElements.define("ssk-dropdown-preview", DropdownPreview);
 }

@@ -1,8 +1,7 @@
 import { LitElement, css, html, nothing } from "lit"; 
-import { customElement, property } from "lit/decorators.js"; 
+import { property } from "lit/decorators.js"; 
 import { Size } from "../../types/theme";  
 
-@customElement("ssk-skeleton") 
 export class Skeleton extends LitElement {   
   static registeredName = "ssk-skeleton";    
 
@@ -154,4 +153,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-skeleton": Skeleton;
   } 
+}
+
+if (!customElements.get("ssk-skeleton")) {
+  customElements.define("ssk-skeleton", Skeleton);
 }

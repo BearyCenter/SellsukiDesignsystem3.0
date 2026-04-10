@@ -1,7 +1,6 @@
 import { LitElement, css, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 
-@customElement("ssk-sidebar-list")
 export class SidebarList extends LitElement {
   static registeredName = "ssk-sidebar-list";
 
@@ -27,4 +26,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-sidebar-list": SidebarList;
   }
+}
+
+if (!customElements.get("ssk-sidebar-list")) {
+  customElements.define("ssk-sidebar-list", SidebarList);
 }

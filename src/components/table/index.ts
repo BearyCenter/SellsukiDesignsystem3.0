@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { consume } from "@lit/context";
 import "../../../src/components/pagination";
 import "../../../src/elements/checkbox";
@@ -32,7 +32,6 @@ interface RowData {
   [key: string]: any;
 }
 
-@customElement("ssk-table")
 export class Table extends LitElement {
   static registeredName = "ssk-table";
 
@@ -567,4 +566,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-table": Table;
   }
+}
+
+if (!customElements.get("ssk-table")) {
+  customElements.define("ssk-table", Table);
 }

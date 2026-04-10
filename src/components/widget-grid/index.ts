@@ -1,6 +1,6 @@
 import { consume } from '@lit/context'
 import { LitElement, css, html, unsafeCSS } from 'lit'
-import { customElement, property } from 'lit/decorators.js'
+import { property } from 'lit/decorators.js'
 import { themeContext } from '../../contexts/theme'
 import '../../elements/divider'
 import '../../elements/icon'
@@ -19,7 +19,6 @@ export interface GridItem {
   content?: string
 }
 
-@customElement('ssk-widget-grid')
 export class Grid extends LitElement {
   static registeredName = 'ssk-widget-grid'
 
@@ -141,4 +140,8 @@ declare global {
   interface HTMLElementTagNameMap {
     'ssk-widget-grid': Grid
   }
+}
+
+if (!customElements.get("ssk-widget-grid")) {
+  customElements.define("ssk-widget-grid", Grid);
 }

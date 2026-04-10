@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, eventOptions, property } from "lit/decorators.js";
+import { eventOptions, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import "../../elements/divider";
 import "../../elements/icon";
@@ -13,7 +13,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-modal")
 export class Modal extends LitElement {
   static registeredName = "ssk-modal";
 
@@ -238,4 +237,8 @@ declare global {
   interface HTMLElementModalNameMap {
     "ssk-modal": Modal;
   }
+}
+
+if (!customElements.get("ssk-modal")) {
+  customElements.define("ssk-modal", Modal);
 }

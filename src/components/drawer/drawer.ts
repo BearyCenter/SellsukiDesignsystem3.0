@@ -1,6 +1,6 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { customElement, eventOptions, property } from "lit/decorators.js";
+import { eventOptions, property } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import "../../elements/divider";
 import "../../elements/icon";
@@ -13,7 +13,6 @@ import {
   parseVariables,
 } from "../../types/theme";
 
-@customElement("ssk-drawer")
 export class Drawer extends LitElement {
   static registeredName = "ssk-drawer";
 
@@ -197,4 +196,8 @@ declare global {
   interface HTMLElementTagNameMap {
     "ssk-drawer": Drawer;
   }
+}
+
+if (!customElements.get("ssk-drawer")) {
+  customElements.define("ssk-drawer", Drawer);
 }
