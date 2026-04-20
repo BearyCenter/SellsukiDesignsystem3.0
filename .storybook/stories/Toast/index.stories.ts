@@ -1,22 +1,52 @@
+import type { Meta, StoryObj } from "@storybook/web-components";
 import { action } from "@storybook/addon-actions";
 import { html } from "lit";
 import "../../../src/components/toast";
 
-export default {
+interface ToastArgs {
+  testId?: string;
+  width?: string;
+  hidden: boolean;
+  hideCloseButton: boolean;
+  heading?: string;
+  content?: string;
+  type: "success" | "error" | "warning" | "info";
+}
+
+const meta = {
   title: "Components/Overlay & Notification/Toast",
-  component: "ssk-toast",
+  tags: ["autodocs"],
+  render: (args: ToastArgs) => html`
+    <style>
+      .background {
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 20px;
+      }
+    </style>
+    <div class="background">
+      <ssk-toast
+        .testId=${args.testId}
+        .width=${args.width}
+        .hidden=${args.hidden}
+        .hideCloseButton=${args.hideCloseButton}
+        .heading=${args.heading}
+        .content=${args.content}
+        .type=${args.type}
+        @close=${action("close")}
+      ></ssk-toast>
+    </div>
+  `,
   argTypes: {
-    testId: { control: "text" },
-    width: { control: "text" },
-    hidden: { control: "boolean" },
-    hideCloseButton: { control: "boolean" },
-    heading: { control: "text" },
-    content: { control: "text" },
+    testId:         { control: "text",    table: { category: "Props" } },
+    width:          { control: "text",    table: { category: "Props" } },
+    hidden:         { control: "boolean", table: { category: "Props" } },
+    hideCloseButton:{ control: "boolean", table: { category: "Props" } },
+    heading:        { control: "text",    table: { category: "Props" } },
+    content:        { control: "text",    table: { category: "Props" } },
     type: {
       options: ["success", "error", "warning", "info"],
-      control: {
-        type: "select",
-      },
+      control: { type: "select" },
+      table: { category: "Props" },
     },
   },
   parameters: {
@@ -25,84 +55,41 @@ export default {
       url: "https://www.figma.com/file/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=882%3A60391&mode=dev",
     },
   },
-};
+} satisfies Meta<ToastArgs>;
 
-const Template = ({
-  testId,
-  width,
-  hidden,
-  hideCloseButton,
-  heading,
-  content,
-  type,
-}) => html`
-  <style>
-    .background {
-      background-color: rgba(0, 0, 0, 0.2);
-      padding: 20px;
-    }
-  </style>
-  <div class="background">
-    <ssk-toast
-      .testId=${testId}
-      .width=${width}
-      .hidden=${hidden}
-      .hideCloseButton=${hideCloseButton}
-      .heading=${heading}
-      .content=${content}
-      .type=${type}
-      @close=${action("close")}
-    ></ssk-toast>
-  </div>
-`;
+export default meta;
 
-export const Default = Template.bind({});
-Default.args = {
-  testId: "default-toast",
-  hidden: false,
+type Story = StoryObj<ToastArgs>;
+
+const baseArgs: ToastArgs = {
+  testId:          "default-toast",
+  hidden:          false,
   hideCloseButton: false,
-  heading: "Default Toast",
-  content: "This is a default toast message.",
-  type: "info",
+  heading:         "Default Toast",
+  content:         "This is a default toast message.",
+  type:            "info",
 };
 
-export const Success = Template.bind({});
-Success.args = {
-  ...Default.args,
-  testId: "success-toast",
-  heading: "Success Toast",
-  content: "This is a success toast message.",
-  type: "success",
+export const Default: Story = {
+  args: { ...baseArgs },
 };
 
-export const Error = Template.bind({});
-Error.args = {
-  ...Default.args,
-  testId: "error-toast",
-  heading: "Error Toast",
-  content: "This is an error toast message.",
-  type: "error",
+export const Success: Story = {
+  args: { ...baseArgs, testId: "success-toast", heading: "Success Toast", content: "This is a success toast message.", type: "success" },
 };
 
-export const Warning = Template.bind({});
-Warning.args = {
-  ...Default.args,
-  testId: "warning-toast",
-  heading: "Warning Toast",
-  content: "This is a warning toast message.",
-  type: "warning",
+export const Error: Story = {
+  args: { ...baseArgs, testId: "error-toast", heading: "Error Toast", content: "This is an error toast message.", type: "error" },
 };
 
-export const Hidden = Template.bind({});
-Hidden.args = {
-  ...Default.args,
-  testId: "hidden-toast",
-  hidden: true,
+export const Warning: Story = {
+  args: { ...baseArgs, testId: "warning-toast", heading: "Warning Toast", content: "This is a warning toast message.", type: "warning" },
 };
 
-export const NoCloseButton = Template.bind({});
-NoCloseButton.args = {
-  ...Default.args,
-  testId: "no-close-button-toast",
-  hideCloseButton: true,
+export const Hidden: Story = {
+  args: { ...baseArgs, testId: "hidden-toast", hidden: true },
+};
+
+export const NoCloseButton: Story = {
+  args: { ...baseArgs, testId: "no-close-button-toast", hideCloseButton: true },
 };

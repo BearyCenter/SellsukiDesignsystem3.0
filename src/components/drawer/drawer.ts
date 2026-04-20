@@ -173,7 +173,7 @@ export class Drawer extends LitElement {
     .body {
       grid-area: body;
       padding: var(--body-padding);
-      font-size: 16px;
+      font-size: var(--font-size-caption,18px);
     }
 
     .footer {
@@ -198,6 +198,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-drawer")) {
+  customElements.define("ds-drawer", Drawer);
+}
 if (!customElements.get("ssk-drawer")) {
   customElements.define("ssk-drawer", Drawer);
 }

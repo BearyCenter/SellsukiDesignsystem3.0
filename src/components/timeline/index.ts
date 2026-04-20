@@ -246,7 +246,7 @@ export class Timeline extends LitElement {
     .date {
         display: block;
         margin: -10px 0 0 15px;
-        font-size: 18px;
+        font-size: var(--font-size-caption,18px);
         color: var(--ssk-colors-gray-500);
         display: -webkit-box;
         -webkit-box-orient: vertical;
@@ -268,7 +268,7 @@ export class Timeline extends LitElement {
     }
     .timeline-description {
         margin: 15px 0 0 15px;
-        font-size: 20px;
+        font-size: var(--font-size-p,20px);
         color: var(--ssk-colors-gray-800);
         display: -webkit-box;
         -webkit-box-orient: vertical;
@@ -276,7 +276,7 @@ export class Timeline extends LitElement {
         overflow: hidden;
     }
     .timeline.horizontal .timeline-description {
-        font-size: 20px;
+        font-size: var(--font-size-p,20px);
         width: 180px;
         display: -webkit-box;
         -webkit-box-orient: vertical;
@@ -292,6 +292,9 @@ declare global {
     }
 }
 
+if (!customElements.get("ds-timeline")) {
+  customElements.define("ds-timeline", Timeline);
+}
 if (!customElements.get("ssk-timeline")) {
   customElements.define("ssk-timeline", Timeline);
 }

@@ -1,6 +1,6 @@
 import { spread } from "@open-wc/lit-helpers";
 import { action } from "@storybook/addon-actions";
-import { useArgs } from "@storybook/client-api";
+import { useArgs } from "@storybook/preview-api";
 import { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/modal";

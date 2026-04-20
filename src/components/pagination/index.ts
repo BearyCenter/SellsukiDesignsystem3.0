@@ -391,7 +391,7 @@ export class Pagination extends LitElement {
     .link {
       height: 40px;
       width: 40px;
-      font-size: 20px;
+      font-size: var(--font-size-p,20px);
       color: var(--color-btn);
       background-color: #ffffff;
       border: 1px solid var(--color-border);
@@ -422,7 +422,7 @@ export class Pagination extends LitElement {
       height: 40px;
       width: 90px;
       border-radius: 6px;
-      font-size: 18px;
+      font-size: var(--font-size-caption,18px);
       padding-left: 5px;
       padding-right: 5px;
     }
@@ -534,6 +534,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-pagination")) {
+  customElements.define("ds-pagination", Pagination);
+}
 if (!customElements.get("ssk-pagination")) {
   customElements.define("ssk-pagination", Pagination);
 }

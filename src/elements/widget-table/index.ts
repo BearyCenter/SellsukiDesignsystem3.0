@@ -301,7 +301,7 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
             return `
               <div>
                 <div style="color: ${mainColorValue}; font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${text}</div>
-                <div style="color: ${subColorValue}; font-size: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${subtext}</div>
+                <div style="color: ${subColorValue}; font-size: var(--font-size-caption,18px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${subtext}</div>
               </div>
             `;
           };
@@ -544,6 +544,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-widget-table")) {
+  customElements.define("ds-widget-table", WidgetTable);
+}
 if (!customElements.get("ssk-widget-table")) {
   customElements.define("ssk-widget-table", WidgetTable);
 }

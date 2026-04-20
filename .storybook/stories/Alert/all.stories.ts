@@ -7,7 +7,7 @@ import "../../../src/elements/button";
 
 import { Alert } from "../../../src/elements/alert";
 import { baseArgsTypes } from "../helper";
-import { useArgs } from "@storybook/client-api";
+import { useArgs } from "@storybook/preview-api";
 import { action } from "@storybook/addon-actions";
 
 type AlertArgs = {} & Alert;
