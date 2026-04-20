@@ -780,6 +780,14 @@ input,textarea,select{font-family:var(--font)}
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.015H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.015H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.015H3.75v-.015zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
     Timeline
   </a>
+  <a class="sb-item" onclick="navTo('s-page-header',this)">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5h18M3 12h18M3 16.5h10"/></svg>
+    PageHeader
+  </a>
+  <a class="sb-item" onclick="navTo('s-filter-bar',this)">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/></svg>
+    FilterBar
+  </a>
   <a class="sb-item" onclick="navTo('s-misc',this)">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
     Misc
@@ -1516,6 +1524,102 @@ input,textarea,select{font-family:var(--font)}
           <div class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">กำลังขนส่ง</div><div class="tl-time">14 เม.ย. 2026 · 10:15</div><div class="tl-desc">อยู่ระหว่างการขนส่งไปยังศูนย์กระจายสินค้า</div></div></div>
           <div class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">รับออเดอร์แล้ว</div><div class="tl-time">13 เม.ย. 2026 · 09:00</div><div class="tl-desc">ระบบรับออเดอร์ #20481 เรียบร้อย</div></div></div>
           <div class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">ชำระเงินสำเร็จ</div><div class="tl-time">13 เม.ย. 2026 · 08:45</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PageHeader -->
+    <div class="section" id="s-page-header">
+      <div class="comp-header">
+        <div class="comp-meta"><span class="comp-tag">Phase 1 · New</span></div>
+        <div class="comp-name">PageHeader</div>
+        <div class="comp-desc">
+          ส่วนหัวของหน้า — ประกอบด้วย title, subtitle, breadcrumb, action buttons และปุ่มย้อนกลับ
+          ใช้ <code>ds-page-header</code> หรือ <code>ssk-page-header</code>
+        </div>
+        <div class="comp-do-dont">
+          <div class="do-box">ใช้ 1 PageHeader ต่อหน้า — วางบนสุดของ content area ใต้ TopNavbar</div>
+          <div class="dont-box">อย่าใส่ logic หรือ form ใน PageHeader — ให้มีแค่ navigation + action shortcut</div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="canvas col gap16">
+          <div class="canvas-label">Default (with breadcrumb + actions)</div>
+          <div style="background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden">
+            <div style="display:flex;flex-direction:column;gap:4px;padding:16px 24px;background:var(--surface);border-bottom:1px solid var(--border)">
+              <nav style="display:flex;align-items:center;gap:4px;font-size:18px;color:var(--text-2)">
+                <span>Products</span><span>/</span><span style="color:var(--text)">Product List</span>
+              </nav>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+                <div>
+                  <h1 style="margin:0;font-size:24px;font-weight:700;color:var(--text);font-family:var(--font)">Product List</h1>
+                  <p style="margin:2px 0 0;font-size:18px;color:var(--text-2);font-family:var(--font)">Manage your product catalog</p>
+                </div>
+                <div style="display:flex;gap:8px">
+                  <button class="btn outline btn-sm">Export</button>
+                  <button class="btn primary btn-sm">+ Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="canvas col gap16">
+          <div class="canvas-label">With back button</div>
+          <div style="background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden">
+            <div style="display:flex;flex-direction:column;gap:4px;padding:16px 24px;background:var(--surface);border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <button class="btn outline btn-sm" style="width:36px;padding:0;display:flex;align-items:center;justify-content:center">←</button>
+                  <div>
+                    <h1 style="margin:0;font-size:24px;font-weight:700;color:var(--text);font-family:var(--font)">Edit Product</h1>
+                    <p style="margin:2px 0 0;font-size:18px;color:var(--text-2);font-family:var(--font)">Update product details</p>
+                  </div>
+                </div>
+                <button class="btn primary btn-sm">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FilterBar -->
+    <div class="section" id="s-filter-bar">
+      <div class="comp-header">
+        <div class="comp-meta"><span class="comp-tag">Phase 1 · New</span></div>
+        <div class="comp-name">FilterBar</div>
+        <div class="comp-desc">
+          แถบค้นหาและกรองข้อมูล — รวม search input, filter chips, และ action buttons ไว้ในแถวเดียว
+          ใช้ <code>ds-filter-bar</code> หรือ <code>ssk-filter-bar</code>
+          Event: <code>filter-change</code> → <code>{ search: string }</code>
+        </div>
+        <div class="comp-do-dont">
+          <div class="do-box">วาง FilterBar ใต้ PageHeader — ก่อนตาราง/ลิสต์ข้อมูล ทุกหน้าที่มี data listing</div>
+          <div class="dont-box">อย่าซ้อน FilterBar ใน card — ควรอยู่ระดับ page layout เพื่อให้ครอบคลุม content ทั้งหมด</div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="canvas col gap16">
+          <div class="canvas-label">Default (search + filters + actions)</div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div style="position:relative;flex:1 1 220px;min-width:220px">
+              <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-2);font-size:16px">🔍</span>
+              <input style="width:100%;height:40px;padding:0 36px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);font-family:var(--font);font-size:20px;box-sizing:border-box;outline:none" placeholder="Search products...">
+            </div>
+            <button class="btn outline btn-sm">Status</button>
+            <button class="btn outline btn-sm">Category</button>
+            <button class="btn primary btn-sm" style="margin-left:auto">+ Add</button>
+          </div>
+        </div>
+        <div class="canvas col gap16">
+          <div class="canvas-label">Disabled state</div>
+          <div style="display:flex;align-items:center;gap:8px;opacity:0.5;pointer-events:none">
+            <div style="position:relative;flex:1 1 220px;min-width:220px">
+              <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-2);font-size:16px">🔍</span>
+              <input style="width:100%;height:40px;padding:0 36px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg-disabled,#e5e7eb);font-family:var(--font);font-size:20px;box-sizing:border-box;outline:none" placeholder="Search..." disabled>
+            </div>
+            <button class="btn outline btn-sm" disabled>Filter</button>
+          </div>
         </div>
       </div>
     </div>

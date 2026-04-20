@@ -57,6 +57,8 @@ export * from "./components/dynamic-table";
 export * from "./components/image-cropper";
 export * from "./components/misc-icon";
 export * from "./components/modal";
+export * from "./components/filter-bar";
+export * from "./components/page-header";
 export * from "./components/pagination";
 export * from "./components/progress-bar";
 export * from "./components/sidebar";
