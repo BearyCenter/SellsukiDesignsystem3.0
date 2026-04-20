@@ -1,7 +1,7 @@
 # DS 3.0 Upgrade — Master Plan
 
 > **Production Grade · Enterprise Scale**
-> Last updated: 2026-04-19
+> Last updated: 2026-04-20
 
 ---
 
@@ -39,13 +39,13 @@ Published via CI/CD — trigger on git tag `v*`
 ## Overall Progress
 
 ```
-Phase 0  ░░░░░░░░░░  0/10  Visual Parity + Infra
-Phase 1  ░░░░░░░░░░  0/7   Port Missing Components
+Phase 0  ██████████  9/10  Visual Parity + Infra        (0.6 deferred — รอ design spec)
+Phase 1  █████░░░░░  4/7   Port Missing Components       (1.3 ✅ 1.4 ✅ 1.6 ✅ 1.7 ✅)
 Phase 2  ░░░░░░░░░░  0/8   Component Quality Upgrade
 Phase 3  ░░░░░░░░░░  0/5   AppShell + Layout System
-Phase 4  ░░░░░░░░░░  0/6   Publish + Deprecate DS 1.0
+Phase 4  ██░░░░░░░░  1/6   Publish + Deprecate DS 1.0   (4.1 ✅ package name done)
 ─────────────────────────────
-Total    ░░░░░░░░░░  0/36
+Total    ████░░░░░░  14/36
 ```
 
 ---
@@ -138,26 +138,26 @@ No console.log          ใน production code
 
 ### งาน
 
-- [ ] **0.1** Audit token values ทั้งหมดใน DS 1.0 (`--ssk-*`) เทียบ DS 2.0
+- [x] **0.1** Audit token values ทั้งหมดใน DS 1.0 (`--ssk-*`) เทียบ DS 2.0
   - Owner: UX/UI | Effort: S
   - Output: token audit spreadsheet — missing / mismatched / aligned
 
-- [ ] **0.2** Map DS 1.0 tokens → DS 2.0 token names
+- [x] **0.2** Map DS 1.0 tokens → DS 2.0 token names
   - Owner: UX/UI | Effort: S
   - Output: mapping table (ดู Token Architecture ด้านบน)
 
-- [ ] **0.3** อัปเดต token values ใน `semantic-tokens.ts` ให้ตรง DS 2.0 visual identity
+- [x] **0.3** อัปเดต token values ใน `semantic-tokens.ts` ให้ตรง DS 2.0 visual identity
   - Owner: UX/UI | Effort: M
   - Files: `src/contexts/theme/semantic-tokens.ts`, `src/contexts/theme/default.ts`
 
-- [ ] **0.4** สร้าง Token Bridge CSS
+- [x] **0.4** สร้าง Token Bridge CSS
   - Owner: Dev | Effort: S
   - Files: `src/tokens/ds3-semantic.css`, `src/tokens/backward-compat.css`
   - เพิ่ม typography tokens (`--font-h1..h4`, `--font-label`, `--font-p`, `--font-caption`, `--font-button`)
   - เพิ่ม radius tokens (`--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-xl`)
   - เพิ่ม `--fg-*`, `--bg-*` layer ให้ครบ DS 2.0
 
-- [ ] **0.5** Fix font size overrides — ปรับ component ทุกตัวให้ใช้ semantic token
+- [x] **0.5** Fix font size overrides — ปรับ component ทุกตัวให้ใช้ semantic token
   - Owner: UX/UI | Effort: S
   - ไม่มี hardcoded px ต่ำกว่า spec (`--font-caption` = 18px minimum)
   - แทน `cssVar("font")` ด้วย `var(--font-p)`, `var(--font-label)` ใน component ใหม่
@@ -166,19 +166,19 @@ No console.log          ใน production code
   - Owner: Both | Effort: M
   - รอ design spec จาก UX/UI ก่อนเริ่ม
 
-- [ ] **0.7** Upgrade Storybook 7 → 8 (`@storybook/web-components-vite`)
+- [x] **0.7** Upgrade Storybook 7 → 8 (`@storybook/web-components-vite`)
   - Owner: Dev | Effort: S
   - ทำใน branch แยก ไม่รวมกับงาน component
 
-- [ ] **0.8** Upgrade Vite 4 → 6 + update build pipeline
+- [x] **0.8** Upgrade Vite 4 → 6 + update build pipeline
   - Owner: Dev | Effort: S
   - ทำ branch เดียวกับ 0.7
 
-- [ ] **0.9** Migrate/เขียน stories CSF3 format สำหรับ component ที่มีอยู่แล้ว
+- [x] **0.9** Migrate/เขียน stories CSF3 format สำหรับ component ที่มีอยู่แล้ว
   - Owner: Dev | Effort: M
   - Reference: DS 2.0 Storybook (https://sellsukidesignsystemv12.vercel.app — 532 stories)
 
-- [ ] **0.10** Smoke test ทุก component ใน Storybook 8
+- [x] **0.10** Smoke test ทุก component ใน Storybook 8
   - Owner: Both | Effort: M
 
 ### Phase 0 Audit Gate ✋
@@ -211,11 +211,11 @@ No console.log          ใน production code
 - [ ] **1.2** `PhoneCountryInput` → ปรับปรุง `ssk-addon-phone-country`
   - Owner: Dev | Effort: S | ⚠ Thailand + international shipping
 
-- [ ] **1.3** `PageHeader` → Lit component
+- [x] **1.3** `PageHeader` → Lit component
   - Owner: Dev | Effort: S
   - `ds-page-header` + `ssk-page-header`
 
-- [ ] **1.4** `FilterBar` → Lit (multi-filter, search, date range)
+- [x] **1.4** `FilterBar` → Lit (multi-filter, search, date range)
   - Owner: Dev | Effort: M
   - `ds-filter-bar` + `ssk-filter-bar`
 
@@ -225,11 +225,11 @@ No console.log          ใน production code
   - Owner: Dev | Effort: L
   - `ds-advanced-data-table` + `ssk-advanced-data-table`
 
-- [ ] **1.6** เขียน Storybook stories CSF3 สำหรับ component ใหม่ทุกตัว
+- [x] **1.6** เขียน Storybook stories CSF3 สำหรับ component ใหม่ทุกตัว
   - Owner: Both | Effort: M
   - ต้องมี: default, loading, error, empty, disabled state
 
-- [ ] **1.7** อัปเดต DS 3.0 Preview site (`preview/ds3-preview.html`)
+- [x] **1.7** อัปเดต DS 3.0 Preview site (`preview/ds3-preview.html`)
   - Owner: Dev | Effort: S
 
 ### Phase 1 Audit Gate ✋
