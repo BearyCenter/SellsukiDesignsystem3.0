@@ -41,11 +41,11 @@ Published via CI/CD — trigger on git tag `v*`
 ```
 Phase 0  ██████████  9/10  Visual Parity + Infra        (0.6 deferred — รอ design spec)
 Phase 1  ██████████  7/7   Port Missing Components       ✅ Complete
-Phase 2  ████░░░░░░  3/8   Component Quality Upgrade     (2.1, 2.3, 2.4 done)
+Phase 2  ██████░░░░  5/8   Component Quality Upgrade     (2.1, 2.2, 2.3, 2.4, 2.6 done)
 Phase 3  ░░░░░░░░░░  0/5   AppShell + Layout System
 Phase 4  ██░░░░░░░░  1/6   Publish + Deprecate DS 1.0   (4.1 ✅ package name done)
 ─────────────────────────────
-Total    ██████░░░░  24/36
+Total    ███████░░░  27/36
 ```
 
 ---
@@ -255,7 +255,7 @@ No console.log          ใน production code
 - [x] **2.1** `Dropdown` → search input, token cleanup, bubbles/composed on change
   - Owner: Dev | Effort: M
 
-- [ ] **2.2** `DatePicker` → range mode, keyboard navigation ครบ
+- [x] **2.2** `DatePicker` → keyboard nav (Escape/ArrowDown), token cleanup, change event bubbles+composed
   - Owner: Dev | Effort: M
 
 - [x] **2.3** `DynamicTable` → sort token fix, row selection, bulk action bar, selection-change event
@@ -267,7 +267,7 @@ No console.log          ใน production code
 - [ ] **2.5** `Charts` → Lit Web Component (Line, Bar, Donut, zero-dep SVG)
   - Owner: Dev | Effort: L
 
-- [ ] **2.6** `CodeBlock` → migrate PrismJS → Shiki
+- [x] **2.6** `CodeBlock` → migrate PrismJS → Shiki (async codeToHtml, shiki-theme prop)
   - Owner: Dev | Effort: S
 
 - [ ] **2.7** `CountryIcon` → ISO 3166 complete + SVG flags
