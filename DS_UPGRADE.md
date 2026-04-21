@@ -42,10 +42,10 @@ Published via CI/CD — trigger on git tag `v*`
 Phase 0  ██████████  9/10  Visual Parity + Infra        (0.6 deferred — รอ design spec)
 Phase 1  ██████████  7/7   Port Missing Components       ✅ Complete
 Phase 2  ██████░░░░  5/8   Component Quality Upgrade     (2.1, 2.2, 2.3, 2.4, 2.6 done)
-Phase 3  ░░░░░░░░░░  0/5   AppShell + Layout System
+Phase 3  ██████░░░░  3/5   AppShell + Layout System      (3.1, 3.2, 3.3 done)
 Phase 4  ██░░░░░░░░  1/6   Publish + Deprecate DS 1.0   (4.1 ✅ package name done)
 ─────────────────────────────
-Total    ███████░░░  27/36
+Total    ████████░░  30/36
 ```
 
 ---
@@ -294,15 +294,14 @@ No console.log          ใน production code
 
 > ~3 สัปดาห์ | 0/5 tasks
 
-- [ ] **3.1** `AppShell` → CSS slot-based shell (Navbar + Sidebar + Content)
+- [x] **3.1** `AppShell` → CSS grid shell (navbar/sidebar/content slots, collapse prop)
   - Owner: Dev | Effort: L
   - `ds-app-shell` + `ssk-app-shell`
-  - Framework-agnostic — ทำงานเป็น host ใน React / Vue / Vanilla
 
-- [ ] **3.2** `AppShellProvider` → brand/theme injection
+- [x] **3.2** `AppShellProvider` → brand/theme injection via injectSemanticTokens
   - Owner: Dev | Effort: M
 
-- [ ] **3.3** `FeaturePageScaffold` → Lit layout component
+- [x] **3.3** `FeaturePageScaffold` → header/filters/content/footer slots layout
   - Owner: Dev | Effort: M
 
 - [ ] **3.4** `WidgetGrid` → evaluate GridStack vs native CSS Grid → port
