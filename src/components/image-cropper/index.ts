@@ -4,11 +4,15 @@ import { LitElement, css, html } from "lit";
 import { property, state } from "lit/decorators.js";
 
 export class ImageCropper extends LitElement {
+  static registeredName = "ds-image-cropper";
+
   @property({ type: String }) src = "";
-  @property({ type: Number }) maskSize = 200;
-  @property({ type: Number }) maskPadding = 20;
-  @property({ type: Number }) maxExportSize?: number;
-  @property({ type: Boolean }) fitToMask = false;
+  @property({ type: String }) shape: "circle" | "square" = "circle";
+  @property({ type: Number, attribute: "mask-size" }) maskSize = 200;
+  @property({ type: Number, attribute: "mask-padding" }) maskPadding = 20;
+  @property({ type: Number, attribute: "max-export-size" }) maxExportSize?: number;
+  @property({ type: Boolean, attribute: "fit-to-mask" }) fitToMask = false;
+  @property({ type: String, attribute: "test-id" }) testId?: string;
 
   private croppieInstance?: Croppie;
   @state() private containerId = `croppie-${Math.random()
@@ -20,14 +24,19 @@ export class ImageCropper extends LitElement {
   }
 
   render() {
-    return html`<div class="crop-container">
+    return html`<div class="crop-container" data-testid=${this.testId ?? ""}>
       <div id="${this.containerId}"></div>
     </div>`;
   }
 
-  updated() {
+  updated(changed: Map<string, unknown>) {
+    const reinitKeys = ["src", "shape", "maskSize", "maskPadding"];
+    const needsReinit = reinitKeys.some(k => changed.has(k));
+    if (!needsReinit) return;
+
     if (this.croppieInstance) {
       this.croppieInstance.destroy();
+      this.croppieInstance = undefined;
     }
 
     const el = this.querySelector(`#${this.containerId}`) as HTMLElement;
@@ -39,7 +48,7 @@ export class ImageCropper extends LitElement {
       viewport: {
         width: size,
         height: size,
-        type: "circle",
+        type: this.shape,
       },
       boundary: {
         width: size + this.maskPadding * 2,
@@ -53,16 +62,15 @@ export class ImageCropper extends LitElement {
     });
 
     this.croppieInstance.bind({ url: this.src }).then(() => {
-      if (!this.fitToMask) return;
-      const img = el.querySelector("img") as HTMLImageElement;
-      if (!img?.naturalWidth || !img?.naturalHeight) return;
-
-      // Calculate zoom to fill the mask
-      const scaleX = size / img.naturalWidth;
-      const scaleY = size / img.naturalHeight;
-      const zoom = Math.max(scaleX, scaleY);
-
-      this.croppieInstance!.setZoom(zoom);
+      if (this.fitToMask) {
+        const img = el.querySelector("img") as HTMLImageElement;
+        if (img?.naturalWidth && img?.naturalHeight) {
+          const scaleX = size / img.naturalWidth;
+          const scaleY = size / img.naturalHeight;
+          this.croppieInstance!.setZoom(Math.max(scaleX, scaleY));
+        }
+      }
+      this.dispatchEvent(new CustomEvent("ready", { bubbles: true, composed: true }));
     });
   }
 
@@ -121,6 +129,16 @@ export class ImageCropper extends LitElement {
   `;
 }
 
+declare global {
+  interface HTMLElementTagNameMap {
+    "ds-image-cropper": ImageCropper;
+    "ssk-image-cropper": ImageCropper;
+  }
+}
+
+if (!customElements.get("ds-image-cropper")) {
+  customElements.define("ds-image-cropper", ImageCropper);
+}
 if (!customElements.get("ssk-image-cropper")) {
   customElements.define("ssk-image-cropper", ImageCropper);
 }
