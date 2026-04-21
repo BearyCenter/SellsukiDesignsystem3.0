@@ -247,7 +247,7 @@ export class Timeline extends LitElement {
         display: block;
         margin: -10px 0 0 15px;
         font-size: var(--font-size-caption,18px);
-        color: var(--ssk-colors-gray-500);
+        color: var(--text-secondary, #6b7280);
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 1;
@@ -260,7 +260,7 @@ export class Timeline extends LitElement {
         top: -6px;
         font-size: 24px;
         font-weight: 400;
-        color: var(--ssk-colors-gray-800);
+        color: var(--text-primary, #111827);
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 1;
@@ -269,7 +269,7 @@ export class Timeline extends LitElement {
     .timeline-description {
         margin: 15px 0 0 15px;
         font-size: var(--font-size-p,20px);
-        color: var(--ssk-colors-gray-800);
+        color: var(--text-primary, #111827);
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;

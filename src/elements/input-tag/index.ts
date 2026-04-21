@@ -220,7 +220,7 @@ export class Inputtag extends LitElement {
             if (tag.length >= 1) {
                 if (!this.tags.includes(tag)) {
                     this.tags = [...this.tags, tag];
-                    this.dispatchEvent(new CustomEvent('change', { detail: this.tags }));
+                    this.dispatchEvent(new CustomEvent('change', { detail: this.tags, bubbles: true, composed: true }));
                 }
                 target.value = "";
                 this.calculateTotalChars();
@@ -231,7 +231,7 @@ export class Inputtag extends LitElement {
     removeTag(tag: string) {
         this.tags = this.tags.filter((item) => item !== tag);
         this.calculateTotalChars();
-        this.dispatchEvent(new CustomEvent('change', { detail: this.tags }));
+        this.dispatchEvent(new CustomEvent('change', { detail: this.tags, bubbles: true, composed: true }));
     }
 
     static styles = css`
@@ -363,6 +363,9 @@ declare global {
     }
 }
 
+if (!customElements.get("ds-input-tag")) {
+  customElements.define("ds-input-tag", Inputtag);
+}
 if (!customElements.get("ssk-input-tag")) {
   customElements.define("ssk-input-tag", Inputtag);
 }

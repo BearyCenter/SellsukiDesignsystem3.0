@@ -166,7 +166,7 @@ export class Card extends LitElement {
     }
 
     .card.outlined {
-      border: 1px solid var(--ssk-colors-gray-200);
+      border: 1px solid var(--stroke-primary, #e5e7eb);
     }
 
     .card.elevated {
@@ -223,7 +223,7 @@ export class Card extends LitElement {
       aspect-ratio: 4 / 3;
       width: 100%;
       height: auto;
-      background-color: var(--ssk-colors-gray-300);
+      background-color: var(--stroke-secondary, #d1d5db);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -298,19 +298,19 @@ export class Card extends LitElement {
       object-fit: cover;
       border-radius: 4px;
       box-sizing: border-box;
-      border: 1px solid var(--ssk-colors-gray-200);
+      border: 1px solid var(--stroke-primary, #e5e7eb);
     }
 
     .card-image-placeholder.horizontal {
       width: 100%;
       height: 100%;
-      background-color: var(--ssk-colors-gray-300);
+      background-color: var(--stroke-secondary, #d1d5db);
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 4px;
       box-sizing: border-box;
-      border: 1px solid var(--ssk-colors-gray-200);
+      border: 1px solid var(--stroke-primary, #e5e7eb);
     }
 
 
@@ -359,6 +359,9 @@ export class Card extends LitElement {
     }
   }
 
+if (!customElements.get("ds-card")) {
+  customElements.define("ds-card", Card);
+}
 if (!customElements.get("ssk-card")) {
   customElements.define("ssk-card", Card);
 }

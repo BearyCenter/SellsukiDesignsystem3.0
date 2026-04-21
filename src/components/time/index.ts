@@ -216,7 +216,7 @@ export class Time extends LitElement {
         }
 
         *:hover::-webkit-scrollbar-thumb {
-          background: var(--ssk-colors-gray-500);
+          background: var(--text-secondary, #6b7280);
           border-radius: 8px;
         }
       </style>
@@ -344,6 +344,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-time")) {
+  customElements.define("ds-time", Time);
+}
 if (!customElements.get("ssk-time")) {
   customElements.define("ssk-time", Time);
 }

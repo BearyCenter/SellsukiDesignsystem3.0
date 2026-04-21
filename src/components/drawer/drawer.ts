@@ -49,7 +49,7 @@ export class Drawer extends LitElement {
 
           --divider: ${this.hideDivider
             ? "none"
-            : "1px solid var(--ssk-colors-background-300)"};
+            : "1px solid var(--stroke-primary, #e5e7eb)"};
           --divider-margin: ${this.hideDivider ? "0" : "-1px"};
 
           --header-padding: ${parseVariables(

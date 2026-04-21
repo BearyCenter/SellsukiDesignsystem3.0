@@ -92,7 +92,7 @@ export class TabButton extends LitElement {
       gap: var(--gap);
       padding: var(--padding);
       font-size: var(--font-size);
-      color: var(--ssk-colors-background-600);
+      color: var(--text-secondary, #6b7280);
       cursor: pointer;
     }
 
@@ -105,8 +105,8 @@ export class TabButton extends LitElement {
     }
 
     .tab-button.variant-button.active {
-      background-color: var(--ssk-colors-background-50);
-      color: var(--ssk-colors-background-900);
+      background-color: var(--bg-primary, #fff);
+      color: var(--text-primary, #111827);
       border-radius: var(--rounded);
       box-shadow: 0px 3px 2px rgba(17, 24, 39, 0.04),
         0px 1px 1px rgba(17, 24, 39, 0.08), 0px 0px 1px rgba(17, 24, 39, 0.09),
@@ -127,6 +127,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-tab-button")) {
+  customElements.define("ds-tab-button", TabButton);
+}
 if (!customElements.get("ssk-tab-button")) {
   customElements.define("ssk-tab-button", TabButton);
 }

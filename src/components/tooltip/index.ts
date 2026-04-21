@@ -183,7 +183,7 @@ export class Tooltip extends LitElement implements ThemeValue {
       color: var(--content-color);
       border-radius: var(--rounded);
       z-index: 1;
-      box-shadow: 0px 3px 6px 0px var(--ssk-colors-gray-300);
+      box-shadow: 0px 3px 6px 0px var(--stroke-secondary, #d1d5db);
     }
 
     .content-wrapper {
@@ -416,6 +416,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-tooltip")) {
+  customElements.define("ds-tooltip", Tooltip);
+}
 if (!customElements.get("ssk-tooltip")) {
   customElements.define("ssk-tooltip", Tooltip);
 }

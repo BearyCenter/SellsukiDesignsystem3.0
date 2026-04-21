@@ -121,14 +121,12 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
   private getContainerStyles() { const widthValue = parseInt(this.getWidth(), 10); const calculatedWidth = (widthValue * 88) - 32; return { width: `${calculatedWidth}px` }; }
   
   private handleButtonClick(e: Event) {
-    console.log("handleButtonClick",e)
     e.stopPropagation();
     const event = new CustomEvent('button-click', { bubbles: true, composed: true });
     this.dispatchEvent(event);
   }
   
   private handleActionIconClick(record: any, rowIndex: any) {
-    console.log('handleActionIconClick',record)
     this.dispatchEvent(new CustomEvent('action-click', {
       detail: { record, rowIndex },
       bubbles: true,

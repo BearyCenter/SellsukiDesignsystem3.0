@@ -36,7 +36,7 @@ export const renderFooter = (
     ? html`
         <style>
           .footer {
-            border-top: 1px solid var(--ssk-colors-gray-200);
+            border-top: 1px solid var(--stroke-primary, #e5e7eb);
             display: flex;
             padding: 0.5rem 1rem;
           }
