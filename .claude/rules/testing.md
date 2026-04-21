@@ -1,84 +1,47 @@
-# Testing Rules
+# DS 3.0 Testing
 
-## Structure
+This is a component library. Primary quality gate is:
 
-Unit tests are co-located with source files: `src/entity/order/order_test.go`, `src/use_case/store_test.go`, etc.
+1. **Build** — `npm run build` zero errors, zero warnings
+2. **Type-check** — `npm run type-check` zero errors
+3. **Storybook** — `npm run build-storybook` — every story renders
+4. **Visual** — manual comparison vs DS 2.0 reference (https://sellsukidesignsystemv12.vercel.app)
 
-Integration tests are in `test/` and require a running database.
+## Story requirements (CSF3)
 
-## Test Priority Order
+Every component must have stories for:
+- `Default` — happy path with realistic data
+- `Loading` — if the component has a loading state
+- `Empty` — if the component handles empty/no-data
+- `Disabled` — if the component has a disabled prop
 
-1. **Entity tests** (highest) — cover every `Validate()` path and every state machine transition
-2. **UseCase tests** — inject mock repositories, test every business logic branch
-3. **Repository tests** — test model conversion functions and query correctness with `go-sqlmock`
-4. **Interface adapter tests** — test request/response DTO transformation
+Story file location: `.storybook/stories/<ComponentName>/index.stories.ts`
 
-## Table-Driven Tests (required pattern)
+### Story template
 
-```go
-func TestFunctionName(t *testing.T) {
-    type args struct { /* inputs */ }
-    type want struct { /* expected outputs */ }
+```typescript
+import type { Meta, StoryObj } from "@storybook/web-components";
+import { html } from "lit";
+import "../../../src/components/<name>";
 
-    tests := []struct {
-        name    string
-        args    args
-        want    want
-        wantErr bool
-    }{
-        {name: "success - valid input", ...},
-        {name: "error - missing required field", ...},
-    }
+const meta = {
+  title: "Components/<Category>/<Name>",
+  tags: ["autodocs"],
+} satisfies Meta;
 
-    for _, tt := range tests {
-        t.Run(tt.name, func(t *testing.T) {
-            got, err := FunctionUnderTest(tt.args...)
-            if tt.wantErr {
-                assert.Error(t, err)
-                return
-            }
-            assert.NoError(t, err)
-            assert.Equal(t, tt.want.result, got)
-        })
-    }
-}
+export default meta;
+type Story = StoryObj;
+
+export const Default: Story = {
+  render: () => html`<ds-foo .prop=${"value"}></ds-foo>`,
+};
 ```
 
-## Mock Repositories for UseCase Tests
-
-Use the mocks in `src/use_case/repository/mock_<domain>_repository.go`:
-
-```go
-func TestUseCase_Method(t *testing.T) {
-    uc := use_case.New(
-        &repository.MockPermissionRepository{
-            CheckPermissionFn: func(...) error { return nil },
-        },
-        // ... other mocks
-    )
-    result, err := uc.Method(context.Background(), identity, input)
-    assert.NoError(t, err)
-}
-```
-
-Always test these branches per use case method: happy path, permission denied, validation error, repository error.
-
-## Coverage Threshold
-
-**CI requires ≥ 70% test coverage.** Check with:
-```bash
-make check-coverage   # fails the build if below threshold
-make coverage-test-html  # open visual report in browser
-```
-
-Run before committing: `make unit-test`
-
-## Commands
+## Build checks
 
 ```bash
-make unit-test          # run all unit tests (./src/...)
-make integration-test   # run integration tests sequentially (-p 1)
-make coverage-test      # generate cover.out
-make check-coverage     # verify 70% threshold
-make benchmark-test     # run benchmarks
+npm run build         # must pass before every commit
+npm run type-check    # zero TypeScript errors
+npm run lint          # zero ESLint errors
+npm run build-storybook  # all stories must render
 ```
