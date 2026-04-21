@@ -41,11 +41,11 @@ Published via CI/CD — trigger on git tag `v*`
 ```
 Phase 0  ██████████  9/10  Visual Parity + Infra        (0.6 deferred — รอ design spec)
 Phase 1  ██████████  7/7   Port Missing Components       ✅ Complete
-Phase 2  ██████░░░░  5/8   Component Quality Upgrade     (2.1, 2.2, 2.3, 2.4, 2.6 done)
+Phase 2  ███████░░░  6/8   Component Quality Upgrade     (2.1, 2.2, 2.3, 2.4, 2.5, 2.6 done)
 Phase 3  ██████░░░░  3/5   AppShell + Layout System      (3.1, 3.2, 3.3 done)
 Phase 4  ██████░░░░  3/6   Publish + Deprecate DS 1.0   (4.1, 4.2, 4.4 done)
 ─────────────────────────────
-Total    █████████░  32/36
+Total    █████████░  33/36
 ```
 
 ---
@@ -264,7 +264,7 @@ No console.log          ใน production code
 - [x] **2.4** `Sidebar` → SidebarAccountSwitcher component, token cleanup (bg/stroke/brand)
   - Owner: Dev | Effort: S
 
-- [ ] **2.5** `Charts` → Lit Web Component (Line, Bar, Donut, zero-dep SVG)
+- [x] **2.5** `Charts` → Lit Web Component (Line, Bar, Donut, zero-dep SVG)
   - Owner: Dev | Effort: L
 
 - [x] **2.6** `CodeBlock` → migrate PrismJS → Shiki (async codeToHtml, shiki-theme prop)
