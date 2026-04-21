@@ -82,34 +82,34 @@ export class SidebarItems extends LitElement {
     }
 
     .sidebar-item-container:hover {
-      background-color: var(--ssk-colors-theme-100);
+      background-color: var(--bg-brand-secondary, #e0f2fe);
       color: var(--color-hover);
     }
 
     .sidebar-item-container.active {
-      background-color: var(--ssk-colors-theme-100);
-      color: var(--ssk-colors-theme-500);
+      background-color: var(--bg-brand-secondary, #e0f2fe);
+      color: var(--fg-brand-primary, #0ea5e9);
 
       .prefix {
-        color: var(--ssk-colors-theme-500);
+        color: var(--fg-brand-primary, #0ea5e9);
       }
     }
 
     .sidebar-item-container.disabled {
       cursor: not-allowed;
-      background-color: var(--ssk-colors-gray-100);
-      color: var(--ssk-colors-gray-500);
-      border-color: var(--ssk-colors-gray-500);
+      background-color: var(--bg-disabled, #f3f4f6);
+      color: var(--text-disabled, #9ca3af);
+      border-color: var(--text-disabled, #9ca3af);
 
       .prefix {
-        color: var(--ssk-colors-gray-500);
+        color: var(--text-disabled, #9ca3af);
       }
     }
 
     .prefix {
       display: grid;
       place-items: center;
-      color: var(--ssk-colors-text-400);
+      color: var(--text-secondary, #6b7280);
     }
   `;
 }
@@ -120,6 +120,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-sidebar-item")) {
+  customElements.define("ds-sidebar-item", SidebarItems);
+}
 if (!customElements.get("ssk-sidebar-item")) {
   customElements.define("ssk-sidebar-item", SidebarItems);
 }

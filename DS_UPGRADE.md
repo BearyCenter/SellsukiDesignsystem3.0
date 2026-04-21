@@ -40,12 +40,12 @@ Published via CI/CD — trigger on git tag `v*`
 
 ```
 Phase 0  ██████████  9/10  Visual Parity + Infra        (0.6 deferred — รอ design spec)
-Phase 1  █████░░░░░  4/7   Port Missing Components       (1.3 ✅ 1.4 ✅ 1.6 ✅ 1.7 ✅)
-Phase 2  ░░░░░░░░░░  0/8   Component Quality Upgrade
+Phase 1  ██████████  7/7   Port Missing Components       ✅ Complete
+Phase 2  ████░░░░░░  3/8   Component Quality Upgrade     (2.1, 2.3, 2.4 done)
 Phase 3  ░░░░░░░░░░  0/5   AppShell + Layout System
 Phase 4  ██░░░░░░░░  1/6   Publish + Deprecate DS 1.0   (4.1 ✅ package name done)
 ─────────────────────────────
-Total    ████░░░░░░  14/36
+Total    ██████░░░░  24/36
 ```
 
 ---
@@ -204,11 +204,11 @@ No console.log          ใน production code
 
 ### Priority A — Product Critical
 
-- [ ] **1.1** `ImageCropper` → Lit wrapper (แทน Croppie.js)
+- [x] **1.1** `ImageCropper` → Lit wrapper (แทน Croppie.js)
   - Owner: Dev | Effort: M | ⚠ product image, avatar crop
   - `ds-image-cropper` + `ssk-image-cropper`
 
-- [ ] **1.2** `PhoneCountryInput` → ปรับปรุง `ssk-addon-phone-country`
+- [x] **1.2** `PhoneCountryInput` → ปรับปรุง `ssk-addon-phone-country`
   - Owner: Dev | Effort: S | ⚠ Thailand + international shipping
 
 - [x] **1.3** `PageHeader` → Lit component
@@ -221,7 +221,7 @@ No console.log          ใน production code
 
 ### Priority B — Data Heavy
 
-- [ ] **1.5** `AdvancedDataTable` → Lit (server-side pagination, bulk actions, selection, expandable rows)
+- [x] **1.5** `AdvancedDataTable` → Lit (server-side pagination, bulk actions, selection, expandable rows)
   - Owner: Dev | Effort: L
   - `ds-advanced-data-table` + `ssk-advanced-data-table`
 
@@ -252,16 +252,16 @@ No console.log          ใน production code
 
 > ~3 สัปดาห์ | 0/8 tasks
 
-- [ ] **2.1** `Dropdown` → multi-select, search, custom render (จาก DS 2.0)
+- [x] **2.1** `Dropdown` → search input, token cleanup, bubbles/composed on change
   - Owner: Dev | Effort: M
 
 - [ ] **2.2** `DatePicker` → range mode, keyboard navigation ครบ
   - Owner: Dev | Effort: M
 
-- [ ] **2.3** `DynamicTable` → sort, selection, bulk action pattern DS 2.0
+- [x] **2.3** `DynamicTable` → sort token fix, row selection, bulk action bar, selection-change event
   - Owner: Dev | Effort: M
 
-- [ ] **2.4** `Sidebar` → SidebarAccountSwitcher, collapse animation, nested group
+- [x] **2.4** `Sidebar` → SidebarAccountSwitcher component, token cleanup (bg/stroke/brand)
   - Owner: Dev | Effort: S
 
 - [ ] **2.5** `Charts` → Lit Web Component (Line, Bar, Donut, zero-dep SVG)

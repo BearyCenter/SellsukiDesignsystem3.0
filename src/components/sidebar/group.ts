@@ -62,7 +62,7 @@ export class SidebarGroup extends LitElement {
       font-weight: var(--font-weight);
       line-height: var(--line-height);
       background-color: var(--background-color);
-      color: var(--ssk-colors-text-400);
+      color: var(--text-secondary, #9ca3af);
       cursor: pointer;
       padding: var(--padding);
       margin: var(--margin);

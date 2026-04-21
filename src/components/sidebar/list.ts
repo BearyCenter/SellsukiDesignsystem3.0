@@ -28,6 +28,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-sidebar-list")) {
+  customElements.define("ds-sidebar-list", SidebarList);
+}
 if (!customElements.get("ssk-sidebar-list")) {
   customElements.define("ssk-sidebar-list", SidebarList);
 }

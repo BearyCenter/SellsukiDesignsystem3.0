@@ -1,6 +1,6 @@
 import { consume, provide } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 
 import "../../elements/icon";
@@ -178,6 +178,8 @@ export class Dropdown extends LitElement {
       this.dispatchEvent(
         new CustomEvent("change", {
           detail: this.value,
+          bubbles: true,
+          composed: true,
         })
       );
     },
@@ -196,13 +198,35 @@ export class Dropdown extends LitElement {
   @property({ type: Boolean, reflect: true })
   forceOpen = undefined;
 
+  @state() private _searchQuery = "";
+
+  private _handleSearchInput = (e: Event) => {
+    this._searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
+    this._filterOptions();
+  };
+
+  private _filterOptions() {
+    const slot = this.shadowRoot?.querySelector("slot:not([name])") as HTMLSlotElement | null;
+    if (!slot) return;
+    slot.assignedElements().forEach((el) => {
+      const text = el.textContent?.toLowerCase() ?? "";
+      (el as HTMLElement).style.display = this._searchQuery === "" || text.includes(this._searchQuery) ? "" : "none";
+    });
+  }
+
+  private _resetSearch() {
+    this._searchQuery = "";
+    this._filterOptions();
+  }
+
   private clearSelection() {
     this.value = this.multiSelect ? [] : "";
     this.isSelected = [];
     this.state = { ...this.state, value: this.value, isOpened: false, isSelected: [] };
+    this._resetSearch();
 
     this.requestUpdate();
-    this.dispatchEvent(new CustomEvent("change", { detail: { value: this.value } }));
+    this.dispatchEvent(new CustomEvent("change", { detail: { value: this.value }, bubbles: true, composed: true }));
   }
 
   protected willUpdate(
@@ -286,6 +310,7 @@ export class Dropdown extends LitElement {
 
     this.state = { ...this.state, isOpened: false };
     Dropdown.currentOpenDropdown = null;
+    this._resetSearch();
   };
 
   firstUpdated() {
@@ -519,6 +544,18 @@ export class Dropdown extends LitElement {
               : ""}  ${this.optionsWidth}"
             @click=${(e: Event) => e.stopPropagation()}
           >
+            ${this.search ? html`
+              <div class="search-box">
+                <input
+                  class="search-input"
+                  type="text"
+                  placeholder="Search..."
+                  .value=${this._searchQuery}
+                  @input=${this._handleSearchInput}
+                  @click=${(e: Event) => e.stopPropagation()}
+                />
+              </div>
+            ` : nothing}
             <slot></slot>
           </div>
         </div>
@@ -567,7 +604,7 @@ export class Dropdown extends LitElement {
         0px 1px 2px 0px rgba(17, 24, 39, 0.07),
         0px 0px 0px 0px rgba(17, 24, 39, 0.09);
       border-radius: var(--rounded);
-      border: 1px solid var(--ssk-colors-gray-200);
+      border: 1px solid var(--stroke-primary, #e5e7eb);
       padding: 0.17em 0.17em;
       overflow-x: hidden;
 
@@ -650,8 +687,8 @@ export class Dropdown extends LitElement {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
+      border: 1px solid var(--stroke-primary, #e5e7eb);
+      border-radius: var(--radius-md, 8px);
       padding: 0 1em;
       height: var(--loading-height, 40px);
       box-sizing: border-box;
@@ -660,15 +697,42 @@ export class Dropdown extends LitElement {
     flex: 1;
     overflow: hidden;
   }
+
+  .search-box {
+    padding: 0.25em 0.25em 0.375em;
+    flex-shrink: 0;
+  }
+
+  .search-input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--stroke-primary, #e5e7eb);
+    border-radius: var(--radius-sm, 6px);
+    padding: 0.375em 0.625em;
+    font-size: var(--font-size);
+    font-family: var(--font-family);
+    color: var(--color);
+    background: var(--bg-primary, #fff);
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .search-input:focus {
+    border-color: var(--border-color-active, #0ea5e9);
+  }
   `;
 }
 
 declare global {
   interface HTMLElementTagNameMap {
+    "ds-dropdown": Dropdown;
     "ssk-dropdown": Dropdown;
   }
 }
 
+if (!customElements.get("ds-dropdown")) {
+  customElements.define("ds-dropdown", Dropdown);
+}
 if (!customElements.get("ssk-dropdown")) {
   customElements.define("ssk-dropdown", Dropdown);
 }
