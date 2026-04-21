@@ -43,9 +43,9 @@ Phase 0  ██████████  9/10  Visual Parity + Infra        (0.6
 Phase 1  ██████████  7/7   Port Missing Components       ✅ Complete
 Phase 2  ██████░░░░  5/8   Component Quality Upgrade     (2.1, 2.2, 2.3, 2.4, 2.6 done)
 Phase 3  ██████░░░░  3/5   AppShell + Layout System      (3.1, 3.2, 3.3 done)
-Phase 4  ██░░░░░░░░  1/6   Publish + Deprecate DS 1.0   (4.1 ✅ package name done)
+Phase 4  ██████░░░░  3/6   Publish + Deprecate DS 1.0   (4.1, 4.2, 4.4 done)
 ─────────────────────────────
-Total    ████████░░  30/36
+Total    █████████░  32/36
 ```
 
 ---
@@ -332,15 +332,17 @@ No console.log          ใน production code
 - [x] **4.1** เปลี่ยน package name → `@uxuissk/design-system-core@3.0.0` ✅
   - CI/CD publish pipeline พร้อมแล้ว (trigger on `v*` tag)
 
-- [ ] **4.2** เพิ่ม `console.warn` deprecated warning สำหรับ `ssk-*` element names
+- [x] **4.2** เพิ่ม `console.warn` deprecated warning สำหรับ `ssk-*` element names
   - Owner: Dev | Effort: XS
+  - `src/utils/deprecated-aliases.ts` — MutationObserver-based, zero per-component changes
 
 - [ ] **4.3** สร้าง Migration Guide: DS 1.0 → DS 3.0
   - Owner: Both | Effort: M
   - เนื้อหา: token mapping table, API diff, code examples, brand migration
 
-- [ ] **4.4** Deploy DS 3.0 Storybook → Vercel
+- [x] **4.4** Deploy DS 3.0 Storybook → Vercel
   - Owner: Dev | Effort: S
+  - CI job `deploy-storybook` triggers on `main` merge — requires VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID secrets
 
 - [ ] **4.5** ประกาศ deprecation `@sellsuki-org/sellsuki-components`
   - Owner: Both | Effort: XS

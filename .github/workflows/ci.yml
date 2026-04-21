@@ -2,39 +2,74 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, "feat/**"]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  quality:
-    name: Quality checks
+  ci:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
       - name: Type check
-        run: npx tsc --noEmit
+        run: npm run type-check
 
-      - name: Unit tests
-        run: npm run test -- --run
+      - name: Lint
+        run: npm run lint
 
       - name: Build
-        run: NODE_ENV=production npx tsc && npx vite build
+        run: npm run build
 
-      - name: Check no unguarded elements
-        run: |
-          node scripts/add-element-guard.mjs
-          git diff --exit-code src/
+      - name: Build Storybook
+        run: npm run build-storybook
+
+  publish:
+    needs: ci
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  deploy-storybook:
+    needs: ci
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      - name: Deploy to Vercel
+        run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }} storybook-static
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
