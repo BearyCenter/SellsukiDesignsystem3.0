@@ -43,9 +43,9 @@ Phase 0  ██████████  9/10  Visual Parity + Infra        (0.6
 Phase 1  ██████████  7/7   Port Missing Components       ✅ Complete
 Phase 2  ███████░░░  6/8   Component Quality Upgrade     (2.1, 2.2, 2.3, 2.4, 2.5, 2.6 done)
 Phase 3  ██████░░░░  3/5   AppShell + Layout System      (3.1, 3.2, 3.3 done)
-Phase 4  ██████░░░░  3/6   Publish + Deprecate DS 1.0   (4.1, 4.2, 4.4 done)
+Phase 4  ████████░░  5/6   Publish + Deprecate DS 1.0   (4.1, 4.2, 4.3, 4.4, 4.6 done)
 ─────────────────────────────
-Total    █████████░  33/36
+Total    █████████░  35/36
 ```
 
 ---
@@ -336,7 +336,7 @@ No console.log          ใน production code
   - Owner: Dev | Effort: XS
   - `src/utils/deprecated-aliases.ts` — MutationObserver-based, zero per-component changes
 
-- [ ] **4.3** สร้าง Migration Guide: DS 1.0 → DS 3.0
+- [x] **4.3** สร้าง Migration Guide: DS 1.0 → DS 3.0
   - Owner: Both | Effort: M
   - เนื้อหา: token mapping table, API diff, code examples, brand migration
 
@@ -347,7 +347,7 @@ No console.log          ใน production code
 - [ ] **4.5** ประกาศ deprecation `@sellsuki-org/sellsuki-components`
   - Owner: Both | Effort: XS
 
-- [ ] **4.6** อัปเดต `CLAUDE.md` + `AGENTS.md` ให้ตรง DS 3.0 rules
+- [x] **4.6** อัปเดต `CLAUDE.md` + `AGENTS.md` ให้ตรง DS 3.0 rules
   - Owner: UX/UI | Effort: S
 
 ### Phase 4 Audit Gate ✋
