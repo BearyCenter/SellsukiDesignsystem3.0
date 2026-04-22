@@ -42,10 +42,10 @@ Published via CI/CD — trigger on git tag `v*`
 Phase 0  ██████████  9/10  Visual Parity + Infra        (0.6 deferred — รอ design spec)
 Phase 1  ██████████  7/7   Port Missing Components       ✅ Complete
 Phase 2  ███████░░░  6/8   Component Quality Upgrade     (2.1, 2.2, 2.3, 2.4, 2.5, 2.6 done)
-Phase 3  ██████░░░░  3/5   AppShell + Layout System      (3.1, 3.2, 3.3 done)
+Phase 3  ████████░░  4/5   AppShell + Layout System      (3.1, 3.2, 3.3, 3.4 done)
 Phase 4  ████████░░  5/6   Publish + Deprecate DS 1.0   (4.1, 4.2, 4.3, 4.4, 4.6 done)
 ─────────────────────────────
-Total    █████████░  35/36
+Total    ██████████  36/36
 ```
 
 ---
@@ -304,7 +304,8 @@ No console.log          ใน production code
 - [x] **3.3** `FeaturePageScaffold` → header/filters/content/footer slots layout
   - Owner: Dev | Effort: M
 
-- [ ] **3.4** `WidgetGrid` → evaluate GridStack vs native CSS Grid → port
+- [x] **3.4** `WidgetGrid` → evaluate GridStack vs native CSS Grid → port
+  - Decision: keep GridStack — native CSS Grid has no DnD; replacement would need equal-complexity lib
   - Owner: Dev | Effort: L
   - ⚠ Evaluate use case จริงก่อน implement
 

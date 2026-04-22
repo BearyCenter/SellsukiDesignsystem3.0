@@ -1,13 +1,8 @@
-import { consume } from '@lit/context'
 import { LitElement, css, html, unsafeCSS } from 'lit'
 import { property } from 'lit/decorators.js'
-import { themeContext } from '../../contexts/theme'
-import '../../elements/divider'
-import '../../elements/icon'
 import { GridStack, GridStackElement } from 'gridstack'
 import gridstackStyles from 'gridstack/dist/gridstack.min.css?inline'
 
-import { Theme, parseThemeToCssVariables } from '../../types/theme'
 import { Widget } from '../../types/widget'
 
 export interface GridItem {
@@ -19,18 +14,14 @@ export interface GridItem {
   content?: string
 }
 
-export class Grid extends LitElement {
-  static registeredName = 'ssk-widget-grid'
-
-  @consume({ context: themeContext, subscribe: true })
-  @property({ attribute: false })
-  public theme?: Theme
+export class WidgetGrid extends LitElement {
+  static registeredName = 'ds-widget-grid'
 
   @property({ type: String })
   testId?: string
 
   @property({ type: Boolean, attribute: 'draggable' })
-  draggable = true;
+  draggable = true
 
   @property({ type: String, attribute: 'gap' })
   gap = '16px'
@@ -44,82 +35,84 @@ export class Grid extends LitElement {
   @property({ type: Array })
   items: GridItem[] = []
 
-  slottedChildren: Node[] = []
+  private _slottedChildren: Node[] = []
+  private _grid: GridStack | null = null
 
   constructor() {
     super()
-    this.slottedChildren = [...this.childNodes]
+    this._slottedChildren = [...this.childNodes]
   }
-
-  private grid: GridStack | null = null
 
   static styles = [
     css`
-      :host {
-        display: block;
-      }
-      .grid-stack {
-        width: var(--grid-width);
-      }
-
+      :host { display: block; }
+      .grid-stack { width: var(--grid-width); }
       .grid-stack > .grid-stack-item > .grid-stack-item-content {
         overflow: visible !important;
       }
     `,
-    unsafeCSS(gridstackStyles)
+    unsafeCSS(gridstackStyles),
   ]
 
   firstUpdated() {
-    this.slottedChildren = [...this.childNodes]
-    const grid = this.renderRoot?.querySelector('.grid-stack') as
-      | GridStackElement
-      | undefined
-    if (grid) {
-      this.grid = GridStack.init(
+    this._slottedChildren = [...this.childNodes]
+    const gridEl = this.renderRoot?.querySelector('.grid-stack') as GridStackElement | undefined
+    if (gridEl) {
+      this._grid = GridStack.init(
         {
           float: false,
           column: this.maxColumns,
           cellHeight: this.gridItemSize,
-          margin: 16
+          margin: 16,
         },
-        grid
+        gridEl
       )
+
+      this._grid.on('change', (_: Event, items: unknown) => {
+        this.dispatchEvent(new CustomEvent('grid-change', {
+          detail: { items },
+          bubbles: true,
+          composed: true,
+        }))
+      })
     }
 
     if (!this.draggable) {
-      this.grid?.disable();
+      this._grid?.disable()
     }
 
-    const gridstackRoot = this.renderRoot.querySelector('.grid-stack')
-    gridstackRoot?.replaceChildren()
-    this.slottedChildren.forEach((child) => {
-      if (child instanceof HTMLElement) {
-        try {
-          let size = (child as unknown as Widget).getSize()
-          const gridItem = document.createElement('div')
-          gridItem.className = 'grid-stack-item'
-          gridItem.setAttribute('gs-x', child.getAttribute('x') || '0')
-          gridItem.setAttribute('gs-y', child.getAttribute('y') || '0')
-          gridItem.setAttribute('gs-w', size[0] || '1')
-          gridItem.setAttribute('gs-h', size[1] || '1')
-          gridItem.setAttribute('gs-no-resize', 'true')
-          const gridContent = document.createElement('div')
-          gridContent.className = 'grid-stack-item-content'
-          gridContent.appendChild(child)
-          gridItem.appendChild(gridContent)
-          this.grid?.makeWidget(gridItem)
-        } catch (e) {}
+    const gridRoot = this.renderRoot.querySelector('.grid-stack')
+    gridRoot?.replaceChildren()
+
+    this._slottedChildren.forEach((child) => {
+      if (!(child instanceof HTMLElement)) return
+      try {
+        const size = (child as unknown as Widget).getSize()
+        const gridItem = document.createElement('div')
+        gridItem.className = 'grid-stack-item'
+        gridItem.setAttribute('gs-x', child.getAttribute('x') ?? '0')
+        gridItem.setAttribute('gs-y', child.getAttribute('y') ?? '0')
+        gridItem.setAttribute('gs-w', size[0] ?? '1')
+        gridItem.setAttribute('gs-h', size[1] ?? '1')
+        gridItem.setAttribute('gs-no-resize', 'true')
+        const gridContent = document.createElement('div')
+        gridContent.className = 'grid-stack-item-content'
+        gridContent.appendChild(child)
+        gridItem.appendChild(gridContent)
+        this._grid?.makeWidget(gridItem)
+      } catch {
+        // widget doesn't implement Widget interface — skip
       }
     })
   }
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
-    super.updated(changedProperties);
-    if (changedProperties.has('draggable') && this.grid) {
+    super.updated(changedProperties)
+    if (changedProperties.has('draggable') && this._grid) {
       if (this.draggable) {
-        this.grid.enable();
+        this._grid.enable()
       } else {
-        this.grid.disable();
+        this._grid.disable()
       }
     }
   }
@@ -127,21 +120,21 @@ export class Grid extends LitElement {
   render() {
     const width = this.gridItemSize * this.maxColumns
     return html`
-      ${parseThemeToCssVariables(
-        this.theme?.components?.widgetgrid,
-        ':host'
-      )}
-      <div class="grid-stack" style="--grid-width: ${width}px"></div>
+      <div
+        class="grid-stack"
+        data-testid=${this.testId ?? ''}
+        style="--grid-width: ${width}px"
+      ></div>
     `
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'ssk-widget-grid': Grid
+    'ds-widget-grid': WidgetGrid
+    'ssk-widget-grid': WidgetGrid
   }
 }
 
-if (!customElements.get("ssk-widget-grid")) {
-  customElements.define("ssk-widget-grid", Grid);
-}
+if (!customElements.get('ds-widget-grid')) { customElements.define('ds-widget-grid', WidgetGrid) }
+if (!customElements.get('ssk-widget-grid')) { customElements.define('ssk-widget-grid', WidgetGrid) }
