@@ -46,6 +46,7 @@ export * from "./elements/widget-user-detail";
 export * from "./elements/widget-title";
 export * from "./elements/widget-table";
 
+export * from "./components/charts";
 export * from "./components/app-shell/index";
 export * from "./components/app-shell/provider";
 export * from "./components/app-shell/feature-page-scaffold";

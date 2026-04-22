@@ -164,6 +164,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-badge")) {
+  customElements.define("ds-badge", Badge);
+}
 if (!customElements.get("ssk-badge")) {
   customElements.define("ssk-badge", Badge);
 }

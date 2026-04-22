@@ -292,6 +292,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-textarea")) {
+  customElements.define("ds-textarea", Textarea);
+}
 if (!customElements.get("ssk-textarea")) {
   customElements.define("ssk-textarea", Textarea);
 }
