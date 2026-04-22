@@ -49,7 +49,7 @@ export class Drawer extends LitElement {
 
           --divider: ${this.hideDivider
             ? "none"
-            : "1px solid var(--ssk-colors-background-300)"};
+            : "1px solid var(--stroke-primary, #e5e7eb)"};
           --divider-margin: ${this.hideDivider ? "0" : "-1px"};
 
           --header-padding: ${parseVariables(
@@ -173,7 +173,7 @@ export class Drawer extends LitElement {
     .body {
       grid-area: body;
       padding: var(--body-padding);
-      font-size: 16px;
+      font-size: var(--font-size-caption,18px);
     }
 
     .footer {
@@ -198,6 +198,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-drawer")) {
+  customElements.define("ds-drawer", Drawer);
+}
 if (!customElements.get("ssk-drawer")) {
   customElements.define("ssk-drawer", Drawer);
 }

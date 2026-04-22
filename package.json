@@ -1,7 +1,9 @@
 {
-  "name": "@sellsuki-org/sellsuki-components",
-  "private": false,
-  "version": "0.1.2",
+  "name": "@uxuissk/design-system-core",
+  "version": "3.0.2",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "files": [
     "dist"
@@ -19,7 +21,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "NODE_ENV=production tsc && vite build",
+    "build": "cross-env NODE_ENV=production tsc && vite build",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -42,31 +44,35 @@
     "iso-3166-1": "^2.1.1",
     "lit": "^3.2.1",
     "mustache": "^4.2.0",
-    "prismjs": "^1.29.0"
+    "prismjs": "^1.29.0",
+    "shiki": "^4.0.2"
   },
   "devDependencies": {
     "@open-wc/lit-helpers": "^0.7.0",
-    "@storybook/addon-designs": "^7.0.5",
-    "@storybook/addon-essentials": "^7.5.1",
-    "@storybook/addon-links": "^7.5.1",
-    "@storybook/addon-mdx-gfm": "^7.5.1",
-    "@storybook/blocks": "^7.5.1",
-    "@storybook/client-api": "^7.6.7",
-    "@storybook/web-components": "^7.5.1",
-    "@storybook/web-components-vite": "^7.5.1",
+    "@storybook/addon-designs": "^8.0.0",
+    "@storybook/addon-essentials": "^8.6.18",
+    "@storybook/addon-links": "^8.6.18",
+    "@storybook/blocks": "^8.6.18",
+    "@storybook/preview-api": "^8.6.18",
+    "@storybook/web-components": "^8.6.18",
+    "@storybook/web-components-vite": "^8.6.18",
     "@types/croppie": "^2.6.4",
     "@types/mustache": "^4.2.2",
+    "@types/node": "^25.6.0",
     "@types/prismjs": "^1.26.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "chromatic": "^6.24.1",
+    "cross-env": "^10.1.0",
     "dayjs": "^1.11.13",
     "ejs": "^3.1.9",
     "fake-indexeddb": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "^7.5.1",
+    "storybook": "^8.6.18",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vite-plugin-dts": "^3.5.3",
-    "vitest": "^0.34.1"
+    "vite": "^6.4.2",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^2.1.9"
   }
 }

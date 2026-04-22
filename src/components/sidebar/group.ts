@@ -57,12 +57,12 @@ export class SidebarGroup extends LitElement {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 18px;
+      font-size: var(--font-size-caption,18px);
       font-family: var(--font-family);
       font-weight: var(--font-weight);
       line-height: var(--line-height);
       background-color: var(--background-color);
-      color: var(--ssk-colors-text-400);
+      color: var(--text-secondary, #9ca3af);
       cursor: pointer;
       padding: var(--padding);
       margin: var(--margin);
@@ -85,6 +85,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-sidebar-group")) {
+  customElements.define("ds-sidebar-group", SidebarGroup);
+}
 if (!customElements.get("ssk-sidebar-group")) {
   customElements.define("ssk-sidebar-group", SidebarGroup);
 }

@@ -28,6 +28,46 @@ const rose            = getPaletteScale("rose");
 const white           = getPaletteScale("white");
 const aerospaceOrange = getPaletteScale("aerospace-orange");
 
+// ── Shared tokens (brand-independent) ────────────────────────────────────────
+
+const DB_HEAVENT = '"DB HeaventRounded", sans-serif';
+
+const sharedTokens: Record<string, string> = {
+  // radius
+  "--radius-none": "0px",
+  "--radius-xxs":  "2px",
+  "--radius-xs":   "4px",
+  "--radius-sm":   "6px",
+  "--radius-md":   "8px",
+  "--radius-lg":   "12px",
+  "--radius-xl":   "16px",
+  "--radius-2xl":  "20px",
+  "--radius-3xl":  "24px",
+  "--radius-4xl":  "32px",
+  "--radius-full": "9999px",
+  // typography — family
+  "--font-h1":      DB_HEAVENT,
+  "--font-h2":      DB_HEAVENT,
+  "--font-h3":      DB_HEAVENT,
+  "--font-h4":      DB_HEAVENT,
+  "--font-p":       DB_HEAVENT,
+  "--font-label":   DB_HEAVENT,
+  "--font-caption": DB_HEAVENT,
+  "--font-button":  DB_HEAVENT,
+  // typography — weight
+  "--font-weight-normal":   "400",
+  "--font-weight-medium":   "500",
+  "--font-weight-semibold": "600",
+  "--font-weight-bold":     "700",
+  // typography — size
+  "--font-size-p":       "20px",
+  "--font-size-label":   "20px",
+  "--font-size-caption": "18px",
+  "--font-size-button":  "18px",
+  // elevation
+  "--elevation-sm": "0px 1px 2px 0px #0000000d",
+};
+
 // ── Semantic tokens per brand ─────────────────────────────────────────────────
 
 export type SemanticTokenMap = Record<string, string>;
@@ -118,6 +158,27 @@ const patonaTokens: SemanticTokenMap = {
   "--fg-warning-secondary": amber["500"],
   "--fg-success-primary":   emerald["600"],
   "--fg-success-secondary": emerald["500"],
+  // button
+  "--button-solid-bg":            aerospaceOrange["500"],
+  "--button-solid-bg-hover":      aerospaceOrange["600"],
+  "--button-solid-fg":            white["50"],
+  "--button-solid-fg-hover":      white["50"],
+  "--button-solid-border":        aerospaceOrange["500"],
+  "--button-solid-border-hover":  aerospaceOrange["600"],
+  "--button-outline-fg":          aerospaceOrange["500"],
+  "--button-outline-fg-hover":    aerospaceOrange["600"],
+  "--button-outline-border":      aerospaceOrange["500"],
+  "--button-outline-border-hover":aerospaceOrange["600"],
+  "--button-ghost-fg":            aerospaceOrange["500"],
+  "--button-ghost-fg-hover":      aerospaceOrange["600"],
+  // error aliases (DS 2.0 naming — mapped from danger)
+  "--icon-error":        rose["600"],
+  "--bg-error-primary":  rose["50"],
+  "--bg-error-solid":    rose["600"],
+  "--text-error-primary":rose["600"],
+  "--stroke-error":      rose["400"],
+  "--stroke-error-solid":rose["600"],
+  "--fg-error-primary":  rose["600"],
 };
 
 const sellsukiSkyTokens: SemanticTokenMap = {
@@ -206,6 +267,27 @@ const sellsukiSkyTokens: SemanticTokenMap = {
   "--fg-warning-secondary": amber["500"],
   "--fg-success-primary":   emerald["600"],
   "--fg-success-secondary": emerald["500"],
+  // button
+  "--button-solid-bg":            sky["500"],
+  "--button-solid-bg-hover":      sky["600"],
+  "--button-solid-fg":            white["50"],
+  "--button-solid-fg-hover":      white["50"],
+  "--button-solid-border":        sky["500"],
+  "--button-solid-border-hover":  sky["600"],
+  "--button-outline-fg":          sky["500"],
+  "--button-outline-fg-hover":    sky["600"],
+  "--button-outline-border":      sky["500"],
+  "--button-outline-border-hover":sky["600"],
+  "--button-ghost-fg":            sky["500"],
+  "--button-ghost-fg-hover":      sky["600"],
+  // error aliases (DS 2.0 naming — mapped from danger)
+  "--icon-error":        rose["600"],
+  "--bg-error-primary":  rose["50"],
+  "--bg-error-solid":    rose["600"],
+  "--text-error-primary":rose["600"],
+  "--stroke-error":      rose["400"],
+  "--stroke-error-solid":rose["600"],
+  "--fg-error-primary":  rose["600"],
 };
 
 export const semanticTokens: Record<Brand, SemanticTokenMap> = {
@@ -220,7 +302,10 @@ export function injectSemanticTokens(
   brand: Brand,
   root: HTMLElement = document.documentElement,
 ): void {
-  Object.entries(semanticTokens[brand]).forEach(([token, hex]) =>
-    root.style.setProperty(token, hex),
+  Object.entries(sharedTokens).forEach(([token, value]) =>
+    root.style.setProperty(token, value),
+  );
+  Object.entries(semanticTokens[brand]).forEach(([token, value]) =>
+    root.style.setProperty(token, value),
   );
 }

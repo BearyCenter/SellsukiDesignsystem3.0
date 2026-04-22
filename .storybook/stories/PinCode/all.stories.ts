@@ -4,7 +4,7 @@ import { Meta, StoryObj } from "@storybook/web-components";
 import "../../../src/elements/pin-code";
 import { PinCode } from "../../../src/elements/pin-code";
 import { baseArgsTypes, genericEvents } from "../helper";
-import { useArgs } from "@storybook/client-api";
+import { useArgs } from "@storybook/preview-api";
 import { action } from "@storybook/addon-actions";
 
 type PinCodeProps = Omit<PinCode, "size">;

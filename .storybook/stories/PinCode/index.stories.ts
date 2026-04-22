@@ -5,7 +5,7 @@ import "../../../src/elements/pin-code";
 import { PinCode } from "../../../src/elements/pin-code";
 import { baseArgsTypes, genericEvents } from "../helper";
 import { action } from "@storybook/addon-actions";
-import { useArgs } from "@storybook/client-api";
+import { useArgs } from "@storybook/preview-api";
 
 type PinCodeProps = Partial<PinCode>;
 

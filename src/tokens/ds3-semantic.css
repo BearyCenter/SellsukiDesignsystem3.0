@@ -1,0 +1,159 @@
+/**
+ * DS 3.0 Semantic Tokens — static CSS layer
+ *
+ * Injected by injectSemanticTokens() at runtime for brand-specific values.
+ * This file documents the full token contract so tooling (editors, linters)
+ * can resolve custom properties. Values here are sky-brand defaults; they
+ * are overridden at runtime by injectSemanticTokens().
+ */
+
+:root {
+  /* ── Radius ────────────────────────────────────────────────────────────── */
+  --radius-none: 0px;
+  --radius-xxs:  2px;
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  20px;
+  --radius-3xl:  24px;
+  --radius-4xl:  32px;
+  --radius-full: 9999px;
+
+  /* ── Typography — family ───────────────────────────────────────────────── */
+  --font-h1:      "DB HeaventRounded", sans-serif;
+  --font-h2:      "DB HeaventRounded", sans-serif;
+  --font-h3:      "DB HeaventRounded", sans-serif;
+  --font-h4:      "DB HeaventRounded", sans-serif;
+  --font-p:       "DB HeaventRounded", sans-serif;
+  --font-label:   "DB HeaventRounded", sans-serif;
+  --font-caption: "DB HeaventRounded", sans-serif;
+  --font-button:  "DB HeaventRounded", sans-serif;
+
+  /* ── Typography — weight ───────────────────────────────────────────────── */
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  /* ── Typography — size ─────────────────────────────────────────────────── */
+  --font-size-p:       20px;
+  --font-size-label:   20px;
+  --font-size-caption: 18px;
+  --font-size-button:  18px;
+
+  /* ── Elevation ─────────────────────────────────────────────────────────── */
+  --elevation-sm: 0px 1px 2px 0px #0000000d;
+
+  /* ── Text ──────────────────────────────────────────────────────────────── */
+  --text-primary:         #1f2937;
+  --text-primary-hover:   #111827;
+  --text-secondary:       #6b7280;
+  --text-secondary-hover: #4b5563;
+  --text-white:           #f9fafb;
+  --text-disabled:        #9ca3af;
+  --text-placeholder:     #9ca3af;
+  --text-brand-primary:   #0ea5e9;
+  --text-brand-hover:     #0284c7;
+  --link:                 #0284c7;
+  --text-danger-primary:  #dc2626;
+  --text-error-primary:   #dc2626;
+  --text-warning-primary: #d97706;
+  --text-success-primary: #059669;
+  --text-info:            #0ea5e9;
+
+  /* ── Stroke ────────────────────────────────────────────────────────────── */
+  --stroke-primary:         #e5e7eb;
+  --stroke-primary-solid:   #111827;
+  --stroke-secondary:       #d1d5db;
+  --stroke-disabled:        #d1d5db;
+  --stroke-brand:           #7dd3fc;
+  --stroke-brand-solid:     #0ea5e9;
+  --stroke-brand-lighter:   #e0f2fe;
+  --stroke-danger:          #f87171;
+  --stroke-danger-solid:    #dc2626;
+  --stroke-danger-lighter:  #fff1f2;
+  --stroke-error:           #f87171;
+  --stroke-error-solid:     #dc2626;
+  --stroke-warning:         #fbbf24;
+  --stroke-warning-solid:   #d97706;
+  --stroke-warning-lighter: #fffbeb;
+  --stroke-success:         #34d399;
+  --stroke-success-solid:   #059669;
+  --stroke-success-lighter: #d1fae5;
+  --stroke-info:            #7dd3fc;
+  --stroke-info-solid:      #0ea5e9;
+  --stroke-info-lighter:    #e0f2fe;
+  --stroke-gray-lighter:    #f3f4f6;
+
+  /* ── Icon ──────────────────────────────────────────────────────────────── */
+  --icon-primary:     #6b7280;
+  --icon-disabled:    #9ca3af;
+  --icon-info:        #0ea5e9;
+  --icon-danger:      #dc2626;
+  --icon-error:       #dc2626;
+  --icon-success:     #059669;
+  --icon-warning:     #d97706;
+  --icon-white:       #f9fafb;
+  --icon-dark:        #111827;
+  --icon-brand:       #0ea5e9;
+  --icon-brand-hover: #0284c7;
+  --icon-link:        #0284c7;
+
+  /* ── Background ────────────────────────────────────────────────────────── */
+  --bg-primary:           #f9fafb;
+  --bg-primary-hover:     #f9fafb;
+  --bg-secondary:         #f3f4f6;
+  --bg-tertiary:          #6b7280;
+  --bg-quaternary:        #f9fafb;
+  --bg-primary-solid:     #111827;
+  --bg-active:            #f3f4f6;
+  --bg-disabled:          #e5e7eb;
+  --bg-disabled-soft:     #f9fafb;
+  --bg-brand-primary:     #f0f9ff;
+  --bg-brand-secondary:   #e0f2fe;
+  --bg-brand-solid:       #0ea5e9;
+  --bg-brand-solid-hover: #0284c7;
+  --bg-danger-primary:    #fff1f2;
+  --bg-danger-solid:      #dc2626;
+  --bg-error-primary:     #fff1f2;
+  --bg-error-solid:       #dc2626;
+  --bg-warning-primary:   #fffbeb;
+  --bg-warning-solid:     #d97706;
+  --bg-success-primary:   #d1fae5;
+  --bg-success-solid:     #059669;
+  --bg-info-primary:      #f0f9ff;
+  --bg-info-solid:        #0ea5e9;
+
+  /* ── Foreground ────────────────────────────────────────────────────────── */
+  --fg-primary:           #1f2937;
+  --fg-secondary:         #6b7280;
+  --fg-secondary-hover:   #4b5563;
+  --fg-white:             #f9fafb;
+  --fg-placeholder:       #9ca3af;
+  --fg-disabled:          #9ca3af;
+  --fg-brand-primary:     #0ea5e9;
+  --fg-brand-secondary:   #38bdf8;
+  --fg-danger-primary:    #dc2626;
+  --fg-danger-secondary:  #ef4444;
+  --fg-error-primary:     #dc2626;
+  --fg-warning-primary:   #d97706;
+  --fg-warning-secondary: #f59e0b;
+  --fg-success-primary:   #059669;
+  --fg-success-secondary: #10b981;
+
+  /* ── Button ────────────────────────────────────────────────────────────── */
+  --button-solid-bg:             #0ea5e9;
+  --button-solid-bg-hover:       #0284c7;
+  --button-solid-fg:             #f9fafb;
+  --button-solid-fg-hover:       #f9fafb;
+  --button-solid-border:         #0ea5e9;
+  --button-solid-border-hover:   #0284c7;
+  --button-outline-fg:           #0ea5e9;
+  --button-outline-fg-hover:     #0284c7;
+  --button-outline-border:       #0ea5e9;
+  --button-outline-border-hover: #0284c7;
+  --button-ghost-fg:             #0ea5e9;
+  --button-ghost-fg-hover:       #0284c7;
+}

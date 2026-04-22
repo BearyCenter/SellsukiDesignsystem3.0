@@ -204,6 +204,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-image")) {
+  customElements.define("ds-image", Image);
+}
 if (!customElements.get("ssk-image")) {
   customElements.define("ssk-image", Image);
 }

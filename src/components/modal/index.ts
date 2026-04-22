@@ -239,6 +239,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-modal")) {
+  customElements.define("ds-modal", Modal);
+}
 if (!customElements.get("ssk-modal")) {
   customElements.define("ssk-modal", Modal);
 }

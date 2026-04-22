@@ -1,102 +1,82 @@
-# Code Conventions
+# DS 3.0 Code Conventions
 
 ## Naming
 
-- **Packages**: `snake_case` — `use_case`, `order_repository`, `fiber_server`
-- **Constructors**: `New()` or `NewXxx()` — `New(...)`, `NewGormPostgres(...)`, `NewDummy()`
-- **Repository implementations**: named by technology — `postgres_gorm.go`, `ory_keto_grpc.go`, `dummy.go`
-- **GORM models**: `postgresGorm<Entity>Model` — private struct in `postgres_gorm_model.go`
-- **HTTP DTOs**: `<Entity>Request`, `<Entity>Response`, `<Entity>ListResponse`
-- **Repository packages**: always use `_repository` suffix to avoid conflicts with entity names
+- **Element class**: `PascalCase` matching tag name — `class DropdownButton extends LitElement`
+- **Tag names**: `ds-kebab-case` canonical, `ssk-kebab-case` alias
+- **File names**: `kebab-case.ts` per class, `index.ts` for barrel
+- **Private methods/state**: prefix `_` — `_open`, `_handleClick`, `_doHighlight`
 
-## Error Handling
+## Token usage
 
-Define sentinel errors at the correct layer:
-- Domain validation errors: `var ErrInvalid<Domain>Data = errors.New(...)` in `src/entity/<domain>/`
-- Business rule errors: `var Err<Condition> = errors.New(...)` in `src/use_case/model/errors.go`
-- Wrap with context: `fmt.Errorf("create order: %w", err)`
-- Check with: `errors.Is(err, model.ErrOrderNotFound)`
-- Register HTTP status mapping in `src/interface/fiber_server/helper/errors.go` `errorList` map
-- In use cases: always call `sp.RecordError(err)` before returning an error
+Always use semantic tokens with a fallback:
 
-## Tracing (mandatory in every use case method)
-
-```go
-func (uc UseCase) MethodName(ctx context.Context, ...) (..., error) {
-    ctx, sp := tracer.Start(ctx, "use_case.MethodName")
-    defer sp.End()
-
-    // checkpoint after each significant operation:
-    sp.AddEvent("check permission, allowed")
-    sp.AddEvent("validate data")
-    sp.AddEvent("create <entity>")
-
-    // before every return with error:
-    sp.RecordError(err)
-    return ..., err
-}
+```css
+color: var(--text-primary, #111827);
+background: var(--bg-primary, #fff);
+border-color: var(--stroke-primary, #e5e7eb);
+color: var(--fg-brand-primary, #0ea5e9);
+background: var(--bg-brand-secondary, #e0f2fe);
 ```
 
-## Transaction Safety
+**Never** use `--ssk-colors-*` primitives directly in component styles.
+**Never** hardcode pixel sizes below 18px for text (--font-caption minimum).
 
-Use the `WithTransaction` repository variant and always guard `Rollback` with a committed flag:
+## Semantic token quick reference
 
-```go
-id, tx, err := uc.repo.CreateWithTransaction(ctx, entity)
-if err != nil {
-    return "", err
-}
-committed := false
-defer func() {
-    if !committed {
-        tx.Rollback()
-    }
-}()
+| Purpose | Token |
+|---------|-------|
+| Primary text | `--text-primary` |
+| Secondary text | `--text-secondary` |
+| Disabled text | `--text-disabled` |
+| Page background | `--bg-primary` |
+| Hover background | `--bg-primary-hover` |
+| Disabled background | `--bg-disabled` |
+| Brand accent background | `--bg-brand-secondary` |
+| Brand accent foreground | `--fg-brand-primary` |
+| Default border | `--stroke-primary` |
+| Subtle border | `--stroke-secondary` |
+| Body text size | `--font-p` (20px) |
+| Label text size | `--font-label` (20px) |
+| Caption text size | `--font-caption` (18px) |
 
-// ... additional operations ...
+## Custom events
 
-if err := tx.Commit(); err != nil {
-    return "", fmt.Errorf("commit: %w", err)
-}
-committed = true
+All `dispatchEvent` calls must include:
+
+```typescript
+this.dispatchEvent(new CustomEvent("event-name", {
+  detail: { ... },
+  bubbles: true,    // required — crosses Shadow DOM
+  composed: true,   // required — crosses Shadow DOM
+}));
 ```
 
-## Repository Options Pattern
+## Slot-based filtering
 
-Queries use composable marker interfaces — never raw parameters:
+To filter slotted content without MutationObserver:
 
-```go
-type FilterOption interface{ FilterOption() }
-type ListOption  interface{ ListOption() }
-type SortOption  interface{ SortOption() }
+```typescript
+const slot = this.shadowRoot?.querySelector("slot:not([name])") as HTMLSlotElement | null;
+slot?.assignedElements().forEach((el) => {
+  (el as HTMLElement).style.display = condition ? "" : "none";
+});
 ```
 
-Concrete option structs live in `src/use_case/repository/option_*.go`. Repository implementations use a `switch f.(type)` to handle each concrete type.
+## Dual registration guard
 
-## HTTP Handler Pattern
+```typescript
+if (!customElements.get("ds-foo")) { customElements.define("ds-foo", FooElement); }
+if (!customElements.get("ssk-foo")) { customElements.define("ssk-foo", FooElement); }
+```
 
-```go
-func (r routeDemoV1) HandlerName(c *fiber.Ctx, ...) error {
-    // 1. Extract identity (if auth required)
-    id, err := helper.GetIdentityFromHeader(c)
-    if err != nil {
-        return helper.ErrorHandler(c, err)
-    }
+And in the class:
 
-    // 2. Parse body
-    var req RequestType
-    if err := c.BodyParser(&req); err != nil {
-        return helper.ErrorHandler(c, err)
-    }
-
-    // 3. Call use case — ALWAYS c.UserContext() to propagate traces
-    result, err := r.useCase.Method(c.UserContext(), id, ...)
-    if err != nil {
-        return helper.ErrorHandler(c, err)
-    }
-
-    return c.JSON(ResponseType{...})
+```typescript
+declare global {
+  interface HTMLElementTagNameMap {
+    "ds-foo": FooElement;
+    "ssk-foo": FooElement;
+  }
 }
 ```
-
-**Never** put business logic in handlers. **Never** use `context.Background()` — always `c.UserContext()`.

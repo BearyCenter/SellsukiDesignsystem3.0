@@ -215,6 +215,9 @@ declare global {
     }
 }
 
+if (!customElements.get("ds-card-select")) {
+  customElements.define("ds-card-select", CardSelect);
+}
 if (!customElements.get("ssk-card-select")) {
   customElements.define("ssk-card-select", CardSelect);
 }

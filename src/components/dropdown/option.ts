@@ -120,12 +120,12 @@ export class DropdownOption extends LitElement {
     }
 
     .container:hover {
-      background-color: var(--ssk-colors-gray-50);
+      background-color: var(--bg-primary-hover, #f9fafb);
       color: var(--color-hover);
     }
     .container:active {
       background-color: var(--background-color);
-      color: var(--ssk-colors-black-900);
+      color: var(--text-primary, #111827);
     }
     :host([disabled]) .container:hover {
       background-color: transparent;
@@ -161,6 +161,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-dropdown-option")) {
+  customElements.define("ds-dropdown-option", DropdownOption);
+}
 if (!customElements.get("ssk-dropdown-option")) {
   customElements.define("ssk-dropdown-option", DropdownOption);
 }

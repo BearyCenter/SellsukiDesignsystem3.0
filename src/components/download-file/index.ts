@@ -130,7 +130,7 @@ export class DownloadFile extends LitElement {
     }
     .lable-style {
       padding: 0 16px 0;
-      font-size: 20px;
+      font-size: var(--font-size-p,20px);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -149,6 +149,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-download-file")) {
+  customElements.define("ds-download-file", DownloadFile);
+}
 if (!customElements.get("ssk-download-file")) {
   customElements.define("ssk-download-file", DownloadFile);
 }

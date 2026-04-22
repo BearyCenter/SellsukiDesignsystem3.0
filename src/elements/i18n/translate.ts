@@ -34,6 +34,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-i18n-translate")) {
+  customElements.define("ds-i18n-translate", Translate);
+}
 if (!customElements.get("ssk-i18n-translate")) {
   customElements.define("ssk-i18n-translate", Translate);
 }

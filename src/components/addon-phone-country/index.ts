@@ -6,7 +6,7 @@ import "../../components/dropdown";
 import { Size } from "../../main";
 
 export class AddonPhoneCountry extends LitElement implements BaseAttributes {
-  static registeredName = "ssk-addon-phone-country";
+  static registeredName = "ds-addon-phone-country";
 
   // BaseAttributes
   @property({ type: String })
@@ -65,6 +65,8 @@ export class AddonPhoneCountry extends LitElement implements BaseAttributes {
             value: this.value,
             country: selectedCountry,
           },
+          bubbles: true,
+          composed: true,
         }),
       );
     }
@@ -185,7 +187,7 @@ export class AddonPhoneCountry extends LitElement implements BaseAttributes {
 
     const parentInput = this.closest("ssk-input");
     if (parentInput) {
-      this.style.borderRight = "1px solid var(--ssk-colors-border-100)";
+      this.style.borderRight = "1px solid var(--stroke-primary, #e5e7eb)";
     }
   }
 
@@ -304,17 +306,17 @@ export class AddonPhoneCountry extends LitElement implements BaseAttributes {
     ssk-dropdown-option {
       --white-space: normal;
       --rounded: 0px;
-      --background-color-hover: var(--ssk-colors-gray-200);
+      --background-color-hover: var(--bg-primary-hover, #f3f4f6);
     }
 
     ssk-dropdown-option[aria-selected="true"] {
-      background-color: var(--ssk-colors-primary-100);
-      --color: var(--ssk-colors-primary-500);
+      background-color: var(--bg-brand-secondary, #e0f2fe);
+      --color: var(--fg-brand-primary, #0ea5e9);
     }
 
     ssk-dropdown-option[aria-selected="true"]:hover {
-      --color-hover: var(--ssk-colors-primary-500) !important;
-      --background-color-hover: var(--ssk-colors-primary-100) !important;
+      --color-hover: var(--fg-brand-primary, #0ea5e9) !important;
+      --background-color-hover: var(--bg-brand-secondary, #e0f2fe) !important;
     }
 
     .phone-addon {
@@ -330,10 +332,14 @@ export class AddonPhoneCountry extends LitElement implements BaseAttributes {
 }
 declare global {
   interface HTMLElementTagNameMap {
+    "ds-addon-phone-country": AddonPhoneCountry;
     "ssk-addon-phone-country": AddonPhoneCountry;
   }
 }
 
+if (!customElements.get("ds-addon-phone-country")) {
+  customElements.define("ds-addon-phone-country", AddonPhoneCountry);
+}
 if (!customElements.get("ssk-addon-phone-country")) {
   customElements.define("ssk-addon-phone-country", AddonPhoneCountry);
 }

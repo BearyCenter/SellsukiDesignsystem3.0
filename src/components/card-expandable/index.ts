@@ -239,7 +239,7 @@ export class ExpandableCard extends LitElement {
     }
     .slot-header { max-width: 48px; max-height: 48px; }
     .title{ font-weight:600; line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .subtitle{ font-size:12px; color:#6b7280; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .subtitle{ font-size:var(--font-size-caption,18px); color:#6b7280; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .expand-toggle{ 
       width: 40px; 
       height: 40px;
@@ -287,7 +287,7 @@ export class ExpandableCard extends LitElement {
       display:flex; justify-content:center; align-items:center; gap:8px;
       padding: var(--toggle-btn-footer-padding, 16px); background:transparent; border:none; cursor:pointer; color:#1f2937;
     }
-    .toggle-text{ font-size:14px; }
+    .toggle-text{ font-size:var(--font-size-caption,18px); }
     .expand-panel{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .22s ease; }
     .expand-panel.open{ grid-template-rows:1fr; }
     .expand-header .expand-panel > .inner { overflow: hidden; border-top: 1px solid #e5e7eb; }
@@ -325,6 +325,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-expandable-card")) {
+  customElements.define("ds-expandable-card", ExpandableCard);
+}
 if (!customElements.get("ssk-expandable-card")) {
   customElements.define("ssk-expandable-card", ExpandableCard);
 }

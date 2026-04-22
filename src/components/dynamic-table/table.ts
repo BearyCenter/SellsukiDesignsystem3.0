@@ -1,6 +1,6 @@
 import { consume, createContext, provide } from "@lit/context";
 import { css, html, LitElement, nothing } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { themeContext } from "../../contexts/theme";
 import {
   cssVar,
@@ -12,6 +12,9 @@ import {
 export type TableState = {
   sortingColumnId?: string;
   stripedBackgroundColor?: string;
+  selectable?: boolean;
+  selectedRows: string[];
+  toggleRow: (rowKey: string) => void;
 };
 
 export const dynamicTableContext = createContext<TableState>(
@@ -44,11 +47,58 @@ export class DynamicTable extends LitElement {
   @property({ type: String })
   stripedBackgroundColor?: string;
 
+  @property({ type: Boolean })
+  selectable = false;
+
+  @property({ type: Array })
+  selectedRows: string[] = [];
+
+  @state() private _selectedRows: string[] = [];
+
   @provide({ context: dynamicTableContext })
   @property({ attribute: false })
   state: TableState = {
     sortingColumnId: undefined,
     stripedBackgroundColor: this.stripedBackgroundColor,
+    selectable: false,
+    selectedRows: [],
+    toggleRow: (rowKey: string) => {
+      const next = this._selectedRows.includes(rowKey)
+        ? this._selectedRows.filter(k => k !== rowKey)
+        : [...this._selectedRows, rowKey];
+      this._selectedRows = next;
+      this.state = { ...this.state, selectedRows: next };
+      this.dispatchEvent(new CustomEvent("selection-change", {
+        detail: { selectedRows: next },
+        bubbles: true,
+        composed: true,
+      }));
+    },
+  };
+
+  willUpdate(changed: Map<string | number | symbol, unknown>) {
+    if (changed.has("selectable") || changed.has("selectedRows")) {
+      this._selectedRows = this.selectedRows;
+      this.state = {
+        ...this.state,
+        selectable: this.selectable,
+        selectedRows: this._selectedRows,
+      };
+    }
+  }
+
+  private _handleBulkActionClick = (e: Event) => {
+    const target = e.target as HTMLElement;
+    const actionEl = target.closest("[data-action]");
+    if (!actionEl) return;
+    this.dispatchEvent(new CustomEvent("bulk-action", {
+      detail: {
+        action: actionEl.getAttribute("data-action"),
+        selectedRows: this._selectedRows,
+      },
+      bubbles: true,
+      composed: true,
+    }));
   };
 
   updated() {
@@ -74,14 +124,15 @@ export class DynamicTable extends LitElement {
     }
 
     // get from columnsWidth or search from slot named = "headers"
-    const columnsCount =
+    const baseColumnsCount =
       this.columnsWidth?.length ||
       this.querySelectorAll("[slot='headers']")?.length ||
       0;
+    const columnsCount = baseColumnsCount;
 
-    const tableTemplateColumns = this.columnsWidth
-      ? this.columnsWidth?.join(" ")
-      : `repeat(${columnsCount}, 1fr)`;
+    const baseWidths = this.columnsWidth ?? Array(columnsCount).fill("1fr");
+    const allWidths = this.selectable ? ["40px", ...baseWidths] : baseWidths;
+    const tableTemplateColumns = allWidths.join(" ");
 
     let stripedSelector = [];
     for (let i = 1; i <= columnsCount; i++) {
@@ -139,6 +190,12 @@ export class DynamicTable extends LitElement {
       ${additionalStyle}
 
       <div class="table-container" data-testid=${this.testId || nothing}>
+        ${this.selectable && this._selectedRows.length > 0 ? html`
+          <div class="bulk-action-bar">
+            <span class="bulk-count">${this._selectedRows.length} selected</span>
+            <slot name="bulk-actions" @click=${this._handleBulkActionClick}></slot>
+          </div>
+        ` : nothing}
         <div class="table" @scrollend=${this.checkScrollEnd}>
           <slot name="headers"></slot>
           <slot></slot>
@@ -177,6 +234,23 @@ export class DynamicTable extends LitElement {
       display: grid;
       grid-template-rows: 1fr auto;
     }
+
+    .bulk-action-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--bg-brand-secondary, #e0f2fe);
+      border-bottom: 1px solid var(--stroke-primary, #e5e7eb);
+    }
+
+    .bulk-count {
+      font-size: var(--font-size-label, 20px);
+      font-family: var(--font-label, sans-serif);
+      color: var(--fg-brand-primary, #0ea5e9);
+      font-weight: var(--font-weight-medium, 500);
+      margin-right: auto;
+    }
   `;
 }
 
@@ -186,6 +260,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-dynamic-table")) {
+  customElements.define("ds-dynamic-table", DynamicTable);
+}
 if (!customElements.get("ssk-dynamic-table")) {
   customElements.define("ssk-dynamic-table", DynamicTable);
 }

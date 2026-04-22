@@ -108,6 +108,8 @@ export class DatePicker extends LitElement {
           detail: {
             valueFrom: this.value,
           },
+          bubbles: true,
+          composed: true,
         }),
       );
     }
@@ -193,6 +195,15 @@ export class DatePicker extends LitElement {
   private handleOnFocus() {
     this._isFocus = true;
     this._hideCalendar = false;
+  }
+
+  private handleKeydown(e: KeyboardEvent) {
+    if (e.key === "Escape") {
+      this._hideCalendar = true;
+      this._isFocus = false;
+    } else if ((e.key === "ArrowDown" || e.key === "Enter") && this._hideCalendar) {
+      this._hideCalendar = false;
+    }
   }
 
   private handleDate(v?: number) {
@@ -310,7 +321,7 @@ export class DatePicker extends LitElement {
         }
       </style>
 
-      <div class="date-picker">
+      <div class="date-picker" @keydown=${this.handleKeydown}>
         <ssk-input
           .value=${this._sValue}
           label=${this.label}
@@ -377,8 +388,8 @@ export class DatePicker extends LitElement {
 
     .calendar-container {
       position: absolute;
-      background-color: white;
-      border: 1px solid var(--ssk-colors-gray-200);
+      background-color: var(--bg-primary, #fff);
+      border: 1px solid var(--stroke-primary, #e5e7eb);
       border-radius: var(--rounded);
       z-index: 9;
       width: var(--width-calender);
@@ -409,6 +420,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-date-picker")) {
+  customElements.define("ds-date-picker", DatePicker);
+}
 if (!customElements.get("ssk-date-picker")) {
   customElements.define("ssk-date-picker", DatePicker);
 }

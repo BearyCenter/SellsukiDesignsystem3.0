@@ -83,6 +83,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-sidebar-header")) {
+  customElements.define("ds-sidebar-header", SidebarHeader);
+}
 if (!customElements.get("ssk-sidebar-header")) {
   customElements.define("ssk-sidebar-header", SidebarHeader);
 }

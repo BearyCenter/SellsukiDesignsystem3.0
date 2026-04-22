@@ -155,6 +155,9 @@ declare global {
   } 
 }
 
+if (!customElements.get("ds-skeleton")) {
+  customElements.define("ds-skeleton", Skeleton);
+}
 if (!customElements.get("ssk-skeleton")) {
   customElements.define("ssk-skeleton", Skeleton);
 }

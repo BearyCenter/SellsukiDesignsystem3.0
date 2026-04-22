@@ -76,7 +76,7 @@ export class TabHeader extends LitElement {
 
     .header-container.variant-button {
       padding: 4px;
-      background-color: var(--ssk-colors-background-100);
+      background-color: var(--bg-secondary, #f3f4f6);
       gap: 4px;
       border-radius: 12px;
       box-shadow: 0px 3px 2px rgba(17, 24, 39, 0.04),
@@ -85,7 +85,7 @@ export class TabHeader extends LitElement {
     }
 
     .header-container.variant-inline {
-      border-bottom: 1px solid var(--ssk-colors-background-300);
+      border-bottom: 1px solid var(--stroke-primary, #e5e7eb);
     }
   `;
 }
@@ -96,6 +96,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-tab-header")) {
+  customElements.define("ds-tab-header", TabHeader);
+}
 if (!customElements.get("ssk-tab-header")) {
   customElements.define("ssk-tab-header", TabHeader);
 }

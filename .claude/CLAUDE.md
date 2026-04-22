@@ -1,90 +1,91 @@
-# `<service-name>`
+# sellsuki-components (DS 3.0)
 
-> **Boilerplate:** replace `<service-name>` and `<module-path>` throughout `.claude/` and `.opencode/` when cloning.
+Design System 3.0 — Lit Web Components library.
+Package: `@uxuissk/design-system-core`
+Stack: **Lit 3**, TypeScript, Vite 6, Storybook 8, published to npm.
 
-Go 1.23 microservice boilerplate following Clean Architecture.
-Module: `<module-path>` (e.g. `gitlab.sellsuki.com/sellsuki/<team>/backend/<service-name>`)
-Protocols: HTTP (Fiber v2), gRPC, Kafka. Storage: PostgreSQL (GORM), Redis.
+DS 3.0 = DS 1.0 Architecture (Lit Web Components, framework-agnostic) + DS 2.0 Visual Quality (token values, font standards, design language).
 
-## Architecture layers
+## Source layout
 
 ```
-Interface → UseCase → Entity
-Repository ─────────→ Entity  (implements UseCase interfaces)
+src/
+  elements/       ← atomic elements (button, badge, avatar, input …)
+  components/     ← composite components (dropdown, sidebar, charts …)
+  contexts/       ← Lit context providers (theme, i18n, toast)
+  types/          ← shared TypeScript types
+  utils/          ← helpers (deprecated-aliases, …)
+  assets/         ← fonts.css
+  main.ts         ← barrel export (everything public)
+.storybook/
+  stories/        ← CSF3 stories, one folder per component
 ```
 
-| Layer      | Path              | Rule                                |
-| ---------- | ----------------- | ----------------------------------- |
-| Entity     | `src/entity/`     | Zero project imports                |
-| UseCase    | `src/use_case/`   | Only entity + repository interfaces |
-| Repository | `src/repository/` | Only entity + repository interfaces |
-| Interface  | `src/interface/`  | Only entity + use case              |
+## Component rules (every component must follow)
 
-Full rules in `.claude/rules/` (auto-loaded):
+| Rule | Detail |
+|------|--------|
+| `:host { display: ... }` | Always set in `static styles` |
+| Token-only styling | No hardcoded color/size/font — use semantic tokens |
+| Dual registration | `ds-*` canonical + `ssk-*` alias, both with guard pattern |
+| `bubbles + composed` | All custom events must have `bubbles: true, composed: true` |
+| No `console.log` | In production code |
 
-- `architecture.md` — dependency rules, forbidden imports
-- `conventions.md` — naming, error handling, tracing, transactions, HTTP handler pattern
-- `testing.md` — table-driven tests, mock pattern, 70% coverage threshold
-- `codegen.md` — TypeSpec → OpenAPI → Go pipeline, never-edit files
+### Guard pattern (required for every element)
+
+```typescript
+if (!customElements.get("ds-foo")) { customElements.define("ds-foo", FooElement); }
+if (!customElements.get("ssk-foo")) { customElements.define("ssk-foo", FooElement); }
+```
+
+## Token architecture
+
+```
+Layer 1 — Primitive   --ssk-colors-gray-800: #1F2937
+Layer 2 — Semantic    --text-primary: var(--ssk-colors-gray-800)
+                      --bg-primary, --stroke-primary, --fg-brand-primary …
+Layer 3 — Compat      --background-primary: var(--bg-primary)  ← DS 1.0 bridge
+Layer 4 — Brand       injectSemanticTokens("patona"|"ccs3"|"oc2plus")
+```
+
+Key semantic tokens: `--text-primary`, `--text-secondary`, `--bg-primary`, `--bg-primary-hover`,
+`--stroke-primary`, `--stroke-secondary`, `--fg-brand-primary`, `--bg-brand-secondary`,
+`--text-disabled`, `--bg-disabled`, `--font-p`, `--font-label`, `--font-caption`,
+`--font-h1`..`--font-h4`, `--radius-sm`..`--radius-xl`.
+
+Never use `--ssk-colors-*` primitives directly in components — always go through semantic tokens.
+
+## Key files
+
+| File | Purpose |
+|------|---------|
+| `src/main.ts` | Public barrel export |
+| `src/contexts/theme/semantic-tokens.ts` | `injectSemanticTokens(brand)` + `Brand` type |
+| `src/utils/deprecated-aliases.ts` | MutationObserver `ssk-*` deprecation warnings |
+| `src/components/app-shell/index.ts` | `ds-app-shell` grid layout shell |
+| `src/components/charts/` | Zero-dep SVG charts (line, bar, donut) |
+| `.storybook/stories/` | All CSF3 stories |
+| `DS_UPGRADE.md` | Phase-by-phase upgrade master plan |
+
+## npm scripts
+
+| Command | What it does |
+|---------|--------------|
+| `npm run dev` | Start Vite dev server |
+| `npm run build` | Build library (`dist/`) |
+| `npm run storybook` | Storybook 8 dev server |
+| `npm run build-storybook` | Build Storybook static |
+| `npm run type-check` | TypeScript check (no emit) |
+| `npm run lint` | ESLint |
+| `npm run generate:country` | Regenerate country icon component from SVGs |
+
+## Rules (auto-loaded from `.claude/rules/`)
+
+- `jira.md` — Jira MCP tool usage, rate limiting, correct parameter names
 - `outline-collections.md` — Outline workspace collection IDs
-- `project.md` — Jira project + team context for this repo (edit this when cloning)
-- `jira.md` — **Jira MCP tool usage, rate limiting rules, correct parameter names, issue type IDs**
+- `project.md` — Jira project + team context
 
-## Key source files
+## Brand type
 
-| File                                                    | Purpose                                  |
-| ------------------------------------------------------- | ---------------------------------------- |
-| `src/use_case/use_case.go`                              | UseCase struct + `New(...)` constructor  |
-| `src/use_case/repository/repository.go`                 | All repository interfaces                |
-| `src/use_case/model/errors.go`                          | Domain error sentinels                   |
-| `src/interface/fiber_server/helper/errors.go`           | HTTP error code mapping (`errorList`)    |
-| `src/interface/fiber_server/route/typespec/route.go`    | HTTP handler implementations             |
-| `src/interface/fiber_server/route/typespec/spec.gen.go` | Generated `ServerInterface` (never edit) |
-| `cmd/generics_server/`                                  | Main entry point + dependency wiring     |
-
-## Code generation pipeline
-
-```bash
-make gen-all   # TypeSpec → openapi.yaml → spec.gen.go
-```
-
-TypeSpec sources: `cmd/typespec_openapi_generator/v1/`
-
-- `model/<domain>.model.tsp` — domain models (namespace `DemoAPI.Model`)
-- `route/<domain>.route.tsp` — routes (namespace `DemoAPI.Routes`)
-- `main.tsp` — service def + imports
-- `tspconfig.yaml` — outputs `openapi.yaml` to `src/interface/fiber_server/route/typespec/`
-
-Never manually edit: `openapi.yaml`, `spec.gen.go`, `*.pb.go`, `*_grpc.pb.go`
-
-## Make targets
-
-| Command                 | What it does                                  |
-| ----------------------- | --------------------------------------------- |
-| `make run`              | Start HTTP + gRPC + Kafka server              |
-| `make gen-all`          | TypeSpec → OpenAPI → Go Fiber interface       |
-| `make generate-grpc`    | Regenerate gRPC stubs from .proto             |
-| `make unit-test`        | Run all unit tests (`./src/...`)              |
-| `make check-coverage`   | Verify ≥ 70% coverage (CI gate)               |
-| `make integration-test` | Run tests in `test/` (-p 1)                   |
-| `make run-migration`    | Interactive DB migration TUI                  |
-| `docker compose up -d`  | Start Postgres:5432, Redis:6379, Jaeger:16686 |
-
-## Slash commands (`.claude/commands/`)
-
-| Command                               | Purpose                                                                       |
-| ------------------------------------- | ----------------------------------------------------------------------------- |
-| `/new-feature <domain>`               | Scaffold entity → repo interface → mock → GORM impl → use case → HTTP handler |
-| `/add-usecase <domain> <Method>`      | Add one use case method with tracing, permission, tests                       |
-| `/add-http-route <MethodName>`        | Implement a Fiber route handler from generated interface                      |
-| `/add-error <ErrName> <status> <key>` | Add domain error + HTTP status mapping                                        |
-| `/gen-http`                           | Run `make gen-all` and reconcile route.go                                     |
-| `/gen-grpc`                           | Run `make generate-grpc` and reconcile gRPC server                            |
-| `/gen-readme`                         | Generate README.md following Sellsuki README Standard                         |
-| `/unit-test`                          | Run tests, report failures, suggest fixes                                     |
-| `/coverage`                           | Check 70% threshold, write missing tests if needed                            |
-| `/review-arch <path>`                 | Audit for layer violations, missing tracing, bad error handling               |
-
-## Reference
-
-Full architecture guide and conventions: `agents.md`
+Only three values exist: `"patona"` | `"ccs3"` | `"oc2plus"`.
+`AppShellProvider` maps friendly product names to these internally.

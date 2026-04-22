@@ -233,6 +233,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-menu-items")) {
+  customElements.define("ds-menu-items", MenuItems);
+}
 if (!customElements.get("ssk-menu-items")) {
   customElements.define("ssk-menu-items", MenuItems);
 }

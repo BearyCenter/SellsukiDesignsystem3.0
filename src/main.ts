@@ -46,6 +46,10 @@ export * from "./elements/widget-user-detail";
 export * from "./elements/widget-title";
 export * from "./elements/widget-table";
 
+export * from "./components/charts";
+export * from "./components/app-shell/index";
+export * from "./components/app-shell/provider";
+export * from "./components/app-shell/feature-page-scaffold";
 export * from "./components/addon-phone-country";
 export * from "./components/calendar";
 export * from "./components/card-expandable";
@@ -57,6 +61,9 @@ export * from "./components/dynamic-table";
 export * from "./components/image-cropper";
 export * from "./components/misc-icon";
 export * from "./components/modal";
+export * from "./components/advanced-data-table";
+export * from "./components/filter-bar";
+export * from "./components/page-header";
 export * from "./components/pagination";
 export * from "./components/progress-bar";
 export * from "./components/sidebar";
@@ -72,3 +79,4 @@ export * from "./components/widget-grid";
 export * from "./components/card";
 
 import "./assets/fonts.css";
+import "./utils/deprecated-aliases";

@@ -183,6 +183,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-heading")) {
+  customElements.define("ds-heading", Heading);
+}
 if (!customElements.get("ssk-heading")) {
   customElements.define("ssk-heading", Heading);
 }
