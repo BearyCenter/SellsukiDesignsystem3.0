@@ -161,7 +161,7 @@ export class Sidebar extends LitElement {
             cssVar("padding", this.size)
           )};
 
-          --border-color: ${parseVariables(cssVar("colors", "gray", 200))};
+          --border-color: var(--stroke-primary, #e5e7eb);
 
           --expanded-width: ${parseVariables(
             cssVar("width", this.width),
@@ -202,7 +202,7 @@ export class Sidebar extends LitElement {
       padding: 12px 18px;
       gap: 8px;
       border-right: 1px solid var(--border-color);
-      background-color: var(--ssk-colors-background-50);
+      background-color: var(--bg-primary, #fff);
       transition: min-width 0.2s ease-out;
       width: var(--expanded-width);
     }
@@ -227,10 +227,14 @@ export class Sidebar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
+    "ds-sidebar": Sidebar;
     "ssk-sidebar": Sidebar;
   }
 }
 
+if (!customElements.get("ds-sidebar")) {
+  customElements.define("ds-sidebar", Sidebar);
+}
 if (!customElements.get("ssk-sidebar")) {
   customElements.define("ssk-sidebar", Sidebar);
 }

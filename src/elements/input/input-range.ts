@@ -339,6 +339,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-input-range")) {
+  customElements.define("ds-input-range", InputRange);
+}
 if (!customElements.get("ssk-input-range")) {
   customElements.define("ssk-input-range", InputRange);
 }

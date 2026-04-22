@@ -337,6 +337,9 @@ declare global {
     }
 }
 
+if (!customElements.get("ds-stepper")) {
+  customElements.define("ds-stepper", Stepper);
+}
 if (!customElements.get("ssk-stepper")) {
   customElements.define("ssk-stepper", Stepper);
 }

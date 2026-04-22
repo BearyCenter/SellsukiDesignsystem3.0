@@ -1,33 +1,56 @@
-# Clean Architecture Rules
+# DS 3.0 Component Architecture
 
-This project enforces strict unidirectional dependencies across four layers.
-
-## Dependency Direction
+## Layer map
 
 ```
-Interface  →  UseCase  →  Entity
-Repository  ────────────→  Entity
+src/elements/   ← atomic (no inter-element imports)
+src/components/ ← composite (may import from elements, not vice-versa)
+src/contexts/   ← Lit context providers (theme, i18n, toast)
+src/utils/      ← pure helpers (no Lit, no DOM globals)
 ```
 
-| Layer | Package path | Can import |
-|-------|-------------|-----------|
-| Entity | `src/entity/` | nothing from this project |
-| UseCase | `src/use_case/` | `src/entity/`, `src/use_case/repository/` (interfaces only) |
-| Repository | `src/repository/` | `src/entity/`, `src/use_case/repository/` (interfaces only) |
-| Interface | `src/interface/` | `src/entity/`, `src/use_case/` |
+**Forbidden:**
+- `elements/` importing from `components/`
+- Any file importing concrete context implementations from another context
+- Hardcoded `--ssk-colors-*` primitives inside component styles
 
-**Forbidden imports — never do these:**
-- Entity importing from any other layer
-- UseCase importing from `src/interface/` or `src/repository/`
-- Interface importing from `src/repository/` (concrete implementations)
-- Repository importing from `src/interface/` or `src/use_case/` (only interfaces allowed)
+## New component checklist
 
-## Layer Responsibilities
+1. Create `src/elements/<name>/index.ts` (atomic) or `src/components/<name>/index.ts` (composite)
+2. Export from `src/main.ts`
+3. Register with guard pattern (`ds-*` + `ssk-*`)
+4. Add `:host { display: ... }` in `static styles`
+5. Use only semantic tokens — no hardcoded colors or pixel sizes below spec
+6. Create CSF3 story in `.storybook/stories/<Name>/index.stories.ts`
+7. All custom events: `bubbles: true, composed: true`
 
-**Entity (`src/entity/<domain>/`)** — Pure domain. No framework dependencies. Contains structs, `Validate()` methods, state machine interfaces/implementations, and domain sentinel errors (`var ErrInvalid<Domain>Data = errors.New(...)`).
+## Lit patterns
 
-**UseCase (`src/use_case/`)** — Business logic only. Orchestrates repositories via interfaces. Never queries databases or calls external APIs directly. All methods accept `ctx context.Context` as first parameter.
+```typescript
+// Property with attribute binding
+@property({ type: Boolean, attribute: "show-legend" })
+showLegend = true;
 
-**Repository (`src/repository/<domain>_repository/`)** — Data access. Implements interfaces from `src/use_case/repository/`. Each domain gets its own package. Every package provides at least two implementations: a real one (e.g. `postgres_gorm.go`) and a `dummy.go` stub.
+// Reactive state
+@state() private _open = false;
 
-**Interface (`src/interface/`)** — Translation only. No business logic. Converts external request/response formats to/from use case inputs/outputs. Must use `helper.ErrorHandler(c, err)` for all errors, `c.UserContext()` for context, and `helper.GetIdentityFromHeader(c)` for identity.
+// Custom event (always bubbles+composed)
+this.dispatchEvent(new CustomEvent("change", {
+  detail: { value },
+  bubbles: true,
+  composed: true,
+}));
+
+// ResizeObserver for responsive SVG
+connectedCallback() {
+  super.connectedCallback();
+  this._ro = new ResizeObserver(entries => {
+    this._width = entries[0].contentRect.width || 600;
+  });
+  this.updateComplete.then(() => this._ro?.observe(this));
+}
+disconnectedCallback() {
+  super.disconnectedCallback();
+  this._ro?.disconnect();
+}
+```

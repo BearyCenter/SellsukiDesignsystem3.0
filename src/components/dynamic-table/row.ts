@@ -84,6 +84,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-table-row")) {
+  customElements.define("ds-table-row", TableRow);
+}
 if (!customElements.get("ssk-table-row")) {
   customElements.define("ssk-table-row", TableRow);
 }

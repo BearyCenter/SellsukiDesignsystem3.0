@@ -42,11 +42,11 @@ export class HeaderCell extends LitElement {
         /* --down-arrow-color, --up-arrow-color */
           ${this.sortDirection === "asc"
           ? css`
-              --up-arrow-color: var(--ssk-colors-info-500);
+              --up-arrow-color: var(--fg-brand-primary, #0ea5e9);
             `
           : this.sortDirection === "desc"
           ? css`
-              --down-arrow-color: var(--ssk-colors-info-500);
+              --down-arrow-color: var(--fg-brand-primary, #0ea5e9);
             `
           : nothing}
 
@@ -95,6 +95,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-header-cell")) {
+  customElements.define("ds-header-cell", HeaderCell);
+}
 if (!customElements.get("ssk-header-cell")) {
   customElements.define("ssk-header-cell", HeaderCell);
 }

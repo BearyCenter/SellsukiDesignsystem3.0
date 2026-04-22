@@ -167,7 +167,7 @@ export class PinCode extends LitElement {
 
     this.value = newValue;
 
-    this.dispatchEvent(new CustomEvent("change", { detail: this.value }));
+    this.dispatchEvent(new CustomEvent("change", { detail: this.value, bubbles: true, composed: true }));
 
     if (redispatch) {
       redispatchEvents(e, this);
@@ -301,6 +301,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-pin-code")) {
+  customElements.define("ds-pin-code", PinCode);
+}
 if (!customElements.get("ssk-pin-code")) {
   customElements.define("ssk-pin-code", PinCode);
 }

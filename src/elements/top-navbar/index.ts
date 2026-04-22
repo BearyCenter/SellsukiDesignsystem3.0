@@ -114,6 +114,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-top-navbar")) {
+  customElements.define("ds-top-navbar", TopNavbar);
+}
 if (!customElements.get("ssk-top-navbar")) {
   customElements.define("ssk-top-navbar", TopNavbar);
 }

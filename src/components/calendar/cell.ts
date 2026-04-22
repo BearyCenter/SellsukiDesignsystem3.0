@@ -286,6 +286,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-cell")) {
+  customElements.define("ds-cell", Cell);
+}
 if (!customElements.get("ssk-cell")) {
   customElements.define("ssk-cell", Cell);
 }

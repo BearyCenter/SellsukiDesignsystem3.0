@@ -1,7 +1,7 @@
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { action } from "@storybook/addon-actions";
-import { useArgs } from "@storybook/client-api";
+import { useArgs } from "@storybook/preview-api";
 import { html } from "lit";
 import "../../../src/elements/alert";
 import "../../../src/elements/icon";

@@ -1,5 +1,5 @@
 import { spread } from "@open-wc/lit-helpers";
-import { useArgs } from "@storybook/client-api";
+import { useArgs } from "@storybook/preview-api";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import "../../../src/components/dropdown";

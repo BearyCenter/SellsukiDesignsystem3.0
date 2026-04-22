@@ -158,6 +158,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-accordion")) {
+  customElements.define("ds-accordion", Accordion);
+}
 if (!customElements.get("ssk-accordion")) {
   customElements.define("ssk-accordion", Accordion);
 }

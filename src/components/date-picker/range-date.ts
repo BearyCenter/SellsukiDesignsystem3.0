@@ -141,6 +141,8 @@ export class RangeDatePicker extends LitElement {
             valueFrom: this.valueFrom,
             valueTo: this.valueTo,
           },
+          bubbles: true,
+          composed: true,
         }),
       );
     }
@@ -255,6 +257,15 @@ export class RangeDatePicker extends LitElement {
   private handleOnFocus() {
     this._isFocus = true;
     this._hideCalendar = false;
+  }
+
+  private handleKeydown(e: KeyboardEvent) {
+    if (e.key === "Escape") {
+      this._hideCalendar = true;
+      this._isFocus = false;
+    } else if ((e.key === "ArrowDown" || e.key === "Enter") && this._hideCalendar) {
+      this._hideCalendar = false;
+    }
   }
 
   private handleDateChanged({ detail }: any) {
@@ -513,7 +524,7 @@ export class RangeDatePicker extends LitElement {
         }
       </style>
 
-      <div class="date-picker">
+      <div class="date-picker" @keydown=${this.handleKeydown}>
         <ssk-input-range
           .valueFrom=${this._sValueFrom}
           .valueTo=${this._sValueTo}
@@ -647,8 +658,8 @@ export class RangeDatePicker extends LitElement {
     .calendar-container {
       position: absolute;
       display: flex;
-      background-color: white;
-      border: 1px solid var(--ssk-colors-gray-200);
+      background-color: var(--bg-primary, #fff);
+      border: 1px solid var(--stroke-primary, #e5e7eb);
       border-radius: var(--rounded);
       z-index: 9;
       width: var(--width-calender);
@@ -679,6 +690,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-range-date-picker")) {
+  customElements.define("ds-range-date-picker", RangeDatePicker);
+}
 if (!customElements.get("ssk-range-date-picker")) {
   customElements.define("ssk-range-date-picker", RangeDatePicker);
 }

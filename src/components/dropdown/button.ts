@@ -94,7 +94,7 @@ export class DropdownButton extends LitElement {
     }
 
     .dropdown:hover:not(.disabled):not(.error):not(.success) {
-      border: 1px solid var(--ssk-colors-gray-300);
+      border: 1px solid var(--stroke-secondary, #d1d5db);
     }
 
     .dropdown.disabled {
@@ -151,6 +151,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-dropdown-button")) {
+  customElements.define("ds-dropdown-button", DropdownButton);
+}
 if (!customElements.get("ssk-dropdown-button")) {
   customElements.define("ssk-dropdown-button", DropdownButton);
 }

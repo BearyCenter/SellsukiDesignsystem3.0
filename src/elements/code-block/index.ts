@@ -1,9 +1,8 @@
 import { consume } from "@lit/context";
-import { LitElement, css, html, nothing, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { LitElement, css, html, nothing } from "lit";
+import { property, state } from "lit/decorators.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
-import Prism from "prismjs";
-import prismStyle from "prismjs/themes/prism.min.css?inline";
+import { codeToHtml } from "shiki";
 import { themeContext } from "../../contexts/theme";
 import {
   BadgeVariants,
@@ -74,27 +73,35 @@ export class CodeBlock extends LitElement {
   copyButton = false;
   @property({ type: String })
   code: string = "";
+  @property({ type: String, attribute: "shiki-theme" })
+  shikiTheme: string = "github-light";
 
-  private highlight() {
-    this.__loadLanguage();
+  @state() private _highlightedHtml = "";
+
+  private async _doHighlight() {
+    if (!this.code) {
+      this._highlightedHtml = "";
+      return;
+    }
     try {
-      return unsafeHTML(
-        Prism.highlight(
-          this.code,
-          Prism.languages[this.language || ""],
-          this.language || "",
-        ),
-      );
-    } catch (error) {
-      console.warn("Language not supported by PrismJS", error);
-      return html`${this.code}`;
+      this._highlightedHtml = await codeToHtml(this.code, {
+        lang: (this.language as any) ?? "plaintext",
+        theme: this.shikiTheme as any,
+      });
+    } catch {
+      this._highlightedHtml = `<pre><code>${this.code.replace(/</g, "&lt;")}</code></pre>`;
     }
   }
 
-  private async __loadLanguage() {
-    await import(
-      `../../../node_modules/prismjs/components/prism-${this.language}.min.js`
-    );
+  connectedCallback() {
+    super.connectedCallback();
+    this._doHighlight();
+  }
+
+  updated(changed: Map<string | number | symbol, unknown>) {
+    if (changed.has("code") || changed.has("language") || changed.has("shikiTheme")) {
+      this._doHighlight();
+    }
   }
 
   render() {
@@ -175,8 +182,10 @@ export class CodeBlock extends LitElement {
             ><ssk-icon name="outline-document-duplicate"></ssk-icon
           ></ssk-button>
         </div>
-        <div class="scroll">
-          <pre><code>${this.highlight()}</code></pre>
+        <div class="scroll shiki-wrapper">
+          ${this._highlightedHtml
+            ? unsafeHTML(this._highlightedHtml)
+            : html`<pre><code>${this.code}</code></pre>`}
         </div>
       </div>
     `;
@@ -233,8 +242,17 @@ export class CodeBlock extends LitElement {
         cursor: pointer;
         opacity: 0.7;
       }
+
+      .shiki-wrapper pre {
+        margin: 0;
+        background: transparent !important;
+      }
+
+      .shiki-wrapper code {
+        font-size: var(--font-size);
+        font-family: var(--font-family);
+      }
     `,
-    unsafeCSS(prismStyle),
   ];
 }
 
@@ -244,6 +262,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-code-block")) {
+  customElements.define("ds-code-block", CodeBlock);
+}
 if (!customElements.get("ssk-code-block")) {
   customElements.define("ssk-code-block", CodeBlock);
 }

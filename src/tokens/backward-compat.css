@@ -1,0 +1,71 @@
+/**
+ * DS 3.0 Backward-Compatibility Bridge
+ *
+ * Maps --ssk-* primitive names (DS 1.0 original) to DS 3.0 semantic tokens.
+ * Import this in consuming apps that still reference --ssk-* variables.
+ * Do NOT use these in new DS 3.0 component code — use semantic tokens directly.
+ */
+
+:root {
+  /* ── Text ──────────────────────────────────────────────────────────────── */
+  --ssk-text-primary:         var(--text-primary);
+  --ssk-text-secondary:       var(--text-secondary);
+  --ssk-text-white:           var(--text-white);
+  --ssk-text-disabled:        var(--text-disabled);
+  --ssk-text-placeholder:     var(--text-placeholder);
+  --ssk-text-brand:           var(--text-brand-primary);
+  --ssk-text-danger:          var(--text-danger-primary);
+  --ssk-text-warning:         var(--text-warning-primary);
+  --ssk-text-success:         var(--text-success-primary);
+
+  /* ── Stroke ────────────────────────────────────────────────────────────── */
+  --ssk-stroke-primary:       var(--stroke-primary);
+  --ssk-stroke-secondary:     var(--stroke-secondary);
+  --ssk-stroke-disabled:      var(--stroke-disabled);
+  --ssk-stroke-brand:         var(--stroke-brand);
+  --ssk-stroke-danger:        var(--stroke-danger);
+  --ssk-stroke-warning:       var(--stroke-warning);
+  --ssk-stroke-success:       var(--stroke-success);
+
+  /* ── Icon ──────────────────────────────────────────────────────────────── */
+  --ssk-icon-primary:         var(--icon-primary);
+  --ssk-icon-disabled:        var(--icon-disabled);
+  --ssk-icon-brand:           var(--icon-brand);
+  --ssk-icon-danger:          var(--icon-danger);
+  --ssk-icon-success:         var(--icon-success);
+  --ssk-icon-warning:         var(--icon-warning);
+  --ssk-icon-white:           var(--icon-white);
+  --ssk-icon-dark:            var(--icon-dark);
+
+  /* ── Background ────────────────────────────────────────────────────────── */
+  --ssk-bg-primary:           var(--bg-primary);
+  --ssk-bg-secondary:         var(--bg-secondary);
+  --ssk-bg-active:            var(--bg-active);
+  --ssk-bg-disabled:          var(--bg-disabled);
+  --ssk-bg-brand:             var(--bg-brand-primary);
+  --ssk-bg-brand-solid:       var(--bg-brand-solid);
+  --ssk-bg-danger:            var(--bg-danger-primary);
+  --ssk-bg-danger-solid:      var(--bg-danger-solid);
+  --ssk-bg-warning:           var(--bg-warning-primary);
+  --ssk-bg-warning-solid:     var(--bg-warning-solid);
+  --ssk-bg-success:           var(--bg-success-primary);
+  --ssk-bg-success-solid:     var(--bg-success-solid);
+
+  /* ── Radius ────────────────────────────────────────────────────────────── */
+  --ssk-radius-none:          var(--radius-none);
+  --ssk-radius-sm:            var(--radius-sm);
+  --ssk-radius-md:            var(--radius-md);
+  --ssk-radius-lg:            var(--radius-lg);
+  --ssk-radius-xl:            var(--radius-xl);
+  --ssk-radius-full:          var(--radius-full);
+
+  /* ── Elevation ─────────────────────────────────────────────────────────── */
+  --ssk-elevation-sm:         var(--elevation-sm);
+
+  /* ── Typography ────────────────────────────────────────────────────────── */
+  --ssk-font-family:          var(--font-p);
+  --ssk-font-weight-normal:   var(--font-weight-normal);
+  --ssk-font-weight-medium:   var(--font-weight-medium);
+  --ssk-font-weight-semibold: var(--font-weight-semibold);
+  --ssk-font-weight-bold:     var(--font-weight-bold);
+}

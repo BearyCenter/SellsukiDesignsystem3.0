@@ -969,8 +969,8 @@ export class Calendar extends LitElement {
     /* Dropdown year and month */
     .dropdown {
       position: absolute;
-      background: white;
-      border: 1px solid var(--ssk-colors-gray-200);
+      background: var(--bg-primary, #fff);
+      border: 1px solid var(--stroke-primary, #e5e7eb);
       border-radius: var(--rounded);
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1101,6 +1101,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-calendar")) {
+  customElements.define("ds-calendar", Calendar);
+}
 if (!customElements.get("ssk-calendar")) {
   customElements.define("ssk-calendar", Calendar);
 }

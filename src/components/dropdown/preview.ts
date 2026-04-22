@@ -112,6 +112,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-dropdown-preview")) {
+  customElements.define("ds-dropdown-preview", DropdownPreview);
+}
 if (!customElements.get("ssk-dropdown-preview")) {
   customElements.define("ssk-dropdown-preview", DropdownPreview);
 }

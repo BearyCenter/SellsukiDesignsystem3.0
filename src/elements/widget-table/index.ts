@@ -121,14 +121,12 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
   private getContainerStyles() { const widthValue = parseInt(this.getWidth(), 10); const calculatedWidth = (widthValue * 88) - 32; return { width: `${calculatedWidth}px` }; }
   
   private handleButtonClick(e: Event) {
-    console.log("handleButtonClick",e)
     e.stopPropagation();
     const event = new CustomEvent('button-click', { bubbles: true, composed: true });
     this.dispatchEvent(event);
   }
   
   private handleActionIconClick(record: any, rowIndex: any) {
-    console.log('handleActionIconClick',record)
     this.dispatchEvent(new CustomEvent('action-click', {
       detail: { record, rowIndex },
       bubbles: true,
@@ -301,7 +299,7 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
             return `
               <div>
                 <div style="color: ${mainColorValue}; font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${text}</div>
-                <div style="color: ${subColorValue}; font-size: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${subtext}</div>
+                <div style="color: ${subColorValue}; font-size: var(--font-size-caption,18px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${subtext}</div>
               </div>
             `;
           };
@@ -544,6 +542,9 @@ declare global {
   }
 }
 
+if (!customElements.get("ds-widget-table")) {
+  customElements.define("ds-widget-table", WidgetTable);
+}
 if (!customElements.get("ssk-widget-table")) {
   customElements.define("ssk-widget-table", WidgetTable);
 }
