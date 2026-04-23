@@ -69,7 +69,9 @@ jobs:
           STORYBOOK: "true"
 
       - name: Deploy to Vercel
-        run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }} storybook-static
+        run: |
+          echo '{"buildCommand":null,"outputDirectory":".","framework":null}' > storybook-static/vercel.json
+          npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }} storybook-static
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
