@@ -22,5 +22,5 @@ export default defineConfig({
       },
     },
   },
-  plugins: [dts({ rollupTypes: true })],
+  plugins: process.env.STORYBOOK ? [] : [dts({ rollupTypes: true })],
 });
