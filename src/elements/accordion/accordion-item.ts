@@ -99,5 +99,5 @@ if (!customElements.get("ds-accordion-item")) {
   customElements.define("ds-accordion-item", AccordionItem);
 }
 if (!customElements.get("ssk-accordion-item")) {
-  customElements.define("ssk-accordion-item", AccordionItem);
+  customElements.define("ssk-accordion-item", class extends AccordionItem {});
 }

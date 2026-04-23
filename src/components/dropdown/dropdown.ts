@@ -734,5 +734,5 @@ if (!customElements.get("ds-dropdown")) {
   customElements.define("ds-dropdown", Dropdown);
 }
 if (!customElements.get("ssk-dropdown")) {
-  customElements.define("ssk-dropdown", Dropdown);
+  customElements.define("ssk-dropdown", class extends Dropdown {});
 }

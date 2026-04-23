@@ -131,5 +131,5 @@ if (!customElements.get("ds-tab-button")) {
   customElements.define("ds-tab-button", TabButton);
 }
 if (!customElements.get("ssk-tab-button")) {
-  customElements.define("ssk-tab-button", TabButton);
+  customElements.define("ssk-tab-button", class extends TabButton {});
 }

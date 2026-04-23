@@ -634,5 +634,5 @@ if (!customElements.get("ds-advanced-data-table")) {
   customElements.define("ds-advanced-data-table", AdvancedDataTable);
 }
 if (!customElements.get("ssk-advanced-data-table")) {
-  customElements.define("ssk-advanced-data-table", AdvancedDataTable);
+  customElements.define("ssk-advanced-data-table", class extends AdvancedDataTable {});
 }

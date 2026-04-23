@@ -171,5 +171,5 @@ if (!customElements.get("ds-wave-icon")) {
   customElements.define("ds-wave-icon", WaveIcon);
 }
 if (!customElements.get("ssk-wave-icon")) {
-  customElements.define("ssk-wave-icon", WaveIcon);
+  customElements.define("ssk-wave-icon", class extends WaveIcon {});
 }

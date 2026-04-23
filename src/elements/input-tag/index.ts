@@ -367,5 +367,5 @@ if (!customElements.get("ds-input-tag")) {
   customElements.define("ds-input-tag", Inputtag);
 }
 if (!customElements.get("ssk-input-tag")) {
-  customElements.define("ssk-input-tag", Inputtag);
+  customElements.define("ssk-input-tag", class extends Inputtag {});
 }

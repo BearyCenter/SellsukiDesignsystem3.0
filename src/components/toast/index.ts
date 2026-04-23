@@ -164,5 +164,5 @@ if (!customElements.get("ds-toast")) {
   customElements.define("ds-toast", Toast);
 }
 if (!customElements.get("ssk-toast")) {
-  customElements.define("ssk-toast", Toast);
+  customElements.define("ssk-toast", class extends Toast {});
 }

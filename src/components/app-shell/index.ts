@@ -128,5 +128,5 @@ if (!customElements.get("ds-app-shell")) {
   customElements.define("ds-app-shell", AppShell);
 }
 if (!customElements.get("ssk-app-shell")) {
-  customElements.define("ssk-app-shell", AppShell);
+  customElements.define("ssk-app-shell", class extends AppShell {});
 }

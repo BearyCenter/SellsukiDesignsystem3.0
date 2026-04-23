@@ -62,5 +62,5 @@ if (!customElements.get("ds-app-shell-provider")) {
   customElements.define("ds-app-shell-provider", AppShellProvider);
 }
 if (!customElements.get("ssk-app-shell-provider")) {
-  customElements.define("ssk-app-shell-provider", AppShellProvider);
+  customElements.define("ssk-app-shell-provider", class extends AppShellProvider {});
 }

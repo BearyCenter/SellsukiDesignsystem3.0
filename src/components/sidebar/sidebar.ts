@@ -236,5 +236,5 @@ if (!customElements.get("ds-sidebar")) {
   customElements.define("ds-sidebar", Sidebar);
 }
 if (!customElements.get("ssk-sidebar")) {
-  customElements.define("ssk-sidebar", Sidebar);
+  customElements.define("ssk-sidebar", class extends Sidebar {});
 }

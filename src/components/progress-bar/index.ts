@@ -268,5 +268,5 @@ if (!customElements.get("ds-progress-bar")) {
   customElements.define("ds-progress-bar", ProgressBar);
 }
 if (!customElements.get("ssk-progress-bar")) {
-  customElements.define("ssk-progress-bar", ProgressBar);
+  customElements.define("ssk-progress-bar", class extends ProgressBar {});
 }

@@ -296,5 +296,5 @@ if (!customElements.get("ds-textarea")) {
   customElements.define("ds-textarea", Textarea);
 }
 if (!customElements.get("ssk-textarea")) {
-  customElements.define("ssk-textarea", Textarea);
+  customElements.define("ssk-textarea", class extends Textarea {});
 }

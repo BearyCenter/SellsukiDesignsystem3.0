@@ -198,5 +198,5 @@ if (!customElements.get("ds-radio")) {
   customElements.define("ds-radio", Radio);
 }
 if (!customElements.get("ssk-radio")) {
-  customElements.define("ssk-radio", Radio);
+  customElements.define("ssk-radio", class extends Radio {});
 }

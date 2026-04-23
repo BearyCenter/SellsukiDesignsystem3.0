@@ -79,5 +79,5 @@ if (!customElements.get("ds-feature-page-scaffold")) {
   customElements.define("ds-feature-page-scaffold", FeaturePageScaffold);
 }
 if (!customElements.get("ssk-feature-page-scaffold")) {
-  customElements.define("ssk-feature-page-scaffold", FeaturePageScaffold);
+  customElements.define("ssk-feature-page-scaffold", class extends FeaturePageScaffold {});
 }

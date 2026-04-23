@@ -149,5 +149,5 @@ if (!customElements.get("ds-logo")) {
   customElements.define("ds-logo", Logo);
 }
 if (!customElements.get("ssk-logo")) {
-  customElements.define("ssk-logo", Logo);
+  customElements.define("ssk-logo", class extends Logo {});
 }

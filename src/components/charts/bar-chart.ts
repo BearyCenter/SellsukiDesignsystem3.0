@@ -152,4 +152,4 @@ declare global {
 }
 
 if (!customElements.get("ds-bar-chart")) { customElements.define("ds-bar-chart", BarChart); }
-if (!customElements.get("ssk-bar-chart")) { customElements.define("ssk-bar-chart", BarChart); }
+if (!customElements.get("ssk-bar-chart")) { customElements.define("ssk-bar-chart", class extends BarChart {}); }

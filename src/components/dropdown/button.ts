@@ -155,5 +155,5 @@ if (!customElements.get("ds-dropdown-button")) {
   customElements.define("ds-dropdown-button", DropdownButton);
 }
 if (!customElements.get("ssk-dropdown-button")) {
-  customElements.define("ssk-dropdown-button", DropdownButton);
+  customElements.define("ssk-dropdown-button", class extends DropdownButton {});
 }

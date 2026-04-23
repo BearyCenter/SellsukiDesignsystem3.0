@@ -380,5 +380,5 @@ if (!customElements.get("ds-button")) {
   customElements.define("ds-button", Button);
 }
 if (!customElements.get("ssk-button")) {
-  customElements.define("ssk-button", Button);
+  customElements.define("ssk-button", class extends Button {});
 }

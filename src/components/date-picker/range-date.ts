@@ -694,5 +694,5 @@ if (!customElements.get("ds-range-date-picker")) {
   customElements.define("ds-range-date-picker", RangeDatePicker);
 }
 if (!customElements.get("ssk-range-date-picker")) {
-  customElements.define("ssk-range-date-picker", RangeDatePicker);
+  customElements.define("ssk-range-date-picker", class extends RangeDatePicker {});
 }

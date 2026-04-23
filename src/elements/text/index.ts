@@ -162,5 +162,5 @@ if (!customElements.get("ds-text")) {
   customElements.define("ds-text", Text);
 }
 if (!customElements.get("ssk-text")) {
-  customElements.define("ssk-text", Text);
+  customElements.define("ssk-text", class extends Text {});
 }
