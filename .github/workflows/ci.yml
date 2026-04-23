@@ -60,6 +60,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Build library
+        run: npm run build
+
       - name: Build Storybook
         run: npm run build-storybook
 
