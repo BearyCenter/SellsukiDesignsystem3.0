@@ -264,5 +264,5 @@ if (!customElements.get("ds-dynamic-table")) {
   customElements.define("ds-dynamic-table", DynamicTable);
 }
 if (!customElements.get("ssk-dynamic-table")) {
-  customElements.define("ssk-dynamic-table", DynamicTable);
+  customElements.define("ssk-dynamic-table", class extends DynamicTable {});
 }

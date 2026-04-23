@@ -153,5 +153,5 @@ if (!customElements.get("ds-download-file")) {
   customElements.define("ds-download-file", DownloadFile);
 }
 if (!customElements.get("ssk-download-file")) {
-  customElements.define("ssk-download-file", DownloadFile);
+  customElements.define("ssk-download-file", class extends DownloadFile {});
 }

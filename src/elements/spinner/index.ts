@@ -119,5 +119,5 @@ if (!customElements.get("ds-spinner")) {
   customElements.define("ds-spinner", Spinner);
 }
 if (!customElements.get("ssk-spinner")) {
-  customElements.define("ssk-spinner", Spinner);
+  customElements.define("ssk-spinner", class extends Spinner {});
 }

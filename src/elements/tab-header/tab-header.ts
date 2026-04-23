@@ -100,5 +100,5 @@ if (!customElements.get("ds-tab-header")) {
   customElements.define("ds-tab-header", TabHeader);
 }
 if (!customElements.get("ssk-tab-header")) {
-  customElements.define("ssk-tab-header", TabHeader);
+  customElements.define("ssk-tab-header", class extends TabHeader {});
 }

@@ -164,5 +164,5 @@ if (!customElements.get("ds-page-header")) {
   customElements.define("ds-page-header", PageHeader);
 }
 if (!customElements.get("ssk-page-header")) {
-  customElements.define("ssk-page-header", PageHeader);
+  customElements.define("ssk-page-header", class extends PageHeader {});
 }

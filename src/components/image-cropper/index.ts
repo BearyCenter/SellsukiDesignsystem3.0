@@ -140,5 +140,5 @@ if (!customElements.get("ds-image-cropper")) {
   customElements.define("ds-image-cropper", ImageCropper);
 }
 if (!customElements.get("ssk-image-cropper")) {
-  customElements.define("ssk-image-cropper", ImageCropper);
+  customElements.define("ssk-image-cropper", class extends ImageCropper {});
 }

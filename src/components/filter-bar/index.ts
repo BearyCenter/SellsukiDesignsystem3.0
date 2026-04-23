@@ -240,5 +240,5 @@ if (!customElements.get("ds-filter-bar")) {
   customElements.define("ds-filter-bar", FilterBar);
 }
 if (!customElements.get("ssk-filter-bar")) {
-  customElements.define("ssk-filter-bar", FilterBar);
+  customElements.define("ssk-filter-bar", class extends FilterBar {});
 }

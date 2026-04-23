@@ -165,5 +165,5 @@ if (!customElements.get("ds-dropdown-option")) {
   customElements.define("ds-dropdown-option", DropdownOption);
 }
 if (!customElements.get("ssk-dropdown-option")) {
-  customElements.define("ssk-dropdown-option", DropdownOption);
+  customElements.define("ssk-dropdown-option", class extends DropdownOption {});
 }

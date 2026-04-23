@@ -224,5 +224,5 @@ if (!customElements.get("ds-line-chart")) {
   customElements.define("ds-line-chart", LineChart);
 }
 if (!customElements.get("ssk-line-chart")) {
-  customElements.define("ssk-line-chart", LineChart);
+  customElements.define("ssk-line-chart", class extends LineChart {});
 }

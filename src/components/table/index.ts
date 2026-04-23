@@ -572,5 +572,5 @@ if (!customElements.get("ds-table")) {
   customElements.define("ds-table", Table);
 }
 if (!customElements.get("ssk-table")) {
-  customElements.define("ssk-table", Table);
+  customElements.define("ssk-table", class extends Table {});
 }

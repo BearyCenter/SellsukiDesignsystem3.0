@@ -424,5 +424,5 @@ if (!customElements.get("ds-date-picker")) {
   customElements.define("ds-date-picker", DatePicker);
 }
 if (!customElements.get("ssk-date-picker")) {
-  customElements.define("ssk-date-picker", DatePicker);
+  customElements.define("ssk-date-picker", class extends DatePicker {});
 }

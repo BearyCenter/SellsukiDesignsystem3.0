@@ -119,5 +119,5 @@ if (!customElements.get("ds-date-display")) {
   customElements.define("ds-date-display", DateDisplay);
 }
 if (!customElements.get("ssk-date-display")) {
-  customElements.define("ssk-date-display", DateDisplay);
+  customElements.define("ssk-date-display", class extends DateDisplay {});
 }

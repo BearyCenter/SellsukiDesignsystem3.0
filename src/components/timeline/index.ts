@@ -296,5 +296,5 @@ if (!customElements.get("ds-timeline")) {
   customElements.define("ds-timeline", Timeline);
 }
 if (!customElements.get("ssk-timeline")) {
-  customElements.define("ssk-timeline", Timeline);
+  customElements.define("ssk-timeline", class extends Timeline {});
 }

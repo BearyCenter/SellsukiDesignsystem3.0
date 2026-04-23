@@ -177,5 +177,5 @@ if (!customElements.get("ds-divider")) {
   customElements.define("ds-divider", Divider);
 }
 if (!customElements.get("ssk-divider")) {
-  customElements.define("ssk-divider", Divider);
+  customElements.define("ssk-divider", class extends Divider {});
 }

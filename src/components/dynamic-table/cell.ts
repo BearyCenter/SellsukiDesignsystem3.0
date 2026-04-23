@@ -55,5 +55,5 @@ if (!customElements.get("ds-table-cell")) {
   customElements.define("ds-table-cell", TableCell);
 }
 if (!customElements.get("ssk-table-cell")) {
-  customElements.define("ssk-table-cell", TableCell);
+  customElements.define("ssk-table-cell", class extends TableCell {});
 }

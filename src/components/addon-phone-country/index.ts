@@ -341,5 +341,5 @@ if (!customElements.get("ds-addon-phone-country")) {
   customElements.define("ds-addon-phone-country", AddonPhoneCountry);
 }
 if (!customElements.get("ssk-addon-phone-country")) {
-  customElements.define("ssk-addon-phone-country", AddonPhoneCountry);
+  customElements.define("ssk-addon-phone-country", class extends AddonPhoneCountry {});
 }

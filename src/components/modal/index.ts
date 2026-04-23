@@ -243,5 +243,5 @@ if (!customElements.get("ds-modal")) {
   customElements.define("ds-modal", Modal);
 }
 if (!customElements.get("ssk-modal")) {
-  customElements.define("ssk-modal", Modal);
+  customElements.define("ssk-modal", class extends Modal {});
 }

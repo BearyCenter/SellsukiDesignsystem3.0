@@ -190,5 +190,5 @@ if (!customElements.get("ds-container")) {
   customElements.define("ds-container", Container);
 }
 if (!customElements.get("ssk-container")) {
-  customElements.define("ssk-container", Container);
+  customElements.define("ssk-container", class extends Container {});
 }

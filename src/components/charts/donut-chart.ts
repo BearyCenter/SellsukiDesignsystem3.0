@@ -136,4 +136,4 @@ declare global {
 }
 
 if (!customElements.get("ds-donut-chart")) { customElements.define("ds-donut-chart", DonutChart); }
-if (!customElements.get("ssk-donut-chart")) { customElements.define("ssk-donut-chart", DonutChart); }
+if (!customElements.get("ssk-donut-chart")) { customElements.define("ssk-donut-chart", class extends DonutChart {}); }

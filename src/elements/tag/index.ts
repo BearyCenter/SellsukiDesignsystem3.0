@@ -169,5 +169,5 @@ if (!customElements.get("ds-tag")) {
   customElements.define("ds-tag", Tag);
 }
 if (!customElements.get("ssk-tag")) {
-  customElements.define("ssk-tag", Tag);
+  customElements.define("ssk-tag", class extends Tag {});
 }

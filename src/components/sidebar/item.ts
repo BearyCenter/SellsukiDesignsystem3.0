@@ -124,5 +124,5 @@ if (!customElements.get("ds-sidebar-item")) {
   customElements.define("ds-sidebar-item", SidebarItems);
 }
 if (!customElements.get("ssk-sidebar-item")) {
-  customElements.define("ssk-sidebar-item", SidebarItems);
+  customElements.define("ssk-sidebar-item", class extends SidebarItems {});
 }

@@ -99,5 +99,5 @@ if (!customElements.get("ds-header-cell")) {
   customElements.define("ds-header-cell", HeaderCell);
 }
 if (!customElements.get("ssk-header-cell")) {
-  customElements.define("ssk-header-cell", HeaderCell);
+  customElements.define("ssk-header-cell", class extends HeaderCell {});
 }

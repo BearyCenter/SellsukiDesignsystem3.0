@@ -180,5 +180,5 @@ if (!customElements.get("ds-avatar")) {
   customElements.define("ds-avatar", Avatar);
 }
 if (!customElements.get("ssk-avatar")) {
-  customElements.define("ssk-avatar", Avatar);
+  customElements.define("ssk-avatar", class extends Avatar {});
 }
