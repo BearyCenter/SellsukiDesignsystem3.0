@@ -1,6 +1,13 @@
 import type { StorybookConfig } from "@storybook/web-components-vite";
+import type { InlineConfig } from "vite";
 
 const config: StorybookConfig = {
+  viteFinal: async (config: InlineConfig) => {
+    config.plugins = (config.plugins ?? []).filter(
+      (p) => p && !Array.isArray(p) && (p as any).name !== "vite:dts"
+    );
+    return config;
+  },
   stories: [
     "../.storybook/stories/**/*.mdx",
     "../.storybook/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
