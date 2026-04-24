@@ -1,9 +1,7 @@
 import type { Preview } from "@storybook/web-components";
 import { html } from "lit";
-import "../src/contexts/i18n";
+import "../src/main";
 import { IdbI18nStore } from "../src/contexts/i18n/idb";
-import "../src/contexts/theme";
-import "../src/contexts/toast";
 import { ToastStore } from "../src/contexts/toast";
 import { InMemoryToastStore } from "../src/contexts/toast/in-memory";
 
