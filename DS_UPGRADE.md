@@ -1,7 +1,7 @@
 # DS 3.0 Upgrade — Master Plan
 
 > **Production Grade · Enterprise Scale**
-> Last updated: 2026-04-20
+> Last updated: 2026-04-24
 
 ---
 
@@ -22,14 +22,14 @@ DS 3.0 = **DS 1.0 Architecture** (Lit Web Components, framework-agnostic) + **DS
 | **Zero migration debt** | `--ssk-*` backward-compat bridge ทำให้ product เก่าไม่แตก |
 | **DS 2.0 as visual reference** | Token values, font sizes, component behavior ยึด DS 2.0 เป็น ground truth |
 | **Token-only styling** | Component ห้าม hardcode color/size — ใช้ semantic token เท่านั้น |
-| **ds-* canonical + ssk-* alias** | ทุก element register ทั้งสองชื่อด้วย guard pattern |
+| **ssk-* เท่านั้น** | ทุก element register ด้วย `ssk-*` เพียง prefix เดียว สอดคล้อง DS 1.0 ไม่มี dual registration |
 
 ---
 
 ## Package
 
 ```
-@uxuissk/design-system-core@3.0.0
+@uxuissk/design-system-core@3.1.0
 ```
 
 Published via CI/CD — trigger on git tag `v*`
@@ -39,14 +39,30 @@ Published via CI/CD — trigger on git tag `v*`
 ## Overall Progress
 
 ```
-Phase 0  ██████████  9/10  Visual Parity + Infra        (0.6 deferred — รอ design spec)
+Phase 0  ██████████  9/10  Visual Parity + Infra        ✅ (0.6 deferred — รอ design spec)
 Phase 1  ██████████  7/7   Port Missing Components       ✅ Complete
-Phase 2  ███████░░░  6/8   Component Quality Upgrade     (2.1, 2.2, 2.3, 2.4, 2.5, 2.6 done)
-Phase 3  ████████░░  4/5   AppShell + Layout System      (3.1, 3.2, 3.3, 3.4 done)
-Phase 4  ████████░░  5/6   Publish + Deprecate DS 1.0   (4.1, 4.2, 4.3, 4.4, 4.6 done)
-─────────────────────────────
-Total    ██████████  36/36
+Phase 2  ██████████  6/6   Component Quality Upgrade     ✅ Complete
+Phase 3  ██████████  4/4   AppShell + Layout System      ✅ Complete
+Phase 4  ██████████  6/6   Publish + CI/CD + Architecture✅ Complete
+─────────────────────────────────────────────────────────
+Infra    ██████████        npm publish, Storybook GitHub Pages, ds3-preview Vercel
+─────────────────────────────────────────────────────────
+Total    ██████████  Complete — v3.1.0 released
 ```
+
+### ✅ Delivered (v3.1.0 — April 2026)
+- ssk-* single prefix architecture (ไม่มี dual registration)
+- Storybook 8 deployed on GitHub Pages
+- npm publish automation via CI/CD (git tag v*)
+- ds3-preview deployed on Vercel
+- Token architecture 3 layers: Primitive → Semantic → Brand
+- 50+ components: Button, Input, Badge, Charts, AppShell, Sidebar, Modal, Drawer, ...
+- Multi-brand theming: patona, ccs3, oc2plus
+
+### 🔜 Next (v3.2.0)
+- Embed Storybook iframe ใน ds3-preview showcase
+- Component showcase pages เพิ่มเติม
+- Test coverage
 
 ---
 
