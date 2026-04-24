@@ -17,7 +17,7 @@ const DEFAULT_COLORS = [
 ];
 
 export class LineChart extends LitElement {
-  static registeredName = "ds-line-chart";
+  static registeredName = "ssk-line-chart";
 
   @property({ type: Array })
   series: LineChartSeries[] = [];
@@ -215,14 +215,10 @@ export class LineChart extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-line-chart": LineChart;
     "ssk-line-chart": LineChart;
   }
 }
 
-if (!customElements.get("ds-line-chart")) {
-  customElements.define("ds-line-chart", LineChart);
-}
 if (!customElements.get("ssk-line-chart")) {
-  customElements.define("ssk-line-chart", class extends LineChart {});
+  customElements.define("ssk-line-chart", LineChart);
 }

@@ -17,7 +17,7 @@ const DEFAULT_COLORS = [
 ];
 
 export class BarChart extends LitElement {
-  static registeredName = "ds-bar-chart";
+  static registeredName = "ssk-bar-chart";
 
   @property({ type: Array })
   series: BarChartSeries[] = [];
@@ -146,10 +146,8 @@ export class BarChart extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-bar-chart": BarChart;
     "ssk-bar-chart": BarChart;
   }
 }
 
-if (!customElements.get("ds-bar-chart")) { customElements.define("ds-bar-chart", BarChart); }
-if (!customElements.get("ssk-bar-chart")) { customElements.define("ssk-bar-chart", class extends BarChart {}); }
+if (!customElements.get("ssk-bar-chart")) { customElements.define("ssk-bar-chart", BarChart); }

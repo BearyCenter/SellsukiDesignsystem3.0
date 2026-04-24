@@ -2451,9 +2451,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-country-icon")) {
-  customElements.define("ds-country-icon", CountryIcon);
-}
 if (!customElements.get("ssk-country-icon")) {
-  customElements.define("ssk-country-icon", class extends CountryIcon {});
+  customElements.define("ssk-country-icon", CountryIcon);
 }

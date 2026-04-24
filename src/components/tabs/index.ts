@@ -340,9 +340,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-tabs")) {
-  customElements.define("ds-tabs", Tabs);
-}
 if (!customElements.get("ssk-tabs")) {
-  customElements.define("ssk-tabs", class extends Tabs {});
+  customElements.define("ssk-tabs", Tabs);
 }

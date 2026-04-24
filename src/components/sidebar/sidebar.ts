@@ -227,14 +227,10 @@ export class Sidebar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-sidebar": Sidebar;
     "ssk-sidebar": Sidebar;
   }
 }
 
-if (!customElements.get("ds-sidebar")) {
-  customElements.define("ds-sidebar", Sidebar);
-}
 if (!customElements.get("ssk-sidebar")) {
-  customElements.define("ssk-sidebar", class extends Sidebar {});
+  customElements.define("ssk-sidebar", Sidebar);
 }

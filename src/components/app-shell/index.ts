@@ -2,7 +2,7 @@ import { LitElement, css, html } from "lit";
 import { property } from "lit/decorators.js";
 
 export class AppShell extends LitElement {
-  static registeredName = "ds-app-shell";
+  static registeredName = "ssk-app-shell";
 
   @property({ type: String, attribute: "navbar-height" })
   navbarHeight = "60px";
@@ -119,14 +119,10 @@ export class AppShell extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-app-shell": AppShell;
     "ssk-app-shell": AppShell;
   }
 }
 
-if (!customElements.get("ds-app-shell")) {
-  customElements.define("ds-app-shell", AppShell);
-}
 if (!customElements.get("ssk-app-shell")) {
-  customElements.define("ssk-app-shell", class extends AppShell {});
+  customElements.define("ssk-app-shell", AppShell);
 }

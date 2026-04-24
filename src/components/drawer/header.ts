@@ -74,9 +74,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-drawer-header")) {
-  customElements.define("ds-drawer-header", DrawerHeader);
-}
 if (!customElements.get("ssk-drawer-header")) {
-  customElements.define("ssk-drawer-header", class extends DrawerHeader {});
+  customElements.define("ssk-drawer-header", DrawerHeader);
 }

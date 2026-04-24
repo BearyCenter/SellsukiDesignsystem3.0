@@ -1,4 +1,52 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(git stash:*)",
+      "Bash(npm run:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(git push:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(node scripts/add-ds-aliases.mjs)",
+      "Bash(start \"c:\\\\Users\\\\Aoftimuz\\\\Documents\\\\GitLab\\\\sellsuki-components-main\\\\sellsuki-components\\\\preview\\\\ds3-preview.html\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/Watcharapong-cmd/SellsukiDesignsystem3.0/main/preview/ds3-preview.html\" -o \"c:\\\\Users\\\\Aoftimuz\\\\Documents\\\\GitLab\\\\sellsuki-components-main\\\\sellsuki-components\\\\preview\\\\ds3-preview.html\")",
+      "Bash(npx --yes serve . -p 4000 --no-clipboard)",
+      "Bash(start \"http://localhost:4000/preview/ds3-preview.html\")",
+      "WebFetch(domain:registry.npmjs.org)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:unpkg.com)",
+      "WebFetch(domain:app.unpkg.com)",
+      "WebFetch(domain:cdn.jsdelivr.net)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/BearyCenter/Sellsukidesignsystemv12/main/packages/tokens/src/tokens.css\")",
+      "Bash(curl -s \"https://api.github.com/repos/BearyCenter/Sellsukidesignsystemv12/contents/packages/tokens/src\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/BearyCenter/Sellsukidesignsystemv12/main/packages/tokens/src/tokens.css\" -o /tmp/design-tokens/src/tokens.css)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/BearyCenter/Sellsukidesignsystemv12/main/packages/tokens/src/index.ts\" -o /tmp/design-tokens/src/index.ts)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/BearyCenter/Sellsukidesignsystemv12/main/packages/tokens/package.json\" -o /tmp/design-tokens/package.json)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/BearyCenter/Sellsukidesignsystemv12/main/packages/tokens/tsconfig.json\" -o /tmp/design-tokens/tsconfig.json)",
+      "Bash(npx tsc:*)",
+      "Bash(npm publish:*)",
+      "Bash(npm version:*)",
+      "Read(//c/Users/Aoftimuz/**)",
+      "Read(//c/tmp/**)",
+      "Bash(npm pack *)",
+      "Bash(tar -tzf uxuissk-design-system-0.8.16.tgz)",
+      "WebFetch(domain:sellsukidesignsystemv12.vercel.app)",
+      "Bash(mkdir -p /tmp/ds2pkg)",
+      "Read(//tmp/**)",
+      "Bash(tar -xzf *.tgz)",
+      "Bash(node -e ' *)",
+      "Bash(npm view *)",
+      "Bash(npx storybook *)",
+      "Bash(git commit -m ' *)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Aoftimuz\\Documents\\GitLab\\sellsuki-components-main\\sellsuki-components",
+      "\\tmp\\design-tokens",
+      "C:\\Users\\Aoftimuz\\Downloads\\DSS Goal\\AppShell"
+    ]
+  },
   "hooks": {
     "PreToolUse": [
       {

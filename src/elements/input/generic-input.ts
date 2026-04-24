@@ -327,9 +327,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-input")) {
-  customElements.define("ds-input", Input);
-}
 if (!customElements.get("ssk-input")) {
-  customElements.define("ssk-input", class extends Input {});
+  customElements.define("ssk-input", Input);
 }

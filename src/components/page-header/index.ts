@@ -3,7 +3,7 @@ import { property } from "lit/decorators.js";
 import "../../elements/icon";
 
 export class PageHeader extends LitElement {
-  static registeredName = "ds-page-header";
+  static registeredName = "ssk-page-header";
 
   @property({ type: String }) title = "";
   @property({ type: String }) subtitle = "";
@@ -155,14 +155,10 @@ export class PageHeader extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-page-header": PageHeader;
     "ssk-page-header": PageHeader;
   }
 }
 
-if (!customElements.get("ds-page-header")) {
-  customElements.define("ds-page-header", PageHeader);
-}
 if (!customElements.get("ssk-page-header")) {
-  customElements.define("ssk-page-header", class extends PageHeader {});
+  customElements.define("ssk-page-header", PageHeader);
 }

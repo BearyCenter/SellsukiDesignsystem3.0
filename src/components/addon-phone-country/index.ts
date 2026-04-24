@@ -6,7 +6,7 @@ import "../../components/dropdown";
 import { Size } from "../../main";
 
 export class AddonPhoneCountry extends LitElement implements BaseAttributes {
-  static registeredName = "ds-addon-phone-country";
+  static registeredName = "ssk-addon-phone-country";
 
   // BaseAttributes
   @property({ type: String })
@@ -332,14 +332,10 @@ export class AddonPhoneCountry extends LitElement implements BaseAttributes {
 }
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-addon-phone-country": AddonPhoneCountry;
     "ssk-addon-phone-country": AddonPhoneCountry;
   }
 }
 
-if (!customElements.get("ds-addon-phone-country")) {
-  customElements.define("ds-addon-phone-country", AddonPhoneCountry);
-}
 if (!customElements.get("ssk-addon-phone-country")) {
-  customElements.define("ssk-addon-phone-country", class extends AddonPhoneCountry {});
+  customElements.define("ssk-addon-phone-country", AddonPhoneCountry);
 }

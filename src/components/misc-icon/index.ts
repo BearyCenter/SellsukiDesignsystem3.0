@@ -162,9 +162,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-misc-icon")) {
-  customElements.define("ds-misc-icon", MiscIcon);
-}
 if (!customElements.get("ssk-misc-icon")) {
-  customElements.define("ssk-misc-icon", class extends MiscIcon {});
+  customElements.define("ssk-misc-icon", MiscIcon);
 }

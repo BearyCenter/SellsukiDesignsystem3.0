@@ -79,4 +79,3 @@ export * from "./components/widget-grid";
 export * from "./components/card";
 
 import "./assets/fonts.css";
-import "./utils/deprecated-aliases";

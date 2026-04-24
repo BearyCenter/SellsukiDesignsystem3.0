@@ -3,7 +3,7 @@
 ## Naming
 
 - **Element class**: `PascalCase` matching tag name — `class DropdownButton extends LitElement`
-- **Tag names**: `ds-kebab-case` canonical, `ssk-kebab-case` alias
+- **Tag names**: `ssk-kebab-case` เท่านั้น
 - **File names**: `kebab-case.ts` per class, `index.ts` for barrel
 - **Private methods/state**: prefix `_` — `_open`, `_handleClick`, `_doHighlight`
 
@@ -63,10 +63,9 @@ slot?.assignedElements().forEach((el) => {
 });
 ```
 
-## Dual registration guard
+## Single registration guard
 
 ```typescript
-if (!customElements.get("ds-foo")) { customElements.define("ds-foo", FooElement); }
 if (!customElements.get("ssk-foo")) { customElements.define("ssk-foo", FooElement); }
 ```
 
@@ -75,7 +74,6 @@ And in the class:
 ```typescript
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-foo": FooElement;
     "ssk-foo": FooElement;
   }
 }

@@ -301,9 +301,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-pin-code")) {
-  customElements.define("ds-pin-code", PinCode);
-}
 if (!customElements.get("ssk-pin-code")) {
-  customElements.define("ssk-pin-code", class extends PinCode {});
+  customElements.define("ssk-pin-code", PinCode);
 }

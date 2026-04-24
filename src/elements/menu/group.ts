@@ -177,9 +177,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-menu-group")) {
-  customElements.define("ds-menu-group", MenuGroup);
-}
 if (!customElements.get("ssk-menu-group")) {
-  customElements.define("ssk-menu-group", class extends MenuGroup {});
+  customElements.define("ssk-menu-group", MenuGroup);
 }

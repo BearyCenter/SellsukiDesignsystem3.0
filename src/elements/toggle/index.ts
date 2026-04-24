@@ -212,9 +212,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-toggle")) {
-  customElements.define("ds-toggle", Toggle);
-}
 if (!customElements.get("ssk-toggle")) {
-  customElements.define("ssk-toggle", class extends Toggle {});
+  customElements.define("ssk-toggle", Toggle);
 }

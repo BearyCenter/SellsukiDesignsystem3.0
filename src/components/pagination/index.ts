@@ -534,9 +534,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-pagination")) {
-  customElements.define("ds-pagination", Pagination);
-}
 if (!customElements.get("ssk-pagination")) {
-  customElements.define("ssk-pagination", class extends Pagination {});
+  customElements.define("ssk-pagination", Pagination);
 }

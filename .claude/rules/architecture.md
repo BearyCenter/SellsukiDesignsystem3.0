@@ -18,7 +18,7 @@ src/utils/      ← pure helpers (no Lit, no DOM globals)
 
 1. Create `src/elements/<name>/index.ts` (atomic) or `src/components/<name>/index.ts` (composite)
 2. Export from `src/main.ts`
-3. Register with guard pattern (`ds-*` + `ssk-*`)
+3. Register with guard pattern (`ssk-*` only)
 4. Add `:host { display: ... }` in `static styles`
 5. Use only semantic tokens — no hardcoded colors or pixel sizes below spec
 6. Create CSF3 story in `.storybook/stories/<Name>/index.stories.ts`

@@ -427,9 +427,6 @@ declare global {
     }
 }
 
-if (!customElements.get("ds-widget-title")) {
-  customElements.define("ds-widget-title", WidgetTitle);
-}
 if (!customElements.get("ssk-widget-title")) {
-  customElements.define("ssk-widget-title", class extends WidgetTitle {});
+  customElements.define("ssk-widget-title", WidgetTitle);
 }

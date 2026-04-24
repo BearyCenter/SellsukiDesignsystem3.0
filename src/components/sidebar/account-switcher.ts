@@ -11,7 +11,7 @@ export interface SidebarAccount {
 }
 
 export class SidebarAccountSwitcher extends LitElement {
-  static registeredName = "ds-sidebar-account-switcher";
+  static registeredName = "ssk-sidebar-account-switcher";
 
   @property({ type: Object })
   account?: SidebarAccount;
@@ -206,14 +206,10 @@ export class SidebarAccountSwitcher extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-sidebar-account-switcher": SidebarAccountSwitcher;
     "ssk-sidebar-account-switcher": SidebarAccountSwitcher;
   }
 }
 
-if (!customElements.get("ds-sidebar-account-switcher")) {
-  customElements.define("ds-sidebar-account-switcher", SidebarAccountSwitcher);
-}
 if (!customElements.get("ssk-sidebar-account-switcher")) {
-  customElements.define("ssk-sidebar-account-switcher", class extends SidebarAccountSwitcher {});
+  customElements.define("ssk-sidebar-account-switcher", SidebarAccountSwitcher);
 }

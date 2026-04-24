@@ -40,7 +40,7 @@ export interface ADTBulkActionEvent {
 // ── Component ──────────────────────────────────────────────────────────────
 
 export class AdvancedDataTable extends LitElement {
-  static registeredName = "ds-advanced-data-table";
+  static registeredName = "ssk-advanced-data-table";
 
   @property({ type: Array }) columns: ADTColumn[] = [];
   @property({ type: Array }) rows: ADTRow[] = [];
@@ -625,14 +625,10 @@ export class AdvancedDataTable extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-advanced-data-table": AdvancedDataTable;
     "ssk-advanced-data-table": AdvancedDataTable;
   }
 }
 
-if (!customElements.get("ds-advanced-data-table")) {
-  customElements.define("ds-advanced-data-table", AdvancedDataTable);
-}
 if (!customElements.get("ssk-advanced-data-table")) {
-  customElements.define("ssk-advanced-data-table", class extends AdvancedDataTable {});
+  customElements.define("ssk-advanced-data-table", AdvancedDataTable);
 }

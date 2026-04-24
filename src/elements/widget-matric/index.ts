@@ -421,9 +421,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-widget-matric")) {
-  customElements.define("ds-widget-matric", WidgetMatric);
-}
 if (!customElements.get("ssk-widget-matric")) {
-  customElements.define("ssk-widget-matric", class extends WidgetMatric {});
+  customElements.define("ssk-widget-matric", WidgetMatric);
 }

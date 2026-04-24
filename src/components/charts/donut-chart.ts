@@ -19,7 +19,7 @@ const DEFAULT_COLORS = [
 ];
 
 export class DonutChart extends LitElement {
-  static registeredName = "ds-donut-chart";
+  static registeredName = "ssk-donut-chart";
 
   @property({ type: Array })
   slices: DonutSlice[] = [];
@@ -130,10 +130,8 @@ export class DonutChart extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-donut-chart": DonutChart;
     "ssk-donut-chart": DonutChart;
   }
 }
 
-if (!customElements.get("ds-donut-chart")) { customElements.define("ds-donut-chart", DonutChart); }
-if (!customElements.get("ssk-donut-chart")) { customElements.define("ssk-donut-chart", class extends DonutChart {}); }
+if (!customElements.get("ssk-donut-chart")) { customElements.define("ssk-donut-chart", DonutChart); }

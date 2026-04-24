@@ -16,7 +16,7 @@ const BRAND_MAP: Record<AppShellBrand, Brand> = {
 };
 
 export class AppShellProvider extends LitElement {
-  static registeredName = "ds-app-shell-provider";
+  static registeredName = "ssk-app-shell-provider";
 
   @property({ type: String })
   brand: AppShellBrand = "sellsuki";
@@ -53,14 +53,10 @@ export class AppShellProvider extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-app-shell-provider": AppShellProvider;
     "ssk-app-shell-provider": AppShellProvider;
   }
 }
 
-if (!customElements.get("ds-app-shell-provider")) {
-  customElements.define("ds-app-shell-provider", AppShellProvider);
-}
 if (!customElements.get("ssk-app-shell-provider")) {
-  customElements.define("ssk-app-shell-provider", class extends AppShellProvider {});
+  customElements.define("ssk-app-shell-provider", AppShellProvider);
 }

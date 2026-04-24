@@ -82,9 +82,6 @@ export class CardGroup extends LitElement {
     }
 }
 
-if (!customElements.get("ds-card-group")) {
-  customElements.define("ds-card-group", CardGroup);
-}
 if (!customElements.get("ssk-card-group")) {
-  customElements.define("ssk-card-group", class extends CardGroup {});
+  customElements.define("ssk-card-group", CardGroup);
 }

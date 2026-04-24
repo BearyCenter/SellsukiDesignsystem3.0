@@ -85,9 +85,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-sidebar-group")) {
-  customElements.define("ds-sidebar-group", SidebarGroup);
-}
 if (!customElements.get("ssk-sidebar-group")) {
-  customElements.define("ssk-sidebar-group", class extends SidebarGroup {});
+  customElements.define("ssk-sidebar-group", SidebarGroup);
 }

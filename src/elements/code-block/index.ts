@@ -262,9 +262,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-code-block")) {
-  customElements.define("ds-code-block", CodeBlock);
-}
 if (!customElements.get("ssk-code-block")) {
-  customElements.define("ssk-code-block", class extends CodeBlock {});
+  customElements.define("ssk-code-block", CodeBlock);
 }

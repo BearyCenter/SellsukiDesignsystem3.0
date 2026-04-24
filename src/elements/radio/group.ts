@@ -282,9 +282,6 @@ declare global {
     }
 }
 
-if (!customElements.get("ds-radio-group")) {
-  customElements.define("ds-radio-group", RadioGroup);
-}
 if (!customElements.get("ssk-radio-group")) {
-  customElements.define("ssk-radio-group", class extends RadioGroup {});
+  customElements.define("ssk-radio-group", RadioGroup);
 }

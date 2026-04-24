@@ -101,9 +101,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-toast-provider")) {
-  customElements.define("ds-toast-provider", ToastProvider);
-}
 if (!customElements.get("ssk-toast-provider")) {
-  customElements.define("ssk-toast-provider", class extends ToastProvider {});
+  customElements.define("ssk-toast-provider", ToastProvider);
 }

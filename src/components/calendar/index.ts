@@ -1101,9 +1101,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-calendar")) {
-  customElements.define("ds-calendar", Calendar);
-}
 if (!customElements.get("ssk-calendar")) {
-  customElements.define("ssk-calendar", class extends Calendar {});
+  customElements.define("ssk-calendar", Calendar);
 }

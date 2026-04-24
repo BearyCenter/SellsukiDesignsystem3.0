@@ -416,9 +416,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-tooltip")) {
-  customElements.define("ds-tooltip", Tooltip);
-}
 if (!customElements.get("ssk-tooltip")) {
-  customElements.define("ssk-tooltip", class extends Tooltip {});
+  customElements.define("ssk-tooltip", Tooltip);
 }

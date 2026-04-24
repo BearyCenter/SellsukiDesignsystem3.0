@@ -47,9 +47,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-theme-provider")) {
-  customElements.define("ds-theme-provider", ThemeProvider);
-}
 if (!customElements.get("ssk-theme-provider")) {
-  customElements.define("ssk-theme-provider", class extends ThemeProvider {});
+  customElements.define("ssk-theme-provider", ThemeProvider);
 }

@@ -725,14 +725,10 @@ export class Dropdown extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-dropdown": Dropdown;
     "ssk-dropdown": Dropdown;
   }
 }
 
-if (!customElements.get("ds-dropdown")) {
-  customElements.define("ds-dropdown", Dropdown);
-}
 if (!customElements.get("ssk-dropdown")) {
-  customElements.define("ssk-dropdown", class extends Dropdown {});
+  customElements.define("ssk-dropdown", Dropdown);
 }

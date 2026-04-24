@@ -344,9 +344,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-time")) {
-  customElements.define("ds-time", Time);
-}
 if (!customElements.get("ssk-time")) {
-  customElements.define("ssk-time", class extends Time {});
+  customElements.define("ssk-time", Time);
 }

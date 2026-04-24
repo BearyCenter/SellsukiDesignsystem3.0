@@ -107,9 +107,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-widget-example")) {
-  customElements.define("ds-widget-example", WidgetExample);
-}
 if (!customElements.get("ssk-widget-example")) {
-  customElements.define("ssk-widget-example", class extends WidgetExample {});
+  customElements.define("ssk-widget-example", WidgetExample);
 }

@@ -542,9 +542,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-widget-table")) {
-  customElements.define("ds-widget-table", WidgetTable);
-}
 if (!customElements.get("ssk-widget-table")) {
-  customElements.define("ssk-widget-table", class extends WidgetTable {});
+  customElements.define("ssk-widget-table", WidgetTable);
 }

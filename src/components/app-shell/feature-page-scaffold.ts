@@ -2,7 +2,7 @@ import { LitElement, css, html, nothing } from "lit";
 import { property } from "lit/decorators.js";
 
 export class FeaturePageScaffold extends LitElement {
-  static registeredName = "ds-feature-page-scaffold";
+  static registeredName = "ssk-feature-page-scaffold";
 
   @property({ type: String })
   padding = "24px";
@@ -70,14 +70,10 @@ export class FeaturePageScaffold extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-feature-page-scaffold": FeaturePageScaffold;
     "ssk-feature-page-scaffold": FeaturePageScaffold;
   }
 }
 
-if (!customElements.get("ds-feature-page-scaffold")) {
-  customElements.define("ds-feature-page-scaffold", FeaturePageScaffold);
-}
 if (!customElements.get("ssk-feature-page-scaffold")) {
-  customElements.define("ssk-feature-page-scaffold", class extends FeaturePageScaffold {});
+  customElements.define("ssk-feature-page-scaffold", FeaturePageScaffold);
 }

@@ -7,7 +7,7 @@ export interface FilterBarChangeEvent {
 }
 
 export class FilterBar extends LitElement {
-  static registeredName = "ds-filter-bar";
+  static registeredName = "ssk-filter-bar";
 
   @property({ type: String, attribute: "test-id" }) testId?: string;
   @property({ type: String }) placeholder = "Search...";
@@ -231,14 +231,10 @@ export class FilterBar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-filter-bar": FilterBar;
     "ssk-filter-bar": FilterBar;
   }
 }
 
-if (!customElements.get("ds-filter-bar")) {
-  customElements.define("ds-filter-bar", FilterBar);
-}
 if (!customElements.get("ssk-filter-bar")) {
-  customElements.define("ssk-filter-bar", class extends FilterBar {});
+  customElements.define("ssk-filter-bar", FilterBar);
 }

@@ -325,9 +325,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-expandable-card")) {
-  customElements.define("ds-expandable-card", ExpandableCard);
-}
 if (!customElements.get("ssk-expandable-card")) {
-  customElements.define("ssk-expandable-card", class extends ExpandableCard {});
+  customElements.define("ssk-expandable-card", ExpandableCard);
 }

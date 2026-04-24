@@ -37,9 +37,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-i18n-template")) {
-  customElements.define("ds-i18n-template", Template);
-}
 if (!customElements.get("ssk-i18n-template")) {
-  customElements.define("ssk-i18n-template", class extends Template {});
+  customElements.define("ssk-i18n-template", Template);
 }

@@ -14,7 +14,7 @@ src/
   components/     ← composite components (dropdown, sidebar, charts …)
   contexts/       ← Lit context providers (theme, i18n, toast)
   types/          ← shared TypeScript types
-  utils/          ← helpers (deprecated-aliases, …)
+  utils/          ← helpers
   assets/         ← fonts.css
   main.ts         ← barrel export (everything public)
 .storybook/
@@ -27,14 +27,13 @@ src/
 |------|--------|
 | `:host { display: ... }` | Always set in `static styles` |
 | Token-only styling | No hardcoded color/size/font — use semantic tokens |
-| Dual registration | `ds-*` canonical + `ssk-*` alias, both with guard pattern |
+| Single registration | `ssk-*` เท่านั้น — ไม่มี alias ไม่มี dual prefix |
 | `bubbles + composed` | All custom events must have `bubbles: true, composed: true` |
 | No `console.log` | In production code |
 
 ### Guard pattern (required for every element)
 
 ```typescript
-if (!customElements.get("ds-foo")) { customElements.define("ds-foo", FooElement); }
 if (!customElements.get("ssk-foo")) { customElements.define("ssk-foo", FooElement); }
 ```
 

@@ -198,9 +198,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-drawer")) {
-  customElements.define("ds-drawer", Drawer);
-}
 if (!customElements.get("ssk-drawer")) {
-  customElements.define("ssk-drawer", class extends Drawer {});
+  customElements.define("ssk-drawer", Drawer);
 }

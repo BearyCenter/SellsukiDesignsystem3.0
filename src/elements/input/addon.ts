@@ -158,9 +158,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-input-addon")) {
-  customElements.define("ds-input-addon", InputAddon);
-}
 if (!customElements.get("ssk-input-addon")) {
-  customElements.define("ssk-input-addon", class extends InputAddon {});
+  customElements.define("ssk-input-addon", InputAddon);
 }

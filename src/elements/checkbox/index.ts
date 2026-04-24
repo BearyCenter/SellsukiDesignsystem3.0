@@ -329,9 +329,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-checkbox")) {
-  customElements.define("ds-checkbox", Checkbox);
-}
 if (!customElements.get("ssk-checkbox")) {
-  customElements.define("ssk-checkbox", class extends Checkbox {});
+  customElements.define("ssk-checkbox", Checkbox);
 }

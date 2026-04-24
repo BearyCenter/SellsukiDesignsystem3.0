@@ -164,9 +164,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-badge")) {
-  customElements.define("ds-badge", Badge);
-}
 if (!customElements.get("ssk-badge")) {
-  customElements.define("ssk-badge", class extends Badge {});
+  customElements.define("ssk-badge", Badge);
 }

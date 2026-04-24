@@ -359,9 +359,6 @@ export class Card extends LitElement {
     }
   }
 
-if (!customElements.get("ds-card")) {
-  customElements.define("ds-card", Card);
-}
 if (!customElements.get("ssk-card")) {
-  customElements.define("ssk-card", class extends Card {});
+  customElements.define("ssk-card", Card);
 }

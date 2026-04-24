@@ -184,9 +184,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-alert")) {
-  customElements.define("ds-alert", Alert);
-}
 if (!customElements.get("ssk-alert")) {
-  customElements.define("ssk-alert", class extends Alert {});
+  customElements.define("ssk-alert", Alert);
 }

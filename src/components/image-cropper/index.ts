@@ -4,7 +4,7 @@ import { LitElement, css, html } from "lit";
 import { property, state } from "lit/decorators.js";
 
 export class ImageCropper extends LitElement {
-  static registeredName = "ds-image-cropper";
+  static registeredName = "ssk-image-cropper";
 
   @property({ type: String }) src = "";
   @property({ type: String }) shape: "circle" | "square" = "circle";
@@ -131,14 +131,10 @@ export class ImageCropper extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ds-image-cropper": ImageCropper;
     "ssk-image-cropper": ImageCropper;
   }
 }
 
-if (!customElements.get("ds-image-cropper")) {
-  customElements.define("ds-image-cropper", ImageCropper);
-}
 if (!customElements.get("ssk-image-cropper")) {
-  customElements.define("ssk-image-cropper", class extends ImageCropper {});
+  customElements.define("ssk-image-cropper", ImageCropper);
 }

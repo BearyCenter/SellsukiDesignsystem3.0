@@ -51,9 +51,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-i18n-provider")) {
-  customElements.define("ds-i18n-provider", I18nProvider);
-}
 if (!customElements.get("ssk-i18n-provider")) {
-  customElements.define("ssk-i18n-provider", class extends I18nProvider {});
+  customElements.define("ssk-i18n-provider", I18nProvider);
 }

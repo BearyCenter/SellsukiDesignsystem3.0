@@ -2206,9 +2206,6 @@ declare global {
   }
 }
 
-if (!customElements.get("ds-icon")) {
-  customElements.define("ds-icon", Icon);
-}
 if (!customElements.get("ssk-icon")) {
-  customElements.define("ssk-icon", class extends Icon {});
+  customElements.define("ssk-icon", Icon);
 }
