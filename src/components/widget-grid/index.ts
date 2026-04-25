@@ -15,7 +15,7 @@ export interface GridItem {
 }
 
 export class WidgetGrid extends LitElement {
-  static registeredName = 'ds-widget-grid'
+  static registeredName = 'ssk-widget-grid'
 
   @property({ type: String })
   testId?: string
@@ -131,10 +131,8 @@ export class WidgetGrid extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'ds-widget-grid': WidgetGrid
     'ssk-widget-grid': WidgetGrid
   }
 }
 
-if (!customElements.get('ds-widget-grid')) { customElements.define('ds-widget-grid', WidgetGrid) }
 if (!customElements.get('ssk-widget-grid')) { customElements.define('ssk-widget-grid', WidgetGrid) }
