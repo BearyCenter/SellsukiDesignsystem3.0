@@ -100,7 +100,7 @@ export class Skeleton extends LitElement {
     .skeleton-item {
       position: relative;
       overflow: hidden;
-      background-color: #e0e0e0;
+      background-color: var(--bg-disabled, #e5e7eb);
     }
 
     .skeleton-item::before {
@@ -133,11 +133,11 @@ export class Skeleton extends LitElement {
     }
 
     .square {
-      border-radius: 4px;
+      border-radius: var(--radius-xs, 4px);
     }
 
     .capsule {
-      border-radius: 999px;
+      border-radius: var(--radius-full, 9999px);
     }
 
     .circle-content,

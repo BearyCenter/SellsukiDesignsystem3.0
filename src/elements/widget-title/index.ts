@@ -353,7 +353,7 @@ export class WidgetTitle extends LitElement implements Widget, ThemeValue {
 
     static styles = css`
         .container {
-            background: #ffffffff;
+            background: var(--bg-primary, #ffffff);
             height: 144px;
             display: grid;
             box-sizing: border-box;

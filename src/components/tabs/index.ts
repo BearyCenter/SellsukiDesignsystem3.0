@@ -159,7 +159,7 @@ export class Tabs extends LitElement {
                       cssVar("colors", "gray", 200),
                     )};
 
-                    --font-weight: 400;
+                    --font-weight: var(--font-weight-normal, 400);
                     --font-weight-active: 500;
                     --font-weight-hover: 400;
                     `;
@@ -216,7 +216,7 @@ export class Tabs extends LitElement {
                     
                     --box-shadow: ${parseVariables("0px 2px 3px #ccc")};
                     
-                    --font-weight: 400;
+                    --font-weight: var(--font-weight-normal, 400);
                     --font-weight-active: 500;
                     --font-weight-hover: 400;
                 `;

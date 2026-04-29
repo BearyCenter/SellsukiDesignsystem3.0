@@ -265,7 +265,7 @@ export class Textarea extends LitElement {
     label.helper {
       font-size: 0.75em;
       line-height: 0.75em;
-      font-weight: 200;
+      font-weight: var(--font-weight-normal, 400);
       color: var(--color-helper);
     }
 

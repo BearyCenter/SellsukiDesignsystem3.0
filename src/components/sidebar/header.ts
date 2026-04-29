@@ -54,7 +54,7 @@ export class SidebarHeader extends LitElement {
 
       padding: 0;
       gap: 8px;
-      border-radius: 8px;
+      border-radius: var(--radius-md, 8px);
       border-color: var(--border-color);
       border-width: var(--border-width);
     }

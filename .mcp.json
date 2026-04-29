@@ -11,6 +11,11 @@
     "gitlab": {
       "type": "sse",
       "url": "https://mcp-gitlab.internal.production.sellsuki.com/sse"
+    },
+    "ds3": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@uxuissk/ds3-mcp"]
     }
   }
 }

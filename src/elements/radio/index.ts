@@ -111,8 +111,8 @@ export class Radio extends LitElement implements ThemeValue {
   static styles = css`
     @supports (-webkit-appearance: none) or (-moz-appearance: none) {
       .radio-wrapper input[type="radio"] {
-        --background-color: #fff;
-        --checked-color: #fff;
+        --background-color: var(--bg-primary, #fff);
+        --checked-color: var(--fg-white, #fff);
 
         --border-color: var(--disabled-200);
         -moz-appearance: none;

@@ -510,7 +510,7 @@ export class Table extends LitElement {
 
     th,
     td {
-      background-color: #ffffff;
+      background-color: var(--bg-primary, #ffffff);
       border-top: 1px solid var(--border-color);
       border-left: none;
       border-right: none;

@@ -78,7 +78,7 @@ export class TabHeader extends LitElement {
       padding: 4px;
       background-color: var(--bg-secondary, #f3f4f6);
       gap: 4px;
-      border-radius: 12px;
+      border-radius: var(--radius-lg, 12px);
       box-shadow: 0px 3px 2px rgba(17, 24, 39, 0.04),
         0px 1px 1px rgba(17, 24, 39, 0.08), 0px 0px 1px rgba(17, 24, 39, 0.09),
         0px 0px 0px rgba(17, 24, 39, 0.09);

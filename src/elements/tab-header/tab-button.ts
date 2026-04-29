@@ -101,7 +101,7 @@ export class TabButton extends LitElement {
     }
 
     .active {
-      font-weight: 500;
+      font-weight: var(--font-weight-medium, 500);
     }
 
     .tab-button.variant-button.active {

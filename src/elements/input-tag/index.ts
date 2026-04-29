@@ -281,7 +281,7 @@ export class Inputtag extends LitElement {
     label.helper {
         font-size: 0.75em;
         line-height: 0.75em;
-        font-weight: 200;
+        font-weight: var(--font-weight-normal, 400);
         color: var(--color-helper);
     }
     
@@ -324,7 +324,7 @@ export class Inputtag extends LitElement {
         color: var(--color-tag);
         margin: 0;
         padding: 0 8px;
-        border-radius: 8px;
+        border-radius: var(--radius-md, 8px);
         background: var(--background-color-tag);
         border: 1px solid var(--border-color-tag);
         display: flex;

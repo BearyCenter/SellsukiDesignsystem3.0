@@ -127,7 +127,7 @@ export class Drawer extends LitElement {
       top: 0;
       bottom: 0;
       width: var(--drawer-width);
-      background-color: #fff;
+      background-color: var(--bg-primary, #ffffff);
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       overflow-y: auto;
       transition: transform 0.3s ease-in-out;

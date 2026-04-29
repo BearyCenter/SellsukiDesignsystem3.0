@@ -158,8 +158,8 @@ export class Modal extends LitElement {
 
     .container {
       position: relative;
-      background-color: #fff;
-      border-radius: 8px;
+      background-color: var(--bg-primary, #ffffff);
+      border-radius: var(--radius-md, 8px);
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       overflow: hidden;
       width: var(--width);
@@ -185,7 +185,7 @@ export class Modal extends LitElement {
 
     .title {
       font-size: var(--font-size-h3, 28px);
-      font-weight: 500;
+      font-weight: var(--font-weight-medium, 500);
       width: 100%;
     }
 
@@ -197,7 +197,7 @@ export class Modal extends LitElement {
     .body-slot {
       padding: var(--padding-body);
       font-size: var(--font-size-h4, 24px);
-      font-weight: 400;
+      font-weight: var(--font-weight-normal, 400);
       display: var(--body-display);
       justify-content: var(--body-justify-content);
       overflow: auto;

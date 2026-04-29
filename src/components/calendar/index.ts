@@ -1085,7 +1085,7 @@ export class Calendar extends LitElement {
       pointer-events: none;
     }
     .disabled span {
-      color: #b3b3b3;
+      color: var(--text-disabled, #9ca3af);
     }
     .selected.disabled {
       background-color: white;

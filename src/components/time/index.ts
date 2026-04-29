@@ -217,7 +217,7 @@ export class Time extends LitElement {
 
         *:hover::-webkit-scrollbar-thumb {
           background: var(--text-secondary, #6b7280);
-          border-radius: 8px;
+          border-radius: var(--radius-md, 8px);
         }
       </style>
     `;
@@ -323,7 +323,7 @@ export class Time extends LitElement {
 
     .item:hover {
       background-color: var(--500-colors);
-      border-radius: 4px;
+      border-radius: var(--radius-xs, 4px);
     }
 
     .item:not(.hovered):hover span {
@@ -333,7 +333,7 @@ export class Time extends LitElement {
     .item.selected {
       background-color: var(--500-colors);
       color: white;
-      border-radius: 4px;
+      border-radius: var(--radius-xs, 4px);
     }
   `;
 }

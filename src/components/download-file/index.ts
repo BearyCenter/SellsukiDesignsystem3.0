@@ -110,7 +110,7 @@ export class DownloadFile extends LitElement {
   static styles = css`
     .container-bar {
       width: 418px;
-      background-color: #ffffff;
+      background-color: var(--bg-primary, #ffffff);
       border: 1px solid var(--border-color);
       border-radius: var(--rounded)
     }

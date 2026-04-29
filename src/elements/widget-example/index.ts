@@ -87,14 +87,14 @@ export class WidgetExample extends LitElement implements Widget, ThemeValue {
 
   static styles = css`
     .container {
-      background: #ffff;
+      background: var(--bg-primary, #ffffff);
       padding: 8px;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
+      border: 1px solid var(--stroke-primary, #e5e7eb);
+      border-radius: var(--radius-md, 8px);
       height: -webkit-fill-available;
     }
     .text-style {
-      color: #1f2937;
+      color: var(--text-primary, #1f2937);
       font-size: var(--font-size-h4, 24px);
       text-align: center;
     }

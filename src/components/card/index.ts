@@ -160,8 +160,8 @@ export class Card extends LitElement {
     }
 
     .card {
-      background-color: #FFFFFF;
-      border-radius: 8px;
+      background-color: var(--bg-primary, #ffffff);
+      border-radius: var(--radius-md, 8px);
       width: var(--card-width);
     }
 
@@ -216,7 +216,7 @@ export class Card extends LitElement {
       height: auto;
       object-fit: cover;
       display: block;   
-      border-radius: 8px 8px 0 0;
+      border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0;
     }
 
     .card-image-placeholder.stacked {
@@ -227,7 +227,7 @@ export class Card extends LitElement {
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 8px 8px 0 0;
+      border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0;
     }
 
 
@@ -296,7 +296,7 @@ export class Card extends LitElement {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 4px;
+      border-radius: var(--radius-xs, 4px);
       box-sizing: border-box;
       border: 1px solid var(--stroke-primary, #e5e7eb);
     }
@@ -308,7 +308,7 @@ export class Card extends LitElement {
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 4px;
+      border-radius: var(--radius-xs, 4px);
       box-sizing: border-box;
       border: 1px solid var(--stroke-primary, #e5e7eb);
     }

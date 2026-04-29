@@ -259,7 +259,7 @@ export class Timeline extends LitElement {
         left: 0px;
         top: -6px;
         font-size: var(--font-size-h4, 24px);
-        font-weight: 400;
+        font-weight: var(--font-weight-normal, 400);
         color: var(--text-primary, #111827);
         display: -webkit-box;
         -webkit-box-orient: vertical;

@@ -371,7 +371,7 @@ export class Pagination extends LitElement {
     }
     .container {
       padding: 0 16px;
-      border-radius: 1px;
+      border-radius: var(--radius-none, 0px);
       column-gap: 5px;
       background-color: #fff;
       width: 100%;
@@ -383,7 +383,7 @@ export class Pagination extends LitElement {
     }
     .button:disabled,
     .button-page:disabled {
-      color: #b3b3b3;
+      color: var(--text-disabled, #9ca3af);
       pointer-events: none;
     }
     .button,
@@ -393,9 +393,9 @@ export class Pagination extends LitElement {
       width: 40px;
       font-size: var(--font-size-p,20px);
       color: var(--color-btn);
-      background-color: #ffffff;
+      background-color: var(--bg-primary, #ffffff);
       border: 1px solid var(--color-border);
-      border-radius: 6px;
+      border-radius: var(--radius-sm, 6px);
       cursor: pointer;
       margin-left: 3px;
       margin-right: 3px;
@@ -404,7 +404,7 @@ export class Pagination extends LitElement {
       column-gap: 12px;
     }
     .link {
-      font-weight: 500;
+      font-weight: var(--font-weight-medium, 500);
       text-decoration: none;
     }
     .button:hover,
@@ -421,7 +421,7 @@ export class Pagination extends LitElement {
       margin-left: 6px;
       height: 40px;
       width: 90px;
-      border-radius: 6px;
+      border-radius: var(--radius-sm, 6px);
       font-size: var(--font-size-caption,18px);
       padding-left: 5px;
       padding-right: 5px;
@@ -442,7 +442,7 @@ export class Pagination extends LitElement {
       text-decoration: none;
       color: var(--color-btn);
       border: 1px solid var(--color-border);
-      border-radius: 6px;
+      border-radius: var(--radius-sm, 6px);
       height: 40px;
       width: 40px;
       display: flex;
@@ -499,7 +499,7 @@ export class Pagination extends LitElement {
       border-top-right-radius: 5px;
       border-bottom-right-radius: 5px;
       box-sizing: border-box;
-      background-color: #ffffff;
+      background-color: var(--bg-primary, #ffffff);
       cursor: pointer;
       display: flex;
       align-items: center;

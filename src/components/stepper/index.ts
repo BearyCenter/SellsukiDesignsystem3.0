@@ -181,7 +181,7 @@ export class Stepper extends LitElement {
         width: 100%;
         display: flex; 
         flex-direction: column;
-        font-weight: 400;
+        font-weight: var(--font-weight-normal, 400);
         padding-left: 8px;
         padding-right: 8px;
     }
@@ -191,11 +191,11 @@ export class Stepper extends LitElement {
     }
 
     .description.error .text-title{
-        color: #E11D48;
+        color: var(--fg-danger-primary, #E11D48);
     }
 
     .description.error .text-description{
-        color: #E11D48;
+        color: var(--fg-danger-primary, #E11D48);
     }
 
     .text-title {
@@ -204,7 +204,7 @@ export class Stepper extends LitElement {
         align-items: center;
         font-size: var(--font-size-h4, 24px);
         height: 10px;
-        color: #1F2937;
+        color: var(--text-primary, #1F2937);
         padding-top: 4px;
         padding-bottom: 4px;
         padding-letf: 8px;
@@ -214,8 +214,8 @@ export class Stepper extends LitElement {
     .title {
         font-size: var(--font-size-h4, 24px);
     }
-    
-    
+
+
     .title-step {
         min-width: max-content;
         max-width: 200px;
@@ -226,66 +226,66 @@ export class Stepper extends LitElement {
         width: 100%;
         height: 10px;
         font-size: var(--font-size-p, 20px);
-        color: #6B7280;
+        color: var(--text-secondary, #6B7280);
     }
 
     .divider {
-        width: 100%; 
+        width: 100%;
         height: 2px;
-        background-color: #E5E7EB; 
+        background-color: var(--stroke-primary, #E5E7EB);
     }
 
     .progress-circle {
         width: 40px;
         height: 60px;
         border-radius: 50%;
-        background: transparent;    
-        display: flex; 
-        justify-content: center; 
+        background: transparent;
+        display: flex;
+        justify-content: center;
         align-items: center;
     }
 
     .circle-content{
-        display: flex; 
-        justify-content: center; 
+        display: flex;
+        justify-content: center;
         align-items: center;
-        border: 1px solid #6B7280;
+        border: 1px solid var(--text-secondary, #6B7280);
         border-radius: 50%;
-        color: #9CA3AF;
+        color: var(--text-disabled, #9CA3AF);
         width: 30px;
         height: 30px;
         font-size: var(--font-size-h4, 24px);
-        font-weight: 500;
+        font-weight: var(--font-weight-medium, 500);
     }
 
     .step.active .circle-content{
-        display: flex; 
-        justify-content: center; 
+        display: flex;
+        justify-content: center;
         align-items: center;
         border: 1px solid transparent;
         border-radius: 50%;
-        background-color: #32A9FF;
-        color: white;
+        background-color: var(--bg-brand-solid, #32A9FF);
+        color: var(--fg-white, #ffffff);
         width: 30px;
         height: 30px;
     }
 
     .step.finished .circle-content{
-        display: flex; 
-        justify-content: center; 
+        display: flex;
+        justify-content: center;
         align-items: center;
         border: 1px solid transparent;
         border-radius: 50%;
-        background-color:  #F97316; 
+        background-color: var(--bg-brand-solid-hover, #F97316);
         width: 30px;
         height: 30px;
     }
 
     .step.error .circle-content{
-        display: flex; 
-        justify-content: center; 
+        display: flex;
+        justify-content: center;
         align-items: center;
-        border: 1px solid #E11D48;
+        border: 1px solid var(--stroke-danger, #E11D48);
         border-radius: 50%;
         width: 30px;
         height: 30px;
@@ -294,7 +294,7 @@ export class Stepper extends LitElement {
     .step.active .progress-circle .bar {
         position: absolute;
         fill: none;
-        stroke: #32A9FF;
+        stroke: var(--fg-brand-primary, #32A9FF);
         stroke-width: 2;
         background: transparent;
         width: 32px;
@@ -308,25 +308,25 @@ export class Stepper extends LitElement {
     .progress-circle .circle {
         width: 30px;
         height: 30px;
-        fill: white;
-        border: 1px solid #6B7280;
+        fill: var(--bg-primary, #ffffff);
+        border: 1px solid var(--text-secondary, #6B7280);
         border-radius: 50%;
-        background-color: white;
+        background-color: var(--bg-primary, #ffffff);
     }
 
     .step.active .circle {
         border: 0px;
-        background-color: #32A9FF;
-        color: white;
+        background-color: var(--bg-brand-solid, #32A9FF);
+        color: var(--fg-white, #ffffff);
     }
-    
+
     .progress-circle .bar {
         fill: none;
         background: transparent;
     }
 
     .text .error {
-        color: #E11D48;
+        color: var(--fg-danger-primary, #E11D48);
     }
     `;
 }

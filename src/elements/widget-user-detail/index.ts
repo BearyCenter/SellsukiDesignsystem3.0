@@ -240,10 +240,10 @@ export class WidgetUserDetail extends LitElement implements Widget, ThemeValue {
 
   static styles = css`
     .container {
-        background: #fff;
+        background: var(--bg-primary, #ffffff);
         padding: 24px;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
+        border: 1px solid var(--stroke-primary, #e5e7eb);
+        border-radius: var(--radius-md, 8px);
         width: 320px;
         display: flex;
         flex-direction: column;

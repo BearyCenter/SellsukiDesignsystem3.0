@@ -459,9 +459,9 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
 
   static styles = css`
     .container {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
+      background: var(--bg-primary, #ffffff);
+      border: 1px solid var(--stroke-primary, #e5e7eb);
+      border-radius: var(--radius-md, 8px);
       height: 672px;
       display: flex;
       flex-direction: column;
@@ -525,7 +525,7 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
       align-items: center;
       justify-content: center;
       height: 500px;
-      background-color: #ffffff;
+      background-color: var(--bg-primary, #ffffff);
     }
   .truncate-cell-text {
       white-space: nowrap;

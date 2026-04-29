@@ -41,7 +41,7 @@ export class AccordionItem extends LitElement {
   static styles = css`
     :host {
       display: block;
-      border-radius: 6px;
+      border-radius: var(--radius-sm, 6px);
       border: 1px solid var(--border-color, #ccc);
       margin-bottom: 0.5rem;
       overflow: hidden;
@@ -67,7 +67,7 @@ export class AccordionItem extends LitElement {
     .header-text {
       flex-grow: 1;
       text-align: left;
-      font-weight: 500;
+      font-weight: var(--font-weight-medium, 500);
     }
 
     :host([align="center"]) .header-text {

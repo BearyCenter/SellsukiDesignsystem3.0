@@ -106,12 +106,12 @@ export class ProgressBar extends LitElement {
 
     switch (true) {
       case this.status === "error":
-        percentageStyle = "color: #E11D48;";
+        percentageStyle = "color: var(--fg-danger-primary, #E11D48);";
         break;
 
       case this.status === "success" && this.value === 100:
       case this.value === 100:
-        percentageStyle = "color: #1F2937;";
+        percentageStyle = "color: var(--text-primary, #1F2937);";
         break;
 
       default:
@@ -131,7 +131,7 @@ export class ProgressBar extends LitElement {
           : "DONE")
         : this.status === "error"
           ? (this.styleOfProgress === "icon"
-            ? html`<ssk-icon name="solid-x-circle" color="#E11D48"></ssk-icon>`
+            ? html`<ssk-icon name="solid-x-circle" style="color: var(--fg-danger-primary, #E11D48)"></ssk-icon>`
             : "ERROR")
           : `${this.value}%`}
       </div>
@@ -153,12 +153,12 @@ export class ProgressBar extends LitElement {
     }
 
     .text {
-      font-family: 'DB HeaventRounded';
+      font-family: var(--font-p);
       font-size: var(--font-size, 24px);
-      font-weight: 400;
+      font-weight: var(--font-weight-normal, 400);
       line-height: var(--line-height, 24px);
       text-align: left;
-      color: #6B7280;
+      color: var(--text-secondary, #6B7280);
     }
     
     .label {
@@ -207,13 +207,13 @@ export class ProgressBar extends LitElement {
     // .progress-bar {
     //   width: var(--width, 370px);
     //   background-color: #e5e7eb;
-    //   border-radius: 4px;
+    //   border-radius: var(--radius-xs, 4px);
     //   overflow: hidden;
     //   height: var(--height, 8px);
     // }
 
     // .progress-bar__fill {
-    //   border-radius: 8px;
+    //   border-radius: var(--radius-md, 8px);
     //   text-align: center;
     //   line-height: 24px;
     //   color: white;
@@ -233,13 +233,13 @@ export class ProgressBar extends LitElement {
     .progress-bar {
       width: var(--width, 370px);
       background-color: var(--progress-bar-background-color, #e5e7eb);
-      border-radius: 4px;
+      border-radius: var(--radius-xs, 4px);
       overflow: hidden;
       height: var(--height, 8px);
     }
 
     .progress-bar__fill {
-      border-radius: 8px;
+      border-radius: var(--radius-md, 8px);
       text-align: center;
       line-height: 24px;
       color: white;

@@ -215,7 +215,7 @@ export class ExpandableCard extends LitElement {
       transition: box-shadow .2s ease, border-color .2s ease;
       overflow: hidden;
     }
-    .card.outlined { border: 1px solid #e5e7eb; } /* gray-200 */
+    .card.outlined { border: 1px solid var(--stroke-primary, #e5e7eb); } /* gray-200 */
     .card.elevated { 
       border: 1px solid transparent;
       box-shadow: 
