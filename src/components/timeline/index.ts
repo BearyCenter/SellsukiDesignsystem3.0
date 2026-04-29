@@ -258,7 +258,7 @@ export class Timeline extends LitElement {
         position: relative;
         left: 0px;
         top: -6px;
-        font-size: 24px;
+        font-size: var(--font-size-h4, 24px);
         font-weight: 400;
         color: var(--text-primary, #111827);
         display: -webkit-box;

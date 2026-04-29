@@ -70,7 +70,7 @@ export class SidebarItems extends LitElement {
       padding: 12px 16px;
       cursor: pointer;
       border-radius: 8px;
-      font-size: 24px;
+      font-size: var(--font-size-h4, 24px);
     }
 
     .sidebar-item-container.expanded {

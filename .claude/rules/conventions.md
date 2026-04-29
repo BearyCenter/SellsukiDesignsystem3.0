@@ -36,9 +36,32 @@ background: var(--bg-brand-secondary, #e0f2fe);
 | Brand accent foreground | `--fg-brand-primary` |
 | Default border | `--stroke-primary` |
 | Subtle border | `--stroke-secondary` |
-| Body text size | `--font-p` (20px) |
-| Label text size | `--font-label` (20px) |
-| Caption text size | `--font-caption` (18px) |
+| **Font family** | |
+| H1–H4 font | `--font-h1` … `--font-h4` |
+| Body font | `--font-p` |
+| Label font | `--font-label` |
+| Caption font | `--font-caption` |
+| Button font | `--font-button` |
+| **Font size** | |
+| H1 size | `--font-size-h1` (44px) |
+| H2 size | `--font-size-h2` (36px) |
+| H3 size | `--font-size-h3` (28px) |
+| H4 size | `--font-size-h4` (24px) |
+| Body size | `--font-size-p` (20px) |
+| Label size | `--font-size-label` (20px) |
+| Caption size | `--font-size-caption` (18px) |
+| Button size | `--font-size-button` (18px) |
+| **Font weight** | |
+| H1/H2/body weight | `--weight-h1`, `--weight-h2`, `--weight-p` (400) |
+| H3 weight | `--weight-h3` (700) |
+| H4 weight | `--weight-h4` (500) |
+| Label/caption weight | `--weight-label`, `--weight-caption` (400) |
+| Button weight | `--weight-button` (600) |
+| **Elevation** | |
+| Subtle card shadow | `--elevation-sm` |
+| Default card shadow | `--elevation-md` |
+| Floating panel shadow | `--elevation-lg` |
+| Modal / overlay shadow | `--elevation-xl` |
 
 ## Custom events
 

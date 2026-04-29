@@ -120,7 +120,7 @@ export class PageHeader extends LitElement {
     .title {
       margin: 0;
       font-family: var(--font-h1, "DB HeaventRounded", sans-serif);
-      font-size: 24px;
+      font-size: var(--font-size-h4, 24px);
       font-weight: var(--font-weight-bold, 700);
       color: var(--text-primary, #1f2937);
       white-space: nowrap;

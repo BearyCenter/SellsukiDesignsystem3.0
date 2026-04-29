@@ -1482,14 +1482,14 @@ export const defaultTheme: Theme = {
     },
     badge: {
       fontSize: {
-        sm: "16px",
+        sm: "18px",
         md: "18px",
         lg: "20px",
       },
     },
     tag: {
       fontSize: {
-        sm: "16px",
+        sm: "18px",
         md: "18px",
         lg: "20px",
       },
@@ -1702,7 +1702,7 @@ export const defaultTheme: Theme = {
     },
     miscIcon: {
       fontSize: {
-        xs: "14px",
+        xs: "16px",
         sm: "16px",
         md: "20px",
         lg: "24px",

@@ -71,14 +71,14 @@ export class TabButton extends LitElement {
     }
 
     .size-sm {
-      --font-size: 20px;
+      --font-size: var(--font-size-p, 20px);
       --gap: 8px;
       --padding: 8px 16px;
       --rounded: 8px;
     }
 
     .size-md {
-      --font-size: 24px;
+      --font-size: var(--font-size-h4, 24px);
       --gap: 8px;
       --padding: 8px 16px;
       --rounded: 8px;

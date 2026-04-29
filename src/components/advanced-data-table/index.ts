@@ -438,7 +438,7 @@ export class AdvancedDataTable extends LitElement {
 
     .sort-icon {
       margin-left: 4px;
-      font-size: 14px;
+      font-size: var(--font-size-caption, 18px);
       vertical-align: middle;
     }
 
@@ -494,7 +494,7 @@ export class AdvancedDataTable extends LitElement {
       padding: 4px;
       color: var(--icon-primary, #6b7280);
       border-radius: var(--radius-sm, 6px);
-      font-size: 12px;
+      font-size: var(--font-size-caption, 18px);
       transition: transform 0.15s ease, color 0.15s ease;
     }
 
@@ -603,7 +603,7 @@ export class AdvancedDataTable extends LitElement {
       background: var(--bg-primary, #f9fafb);
       color: var(--text-primary, #1f2937);
       cursor: pointer;
-      font-size: 14px;
+      font-size: var(--font-size-caption, 18px);
       transition: background 0.15s ease;
     }
 

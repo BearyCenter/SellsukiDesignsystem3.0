@@ -21,6 +21,37 @@ src/
   stories/        ← CSF3 stories, one folder per component
 ```
 
+## Font Size Rules (STRICT — applies everywhere)
+
+| Rule | Detail |
+|------|--------|
+| **Minimum 18px** | `--font-size-caption` (18px) is the absolute minimum for all text |
+| **Token-only** | Always `var(--font-size-*)` — never hardcode px values |
+| **No Tailwind size classes** | `text-xs` (12px), `text-sm` (14px) are **FORBIDDEN** for text |
+| **No inline font-size** | Never `style="font-size: 14px"` or `fontSize: "12px"` |
+
+```css
+/* CORRECT */
+font-size: var(--font-size-caption, 18px);   /* minimum — helper text */
+font-size: var(--font-size-p, 20px);         /* body text */
+font-size: var(--font-size-label, 20px);     /* labels */
+font-size: var(--font-size-h4, 24px);        /* sub-heading */
+font-size: var(--font-size-h3, 28px);        /* heading */
+font-size: var(--font-size-h2, 36px);        /* section title */
+font-size: var(--font-size-h1, 44px);        /* page title */
+
+/* FORBIDDEN */
+font-size: 12px;                  /* below minimum */
+font-size: 14px;                  /* below minimum */
+font-size: 16px;                  /* below minimum */
+className="text-xs"               /* Tailwind 12px — FORBIDDEN */
+className="text-sm"               /* Tailwind 14px — FORBIDDEN */
+style={{ fontSize: "13px" }}      /* inline hardcode — FORBIDDEN */
+```
+
+> Exception: avatar initials at xs/sm size (10–12px) are intentional visual UI.
+> Icon-only elements with no text may use visual sizing as needed.
+
 ## Component rules (every component must follow)
 
 | Rule | Detail |
@@ -49,8 +80,11 @@ Layer 4 — Brand       injectSemanticTokens("patona"|"ccs3"|"oc2plus")
 
 Key semantic tokens: `--text-primary`, `--text-secondary`, `--bg-primary`, `--bg-primary-hover`,
 `--stroke-primary`, `--stroke-secondary`, `--fg-brand-primary`, `--bg-brand-secondary`,
-`--text-disabled`, `--bg-disabled`, `--font-p`, `--font-label`, `--font-caption`,
-`--font-h1`..`--font-h4`, `--radius-sm`..`--radius-xl`.
+`--text-disabled`, `--bg-disabled`,
+`--font-h1`..`--font-h4`, `--font-p`, `--font-label`, `--font-caption`, `--font-button`,
+`--font-size-h1`..`--font-size-h4`, `--font-size-p`, `--font-size-label`, `--font-size-caption`,
+`--weight-h1`..`--weight-h4`, `--weight-p`, `--weight-label`, `--weight-button`,
+`--radius-sm`..`--radius-xl`, `--elevation-sm`..`--elevation-xl`.
 
 Never use `--ssk-colors-*` primitives directly in components — always go through semantic tokens.
 

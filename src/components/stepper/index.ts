@@ -200,9 +200,9 @@ export class Stepper extends LitElement {
 
     .text-title {
         width: 100%;
-        display: flex; 
+        display: flex;
         align-items: center;
-        font-size: 24px;
+        font-size: var(--font-size-h4, 24px);
         height: 10px;
         color: #1F2937;
         padding-top: 4px;
@@ -212,7 +212,7 @@ export class Stepper extends LitElement {
     }
 
     .title {
-        font-size: 24px;
+        font-size: var(--font-size-h4, 24px);
     }
     
     
@@ -225,7 +225,7 @@ export class Stepper extends LitElement {
     .text-description {
         width: 100%;
         height: 10px;
-        font-size: 20px;
+        font-size: var(--font-size-p, 20px);
         color: #6B7280;
     }
 
@@ -254,7 +254,7 @@ export class Stepper extends LitElement {
         color: #9CA3AF;
         width: 30px;
         height: 30px;
-        font-size: 24px;
+        font-size: var(--font-size-h4, 24px);
         font-weight: 500;
     }
 

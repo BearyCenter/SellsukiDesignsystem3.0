@@ -46,11 +46,11 @@ export class TabHeader extends LitElement {
 
   static styles = css`
     .size-sm {
-      --font-size: 20px;
+      --font-size: var(--font-size-p, 20px);
     }
 
     .size-md {
-      --font-size: 24px;
+      --font-size: var(--font-size-h4, 24px);
     }
 
     .align-left {

@@ -60,12 +60,28 @@ const sharedTokens: Record<string, string> = {
   "--font-weight-semibold": "600",
   "--font-weight-bold":     "700",
   // typography — size
+  "--font-size-h1":      "44px",
+  "--font-size-h2":      "36px",
+  "--font-size-h3":      "28px",
+  "--font-size-h4":      "24px",
   "--font-size-p":       "20px",
   "--font-size-label":   "20px",
   "--font-size-caption": "18px",
   "--font-size-button":  "18px",
+  // typography — weight shorthands (shorthand aliases for component use)
+  "--weight-h1":      "400",
+  "--weight-h2":      "400",
+  "--weight-h3":      "700",
+  "--weight-h4":      "500",
+  "--weight-p":       "400",
+  "--weight-label":   "400",
+  "--weight-caption": "400",
+  "--weight-button":  "600",
   // elevation
-  "--elevation-sm": "0px 1px 2px 0px #0000000d",
+  "--elevation-sm": "0px 1px 2px 0px rgba(0,0,0,0.05)",
+  "--elevation-md": "0px 4px 6px -1px rgba(0,0,0,0.1), 0px 2px 4px -1px rgba(0,0,0,0.06)",
+  "--elevation-lg": "0px 10px 15px -3px rgba(0,0,0,0.1), 0px 4px 6px -2px rgba(0,0,0,0.05)",
+  "--elevation-xl": "0px 20px 25px -5px rgba(0,0,0,0.1), 0px 10px 10px -5px rgba(0,0,0,0.04)",
 };
 
 // ── Semantic tokens per brand ─────────────────────────────────────────────────

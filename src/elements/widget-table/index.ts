@@ -279,7 +279,7 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
 
             const finalColor = this.getColorValue(color);
 
-            return `<div style="color: ${finalColor}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 24px;">${text}</div>`;
+            return `<div style="color: ${finalColor}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: var(--font-size-h4, 24px);">${text}</div>`;
           };
           break;
         case 'textsubtext':
@@ -298,7 +298,7 @@ export class WidgetTable extends LitElement implements Widget, ThemeValue {
 
             return `
               <div>
-                <div style="color: ${mainColorValue}; font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${text}</div>
+                <div style="color: ${mainColorValue}; font-size: var(--font-size-h4, 24px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${text}</div>
                 <div style="color: ${subColorValue}; font-size: var(--font-size-caption,18px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${subtext}</div>
               </div>
             `;

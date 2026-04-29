@@ -184,7 +184,7 @@ export class Modal extends LitElement {
     }
 
     .title {
-      font-size: 28px;
+      font-size: var(--font-size-h3, 28px);
       font-weight: 500;
       width: 100%;
     }
@@ -196,7 +196,7 @@ export class Modal extends LitElement {
 
     .body-slot {
       padding: var(--padding-body);
-      font-size: 24px;
+      font-size: var(--font-size-h4, 24px);
       font-weight: 400;
       display: var(--body-display);
       justify-content: var(--body-justify-content);

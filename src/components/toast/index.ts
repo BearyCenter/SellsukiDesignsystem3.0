@@ -141,13 +141,13 @@ export class Toast extends LitElement {
     }
 
     .title {
-      font-size: 24px;
+      font-size: var(--font-size-h4, 24px);
       font-weight: 500;
       color: var(--color-title);
     }
 
     .content {
-      font-size: 24px;
+      font-size: var(--font-size-h4, 24px);
       font-weight: 400;
       color: var(--color-content);
     }
