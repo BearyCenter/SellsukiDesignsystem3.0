@@ -70,21 +70,6 @@ export class Timeline extends LitElement {
         if (this.hidden) {
             return nothing;
         }
-        const getStatusColor = (
-            status: "completed" | "in-progress" | "pending"
-        ) => {
-            switch (status) {
-                case "completed":
-                    return "#059669";
-                case "in-progress":
-                    return "#32a9ff";
-                case "pending":
-                    return "#9ca3af";
-                default:
-                    return "#9ca3af";
-            }
-        };
-
         const getLineClass = (status: "completed" | "in-progress" | "pending") => {
             return status === "in-progress" || status === "pending"
                 ? status
@@ -101,10 +86,7 @@ export class Timeline extends LitElement {
         <ul>
           ${this.Items.map(
             (item) => html`
-              <li
-                class="${getLineClass(item.status)}"
-                style="--timeline-dot-color: ${getStatusColor(item.status)};"
-              >
+              <li class="${getLineClass(item.status)}">
                 <div class="timeline-content ${this.display}">
                   <p class="timeline-title">${item.title}</p>
                   <span class="date">${item.subTitle}</span>
@@ -134,6 +116,20 @@ export class Timeline extends LitElement {
         flex-direction: column;
         gap: 10px;
     }
+    /* ── Status color tokens — defined per class, consumed by ::before/::after */
+    .timeline li.completed {
+        --timeline-dot-color:  var(--fg-success-primary, #059669);
+        --timeline-line-color: var(--fg-success-primary, #059669);
+    }
+    .timeline li.in-progress {
+        --timeline-dot-color:  var(--fg-brand-primary, #32a9ff);
+        --timeline-line-color: var(--stroke-primary, #e5e7eb);
+    }
+    .timeline li.pending {
+        --timeline-dot-color:  var(--text-disabled, #9ca3af);
+        --timeline-line-color: var(--stroke-primary, #e5e7eb);
+    }
+
     .timeline li {
         position: relative;
         padding-left: 30px;
@@ -145,7 +141,7 @@ export class Timeline extends LitElement {
         top: 0;
         width: 6px;
         height: 6px;
-        background-color: var(--timeline-dot-color, #3498db);
+        background-color: var(--timeline-dot-color);
         border-radius: 50%;
         z-index: 1;
         margin-top: 10px;
@@ -158,10 +154,7 @@ export class Timeline extends LitElement {
         width: 2px;
         max-height: 120px;
         height: calc(100% - 14px);
-        background-color: var(
-            --timeline-line-color,
-            #059669
-        );
+        background-color: var(--timeline-line-color);
         z-index: 0;
     }
     .timeline li.in-progress::after,
@@ -170,7 +163,7 @@ export class Timeline extends LitElement {
         background-image: linear-gradient(
             to bottom,
             transparent 50%,
-            var(--timeline-line-color, #e5e7eb) 50%
+            var(--timeline-line-color) 50%
         );
         background-size: 100% 10px;
         background-repeat: repeat;
@@ -218,19 +211,19 @@ export class Timeline extends LitElement {
         width: calc(100% - 20px);
         height: 2px;
         transform: translateX(50%);
-        background-color: var(--timeline-line-color, #059669);
+        background-color: var(--timeline-line-color);
         left: 20px;
     }
     .timeline.horizontal li.in-progress::after,
     .timeline.horizontal li.pending::after {
-        border-top: 2px dashed var(--timeline-line-color, #e5e7eb);
+        border-top: 2px dashed var(--timeline-line-color);
         background: none;
     }
     .timeline.horizontal li.in-progress::after,
     .timeline.horizontal li.pending::after {
         border-top-style: dashed;
         border-top-width: 2px;
-        border-top-color: var(--timeline-line-color, #e5e7eb);
+        border-top-color: var(--timeline-line-color);
         background: none;
     }
     .timeline.horizontal li::after {
