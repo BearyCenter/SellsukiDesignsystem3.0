@@ -304,6 +304,7 @@ export class Button extends LitElement {
   static styles = css`
     button {
       display: inline-block;
+      box-sizing: border-box;
       border-style: solid;
       cursor: pointer;
       transition: background-color 0.2s ease-in-out;
