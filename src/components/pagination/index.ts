@@ -373,7 +373,7 @@ export class Pagination extends LitElement {
       padding: 0 16px;
       border-radius: var(--radius-none, 0px);
       column-gap: 5px;
-      background-color: #fff;
+      background-color: var(--bg-primary, #ffffff);
       width: 100%;
       box-sizing: border-box;
     }
