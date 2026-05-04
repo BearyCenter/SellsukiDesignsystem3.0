@@ -45,8 +45,8 @@ export const Default: Story = {
                 color: var(--text-primary, #1f2937);
               ">${e.label}</span>
             </div>
-            <code style="font-size: 12px; color: #1b8bf5; font-family: monospace; text-align: center;">${e.token}</code>
-            <span style="font-size: 12px; color: #6b7280; font-family: sans-serif; text-align: center;">${e.usage}</span>
+            <code style="font-size: var(--font-size-caption, 18px); color: #1b8bf5; font-family: monospace; text-align: center;">${e.token}</code>
+            <span style="font-size: var(--font-size-caption, 18px); color: #6b7280; font-family: sans-serif; text-align: center;">${e.usage}</span>
           </div>
         `)}
       </div>

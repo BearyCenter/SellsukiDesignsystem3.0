@@ -12,7 +12,7 @@ const sampleColumns: ADTColumn[] = [
   { key: "status",   label: "Status",
     render: (v) => {
       const color = v === "active" ? "var(--bg-success-solid)" : "var(--bg-disabled)";
-      return html`<span style="display:inline-block;padding:2px 10px;border-radius:999px;background:${color};color:#fff;font-size:16px">${v}</span>`;
+      return html`<span style="display:inline-block;padding:2px 10px;border-radius:999px;background:${color};color:var(--fg-white,#fff);font-size: var(--font-size-caption, 18px)">${v}</span>`;
     }
   },
   { key: "stock",    label: "Stock",    align: "right",  sortable: true },

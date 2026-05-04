@@ -108,8 +108,8 @@ function colorGrid(brand: string) {
                     border: 1px solid rgba(0,0,0,0.08);
                     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
                   "></div>
-                  <span style="font-size: 11px; color: #6b7280; text-align: center; font-family: monospace; line-height: 1.3;">${t.token}</span>
-                  <span style="font-size: 11px; color: #374151; text-align: center; font-family: sans-serif;">${t.label}</span>
+                  <span style="font-size: var(--font-size-caption, 18px); color: #6b7280; text-align: center; font-family: monospace; line-height: 1.3;">${t.token}</span>
+                  <span style="font-size: var(--font-size-caption, 18px); color: #374151; text-align: center; font-family: sans-serif;">${t.label}</span>
                 </div>
               `)}
             </div>

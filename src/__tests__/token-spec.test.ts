@@ -33,8 +33,16 @@ function collectFiles(dir: string, files: string[] = []): string[] {
   return files;
 }
 
-const sourceFiles = collectFiles(path.join(SRC, "elements"))
+const STORYBOOK_ROOT = path.resolve(SRC, "..", ".storybook", "stories");
+
+// Component source — full strict enforcement
+const componentFiles = collectFiles(path.join(SRC, "elements"))
   .concat(collectFiles(path.join(SRC, "components")));
+
+// Stories — font-size enforced, color is soft gate (demo files may use fixed colors)
+const storyFiles = collectFiles(STORYBOOK_ROOT);
+
+const sourceFiles = [...componentFiles, ...storyFiles];
 
 // Files excluded from color checks — generated or intentionally non-token
 const COLOR_EXCLUDE_FILES = new Set([
@@ -154,25 +162,38 @@ describe("DS 3.0 Token Spec Gate", () => {
   });
 
   it("no component uses hardcoded hex colors in CSS outside var()", () => {
-    const violations = sourceFiles.flatMap(scanColors);
+    // Hard fail — components only (stories are documentation, soft gate below)
+    const violations = componentFiles.flatMap(scanColors);
     if (violations.length > 0) failReport("color-token", violations);
     expect(violations).toHaveLength(0);
   });
 
-  it("font-size values use var(--font-size-*) tokens [soft — baseline ≤1]", () => {
+  it("stories color token usage [soft — baseline ≤13]", () => {
+    const violations = storyFiles.flatMap(scanColors);
+    if (violations.length > 0) {
+      console.warn(
+        `[token-spec] ${violations.length} story file(s) have hardcoded colors — migrate to tokens:\n` +
+        violations.map((v) => `  ${v.file}:${v.line} — ${v.content}`).join("\n"),
+      );
+    }
+    expect(violations.length).toBeLessThanOrEqual(13);
+  });
+
+  it("components font-size use var(--font-size-*) tokens [soft — baseline ≤1]", () => {
     const pattern = /font-size:\s*\d+px(?!.*var\()/g;
     const nonTokenized: string[] = [];
-    for (const file of sourceFiles) {
+    for (const file of componentFiles) {
       const rel = path.relative(SRC, file).replace(/\\/g, "/");
       pattern.lastIndex = 0;
       if (pattern.test(fs.readFileSync(file, "utf-8"))) nonTokenized.push(rel);
     }
     if (nonTokenized.length > 0) {
       console.warn(
-        `[token-spec] ${nonTokenized.length} file(s) have hardcoded font-size ≥18px:\n` +
+        `[token-spec] ${nonTokenized.length} component file(s) have hardcoded font-size ≥18px:\n` +
           nonTokenized.map((f) => `  - ${f}`).join("\n"),
       );
     }
+    // Baseline: 1 file (advanced-data-table empty-icon 32px)
     expect(nonTokenized.length).toBeLessThanOrEqual(1);
   });
 

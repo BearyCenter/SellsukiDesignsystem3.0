@@ -42,8 +42,8 @@ export const Default: Story = {
               border: 2px solid var(--fg-brand-primary, #32a9ff);
               border-radius: var(${r.token});
             "></div>
-            <code style="font-size: 12px; color: #1b8bf5; font-family: monospace; text-align: center;">${r.token}</code>
-            <span style="font-size: 12px; color: #6b7280; font-family: sans-serif;">${r.value}</span>
+            <code style="font-size: var(--font-size-caption, 18px); color: #1b8bf5; font-family: monospace; text-align: center;">${r.token}</code>
+            <span style="font-size: var(--font-size-caption, 18px); color: #6b7280; font-family: sans-serif;">${r.value}</span>
           </div>
         `)}
       </div>

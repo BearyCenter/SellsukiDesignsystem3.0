@@ -47,7 +47,7 @@ export const FontSize: Story = {
           background: #f9fafb;
           border-radius: 8px 8px 0 0;
           border: 1px solid #e5e7eb;
-          font-size: 13px;
+          font-size: var(--font-size-caption, 18px);
           font-weight: 600;
           color: #6b7280;
         ">
@@ -68,9 +68,9 @@ export const FontSize: Story = {
             ${i === fontSizeTokens.length - 1 ? "border-radius: 0 0 8px 8px;" : ""}
             ${t.token === "--font-size-caption" ? "background: #fffbeb; border-left: 3px solid #f59e0b;" : ""}
           ">
-            <code style="font-size: 13px; color: #1b8bf5; font-family: monospace;">${t.token}</code>
-            <span style="font-size: 13px; color: #6b7280;">${t.px}</span>
-            <span style="font-size: 13px; color: #6b7280;">${t.weight}</span>
+            <code style="font-size: var(--font-size-caption, 18px); color: #1b8bf5; font-family: monospace;">${t.token}</code>
+            <span style="font-size: var(--font-size-caption, 18px); color: #6b7280;">${t.px}</span>
+            <span style="font-size: var(--font-size-caption, 18px); color: #6b7280;">${t.weight}</span>
             <span style="
               font-size: var(${t.token});
               font-family: var(--font-p);
@@ -80,7 +80,7 @@ export const FontSize: Story = {
             ">${t.role}</span>
           </div>
         `)}
-        <p style="margin-top: 12px; font-size: 13px; color: #f59e0b; font-family: monospace;">
+        <p style="margin-top: 12px; font-size: var(--font-size-caption, 18px); color: #f59e0b; font-family: monospace;">
           ⚠️ --font-size-caption (18px) = absolute minimum — ห้ามต่ำกว่านี้
         </p>
       </div>
@@ -94,8 +94,8 @@ export const FontWeight: Story = {
       <div style="padding: 32px; display: flex; flex-direction: column; gap: 16px;">
         ${fontWeightTokens.map((w) => html`
           <div style="display: flex; align-items: center; gap: 24px; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px;">
-            <code style="font-size: 13px; color: #1b8bf5; font-family: monospace; width: 240px;">${w.token}</code>
-            <span style="font-size: 13px; color: #6b7280; width: 40px;">${w.value}</span>
+            <code style="font-size: var(--font-size-caption, 18px); color: #1b8bf5; font-family: monospace; width: 240px;">${w.token}</code>
+            <span style="font-size: var(--font-size-caption, 18px); color: #6b7280; width: 40px;">${w.value}</span>
             <span style="
               font-size: var(--font-size-p, 20px);
               font-family: var(--font-p);
@@ -115,7 +115,7 @@ export const FontFamily: Story = {
       <div style="padding: 32px; display: flex; flex-direction: column; gap: 16px;">
         ${["--font-h1","--font-h2","--font-h3","--font-h4","--font-p","--font-label","--font-caption","--font-button"].map((t) => html`
           <div style="display: flex; align-items: center; gap: 24px; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px;">
-            <code style="font-size: 13px; color: #1b8bf5; font-family: monospace; width: 180px;">${t}</code>
+            <code style="font-size: var(--font-size-caption, 18px); color: #1b8bf5; font-family: monospace; width: 180px;">${t}</code>
             <span style="
               font-size: var(--font-size-p, 20px);
               font-family: var(${t});
