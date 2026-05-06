@@ -174,20 +174,63 @@ const patonaTokens: SemanticTokenMap = {
   "--fg-warning-secondary": amber["500"],
   "--fg-success-primary":   emerald["600"],
   "--fg-success-secondary": emerald["500"],
-  // button
-  "--button-solid-bg":            aerospaceOrange["500"],
-  "--button-solid-bg-hover":      aerospaceOrange["600"],
-  "--button-solid-fg":            white["50"],
-  "--button-solid-fg-hover":      white["50"],
-  "--button-solid-border":        aerospaceOrange["500"],
-  "--button-solid-border-hover":  aerospaceOrange["600"],
-  "--button-outline-fg":          aerospaceOrange["500"],
-  "--button-outline-fg-hover":    aerospaceOrange["600"],
-  "--button-outline-border":      aerospaceOrange["500"],
-  "--button-outline-border-hover":aerospaceOrange["600"],
-  "--button-ghost-fg":            aerospaceOrange["500"],
-  "--button-ghost-fg-hover":      aerospaceOrange["600"],
-  // error aliases (DS 2.0 naming — mapped from danger)
+  // ── Button — Solid (brand, default tone) ────────────────────────────────────
+  // Figma names use mixed `_`/`-`; code normalizes to all-dash for DX.
+  "--button-solid-bg":             aerospaceOrange["500"],
+  "--button-solid-bg-hover":       aerospaceOrange["600"],
+  "--button-solid-bg-disable":     aerospaceOrange["300"], // 🆕 Figma: button-solid-bg_disable
+  "--button-solid-fg":             white["50"],
+  "--button-solid-fg-hover":       white["50"],
+  "--button-solid-border":         aerospaceOrange["500"],
+  "--button-solid-border-hover":   aerospaceOrange["600"],
+  // ── Button — Outline (brand) ─────────────────────────────────────────────────
+  "--button-outline-fg":           aerospaceOrange["500"],
+  "--button-outline-fg-hover":     aerospaceOrange["600"],
+  "--button-outline-border":       aerospaceOrange["500"],
+  "--button-outline-border-hover": aerospaceOrange["600"],
+  // ── Button — Ghost (brand) ───────────────────────────────────────────────────
+  "--button-ghost-fg":             aerospaceOrange["500"],
+  "--button-ghost-fg-hover":       aerospaceOrange["600"],
+  // ── Button — Solid Light (brand) ─────────────────────────────────────────────
+  // 🆕 Figma group: button-solid_light-*
+  "--button-solid-light-fg":              gray["800"],
+  "--button-solid-light-fg-hover":        gray["900"],
+  "--button-solid-light-bg":              white["50"],
+  "--button-solid-light-bg-hover":        white["50"],
+  "--button-solid-light-border":          gray["200"],
+  "--button-solid-light-border-hover":    gray["300"],
+  // ── Button — Solid Danger ────────────────────────────────────────────────────
+  // 🆕 Figma group: button-solid_danger-*
+  "--button-solid-danger-fg":             white["50"],
+  "--button-solid-danger-fg-hover":       white["50"],
+  "--button-solid-danger-bg":             rose["600"],
+  "--button-solid-danger-bg-hover":       rose["700"],
+  "--button-solid-danger-bg-disable":     rose["300"],
+  "--button-solid-danger-border":         rose["600"],
+  "--button-solid-danger-border-hover":   rose["700"],
+  // ── Button — Outline Danger ──────────────────────────────────────────────────
+  "--button-outline-danger-fg":           rose["600"],
+  "--button-outline-danger-fg-hover":     rose["700"],
+  "--button-outline-danger-border":       rose["600"],
+  "--button-outline-danger-border-hover": rose["700"],
+  // ── Button — Ghost Danger ────────────────────────────────────────────────────
+  "--button-ghost-danger-fg":             rose["600"],
+  "--button-ghost-danger-fg-hover":       rose["700"],
+  // ── Button — Solid Light Danger ──────────────────────────────────────────────
+  "--button-solid-light-danger-fg":           rose["600"],
+  "--button-solid-light-danger-fg-hover":     rose["700"],
+  "--button-solid-light-danger-bg":           white["50"],
+  "--button-solid-light-danger-bg-hover":     white["50"],
+  "--button-solid-light-danger-border":       gray["200"],
+  "--button-solid-light-danger-border-hover": gray["300"],
+  // ── Generic semantic hover (Option C base — used by tones not yet in Figma) ──
+  // ⚠️ Pending UXUI approval — see DES-2013 (success/warning/info button spec)
+  "--bg-danger-solid-hover":    rose["700"],
+  "--bg-success-solid-hover":   emerald["700"],
+  "--bg-warning-solid-hover":   amber["700"],
+  "--bg-info-solid-hover":      sky["600"],
+  "--bg-primary-solid-hover":   gray["800"],
+  // ── Error aliases (DS 2.0 naming — mapped from danger) ───────────────────────
   "--icon-error":        rose["600"],
   "--bg-error-primary":  rose["50"],
   "--bg-error-solid":    rose["600"],
@@ -283,20 +326,59 @@ const sellsukiSkyTokens: SemanticTokenMap = {
   "--fg-warning-secondary": amber["500"],
   "--fg-success-primary":   emerald["600"],
   "--fg-success-secondary": emerald["500"],
-  // button
-  "--button-solid-bg":            sky["500"],
-  "--button-solid-bg-hover":      sky["600"],
-  "--button-solid-fg":            white["50"],
-  "--button-solid-fg-hover":      white["50"],
-  "--button-solid-border":        sky["500"],
-  "--button-solid-border-hover":  sky["600"],
-  "--button-outline-fg":          sky["500"],
-  "--button-outline-fg-hover":    sky["600"],
-  "--button-outline-border":      sky["500"],
-  "--button-outline-border-hover":sky["600"],
-  "--button-ghost-fg":            sky["500"],
-  "--button-ghost-fg-hover":      sky["600"],
-  // error aliases (DS 2.0 naming — mapped from danger)
+  // ── Button — Solid (brand, default tone) ────────────────────────────────────
+  "--button-solid-bg":             sky["500"],
+  "--button-solid-bg-hover":       sky["600"],
+  "--button-solid-bg-disable":     sky["300"], // 🆕
+  "--button-solid-fg":             white["50"],
+  "--button-solid-fg-hover":       white["50"],
+  "--button-solid-border":         sky["500"],
+  "--button-solid-border-hover":   sky["600"],
+  // ── Button — Outline (brand) ─────────────────────────────────────────────────
+  "--button-outline-fg":           sky["500"],
+  "--button-outline-fg-hover":     sky["600"],
+  "--button-outline-border":       sky["500"],
+  "--button-outline-border-hover": sky["600"],
+  // ── Button — Ghost (brand) ───────────────────────────────────────────────────
+  "--button-ghost-fg":             sky["500"],
+  "--button-ghost-fg-hover":       sky["600"],
+  // ── Button — Solid Light (brand) ─────────────────────────────────────────────
+  "--button-solid-light-fg":              gray["800"],
+  "--button-solid-light-fg-hover":        gray["900"],
+  "--button-solid-light-bg":              white["50"],
+  "--button-solid-light-bg-hover":        white["50"],
+  "--button-solid-light-border":          gray["200"],
+  "--button-solid-light-border-hover":    gray["300"],
+  // ── Button — Solid Danger ────────────────────────────────────────────────────
+  "--button-solid-danger-fg":             white["50"],
+  "--button-solid-danger-fg-hover":       white["50"],
+  "--button-solid-danger-bg":             rose["600"],
+  "--button-solid-danger-bg-hover":       rose["700"],
+  "--button-solid-danger-bg-disable":     rose["300"],
+  "--button-solid-danger-border":         rose["600"],
+  "--button-solid-danger-border-hover":   rose["700"],
+  // ── Button — Outline Danger ──────────────────────────────────────────────────
+  "--button-outline-danger-fg":           rose["600"],
+  "--button-outline-danger-fg-hover":     rose["700"],
+  "--button-outline-danger-border":       rose["600"],
+  "--button-outline-danger-border-hover": rose["700"],
+  // ── Button — Ghost Danger ────────────────────────────────────────────────────
+  "--button-ghost-danger-fg":             rose["600"],
+  "--button-ghost-danger-fg-hover":       rose["700"],
+  // ── Button — Solid Light Danger ──────────────────────────────────────────────
+  "--button-solid-light-danger-fg":           rose["600"],
+  "--button-solid-light-danger-fg-hover":     rose["700"],
+  "--button-solid-light-danger-bg":           white["50"],
+  "--button-solid-light-danger-bg-hover":     white["50"],
+  "--button-solid-light-danger-border":       gray["200"],
+  "--button-solid-light-danger-border-hover": gray["300"],
+  // ── Generic semantic hover (Option C base — pending UXUI per DES-2013) ───────
+  "--bg-danger-solid-hover":    rose["700"],
+  "--bg-success-solid-hover":   emerald["700"],
+  "--bg-warning-solid-hover":   amber["700"],
+  "--bg-info-solid-hover":      sky["600"],
+  "--bg-primary-solid-hover":   gray["800"],
+  // ── Error aliases (DS 2.0 naming — mapped from danger) ───────────────────────
   "--icon-error":        rose["600"],
   "--bg-error-primary":  rose["50"],
   "--bg-error-solid":    rose["600"],

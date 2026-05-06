@@ -179,6 +179,33 @@ describe("DS 3.0 Token Spec Gate", () => {
     expect(violations.length).toBeLessThanOrEqual(13);
   });
 
+  it("components must use semantic tokens, not palette primitives via cssVar('colors',...) [ratchet — baseline 45]", () => {
+    // DS 3.0 standard: components consume --bg-brand-solid, --fg-primary, etc.
+    // — never bind directly to palette like cssVar('colors', themeColor, 500).
+    // This pattern bypasses semantic tokens and breaks brand-switching.
+    //
+    // Baseline (2026-05): 45 legacy components from DS 1.0 still use this pattern.
+    //   - Button is being migrated under DES-2011 → baseline drops to 44
+    //   - Remaining 44 tracked under a follow-up ticket (mass-migration in batches)
+    //   - This is a RATCHET — every PR that fixes one MUST lower the baseline.
+    const PRIMITIVE_PATTERN = /cssVar\(\s*["']colors["']/;
+    const offenders: string[] = [];
+    for (const file of componentFiles) {
+      const rel = path.relative(SRC, file).replace(/\\/g, "/");
+      if (rel === "elements/icon/country-icon.ts") continue; // generated
+      if (PRIMITIVE_PATTERN.test(fs.readFileSync(file, "utf-8"))) {
+        offenders.push(rel);
+      }
+    }
+    if (offenders.length > 0) {
+      console.warn(
+        `[token-spec] ${offenders.length} component(s) use palette primitives via cssVar('colors',...) — migrate to semantic tokens (--bg-brand-solid, --fg-primary, etc.):\n` +
+          offenders.map((f) => `  - ${f}`).join("\n"),
+      );
+    }
+    expect(offenders.length).toBeLessThanOrEqual(44);
+  });
+
   it("components font-size use var(--font-size-*) tokens [soft — baseline ≤1]", () => {
     const pattern = /font-size:\s*\d+px(?!.*var\()/g;
     const nonTokenized: string[] = [];

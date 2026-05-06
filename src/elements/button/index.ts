@@ -16,8 +16,37 @@ import {
 } from "../../types/theme";
 
 /**
- * @slot - This element has a slot
- * @csspart button - The button
+ * Semantic tone of the button — communicates intent rather than color.
+ * - `brand`   (default) — primary action
+ * - `danger`            — destructive action (replaces legacy `error`)
+ * - `success` / `warning` / `info` — informational tones
+ *   (button-specific tokens pending UXUI spec — see DES-2013;
+ *    current values fall back to generic `--bg-{tone}-solid`)
+ */
+export type ButtonTone = "brand" | "danger" | "success" | "warning" | "info";
+
+const DEPRECATED_PROPS_WARNED = new WeakSet<Button>();
+const LEGACY_THEME_COLOR_TO_TONE: Record<string, ButtonTone> = {
+  primary: "brand",
+  error: "danger",
+  danger: "danger",
+  success: "success",
+  warning: "warning",
+  info: "info",
+};
+
+/**
+ * Sellsuki Button — DS 3.0
+ *
+ * @example
+ *   <ssk-button variant="solid" tone="brand">Save</ssk-button>
+ *   <ssk-button variant="outline" tone="danger">Delete</ssk-button>
+ *   <ssk-button variant="ghost" tone="brand" disabled>Loading…</ssk-button>
+ *
+ * @slot          - Default slot for label
+ * @slot prefix   - Prefix icon
+ * @slot postfix  - Postfix icon
+ * @csspart button - The button element
  */
 export class Button extends LitElement {
   static registeredName = "ssk-button";
@@ -26,272 +55,173 @@ export class Button extends LitElement {
   @property({ attribute: false })
   public theme?: Theme;
 
-  // BaseAttributes
-  @property({ type: String })
-  testId?: string;
+  @property({ type: String }) testId?: string;
 
-  // ThemeValue
-  @property({ type: String })
-  themeColor: ColorRole | ColorName = "primary";
-  @property({ type: String })
-  color?: ColorRole | ColorName;
-  @property({ type: String })
-  backgroundColor?: string | undefined;
-  @property({ type: String })
-  borderColor?: string | undefined;
+  // ── Primary API (DS 3.0) ───────────────────────────────────────────────────
+  /** Visual variant of the button. */
+  @property({ type: String, reflect: true })
+  variant: ButtonVariants = "solid";
 
+  /** Semantic tone of the button. */
+  @property({ type: String, reflect: true })
+  tone: ButtonTone = "brand";
+
+  /** Size of the button. */
   @property({ type: String })
   size: Size = "md";
-  @property({ type: String })
-  padding?: Size;
-  @property({ type: String })
-  fontSize?: string | undefined;
-  @property({ type: String })
-  lineHeight?: string | undefined;
-  @property({ type: String })
-  gap?: string | undefined;
-  @property({ type: String })
-  rounded?: string | undefined;
-  @property({ type: String })
-  margin?: string | undefined;
 
-  // font
-  @property({ type: String })
-  fontFamilyGroup: FontFamilyGroup = "sans";
-  @property({ type: String })
-  fontWeight: FontWeight = "normal";
+  // ── Layout (legitimate API — sizing/spacing only) ──────────────────────────
+  @property({ type: String }) padding?: Size;
+  @property({ type: String }) gap?: string;
+  @property({ type: String }) rounded?: string;
+  @property({ type: String }) margin?: string;
+  @property({ type: String }) width?: string;
+  @property({ type: String }) height?: string;
+  @property({ type: String }) minWidth?: string;
+  @property({ type: String }) minHeight?: string;
+  @property({ type: String }) maxWidth?: string;
+  @property({ type: String }) maxHeight?: string;
 
-  @property({ type: String })
-  borderWidth?: string | undefined;
-  @property({ type: String })
-  boxShadow?: string | undefined;
-  @property({ type: String })
-  dropShadow?: string | undefined;
-  @property({ type: String })
-  width?: string | undefined;
-  @property({ type: String })
-  height?: string | undefined;
-  @property({ type: String })
-  minWidth?: string | undefined;
-  @property({ type: String })
-  minHeight?: string | undefined;
-  @property({ type: String })
-  maxWidth?: string | undefined;
-  @property({ type: String })
-  maxHeight?: string | undefined;
+  // ── Font (token-bound — keep) ──────────────────────────────────────────────
+  @property({ type: String }) fontFamilyGroup: FontFamilyGroup = "sans";
+  @property({ type: String }) fontWeight: FontWeight = "normal";
 
-  // button specific
+  // ── State ──────────────────────────────────────────────────────────────────
+  @property({ type: Boolean }) disabled = false;
+  @property({ type: Boolean }) hidden = false;
+
+  // ── Deprecated escape-hatch props (Stage 1 soft deprecation) ───────────────
+  // Removed in DS 3.4.0. Use `tone` + `variant` instead. See DES-2011.
+
+  /** @deprecated Use `tone="..."` instead. Will be removed in DS 3.4.0. */
   @property({ type: String })
-  variant: ButtonVariants = "solid";
-  @property({ type: Boolean })
-  disabled = false;
-  @property({ type: Boolean })
-  hidden = false;
+  themeColor?: ColorRole | ColorName;
+
+  /** @deprecated Use `tone="..."` for color theming. Will be removed in DS 3.4.0. */
+  @property({ type: String })
+  color?: ColorRole | ColorName;
+
+  /** @deprecated Use `tone="..."` instead. Bypasses brand-switching. Will be removed in DS 3.4.0. */
+  @property({ type: String })
+  backgroundColor?: string;
+
+  /** @deprecated Use `variant="outline"` + `tone="..."`. Will be removed in DS 3.4.0. */
+  @property({ type: String })
+  borderColor?: string;
+
+  /** @deprecated Use `size="..."` (token-bound). Below 18px violates DS 3.0 minimum. Will be removed in DS 3.4.0. */
+  @property({ type: String })
+  fontSize?: string;
+
+  /** @deprecated Bound to `size`. Will be removed in DS 3.4.0. */
+  @property({ type: String })
+  lineHeight?: string;
+
+  /** @deprecated Bound to `variant`. Will be removed in DS 3.4.0. */
+  @property({ type: String })
+  borderWidth?: string;
+
+  /** @deprecated Use elevation tokens via `theme.components.button`. Will be removed in DS 3.4.0. */
+  @property({ type: String })
+  boxShadow?: string;
+
+  /** @deprecated Use elevation tokens. Will be removed in DS 3.4.0. */
+  @property({ type: String })
+  dropShadow?: string;
+
+  // ── Lifecycle ──────────────────────────────────────────────────────────────
+
+  protected willUpdate(changed: Map<string, unknown>): void {
+    super.willUpdate(changed);
+    // Bridge legacy `themeColor` → `tone` (only when tone unchanged from default)
+    if (this.themeColor && this.tone === "brand") {
+      const mapped = LEGACY_THEME_COLOR_TO_TONE[this.themeColor as string];
+      if (mapped) this.tone = mapped;
+    }
+  }
+
+  protected updated(changed: Map<string, unknown>): void {
+    super.updated(changed);
+    this._warnDeprecated();
+  }
+
+  private _warnDeprecated(): void {
+    if (DEPRECATED_PROPS_WARNED.has(this)) return;
+    const used: string[] = [];
+    if (this.backgroundColor !== undefined) used.push("backgroundColor");
+    if (this.borderColor !== undefined) used.push("borderColor");
+    if (this.fontSize !== undefined) used.push("fontSize");
+    if (this.lineHeight !== undefined) used.push("lineHeight");
+    if (this.borderWidth !== undefined) used.push("borderWidth");
+    if (this.boxShadow !== undefined) used.push("boxShadow");
+    if (this.dropShadow !== undefined) used.push("dropShadow");
+    if (this.color !== undefined) used.push("color");
+    if (this.themeColor !== undefined) used.push("themeColor");
+    if (used.length === 0) return;
+    DEPRECATED_PROPS_WARNED.add(this);
+    // eslint-disable-next-line no-console
+    console.warn(
+      `[ssk-button] Deprecated prop(s) used: ${used.join(", ")}. ` +
+        `Use \`variant\` + \`tone\` instead — e.g. tone="danger" replaces themeColor="error". ` +
+        `These props will be removed in DS 3.4.0. See Jira DES-2011.`,
+    );
+  }
+
+  // ── Render ─────────────────────────────────────────────────────────────────
 
   render() {
-    if (this.hidden) {
-      return nothing;
-    }
+    if (this.hidden) return nothing;
 
-    let additionalCss = `
-      --width:${parseVariables(cssVar("width", this.width))};
-      --font-family: ${parseVariables(
-        cssVar("font-family", this.fontFamilyGroup)
-      )};
+    // Layout-only sizing — colors come from CSS attribute selectors below
+    const sizingCss = `
+      --width: ${parseVariables(cssVar("width", this.width))};
+      --font-family: ${parseVariables(cssVar("font-family", this.fontFamilyGroup))};
       --font-weight: ${parseVariables(cssVar("font-weight", this.fontWeight))};
       --font-size: ${parseVariables(
         cssVar("font-size", this.fontSize),
-        cssVar("font-size", this.size)
+        cssVar("font-size", this.size),
       )};
       --line-height: ${parseVariables(
         cssVar("line-height", this.lineHeight),
-        cssVar("font-size", this.size)
+        cssVar("font-size", this.size),
       )};
-
       --gap: ${parseVariables(
         cssVar("spacing", this.gap),
-        cssVar("spacing", this.size)
+        cssVar("spacing", this.size),
       )};
       --padding: ${parseVariables(
         cssVar("padding", this.padding),
-        cssVar("padding", this.size)
+        cssVar("padding", this.size),
       )};
       --margin: ${parseVariables(
         cssVar("margin", this.margin),
-        cssVar("margin", this.size)
+        cssVar("margin", this.size),
       )};
-
       --rounded: ${parseVariables(
         cssVar("rounded", this.rounded),
-        cssVar("rounded", this.size)
+        cssVar("rounded", this.size),
       )};
-
-      --border-width: ${parseVariables(
-        cssVar("border-width", this.borderWidth),
-        "1px"
-      )};
-
-      --main-color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
-      --custom-outline-width: 4px;
-  
     `;
 
-    switch (this.variant) {
-      case "solid":
-        additionalCss += `
-        --background-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500)
-        )};
-        --background-color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 600)
-        )};
-        --background-color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 500)
-        )};
-        --background-color-disabled: ${parseVariables(
-          cssVar("colors", this.themeColor, 500)
-        )};
-        --color: ${parseVariables(
-          cssVar("colors", this.color, 200),
-          cssVar("colors", this.color),
-          this.color,
-          cssVar("colors", "white", 200)
-        )};
-        --color-hover: var(--color);
-        --color-active: var(--color);
-        --color-disabled: var(--color);
-
-        --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500)
-        )};
-        --border-color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 500)
-        )};
-        --border-color-disabled: var(--background-color-disabled);
-        --border-width: 0px;
-        --opacity-disabled: 0.5;
-
-          `;
-        break;
-
-      case "outline":
-        additionalCss += `
-        --background-color: ${parseVariables(cssVar("colors", "white", 200))};
-        --background-color-hover: ${parseVariables(
-          cssVar("colors", "white", 200)
-        )};
-        --background-color-active: ${parseVariables(
-          cssVar("colors", "white", 200)
-        )};
-        --background-color-disabled: ${parseVariables(
-          cssVar("colors", "white", 200)
-        )};
-        --color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
-        --color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 700)
-        )};
-        --color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600)
-        )};
-        --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
-
-        --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500)
-        )};
-        --border-color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 500)
-        )};
-        --border-color-disabled: ${parseVariables(
-          cssVar("colors", "gray", 400)
-        )};
-        --border-width: 1px;
-        --opacity-disabled: 1;
-          `;
-        break;
-
-      case "ghost":
-        additionalCss += `
-        --background-color: transparent;
-        --background-color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 200)
-        )};
-        --background-color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 100)
-        )};
-        --background-color-disabled: ${parseVariables(
-          cssVar("colors", "white", 200)
-        )};
-        --color: ${parseVariables(cssVar("colors", this.themeColor, 500))};
-        --color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 700)
-        )};
-        --color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 600)
-        )};
-        --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
-
-        --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 500)
-        )};
-        --border-color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 500)
-        )};
-        --border-color-disabled: ${parseVariables(
-          cssVar("colors", "gray", 400)
-        )};
-        --border-width: 0px;
-        --opacity-disabled: 1;
-          `;
-        break;
-
-      case "solid-light":
-        additionalCss += `
-        --background-color: ${parseVariables(cssVar("colors", "white", 200))};
-        --background-color-hover: ${parseVariables(
-          cssVar("colors", "white", 200)
-        )};
-        --background-color-active: ${parseVariables(
-          cssVar("colors", "white", 200)
-        )};
-        --background-color-disabled: ${parseVariables(
-          cssVar("colors", this.themeColor, 200)
-        )};
-        --color: ${parseVariables(cssVar("colors", this.themeColor, 800))};
-        --color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 800)
-        )};
-        --color-active: ${parseVariables(
-          cssVar("colors", this.themeColor, 800)
-        )};
-        --color-disabled: ${parseVariables(cssVar("colors", "gray", 400))};
-
-        --border-color: ${parseVariables(
-          cssVar("colors", this.themeColor, 200)
-        )};
-        --border-color-hover: ${parseVariables(
-          cssVar("colors", this.themeColor, 300)
-        )};
-        --border-color-disabled: ${parseVariables(
-          cssVar("colors", this.themeColor, 200)
-        )};
-        --border-width: 1px;
-        --opacity-disabled: 1;
-        --main-color: ${parseVariables(cssVar("colors", this.themeColor, 300))};
-        --custom-outline-width: 0px;
-          `;
-        break;
-    }
+    // Backward-compat overrides for deprecated props (warned via _warnDeprecated)
+    let legacyOverrides = "";
+    if (this.backgroundColor) legacyOverrides += `--_btn-bg:${this.backgroundColor};`;
+    if (this.borderColor) legacyOverrides += `--_btn-border:${this.borderColor};`;
+    if (this.borderWidth) legacyOverrides += `--_btn-border-width:${this.borderWidth};`;
 
     return html`
       ${parseThemeToCssVariables(this.theme?.components?.button, "button")}
-
       <style>
         button {
-          ${additionalCss};
+          ${sizingCss}
+          ${legacyOverrides}
         }
       </style>
-
-      <button data-testid=${this.testId || nothing} .disabled=${this.disabled}>
+      <button
+        part="button"
+        data-testid=${this.testId || nothing}
+        .disabled=${this.disabled}
+      >
         <div>
           <slot name="prefix"></slot>
           <slot></slot>
@@ -301,24 +231,192 @@ export class Button extends LitElement {
     `;
   }
 
+  // ── Styles (Option C: composable variant × tone via attribute selectors) ───
+
   static styles = css`
+    /* ── Default: variant="solid" tone="brand" ────────────────────────────── */
+    :host {
+      display: inline-block;
+      --_btn-bg:              var(--button-solid-bg);
+      --_btn-bg-hover:        var(--button-solid-bg-hover);
+      --_btn-bg-disabled:     var(--button-solid-bg-disable, var(--bg-disabled));
+      --_btn-fg:              var(--button-solid-fg);
+      --_btn-fg-hover:        var(--button-solid-fg-hover);
+      --_btn-fg-disabled:     var(--text-disabled);
+      --_btn-border:          var(--button-solid-border);
+      --_btn-border-hover:    var(--button-solid-border-hover);
+      --_btn-border-disabled: transparent;
+      --_btn-border-width:    0px;
+      --_btn-opacity-disabled: 0.5;
+      --_btn-outline:         var(--bg-brand-solid);
+      --_btn-outline-width:   4px;
+    }
+
+    /* ── Variant: outline ────────────────────────────────────────────────── */
+    :host([variant="outline"]) {
+      --_btn-bg:              transparent;
+      --_btn-bg-hover:        var(--bg-brand-primary);
+      --_btn-bg-disabled:     transparent;
+      --_btn-fg:              var(--button-outline-fg);
+      --_btn-fg-hover:        var(--button-outline-fg-hover);
+      --_btn-border:          var(--button-outline-border);
+      --_btn-border-hover:    var(--button-outline-border-hover);
+      --_btn-border-disabled: var(--stroke-disabled);
+      --_btn-border-width:    1px;
+      --_btn-opacity-disabled: 1;
+    }
+
+    /* ── Variant: ghost ──────────────────────────────────────────────────── */
+    :host([variant="ghost"]) {
+      --_btn-bg:              transparent;
+      --_btn-bg-hover:        var(--bg-brand-primary);
+      --_btn-bg-disabled:     transparent;
+      --_btn-fg:              var(--button-ghost-fg);
+      --_btn-fg-hover:        var(--button-ghost-fg-hover);
+      --_btn-border:          transparent;
+      --_btn-border-hover:    transparent;
+      --_btn-border-disabled: transparent;
+      --_btn-border-width:    0px;
+      --_btn-opacity-disabled: 1;
+    }
+
+    /* ── Variant: solid-light ────────────────────────────────────────────── */
+    :host([variant="solid-light"]) {
+      --_btn-bg:              var(--button-solid-light-bg);
+      --_btn-bg-hover:        var(--button-solid-light-bg-hover);
+      --_btn-bg-disabled:     var(--bg-disabled);
+      --_btn-fg:              var(--button-solid-light-fg);
+      --_btn-fg-hover:        var(--button-solid-light-fg-hover);
+      --_btn-border:          var(--button-solid-light-border);
+      --_btn-border-hover:    var(--button-solid-light-border-hover);
+      --_btn-border-disabled: var(--stroke-disabled);
+      --_btn-border-width:    1px;
+      --_btn-opacity-disabled: 1;
+    }
+
+    /* ── Tone: danger × variants (full Figma spec) ───────────────────────── */
+    :host([tone="danger"]) {
+      --_btn-outline: var(--bg-danger-solid);
+    }
+    :host([tone="danger"][variant="solid"]) {
+      --_btn-bg:              var(--button-solid-danger-bg);
+      --_btn-bg-hover:        var(--button-solid-danger-bg-hover);
+      --_btn-bg-disabled:     var(--button-solid-danger-bg-disable);
+      --_btn-fg:              var(--button-solid-danger-fg);
+      --_btn-fg-hover:        var(--button-solid-danger-fg-hover);
+      --_btn-border:          var(--button-solid-danger-border);
+      --_btn-border-hover:    var(--button-solid-danger-border-hover);
+    }
+    :host([tone="danger"][variant="outline"]) {
+      --_btn-bg-hover:        var(--bg-danger-primary);
+      --_btn-fg:              var(--button-outline-danger-fg);
+      --_btn-fg-hover:        var(--button-outline-danger-fg-hover);
+      --_btn-border:          var(--button-outline-danger-border);
+      --_btn-border-hover:    var(--button-outline-danger-border-hover);
+    }
+    :host([tone="danger"][variant="ghost"]) {
+      --_btn-bg-hover:        var(--bg-danger-primary);
+      --_btn-fg:              var(--button-ghost-danger-fg);
+      --_btn-fg-hover:        var(--button-ghost-danger-fg-hover);
+    }
+    :host([tone="danger"][variant="solid-light"]) {
+      --_btn-bg:              var(--button-solid-light-danger-bg);
+      --_btn-bg-hover:        var(--button-solid-light-danger-bg-hover);
+      --_btn-fg:              var(--button-solid-light-danger-fg);
+      --_btn-fg-hover:        var(--button-solid-light-danger-fg-hover);
+      --_btn-border:          var(--button-solid-light-danger-border);
+      --_btn-border-hover:    var(--button-solid-light-danger-border-hover);
+    }
+
+    /* ── Tone: success/warning/info — fallback to generic semantic ───────── */
+    /* Pending UXUI button-specific spec — see DES-2013 */
+    :host([tone="success"][variant="solid"]) {
+      --_btn-bg:              var(--bg-success-solid);
+      --_btn-bg-hover:        var(--bg-success-solid-hover);
+      --_btn-fg:              var(--fg-white);
+      --_btn-fg-hover:        var(--fg-white);
+      --_btn-border:          var(--bg-success-solid);
+      --_btn-border-hover:    var(--bg-success-solid-hover);
+      --_btn-outline:         var(--bg-success-solid);
+    }
+    :host([tone="warning"][variant="solid"]) {
+      --_btn-bg:              var(--bg-warning-solid);
+      --_btn-bg-hover:        var(--bg-warning-solid-hover);
+      --_btn-fg:              var(--fg-white);
+      --_btn-fg-hover:        var(--fg-white);
+      --_btn-border:          var(--bg-warning-solid);
+      --_btn-border-hover:    var(--bg-warning-solid-hover);
+      --_btn-outline:         var(--bg-warning-solid);
+    }
+    :host([tone="info"][variant="solid"]) {
+      --_btn-bg:              var(--bg-info-solid);
+      --_btn-bg-hover:        var(--bg-info-solid-hover);
+      --_btn-fg:              var(--fg-white);
+      --_btn-fg-hover:        var(--fg-white);
+      --_btn-border:          var(--bg-info-solid);
+      --_btn-border-hover:    var(--bg-info-solid-hover);
+      --_btn-outline:         var(--bg-info-solid);
+    }
+
+    :host([tone="success"][variant="outline"]) {
+      --_btn-bg-hover:        var(--bg-success-primary);
+      --_btn-fg:              var(--fg-success-primary);
+      --_btn-fg-hover:        var(--fg-success-primary);
+      --_btn-border:          var(--stroke-success-solid);
+      --_btn-border-hover:    var(--stroke-success-solid);
+    }
+    :host([tone="warning"][variant="outline"]) {
+      --_btn-bg-hover:        var(--bg-warning-primary);
+      --_btn-fg:              var(--fg-warning-primary);
+      --_btn-fg-hover:        var(--fg-warning-primary);
+      --_btn-border:          var(--stroke-warning-solid);
+      --_btn-border-hover:    var(--stroke-warning-solid);
+    }
+    :host([tone="info"][variant="outline"]) {
+      --_btn-bg-hover:        var(--bg-info-primary);
+      --_btn-fg:              var(--text-info);
+      --_btn-fg-hover:        var(--text-info);
+      --_btn-border:          var(--stroke-info-solid);
+      --_btn-border-hover:    var(--stroke-info-solid);
+    }
+
+    :host([tone="success"][variant="ghost"]) {
+      --_btn-bg-hover:        var(--bg-success-primary);
+      --_btn-fg:              var(--fg-success-primary);
+      --_btn-fg-hover:        var(--fg-success-primary);
+    }
+    :host([tone="warning"][variant="ghost"]) {
+      --_btn-bg-hover:        var(--bg-warning-primary);
+      --_btn-fg:              var(--fg-warning-primary);
+      --_btn-fg-hover:        var(--fg-warning-primary);
+    }
+    :host([tone="info"][variant="ghost"]) {
+      --_btn-bg-hover:        var(--bg-info-primary);
+      --_btn-fg:              var(--text-info);
+      --_btn-fg-hover:        var(--text-info);
+    }
+
+    /* ── Element styles ──────────────────────────────────────────────────── */
     button {
       display: inline-block;
       box-sizing: border-box;
       border-style: solid;
       cursor: pointer;
-      transition: background-color 0.2s ease-in-out;
-      background-color: var(--background-color);
-      color: var(--color);
-      font-size: var(--font-size);
+      transition:
+        background-color 0.2s ease-in-out,
+        color 0.2s ease-in-out,
+        border-color 0.2s ease-in-out;
+      background-color: var(--_btn-bg);
+      color: var(--_btn-fg);
       font-family: var(--font-family);
+      font-size: var(--font-size);
       font-weight: var(--font-weight);
       line-height: var(--line-height);
       padding: var(--padding);
       margin: var(--margin);
       border-radius: var(--rounded);
-      border-color: var(--border-color);
-      border-width: var(--border-width);
+      border-color: var(--_btn-border);
+      border-width: var(--_btn-border-width);
       width: var(--width);
     }
 
@@ -348,25 +446,25 @@ export class Button extends LitElement {
     }
 
     button:hover:enabled {
-      background-color: var(--background-color-hover);
-      color: var(--color-hover);
-      border-color: var(--border-color-hover);
+      background-color: var(--_btn-bg-hover);
+      color: var(--_btn-fg-hover);
+      border-color: var(--_btn-border-hover);
     }
 
     button:active:enabled {
-      background-color: var(--background-color-active);
-      color: var(--color-active);
-      outline-width: var(--custom-outline-width);
-      outline-color: color-mix(in srgb, var(--main-color), transparent 50%);
+      background-color: var(--_btn-bg-hover);
+      color: var(--_btn-fg-hover);
+      outline-width: var(--_btn-outline-width);
+      outline-color: color-mix(in srgb, var(--_btn-outline), transparent 50%);
       outline-style: solid;
     }
 
     button:disabled {
       cursor: not-allowed;
-      background-color: var(--background-color-disabled);
-      color: var(--color-disabled);
-      border-color: var(--border-color-disabled);
-      opacity: var(--opacity-disabled);
+      background-color: var(--_btn-bg-disabled);
+      color: var(--_btn-fg-disabled);
+      border-color: var(--_btn-border-disabled);
+      opacity: var(--_btn-opacity-disabled);
     }
   `;
 }
