@@ -1,0 +1,36 @@
+<!--
+  DS 3.0 Vibecode Contract — feature-page (brand: patona)
+  Identical to ccs3 variant except for the brand attribute on the provider.
+  This proves brand-switching does NOT require structural changes.
+-->
+<ssk-app-shell-provider brand="patona">
+  <ssk-app-shell>
+    <ssk-top-navbar slot="navbar" title="Customer Insights"></ssk-top-navbar>
+    <ssk-sidebar slot="sidebar"></ssk-sidebar>
+
+    <main slot="main" style="padding: var(--padding-lg); background: var(--bg-quaternary);">
+      <ssk-heading level="1">หน้ารวมข้อมูลลูกค้า</ssk-heading>
+      <ssk-text size="p" style="color: var(--text-secondary);">
+        จัดการข้อมูลลูกค้า รายการคำสั่งซื้อ และพฤติกรรมการใช้งาน
+      </ssk-text>
+
+      <section style="display: grid; gap: var(--gap-md); margin-top: var(--margin-lg);">
+        <ssk-card>
+          <ssk-heading level="3" slot="header">สรุปยอดขาย</ssk-heading>
+          <ssk-text size="p">
+            จำนวนคำสั่งซื้อทั้งหมด: <strong style="color: var(--fg-brand-primary);">1,240</strong>
+          </ssk-text>
+        </ssk-card>
+
+        <ssk-card>
+          <ssk-heading level="3" slot="header">การดำเนินการ</ssk-heading>
+          <div style="display: flex; gap: var(--gap-sm);">
+            <ssk-button variant="solid" tone="brand">เพิ่มลูกค้าใหม่</ssk-button>
+            <ssk-button variant="outline" tone="brand">นำเข้าจากไฟล์</ssk-button>
+            <ssk-button variant="ghost" tone="danger">ล้างข้อมูล</ssk-button>
+          </div>
+        </ssk-card>
+      </section>
+    </main>
+  </ssk-app-shell>
+</ssk-app-shell-provider>

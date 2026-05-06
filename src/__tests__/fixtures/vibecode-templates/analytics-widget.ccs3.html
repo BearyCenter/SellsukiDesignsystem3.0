@@ -1,0 +1,39 @@
+<!--
+  DS 3.0 Vibecode Contract — analytics-widget (brand: ccs3)
+  Pattern: dashboard widget — KPI numbers + chart in a card.
+-->
+<ssk-app-shell-provider brand="ccs3">
+  <ssk-app-shell>
+    <ssk-top-navbar slot="navbar" title="Dashboard"></ssk-top-navbar>
+    <ssk-sidebar slot="sidebar"></ssk-sidebar>
+
+    <main slot="main" style="padding: var(--padding-lg);">
+      <ssk-heading level="2">ภาพรวมยอดขาย</ssk-heading>
+
+      <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--gap-md); margin-top: var(--margin-md);">
+        <ssk-card>
+          <ssk-text size="caption" style="color: var(--text-secondary);">ยอดขายเดือนนี้</ssk-text>
+          <ssk-heading level="2" style="color: var(--fg-brand-primary); margin-top: var(--margin-xs);">฿1,240,500</ssk-heading>
+          <ssk-text size="caption" style="color: var(--fg-success-primary);">↑ 12.4% vs. เดือนที่แล้ว</ssk-text>
+        </ssk-card>
+
+        <ssk-card>
+          <ssk-text size="caption" style="color: var(--text-secondary);">คำสั่งซื้อ</ssk-text>
+          <ssk-heading level="2" style="margin-top: var(--margin-xs);">3,847</ssk-heading>
+          <ssk-text size="caption" style="color: var(--fg-warning-primary);">↓ 2.1% vs. เดือนที่แล้ว</ssk-text>
+        </ssk-card>
+
+        <ssk-card>
+          <ssk-text size="caption" style="color: var(--text-secondary);">ลูกค้าใหม่</ssk-text>
+          <ssk-heading level="2" style="margin-top: var(--margin-xs);">428</ssk-heading>
+          <ssk-text size="caption" style="color: var(--fg-success-primary);">↑ 8.7%</ssk-text>
+        </ssk-card>
+      </section>
+
+      <ssk-card style="margin-top: var(--margin-md);">
+        <ssk-heading level="3" slot="header">แนวโน้มยอดขาย 30 วันล่าสุด</ssk-heading>
+        <ssk-line-chart></ssk-line-chart>
+      </ssk-card>
+    </main>
+  </ssk-app-shell>
+</ssk-app-shell-provider>

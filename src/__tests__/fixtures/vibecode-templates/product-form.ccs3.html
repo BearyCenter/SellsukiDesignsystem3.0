@@ -1,0 +1,33 @@
+<!--
+  DS 3.0 Vibecode Contract — product-form (brand: ccs3)
+  Pattern: detail/edit form with inputs, validation slots, save/cancel/delete actions.
+-->
+<ssk-app-shell-provider brand="ccs3">
+  <ssk-app-shell>
+    <ssk-top-navbar slot="navbar" title="แก้ไขสินค้า"></ssk-top-navbar>
+    <ssk-sidebar slot="sidebar"></ssk-sidebar>
+
+    <main slot="main" style="padding: var(--padding-lg); max-width: 720px;">
+      <ssk-heading level="2">แก้ไขสินค้า</ssk-heading>
+
+      <form style="display: grid; gap: var(--gap-md); margin-top: var(--margin-md);">
+        <ssk-input label="ชื่อสินค้า" required></ssk-input>
+        <ssk-textarea label="คำอธิบาย" rows="4"></ssk-textarea>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-md);">
+          <ssk-input label="ราคา" type="number" required></ssk-input>
+          <ssk-dropdown label="สกุลเงิน"></ssk-dropdown>
+        </div>
+
+        <ssk-input label="SKU"></ssk-input>
+        <ssk-toggle label="เปิดใช้งาน"></ssk-toggle>
+
+        <footer style="display: flex; gap: var(--gap-sm); justify-content: flex-end; padding-top: var(--padding-md); border-top: 1px solid var(--stroke-primary);">
+          <ssk-button variant="ghost" tone="brand">ยกเลิก</ssk-button>
+          <ssk-button variant="outline" tone="danger">ลบสินค้า</ssk-button>
+          <ssk-button variant="solid" tone="brand" type="submit">บันทึก</ssk-button>
+        </footer>
+      </form>
+    </main>
+  </ssk-app-shell>
+</ssk-app-shell-provider>

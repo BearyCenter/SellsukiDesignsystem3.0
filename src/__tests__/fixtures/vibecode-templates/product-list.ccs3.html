@@ -1,0 +1,32 @@
+<!--
+  DS 3.0 Vibecode Contract — product-list (brand: ccs3)
+  Pattern: list page with table, filters, bulk actions, pagination.
+-->
+<ssk-app-shell-provider brand="ccs3">
+  <ssk-app-shell>
+    <ssk-top-navbar slot="navbar" title="Product Catalog"></ssk-top-navbar>
+    <ssk-sidebar slot="sidebar"></ssk-sidebar>
+
+    <main slot="main" style="padding: var(--padding-lg);">
+      <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--margin-md);">
+        <ssk-heading level="2">รายการสินค้า</ssk-heading>
+        <ssk-button variant="solid" tone="brand">เพิ่มสินค้า</ssk-button>
+      </header>
+
+      <ssk-card>
+        <div slot="header" style="display: flex; gap: var(--gap-sm); padding: var(--padding-sm);">
+          <ssk-input placeholder="ค้นหาสินค้า..." style="flex: 1;"></ssk-input>
+          <ssk-dropdown label="หมวดหมู่"></ssk-dropdown>
+          <ssk-button variant="outline" tone="brand">กรอง</ssk-button>
+        </div>
+
+        <ssk-advanced-data-table>
+          <ssk-button slot="bulk-actions" variant="ghost" tone="brand">ส่งออก</ssk-button>
+          <ssk-button slot="bulk-actions" variant="ghost" tone="danger">ลบที่เลือก</ssk-button>
+        </ssk-advanced-data-table>
+
+        <ssk-pagination slot="footer" total="120" page-size="20"></ssk-pagination>
+      </ssk-card>
+    </main>
+  </ssk-app-shell>
+</ssk-app-shell-provider>
