@@ -17,11 +17,16 @@
       "require": "./dist/sellsuki-components.umd.cjs",
       "types": "./dist/main.d.ts"
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": "./dist/style.css",
+    "./test-utils/vibecode-contract": {
+      "import": "./dist/test-utils/vibecode-contract.js",
+      "types": "./dist/test-utils/vibecode-contract.d.ts"
+    }
   },
   "scripts": {
     "dev": "vite",
-    "build": "cross-env NODE_ENV=production tsc && vite build",
+    "build": "cross-env NODE_ENV=production tsc && vite build && npm run build:test-utils",
+    "build:test-utils": "tsc -p tsconfig.test-utils.json",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
