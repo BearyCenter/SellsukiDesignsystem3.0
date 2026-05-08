@@ -147,7 +147,7 @@ export class Toast extends LitElement {
     }
 
     .content {
-      font-size: var(--font-size-h4, 24px);
+      font-size: var(--font-size-p, 20px);
       font-weight: var(--font-weight-normal, 400);
       color: var(--color-content);
     }

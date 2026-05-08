@@ -224,4 +224,47 @@ describe("DS 3.0 Token Spec Gate", () => {
     expect(nonTokenized.length).toBeLessThanOrEqual(1);
   });
 
+  it("non-heading components do not use --font-size-h[1-4] for body text [ratchet — baseline 4]", () => {
+    // Heading tokens (h1=44 / h2=36 / h3=28 / h4=24) are reserved for actual
+    // headings. UI body contexts (sidebar items, list items, table cells,
+    // toast messages, modal body, timeline content, tab labels) MUST use
+    // --font-size-p (20px), --font-size-label (20px), --font-size-button (18px),
+    // or --font-size-caption (18px).
+    //
+    // DS 1.0 era: many components used h4 (24px) as the default "important text"
+    // size. DS 3.0 spec separates: h-tokens for headings only.
+    //
+    // Baseline (2026-05-08, after sidebar/modal/stepper/timeline/toast/tab/
+    // widget-table/widget-example migration): 4 legitimate uses remain:
+    //   - modal/index.ts:187        .title          → modal heading (h3 ok)
+    //   - page-header/index.ts:123  .title          → page heading (h4 ok)
+    //   - stepper/index.ts:257      .circle-content → step number in 30px
+    //                                                  visual circle (visual UI)
+    //   - toast/index.ts:144        .title          → toast heading (h4 ok)
+    //
+    // RATCHET: any new component using --font-size-h[1-4] must justify it as
+    // a heading or visual UI. If you migrate one of the 4 above, drop the
+    // baseline by one. Adding new h4 misuse fails CI.
+    const HEADING_TOKEN = /font-size:\s*var\(--font-size-h[1-4]\b/;
+    const offenders: string[] = [];
+    for (const file of componentFiles) {
+      const rel = path.relative(SRC, file).replace(/\\/g, "/");
+      // heading.ts is the heading element itself — it MUST use heading tokens
+      if (rel === "elements/heading/index.ts") continue;
+      const lines = fs.readFileSync(file, "utf-8").split("\n");
+      lines.forEach((line, i) => {
+        if (HEADING_TOKEN.test(line)) {
+          offenders.push(`${rel}:${i + 1}`);
+        }
+      });
+    }
+    if (offenders.length > 0) {
+      console.warn(
+        `[token-spec] ${offenders.length} non-heading component line(s) use --font-size-h[1-4] — heading tokens are for actual headings only. Use --font-size-p (20px), --font-size-label (20px), --font-size-button (18px), or --font-size-caption (18px) for body text:\n` +
+          offenders.map((s) => `  - ${s}`).join("\n"),
+      );
+    }
+    expect(offenders.length).toBeLessThanOrEqual(4);
+  });
+
 });

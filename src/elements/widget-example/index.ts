@@ -95,7 +95,7 @@ export class WidgetExample extends LitElement implements Widget, ThemeValue {
     }
     .text-style {
       color: var(--text-primary, #1f2937);
-      font-size: var(--font-size-h4, 24px);
+      font-size: var(--font-size-p, 20px);
       text-align: center;
     }
   `

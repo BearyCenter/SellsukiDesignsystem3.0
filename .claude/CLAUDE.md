@@ -49,6 +49,31 @@ className="text-sm"               /* Tailwind 14px — FORBIDDEN */
 style={{ fontSize: "13px" }}      /* inline hardcode — FORBIDDEN */
 ```
 
+### Heading tokens are for ACTUAL headings only (DS 3.0 vs DS 1.0 drift)
+
+DS 1.0 used `--font-size-h4` (24px) as a generic "important text" size. **DS 3.0 reverses this:**
+heading tokens (h1–h4) belong to real headings only. UI body contexts use `--font-size-p`,
+`--font-size-label`, `--font-size-button`, or `--font-size-caption`.
+
+| Component context | Correct token | Size |
+|-------------------|---------------|------|
+| Sidebar item, list item, menu item | `--font-size-p` | 20px |
+| Form input value, table cell, body paragraph | `--font-size-p` | 20px |
+| Form label, UI label, table column header | `--font-size-label` | 20px |
+| Button text, tab label, chip text | `--font-size-button` | 18px |
+| Helper text, hint, timestamp, badge content | `--font-size-caption` | 18px |
+| Card title, modal subsection title, toast title | `--font-size-h4` | 24px |
+| Section heading, modal title | `--font-size-h3` | 28px |
+| Page title (most pages) | `--font-size-h2` | 36px |
+| Hero / landing title | `--font-size-h1` | 44px |
+| KPI value (big stat number) | `--font-size-h2`/`h3` (visual UI) | 36/28px |
+
+> **Rule of thumb:** if removing the element's text would still leave a meaningful
+> heading hierarchy on the page, it's a heading → use `h*`. Otherwise → `p`/`label`/`caption`.
+
+> **Enforced by:** `src/__tests__/token-spec.test.ts` — "non-heading components do not
+> use --font-size-h[1-4] for body text" — ratchet rule. Adding new misuse fails CI.
+
 > Exception: avatar initials at xs/sm size (10–12px) are intentional visual UI.
 > Icon-only elements with no text may use visual sizing as needed.
 
