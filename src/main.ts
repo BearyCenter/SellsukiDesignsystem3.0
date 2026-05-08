@@ -78,4 +78,7 @@ export * from "./components/wave-icon";
 export * from "./components/widget-grid";
 export * from "./components/card";
 
+// ── Page Patterns (ssk-pattern-*) ────────────────────────────────────────────
+export * from "./patterns";
+
 import "./assets/fonts.css";
