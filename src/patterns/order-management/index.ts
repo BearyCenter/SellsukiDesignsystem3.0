@@ -18,6 +18,7 @@ import { property } from "lit/decorators.js";
 import "../../components/app-shell";
 import "../../components/app-shell/provider";
 import "../../components/card";
+import "../../contexts/theme";
 import "../../components/pagination";
 import "../../components/sidebar";
 import "../../elements/avatar";
@@ -196,7 +197,7 @@ export class OrderManagementPattern extends LitElement {
     .tab-count {
       padding: 2px 8px;
       border-radius: var(--radius-full, 9999px);
-      background: var(--bg-tertiary, #f3f4f6);
+      background: var(--bg-secondary, #f3f4f6);
       font-size: var(--font-size-caption, 18px);
     }
 
@@ -207,7 +208,7 @@ export class OrderManagementPattern extends LitElement {
       font-size: var(--font-size-p, 20px);
     }
     thead tr {
-      background: var(--bg-tertiary, #f9fafb);
+      background: var(--bg-secondary, #f9fafb);
       text-align: left;
     }
     th, td {
@@ -223,6 +224,7 @@ export class OrderManagementPattern extends LitElement {
       font-family: var(--font-mono, ui-monospace, monospace);
       color: var(--fg-brand-primary, #0ea5e9);
       font-size: var(--font-size-p, 20px);
+      white-space: nowrap;
     }
     td.amount { text-align: right; font-weight: 600; }
     td.date   { color: var(--text-secondary, #6b7280); }
@@ -266,7 +268,7 @@ export class OrderManagementPattern extends LitElement {
 
     return html`
       <ssk-app-shell-provider brand=${this.brand}>
-        <ssk-app-shell style="height: 100vh; display: block;">
+        <ssk-app-shell style="height: 100%; display: block;">
           ${this._renderNavbar(d)}
           ${this._renderSidebar(d)}
           <div class="page">
@@ -300,28 +302,19 @@ export class OrderManagementPattern extends LitElement {
   private _renderSidebar(d: OrderManagementData): TemplateResult {
     return html`
       <ssk-sidebar slot="sidebar" expanded width="100%" style="height:100%;">
-        <div slot="header" class="sidebar-pad">
-          <div class="sidebar-section">เมนูหลัก</div>
-        </div>
-        ${d.sidebar.map(
-          (item) => html`
-            <ssk-sidebar-item
-              key=${item.key}
-              label=${item.label}
-              ?actived=${item.active === true}
-            >
-              <ssk-icon slot="icon" name=${item.iconName}></ssk-icon>
-              ${item.badge !== undefined
-                ? html`<ssk-badge
-                    slot="end"
-                    variant="solid"
-                    themeColor="primary"
-                    >${item.badge}</ssk-badge
-                  >`
-                : ""}
-            </ssk-sidebar-item>
-          `,
-        )}
+        <ssk-sidebar-group label="เมนูหลัก" key="main" expanded>
+          ${d.sidebar.map(
+            (item) => html`
+              <ssk-sidebar-item
+                key=${item.key}
+                ?actived=${item.active === true}
+              >
+                <ssk-icon slot="prefix" name=${item.iconName}></ssk-icon>
+                ${item.label}
+              </ssk-sidebar-item>
+            `,
+          )}
+        </ssk-sidebar-group>
       </ssk-sidebar>
     `;
   }
@@ -485,8 +478,8 @@ function toHtmlString(brand: Brand, data: OrderManagementData): string {
   const fmtRow = (o: OrderRow) =>
     `<tr><td><span class="order-id">${o.id}</span></td><td>${o.customer}</td><td><ssk-tag variant="subtle">${o.channel}</ssk-tag></td><td class="amount">${fmtBaht(o.amount)}</td><td><ssk-badge themeColor="${statusToTone(o.status)}" variant="subtle">${o.status}</ssk-badge></td><td class="date">${o.date}</td></tr>`;
   const fmtSidebar = (i: { key: string; label: string; iconName: string; badge?: number; active?: boolean }) =>
-    `<ssk-sidebar-item key="${i.key}" label="${i.label}"${i.active ? " actived" : ""}><ssk-icon slot="icon" name="${i.iconName}"></ssk-icon>${i.badge !== undefined ? `<ssk-badge slot="end" variant="solid" themeColor="primary">${i.badge}</ssk-badge>` : ""}</ssk-sidebar-item>`;
+    `<ssk-sidebar-item key="${i.key}"${i.active ? " actived" : ""}><ssk-icon slot="prefix" name="${i.iconName}"></ssk-icon>${i.label}</ssk-sidebar-item>`;
   const totalPages = Math.ceil(data.pagination.total / data.pagination.pageSize);
 
-  return `<ssk-app-shell-provider brand="${brand}"><ssk-app-shell style="height: 100vh; display: block;"><div slot="navbar" class="navbar"><div class="navbar-left"><ssk-logo brand="${brand}"></ssk-logo><span class="navbar-title">${data.brandHeaderLabel}</span></div><div class="navbar-right"><ssk-input placeholder="${data.searchPlaceholder}" style="width: 320px;"></ssk-input><ssk-avatar shape="circle" size="md">${data.userInitials}</ssk-avatar></div></div><ssk-sidebar slot="sidebar" expanded width="100%" style="height:100%;"><div slot="header" class="sidebar-pad"><div class="sidebar-section">เมนูหลัก</div></div>${data.sidebar.map(fmtSidebar).join("")}</ssk-sidebar><div class="page"><header class="page-header"><div><ssk-heading level="2">${data.pageTitle}</ssk-heading><ssk-text style="color: var(--text-secondary);">${data.pageSubtitle}</ssk-text></div><ssk-button variant="solid" tone="brand"><ssk-icon slot="leading" name="outline-plus"></ssk-icon>${data.primaryActionLabel}</ssk-button></header><section class="stats">${data.stats.map(fmtStat).join("")}</section><div class="panel"><div class="toolbar"><ssk-heading level="4">รายการออเดอร์</ssk-heading><div class="toolbar-actions"><ssk-button variant="outline" tone="brand"><ssk-icon slot="leading" name="outline-funnel"></ssk-icon>Filter</ssk-button><ssk-button variant="outline" tone="brand"><ssk-icon slot="leading" name="outline-arrow-down-tray"></ssk-icon>Export</ssk-button></div></div><div class="tabs" role="tablist">${data.statusTabs.map((t, i) => fmtTab(t, i === 0)).join("")}</div><div class="table-wrap"><table><thead><tr><th>Order ID</th><th>ลูกค้า</th><th>ช่องทาง</th><th style="text-align:right;">ยอดเงิน</th><th>สถานะ</th><th>วันที่</th></tr></thead><tbody>${data.orders.map(fmtRow).join("")}</tbody></table></div><div class="footer"><ssk-pagination currentPage="${data.pagination.page}" totalPages="${totalPages}" rowsPerPage="${data.pagination.pageSize}" allItems="${data.pagination.total}" showrowsperpage></ssk-pagination></div></div></div></ssk-app-shell></ssk-app-shell-provider>`;
+  return `<ssk-app-shell-provider brand="${brand}"><ssk-app-shell style="height: 100%; display: block;"><div slot="navbar" class="navbar"><div class="navbar-left"><ssk-logo brand="${brand}"></ssk-logo><span class="navbar-title">${data.brandHeaderLabel}</span></div><div class="navbar-right"><ssk-input placeholder="${data.searchPlaceholder}" style="width: 320px;"></ssk-input><ssk-avatar shape="circle" size="md">${data.userInitials}</ssk-avatar></div></div><ssk-sidebar slot="sidebar" expanded width="100%" style="height:100%;"><ssk-sidebar-group label="เมนูหลัก" key="main" expanded>${data.sidebar.map(fmtSidebar).join("")}</ssk-sidebar-group></ssk-sidebar><div class="page"><header class="page-header"><div><ssk-heading level="2">${data.pageTitle}</ssk-heading><ssk-text style="color: var(--text-secondary);">${data.pageSubtitle}</ssk-text></div><ssk-button variant="solid" tone="brand"><ssk-icon slot="leading" name="outline-plus"></ssk-icon>${data.primaryActionLabel}</ssk-button></header><section class="stats">${data.stats.map(fmtStat).join("")}</section><div class="panel"><div class="toolbar"><ssk-heading level="4">รายการออเดอร์</ssk-heading><div class="toolbar-actions"><ssk-button variant="outline" tone="brand"><ssk-icon slot="leading" name="outline-funnel"></ssk-icon>Filter</ssk-button><ssk-button variant="outline" tone="brand"><ssk-icon slot="leading" name="outline-arrow-down-tray"></ssk-icon>Export</ssk-button></div></div><div class="tabs" role="tablist">${data.statusTabs.map((t, i) => fmtTab(t, i === 0)).join("")}</div><div class="table-wrap"><table><thead><tr><th>Order ID</th><th>ลูกค้า</th><th>ช่องทาง</th><th style="text-align:right;">ยอดเงิน</th><th>สถานะ</th><th>วันที่</th></tr></thead><tbody>${data.orders.map(fmtRow).join("")}</tbody></table></div><div class="footer"><ssk-pagination currentPage="${data.pagination.page}" totalPages="${totalPages}" rowsPerPage="${data.pagination.pageSize}" allItems="${data.pagination.total}" showrowsperpage></ssk-pagination></div></div></div></ssk-app-shell></ssk-app-shell-provider>`;
 }

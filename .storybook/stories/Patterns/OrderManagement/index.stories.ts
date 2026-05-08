@@ -62,3 +62,20 @@ export const EmptyState: Story = {
     ></ssk-pattern-order-management>`;
   },
 };
+
+/**
+ * Bounded-height host (600px) — mimics how ds3-preview's Vibecode Templates page
+ * embeds the pattern inside a fixed container. If this story renders correctly
+ * (full layout, no empty rows), the same approach works in ds3-preview without
+ * the legacy fake-shell PreviewShell workaround.
+ */
+export const Bounded600: Story = {
+  parameters: { layout: "centered" },
+  render: (args) => html`
+    <div style="height: 600px; width: 100%; max-width: 1280px; border: 1px solid var(--stroke-secondary, #e5e7eb); border-radius: 12px; overflow: hidden;">
+      <ssk-pattern-order-management
+        brand=${args.brand}
+      ></ssk-pattern-order-management>
+    </div>
+  `,
+};
