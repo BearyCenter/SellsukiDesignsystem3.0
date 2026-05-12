@@ -180,6 +180,7 @@ export class Button extends LitElement {
       --font-size: ${parseVariables(
         cssVar("font-size", this.fontSize),
         cssVar("font-size", this.size),
+        "--font-size-button",
       )};
       --line-height: ${parseVariables(
         cssVar("line-height", this.lineHeight),
