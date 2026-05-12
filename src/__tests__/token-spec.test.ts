@@ -267,4 +267,48 @@ describe("DS 3.0 Token Spec Gate", () => {
     expect(offenders.length).toBeLessThanOrEqual(4);
   });
 
+  it("components should use semantic spacing tokens [ratchet — baseline 114]", () => {
+    // DS 3.0 introduced semantic spacing tokens (--space-page-x, --space-section,
+    // --space-container-x/y, --space-stack, --space-row, --space-cluster,
+    // --space-table-cell-x/y) for body content composition.
+    //
+    // Components inherited from DS 1.0 use hardcoded px (padding: 12px, gap: 8px,
+    // margin: 16px, etc.). Each batch of migration MUST lower this baseline by
+    // the count migrated. New hardcoded spacing in any component fails CI.
+    //
+    // Baseline (2026-05-08): 114 hardcoded spacing declarations across components.
+    //   Recently migrated:
+    //     - patterns/order-management/index.ts (page, stats, panel, toolbar,
+    //       tabs, table cell, footer, navbar, sidebar utility — all on tokens)
+    //     - components/page-header/index.ts .page-header padding
+    //
+    // Migration path: replace `padding: 24px` → `padding: var(--space-page-x, 24px)`,
+    // `gap: 16px` → `gap: var(--space-stack, 16px)`, etc. Per role:
+    //   page padding         → --space-page-x / --space-page-y     (24)
+    //   section gap          → --space-section                     (24)
+    //   card/panel padding   → --space-container-x / -y            (20/16)
+    //   stack gap (column)   → --space-stack                       (16)
+    //   row gap (horizontal) → --space-row                         (12)
+    //   cluster gap (tight)  → --space-cluster                     (8)
+    //   table cell           → --space-table-cell-x / -y           (20/14)
+    const HARDCODED_SPACING = /(padding|gap|margin):\s*[0-9]+px(?!.*var\()/;
+    let offenderCount = 0;
+    for (const file of componentFiles) {
+      const rel = path.relative(SRC, file).replace(/\\/g, "/");
+      if (rel === "elements/icon/country-icon.ts") continue; // generated
+      const lines = fs.readFileSync(file, "utf-8").split("\n");
+      for (const line of lines) {
+        if (HARDCODED_SPACING.test(line) && !line.includes("var(")) {
+          offenderCount++;
+        }
+      }
+    }
+    if (offenderCount > 0) {
+      console.warn(
+        `[token-spec] ${offenderCount} hardcoded spacing declaration(s) in components — migrate to semantic spacing tokens (--space-*). See CLAUDE.md "Spacing context → Correct token" table.`,
+      );
+    }
+    expect(offenderCount).toBeLessThanOrEqual(114);
+  });
+
 });
