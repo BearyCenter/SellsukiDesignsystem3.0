@@ -19,6 +19,7 @@ import "../../components/app-shell";
 import "../../components/app-shell/provider";
 import "../../components/card";
 import "../../contexts/theme";
+import "../../components/page-header";
 import "../../components/pagination";
 import "../../components/sidebar";
 import "../../elements/avatar";
@@ -108,13 +109,6 @@ export class OrderManagementPattern extends LitElement {
       background: var(--bg-quaternary, #f8fafc);
       min-height: 100%;
       box-sizing: border-box;
-    }
-    .page-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 24px;
-      gap: 16px;
     }
     .stats {
       display: grid;
@@ -320,19 +314,20 @@ export class OrderManagementPattern extends LitElement {
   }
 
   private _renderHeader(d: OrderManagementData): TemplateResult {
+    // Use canonical <ssk-page-header> (h4 24px) — DS 3.0 inline page header
+    // standard, fits embedded preview contexts. See CLAUDE.md "Page title
+    // (most pages) → --font-size-h4 via <ssk-page-header>".
     return html`
-      <header class="page-header">
-        <div>
-          <ssk-heading level="2">${d.pageTitle}</ssk-heading>
-          <ssk-text style="color: var(--text-secondary);"
-            >${d.pageSubtitle}</ssk-text
-          >
-        </div>
-        <ssk-button variant="solid" tone="brand">
+      <ssk-page-header
+        title=${d.pageTitle}
+        subtitle=${d.pageSubtitle}
+        style="margin-bottom: 24px;"
+      >
+        <ssk-button slot="action" variant="solid" tone="brand">
           <ssk-icon slot="leading" name="outline-plus"></ssk-icon>
           ${d.primaryActionLabel}
         </ssk-button>
-      </header>
+      </ssk-page-header>
     `;
   }
 
@@ -481,5 +476,5 @@ function toHtmlString(brand: Brand, data: OrderManagementData): string {
     `<ssk-sidebar-item key="${i.key}"${i.active ? " actived" : ""}><ssk-icon slot="prefix" name="${i.iconName}"></ssk-icon>${i.label}</ssk-sidebar-item>`;
   const totalPages = Math.ceil(data.pagination.total / data.pagination.pageSize);
 
-  return `<ssk-app-shell-provider brand="${brand}"><ssk-app-shell style="height: 100%; display: block;"><div slot="navbar" class="navbar"><div class="navbar-left"><ssk-logo brand="${brand}"></ssk-logo><span class="navbar-title">${data.brandHeaderLabel}</span></div><div class="navbar-right"><ssk-input placeholder="${data.searchPlaceholder}" style="width: 320px;"></ssk-input><ssk-avatar shape="circle" size="md">${data.userInitials}</ssk-avatar></div></div><ssk-sidebar slot="sidebar" expanded width="100%" style="height:100%;"><ssk-sidebar-group label="เมนูหลัก" key="main" expanded>${data.sidebar.map(fmtSidebar).join("")}</ssk-sidebar-group></ssk-sidebar><div class="page"><header class="page-header"><div><ssk-heading level="2">${data.pageTitle}</ssk-heading><ssk-text style="color: var(--text-secondary);">${data.pageSubtitle}</ssk-text></div><ssk-button variant="solid" tone="brand"><ssk-icon slot="leading" name="outline-plus"></ssk-icon>${data.primaryActionLabel}</ssk-button></header><section class="stats">${data.stats.map(fmtStat).join("")}</section><div class="panel"><div class="toolbar"><ssk-heading level="4">รายการออเดอร์</ssk-heading><div class="toolbar-actions"><ssk-button variant="outline" tone="brand"><ssk-icon slot="leading" name="outline-funnel"></ssk-icon>Filter</ssk-button><ssk-button variant="outline" tone="brand"><ssk-icon slot="leading" name="outline-arrow-down-tray"></ssk-icon>Export</ssk-button></div></div><div class="tabs" role="tablist">${data.statusTabs.map((t, i) => fmtTab(t, i === 0)).join("")}</div><div class="table-wrap"><table><thead><tr><th>Order ID</th><th>ลูกค้า</th><th>ช่องทาง</th><th style="text-align:right;">ยอดเงิน</th><th>สถานะ</th><th>วันที่</th></tr></thead><tbody>${data.orders.map(fmtRow).join("")}</tbody></table></div><div class="footer"><ssk-pagination currentPage="${data.pagination.page}" totalPages="${totalPages}" rowsPerPage="${data.pagination.pageSize}" allItems="${data.pagination.total}" showrowsperpage></ssk-pagination></div></div></div></ssk-app-shell></ssk-app-shell-provider>`;
+  return `<ssk-app-shell-provider brand="${brand}"><ssk-app-shell style="height: 100%; display: block;"><div slot="navbar" class="navbar"><div class="navbar-left"><ssk-logo brand="${brand}"></ssk-logo><span class="navbar-title">${data.brandHeaderLabel}</span></div><div class="navbar-right"><ssk-input placeholder="${data.searchPlaceholder}" style="width: 320px;"></ssk-input><ssk-avatar shape="circle" size="md">${data.userInitials}</ssk-avatar></div></div><ssk-sidebar slot="sidebar" expanded width="100%" style="height:100%;"><ssk-sidebar-group label="เมนูหลัก" key="main" expanded>${data.sidebar.map(fmtSidebar).join("")}</ssk-sidebar-group></ssk-sidebar><div class="page"><ssk-page-header title="${data.pageTitle}" subtitle="${data.pageSubtitle}" style="margin-bottom: 24px;"><ssk-button slot="action" variant="solid" tone="brand"><ssk-icon slot="leading" name="outline-plus"></ssk-icon>${data.primaryActionLabel}</ssk-button></ssk-page-header><section class="stats">${data.stats.map(fmtStat).join("")}</section><div class="panel"><div class="toolbar"><ssk-heading level="4">รายการออเดอร์</ssk-heading><div class="toolbar-actions"><ssk-button variant="outline" tone="brand"><ssk-icon slot="leading" name="outline-funnel"></ssk-icon>Filter</ssk-button><ssk-button variant="outline" tone="brand"><ssk-icon slot="leading" name="outline-arrow-down-tray"></ssk-icon>Export</ssk-button></div></div><div class="tabs" role="tablist">${data.statusTabs.map((t, i) => fmtTab(t, i === 0)).join("")}</div><div class="table-wrap"><table><thead><tr><th>Order ID</th><th>ลูกค้า</th><th>ช่องทาง</th><th style="text-align:right;">ยอดเงิน</th><th>สถานะ</th><th>วันที่</th></tr></thead><tbody>${data.orders.map(fmtRow).join("")}</tbody></table></div><div class="footer"><ssk-pagination currentPage="${data.pagination.page}" totalPages="${totalPages}" rowsPerPage="${data.pagination.pageSize}" allItems="${data.pagination.total}" showrowsperpage></ssk-pagination></div></div></div></ssk-app-shell></ssk-app-shell-provider>`;
 }

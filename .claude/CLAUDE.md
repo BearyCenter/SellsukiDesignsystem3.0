@@ -62,10 +62,11 @@ heading tokens (h1–h4) belong to real headings only. UI body contexts use `--f
 | Form label, UI label, table column header | `--font-size-label` | 20px |
 | Button text, tab label, chip text | `--font-size-button` | 18px |
 | Helper text, hint, timestamp, badge content | `--font-size-caption` | 18px |
+| Page title (most pages, via `<ssk-page-header>`) | `--font-size-h4` | 24px |
 | Card title, modal subsection title, toast title | `--font-size-h4` | 24px |
 | Section heading, modal title | `--font-size-h3` | 28px |
-| Page title (most pages) | `--font-size-h2` | 36px |
-| Hero / landing title | `--font-size-h1` | 44px |
+| Hero / landing standalone page title | `--font-size-h2` | 36px |
+| Marketing hero | `--font-size-h1` | 44px |
 | KPI value (big stat number) | `--font-size-h2`/`h3` (visual UI) | 36/28px |
 
 > **Rule of thumb:** if removing the element's text would still leave a meaningful
