@@ -33,6 +33,21 @@ const aerospaceOrange = getPaletteScale("aerospace-orange");
 const DB_HEAVENT = '"DB HeaventRounded", sans-serif';
 
 const sharedTokens: Record<string, string> = {
+  // spacing — semantic context tokens (DS 3.0)
+  // Page level
+  "--space-page-x":       "24px",  // page padding (horizontal)
+  "--space-page-y":       "24px",  // page padding (vertical)
+  "--space-section":      "24px",  // gap between major sections on a page
+  // Container level (card, panel, dialog body, page-header)
+  "--space-container-x":  "20px",  // padding-inline of card/panel content
+  "--space-container-y":  "16px",  // padding-block of toolbar / header / body
+  "--space-stack":        "16px",  // gap in vertical stacks (column flex)
+  // Inline level (rows, toolbars, button groups)
+  "--space-row":          "12px",  // gap in horizontal rows / toolbars
+  "--space-cluster":       "8px",  // tight gap (icon+text, button group)
+  // Data tables
+  "--space-table-cell-x": "20px",
+  "--space-table-cell-y": "14px",
   // radius
   "--radius-none": "0px",
   "--radius-xxs":  "2px",
@@ -67,7 +82,7 @@ const sharedTokens: Record<string, string> = {
   "--font-size-p":       "20px",
   "--font-size-label":   "20px",
   "--font-size-caption": "18px",
-  "--font-size-button":  "18px",
+  "--font-size-button":  "20px",
   // typography — weight shorthands (shorthand aliases for component use)
   "--weight-h1":      "400",
   "--weight-h2":      "400",

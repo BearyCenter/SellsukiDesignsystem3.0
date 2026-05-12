@@ -58,10 +58,15 @@ heading tokens (h1–h4) belong to real headings only. UI body contexts use `--f
 | Component context | Correct token | Size |
 |-------------------|---------------|------|
 | Sidebar item, list item, menu item | `--font-size-p` | 20px |
-| Form input value, table cell, body paragraph | `--font-size-p` | 20px |
+| Form input value, table cell value, body paragraph | `--font-size-p` | 20px |
 | Form label, UI label, table column header | `--font-size-label` | 20px |
-| Button text, tab label, chip text | `--font-size-button` | 18px |
-| Helper text, hint, timestamp, badge content | `--font-size-caption` | 18px |
+| **KPI / stat card label** (e.g. "ยอดขายวันนี้") | `--font-size-label` | 20px |
+| **Tab pill text** (e.g. "ทั้งหมด", "รอยืนยัน") | `--font-size-label` | 20px |
+| Button text, chip text | `--font-size-button` | 18px |
+| Helper text, hint, badge content | `--font-size-caption` | 18px |
+| **Table cell timestamp** (e.g. "2026-05-08 14:23") | `--font-size-caption` | 18px |
+| **KPI delta** (e.g. "↗ 12.5% vs yesterday") | `--font-size-caption` | 18px |
+| **Page header subtitle / description** (under `<ssk-page-header>` title) | `--font-size-p` | 20px |
 | Page title (most pages, via `<ssk-page-header>`) | `--font-size-h4` | 24px |
 | Card title, modal subsection title, toast title | `--font-size-h4` | 24px |
 | Section heading, modal title | `--font-size-h3` | 28px |
@@ -74,6 +79,41 @@ heading tokens (h1–h4) belong to real headings only. UI body contexts use `--f
 
 > **Enforced by:** `src/__tests__/token-spec.test.ts` — "non-heading components do not
 > use --font-size-h[1-4] for body text" — ratchet rule. Adding new misuse fails CI.
+
+## Spacing Tokens (body content composition)
+
+DS 3.0 ships **semantic spacing tokens** for body content layout. Pattern + component
+authors MUST use these tokens, not hardcoded px values, so UX/UI can tune spacing
+globally without touching every file.
+
+| Context | Token | Default |
+|---------|-------|---------|
+| **Page padding** (horizontal) | `--space-page-x` | 24px |
+| **Page padding** (vertical) | `--space-page-y` | 24px |
+| **Section gap** (between major page sections) | `--space-section` | 24px |
+| **Container padding** (card/panel content inline) | `--space-container-x` | 20px |
+| **Container padding** (toolbar/header/footer block) | `--space-container-y` | 16px |
+| **Stack gap** (vertical column flex / grid rows) | `--space-stack` | 16px |
+| **Row gap** (horizontal toolbars) | `--space-row` | 12px |
+| **Cluster gap** (icon+text, button group, tight inline) | `--space-cluster` | 8px |
+| **Table cell** (padding inline) | `--space-table-cell-x` | 20px |
+| **Table cell** (padding block) | `--space-table-cell-y` | 14px |
+
+```css
+/* CORRECT */
+padding: var(--space-page-y, 24px) var(--space-page-x, 24px);
+gap:     var(--space-stack, 16px);
+padding: var(--space-table-cell-y, 14px) var(--space-table-cell-x, 20px);
+
+/* FORBIDDEN (in components/patterns) */
+padding: 24px;           /* hardcode */
+gap: 16px;               /* hardcode */
+margin: 12px;            /* hardcode */
+```
+
+> **Enforced by:** `src/__tests__/token-spec.test.ts` — "components should use
+> semantic spacing tokens" — ratchet rule, baseline 114. Adding new hardcoded
+> spacing without a token fails CI.
 
 > Exception: avatar initials at xs/sm size (10–12px) are intentional visual UI.
 > Icon-only elements with no text may use visual sizing as needed.
