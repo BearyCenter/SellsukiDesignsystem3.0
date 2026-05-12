@@ -54,9 +54,8 @@ export class PageHeader extends LitElement {
       display: flex;
       flex-direction: column;
       gap: 4px;
-      padding: 16px 24px;
-      background: var(--bg-primary, #f9fafb);
-      border-bottom: 1px solid var(--stroke-primary, #e5e7eb);
+      padding: var(--space-container-y, 16px) 0 var(--space-section, 24px);
+      background: transparent;
     }
 
     .top-row {
@@ -132,7 +131,7 @@ export class PageHeader extends LitElement {
     .subtitle {
       margin: 2px 0 0;
       font-family: var(--font-p, "DB HeaventRounded", sans-serif);
-      font-size: var(--font-size-caption, 18px);
+      font-size: var(--font-size-p, 20px);
       color: var(--text-secondary, #6b7280);
       white-space: nowrap;
       overflow: hidden;
