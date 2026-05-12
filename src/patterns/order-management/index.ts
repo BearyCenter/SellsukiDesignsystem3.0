@@ -105,7 +105,7 @@ export class OrderManagementPattern extends LitElement {
       color: var(--text-primary, #111827);
     }
     .page {
-      padding: 24px;
+      padding: var(--space-page-y, 24px) var(--space-page-x, 24px);
       background: var(--bg-quaternary, #f8fafc);
       min-height: 100%;
       box-sizing: border-box;
@@ -113,11 +113,11 @@ export class OrderManagementPattern extends LitElement {
     .stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
+      gap: var(--space-stack, 16px);
+      margin-bottom: var(--space-section, 24px);
     }
     .stat {
-      padding: 20px;
+      padding: var(--space-container-x, 20px);
       background: var(--bg-primary, #fff);
       border: 1px solid var(--stroke-secondary, #e5e7eb);
       border-radius: var(--radius-lg, 12px);
@@ -129,11 +129,11 @@ export class OrderManagementPattern extends LitElement {
       align-items: flex-start;
     }
     .stat-label {
-      font-size: var(--font-size-caption, 18px);
+      font-size: var(--font-size-label, 20px);
       color: var(--text-secondary, #6b7280);
     }
     .stat-value {
-      margin-top: 8px;
+      margin-top: var(--space-cluster, 8px);
       font-size: var(--font-size-h2, 36px);
       font-weight: var(--weight-h3, 700);
       color: var(--text-primary, #111827);
@@ -155,27 +155,27 @@ export class OrderManagementPattern extends LitElement {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 20px;
+      padding: var(--space-container-y, 16px) var(--space-container-x, 20px);
       border-bottom: 1px solid var(--stroke-secondary, #e5e7eb);
-      gap: 12px;
+      gap: var(--space-row, 12px);
     }
-    .toolbar-actions { display: flex; gap: 8px; }
+    .toolbar-actions { display: flex; gap: var(--space-cluster, 8px); }
 
     .tabs {
       display: flex;
-      gap: 8px;
-      padding: 12px 20px;
+      gap: var(--space-cluster, 8px);
+      padding: var(--space-row, 12px) var(--space-container-x, 20px);
       border-bottom: 1px solid var(--stroke-secondary, #e5e7eb);
       overflow-x: auto;
     }
     .tab {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
+      gap: var(--space-cluster, 8px);
+      padding: var(--space-cluster, 8px) var(--space-stack, 16px);
       border-radius: var(--radius-full, 9999px);
-      font-family: var(--font-button, sans-serif);
-      font-size: var(--font-size-caption, 18px);
+      font-family: var(--font-label, sans-serif);
+      font-size: var(--font-size-label, 20px);
       font-weight: var(--weight-button, 600);
       background: transparent;
       color: var(--text-secondary, #6b7280);
@@ -189,7 +189,7 @@ export class OrderManagementPattern extends LitElement {
       border-color: var(--fg-brand-primary, #0ea5e9);
     }
     .tab-count {
-      padding: 2px 8px;
+      padding: 2px var(--space-cluster, 8px);
       border-radius: var(--radius-full, 9999px);
       background: var(--bg-secondary, #f3f4f6);
       font-size: var(--font-size-caption, 18px);
@@ -206,7 +206,7 @@ export class OrderManagementPattern extends LitElement {
       text-align: left;
     }
     th, td {
-      padding: 14px 20px;
+      padding: var(--space-table-cell-y, 14px) var(--space-table-cell-x, 20px);
       border-bottom: 1px solid var(--stroke-secondary, #e5e7eb);
     }
     th {
@@ -224,7 +224,7 @@ export class OrderManagementPattern extends LitElement {
     td.date   { color: var(--text-secondary, #6b7280); }
 
     .footer {
-      padding: 16px 20px;
+      padding: var(--space-container-y, 16px) var(--space-container-x, 20px);
       border-top: 1px solid var(--stroke-secondary, #e5e7eb);
     }
 
@@ -233,21 +233,21 @@ export class OrderManagementPattern extends LitElement {
       align-items: center;
       justify-content: space-between;
       height: 100%;
-      padding: 0 24px;
+      padding: 0 var(--space-page-x, 24px);
       background: var(--bg-primary, #fff);
       border-bottom: 1px solid var(--stroke-secondary, #e5e7eb);
     }
-    .navbar-left  { display: flex; align-items: center; gap: 12px; }
-    .navbar-right { display: flex; align-items: center; gap: 16px; }
+    .navbar-left  { display: flex; align-items: center; gap: var(--space-row, 12px); }
+    .navbar-right { display: flex; align-items: center; gap: var(--space-stack, 16px); }
     .navbar-title {
       font-size: var(--font-size-label, 20px);
       font-weight: var(--weight-button, 600);
       color: var(--text-primary, #111827);
     }
 
-    .sidebar-pad     { padding: 12px; }
+    .sidebar-pad     { padding: var(--space-row, 12px); }
     .sidebar-section {
-      padding: 8px 16px;
+      padding: var(--space-cluster, 8px) var(--space-stack, 16px);
       font-size: var(--font-size-caption, 18px);
       font-weight: var(--weight-button, 600);
       color: var(--text-secondary, #6b7280);
@@ -321,9 +321,8 @@ export class OrderManagementPattern extends LitElement {
       <ssk-page-header
         title=${d.pageTitle}
         subtitle=${d.pageSubtitle}
-        style="margin-bottom: 24px;"
       >
-        <ssk-button slot="action" variant="solid" tone="brand">
+        <ssk-button slot="actions" variant="solid" tone="brand">
           <ssk-icon slot="leading" name="outline-plus"></ssk-icon>
           ${d.primaryActionLabel}
         </ssk-button>
@@ -476,5 +475,5 @@ function toHtmlString(brand: Brand, data: OrderManagementData): string {
     `<ssk-sidebar-item key="${i.key}"${i.active ? " actived" : ""}><ssk-icon slot="prefix" name="${i.iconName}"></ssk-icon>${i.label}</ssk-sidebar-item>`;
   const totalPages = Math.ceil(data.pagination.total / data.pagination.pageSize);
 
-  return `<ssk-app-shell-provider brand="${brand}"><ssk-app-shell style="height: 100%; display: block;"><div slot="navbar" class="navbar"><div class="navbar-left"><ssk-logo brand="${brand}"></ssk-logo><span class="navbar-title">${data.brandHeaderLabel}</span></div><div class="navbar-right"><ssk-input placeholder="${data.searchPlaceholder}" style="width: 320px;"></ssk-input><ssk-avatar shape="circle" size="md">${data.userInitials}</ssk-avatar></div></div><ssk-sidebar slot="sidebar" expanded width="100%" style="height:100%;"><ssk-sidebar-group label="เมนูหลัก" key="main" expanded>${data.sidebar.map(fmtSidebar).join("")}</ssk-sidebar-group></ssk-sidebar><div class="page"><ssk-page-header title="${data.pageTitle}" subtitle="${data.pageSubtitle}" style="margin-bottom: 24px;"><ssk-button slot="action" variant="solid" tone="brand"><ssk-icon slot="leading" name="outline-plus"></ssk-icon>${data.primaryActionLabel}</ssk-button></ssk-page-header><section class="stats">${data.stats.map(fmtStat).join("")}</section><div class="panel"><div class="toolbar"><ssk-heading level="4">รายการออเดอร์</ssk-heading><div class="toolbar-actions"><ssk-button variant="outline" tone="brand"><ssk-icon slot="leading" name="outline-funnel"></ssk-icon>Filter</ssk-button><ssk-button variant="outline" tone="brand"><ssk-icon slot="leading" name="outline-arrow-down-tray"></ssk-icon>Export</ssk-button></div></div><div class="tabs" role="tablist">${data.statusTabs.map((t, i) => fmtTab(t, i === 0)).join("")}</div><div class="table-wrap"><table><thead><tr><th>Order ID</th><th>ลูกค้า</th><th>ช่องทาง</th><th style="text-align:right;">ยอดเงิน</th><th>สถานะ</th><th>วันที่</th></tr></thead><tbody>${data.orders.map(fmtRow).join("")}</tbody></table></div><div class="footer"><ssk-pagination currentPage="${data.pagination.page}" totalPages="${totalPages}" rowsPerPage="${data.pagination.pageSize}" allItems="${data.pagination.total}" showrowsperpage></ssk-pagination></div></div></div></ssk-app-shell></ssk-app-shell-provider>`;
+  return `<ssk-app-shell-provider brand="${brand}"><ssk-app-shell style="height: 100%; display: block;"><div slot="navbar" class="navbar"><div class="navbar-left"><ssk-logo brand="${brand}"></ssk-logo><span class="navbar-title">${data.brandHeaderLabel}</span></div><div class="navbar-right"><ssk-input placeholder="${data.searchPlaceholder}" style="width: 320px;"></ssk-input><ssk-avatar shape="circle" size="md">${data.userInitials}</ssk-avatar></div></div><ssk-sidebar slot="sidebar" expanded width="100%" style="height:100%;"><ssk-sidebar-group label="เมนูหลัก" key="main" expanded>${data.sidebar.map(fmtSidebar).join("")}</ssk-sidebar-group></ssk-sidebar><div class="page"><ssk-page-header title="${data.pageTitle}" subtitle="${data.pageSubtitle}"><ssk-button slot="actions" variant="solid" tone="brand"><ssk-icon slot="leading" name="outline-plus"></ssk-icon>${data.primaryActionLabel}</ssk-button></ssk-page-header><section class="stats">${data.stats.map(fmtStat).join("")}</section><div class="panel"><div class="toolbar"><ssk-heading level="4">รายการออเดอร์</ssk-heading><div class="toolbar-actions"><ssk-button variant="outline" tone="brand"><ssk-icon slot="leading" name="outline-funnel"></ssk-icon>Filter</ssk-button><ssk-button variant="outline" tone="brand"><ssk-icon slot="leading" name="outline-arrow-down-tray"></ssk-icon>Export</ssk-button></div></div><div class="tabs" role="tablist">${data.statusTabs.map((t, i) => fmtTab(t, i === 0)).join("")}</div><div class="table-wrap"><table><thead><tr><th>Order ID</th><th>ลูกค้า</th><th>ช่องทาง</th><th style="text-align:right;">ยอดเงิน</th><th>สถานะ</th><th>วันที่</th></tr></thead><tbody>${data.orders.map(fmtRow).join("")}</tbody></table></div><div class="footer"><ssk-pagination currentPage="${data.pagination.page}" totalPages="${totalPages}" rowsPerPage="${data.pagination.pageSize}" allItems="${data.pagination.total}" showrowsperpage></ssk-pagination></div></div></div></ssk-app-shell></ssk-app-shell-provider>`;
 }
