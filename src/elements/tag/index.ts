@@ -138,6 +138,7 @@ export class Tag extends LitElement {
       align-items: center;
       justify-content: center;
       gap: 0.25em;
+      white-space: nowrap;
 
       background-color: var(--background-color);
       color: var(--color);
