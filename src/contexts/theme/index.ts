@@ -3,8 +3,10 @@ import { createContext, provide } from "@lit/context";
 import { LitElement, PropertyValues, css, html } from "lit";
 import { property } from "lit/decorators.js";
 import { Theme, parseThemeToCssVariables } from "../../types/theme";
+import { brandContext, DEFAULT_BRAND } from "./brand-assets";
 import { defaultTheme } from "./default";
 import { Brand, injectSemanticTokens } from "./semantic-tokens";
+export * from "./brand-assets";
 export * from "./default";
 export * from "./semantic-tokens";
 
@@ -18,8 +20,18 @@ export class ThemeProvider extends LitElement {
   @property({ type: String })
   brand?: Brand;
 
+  /**
+   * Brand exposed to descendants via Lit context. Mirrors `brand` prop, but
+   * always has a defined value (DEFAULT_BRAND fallback) so consumers don't
+   * have to handle undefined.
+   */
+  @provide({ context: brandContext })
+  @property({ attribute: false })
+  resolvedBrand: Brand = DEFAULT_BRAND;
+
   updated(changed: PropertyValues) {
     if (changed.has("brand") && this.brand) {
+      this.resolvedBrand = this.brand;
       injectSemanticTokens(this.brand);
     }
   }
