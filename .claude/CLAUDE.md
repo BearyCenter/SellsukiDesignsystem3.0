@@ -164,7 +164,7 @@ Never use `--ssk-colors-*` primitives directly in components — always go throu
 | `src/components/app-shell/index.ts` | `ds-app-shell` grid layout shell |
 | `src/components/charts/` | Zero-dep SVG charts (line, bar, donut) |
 | `.storybook/stories/` | All CSF3 stories |
-| `DS_UPGRADE.md` | Phase-by-phase upgrade master plan |
+| `DS3_VIBECODE_PRODUCTION_PLAN.md` | Active plan — vibecode quality blockers + roadmap |
 
 ## npm scripts
 
