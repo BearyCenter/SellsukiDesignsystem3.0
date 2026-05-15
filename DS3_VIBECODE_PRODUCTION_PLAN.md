@@ -381,6 +381,16 @@ get_icon_catalog(category?: "navigation"|"action"|"status"|...)
 | [DES-2038](https://sellsuki.atlassian.net/browse/DES-2038) | Task | [P0-3] @uxuissk/design-system-core — ship bundled JS for CDN | 🟢 |
 | [DES-2039](https://sellsuki.atlassian.net/browse/DES-2039) | Task | [P0-4] ds3-mcp — auto-sync schema with installed package version | 🟢 |
 | [DES-2040](https://sellsuki.atlassian.net/browse/DES-2040) | Task | [P0-5] ds3-mcp — extend get_component schema (enum/defaults/slots/events/examples) | 🟢 Blocked by DES-2039 |
+| [DES-2041](https://sellsuki.atlassian.net/browse/DES-2041) | Task | [P1-1] ds3-mcp — validate_usage strict checks (token/wrapper/duplicate violations) | 🟢 |
+| [DES-2042](https://sellsuki.atlassian.net/browse/DES-2042) | Task | [P1-2] ds3-mcp — write component descriptions for all 91 components | 🟢 |
+| [DES-2043](https://sellsuki.atlassian.net/browse/DES-2043) | Task | [P1-3] ssk-widget-matric refactor (drop demo image + slot pattern + optional props) | 🟢 |
+| [DES-2044](https://sellsuki.atlassian.net/browse/DES-2044) | Task | [P1-4] resolve ssk-text vs ssk-text_2 naming | 🟢 |
+| [DES-2045](https://sellsuki.atlassian.net/browse/DES-2045) | Task | [P1-5] ds3-mcp — add icon catalog tool (list_icons / get_icon_catalog) | 🟢 |
+| [DES-2046](https://sellsuki.atlassian.net/browse/DES-2046) | Task | [P1-6] ds3-mcp — implement suggest_components ranking algorithm | 🟢 Depends on DES-2042 |
+| [DES-2047](https://sellsuki.atlassian.net/browse/DES-2047) | Task | [P1-7] Shiki dynamic import to reduce bundle size | 🟢 |
+| [DES-2048](https://sellsuki.atlassian.net/browse/DES-2048) | Task | [P1-8] ship React TypeScript type declarations | 🟢 |
+| [DES-2049](https://sellsuki.atlassian.net/browse/DES-2049) | Task | [P1-9] ds3-mcp — add a11y (WCAG 2.1 AA) checks to validate_usage | 🟢 |
+| [DES-2050](https://sellsuki.atlassian.net/browse/DES-2050) | Task | [P1-10] accept friendly brand names in get_brand_rules | 🟢 |
 
 ### Wrong project (to be cleaned up manually by user)
 
