@@ -1,5 +1,30 @@
 # Jira MCP Rules
 
+## Project routing (CRITICAL — read first)
+
+Sellsuki uses TWO Jira projects relevant to this repo. Picking the wrong one creates orphan tickets that must be manually cleaned up.
+
+| Project | Key | ID | When to use |
+|---------|-----|----|-------------|
+| **Designer (DES)** | `DES` | 10051 | DS 3.0 work, UXUI improvements, MCP / component / token / validator fixes, design system tickets. **Default for anything `@uxuissk/design-system-core` or `ds3-mcp` related.** |
+| **LINE-R (LR)** | `LR` | 10192 | Product feature work for the LINE-R product team — **NOT** for DS infrastructure |
+
+URLs:
+- DES board: https://sellsuki.atlassian.net/jira/software/projects/DES/boards/52/backlog
+- DS 3.0 Vibecode Production Epic: https://sellsuki.atlassian.net/browse/DES-2035
+
+If unsure, ask the user once which project. **Do not default to LR for design system tickets** — historically that has been wrong (LR-187..190 in this repo are an example of mistakes that had to be reverted).
+
+## Issue types by project
+
+**DES (Designer)** — simpler set:
+- `Task` (id 10178, hierarchy 0) — top-level work
+- `Epic` (id 10179, hierarchy 1) — group of tasks
+- `Subtask` (id 10180, hierarchy -1)
+- ⚠ DES does NOT have `Tech Story` / `Bug` / `Story` — use `Task` for top-level
+
+**LR (LINE-R)** — see "Issue Type Hierarchy for Project LR" section further down.
+
 ## Rate Limiting — CRITICAL
 
 Jira Cloud enforces a sliding rate limit. Violating it causes 429 errors that persist
