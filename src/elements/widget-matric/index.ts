@@ -53,20 +53,23 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
 
   private _defaultWidth = '3'
   private _defaultHeight = '2'
-    // property data
-  @property({ type: String }) label = "Label";
-  @property({ type: String }) subText = "subText";
-  @property({ type: String }) badgeText = "3.25%";
+  // Data props — empty by default so unset widgets don't render placeholder
+  // text or stock-photo URLs in production. Pair each visible region with
+  // its show* flag below, OR slot in your own content via the named slots.
+  @property({ type: String }) label = "";
+  @property({ type: String }) subText = "";
+  @property({ type: String }) badgeText = "";
   @property({ type: String }) badgeColor = "success";
-  @property({ type: String }) badgeIcon = "solid-arrow-up-right";
+  @property({ type: String }) badgeIcon = "";
   @property({ type: String }) iconLeftColor = "gray";
-  @property({ type: String }) iconLeft = "outline-ellipsis-horizontal-circle";
-  @property({ type: String }) imgUrl = "https://fastly.picsum.photos/id/216/200/300.jpg?hmac=c3OXbiUxWPMgwnaFpX8ZAfBL5TZzWjnof6mb4OwuSPs";
+  @property({ type: String }) iconLeft = "";
+  @property({ type: String }) imgUrl = "";
+  @property({ type: String }) imgAlt = "";
   @property({ type: String }) buttonColor = "primary";
   @property({ type: String }) buttonVariant = "outline";
-  @property({ type: String }) buttonIcon = "solid-arrow-right-circle";
+  @property({ type: String }) buttonIcon = "";
   @property({ type: String }) iconRightColor = "gray";
-  @property({ type: String }) iconRight = "outline-ellipsis-horizontal-circle";
+  @property({ type: String }) iconRight = "";
 
   // property ควบคุมการแสดง
   @property({ type: Boolean }) showSubtext = true;
@@ -273,26 +276,28 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
         >
         <div class="matric-style">
             <div class="matric-left">
-                ${this.showImage
-                ? html`
-                    <div>
-                        <ssk-image src="${this.imgUrl}" alt="demo image" width="56px" height="56px"></ssk-image>
-                    </div>
-                    `
-                : this.showIconLeft
+                <slot name="left">
+                    ${this.showImage && this.imgUrl
                     ? html`
                         <div>
-                            <ssk-misc-icon
-                            iconname="${this.iconLeft}"
-                            size="sm"
-                            themecolor="${this.iconLeftColor}"
-                            variant="light"
-                            ></ssk-misc-icon>
+                            <ssk-image src="${this.imgUrl}" alt="${this.imgAlt}" width="56px" height="56px"></ssk-image>
                         </div>
                         `
-                    : nothing
-                }
-                
+                    : this.showIconLeft && this.iconLeft
+                        ? html`
+                            <div>
+                                <ssk-misc-icon
+                                iconname="${this.iconLeft}"
+                                size="sm"
+                                themecolor="${this.iconLeftColor}"
+                                variant="light"
+                                ></ssk-misc-icon>
+                            </div>
+                            `
+                        : nothing
+                    }
+                </slot>
+
                 <div class="text-content">
                     <div>
                         ${this.renderLabel()}
@@ -308,50 +313,55 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
                 </div>
             </div>
             <div class="matric-right">
-                ${this.showBadge
-                    ? html`
-                        <div>
-                            <ssk-badge
-                            variant="subtle"
-                            size="sm"
-                            themecolor="${this.badgeColor}">
-                                <ssk-icon
-                                    name="${this.badgeIcon}"
-                                    themeColor="${this.badgeColor}"
-                                    size="sm"
-                                ></ssk-icon>
-                                <label>${this.renderBadgeText()}</label>
-                            </ssk-badge>
-                        </div>
-                        `
-                    : this.showButtonIcon
-                    ? html`
-                        <div>
-                            <ssk-button 
-                            variant="${this.buttonVariant}"
-                            themecolor="${this.buttonColor}"
-                            size="sm"
-                            @click=${this.handleButtonClick}>
-                            <ssk-icon slot="prefix"
-                            name="${this.buttonIcon}"
-                            size="sm">
-                            </ssk-icon>
-                            </ssk-button>
-                        </div>
-                        `
-                    : this.showIconRight
-                    ? html`
-                        <div>
-                            <ssk-misc-icon
-                            iconname="${this.iconRight}"
-                            size="sm"
-                            themecolor="${this.iconRightColor}"
-                            variant="light"
-                            ></ssk-misc-icon>
-                        </div>
-                        `
-                    : nothing
-                }
+                <slot name="right">
+                    ${this.showBadge && this.badgeText
+                        ? html`
+                            <div>
+                                <ssk-badge
+                                variant="subtle"
+                                size="sm"
+                                themecolor="${this.badgeColor}">
+                                    ${this.badgeIcon
+                                        ? html`<ssk-icon
+                                            name="${this.badgeIcon}"
+                                            themeColor="${this.badgeColor}"
+                                            size="sm"
+                                        ></ssk-icon>`
+                                        : nothing
+                                    }
+                                    <label>${this.renderBadgeText()}</label>
+                                </ssk-badge>
+                            </div>
+                            `
+                        : this.showButtonIcon && this.buttonIcon
+                        ? html`
+                            <div>
+                                <ssk-button
+                                variant="${this.buttonVariant}"
+                                themecolor="${this.buttonColor}"
+                                size="sm"
+                                @click=${this.handleButtonClick}>
+                                <ssk-icon slot="prefix"
+                                name="${this.buttonIcon}"
+                                size="sm">
+                                </ssk-icon>
+                                </ssk-button>
+                            </div>
+                            `
+                        : this.showIconRight && this.iconRight
+                        ? html`
+                            <div>
+                                <ssk-misc-icon
+                                iconname="${this.iconRight}"
+                                size="sm"
+                                themecolor="${this.iconRightColor}"
+                                variant="light"
+                                ></ssk-misc-icon>
+                            </div>
+                            `
+                        : nothing
+                    }
+                </slot>
             </div>
         </div>
       </div>

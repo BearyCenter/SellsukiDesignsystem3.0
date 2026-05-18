@@ -5,6 +5,8 @@ import { html } from "lit";
 import "../../../src/elements/button";
 import "../../../src/elements/icon";
 import "../../../src/elements/input";
+import "../../../src/components/misc-icon";
+import "../../../src/elements/tag";
 import "../../../src/elements/widget-matric";
 import { WidgetMatric } from "../../../src/elements/widget-matric";
 import { baseArgsTypes } from "../helper";
@@ -125,6 +127,7 @@ export const WithIconButton: Story = {
         label: "View Details",
         subText: "Click the button",
         showButtonIcon: true,
+        buttonIcon: "solid-arrow-right-circle",
         showBadge: false,
         showIconRight: false,
     },
@@ -132,6 +135,39 @@ export const WithIconButton: Story = {
         design: {
             type: "figma",
             url: "https://www.figma.com/design/xKpB9x2tcu5FzWx25cQRJe/Design-System-SSK?node-id=25417-129570&p=f&t=XIXTFazUQ6frUs0i-0",
+        },
+    },
+};
+
+// DES-2043 — new slot-based composition API. Slot custom content into the
+// `left` and `right` regions; the prop-driven render is the fallback and is
+// hidden whenever a slot has any assigned content.
+export const Slotted: Story = {
+    render: () => html`
+        <ssk-widget-matric label="ออเดอร์วันนี้" subText="เทียบกับเมื่อวาน" .showSubtext=${true}>
+            <ssk-misc-icon slot="left" iconname="solid-shopping-bag" themecolor="primary" variant="light" size="sm"></ssk-misc-icon>
+            <ssk-tag slot="right" themecolor="success" variant="subtle">+12.4%</ssk-tag>
+        </ssk-widget-matric>
+    `,
+    parameters: {
+        docs: {
+            description: {
+                story: "Use the `left` and `right` named slots to compose your own decoration without relying on the prop-driven icon/badge/button defaults. The slotted content fully replaces the prop-driven fallback.",
+            },
+        },
+    },
+};
+
+// Empty widget — nothing renders for the prop-driven fallback because every
+// data prop now defaults to "". Use this as a sanity check that no placeholder
+// text (`"Label"`, picsum URL, "demo image" alt, etc.) leaks into production.
+export const Empty: Story = {
+    args: {},
+    parameters: {
+        docs: {
+            description: {
+                story: "All decoration props are empty by default. The widget renders no placeholder text, no stock image, and no 'demo image' alt attribute.",
+            },
         },
     },
 };
