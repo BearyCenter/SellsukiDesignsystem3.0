@@ -50,6 +50,7 @@ export * from "./components/charts";
 export * from "./components/app-shell/index";
 export * from "./components/app-shell/provider";
 export * from "./components/app-shell/feature-page-scaffold";
+export * from "./components/app-shell/default-shell";
 export * from "./components/addon-phone-country";
 export * from "./components/calendar";
 export * from "./components/card-expandable";
