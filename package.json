@@ -1,6 +1,6 @@
 {
   "name": "@uxuissk/design-system-core",
-  "version": "3.4.5",
+  "version": "3.4.6",
   "publishConfig": {
     "access": "public"
   },
@@ -20,6 +20,9 @@
     "./style.css": "./dist/sellsuki-components.css",
     "./styles.css": "./dist/sellsuki-components.css",
     "./bundled": "./dist/sellsuki-components.bundled.js",
+    "./react-types": {
+      "types": "./dist/react-types.d.ts"
+    },
     "./test-utils/vibecode-contract": {
       "import": "./dist/test-utils/vibecode-contract.js",
       "types": "./dist/test-utils/vibecode-contract.d.ts"
@@ -27,9 +30,10 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "cross-env NODE_ENV=production tsc && vite build && npm run build:bundled && npm run build:test-utils",
+    "build": "cross-env NODE_ENV=production tsc && vite build && npm run build:bundled && npm run build:test-utils && npm run generate:react-types",
     "build:bundled": "vite build --config vite.config.bundled.js && node -e \"require('fs').rmSync('dist/sellsuki-components.bundled.css', {force:true})\"",
     "build:test-utils": "tsc -p tsconfig.test-utils.json",
+    "generate:react-types": "node scripts/generate-react-types/index.js",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
