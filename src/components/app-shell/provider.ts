@@ -17,6 +17,32 @@ const BRAND_MAP: Record<AppShellBrand, Brand> = {
   ccs3:        "ccs3",
 };
 
+/**
+ * Brand-friendly wrapper for product-level apps and vibe-code outputs.
+ *
+ * Accepts the eight Sellsuki product brand names (`sellsuki`, `patona`,
+ * `shipmunk`, `akita`, `sellsukipay`, `sukispace`, `oc2plus`, `ccs3`) and
+ * maps them to the three underlying DS 3.0 brands via {@link BRAND_MAP}, then
+ * calls {@link injectSemanticTokens} so descendants pick up the correct
+ * brand-tinted tokens. Also publishes the resolved brand via Lit context so
+ * `<ssk-logo>` and other brand-aware components can render the right asset.
+ *
+ * **When to use vs `<ssk-theme-provider>`:**
+ * - Use **`<ssk-app-shell-provider brand="...">`** for vibe-code outputs,
+ *   product app shells, and anywhere you want to pass a friendly brand name.
+ *   This is the wrapper validated by `runContract()` / `vibecode-contract`.
+ * - Use **`<ssk-theme-provider>`** when you need the full theme context
+ *   (drives `themeContext` consumers like `<ssk-code-block>`, applies the
+ *   default theme's CSS variables to `:host`, and brings in the global
+ *   scrollbar / font-family base). Storybook stories wrap with this one.
+ * - The two are composable: `<ssk-theme-provider>` can wrap
+ *   `<ssk-app-shell-provider>` if you want both the full theme context and
+ *   friendly brand-name mapping in the same tree.
+ *
+ * Neither provider is deprecated. The earlier MCP `get_brand_rules` claim
+ * that "ssk-theme-provider is deprecated" was a catalog bug — see
+ * `DS3_VIBECODE_PRODUCTION_PLAN.md` §10.1 for the audit.
+ */
 export class AppShellProvider extends LitElement {
   static registeredName = "ssk-app-shell-provider";
 

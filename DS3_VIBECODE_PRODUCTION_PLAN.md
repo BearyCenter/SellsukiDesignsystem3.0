@@ -525,7 +525,11 @@ Labels:      ds3-mcp, p0-blocker, schema
 
 ## 10. Open questions for review
 
-1. **`ssk-app-shell-provider` ตั้งใจให้อยู่หรือไม่?** ถ้ายังต้องการ → docs ต้องอธิบายว่าใช้คู่ theme-provider ไม่ใช่แทน ถ้าไม่ใช้แล้ว → mark `@deprecated` ในซอร์ส + warning console
+1. ~~**`ssk-app-shell-provider` ตั้งใจให้อยู่หรือไม่?** ถ้ายังต้องการ → docs ต้องอธิบายว่าใช้คู่ theme-provider ไม่ใช่แทน ถ้าไม่ใช้แล้ว → mark `@deprecated` ในซอร์ส + warning console~~ **RESOLVED 2026-05-18:** ตั้งใจอยู่ทั้งคู่ ไม่มีใครถูก deprecate. แต่ละตัวรับ scope ต่างกัน:
+   - `<ssk-theme-provider>` — core wrapper. Provides `themeContext` (ใช้โดย `<ssk-code-block>` etc.) + apply default theme CSS variables + global scrollbar/font base. รับ strict brand เท่านั้น (`"ccs3" | "patona" | "oc2plus"`). Storybook ใช้ตัวนี้.
+   - `<ssk-app-shell-provider>` — friendly-brand wrapper for vibe-code/product app shells. รับ 8 friendly names (`sellsuki/patona/shipmunk/akita/sellsukipay/sukispace/oc2plus/ccs3`) แล้ว map ไป strict brand + inject semantic tokens. ใช้โดย vibecode-contract.test + pattern proposals (เป็น root ที่ runContract บังคับ).
+   - **Composable**: ใส่ `<ssk-app-shell-provider>` ภายใน `<ssk-theme-provider>` ได้ถ้าต้องการทั้ง full theme context + friendly brand mapping.
+   - JSDoc inline ทั้งสอง classes อธิบาย when-to-use เรียบร้อย (`AppShellProvider` ใน `src/components/app-shell/provider.ts`, `ThemeProvider` ใน `src/contexts/theme/index.ts`).
 2. ~~**`ssk-text` vs `ssk-text_2`** — เก็บตัวไหน? (Suki Designer ใช้ `ssk-text`)~~ **RESOLVED 2026-05-18 (DES-2044):** `ssk-text` เป็น canonical และเป็นชื่อเดียวที่เคย register จริงใน source (`src/elements/text/index.ts:162`). `ssk-text_2` เป็น phantom จาก MCP `list_components` catalog ที่ stale — ไม่เคยมีใน source/git history. ไม่ต้องแก้ใน this repo. MCP-side fix: [DES-2039](https://sellsuki.atlassian.net/browse/DES-2039) (MCP version sync).
 3. **`preview/ds3-preview.html`** — memory note บอก "do not treat as canonical" แต่ session ก่อนหน้านี้ user ก็เปิดดู → ควร mark สถานะให้ชัด (banner ใน file header)
 4. **Bundle size** — bundled.js จะใหญ่ขึ้นเท่าไหร่? lit ~30KB minified+gzip → acceptable. **RESOLVED 2026-05-18 (DES-2038):** +32 KB raw / +10 KB gzip — ตรงตาม estimate.
