@@ -1,6 +1,6 @@
 {
   "name": "@uxuissk/design-system-core",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "publishConfig": {
     "access": "public"
   },
@@ -17,7 +17,8 @@
       "require": "./dist/sellsuki-components.umd.cjs",
       "types": "./dist/main.d.ts"
     },
-    "./style.css": "./dist/style.css",
+    "./style.css": "./dist/sellsuki-components.css",
+    "./styles.css": "./dist/sellsuki-components.css",
     "./test-utils/vibecode-contract": {
       "import": "./dist/test-utils/vibecode-contract.js",
       "types": "./dist/test-utils/vibecode-contract.d.ts"
