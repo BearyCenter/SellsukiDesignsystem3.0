@@ -22,3 +22,12 @@ export type {
   Trend,
 } from "./order-management/mock";
 export { orderManagementMock } from "./order-management/mock";
+
+export * from "./product-list";
+export type {
+  ProductCategory,
+  ProductListData,
+  ProductRow,
+  ProductStatus,
+} from "./product-list/mock";
+export { productListMock } from "./product-list/mock";
