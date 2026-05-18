@@ -2,8 +2,80 @@ import { consume } from "@lit/context";
 import { LitElement, css, html, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
-import { codeToHtml } from "shiki";
+import { createHighlighterCore, type HighlighterCore } from "shiki/core";
+import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 import { themeContext } from "../../contexts/theme";
+
+// DES-2047: only the langs/themes referenced here become Vite chunks.
+// Previously `import { codeToHtml } from "shiki"` pulled in the full bundle
+// (100+ language files, ~22 MB unpacked). Unknown values fall back to
+// plaintext / github-light.
+const LANG_LOADERS: Record<string, () => Promise<unknown>> = {
+  typescript: () => import("shiki/langs/typescript.mjs"),
+  ts: () => import("shiki/langs/typescript.mjs"),
+  javascript: () => import("shiki/langs/javascript.mjs"),
+  js: () => import("shiki/langs/javascript.mjs"),
+  tsx: () => import("shiki/langs/tsx.mjs"),
+  jsx: () => import("shiki/langs/jsx.mjs"),
+  css: () => import("shiki/langs/css.mjs"),
+  scss: () => import("shiki/langs/scss.mjs"),
+  html: () => import("shiki/langs/html.mjs"),
+  json: () => import("shiki/langs/json.mjs"),
+  yaml: () => import("shiki/langs/yaml.mjs"),
+  markdown: () => import("shiki/langs/markdown.mjs"),
+  md: () => import("shiki/langs/markdown.mjs"),
+  bash: () => import("shiki/langs/bash.mjs"),
+  sh: () => import("shiki/langs/bash.mjs"),
+  python: () => import("shiki/langs/python.mjs"),
+  py: () => import("shiki/langs/python.mjs"),
+  go: () => import("shiki/langs/go.mjs"),
+  rust: () => import("shiki/langs/rust.mjs"),
+};
+
+const THEME_LOADERS: Record<string, () => Promise<unknown>> = {
+  "github-light": () => import("shiki/themes/github-light.mjs"),
+  "github-dark": () => import("shiki/themes/github-dark.mjs"),
+  "vitesse-light": () => import("shiki/themes/vitesse-light.mjs"),
+  "vitesse-dark": () => import("shiki/themes/vitesse-dark.mjs"),
+};
+
+let highlighterPromise: Promise<HighlighterCore> | null = null;
+const loadedLangs = new Set<string>();
+const loadedThemes = new Set<string>();
+
+function getHighlighter(): Promise<HighlighterCore> {
+  if (!highlighterPromise) {
+    highlighterPromise = createHighlighterCore({
+      themes: [],
+      langs: [],
+      engine: createJavaScriptRegexEngine(),
+    });
+  }
+  return highlighterPromise;
+}
+
+async function highlight(
+  code: string,
+  lang: string | undefined,
+  theme: string,
+): Promise<string> {
+  const langKey = lang && LANG_LOADERS[lang] ? lang : "plaintext";
+  const themeKey = THEME_LOADERS[theme] ? theme : "github-light";
+  const h = await getHighlighter();
+
+  if (langKey !== "plaintext" && !loadedLangs.has(langKey)) {
+    // shiki's loadLanguage/loadTheme accept a Promise<{default: LanguageRegistration}>
+    // but the type only documents the unwrapped form — cast to satisfy TS.
+    await h.loadLanguage(LANG_LOADERS[langKey]() as unknown as never);
+    loadedLangs.add(langKey);
+  }
+  if (!loadedThemes.has(themeKey)) {
+    await h.loadTheme(THEME_LOADERS[themeKey]() as unknown as never);
+    loadedThemes.add(themeKey);
+  }
+
+  return h.codeToHtml(code, { lang: langKey, theme: themeKey });
+}
 import {
   BadgeVariants,
   ColorName,
@@ -84,10 +156,11 @@ export class CodeBlock extends LitElement {
       return;
     }
     try {
-      this._highlightedHtml = await codeToHtml(this.code, {
-        lang: (this.language as any) ?? "plaintext",
-        theme: this.shikiTheme as any,
-      });
+      this._highlightedHtml = await highlight(
+        this.code,
+        this.language,
+        this.shikiTheme,
+      );
     } catch {
       this._highlightedHtml = `<pre><code>${this.code.replace(/</g, "&lt;")}</code></pre>`;
     }
