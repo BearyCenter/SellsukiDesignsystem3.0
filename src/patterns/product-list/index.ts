@@ -1,12 +1,16 @@
 /**
  * <ssk-pattern-product-list>
  *
- * Product List page pattern — DS 3.0 reference output for AI vibecode tools.
- * Renders 4 stat cards, status tabs, product table (thumbnail / name+SKU /
- * category / price / stock / status), search, filter/export, pagination, and
- * a populated sidebar — all behind a brand-aware <ssk-app-shell-provider>.
+ * Product List page pattern — VISUAL REFERENCE for the DS 2.0 Vibe Code Demo
+ * quality bar. Renders 4 stat cards, status tabs, product table (thumbnail /
+ * name+SKU / category / price / stock / status), search, filter/export,
+ * pagination, and a populated sidebar — all behind a brand-aware
+ * <ssk-app-shell-provider>.
  *
- * Visual reference: DS 2.0 Vibe Code Demo (https://sellsukidesignsystemv12-2bee.vercel.app/).
+ * ⚠ Like Pattern #1, this is hand-rolled HTML + CSS with sprinkled ssk-*
+ *   primitives (~34% ssk-* tags). For real product code use
+ *   `<ssk-default-shell>` + ssk-* body components instead — see
+ *   `src/patterns/types.ts` top-of-file comment for the two-track philosophy.
  *
  * Scaffolded 2026-05-18 to validate Pattern SoT's scale claim — the
  * structural skeleton mirrors Pattern #1 (Order Management) so effort can

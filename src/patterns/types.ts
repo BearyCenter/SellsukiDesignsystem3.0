@@ -11,6 +11,50 @@
  *   2. The ds3-preview repo (drops <ssk-pattern-*> into the Vibecode Templates menu)
  *   3. The ds3-mcp server (serves a pattern's static HTML signature to AI clients)
  *   4. The vibecode-contract test suite (validates each pattern's emitted HTML)
+ *
+ * ─── Patterns vs. <ssk-default-shell>: two-track philosophy ─────────────────
+ *
+ * Patterns and `<ssk-default-shell>` answer different questions and BOTH ship
+ * intentionally. Pick the right one by use case:
+ *
+ *   Pattern (`<ssk-pattern-*>`)            <ssk-default-shell>
+ *   ─────────────────────────────────────  ─────────────────────────────────
+ *   Visual quality reference for one       Generic application chrome that
+ *   specific page (Order Management,       any product page can drop into.
+ *   Product List, …).                      Compose with your own body content.
+ *
+ *   Implementation: hand-rolled HTML +     Implementation: ~85% composed of
+ *   CSS with sprinkled ssk-* primitives    real ssk-* components (navbar,
+ *   (current measured: ~35-40% ssk-*).     sidebar, scaffold all child tags).
+ *   Lets the Designer team pixel-match     Lets vibe-code AI emit short,
+ *   the DS 2.0 demo when no component      readable consumer code without
+ *   exists for a given layout (e.g.        having to author bespoke CSS.
+ *   chip-style status tabs, KPI cards
+ *   with delta badges, dense order
+ *   tables with status badges).
+ *
+ *   Used by:                               Used by:
+ *   - Storybook → designer / PM visual     - Storybook → vibe-code starter
+ *     review against DS 2.0 quality bar      story for product teams
+ *   - ds3-mcp → AI consults for STRUCTURE  - Vibe-code AI → emits a short
+ *     and richness expectations              compose-style snippet
+ *   - vibecode-contract test → asserts     - Product apps → real shell for
+ *     each pattern's HTML hits its           production pages
+ *     richness floor
+ *
+ *   Stability: pattern internals evolve    Stability: ssk-default-shell is a
+ *   freely as the visual spec is tuned.    public component API; breaking
+ *                                          changes require a major bump.
+ *
+ * Rule of thumb for AI vibe-code agents:
+ *   "Build me an Order Management page"
+ *     → wrap `<ssk-default-shell>` (or `<ssk-app-shell>` if more control is
+ *       needed), then assemble body content using ssk-* components
+ *       (ssk-page-header, ssk-widget-matric, ssk-table, ssk-tabs, …).
+ *   "Show me the canonical Order Management visual reference"
+ *     → drop `<ssk-pattern-order-management brand="…">` and use it as-is.
+ *       Do NOT copy its inline class names (.stat, .navbar, .tab) into
+ *       consumer code — those are internal to the pattern's hand-rolled CSS.
  */
 
 import type { Brand } from "../contexts/theme/semantic-tokens";

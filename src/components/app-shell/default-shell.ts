@@ -52,6 +52,20 @@ export type DefaultShellMenuGroup = {
  * — different navbar shape, custom sidebar tree, multi-region grids —
  * compose `<ssk-app-shell>` directly with its named slots instead.
  *
+ * ### Vs. `<ssk-pattern-*>` page patterns
+ *
+ * `<ssk-default-shell>` is the **vibe-code starter** — ~85% of its rendered
+ * tree is composed of real `<ssk-*>` components, so AI vibe-code agents and
+ * product apps can emit short, readable consumer code. Pair it with body-area
+ * `<ssk-*>` components (`<ssk-page-header>`, `<ssk-widget-matric>`,
+ * `<ssk-table>`, `<ssk-tabs>`, …) instead of hand-rolled HTML/CSS.
+ *
+ * `<ssk-pattern-order-management>` / `<ssk-pattern-product-list>` are
+ * **visual references** — hand-rolled HTML/CSS that pixel-match the DS 2.0
+ * demo quality bar (~35-40% ssk-* tags). Drop them in to show the Designer
+ * team's intended look; do not copy their inline class names into consumer
+ * code. See `src/patterns/types.ts` for the two-track philosophy explanation.
+ *
  * ### Quick start
  *
  * ```html

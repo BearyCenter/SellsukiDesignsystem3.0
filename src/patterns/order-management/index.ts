@@ -1,12 +1,30 @@
 /**
  * <ssk-pattern-order-management>
  *
- * Order Management dashboard pattern — DS 3.0 reference output for AI vibecode
- * tools. Renders stat cards, status tabs, order table, search, filter/export,
+ * Order Management dashboard pattern — VISUAL REFERENCE for the DS 2.0 Vibe
+ * Code Demo quality bar (https://sellsukidesignsystemv12-2bee.vercel.app/).
+ * Renders stat cards, status tabs, order table, search, filter/export,
  * pagination, and a fully populated sidebar — all behind a brand-aware
  * <ssk-app-shell-provider>.
  *
- * Visual reference: DS 2.0 Vibe Code Demo (https://sellsukidesignsystemv12-2bee.vercel.app/).
+ * ⚠ This pattern is intentionally implemented as hand-rolled HTML + CSS with
+ *   sprinkled ssk-* primitives (~39% ssk-* tags vs ~61% raw div/table/button).
+ *   It exists to PIXEL-MATCH the DS 2.0 visual demo, not to be the shape AI
+ *   vibe-code agents emit into consumer code.
+ *
+ *   For actual product code, use the composition track instead:
+ *     <ssk-default-shell brand="..." .menu={...}>
+ *       <ssk-page-header slot="header" title="..."></ssk-page-header>
+ *       <ssk-widget-matric label="..." value="..."></ssk-widget-matric>
+ *       <ssk-table>...</ssk-table>
+ *     </ssk-default-shell>
+ *
+ *   Do NOT copy this file's inline class names (.stat, .navbar, .tab, …)
+ *   into consumer code — they are internal to this pattern's CSS and may
+ *   change without notice.
+ *
+ *   See `src/patterns/types.ts` top-of-file comment + plan §11 for the
+ *   two-track philosophy explanation.
  *
  * Side-effect imports below ensure every <ssk-*> dependency this pattern emits
  * is registered with the custom-element registry. Without these, consumers

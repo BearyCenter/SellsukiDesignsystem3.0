@@ -746,6 +746,72 @@ Plan จัด P0 ตาม technical severity แต่ในมุม strategy
 
 ---
 
+## 12.5 Two-track philosophy: Patterns vs `<ssk-default-shell>` (resolved 2026-05-18)
+
+> Surfaced by Designer audit during Pattern #2 (Product List) scaffold review.
+> Both tracks ship intentionally — pick the right one by use case.
+
+### The measured gap
+
+Audit of ssk-* component usage vs raw HTML in each artifact:
+
+| Artifact | ssk-* tags | Raw HTML | **% ssk-*** | Role |
+|----------|-----------:|---------:|------------:|------|
+| `<ssk-default-shell>` (preset, v3.5.0+) | 35 | 6 | **85%** | Vibe-code starter |
+| Pattern #1 (Order Management) | 47 | 74 | **39%** | Visual reference |
+| Pattern #2 (Product List) | 45 | 88 | **34%** | Visual reference |
+
+### Why the gap exists
+
+Patterns (#1, #2) made 5 specific choices to hand-roll rather than compose:
+
+| Region | Hand-rolled because | ssk-* alternative exists |
+|--------|---------------------|--------------------------|
+| Navbar | `<ssk-top-navbar>` only has 3 slots — patterns want custom layout | yes |
+| Stat cards | `<ssk-widget-matric>` had placeholder-leak bug (fixed in DES-2043); layout shape differs | yes (post-fix) |
+| Status tabs | Need chip-style with count badge — `<ssk-tab-header>` doesn't ship that variant | partial |
+| Order/Product table | `<ssk-table>` has different styling assumptions; patterns need pixel control | yes |
+| Toolbar (filter/export) | No `<ssk-toolbar>` component | **no — real gap** |
+
+### Resolution: both tracks ship, with clear use case
+
+| | `<ssk-pattern-*>` | `<ssk-default-shell>` |
+|--|--|--|
+| Role | Visual reference for ONE specific page | Generic application chrome |
+| Implementation | Hand-rolled HTML + sprinkled ssk-* | Composed ~85% from ssk-* |
+| Quality bar | Pixel-match DS 2.0 demo | Component-API consistency |
+| Used by Storybook | Designer / PM visual review | Vibe-code starter |
+| Used by ds3-mcp | Structure + richness reference | Compose-target template |
+| Used by AI vibe-code | Inspect; don't emit hand-rolled CSS | **Emit this for product code** |
+| Stability | Internals evolve freely with visual spec | Public component API; major bumps for breaking changes |
+
+### Rule of thumb for AI vibe-code agents
+
+```
+User: "Build me an Order Management page"
+  → Emit: <ssk-default-shell brand="..." .menu={...}> with body using
+          ssk-page-header + ssk-widget-matric + ssk-table + ssk-tabs.
+  → Do NOT copy <ssk-pattern-order-management>'s inline class names
+    (.stat, .navbar, .tab) — those are internal to the pattern's CSS.
+
+User: "Show me the canonical Order Management visual reference"
+  → Drop <ssk-pattern-order-management brand="..."> as-is. It is the
+    Designer team's preferred look at DS 2.0 quality.
+```
+
+JSDoc on both `OrderManagementPattern` and `ProductListPattern` carries
+this warning. JSDoc on `DefaultShell` calls out the inverse. The top of
+`src/patterns/types.ts` documents the full two-track philosophy.
+
+### Real component gap
+
+The Patterns hand-roll a toolbar (`<div class="toolbar">`) because there is
+no `<ssk-toolbar>` component. If the long-term goal is for Patterns to also
+hit ≥80% ssk-* composition, that gap is the highest-value follow-up — open
+as a separate DES ticket when prioritised.
+
+---
+
 ## 13. Consolidated action items (post-review)
 
 หลัง 2 skill review รวมแล้ว ผมเพิ่ม 5 P1 + 1 Phase ใน plan:
