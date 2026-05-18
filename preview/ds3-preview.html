@@ -3,7 +3,36 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>DS 3.0 Preview — Sellsuki Design System</title>
+<title>DS 3.0 Preview — Sellsuki Design System (visual reference, not canonical API)</title>
+<!--
+  ═══════════════════════════════════════════════════════════════════════
+  ⚠  VISUAL DESIGN SPEC — NOT A CANONICAL API REFERENCE  ⚠
+  ═══════════════════════════════════════════════════════════════════════
+
+  This file is a self-contained HTML/CSS sketch used by the Designer team to
+  preview DS 3.0 visual direction (tokens, spacing rhythm, do/don't boxes
+  per component, brand styling). It does NOT use the real
+  @uxuissk/design-system-core npm package — every `class`, color value, and
+  layout here is hand-rolled CSS, not an `<ssk-*>` Lit component.
+
+  When using this file as context (AI agents, designers, vibe code):
+    ✓ DO   trust it as a visual quality bar and a token / spacing reference.
+    ✓ DO   trust the do/don't boxes per component as design intent.
+    ✗ DON'T copy class names like `.badge-pending` into real product code.
+    ✗ DON'T treat any HTML structure here as the @uxuissk component API.
+    ✗ DON'T cite the inline CSS values as "the tokens" — read them from
+            src/contexts/theme/semantic-tokens.ts in the published package.
+
+  Canonical sources for the real API:
+    - @uxuissk/design-system-core (latest on npm — currently 3.5.0)
+    - ~/.claude/skills/suki-designer/SETUP.md
+    - .storybook/stories/ in this repo
+
+  See DS3_VIBECODE_PRODUCTION_PLAN.md §10.3 for the resolution history of
+  this question.
+  ═══════════════════════════════════════════════════════════════════════
+-->
+
 <style>@import url("../src/assets/fonts.css");</style>
 <link rel="stylesheet" href="../src/assets/fonts.css">
 <style>
@@ -627,6 +656,16 @@ input,textarea,select{font-family:var(--font)}
 </style>
 </head>
 <body>
+
+<aside style="position:sticky;top:0;z-index:99;background:#fff7ed;border-bottom:1px solid #fed7aa;color:#9a3412;padding:10px 16px;font:14px/1.4 system-ui,sans-serif;display:flex;gap:12px;align-items:flex-start">
+  <span aria-hidden="true" style="font-size:18px;line-height:1">⚠</span>
+  <div>
+    <strong>Visual design spec — not a canonical API reference.</strong>
+    Class names and inline CSS here are hand-rolled for design preview only. For real product code, use the
+    <a href="https://www.npmjs.com/package/@uxuissk/design-system-core" style="color:#9a3412;text-decoration:underline">@uxuissk/design-system-core</a>
+    npm package (<code>&lt;ssk-*&gt;</code> Lit elements) instead. See file source comment for details.
+  </div>
+</aside>
 
 <div class="shell" id="app">
 
