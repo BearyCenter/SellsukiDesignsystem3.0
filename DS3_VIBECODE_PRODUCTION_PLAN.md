@@ -526,9 +526,9 @@ Labels:      ds3-mcp, p0-blocker, schema
 ## 10. Open questions for review
 
 1. **`ssk-app-shell-provider` ตั้งใจให้อยู่หรือไม่?** ถ้ายังต้องการ → docs ต้องอธิบายว่าใช้คู่ theme-provider ไม่ใช่แทน ถ้าไม่ใช้แล้ว → mark `@deprecated` ในซอร์ส + warning console
-2. **`ssk-text` vs `ssk-text_2`** — เก็บตัวไหน? (Suki Designer ใช้ `ssk-text`)
+2. ~~**`ssk-text` vs `ssk-text_2`** — เก็บตัวไหน? (Suki Designer ใช้ `ssk-text`)~~ **RESOLVED 2026-05-18 (DES-2044):** `ssk-text` เป็น canonical และเป็นชื่อเดียวที่เคย register จริงใน source (`src/elements/text/index.ts:162`). `ssk-text_2` เป็น phantom จาก MCP `list_components` catalog ที่ stale — ไม่เคยมีใน source/git history. ไม่ต้องแก้ใน this repo. MCP-side fix: [DES-2039](https://sellsuki.atlassian.net/browse/DES-2039) (MCP version sync).
 3. **`preview/ds3-preview.html`** — memory note บอก "do not treat as canonical" แต่ session ก่อนหน้านี้ user ก็เปิดดู → ควร mark สถานะให้ชัด (banner ใน file header)
-4. **Bundle size** — bundled.js จะใหญ่ขึ้นเท่าไหร่? lit ~30KB minified+gzip → acceptable
+4. **Bundle size** — bundled.js จะใหญ่ขึ้นเท่าไหร่? lit ~30KB minified+gzip → acceptable. **RESOLVED 2026-05-18 (DES-2038):** +32 KB raw / +10 KB gzip — ตรงตาม estimate.
 5. **Pattern SoT scale** — Pattern #2 (Product List) ใครเป็นคน drive? Memory บอก "validates scale claim ≤30% effort of pattern #1"
 
 ---
