@@ -1,6 +1,6 @@
 {
   "name": "@uxuissk/design-system-core",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "publishConfig": {
     "access": "public"
   },
@@ -23,6 +23,8 @@
     "./react-types": {
       "types": "./dist/react-types.d.ts"
     },
+    "./custom-elements": "./dist/custom-elements.json",
+    "./custom-elements.json": "./dist/custom-elements.json",
     "./test-utils/vibecode-contract": {
       "import": "./dist/test-utils/vibecode-contract.js",
       "types": "./dist/test-utils/vibecode-contract.d.ts"
@@ -30,10 +32,11 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "cross-env NODE_ENV=production tsc && vite build && npm run build:bundled && npm run build:test-utils && npm run generate:react-types",
+    "build": "cross-env NODE_ENV=production tsc && vite build && npm run build:bundled && npm run build:test-utils && npm run generate:react-types && npm run analyze",
     "build:bundled": "vite build --config vite.config.bundled.js && node -e \"require('fs').rmSync('dist/sellsuki-components.bundled.css', {force:true})\"",
     "build:test-utils": "tsc -p tsconfig.test-utils.json",
     "generate:react-types": "node scripts/generate-react-types/index.js",
+    "analyze": "custom-elements-manifest analyze --config custom-elements-manifest.config.mjs",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -60,6 +63,7 @@
     "shiki": "^4.0.2"
   },
   "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.11.0",
     "@open-wc/lit-helpers": "^0.7.0",
     "@storybook/addon-designs": "^8.0.0",
     "@storybook/addon-essentials": "^8.6.18",
@@ -86,5 +90,6 @@
     "vite": "^6.4.2",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^2.1.9"
-  }
+  },
+  "customElements": "dist/custom-elements.json"
 }
