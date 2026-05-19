@@ -15,6 +15,15 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Visual density: controls vertical padding (and therefore navbar height).
+ * - comfortable: 12px padding — current default (~64px with 40px avatar)
+ * - default:     8px 12px padding — modern web standard (~56px)
+ * - compact:     6px 10px padding — dense laptop UI (~48px)
+ * - auto:        compact <1280px, default ≥1280px, compact <=640px
+ */
+export type Density = "comfortable" | "default" | "compact" | "auto";
+
 export class TopNavbar extends LitElement implements ThemeValue {
   static registeredName = "ssk-top-navbar";
 
@@ -33,6 +42,10 @@ export class TopNavbar extends LitElement implements ThemeValue {
   padding?: Size;
   @property({ type: String })
   gap?: string | undefined = "md";
+
+  /** Visual density — see {@link Density}. Default `comfortable` keeps backward compat. */
+  @property({ type: String })
+  density: Density = "comfortable";
 
   // Font
   @property({ type: String })
@@ -75,7 +88,7 @@ export class TopNavbar extends LitElement implements ThemeValue {
         }
       </style>
 
-      <div class="container">
+      <div class="container density-${this.density}">
         <span><slot name="left"></slot></span>
         <span><slot></slot></span>
         <span><slot name="right"></slot></span>
@@ -99,6 +112,36 @@ export class TopNavbar extends LitElement implements ThemeValue {
       font-weight: var(--font-weight);
 
       border-bottom: 1px solid var(--border-color);
+    }
+
+    /* ── Density variants ─────────────────────────────────── */
+    .container.density-comfortable {
+      padding: 12px;
+    }
+
+    .container.density-default {
+      padding: 8px 12px;
+    }
+
+    .container.density-compact {
+      padding: 6px 10px;
+    }
+
+    /* auto: compact on small viewports, default on laptops, comfortable on large */
+    .container.density-auto {
+      padding: 8px 12px;
+    }
+    @media (max-width: 1279px) {
+      .container.density-auto {
+        padding: 6px 10px;
+      }
+    }
+    @media (max-width: 640px) {
+      .container.density-auto,
+      .container.density-default,
+      .container.density-comfortable {
+        padding: 6px 10px;
+      }
     }
 
     span {

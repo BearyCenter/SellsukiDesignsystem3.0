@@ -25,6 +25,14 @@ export type State = {
 
 export const stateContext = createContext<State>("ssk-sidebar-state-context");
 
+/**
+ * Visual density: controls padding + item gap (and therefore visual thickness).
+ * - comfortable: padding 12px 18px, gap 8px (current default)
+ * - default:     padding 10px 14px, gap 6px (modern web standard)
+ * - compact:     padding 8px 12px, gap 4px (dense laptop UI)
+ */
+export type SidebarDensity = "comfortable" | "default" | "compact";
+
 export class Sidebar extends LitElement {
   static registeredName = "ssk-sidebar";
 
@@ -54,6 +62,10 @@ export class Sidebar extends LitElement {
 
   @property({ type: String })
   width?: string = "256px";
+
+  /** Visual density — see {@link SidebarDensity}. Default `comfortable` keeps backward compat. */
+  @property({ type: String })
+  density: SidebarDensity = "comfortable";
 
   @provide({ context: stateContext })
   @property({ attribute: false })
@@ -171,7 +183,7 @@ export class Sidebar extends LitElement {
         }
       </style>
 
-      <div class="sidebar ${this.expanded ? "" : "collapsed"}">
+      <div class="sidebar density-${this.density} ${this.expanded ? "" : "collapsed"}">
         <div class="header">
           <slot name="header"></slot>
         </div>
@@ -205,6 +217,22 @@ export class Sidebar extends LitElement {
       background-color: var(--bg-primary, #fff);
       transition: min-width 0.2s ease-out;
       width: var(--expanded-width);
+    }
+
+    /* ── Density variants ─────────────────────────────────── */
+    .sidebar.density-comfortable {
+      padding: 12px 18px;
+      gap: 8px;
+    }
+
+    .sidebar.density-default {
+      padding: 10px 14px;
+      gap: 6px;
+    }
+
+    .sidebar.density-compact {
+      padding: 8px 12px;
+      gap: 4px;
     }
 
     .sidebar.collapsed {
