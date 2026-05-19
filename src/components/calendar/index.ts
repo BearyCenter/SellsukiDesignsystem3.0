@@ -73,96 +73,213 @@ type typeDay = {
 export class Calendar extends LitElement {
   static registeredName = "ssk-calendar";
 
+  /**
+   * Active theme injected via Lit context. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute for E2E selectors.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Brand accent for selected cells, dropdown highlights, and current-date marker. Defaults to `primary`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Foreground color for selected-cell text. Defaults to `white`.
+   */
   @property({ type: String })
   color?: string = "white";
+  /**
+   * Override for the calendar background color.
+   */
   @property({ type: String })
   backgroundColor?: string | undefined;
 
+  /**
+   * Visual size — controls cell width, padding, and font. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Override for cell padding (size token).
+   */
   @property({ type: String })
   padding?: Size;
+  /**
+   * Override for cell / dropdown border radius (CSS length).
+   */
   @property({ type: String })
   rounded?: string | undefined;
 
   // Calendar props
+  /**
+   * Currently displayed month, two-digit (`"01"`..`"12"`). Updated by next/prev/month-dropdown actions.
+   */
   @property({ type: String })
   month: string = "";
+  /**
+   * Currently displayed year, four-digit (`"2026"`). Always Gregorian (AD); locale handles Buddhist-era rendering.
+   */
   @property({ type: String })
   year: string = "";
+  /**
+   * Locale used for day/month names and year rendering. `th` enables Buddhist-era. Defaults to `th`.
+   */
   @property({ type: String })
   locale: LocaleKey = "th";
+  /**
+   * Footer "go to today" button label. Defaults to Thai `"ตอนนี้"`.
+   */
   @property({ type: String })
   todayText: string = "ตอนนี้";
+  /**
+   * Footer "OK" button label. Defaults to Thai `"ตกลง"`.
+   */
   @property({ type: String })
   okText: string = "ตกลง";
+  /**
+   * Footer button alignment. Defaults to `between`.
+   */
   @property({ type: String })
   footerStyle: "between" | "middle" | "right" = "between";
 
+  /**
+   * When set, the calendar selects a date range (from → to) instead of a single date.
+   */
   @property({ type: Boolean })
   rangeDate = false;
+  /**
+   * When set, the year header is read-only — no dropdown / arrow controls.
+   */
   @property({ type: Boolean })
   disableYearChange = false;
+  /**
+   * When set, the month header is read-only — no dropdown / arrow controls.
+   */
   @property({ type: Boolean })
   disableMonthChange = false;
+  /**
+   * When set, the footer shows a "Go to today" button that resets the view to the current month.
+   */
   @property({ type: Boolean })
   displayGoToday = false;
+  /**
+   * When set, the footer shows an "OK" button — date selection is committed only on click.
+   */
   @property({ type: Boolean })
   displayOk = false;
+  /**
+   * When set, hides the previous-month/year arrows (use for the right pane of a paired range calendar).
+   */
   @property({ type: Boolean })
   disabledPrev = false;
+  /**
+   * When set, hides the next-month/year arrows (use for the left pane of a paired range calendar).
+   */
   @property({ type: Boolean })
   disabledNext = false;
 
+  /**
+   * Upper bound of the selected range, unix-ms timestamp. Used when `rangeDate` is set.
+   */
   @property({ type: Number })
   dateTo?: number;
+  /**
+   * Lower bound of the selected range (or single selected date), unix-ms timestamp.
+   */
   @property({ type: Number })
   dateFrom?: number;
+  /**
+   * Currently hovered date for range preview, unix-ms timestamp.
+   */
   @property({ type: Number })
   hoveredDate?: number;
+  /**
+   * Maximum allowed range size in days. `0` disables the limit. Reserved for future enforcement.
+   */
   @property({ type: Number })
   maxRange = 0;
 
+  /**
+   * Predicate `(date: number) => boolean` — return `true` to mark a unix-ms date as non-selectable.
+   */
   @property({ type: Function })
   disabledDate?: (date: number) => boolean;
 
+  /**
+   * Localized day-of-week labels (Sun→Sat or locale-shifted). Auto-populated from `locale`.
+   */
   @property({ type: Array })
   dayNamesOfTheWeek: Array<string> = [];
+  /**
+   * Numeric years rendered in the year dropdown. Auto-populated 1930→2100 on first update.
+   */
   @property({ type: Array })
   yearsList: Array<number> = [];
+  /**
+   * Pre-computed weeks × days grid for the current `month`/`year`. Auto-derived; not authored directly.
+   */
   @property({ type: Array })
   daysOfMonth: Array<Array<number | typeDay>> = [];
+  /**
+   * Two-digit month strings (`"01"`..`"12"`) rendered in the month dropdown. Auto-populated.
+   */
   @property({ type: Array })
   monthsList: Array<string> = [];
+  /**
+   * When set, the element renders nothing — use for conditional show/hide.
+   */
   @property({ type: Boolean })
   hidden = false;
+  /**
+   * When set, an inline `<ssk-time>` picker is rendered alongside the date grid.
+   */
   @property({ type: Boolean })
   showTime = false;
+  /**
+   * Time bound to `dateFrom`, unix-ms timestamp. Used when `showTime` is set.
+   */
   @property({ type: Number })
   timeFrom?: number;
+  /**
+   * Time bound to `dateTo`, unix-ms timestamp. Used when `showTime` is set in range mode.
+   */
   @property({ type: Number })
   timeTo?: number;
 
+  /**
+   * Granularity of the time picker. Defaults to `hms`.
+   */
   @property({ type: String })
   timeFormat: "hms" | "hm" | "timeEvery30" = "hms";
+  /**
+   * Which range bound the time picker is currently editing in range mode. Defaults to `dateFrom`.
+   */
   @property()
   currentTimeTarget: "dateFrom" | "dateTo" = "dateFrom";
 
+  /**
+   * Specific year(s) that should be non-selectable in the year picker.
+   */
   @property({ type: Array })
   disabledYears?: number[] | number | undefined;
+  /**
+   * Earliest selectable year (inclusive).
+   */
   @property({ type: Number })
   minYear?: number;
+  /**
+   * Latest selectable year (inclusive).
+   */
   @property({ type: Number })
   maxYear?: number;
 

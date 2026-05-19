@@ -47,49 +47,106 @@ export type radioOptions = {
 export class RadioGroup extends LitElement implements ThemeValue {
     static registeredName = "ssk-radio-group";
 
+    /**
+     * Active theme injected via Lit context. Not authored by callers.
+     */
     @consume({ context: themeContext, subscribe: true })
     @property({ attribute: false })
     public theme?: Theme;
 
     // BaseAttributes
+    /**
+     * Stable `data-testid` attribute for E2E selectors. Suffixed per option value at render time.
+     */
     @property({ type: String })
     testId?: string;
 
+    /**
+     * Brand accent for the checked / hover state of each option. Defaults to `primary`.
+     */
     @property({ type: String })
     themeColor: ColorRole | ColorName = "primary";
+    /**
+     * Override for the label text color.
+     */
     @property({ type: String })
     color?: ColorRole | ColorName = "";
+    /**
+     * Override for unchecked dot background. Defaults to `transparent`.
+     */
     @property({ type: String })
     backgroundColor?: string | undefined = "transparent";
+    /**
+     * Override for unchecked dot border color.
+     */
     @property({ type: String })
     borderColor?: string | undefined;
 
+    /**
+     * Visual size for all options. Defaults to `md`.
+     */
     @property({ type: String })
     size: Size = "md";
+    /**
+     * Override for the label font size (CSS length).
+     */
     @property({ type: String })
     fontSize?: string | undefined;
+    /**
+     * Override for dot-to-label gap.
+     */
     @property({ type: String })
     gap?: string | undefined;
+    /**
+     * Override for dot border radius. Defaults to 50% (circle).
+     */
     @property({ type: String })
     rounded?: string | undefined;
+    /**
+     * Override for dot width (CSS length).
+     */
     @property({ type: String })
     width?: string | undefined;
+    /**
+     * Override for dot height (CSS length).
+     */
     @property({ type: String })
     height?: string | undefined;
 
     // radio specific
+    /**
+     * When set, the element renders nothing — use for conditional show/hide.
+     */
     @property({ type: Boolean })
     hidden = false;
+    /**
+     * Title label rendered above the option list.
+     */
     @property({ type: String })
     label?: string | undefined;
+    /**
+     * Group-level checked flag. Rarely set directly — the group manages individual option checked state internally.
+     */
     @property({ type: Boolean })
     checked = false;
+    /**
+     * Indeterminate state — auto-derived when some but not all options are selected.
+     */
     @property({ type: Boolean })
     indeterminate = false;
+    /**
+     * When set, all options render with disabled styling and ignore input.
+     */
     @property({ type: Boolean })
     disabled = false;
+    /**
+     * Options config — `{ defaultValue, options: [{ label, value, checked?, disabled? }] }`. Drives the rendered options list.
+     */
     @property({ type: Object })
     group?: GroupRadio | undefined;
+    /**
+     * When set, options are laid out horizontally instead of stacked vertically.
+     */
     @property({ type: Boolean })
     inline = false;
 

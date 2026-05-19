@@ -37,63 +37,141 @@ type LocaleKey = "en" | "fr" | "th";
 export class RangeDatePicker extends LitElement {
   static registeredName = "ssk-range-date-picker";
 
+  /**
+   * Active theme injected via Lit context. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Brand accent for the calendar popover (selected cells, range highlight). Defaults to `primary`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Override for the input text color.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
+  /**
+   * Stable `data-testid` attribute for E2E selectors.
+   */
   @property({ type: String })
   testId?: string;
+  /**
+   * Visual size of the input trigger and popover. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
+  /**
+   * Label rendered above the range input pair.
+   */
   @property({ type: String })
   label?: string;
+  /**
+   * Placeholder shown in the lower-bound (`from`) input when empty.
+   */
   @property({ type: String })
   placeholderFrom?: string;
+  /**
+   * Placeholder shown in the upper-bound (`to`) input when empty.
+   */
   @property({ type: String })
   placeholderTo?: string;
 
+  /**
+   * Helper / error text shown below the inputs. Rendered while `error` is set.
+   */
   @property({ type: String })
   helperText: string | undefined;
+  /**
+   * When set, both inputs render with red borders and the helper turns into an error message.
+   */
   @property({ type: Boolean })
   error = false;
+  /**
+   * Form-field `name` attribute.
+   */
   @property({ type: String })
   name: string | undefined;
+  /**
+   * When set, the element renders nothing — use for conditional show/hide.
+   */
   @property({ type: Boolean })
   hidden = false;
+  /**
+   * Lower bound of the selected range. Bind two-way via the `change` event's `detail.valueFrom`.
+   */
   @property({ type: Date })
   valueFrom: Date | undefined;
+  /**
+   * Upper bound of the selected range. Bind two-way via the `change` event's `detail.valueTo`.
+   */
   @property({ type: Date })
   valueTo: Date | undefined;
+  /**
+   * date-fns format pattern used to render and parse both input texts. Defaults to `"dd/MM/yyyy"`.
+   */
   @property({ type: String })
   format = "dd/MM/yyyy";
 
+  /**
+   * When set, the popover renders a "Go to today" footer button.
+   */
   @property({ type: Boolean })
   displayGoToday = false;
+  /**
+   * When set, the popover renders an "OK" footer — range changes are deferred until the user confirms.
+   */
   @property({ type: Boolean })
   displayOk = false;
+  /**
+   * When set, the popover includes an inline time picker for each range bound.
+   */
   @property({ type: Boolean })
   showTime = false;
+  /**
+   * Granularity of the time picker. Defaults to `hms`.
+   */
   @property({ type: String })
   timeFormat: "hms" | "hm" | "timeEvery30" = "hms";
+  /**
+   * Locale used for month/day labels and year conversion. `th` enables Buddhist-era display. Defaults to `th`.
+   */
   @property({ type: String })
   locale: LocaleKey = "th";
+  /**
+   * Side of the input the popover anchors to. Defaults to `left`.
+   */
   @property({ type: String })
   alignCalendar?: "left" | "right" = "left";
+  /**
+   * Width of the calendar popover (CSS length). Defaults to `fit-content`.
+   */
   @property({ type: String })
   widthCalendar?: string | undefined = "fit-content";
+  /**
+   * Predicate `(date: number) => boolean` — return `true` to mark a unix-ms date as non-selectable in either calendar.
+   */
   @property({ type: Function })
   disabledDate?: (date: number) => boolean;
 
+  /**
+   * List of specific years that should be non-selectable in the year picker.
+   */
   @property({ type: Array })
   disabledYears?: number[];
+  /**
+   * Earliest selectable year (inclusive).
+   */
   @property({ type: Number })
   minYear?: number;
+  /**
+   * Latest selectable year (inclusive).
+   */
   @property({ type: Number })
   maxYear?: number;
 

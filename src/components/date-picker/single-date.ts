@@ -29,61 +29,136 @@ type LocaleKey = "en" | "fr" | "th";
 export class DatePicker extends LitElement {
   static registeredName = "ssk-date-picker";
 
+  /**
+   * Active theme injected via Lit context. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Brand accent for the calendar popover (selected cell, focus ring). Defaults to `primary`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Override for the input text color in the trigger field.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
+  /**
+   * Stable `data-testid` attribute for E2E selectors.
+   */
   @property({ type: String })
   testId?: string;
+  /**
+   * Visual size of the input trigger and popover. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
+  /**
+   * Label rendered above the input trigger.
+   */
   @property({ type: String })
   label?: string;
+  /**
+   * Placeholder shown in the input when no date is selected.
+   */
   @property({ type: String })
   placeholder?: string;
+  /**
+   * Helper / error text shown below the input. Only rendered while `error` is set.
+   */
   @property({ type: String })
   helperText: string | undefined;
+  /**
+   * When set, the input renders with red border and the helper turns into an error message.
+   */
   @property({ type: Boolean })
   error = false;
+  /**
+   * Form-field `name` attribute submitted with the parent form.
+   */
   @property({ type: String })
   name: string | undefined;
+  /**
+   * When set, the element renders nothing — use for conditional show/hide.
+   */
   @property({ type: Boolean })
   hidden = false;
+  /**
+   * Currently selected date. Bind two-way via the `change` event's `detail.value` / `detail.valueFrom`.
+   */
   @property({ type: Date })
   value: Date | undefined;
+  /**
+   * Reserved compatibility flag — single-date picker ignores this. Use `<ssk-range-date-picker>` for ranges.
+   */
   @property({ type: Boolean })
   rangeDate = false;
+  /**
+   * date-fns format pattern used to render and parse the input text. Defaults to `"dd/MM/yyyy"`.
+   */
   @property({ type: String })
   format = "dd/MM/yyyy";
 
+  /**
+   * When set, the popover renders a "Go to today" footer button that snaps the calendar to the current month.
+   */
   @property({ type: Boolean })
   displayGoToday = false;
+  /**
+   * When set, the popover renders an "OK" footer button — date changes are deferred until the user confirms.
+   */
   @property({ type: Boolean })
   displayOk = false;
+  /**
+   * When set, the popover includes an inline time picker alongside the calendar.
+   */
   @property({ type: Boolean })
   showTime = false;
+  /**
+   * Granularity of the time picker — `hms` (hour-minute-second), `hm` (hour-minute), or `timeEvery30` (30-min slots). Defaults to `hms`.
+   */
   @property({ type: String })
   timeFormat: "hms" | "hm" | "timeEvery30" = "hms";
+  /**
+   * Locale used for month/day labels and year conversion. `th` enables Buddhist-era display. Defaults to `th`.
+   */
   @property({ type: String })
   locale: LocaleKey = "th";
+  /**
+   * Side of the input the popover anchors to. Defaults to `left`.
+   */
   @property({ type: String })
   alignCalendar?: "left" | "right" = "left";
+  /**
+   * Width of the calendar popover (CSS length). Defaults to `fit-content`.
+   */
   @property({ type: String })
   widthCalendar?: string | undefined = "fit-content";
 
+  /**
+   * Predicate `(date: number) => boolean` — return `true` to mark a unix-ms date as non-selectable.
+   */
   @property({ type: Function })
   disabledDate?: (date: number) => boolean;
 
+  /**
+   * List of specific years that should be non-selectable in the year picker.
+   */
   @property({ type: Array })
   disabledYears?: number[];
+  /**
+   * Earliest selectable year (inclusive). Years below this are disabled in the picker.
+   */
   @property({ type: Number })
   minYear?: number;
+  /**
+   * Latest selectable year (inclusive). Years above this are disabled in the picker.
+   */
   @property({ type: Number })
   maxYear?: number;
 

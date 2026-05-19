@@ -26,66 +26,132 @@ import {
 export class Inputtag extends LitElement {
     static registeredName = "ssk-input-tag";
 
+    /**
+     * Active theme injected via Lit context. Not authored by callers.
+     */
     @consume({ context: themeContext, subscribe: true })
     @property({ attribute: false })
     public theme?: Theme;
 
+    /**
+     * Stable `data-testid` attribute for E2E selectors.
+     */
     @property({ type: String })
     testId?: string;
 
+    /**
+     * Brand accent applied to tag pills (background, border, text). Defaults to `primary`.
+     */
     @property({ type: String })
     themeColor: ColorRole | ColorName = "primary";
+    /**
+     * Override for the input text color.
+     */
     @property({ type: String })
     color?: ColorRole | ColorName;
+    /**
+     * Override for the field background color.
+     */
     @property({ type: String })
     backgroundColor?: string | undefined;
 
+    /**
+     * Visual size — controls font, padding, and pill dimensions. Defaults to `md`.
+     */
     @property({ type: String })
     size: Size = "md";
 
+    /**
+     * Font family group. Defaults to `sans`.
+     */
     @property({ type: String })
     fontFamilyGroup: FontFamilyGroup = "sans";
+    /**
+     * Font weight. Defaults to `normal`.
+     */
     @property({ type: String })
     fontWeight: FontWeight = "normal";
 
+    /**
+     * Overall width of the input (CSS length). Defaults to `auto`.
+     */
     @property({ type: String })
     width?: string | undefined;
 
+    /**
+     * Label rendered above the input. Appends `*` when `required` is set.
+     */
     @property({ type: String })
     label: string | undefined;
 
+    /**
+     * Helper text rendered below the input.
+     */
     @property({ type: String })
     helperText: string | undefined;
 
+    /**
+     * Form-field `name` attribute submitted with the parent form.
+     */
     @property({ type: String })
     name: string | undefined;
 
+    /**
+     * Placeholder text shown when the field is empty.
+     */
     @property({ type: String })
     placeholder: string | undefined;
 
+    /**
+     * When set, the element renders nothing — use for conditional show/hide.
+     */
     @property({ type: Boolean })
     hidden = false;
 
+    /**
+     * Maximum total characters across all tags. Displays a `(used/limit)` counter when set.
+     */
     @property({ type: Number })
     limit?: number;
 
+    /**
+     * When set, appends a red `*` after the label.
+     */
     @property({ type: Boolean })
     required = false;
 
+    /**
+     * Minimum height override (CSS length).
+     */
     @property({ type: String })
     minHeight?: string | undefined;
+    /**
+     * Minimum width override (CSS length).
+     */
     @property({ type: String })
     minWidth?: string | undefined;
 
+    /**
+     * Current array of committed tag strings. Updated when Enter is pressed or a pill close icon is clicked.
+     */
     @property({ type: Array })
     tags: string[] = [];
 
+    /**
+     * When set, tags wrap onto multiple lines instead of horizontally scrolling.
+     */
     @property({ type: Boolean })
     multiline = false;
 
+    /**
+     * Maximum number of characters allowed per individual tag. Excess characters are sliced on commit.
+     */
     @property({ type: Number })
     maxTagLength?: number;
 
+    /**
+     * Current value of the in-progress (not-yet-committed) tag text.
+     */
     @property({ type: String })
     value: string = "";
 

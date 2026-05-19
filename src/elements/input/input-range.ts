@@ -38,65 +38,137 @@ import {
 export class InputRange extends LitElement {
   static registeredName = "ssk-input-range";
 
+  /**
+   * Active theme injected via Lit context. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Stable `data-testid` attribute applied to both inner inputs for E2E selectors.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Brand accent for the focus ring and active border. Defaults to `primary`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Override for the input text color. Falls back to `--text-primary`.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
+  /**
+   * Override for the field background color.
+   */
   @property({ type: String })
   backgroundColor?: string | undefined;
 
+  /**
+   * Visual size — controls font size, padding, and border radius. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
+  /**
+   * Font family group. Defaults to `sans`.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight. Defaults to `normal`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  /**
+   * Overall width of the range field (CSS length). Defaults to `auto`.
+   */
   @property({ type: String })
   width?: string | undefined;
 
+  /**
+   * Label rendered above both inputs. Appends `*` if `required` is set.
+   */
   @property({ type: String })
   label: string | undefined;
 
+  /**
+   * Helper / error text shown below the range. Tinted red when `error` is set.
+   */
   @property({ type: String })
   helperText: string | undefined;
 
+  /**
+   * Form-field `name`; emitted on both `from` and `to` inputs.
+   */
   @property({ type: String })
   name: string | undefined;
 
+  /**
+   * Placeholder for the lower-bound (`from`) input.
+   */
   @property({ type: String })
   placeholderFrom: string | undefined;
+  /**
+   * Placeholder for the upper-bound (`to`) input.
+   */
   @property({ type: String })
   placeholderTo: string | undefined;
 
+  /**
+   * When set, the element renders nothing — use for conditional show/hide.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * Maximum number of characters in each input. Maps to native `maxlength`.
+   */
   @property({ type: Number })
   limit?: number;
+  /**
+   * Native input type for both fields. Defaults to `text`; use `number` for numeric ranges.
+   */
   @property({ type: String })
   type: "text" | "number" | "password" | "email" | "tel" | "url" = "text";
+  /**
+   * When set, both inputs render with red border and the helper text turns red.
+   */
   @property({ type: Boolean })
   error = false;
 
+  /**
+   * When set, appends a red `*` after the label.
+   */
   @property({ type: Boolean })
   required = false;
+  /**
+   * When set, both inputs are non-interactive and rendered with disabled styling.
+   */
   @property({ type: Boolean })
   disabled = false;
+  /**
+   * Minimum height override (CSS length).
+   */
   @property({ type: String })
   minHeight?: string | undefined;
+  /**
+   * Minimum width override (CSS length).
+   */
   @property({ type: String })
   minWidth?: string | undefined;
+  /**
+   * Current value of the lower-bound (`from`) input. Updated on every keystroke.
+   */
   @property({ type: String })
   valueFrom: string | undefined;
+  /**
+   * Current value of the upper-bound (`to`) input. Updated on every keystroke.
+   */
   @property({ type: String })
   valueTo: string | undefined;
 

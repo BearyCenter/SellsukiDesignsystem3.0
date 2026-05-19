@@ -48,42 +48,87 @@ type TypeTime = "hms" | "hm" | "timeEvery30";
 export class Time extends LitElement {
   static registeredName = "ssk-time";
 
+  /**
+   * Active theme injected via Lit context. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute for E2E selectors.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Brand accent for selected items and hover state. Defaults to `primary`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Foreground color for selected item text. Defaults to `white`.
+   */
   @property({ type: String })
   color?: string = "white";
+  /**
+   * Override for the time picker background color.
+   */
   @property({ type: String })
   backgroundColor?: string | undefined;
 
+  /**
+   * Visual size — controls column width and font. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Override for column padding (size token).
+   */
   @property({ type: String })
   padding?: Size;
+  /**
+   * Override for item border radius (CSS length).
+   */
   @property({ type: String })
   rounded?: string | undefined;
 
   // Time props
+  /**
+   * Locale for label formatting and time zone (`en`→London, `fr`→Paris, `th`→Bangkok). Defaults to `th`.
+   */
   @property({ type: String })
   locale: LocaleKey = "th";
+  /**
+   * Footer "now" button label. Defaults to Thai `"ตอนนี้"`.
+   */
   @property({ type: String })
   nowText: string = "ตอนนี้";
+  /**
+   * Footer "OK" button label. Defaults to Thai `"ตกลง"`.
+   */
   @property({ type: String })
   okText: string = "ตกลง";
+  /**
+   * Footer button alignment. Defaults to `between`.
+   */
   @property({ type: String })
   footerStyle: "between" | "middle" | "right" | "left" = "between";
+  /**
+   * When set, the footer shows a "Go to now" button that snaps the selection to the current time.
+   */
   @property({ type: Boolean })
   displayGoNow = false;
+  /**
+   * When set, the footer shows an "OK" button — time changes are deferred until the user confirms.
+   */
   @property({ type: Boolean })
   displayOk = false;
+  /**
+   * Currently selected time, unix-ms timestamp. Bind two-way via the `time-changed` event.
+   */
   @property({ type: Number })
   value?: number;
 
@@ -96,12 +141,21 @@ export class Time extends LitElement {
   @state()
   _selectedSecond: number | null = null;
 
+  /**
+   * When set, the element renders nothing — use for conditional show/hide.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * Maximum height of each scrollable column (CSS length). Defaults to `"320px"`.
+   */
   @property({ type: String })
   maxHeight?: string = "320px";
 
+  /**
+   * Granularity of the picker — `hms` (hour-minute-second), `hm` (hour-minute), or `timeEvery30` (single column, 30-min slots). Defaults to `hms`.
+   */
   @property({ type: String })
   format: TypeTime = "hms";
 

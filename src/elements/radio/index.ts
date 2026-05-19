@@ -36,45 +36,96 @@ import {
 export class Radio extends LitElement implements ThemeValue {
   static registeredName = "ssk-radio";
 
+  /**
+   * Active theme injected via Lit context. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute for E2E selectors.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Brand accent for the checked / hover state. Defaults to `primary`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Override for the label text color.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName = "";
+  /**
+   * Override for the unchecked dot background. Defaults to `transparent`.
+   */
   @property({ type: String })
   backgroundColor?: string | undefined = "transparent";
+  /**
+   * Override for the dot border color when unchecked.
+   */
   @property({ type: String })
   borderColor?: string | undefined;
 
+  /**
+   * Visual size — controls dot dimensions and label font size. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Override for the label font size (CSS length).
+   */
   @property({ type: String })
   fontSize?: string | undefined;
+  /**
+   * Override for the dot-to-label gap.
+   */
   @property({ type: String })
   gap?: string | undefined;
+  /**
+   * Override for the dot border radius. Defaults to 50% (circle).
+   */
   @property({ type: String })
   rounded?: string | undefined;
+  /**
+   * Override for the dot width (CSS length).
+   */
   @property({ type: String })
   width?: string | undefined;
+  /**
+   * Override for the dot height (CSS length).
+   */
   @property({ type: String })
   height?: string | undefined;
 
   // radio specific
+  /**
+   * When set, the element renders nothing — use for conditional show/hide.
+   */
   @property({ type: Boolean })
   hidden = false;
+  /**
+   * Label text rendered next to the radio. Ignored when a `slot="label"` child is provided.
+   */
   @property({ type: String })
   label?: string | undefined;
+  /**
+   * Current checked state — typically managed by a parent `<ssk-radio-group>`.
+   */
   @property({ type: Boolean })
   checked = false;
+  /**
+   * Indeterminate state. Rarely useful on radios; kept for API symmetry with `<ssk-checkbox>`.
+   */
   @property({ type: Boolean })
   indeterminate = false;
+  /**
+   * When set, the radio is non-interactive and rendered with disabled styling.
+   */
   @property({ type: Boolean })
   disabled = false;
 

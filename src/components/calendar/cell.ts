@@ -30,40 +30,79 @@ type typeDay = {
 export class Cell extends LitElement {
   static registeredName = "ssk-cell";
 
+  /**
+   * Active theme injected via Lit context. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute for E2E selectors.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Visual size — controls cell font. Defaults to `sm`.
+   */
   @property({ type: String })
   size: Size = "sm";
+  /**
+   * Brand accent for the selected fill and hover halo. Defaults to `primary`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
 
   // Cell props
+  /**
+   * The day record this cell represents — `{ title, date }` where `date` is a unix-ms timestamp.
+   */
   @property({ type: Object })
   day?: typeDay;
 
+  /**
+   * When set, the cell renders as the currently selected date (or one of the range bounds).
+   */
   @property({ type: Boolean })
   selected = false;
+  /**
+   * When set, the cell renders as part of a hovered-range preview (between `dateFrom` and `hoveredDate`).
+   */
   @property({ type: Boolean })
   hovered = false;
+  /**
+   * When set, the cell ignores clicks and renders with disabled text color.
+   */
   @property({ type: Boolean })
   disabled = false;
+  /**
+   * When set, the cell shows the "today" marker dot under the date number.
+   */
   @property({ type: Boolean })
   isCurrentDate = false;
 
+  /**
+   * Upper bound of the current range, unix-ms timestamp. Used to compute `selected` / `hovered` classes.
+   */
   @property({ type: Number })
   dateTo?: number;
 
+  /**
+   * Lower bound of the current range (or the single selected date), unix-ms timestamp.
+   */
   @property({ type: Number })
   dateFrom?: number;
+  /**
+   * Currently hovered date, unix-ms timestamp. Drives the range preview highlight.
+   */
   @property({ type: Number })
   hoveredDate?: number;
 
+  /**
+   * Two-digit month string of the parent calendar grid. Used for context only.
+   */
   @property({ type: String })
   month?: string;
 

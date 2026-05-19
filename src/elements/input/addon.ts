@@ -43,54 +43,102 @@ export class InputAddon
 {
   static registeredName = "ssk-input-addon";
 
+  /**
+   * Active theme injected via Lit context. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Brand color used to tint the addon background.
+   */
   @property({ type: String })
   themeColor?: ColorRole | ColorName;
+  /**
+   * Override for the addon text color. Defaults to `inherit` so the addon adopts the parent input's color.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName = "inherit";
 
+  /**
+   * Visual size — must match the parent `<ssk-input>`'s size to render flush. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
   // font
+  /**
+   * Font family group used for the addon text. Defaults to `sans`.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight for the addon text. Defaults to `normal`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  /**
+   * Explicit width override for the addon block. Auto-sized to slotted content when unset.
+   */
   @property({ type: String })
   width?: string | undefined;
 
   // input specific
+  /**
+   * Reserved — prefer setting `label` on the parent `<ssk-input>` instead of the addon.
+   */
   @property({ type: String })
   label: string | undefined;
 
+  /**
+   * Reserved — prefer setting `helperText` on the parent `<ssk-input>` instead of the addon.
+   */
   @property({ type: String })
   helperText: string | undefined;
 
+  /**
+   * Form-field `name` — typically left unset; the parent `<ssk-input>` owns the submitted name.
+   */
   @property({ type: String })
   name: string | undefined;
 
+  /**
+   * Native input type forwarded if the addon hosts its own field. Defaults to `text`.
+   */
   @property({ type: String })
   type: "text" | "number" | "password" | "email" | "tel" | "url" = "text";
 
+  /**
+   * Bound value when the addon hosts its own input. Usually left unset.
+   */
   @property({ type: String })
   value: string | undefined;
 
+  /**
+   * Placeholder text when the addon renders an inner input.
+   */
   @property({ type: String })
   placeholder: string | undefined;
 
+  /**
+   * When set, the addon is rendered with disabled styling and ignores clicks.
+   */
   @property({ type: Boolean })
   disabled = false;
 
+  /**
+   * When set, the element renders nothing — use for conditional show/hide.
+   */
   @property({ type: Boolean })
   hidden = false;
 

@@ -37,76 +37,148 @@ import {
 export class Textarea extends LitElement {
   static registeredName = "ssk-textarea";
 
+  /**
+   * Active theme injected via Lit context. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute for E2E selectors.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Brand accent for the focus ring and active border. Defaults to `primary`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Override for the textarea text color.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
+  /**
+   * Override for the textarea background color.
+   */
   @property({ type: String })
   backgroundColor?: string | undefined;
 
+  /**
+   * Visual size — controls font size, padding, border radius. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
   // font
+  /**
+   * Font family group. Defaults to `sans`.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight. Defaults to `normal`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  /**
+   * Overall width of the textarea (CSS length). Defaults to `auto`.
+   */
   @property({ type: String })
   width?: string | undefined;
 
   // textarea specific
+  /**
+   * Label rendered above the textarea. Appends `*` when `required` is set.
+   */
   @property({ type: String })
   label: string | undefined;
 
+  /**
+   * Helper / error text shown below the textarea.
+   */
   @property({ type: String })
   helperText: string | undefined;
 
+  /**
+   * Form-field `name` attribute submitted with the parent form.
+   */
   @property({ type: String })
   name: string | undefined;
 
+  /**
+   * Current text value. Updated on every keystroke.
+   */
   @property({ type: String })
   value: string | undefined;
 
+  /**
+   * Placeholder text shown when the textarea is empty.
+   */
   @property({ type: String })
   placeholder: string | undefined;
 
+  /**
+   * Validation status — `error` or `success`.
+   */
   @property({ type: String })
   status: "error" | "success" | undefined;
 
+  /**
+   * When set, the textarea is non-interactive and rendered with disabled styling.
+   */
   @property({ type: Boolean })
   disabled = false;
 
+  /**
+   * When set, the element renders nothing — use for conditional show/hide.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * Number of visible text rows (native `rows` attribute). Defaults to 2.
+   */
   @property({ type: Number })
   rows = 2;
 
+  /**
+   * Maximum number of characters accepted. Displays a `(current/limit)` counter in the footer.
+   */
   @property({ type: Number })
   limit?: number;
 
+  /**
+   * When set, the textarea renders with red border and error-tinted helper text.
+   */
   @property({ type: Boolean })
   error = false;
 
+  /**
+   * When set, appends a red `*` after the label.
+   */
   @property({ type: Boolean })
   required = false;
 
+  /**
+   * Minimum height override (CSS length).
+   */
   @property({ type: String })
   minHeight?: string | undefined;
+  /**
+   * Minimum width override (CSS length).
+   */
   @property({ type: String })
   minWidth?: string | undefined;
 
+  /**
+   * User-resize direction. Defaults to `both`; use `none` to lock the box.
+   */
   @property({ type: String })
   resize: "none" | "both" | "horizontal" | "vertical" = "both";
 

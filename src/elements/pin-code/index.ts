@@ -25,55 +25,106 @@ import { redispatchEvents } from "../../helpers/lit";
 export class PinCode extends LitElement {
   static registeredName = "ssk-pin-code";
 
+  /**
+   * Active theme injected via Lit context. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to each digit input.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Brand accent for the focus ring. Defaults to `primary`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Override for the digit text color.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
+  /**
+   * Override for the digit box background.
+   */
   @property({ type: String })
   backgroundColor?: string | undefined;
 
+  /**
+   * Visual size — controls digit box dimensions and font. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
   // font
+  /**
+   * Font family group for the digits. Defaults to `sans`.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight for the digits. Defaults to `normal`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  /**
+   * Per-digit-box width (CSS length). Defaults to size token.
+   */
   @property({ type: String })
   width?: string | undefined;
+  /**
+   * Per-digit-box height (CSS length). Defaults to 64px.
+   */
   @property({ type: String })
   height?: string | undefined;
 
   // pin-code specific
+  /**
+   * Number of digit boxes to render. Defaults to 3.
+   */
   @property({ type: Number })
   length = 3;
 
+  /**
+   * Input type — `number` blocks alpha keys; `text` allows alphanumeric pins. Defaults to `number`.
+   */
   @property({ type: String })
   type: "text" | "number" = "number";
 
+  /**
+   * Current concatenated pin value. Each character maps to one digit box.
+   */
   @property({ type: String })
   value: string = "";
 
+  /**
+   * Placeholder shown inside each empty digit box.
+   */
   @property({ type: String })
   placeholder: string | undefined;
 
+  /**
+   * When set, all digit boxes are non-interactive and rendered with disabled styling.
+   */
   @property({ type: Boolean })
   disabled = false;
 
+  /**
+   * When set, the element renders nothing — use for conditional show/hide.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * When set, every digit box renders with red border and outline (e.g. on wrong-pin entry).
+   */
   @property({ type: Boolean })
   error = false;
 

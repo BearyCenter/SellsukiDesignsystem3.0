@@ -48,43 +48,91 @@ export type checkboxOptions = {
 export class Checkbox extends LitElement implements ThemeValue {
   static registeredName = "ssk-checkbox";
 
+  /**
+   * Active theme injected via Lit context. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute for E2E selectors. Suffixed per option when a `group` is rendered.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Brand accent applied to the checked / hover state. Defaults to `primary`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Override for the label text color.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName = "";
+  /**
+   * Override for the unchecked box background. Defaults to `transparent`.
+   */
   @property({ type: String })
   backgroundColor?: string | undefined = "transparent";
+  /**
+   * Override for the box border color when unchecked.
+   */
   @property({ type: String })
   borderColor?: string | undefined;
 
+  /**
+   * Visual size — controls box dimensions and label font size. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Override for the label font size (CSS length). Falls back to the `size` token.
+   */
   @property({ type: String })
   fontSize?: string | undefined;
+  /**
+   * Override for the box-to-label gap (CSS length).
+   */
   @property({ type: String })
   gap?: string | undefined;
+  /**
+   * Override for the box border radius. Defaults to 20% (rounded square).
+   */
   @property({ type: String })
   rounded?: string | undefined;
 
   // checkbox specific
+  /**
+   * When set, the element renders nothing — use for conditional show/hide.
+   */
   @property({ type: Boolean })
   hidden = false;
+  /**
+   * Label text rendered next to the checkbox.
+   */
   @property({ type: String })
   label?: string | undefined;
+  /**
+   * Current checked state. Reflects to the attribute so CSS selectors can target `[checked]`.
+   */
   @property({ type: Boolean, reflect: true })
   checked = false;
+  /**
+   * When set, renders the indeterminate (partial-select) state — typically driven automatically when used with `group`.
+   */
   @property({ type: Boolean })
   indeterminate = false;
+  /**
+   * When set, the checkbox is non-interactive and rendered with disabled styling.
+   */
   @property({ type: Boolean })
   disabled = false;
+  /**
+   * Optional grouped-checkbox config — pass `{ defaultValue, options }` to render a parent-controlled list of child checkboxes.
+   */
   @property({ type: Object })
   group?: GroupCheckbox | undefined;
 

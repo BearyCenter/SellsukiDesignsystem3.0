@@ -37,37 +37,70 @@ import {
 export class Toggle extends LitElement implements ThemeValue {
   static registeredName = "ssk-toggle";
 
+  /**
+   * Active theme injected via Lit context. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Stable `data-testid` attribute for E2E selectors.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Brand accent for the active track. Defaults to `primary`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
 
+  /**
+   * Thumb (slider knob) color. Defaults to `white`.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName = "white";
 
+  /**
+   * Override for the active-state track background.
+   */
   @property({ type: String })
   backgroundColor?: string | undefined;
 
+  /**
+   * Visual size — controls overall toggle dimensions. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
+  /**
+   * Override for the base font size used to scale the toggle.
+   */
   @property({ type: String })
   fontSize?: string | undefined;
 
+  /**
+   * Optional CSS margin around the toggle.
+   */
   @property({ type: String })
   margin?: string | undefined;
 
+  /**
+   * When set, the toggle is non-interactive and rendered with disabled styling.
+   */
   @property({ type: Boolean })
   disabled = false;
 
+  /**
+   * When set, the element renders nothing — use for conditional show/hide.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * Current on/off state. Toggled by user click; bind two-way via `@change`.
+   */
   @property({ type: Boolean })
   checked = false;
 

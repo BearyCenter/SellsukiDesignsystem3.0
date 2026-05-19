@@ -44,74 +44,143 @@ import {
 export class Input extends LitElement {
   static registeredName = "ssk-input";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the rendered `<input>` for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Brand accent applied to the focus ring and active border. Defaults to `primary`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Override for the input text color. Falls back to `--text-primary` when unset.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
+  /**
+   * Override for the input field background. Falls back to `--bg-primary`.
+   */
   @property({ type: String })
   backgroundColor?: string | undefined;
 
+  /**
+   * Visual size of the input — controls font size, padding, and border radius. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
   // font
+  /**
+   * Font family group used for the input text. Defaults to `sans`.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight for the input text. Defaults to `normal`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  /**
+   * Explicit width of the field (any CSS length, e.g. `"320px"` or `"100%"`). Defaults to `auto`.
+   */
   @property({ type: String })
   width?: string | undefined;
 
   // input specific
+  /**
+   * Label rendered above the input. Pair with `required` to append a red asterisk.
+   */
   @property({ type: String })
   label: string | undefined;
 
+  /**
+   * Helper or error text rendered below the input. Switches to error styling when `error` is set.
+   */
   @property({ type: String })
   helperText: string | undefined;
 
+  /**
+   * Form-field `name` attribute submitted with the parent form.
+   */
   @property({ type: String })
   name: string | undefined;
 
+  /**
+   * Native input type — `text`, `number`, `password`, `email`, `tel`, or `url`. Defaults to `text`.
+   */
   @property({ type: String })
   type: "text" | "number" | "password" | "email" | "tel" | "url" = "text";
 
+  /**
+   * Current value of the field. Updated on every keystroke; bind two-way via `@input` / `@change`.
+   */
   @property({ type: String })
   value: string | undefined;
 
+  /**
+   * Placeholder text shown when the field is empty.
+   */
   @property({ type: String })
   placeholder: string | undefined;
 
+  /**
+   * Validation status — `error` or `success`. Drives footer color independently of `error`.
+   */
   @property({ type: String })
   status: "error" | "success" | undefined;
 
+  /**
+   * When set, the field is non-interactive and rendered with disabled styling.
+   */
   @property({ type: Boolean })
   disabled = false;
 
+  /**
+   * When set, the element renders nothing (returns `nothing`) — use for conditional show/hide without DOM teardown.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * When set, the input renders with red border and error-tinted helper text. Pair with `helperText` for the message.
+   */
   @property({ type: Boolean })
   error = false;
 
+  /**
+   * Maximum number of characters accepted (maps to native `maxlength`). Combine with `showLimit` for a counter.
+   */
   @property({ type: Number })
   limit: number | undefined;
 
+  /**
+   * When set, displays a `(current/limit)` character counter in the footer. Requires `limit` to be set.
+   */
   @property({ type: Boolean })
   showLimit = false;
 
+  /**
+   * When set, appends a red `*` after the label to mark the field as required.
+   */
   @property({ type: Boolean })
   required = false;
 
+  /**
+   * Native `autocomplete` attribute. Defaults to `on`; set `off` for sensitive fields (passwords, OTP).
+   */
   @property({ type: String })
   autoComplete: "on" | "off" = "on";
 

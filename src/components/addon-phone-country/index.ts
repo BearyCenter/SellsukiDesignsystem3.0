@@ -16,24 +16,45 @@ export class AddonPhoneCountry extends LitElement implements BaseAttributes {
   static registeredName = "ssk-addon-phone-country";
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute for E2E selectors. Sub-elements are suffixed (`.dropdown`, `.selected`, `.option-<code>`).
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Visual size — must match the parent `<ssk-input>`'s size to render flush. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
+  /**
+   * When set, the dropdown is non-interactive and ignores pointer events.
+   */
   @property({ type: Boolean })
   disabled = false;
 
+  /**
+   * Full list of countries available in the dropdown. Each entry needs `code` (ISO-3166-1 alpha-2); `name` and `phoneCode` are optional but recommended.
+   */
   @property({ type: Array })
   countries: { code: string; name?: string; phoneCode?: string }[] = [];
 
+  /**
+   * Optional allow-list of ISO country codes — when non-empty, only countries whose `code` appears here are shown.
+   */
   @property({ type: Array })
   allowedCountries: string[] = [];
 
+  /**
+   * Currently selected country code (ISO-3166-1 alpha-2). Bind two-way via the `change` event.
+   */
   @property({ type: String })
   value: string = "";
 
+  /**
+   * Placeholder text shown when no country is selected. Defaults to `"Select a country"`.
+   */
   @property({ type: String })
   placeholder: string = "Select a country";
   private inputBuffer: string = "";
