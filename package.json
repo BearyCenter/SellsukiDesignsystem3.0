@@ -38,6 +38,7 @@
     "generate:react-types": "node scripts/generate-react-types/index.js",
     "analyze": "custom-elements-manifest analyze --config custom-elements-manifest.config.mjs",
     "expand:cem-enums": "node scripts/expand-cem-enums/index.js",
+    "audit:cem-jsdoc": "node scripts/audit-cem-jsdoc/index.js",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
