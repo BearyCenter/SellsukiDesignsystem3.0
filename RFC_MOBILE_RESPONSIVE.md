@@ -273,6 +273,94 @@ Handles automatically:
 
 ---
 
+## Issue 15 — Density / size variants for top navbar + sidebar (default ดูหนากว่า modern apps)
+
+**Problem:** Default ของ DS3 ตอนนี้:
+
+`ssk-top-navbar` ([source](src/elements/top-navbar/index.ts#L93)):
+```css
+.container {
+  padding: 12px;   /* hardcoded — no responsive, no CSS var */
+}
+/* ไม่มี height ที่กำหนดไว้ */
+```
+→ Height คำนวณจาก content (avatar 40px + 12px×2 padding = **~64px** ทั่ว viewport)
+
+`ssk-sidebar` ([source](src/components/sidebar/sidebar.ts#L195-L213)):
+```css
+.sidebar {
+  min-width: 256px;     /* expanded */
+  padding: 12px 18px;
+}
+.sidebar.collapsed {
+  min-width: 92px;
+}
+```
+
+**Observations จาก real app:**
+- บน laptop 1440×900 → top bar กิน 7% ของความสูงจอ
+- ทดสอบ browser zoom 90% → ขนาดดูพอดี modern apps (~58px)
+- เทียบ baseline:
+  - Linear / Notion / Slack: **48-56px** top bar, **220-256px** sidebar
+  - Material 3: 64px (desktop) / **56px** (mobile)
+  - Apple HIG: **50px** nav bar
+  - DS3 ปัจจุบัน: 64px ทุก viewport
+
+**Issues:**
+1. **No `--height` / `--padding` CSS var** บน top navbar
+2. **`size` prop ใน top navbar control แค่ font-size** — ไม่ scale padding/height
+3. **Sidebar ไม่มี `density` variant** — `size="md"` มี prop แต่ไม่กระทบ width/padding
+4. **No responsive breakpoint logic** — desktop = mobile = laptop เท่ากันหมด
+
+**Proposed API:**
+
+```html
+<!-- Discrete density variants -->
+<ssk-top-navbar density="comfortable">  <!-- 64px = current default -->
+<ssk-top-navbar density="default">       <!-- 56px = modern standard -->
+<ssk-top-navbar density="compact">       <!-- 48px = laptop / dense UI -->
+
+<!-- Auto-responsive -->
+<ssk-top-navbar density="auto">
+<!-- Maps to: compact < 1280px laptop, default >=1280px desktop, 56px on mobile -->
+
+<!-- Same for sidebar -->
+<ssk-sidebar density="compact" width="220px">
+```
+
+**Internal CSS vars (ให้ override ได้แบบ ad-hoc):**
+```css
+ssk-top-navbar {
+  --top-navbar-height: 56px;
+  --top-navbar-padding-x: 16px;
+  --top-navbar-padding-y: 8px;
+}
+
+ssk-sidebar {
+  --sidebar-width: 240px;
+  --sidebar-collapsed-width: 72px;
+  --sidebar-padding-x: 14px;
+  --sidebar-padding-y: 10px;
+  --sidebar-item-height: 36px;
+  --sidebar-item-gap: 4px;
+}
+```
+
+**Density token preset (ใน theme):**
+```ts
+theme.density = {
+  comfortable: { topNavbarHeight: '64px', sidebarItemHeight: '40px', ... },
+  default:     { topNavbarHeight: '56px', sidebarItemHeight: '36px', ... },
+  compact:     { topNavbarHeight: '48px', sidebarItemHeight: '32px', ... }
+}
+```
+
+ให้ทีม consumer set ระดับ density ครั้งเดียวใน theme provider → propagate ลงทุก layout component
+
+**Implementation note:** Avatar/logo size ใน slot ควร respond ด้วย — เสนอให้ `ssk-top-navbar density="compact"` shrink children ที่ใช้ `--slot-size` var (เช่น `ssk-avatar boxsize` ก็เป็น density-aware)
+
+---
+
 ## Priority ranking (by frequency of friction in real work)
 
 | Priority | Issue | Effort | Impact |
@@ -288,6 +376,7 @@ Handles automatically:
 | 🟢 P2 | #8 `ssk-image` fallback | XS | data ที่ optional มี image |
 | 🟢 P2 | #9 `ssk-logo` responsive | XS | quick win |
 | 🟢 P2 | #10 `ssk-i18n-translate` fallback | S | dev experience |
+| 🟡 P1 | #15 Density variants for top-navbar / sidebar | M | 🔥 ทุก app — กระทบ visual weight ทั้งระบบ |
 | 🔵 P3 | #11 CSS parts exposure | L | unblocks fine-tuning |
 | 🔵 P3 | #12 Document CSS vars + parts | M | discoverability |
 | 🔵 P3 | #13 Doc note re: Svelte `$'` quirk | XS | dev-experience footnote |
