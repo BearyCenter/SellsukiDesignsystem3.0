@@ -18,6 +18,13 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Tabs — horizontal label strip plus slotted content per tab. Supports
+ * `inline` (underline) and `button` (pill) variants.
+ *
+ * @fires change - Fires when the user clicks a different tab label.
+ *   `detail: { label: string; index: number }`.
+ */
 export class Tabs extends LitElement {
   static registeredName = "ssk-tabs";
 

@@ -14,6 +14,15 @@ export interface GridItem {
   content?: string
 }
 
+/**
+ * Drag-and-drop widget grid powered by gridstack.js — children that
+ * implement the `Widget` interface (`getSize()`) are placed into a 12-col
+ * responsive grid.
+ *
+ * @fires grid-change - Fires when the user drags / drops / resizes a
+ *   widget (gridstack `change` event). `detail: { items: unknown }` —
+ *   gridstack's array of modified node descriptors.
+ */
 export class WidgetGrid extends LitElement {
   static registeredName = 'ssk-widget-grid'
 

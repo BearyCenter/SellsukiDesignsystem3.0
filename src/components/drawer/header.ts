@@ -3,6 +3,13 @@ import { property } from "lit/decorators.js";
 import "../../../src/elements/heading";
 import "../../../src/elements/text";
 
+/**
+ * Header row for `<ssk-drawer>` — title, optional description, and a
+ * close icon button on the right.
+ *
+ * @fires close - Fires when the user clicks the close icon. `detail:
+ *   undefined`. Parent `<ssk-drawer>` listens to this to dismiss.
+ */
 export class DrawerHeader extends LitElement {
   @property({ type: String }) title = "";
   @property({ type: String }) description = "";

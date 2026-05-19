@@ -26,6 +26,14 @@ import {
 import { convertToAD, convertToBE, getMonthString } from "./util";
 
 type LocaleKey = "en" | "fr" | "th";
+/**
+ * Range date picker — two input fields plus a dual-calendar popover for
+ * selecting a date range (with optional time).
+ *
+ * @fires change - Fires when the date range changes, either via text input,
+ *   calendar selection, or clear-icon reset. `detail: { valueFrom: Date |
+ *   undefined; valueTo: Date | undefined }`.
+ */
 export class RangeDatePicker extends LitElement {
   static registeredName = "ssk-range-date-picker";
 

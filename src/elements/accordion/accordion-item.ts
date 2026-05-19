@@ -1,5 +1,13 @@
 import { LitElement, html, css } from "lit";
 import { property } from "lit/decorators.js";
+/**
+ * Single collapsible item inside `<ssk-accordion>` — header (slot
+ * `title` or `title` attr) plus body content via default slot.
+ *
+ * @fires accordion-toggle - Fires when the user clicks the header.
+ *   `detail: { id: string }` — the item's `id` prop. Parent `<ssk-accordion>`
+ *   listens to decide which items to open/close.
+ */
 export class AccordionItem extends LitElement {
   static registeredName = "ssk-accordion-item";
 

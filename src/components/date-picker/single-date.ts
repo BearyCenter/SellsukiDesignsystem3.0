@@ -17,6 +17,15 @@ import { format, isValid, parse } from "date-fns";
 import { convertToAD, convertToBE, getMonthString } from "./util";
 
 type LocaleKey = "en" | "fr" | "th";
+/**
+ * Single date picker — text input plus a calendar popover for selecting
+ * one date (with optional time).
+ *
+ * @fires change - Fires when the date value changes via text input,
+ *   calendar selection, or clear-icon reset. `detail: { value?: Date;
+ *   valueFrom?: Date }` (older shape uses `valueFrom`; calendar selection
+ *   uses `value`).
+ */
 export class DatePicker extends LitElement {
   static registeredName = "ssk-date-picker";
 

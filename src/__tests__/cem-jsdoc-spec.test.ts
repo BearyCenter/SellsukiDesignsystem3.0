@@ -27,11 +27,15 @@ const audit = auditManifest(MANIFEST);
 
 // Baselines captured 2026-05-19 against v3.5.2 (95 components, 1139 attrs).
 // Ratchet rule: each PR that adds JSDoc must lower the relevant baseline.
+//
+// Update history:
+//   2026-05-19  initial — events=41 missing, components=91 missing
+//   2026-05-19  events JSDoc batch (24 components) — events 41→0, components 91→67
 const BASELINE = {
-  componentsMissing: 91,
+  componentsMissing: 67,
   attributesMissing: 1133,
   fieldsMissing:     1282,
-  eventsMissing:     41,
+  eventsMissing:     0,   // 100% covered as of 2026-05-19 batch — keep at 0
   slotsMissing:      0,   // already complete — keep at 0
   cssPartsMissing:   4,
 } as const;

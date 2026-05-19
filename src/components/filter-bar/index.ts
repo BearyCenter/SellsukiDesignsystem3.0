@@ -6,6 +6,13 @@ export interface FilterBarChangeEvent {
   search: string;
 }
 
+/**
+ * Filter toolbar — search input plus slots for filter chips and action
+ * buttons. Use above a data table or list view.
+ *
+ * @fires filter-change - Fires on every keystroke in the search input
+ *   and when the clear button is pressed. `detail: { search: string }`.
+ */
 export class FilterBar extends LitElement {
   static registeredName = "ssk-filter-bar";
 

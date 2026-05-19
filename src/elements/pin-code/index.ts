@@ -15,6 +15,13 @@ import {
 } from "../../types/theme";
 import { redispatchEvents } from "../../helpers/lit";
 
+/**
+ * Pin-code input — one input box per digit with auto-advance focus and
+ * paste support. Defaults to 3 numeric digits.
+ *
+ * @fires change - Fires on every keystroke / paste / programmatic update.
+ *   `detail: string` — the concatenated value across all digit boxes.
+ */
 export class PinCode extends LitElement {
   static registeredName = "ssk-pin-code";
 

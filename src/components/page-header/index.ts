@@ -2,6 +2,14 @@ import { LitElement, css, html, nothing } from "lit";
 import { property } from "lit/decorators.js";
 import "../../elements/icon";
 
+/**
+ * Standard page header — title, optional subtitle, breadcrumb slot,
+ * action-button slot, and an optional back button.
+ *
+ * @fires back - Fires when the user clicks the back button (only
+ *   rendered when `show-back` is true). `detail: undefined`. Consumer is
+ *   expected to navigate or call `history.back()`.
+ */
 export class PageHeader extends LitElement {
   static registeredName = "ssk-page-header";
 

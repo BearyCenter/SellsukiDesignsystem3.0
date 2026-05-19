@@ -14,6 +14,19 @@ import {
 } from '../../types/theme'
 import { Widget } from '../../types/widget'
 
+/**
+ * Widget-table — dashboard widget that wraps `<ssk-table>` with a
+ * label / description / badge / action-button header. Implements the
+ * `Widget` interface so it can be placed inside `<ssk-widget-grid>`.
+ *
+ * @fires action-click - Fires when an `action-icon` cell in the wrapped
+ *   table is clicked. `detail: { record: unknown; rowIndex: number }`.
+ * @fires table-sort - Fires when a sortable column header is clicked.
+ *   `detail: { dataIndex: string; direction: "asc" | "desc" }`.
+ * @fires load-data - Re-emitted from the inner `<ssk-table>` when the
+ *   user changes page / rows-per-page. `detail: { page: number;
+ *   rowsPerPage: number }`.
+ */
 export class WidgetTable extends LitElement implements Widget, ThemeValue {
   static registeredName = 'ssk-widget-table'
 

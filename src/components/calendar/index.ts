@@ -47,6 +47,29 @@ type typeDay = {
   date: number;
 };
 
+/**
+ * Calendar picker supporting single-date and range-date selection,
+ * optional time picker, year/month dropdowns, and locale-aware rendering
+ * (en / fr / th, with Buddhist-era support for `th`).
+ *
+ * @fires date-changed - Fires when the selected date(s) change via cell
+ *   click, or when the user presses OK in `displayOk` mode. `detail:
+ *   { dateFrom: number | undefined; dateTo: number | undefined }` — unix
+ *   ms timestamps.
+ * @fires hovered-date-changed - Fires when range hover state resets after
+ *   a new range begins. `detail: { value: number | undefined }`.
+ * @fires time-updated - Fires when the embedded `<ssk-time>` picker
+ *   changes value. `detail: { timeFrom?: number; timeTo?: number;
+ *   dateFrom?: number; dateTo?: number }`.
+ * @fires next-year - Fires when the next-year arrow is clicked, or when
+ *   advancing past December rolls the year forward. `detail: { value: string }`.
+ * @fires next-month - Fires when the next-month arrow is clicked.
+ *   `detail: { value: string }` — two-digit month (e.g. `"05"`).
+ * @fires prev-year - Fires when the prev-year arrow is clicked, or when
+ *   stepping back past January rolls the year backward. `detail: { value: string }`.
+ * @fires prev-month - Fires when the prev-month arrow is clicked.
+ *   `detail: { value: string }`.
+ */
 export class Calendar extends LitElement {
   static registeredName = "ssk-calendar";
 

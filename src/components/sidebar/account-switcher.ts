@@ -10,6 +10,14 @@ export interface SidebarAccount {
   avatar?: string;
 }
 
+/**
+ * Sidebar account switcher — shows the current account avatar/name and,
+ * when there are multiple accounts, opens a dropdown for switching.
+ *
+ * @fires account-change - Fires when the user picks a different account
+ *   from the menu. `detail` is the full `SidebarAccount` object
+ *   (`{ id; name; role?; avatar? }`).
+ */
 export class SidebarAccountSwitcher extends LitElement {
   static registeredName = "ssk-sidebar-account-switcher";
 

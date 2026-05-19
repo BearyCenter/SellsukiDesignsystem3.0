@@ -39,6 +39,16 @@ export const valueContext = createContext<DropdownState>(
   "ssk-dropdown-context"
 );
 
+/**
+ * Dropdown / select container. Slots a trigger (`slot="selected"`) and
+ * a list of `<ssk-dropdown-option>` children. Supports single-select,
+ * multi-select, search filter, loading state, and clear button.
+ *
+ * @fires change - Fires when the selection changes (option picked or
+ *   selection cleared). `detail` is the current value: `string` (single),
+ *   `string[]` (multi-select), or `{ value: string | string[] }` on
+ *   programmatic clear.
+ */
 export class Dropdown extends LitElement {
   static registeredName = "ssk-dropdown";
 

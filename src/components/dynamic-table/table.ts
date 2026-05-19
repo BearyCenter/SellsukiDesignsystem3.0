@@ -21,6 +21,14 @@ export const dynamicTableContext = createContext<TableState>(
   "ssk-custom-table-context"
 );
 
+/**
+ * Grid-based dynamic table. Composes user-provided header cells and row
+ * cells via slots; provides selection, striped rows, and scroll detection.
+ *
+ * @fires scrollend - Fires when the table body has scrolled to the
+ *   bottom (or is not scrollable). Useful for infinite-scroll / load-more
+ *   triggers. `detail: undefined`.
+ */
 export class DynamicTable extends LitElement {
   static registeredName = "ssk-dynamic-table";
 

@@ -3,6 +3,14 @@ import "croppie/croppie.css";
 import { LitElement, css, html } from "lit";
 import { property, state } from "lit/decorators.js";
 
+/**
+ * Image cropper backed by Croppie — circle or square crop mask with
+ * pinch/scroll zoom. Call `crop()` to extract the cropped base64 image.
+ *
+ * @fires ready - Fires after the image has loaded and Croppie has
+ *   initialised (post-`bind`). Use this to enable a "Crop" button.
+ *   `detail: undefined`.
+ */
 export class ImageCropper extends LitElement {
   static registeredName = "ssk-image-cropper";
 

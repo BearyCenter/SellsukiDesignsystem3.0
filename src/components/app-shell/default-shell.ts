@@ -104,17 +104,20 @@ export type DefaultShellMenuGroup = {
  * - `sidebar-footer` — replace the footer item list (ignores `.footerItems`).
  * - default — page body, rendered inside `<ssk-feature-page-scaffold>`.
  *
- * ### Events
- *
- * | Event                | `detail`              | When                              |
- * |----------------------|-----------------------|-----------------------------------|
- * | `menu-select`        | `{ key: string }`     | Sidebar item clicked              |
- * | `sidebar-toggle`     | `{ collapsed }`       | Hamburger clicked                 |
- * | `search-input`       | `{ value: string }`   | Search input typed                |
- * | `search-submit`      | `{ value: string }`   | Search input Enter pressed        |
- * | `notifications-click`| `void`                | Bell icon clicked                 |
- * | `appgrid-click`      | `void`                | App-grid icon clicked             |
- * | `user-click`         | `void`                | User avatar clicked               |
+ * @fires menu-select - Sidebar item clicked. `detail: { key: string }` — the
+ *   `key` of the `DefaultShellMenuItem` (or footer item) the user activated.
+ * @fires sidebar-toggle - Hamburger / collapse icon clicked. `detail:
+ *   { collapsed: boolean }` — the *new* collapsed state.
+ * @fires search-input - Search field value changed (every keystroke). `detail:
+ *   { value: string }` — current text.
+ * @fires search-submit - Search field committed (Enter pressed). `detail:
+ *   { value: string }` — text at submit time.
+ * @fires notifications-click - Bell icon in the right cluster was clicked.
+ *   `detail: undefined`.
+ * @fires appgrid-click - App-grid (3×3 dots) icon was clicked. `detail:
+ *   undefined`.
+ * @fires user-click - User avatar in the right cluster was clicked. `detail:
+ *   undefined`.
  */
 export class DefaultShell extends LitElement {
   static registeredName = "ssk-default-shell";
@@ -418,7 +421,14 @@ export class DefaultShell extends LitElement {
         <ssk-sidebar-item
           key=${item.key}
           ?disabled=${!!item.disabled}
-          @click=${() => this._emit("menu-select", { key: item.key })}
+          @click=${() =>
+            this.dispatchEvent(
+              new CustomEvent("menu-select", {
+                detail: { key: item.key },
+                bubbles: true,
+                composed: true,
+              })
+            )}
         >
           ${item.icon
             ? html`<ssk-icon slot="prefix" name=${item.icon}></ssk-icon>`
@@ -432,30 +442,63 @@ export class DefaultShell extends LitElement {
   // ── Event handlers ───────────────────────────────────────────────────
   private _onToggleSidebar = () => {
     this.sidebarCollapsed = !this.sidebarCollapsed;
-    this._emit("sidebar-toggle", { collapsed: this.sidebarCollapsed });
+    this.dispatchEvent(
+      new CustomEvent("sidebar-toggle", {
+        detail: { collapsed: this.sidebarCollapsed },
+        bubbles: true,
+        composed: true,
+      })
+    );
   };
 
   private _onSearchInput = (e: Event) => {
     const value = (e.target as HTMLInputElement | null)?.value ?? "";
     this.searchValue = value;
-    this._emit("search-input", { value });
+    this.dispatchEvent(
+      new CustomEvent("search-input", {
+        detail: { value },
+        bubbles: true,
+        composed: true,
+      })
+    );
   };
 
   private _onSearchKeydown = (e: KeyboardEvent) => {
     if (e.key === "Enter") {
-      this._emit("search-submit", { value: this.searchValue });
+      this.dispatchEvent(
+        new CustomEvent("search-submit", {
+          detail: { value: this.searchValue },
+          bubbles: true,
+          composed: true,
+        })
+      );
     }
   };
 
-  private _onNotificationsClick = () => this._emit("notifications-click", undefined);
-  private _onAppGridClick = () => this._emit("appgrid-click", undefined);
-  private _onUserClick = () => this._emit("user-click", undefined);
+  private _onNotificationsClick = () =>
+    this.dispatchEvent(
+      new CustomEvent("notifications-click", { bubbles: true, composed: true })
+    );
+  private _onAppGridClick = () =>
+    this.dispatchEvent(
+      new CustomEvent("appgrid-click", { bubbles: true, composed: true })
+    );
+  private _onUserClick = () =>
+    this.dispatchEvent(
+      new CustomEvent("user-click", { bubbles: true, composed: true })
+    );
 
   private _onMenuSelect = (e: Event) => {
     const detail = (e as CustomEvent<{ key: string; selected: boolean }>).detail;
     if (detail?.selected) {
       this.selectedKey = detail.key;
-      this._emit("menu-select", { key: detail.key });
+      this.dispatchEvent(
+        new CustomEvent("menu-select", {
+          detail: { key: detail.key },
+          bubbles: true,
+          composed: true,
+        })
+      );
     }
   };
 
@@ -470,12 +513,6 @@ export class DefaultShell extends LitElement {
     }
     this.expandedGroups = [...next];
   };
-
-  private _emit<T>(name: string, detail: T) {
-    this.dispatchEvent(
-      new CustomEvent(name, { detail, bubbles: true, composed: true })
-    );
-  }
 
   static styles = css`
     :host {

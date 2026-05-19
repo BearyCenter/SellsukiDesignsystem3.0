@@ -17,6 +17,16 @@ type typeDay = {
   title: number;
   date: number;
 };
+/**
+ * Single day cell inside `<ssk-calendar>` — renders one date number plus
+ * selected / hovered / current-day visual states.
+ *
+ * @fires date-is-selected - Fires when the user clicks (taps) the cell and
+ *   it is not disabled. `detail: { date: number | undefined }` — unix ms
+ *   timestamp at start of day.
+ * @fires date-is-hovered - Fires on mouseover for range-date hover preview.
+ *   `detail: { date: number | undefined }`.
+ */
 export class Cell extends LitElement {
   static registeredName = "ssk-cell";
 

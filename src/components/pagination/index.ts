@@ -16,6 +16,16 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Pagination control — page-number buttons, prev/next/first/last arrows,
+ * optional rows-per-page selector and "go to page" input.
+ *
+ * @fires page-changed - Fires when the current page changes via any
+ *   pagination control (page number click, prev/next/first/last, or
+ *   go-to input). `detail: { page: number }`.
+ * @fires rows-per-page-changed - Fires when the user picks a new value
+ *   from the rows-per-page dropdown. `detail: { rowsPerPage: number }`.
+ */
 export class Pagination extends LitElement {
   static registeredName = "ssk-pagination";
 

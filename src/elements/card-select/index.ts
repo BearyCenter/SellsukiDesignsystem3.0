@@ -15,6 +15,14 @@ import {
     CardSize,
 } from "../../types/theme";
 
+/**
+ * Selectable card — toggle-style card with a check icon indicator,
+ * intended for option pickers (e.g. shipping method, plan tier).
+ *
+ * @fires card-click - Fires when the user clicks the card and it is not
+ *   disabled. `detail: { index: number }` — the card's `index` prop.
+ *   The internal `selected` state is also toggled on click.
+ */
 export class CardSelect extends LitElement {
     static registeredName = "ssk-card-select";
 

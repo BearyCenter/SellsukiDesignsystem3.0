@@ -36,6 +36,15 @@ const locales = { en: enUS, fr, th };
 type LocaleKey = "en" | "fr" | "th";
 type TypeTime = "hms" | "hm" | "timeEvery30";
 
+/**
+ * Time picker — scrollable hour / minute / second columns with optional
+ * 30-minute-interval mode and locale-aware time-zone handling.
+ *
+ * @fires time-changed - Fires when the selected time changes via column
+ *   click, "Now" button, or OK button. `detail: { value: number }` —
+ *   unix ms timestamp at the chosen time (using the calendar value's date
+ *   if present, else today).
+ */
 export class Time extends LitElement {
   static registeredName = "ssk-time";
 

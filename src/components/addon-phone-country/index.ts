@@ -5,6 +5,13 @@ import "../../elements/icon";
 import "../../components/dropdown";
 import { Size } from "../../main";
 
+/**
+ * Phone country code addon — dropdown of country flags + dial codes for
+ * use inside `<ssk-input>` as a phone-number prefix selector.
+ *
+ * @fires change - Fires when the user selects a country from the dropdown.
+ *   `detail: { value: string; country: { code: string; name?: string; phoneCode?: string } }`.
+ */
 export class AddonPhoneCountry extends LitElement implements BaseAttributes {
   static registeredName = "ssk-addon-phone-country";
 

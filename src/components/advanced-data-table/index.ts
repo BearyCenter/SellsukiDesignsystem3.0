@@ -39,6 +39,22 @@ export interface ADTBulkActionEvent {
 
 // ── Component ──────────────────────────────────────────────────────────────
 
+/**
+ * Advanced data table with row selection, sortable columns, pagination,
+ * expandable rows, and a bulk-action toolbar.
+ *
+ * @fires selection-change - Fires when the user toggles a row checkbox or
+ *   the select-all checkbox. `detail: { selected: string[] }` — row ids
+ *   currently selected.
+ * @fires sort-change - Fires when a sortable column header is clicked.
+ *   `detail: { key: string; dir: "asc" | "desc" }`.
+ * @fires page-change - Fires when a pagination button (first/prev/next/last)
+ *   navigates to a new page. `detail: { page: number }`.
+ * @fires page-size-change - Fires when the user picks a new rows-per-page
+ *   value from the dropdown. `detail: { pageSize: number }`.
+ * @fires bulk-action - Fires when the user clicks a `[data-action]` button
+ *   inside the bulk-actions slot. `detail: { action: string; selected: string[] }`.
+ */
 export class AdvancedDataTable extends LitElement {
   static registeredName = "ssk-advanced-data-table";
 

@@ -15,6 +15,14 @@ import {
     parseVariables,
 } from "../../types/theme";
 
+/**
+ * Tag input — text field that converts the entered value into a pill
+ * "tag" on Enter, with click-to-remove.
+ *
+ * @fires change - Fires when a tag is added (Enter pressed on a non-empty,
+ *   non-duplicate value) or removed (close icon clicked). `detail:
+ *   string[]` — the current `tags` array.
+ */
 export class Inputtag extends LitElement {
     static registeredName = "ssk-input-tag";
 

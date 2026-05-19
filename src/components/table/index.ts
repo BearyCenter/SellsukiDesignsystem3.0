@@ -32,6 +32,21 @@ interface RowData {
   [key: string]: any;
 }
 
+/**
+ * General-purpose data table — columns, rows, optional row selection,
+ * sortable headers, per-column `customCell` renderers, and an integrated
+ * `<ssk-pagination>` footer.
+ *
+ * @fires load-data - Fires when the user changes the current page or
+ *   the rows-per-page selector. Consumer should fetch the next data slice.
+ *   `detail: { page: number; rowsPerPage: number }`.
+ * @fires cell-click - Fires when a `customCell` cell with an `onClick`
+ *   handler is clicked. `detail: { cellValue: unknown; row: RowData;
+ *   rowIndex: number }`.
+ * @fires cell-change - Fires when a `customCell` cell with an `onChange`
+ *   handler emits input. `detail: { newValue: string; row: RowData;
+ *   rowIndex: number }`.
+ */
 export class Table extends LitElement {
   static registeredName = "ssk-table";
 

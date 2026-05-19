@@ -3,6 +3,13 @@ import { css, html, LitElement, nothing } from "lit";
 import { property } from "lit/decorators.js";
 import { dynamicTableContext, TableState } from "./table";
 
+/**
+ * Header cell for `<ssk-dynamic-table>` — slottable column heading with
+ * optional sort indicator.
+ *
+ * @fires sort-changed - Fires when the user clicks the sort icon. `detail:
+ *   { sortDirection: "asc" | "desc" }` — the *new* direction (toggled).
+ */
 export class HeaderCell extends LitElement {
   static registeredName = "ssk-header-cell";
 
