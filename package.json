@@ -1,6 +1,6 @@
 {
   "name": "@uxuissk/design-system-core",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "publishConfig": {
     "access": "public"
   },
@@ -32,11 +32,12 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "cross-env NODE_ENV=production tsc && vite build && npm run build:bundled && npm run build:test-utils && npm run generate:react-types && npm run analyze",
+    "build": "cross-env NODE_ENV=production tsc && vite build && npm run build:bundled && npm run build:test-utils && npm run generate:react-types && npm run analyze && npm run expand:cem-enums",
     "build:bundled": "vite build --config vite.config.bundled.js && node -e \"require('fs').rmSync('dist/sellsuki-components.bundled.css', {force:true})\"",
     "build:test-utils": "tsc -p tsconfig.test-utils.json",
     "generate:react-types": "node scripts/generate-react-types/index.js",
     "analyze": "custom-elements-manifest analyze --config custom-elements-manifest.config.mjs",
+    "expand:cem-enums": "node scripts/expand-cem-enums/index.js",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
