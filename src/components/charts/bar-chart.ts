@@ -16,6 +16,25 @@ const DEFAULT_COLORS = [
   "#ec4899",
 ];
 
+/**
+ * Sellsuki Bar Chart — DS 3.0
+ *
+ * Responsive grouped-bar chart rendered as inline SVG (zero chart-library
+ * dependency). Pass an array of `series` (each with its own values, label
+ * and optional color) plus shared category `labels`. Width follows the
+ * container via ResizeObserver; height is fixed via the `height` prop.
+ *
+ * Reach for `<ssk-bar-chart>` to compare discrete categories side by side
+ * (sales by region, items per status). Use `<ssk-line-chart>` for trends
+ * over time and `<ssk-donut-chart>` for part-to-whole composition.
+ *
+ * @example
+ *   <ssk-bar-chart
+ *     .series=${[{ label: "ยอดขาย", values: [12, 19, 8, 15] }]}
+ *     .labels=${["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย."]}
+ *     show-legend
+ *   ></ssk-bar-chart>
+ */
 export class BarChart extends LitElement {
   static registeredName = "ssk-bar-chart";
 

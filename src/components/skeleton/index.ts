@@ -2,6 +2,25 @@ import { LitElement, css, html, nothing } from "lit";
 import { property } from "lit/decorators.js"; 
 import { Size } from "../../types/theme";  
 
+/**
+ * Sellsuki Skeleton — DS 3.0
+ *
+ * Animated placeholder block that signals "content is loading" without
+ * spinning. Three shapes — `capsule` (default, rounded line for text),
+ * `circle` (avatar / icon), `square` (image / card thumbnail). Size via
+ * the `size` token or explicit `width` + `height`; `animationDuration` is
+ * milliseconds for one shimmer cycle.
+ *
+ * Reach for `<ssk-skeleton>` to reserve layout space before data arrives —
+ * lists, cards, table rows. For indeterminate inline loading (button,
+ * inside an icon spot) use `<ssk-spinner>`. Several built-in components
+ * (`<ssk-card>`, `<ssk-expandable-card>`) already render their own
+ * skeleton layout when `loading` is true.
+ *
+ * @example
+ *   <ssk-skeleton skeletonShape="capsule" width="240px" height="20px"></ssk-skeleton>
+ *   <ssk-skeleton skeletonShape="circle" size="lg"></ssk-skeleton>
+ */
 export class Skeleton extends LitElement {   
   static registeredName = "ssk-skeleton";    
 

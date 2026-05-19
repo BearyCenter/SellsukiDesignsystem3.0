@@ -89,6 +89,25 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Code Block — DS 3.0
+ *
+ * Syntax-highlighted code surface. Renders source text with the Shiki
+ * highlighter (Vite-friendly chunked language loaders — only the langs
+ * referenced inside the component become bundles). Supports TypeScript,
+ * JavaScript, JSX/TSX, CSS, SCSS, HTML, JSON, YAML, Markdown, bash,
+ * Python, Go, and Rust today; unknown languages fall back to plain text.
+ *
+ * Reach for `<ssk-code-block>` for documentation pages, error stack traces,
+ * onboarding snippets — anywhere developers need to read code, not just
+ * any monospaced text. For one-liner inline keystrokes use a `<kbd>` or
+ * the `<ssk-tag>` element.
+ *
+ * @example
+ *   <ssk-code-block lang="typescript" theme="github-light">
+ *     const order = await fetchOrder("1024");
+ *   </ssk-code-block>
+ */
 export class CodeBlock extends LitElement {
   static registeredName = "ssk-code-block";
 

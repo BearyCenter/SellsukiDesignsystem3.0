@@ -13,6 +13,33 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Modal — DS 3.0
+ *
+ * Centered, focused dialog overlaid on a dimmed backdrop. Provides
+ * `header`, `body`, and `footer` named slots, an optional divider between
+ * them, and a built-in close button. Emits `close` when the user clicks
+ * the backdrop or close button.
+ *
+ * Reach for `<ssk-modal>` for blocking interactions that demand attention
+ * (confirmation, short form, critical info). For long forms or detail
+ * panes prefer `<ssk-drawer>` (side-anchored, leaves more page visible).
+ * For transient feedback use `<ssk-toast>` instead.
+ *
+ * @example
+ *   <ssk-modal ?show=${this.open} @close=${this._close} width="480px">
+ *     <ssk-heading slot="header" level="3">ยืนยันการลบ</ssk-heading>
+ *     <ssk-text slot="body">การกระทำนี้ไม่สามารถย้อนกลับได้</ssk-text>
+ *     <div slot="footer">
+ *       <ssk-button variant="ghost">ยกเลิก</ssk-button>
+ *       <ssk-button tone="danger">ลบ</ssk-button>
+ *     </div>
+ *   </ssk-modal>
+ *
+ * @slot header - Title row
+ * @slot body   - Main content
+ * @slot footer - Action row (right-aligned)
+ */
 export class Modal extends LitElement {
   static registeredName = "ssk-modal";
 

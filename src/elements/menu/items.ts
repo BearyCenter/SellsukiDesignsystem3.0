@@ -17,6 +17,28 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Menu Items — DS 3.0
+ *
+ * Single clickable row inside a `<ssk-menu-group>` / dropdown menu /
+ * popover. Three variants (`solid`, `light`, `outline`) and standard
+ * size tokens; emits `click` to its parent menu container.
+ *
+ * Reach for `<ssk-menu-items>` for action rows inside dropdown menus
+ * (kebab menu, account menu, bulk-action picker). For sidebar nav rows
+ * use `<ssk-sidebar-item>` (sidebar context awareness).
+ *
+ * @example
+ *   <ssk-menu-group label="ออเดอร์">
+ *     <ssk-menu-items>
+ *       <ssk-icon slot="prefix" name="solid-pencil"></ssk-icon>
+ *       แก้ไข
+ *     </ssk-menu-items>
+ *   </ssk-menu-group>
+ *
+ * @slot        - Label text
+ * @slot prefix - Leading icon
+ */
 export class MenuItems extends LitElement implements ThemeValue {
   static registeredName = "ssk-menu-items";
 

@@ -17,6 +17,24 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Logo — DS 3.0
+ *
+ * Brand wordmark. Inherits the active brand from
+ * `<ssk-app-shell-provider>` / `<ssk-theme-provider>` via `brandContext`,
+ * so dropping `<ssk-logo>` into a sellsuki-themed shell automatically
+ * renders the sellsuki mark. Override via the explicit `brand`
+ * attribute (`sellsuki` | `patona` | `oc2plus`) for cross-brand
+ * showcases.
+ *
+ * Reach for `<ssk-logo>` in navbar branding, login screens, footers, and
+ * marketing splash pages. For a colored icon tile use
+ * `<ssk-misc-icon>`; for a country flag use `<ssk-country-icon>`.
+ *
+ * @example
+ *   <ssk-logo size="md"></ssk-logo>
+ *   <ssk-logo brand="patona" size="lg"></ssk-logo>
+ */
 export class Logo extends LitElement implements ThemeValue {
   static registeredName = "ssk-logo";
 

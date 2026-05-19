@@ -27,6 +27,27 @@ export interface sectionItem {
   disabledButton?: boolean;
 }
 
+/**
+ * Sellsuki Widget User Detail — DS 3.0
+ *
+ * Dashboard user-profile card. Renders an avatar (`imgUrl`, shape
+ * `circle` / `rounded` / `square`), a label + subText pair, an optional
+ * CTA button, and a vertical list of `sectionItem` rows underneath —
+ * each row supports its own per-row button and tooltip.
+ *
+ * Default grid size is 4×3 units. Reach for `<ssk-widget-user-detail>`
+ * to surface "active user", "top seller", or "support agent on duty"
+ * tiles in a dashboard. For just a KPI value use `<ssk-widget-matric>`;
+ * for a bare user portrait use `<ssk-avatar>`.
+ *
+ * @example
+ *   <ssk-widget-user-detail
+ *     label="ชญานี ศ."
+ *     subText="ผู้ดูแลร้าน"
+ *     imgUrl="/u/123.jpg"
+ *     buttonText="ดูโปรไฟล์"
+ *   ></ssk-widget-user-detail>
+ */
 export class WidgetUserDetail extends LitElement implements Widget, ThemeValue {
   static registeredName = 'ssk-widget-user-detail'
 

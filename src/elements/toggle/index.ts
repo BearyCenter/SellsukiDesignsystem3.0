@@ -14,6 +14,26 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Toggle — DS 3.0
+ *
+ * On/off switch — a sliding thumb in a rounded track. Emits `change`
+ * with the new boolean state when flipped. The track adopts the brand
+ * color via `themeColor` when active; thumb color via `color`
+ * (default white).
+ *
+ * Reach for `<ssk-toggle>` for instant-apply binary settings
+ * ("Notifications on / off", "Dark mode", "Auto-save"). For form-style
+ * boolean fields that are submitted with the rest of the form, prefer
+ * `<ssk-checkbox>` — the affordance signals "you must save".
+ *
+ * @example
+ *   <ssk-toggle ?checked=${this.notifications} @change=${e => this._setNotif(e.detail)}>
+ *     แจ้งเตือนทางอีเมล
+ *   </ssk-toggle>
+ *
+ * @slot - Label text
+ */
 export class Toggle extends LitElement implements ThemeValue {
   static registeredName = "ssk-toggle";
 

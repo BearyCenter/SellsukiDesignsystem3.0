@@ -13,6 +13,27 @@ interface Card {
     icon: string;
 }
 
+/**
+ * Sellsuki Card Group — DS 3.0
+ *
+ * Single-select container for `<ssk-card-select>` tiles. Pass a typed
+ * `cards` array — the group enforces mutual exclusivity (only one card
+ * carries the `selected` state) and emits the chosen index up to its
+ * parent. Layout is a wrapping flex grid with tokenized gaps.
+ *
+ * Use this for radio-style picker UIs where each option needs more than a
+ * label — an icon plus support text (plan picker, layout chooser,
+ * payment-method selector). For text-only radios use
+ * `<ssk-radio-group>`. For multi-select use `<ssk-checkbox>` rows.
+ *
+ * @example
+ *   <ssk-card-group
+ *     .cards=${[
+ *       { id: 1, label: "Standard", supportText: "ฟรี", icon: "outline-cube", cardSize: "md", selected: true,  disabled: false },
+ *       { id: 2, label: "Premium",  supportText: "฿299/เดือน", icon: "outline-star", cardSize: "md", selected: false, disabled: false },
+ *     ]}
+ *   ></ssk-card-group>
+ */
 export class CardGroup extends LitElement {
     @property({ type: Array }) cards: Card[] = [];
 

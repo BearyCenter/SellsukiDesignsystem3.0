@@ -15,6 +15,28 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Container — DS 3.0
+ *
+ * Token-aware box: a thin wrapper that exposes `--space-container-x`,
+ * `--space-container-y`, radius, border, background, and font tokens as
+ * a single element. No built-in title / image conventions — slot whatever
+ * you need inside.
+ *
+ * Reach for `<ssk-container>` when you want a styled panel without the
+ * semantic structure of `<ssk-card>` (which assumes title + subtitle +
+ * image). Common uses: form section wrappers, toolbar groups, ad-hoc
+ * surface tiles. For dashboard KPI tiles use `<ssk-widget-matric>`. For
+ * product-list cards use `<ssk-card>`.
+ *
+ * @example
+ *   <ssk-container rounded="8px" borderColor="primary" padding="md">
+ *     <ssk-heading level="4">ตั้งค่าทั่วไป</ssk-heading>
+ *     <ssk-input label="ชื่อร้านค้า"></ssk-input>
+ *   </ssk-container>
+ *
+ * @slot - Container body
+ */
 export class Container extends LitElement {
   static registeredName = "ssk-container";
 

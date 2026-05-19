@@ -3,6 +3,33 @@ import { property, state } from "lit/decorators.js";
 import { ColorName, ColorRole } from "../../types/theme";
 import "../../../src/components/skeleton";
 
+/**
+ * Sellsuki Expandable Card — DS 3.0
+ *
+ * Card that reveals additional content on toggle. Two modes:
+ * `expand-header` (chevron lives in the header row, expanded panel grows
+ * below) and `expand-footer` ("View more / View less" footer bar reveals
+ * the panel above it). Emits `expanded-changed` whenever the panel state
+ * flips. `lazy` defers rendering the panel's slotted content until first
+ * open.
+ *
+ * Reach for this when the secondary detail (FAQ answer, settings subgroup,
+ * order line items) is optional and would distract from the primary
+ * summary. For permanently visible content use `<ssk-card>`; for grouped
+ * collapsible sections use `<ssk-accordion>`.
+ *
+ * @example
+ *   <ssk-expandable-card title="รายละเอียดออเดอร์" type="expand-footer">
+ *     <ssk-text slot="content">ออเดอร์ #1024 · ฿1,250</ssk-text>
+ *     <div slot="expand">...full detail...</div>
+ *   </ssk-expandable-card>
+ *
+ * @slot header     - Leading icon/avatar (expand-header mode)
+ * @slot content    - Card body shown when collapsed
+ * @slot expand     - Content revealed when expanded
+ * @slot footer     - Custom footer label (expand-footer mode)
+ * @slot toggle     - Custom toggle UI replacing the default chevron
+ */
 export class ExpandableCard extends LitElement {
   static registeredName = "ssk-expandable-card";
 

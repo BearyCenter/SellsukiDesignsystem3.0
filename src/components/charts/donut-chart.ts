@@ -18,6 +18,30 @@ const DEFAULT_COLORS = [
   "#f97316",
 ];
 
+/**
+ * Sellsuki Donut Chart — DS 3.0
+ *
+ * Ring-style proportion chart rendered as inline SVG. Pass an array of
+ * `slices` (label + value, optional color); the component computes
+ * percentages, draws the arcs, and renders an optional legend with
+ * percentages. `centerLabel` + `centerValue` show big stat text inside the
+ * ring (e.g. "1,248 / Total").
+ *
+ * Reach for `<ssk-donut-chart>` when the story is part-to-whole composition
+ * (status breakdown, payment-method mix) with ≤ 8 slices. For category
+ * comparison use `<ssk-bar-chart>`; for trends use `<ssk-line-chart>`.
+ *
+ * @example
+ *   <ssk-donut-chart
+ *     .slices=${[
+ *       { label: "ชำระแล้ว", value: 320 },
+ *       { label: "รอชำระ", value: 80 },
+ *       { label: "ยกเลิก", value: 12 },
+ *     ]}
+ *     center-label="ออเดอร์"
+ *     center-value="412"
+ *   ></ssk-donut-chart>
+ */
 export class DonutChart extends LitElement {
   static registeredName = "ssk-donut-chart";
 

@@ -11,6 +11,22 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Toast — DS 3.0
+ *
+ * Single transient notification card with a status icon (`success` /
+ * `error` / `warning` / `info`), a heading, message content, and an
+ * optional close button. Emits `close` when dismissed.
+ *
+ * Usually you don't instantiate `<ssk-toast>` directly — let
+ * `<ssk-toast-provider>` manage the stack and call
+ * `addToast({ title, message, type })`. Use the raw element only for
+ * inline status messages outside the global toast region. For persistent
+ * banners use `<ssk-alert>`; for modal confirmations use `<ssk-modal>`.
+ *
+ * @example
+ *   <ssk-toast type="success" heading="บันทึกเรียบร้อย" content="ออเดอร์ #1024 ถูกบันทึก"></ssk-toast>
+ */
 export class Toast extends LitElement {
   static registeredName = "ssk-toast";
 

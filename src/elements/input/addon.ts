@@ -15,6 +15,28 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Input Addon — DS 3.0
+ *
+ * Single-row form field that pairs an `<ssk-input>` with a leading
+ * and/or trailing addon — a fixed visual prefix or suffix (currency
+ * code, unit label, helper icon button) outside the input border.
+ * Renders the input's own `label` + `helperText` above and below.
+ *
+ * Reach for `<ssk-input-addon>` when you need a tightly bound annotation
+ * (e.g. "https://" prefix, ".com" suffix, "฿" currency, kg unit). For a
+ * trigger button + input combo (search submit) build it from
+ * `<ssk-input>` + `<ssk-button>` inside `<ssk-input-addon>`'s slots.
+ *
+ * @example
+ *   <ssk-input-addon label="ราคา">
+ *     <span slot="prefix">฿</span>
+ *     <span slot="postfix">บาท</span>
+ *   </ssk-input-addon>
+ *
+ * @slot prefix  - Leading visual addon
+ * @slot postfix - Trailing visual addon
+ */
 export class InputAddon
   extends LitElement
   implements ThemeValue, BaseAttributes

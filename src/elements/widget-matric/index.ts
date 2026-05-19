@@ -15,6 +15,28 @@ import {
 } from '../../types/theme'
 import { Widget } from '../../types/widget'
 
+/**
+ * Sellsuki Widget Matric — DS 3.0
+ *
+ * Dashboard KPI / stat tile. Renders a large headline value (e.g.
+ * "฿128,450") with a small `label` above ("ยอดขายวันนี้") and an
+ * optional `subText` delta below ("↗ 12.5% vs เมื่อวาน"). Default grid
+ * size is 4×2 units. Token-aware: the value typically uses
+ * `--font-size-h2`, the label `--font-size-label`, and the delta
+ * `--font-size-caption`.
+ *
+ * Reach for `<ssk-widget-matric>` for the headline numbers row of a
+ * dashboard — revenue, orders, conversion rate. For multi-series charts
+ * use `<ssk-line-chart>` / `<ssk-bar-chart>`. For user-profile cards use
+ * `<ssk-widget-user-detail>`.
+ *
+ * @example
+ *   <ssk-widget-matric
+ *     label="ยอดขายวันนี้"
+ *     value="฿128,450"
+ *     subText="↗ 12.5% vs เมื่อวาน"
+ *   ></ssk-widget-matric>
+ */
 export class WidgetMatric extends LitElement implements Widget, ThemeValue {
   static registeredName = 'ssk-widget-matric'
 

@@ -25,6 +25,25 @@ export type radioOptions = {
     disabled?: boolean;
     value: string;
 };
+/**
+ * Sellsuki Radio Group — DS 3.0
+ *
+ * Single-select container for `<ssk-radio>` options. Pass a typed
+ * `options` array (or render `<ssk-radio>` children manually); the group
+ * enforces mutual exclusivity and reports the chosen value via a
+ * `change` event.
+ *
+ * Reach for `<ssk-radio-group>` for short single-pick question fields
+ * (5–7 options). For longer lists prefer a `<ssk-dropdown>`; for tile
+ * pickers with icon + support text use `<ssk-card-group>`; for
+ * multi-select use `<ssk-checkbox>` rows.
+ *
+ * @example
+ *   <ssk-radio-group .options=${[
+ *     { value: "th", label: "ไทย" },
+ *     { value: "en", label: "English" },
+ *   ]}></ssk-radio-group>
+ */
 export class RadioGroup extends LitElement implements ThemeValue {
     static registeredName = "ssk-radio-group";
 

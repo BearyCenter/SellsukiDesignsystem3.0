@@ -16,6 +16,25 @@ const DEFAULT_COLORS = [
   "#ec4899",
 ];
 
+/**
+ * Sellsuki Line Chart — DS 3.0
+ *
+ * Responsive multi-series line chart rendered as inline SVG. Pass `series`
+ * (each with values + label + optional color) and shared x-axis `labels`.
+ * Defaults to a smoothed Catmull-Rom curve; set `smooth` to false for
+ * straight line segments. Width follows the container via ResizeObserver.
+ *
+ * Reach for `<ssk-line-chart>` for trends over time (daily revenue, weekly
+ * traffic, conversion over a week). For category comparison use
+ * `<ssk-bar-chart>`; for part-to-whole use `<ssk-donut-chart>`.
+ *
+ * @example
+ *   <ssk-line-chart
+ *     .series=${[{ label: "ยอดขาย", values: [12, 19, 14, 22, 28, 25, 31] }]}
+ *     .labels=${["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]}
+ *     show-dots
+ *   ></ssk-line-chart>
+ */
 export class LineChart extends LitElement {
   static registeredName = "ssk-line-chart";
 

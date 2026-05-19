@@ -7,6 +7,33 @@ import { ColorName, ColorRole } from "../../types/theme";
 export type VariantCard = "outlined" | "elevated";
 export type TypeCard = "stacked" | "horizontal";
 
+/**
+ * Sellsuki Card — DS 3.0
+ *
+ * Bordered or elevated content surface for grouping a title, subtitle,
+ * description and optional image into a single visual unit. Supports
+ * `stacked` (vertical, image on top) and `horizontal` (image left, content
+ * right) layouts. Built-in loading state renders skeletons matching the
+ * chosen layout.
+ *
+ * Reach for `<ssk-card>` for product cards, summary tiles, list items with
+ * thumbnails — anywhere you need a self-contained content tile.
+ * For lightweight bordered wrappers without title/image conventions use
+ * `<ssk-container>`. For dashboard KPI tiles use `<ssk-widget-matric>`.
+ * For expand-on-click cards use `<ssk-expandable-card>`.
+ *
+ * @example
+ *   <ssk-card
+ *     title="สินค้าขายดี"
+ *     subtitle="฿1,250"
+ *     image="/img/product.jpg"
+ *     variant="elevated"
+ *   ></ssk-card>
+ *
+ * @slot content - Custom body below built-in title/subtitle
+ * @slot icon    - Leading icon (horizontal layout only)
+ * @slot footer  - Action row at the bottom (horizontal layout only)
+ */
 export class Card extends LitElement {
   static registeredName = "ssk-card";
 

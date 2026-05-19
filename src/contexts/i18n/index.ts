@@ -27,6 +27,24 @@ export interface I18nStore {
 
 export const i18nContext = createContext<I18nStore>("ssk-i18n-context");
 
+/**
+ * Sellsuki I18n Provider — DS 3.0
+ *
+ * Provides a translation store (IndexedDB-backed by default) to descendants via
+ * Lit context. Wrap any subtree that contains `<ssk-i18n-translate>` or
+ * `<ssk-i18n-template>` so they can resolve keys against the active language.
+ *
+ * Use this when your app needs runtime translation lookup with cached
+ * messages. For static text, just write the string directly — the Provider
+ * is only needed once translations are loaded asynchronously.
+ *
+ * @example
+ *   <ssk-i18n-provider lang="th">
+ *     <ssk-i18n-translate key="order.total"></ssk-i18n-translate>
+ *   </ssk-i18n-provider>
+ *
+ * @slot - Content that needs translation context
+ */
 export class I18nProvider extends LitElement {
   @provide({ context: i18nContext })
   @property({ attribute: false })

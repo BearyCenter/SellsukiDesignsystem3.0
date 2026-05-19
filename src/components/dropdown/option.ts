@@ -17,6 +17,23 @@ import {
 } from "../../types/theme";
 import { DropdownState, valueContext } from "./dropdown";
 
+/**
+ * Sellsuki Dropdown Option — DS 3.0
+ *
+ * Single selectable row inside `<ssk-dropdown>`. Reads selection state from
+ * the parent dropdown context and reports clicks back through it. In
+ * multi-select mode it renders an `<ssk-checkbox>`; in single-select it
+ * just highlights when chosen.
+ *
+ * Must be a direct child of `<ssk-dropdown>` (alongside one
+ * `<ssk-dropdown-button>` trigger). Slot the visible label in the default
+ * slot.
+ *
+ * @example
+ *   <ssk-dropdown-option value="paid">ชำระแล้ว</ssk-dropdown-option>
+ *
+ * @slot - Option label
+ */
 export class DropdownOption extends LitElement {
   static registeredName = "ssk-dropdown-option";
 

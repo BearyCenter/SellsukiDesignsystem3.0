@@ -16,6 +16,31 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Input — DS 3.0
+ *
+ * Text input field with token-driven styling. Renders an optional
+ * `label`, `helperText`, and validation `error` / `success` state, plus
+ * `prefix` / `postfix` slots for inline icons or units. Emits standard
+ * `input` / `change` events; size respects the `--font-size-p` body
+ * token so values never fall below DS 3.0's 18px minimum.
+ *
+ * Reach for `<ssk-input>` for any single-line text entry — search bars,
+ * form fields, inline editors. For multi-line text use
+ * `<ssk-textarea>`. For from-to ranges use `<ssk-input-range>`. For
+ * fixed-affix labels (currency / domain prefix) wrap in
+ * `<ssk-input-addon>`.
+ *
+ * @example
+ *   <ssk-input
+ *     label="ชื่อร้านค้า"
+ *     placeholder="กรอกชื่อร้านค้า"
+ *     helperText="ตั้งชื่อให้ลูกค้าจดจำได้ง่าย"
+ *   ></ssk-input>
+ *
+ * @slot prefix  - Leading icon inside the field
+ * @slot postfix - Trailing icon / clear button inside the field
+ */
 export class Input extends LitElement {
   static registeredName = "ssk-input";
 

@@ -15,6 +15,26 @@ import {
   themeContext,
 } from "../../main";
 
+/**
+ * Sellsuki Input Range — DS 3.0
+ *
+ * Paired "from–to" text input for numeric or date ranges. Renders two
+ * input fields under a shared label with a dash divider and reports the
+ * combined `{from, to}` pair on change.
+ *
+ * Reach for `<ssk-input-range>` when both ends of a range are
+ * user-typed (price range filter, date range, weight range). For
+ * single-value entry use `<ssk-input>`. For a slider-based numeric
+ * range, build it from native `<input type="range">` inside an
+ * `<ssk-container>` (no dedicated component yet).
+ *
+ * @example
+ *   <ssk-input-range
+ *     label="ช่วงราคา"
+ *     placeholderFrom="0"
+ *     placeholderTo="1000"
+ *   ></ssk-input-range>
+ */
 export class InputRange extends LitElement {
   static registeredName = "ssk-input-range";
 

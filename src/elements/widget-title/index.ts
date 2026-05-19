@@ -22,6 +22,27 @@ export interface DropdownItem {
   value: string;
 }
 
+/**
+ * Sellsuki Widget Title — DS 3.0
+ *
+ * Dashboard section-heading widget. Renders a title row that spans 6
+ * grid columns by 1 row, with an optional trailing action: nothing,
+ * a `button`, or a `dropdown` selector. Provides a tokenized rhythm so
+ * dashboard sections start with consistent typography (typically
+ * `--font-size-h4` / 24px) and spacing.
+ *
+ * Reach for `<ssk-widget-title>` to title a row of dashboard widgets
+ * ("ภาพรวม", "สินค้ายอดนิยม") with an optional "View all" CTA or
+ * range selector. For page-level titles use `<ssk-page-header>`. For
+ * standalone headings outside the dashboard grid use `<ssk-heading>`.
+ *
+ * @example
+ *   <ssk-widget-title
+ *     label="ภาพรวมยอดขาย"
+ *     actionType="dropdown"
+ *     .dropdownItems=${[{label:"7 วัน",value:"7d"},{label:"30 วัน",value:"30d"}]}
+ *   ></ssk-widget-title>
+ */
 export class WidgetTitle extends LitElement implements Widget, ThemeValue {
     static registeredName = 'ssk-widget-title'
     

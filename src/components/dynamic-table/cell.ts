@@ -3,6 +3,26 @@ import { css, html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
 import { dynamicTableContext, TableState } from "./table";
 
+/**
+ * Sellsuki Table Cell — DS 3.0
+ *
+ * Single cell inside `<ssk-table>` / `<ssk-table-row>`. Honors the parent
+ * table's padding (`--space-table-cell-x`, `--space-table-cell-y`) and
+ * border tokens; the `align` prop controls horizontal alignment
+ * (`left` / `center` / `right`). Use `<ssk-text>` or
+ * `<ssk-date-display>` etc. inside to keep typography on-system.
+ *
+ * Must be used inside an `<ssk-table-row>` / `<ssk-table>`. Default
+ * alignment is `center`; reach for `left` for text columns and `right`
+ * for numeric/currency columns.
+ *
+ * @example
+ *   <ssk-table-cell align="right">
+ *     <ssk-text>฿1,250</ssk-text>
+ *   </ssk-table-cell>
+ *
+ * @slot - Cell content (text, badge, icon, button)
+ */
 export class TableCell extends LitElement {
   static registeredName = "ssk-table-cell";
 

@@ -14,6 +14,24 @@ import { ColorName, ColorRole, Size, Theme } from "../../types/theme";
 dayjs.extend(localizedFormat);
 dayjs.extend(buddhistEra);
 
+/**
+ * Sellsuki Date Display — DS 3.0
+ *
+ * Locale-aware date / time formatter. Renders an ISO date string (or any
+ * dayjs-parseable value) using the configured locale (`th` default,
+ * `en`, `fr`, `de`). Thai locale uses the Buddhist Era calendar (พ.ศ.)
+ * via the buddhistEra dayjs plugin. Override the output with
+ * `dateFormat` and/or `timeFormat` tokens.
+ *
+ * Reach for `<ssk-date-display>` in tables, activity logs, and detail
+ * panes — anywhere a timestamp string needs consistent locale rendering
+ * without manual `Intl.DateTimeFormat` plumbing. Pair with a `caption`
+ * font size context (`--font-size-caption`) for timestamps in tables.
+ *
+ * @example
+ *   <ssk-date-display date="2026-05-19T10:24:00Z" locale="th"></ssk-date-display>
+ *   <ssk-date-display date=${order.createdAt} dateFormat="DD MMM BBBB" timeFormat="HH:mm"></ssk-date-display>
+ */
 export class DateDisplay extends LitElement {
   static registeredName = "ssk-date-display";
 

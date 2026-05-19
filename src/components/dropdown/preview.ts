@@ -15,6 +15,17 @@ import {
 } from "../../types/theme";
 import { DropdownState, valueContext } from "./dropdown";
 
+/**
+ * Sellsuki Dropdown Preview — DS 3.0
+ *
+ * Read-only chip that mirrors the current value of an `<ssk-dropdown>`.
+ * Useful inside summary rows or filter bars where you want to surface the
+ * selected option without offering a re-open affordance.
+ *
+ * Consumes the parent dropdown's context — must be placed inside (or
+ * within the same subtree as) an `<ssk-dropdown>` provider. For an
+ * interactive trigger use `<ssk-dropdown-button>`.
+ */
 export class DropdownPreview extends LitElement {
   static registeredName = "ssk-dropdown-preview";
 

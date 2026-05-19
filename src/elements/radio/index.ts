@@ -14,6 +14,25 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Radio — DS 3.0
+ *
+ * Single radio button. Renders the dot + slotted label and reports
+ * selection to a parent `<ssk-radio-group>` (preferred) or to a custom
+ * group via the `name` attribute. Emits `change` when selected.
+ *
+ * Reach for `<ssk-radio>` only when you need fine-grained layout
+ * control inside a custom radio group. For the common case (an options
+ * array → mutually exclusive picker) use `<ssk-radio-group>` directly.
+ * For multi-select use `<ssk-checkbox>`; for instant-apply on/off use
+ * `<ssk-toggle>`.
+ *
+ * @example
+ *   <ssk-radio name="lang" value="th">ไทย</ssk-radio>
+ *   <ssk-radio name="lang" value="en">English</ssk-radio>
+ *
+ * @slot - Label text
+ */
 export class Radio extends LitElement implements ThemeValue {
   static registeredName = "ssk-radio";
 

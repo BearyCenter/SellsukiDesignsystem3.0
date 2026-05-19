@@ -76,6 +76,24 @@ const statusToTone = (
   }
 };
 
+/**
+ * Sellsuki Pattern — Product List (visual reference)
+ *
+ * Full-page product-catalog management screen rendered inside an
+ * `<ssk-app-shell-provider>`: brand-aware navbar + sidebar, four stat
+ * cards (สินค้าทั้งหมด / เผยแพร่ / สต็อกต่ำ / หมดสต็อก), status tabs, a
+ * product table with thumbnail + name + SKU + category + price + stock
+ * + status columns, search, filter / export, and pagination.
+ *
+ * Like Pattern #1 (Order Management), this is hand-rolled HTML + CSS
+ * (~34% `<ssk-*>` density) to pixel-match the DS 2.0 visual quality
+ * bar. For real product code use `<ssk-default-shell>` + DS 3.0 body
+ * components — see `src/patterns/types.ts` for the two-track
+ * philosophy.
+ *
+ * @example
+ *   <ssk-pattern-product-list brand="sellsuki"></ssk-pattern-product-list>
+ */
 export class ProductListPattern extends LitElement {
   static registeredName = TAG_NAME;
 

@@ -15,6 +15,25 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Textarea — DS 3.0
+ *
+ * Multi-line text input with token-driven styling, an optional `label`
+ * and `helperText`, and validation `error` / `success` states. Resizes
+ * via the standard `rows` attribute or the `height` prop.
+ *
+ * Reach for `<ssk-textarea>` for free-form longer-than-one-line input
+ * (order notes, address line 2, customer feedback, comment composer).
+ * For single-line text use `<ssk-input>`. For rich text editing use a
+ * dedicated editor — DS 3.0 does not ship one.
+ *
+ * @example
+ *   <ssk-textarea
+ *     label="หมายเหตุ"
+ *     placeholder="ระบุข้อความเพิ่มเติม..."
+ *     rows="4"
+ *   ></ssk-textarea>
+ */
 export class Textarea extends LitElement {
   static registeredName = "ssk-textarea";
 

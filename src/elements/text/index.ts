@@ -15,8 +15,25 @@ import {
 } from "../../types/theme";
 
 /**
- * @slot - This element has a slot
- * @csspart text
+ * Sellsuki Text — DS 3.0
+ *
+ * Token-aware body text element. Maps `size` to body / label / caption /
+ * button tokens (never to a heading token — those are reserved for
+ * `<ssk-heading>`). Color via the semantic palette
+ * (`text-primary` / `text-secondary` / `text-disabled` ...) and tone
+ * roles (`info`, `success`, `warning`, `danger`).
+ *
+ * Reach for `<ssk-text>` for all body content, list-item labels, table
+ * cell text, captions, and helper text. The DS 3.0 floor is 18px
+ * (`--font-size-caption`) — `<ssk-text>` never renders below it.
+ * For real headings (page title, section heading) use `<ssk-heading>`.
+ *
+ * @example
+ *   <ssk-text size="md">ออเดอร์นี้ถูกบันทึกเรียบร้อยแล้ว</ssk-text>
+ *   <ssk-text size="sm" color="gray.500">2026-05-19 10:24</ssk-text>
+ *
+ * @slot - Text content
+ * @csspart text - The rendered text element
  */
 export class Text extends LitElement {
   static registeredName = "ssk-text";

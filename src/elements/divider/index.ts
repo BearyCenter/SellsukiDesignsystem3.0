@@ -16,8 +16,23 @@ import {
 } from "../../types/theme";
 
 /**
- * @slot - This element has a slot
- * @csspart text
+ * Sellsuki Divider — DS 3.0
+ *
+ * Horizontal rule that can carry an optional centered label (e.g. "OR",
+ * "หรือ"). Uses the `--stroke-secondary` token for the line and respects
+ * font tokens for the inset label, so it never falls below the 18px text
+ * minimum.
+ *
+ * Reach for `<ssk-divider>` to separate form sections, paginated lists,
+ * or "or-continue-with" auth flows. For decorative spacing without a
+ * line, prefer CSS gap / `--space-stack` tokens.
+ *
+ * @example
+ *   <ssk-divider></ssk-divider>
+ *   <ssk-divider>หรือ</ssk-divider>
+ *
+ * @slot - Optional inline label centered on the line
+ * @csspart text - The label text element
  */
 export class Divider extends LitElement implements ThemeValue {
   static registeredName = "ssk-divider";

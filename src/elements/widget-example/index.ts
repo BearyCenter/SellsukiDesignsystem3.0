@@ -14,6 +14,23 @@ import {
 } from '../../types/theme'
 import { Widget } from '../../types/widget'
 
+/**
+ * Sellsuki Widget Example — DS 3.0
+ *
+ * Minimal reference implementation of the `Widget` interface. Two-by-two
+ * grid cell that demonstrates the contract every dashboard widget must
+ * satisfy: declares `widgetWidth` / `widgetHeight` in grid units,
+ * implements `isValidSize()` / `getWidth()` / `getHeight()`, and
+ * consumes the theme + size tokens like any DS 3.0 element.
+ *
+ * Use this as the starting template when authoring new dashboard widgets;
+ * for production stat tiles reach for `<ssk-widget-matric>`, for section
+ * titles use `<ssk-widget-title>`, for user profile cards use
+ * `<ssk-widget-user-detail>`.
+ *
+ * @example
+ *   <ssk-widget-example widgetWidth="2" widgetHeight="2"></ssk-widget-example>
+ */
 export class WidgetExample extends LitElement implements Widget, ThemeValue {
   static registeredName = 'ssk-widget-example'
 

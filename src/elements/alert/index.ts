@@ -15,6 +15,27 @@ import {
 } from "../../types/theme";
 
 export type Type = "default" | "info" | "error" | "warning" | "success";
+/**
+ * Sellsuki Alert — DS 3.0
+ *
+ * Persistent inline status banner with a status icon, optional `topic`
+ * title + `message` body, and a dismiss button. Five tones —
+ * `default`, `info`, `success`, `warning`, `error` — each mapping to the
+ * semantic background + foreground tokens.
+ *
+ * Reach for `<ssk-alert>` for in-page status messages that the user
+ * should see while interacting with surrounding content (validation
+ * summary, configuration warning, success confirmation that should stay
+ * until next action). For transient feedback use `<ssk-toast>`; for
+ * blocking confirmation use `<ssk-modal>`.
+ *
+ * @example
+ *   <ssk-alert
+ *     type="warning"
+ *     topic="ข้อมูลไม่ครบ"
+ *     message="กรุณากรอกที่อยู่จัดส่งก่อนดำเนินการต่อ"
+ *   ></ssk-alert>
+ */
 export class Alert extends LitElement implements ThemeValue {
   static registeredName = "ssk-alert";
   @consume({ context: themeContext, subscribe: true })

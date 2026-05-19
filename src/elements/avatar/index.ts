@@ -14,6 +14,26 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Avatar — DS 3.0
+ *
+ * User / entity portrait. Renders an `src` image if provided; otherwise
+ * falls back to up-to-two-character initials derived from the `label`
+ * prop, on a brand-colored background. Two shapes — `circle` and
+ * `rounded` (default) — and the standard `size` token (xs–2xl).
+ *
+ * Reach for `<ssk-avatar>` for user rows, list-item leading visuals,
+ * comment authors, navbar profile menus. For a free-form image use
+ * `<ssk-image>`. For colored icon tiles use `<ssk-misc-icon>`.
+ *
+ * Note: avatar initials at xs/sm sizes intentionally use 10–12px text —
+ * an explicit DS 3.0 exception to the 18px text minimum because the
+ * glyph is visual UI, not body content.
+ *
+ * @example
+ *   <ssk-avatar src="/u/123.jpg" label="ชญานี ศ." size="md"></ssk-avatar>
+ *   <ssk-avatar label="John Doe" shape="circle"></ssk-avatar>
+ */
 export class Avatar extends LitElement implements ThemeValue {
   static registeredName = "ssk-avatar";
 

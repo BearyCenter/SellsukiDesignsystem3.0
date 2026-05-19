@@ -15,6 +15,28 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Tag — DS 3.0
+ *
+ * Interactive chip — like a badge but designed for user actions
+ * (filterable, dismissible). Three variants (`solid`, `solid-light`,
+ * `outline`) and the same theme color roles as `<ssk-badge>`. Slot in
+ * a leading icon plus the label; pair with a trailing close icon to
+ * make it removable.
+ *
+ * Reach for `<ssk-tag>` when the chip is clickable (filter pill, keyword
+ * tag, applied filter that can be removed). For purely informational
+ * status pills use `<ssk-badge>` (read-only). For inline action use
+ * `<ssk-button variant="ghost" size="sm">`.
+ *
+ * @example
+ *   <ssk-tag themeColor="brand" variant="solid-light">
+ *     ค้นหา: "กระเป๋า"
+ *     <ssk-icon slot="postfix" name="solid-x-mark"></ssk-icon>
+ *   </ssk-tag>
+ *
+ * @slot - Tag label
+ */
 export class Tag extends LitElement {
   static registeredName = "ssk-tag";
 

@@ -5,6 +5,26 @@ import { themeContext } from "../../contexts/theme";
 import { Theme, parseThemeToCssVariables } from "../../types/theme";
 import { State, stateContext } from "./sidebar";
 
+/**
+ * Sellsuki Sidebar Header — DS 3.0
+ *
+ * Top area of `<ssk-sidebar>` reserved for the product logo, app title, or
+ * collapse-toggle. Renders the default slot when the sidebar is expanded
+ * and the `mini` slot (typically a compact icon-only mark) when it
+ * collapses, so the brand stays visible at both widths.
+ *
+ * Must be a direct child of `<ssk-sidebar>` — it consumes the sidebar's
+ * `expanded` state via context.
+ *
+ * @example
+ *   <ssk-sidebar-header>
+ *     <ssk-logo brand="sellsuki" size="md"></ssk-logo>
+ *     <ssk-logo slot="mini" brand="sellsuki" size="sm"></ssk-logo>
+ *   </ssk-sidebar-header>
+ *
+ * @slot      - Header shown when sidebar is expanded
+ * @slot mini - Header shown when sidebar is collapsed
+ */
 export class SidebarHeader extends LitElement {
   static registeredName = "ssk-sidebar-header";
 

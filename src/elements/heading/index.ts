@@ -23,8 +23,20 @@ const levelToSize: Record<1 | 2 | 3 | 4 | 5, Size> = {
 };
 
 /**
- * @slot - This element has a slot
- * @csspart text
+ * Sellsuki Heading — DS 3.0
+ *
+ * Semantic heading text. Maps `size` to the `--font-size-h*` heading
+ * tokens (44 / 36 / 28 / 24 / 20 px for h1–h5) and applies the matching
+ * font weights. Use only for **real headings** — page title, modal
+ * title, section title. For UI labels and body text use `<ssk-text>` so
+ * the heading hierarchy stays meaningful for AT users.
+ *
+ * @example
+ *   <ssk-heading size="3xl">ภาพรวมยอดขาย</ssk-heading>
+ *   <ssk-heading size="2xl" color="background.900">รายละเอียดออเดอร์</ssk-heading>
+ *
+ * @slot - Heading text
+ * @csspart text - The rendered heading element
  */
 export class Heading extends LitElement {
   static registeredName = "ssk-heading";

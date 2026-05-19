@@ -21,6 +21,29 @@ interface Step {
     icon?: string;  // Optional to override the default icon  
 }
 
+/**
+ * Sellsuki Stepper — DS 3.0
+ *
+ * Multi-step progress indicator. Each step in the `steps` array has a
+ * title, description, status (`finish` / `process` / `wait` / `error`),
+ * and optional progress percent + icon override. Highlights the current
+ * step via `currentStep` / `activeIndex`.
+ *
+ * Reach for `<ssk-stepper>` for known-length wizards (checkout, onboarding,
+ * KYC). For unknown duration loading use `<ssk-spinner>`; for a single
+ * percent fill use `<ssk-progress-bar>`; for a chronological event log
+ * use `<ssk-timeline>`.
+ *
+ * @example
+ *   <ssk-stepper
+ *     .steps=${[
+ *       { title: "เลือกสินค้า", description: "", status: "finish" },
+ *       { title: "ที่อยู่จัดส่ง", description: "", status: "process" },
+ *       { title: "ชำระเงิน", description: "", status: "wait" },
+ *     ]}
+ *     currentStep="1"
+ *   ></ssk-stepper>
+ */
 export class Stepper extends LitElement {
     
     static registeredName = "ssk-stepper";

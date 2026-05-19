@@ -3,6 +3,26 @@ import { LitElement, css, html, nothing } from "lit";
 import { property } from "lit/decorators.js";
 import { State, stateContext } from "./sidebar";
 
+/**
+ * Sellsuki Sidebar Group — DS 3.0
+ *
+ * Collapsible heading row inside `<ssk-sidebar>` that groups several
+ * `<ssk-sidebar-item>` children under a shared label. Clicking the header
+ * toggles the group's expanded state via the sidebar's shared context; the
+ * label disappears automatically when the sidebar collapses to icon-only
+ * mini mode.
+ *
+ * Must be a direct child of `<ssk-sidebar>` / `<ssk-sidebar-list>`.
+ * Provide a stable `key` so the sidebar can persist which groups are open.
+ *
+ * @example
+ *   <ssk-sidebar-group key="reports" label="รายงาน">
+ *     <ssk-sidebar-item key="sales">ยอดขาย</ssk-sidebar-item>
+ *     <ssk-sidebar-item key="traffic">การเข้าชม</ssk-sidebar-item>
+ *   </ssk-sidebar-group>
+ *
+ * @slot - `<ssk-sidebar-item>` children
+ */
 export class SidebarGroup extends LitElement {
   static registeredName = "ssk-sidebar-group";
 

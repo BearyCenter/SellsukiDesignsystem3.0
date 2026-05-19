@@ -9,6 +9,28 @@ import {
   Theme,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Tab Header — DS 3.0
+ *
+ * Horizontal tab strip that hosts `<ssk-tab-button>` children. Two
+ * variants — `inline` (underlined text) and `button` (pill row) — plus
+ * `align` control (left / center / right). Use the `--font-size-label`
+ * (20px) token for tab text — never below the 18px minimum.
+ *
+ * Reach for `<ssk-tab-header>` for in-page section switching (order
+ * status filter, settings categories). For routing-style nav between
+ * pages prefer `<ssk-sidebar>`; for vertical FAQ-style disclosure use
+ * `<ssk-accordion>`.
+ *
+ * @example
+ *   <ssk-tab-header variant="inline" align="left">
+ *     <ssk-tab-button active>ทั้งหมด</ssk-tab-button>
+ *     <ssk-tab-button>รอยืนยัน</ssk-tab-button>
+ *     <ssk-tab-button>จัดส่งแล้ว</ssk-tab-button>
+ *   </ssk-tab-header>
+ *
+ * @slot - `<ssk-tab-button>` children
+ */
 export class TabHeader extends LitElement {
   static registeredName = "ssk-tab-header";
 

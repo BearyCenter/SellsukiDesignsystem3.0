@@ -1,6 +1,31 @@
 import { LitElement, css, html } from "lit";
 import { property } from "lit/decorators.js";
 
+/**
+ * Sellsuki App Shell — DS 3.0
+ *
+ * Top-level page chrome: a CSS grid that lays out a sticky top navbar, a
+ * collapsible left sidebar, and a scrollable content area. Slot in the
+ * navbar / sidebar bodies; use the default slot for the page content. The
+ * `sidebar-collapsed` attribute reflects so consumers can animate icon-only
+ * mini mode.
+ *
+ * Reach for `<ssk-app-shell>` when you need full layout control. For most
+ * product code prefer `<ssk-default-shell>` — it composes app-shell plus
+ * the theme + brand providers and accepts a typed `menu` array so you
+ * don't hand-roll sidebar markup.
+ *
+ * @example
+ *   <ssk-app-shell sidebar-width="256px">
+ *     <ssk-top-navbar slot="navbar">...</ssk-top-navbar>
+ *     <ssk-sidebar slot="sidebar">...</ssk-sidebar>
+ *     <ssk-feature-page-scaffold>...</ssk-feature-page-scaffold>
+ *   </ssk-app-shell>
+ *
+ * @slot         - Main page content (scrollable)
+ * @slot navbar  - Top navigation bar
+ * @slot sidebar - Left sidebar nav
+ */
 export class AppShell extends LitElement {
   static registeredName = "ssk-app-shell";
 

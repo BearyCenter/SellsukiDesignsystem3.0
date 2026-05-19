@@ -30,6 +30,25 @@ export type Placement =
   | "rightbottom";
 
 export type Trigger = "hover" | "click";
+/**
+ * Sellsuki Tooltip — DS 3.0
+ *
+ * Small floating label that appears next to a trigger element on hover or
+ * click. Twelve `placement` options (top / bottom / left / right plus the
+ * eight corner variants) plus a configurable arrow. Slot the trigger as
+ * the default child; provide tooltip body content via the `content` slot
+ * or the `text` attribute.
+ *
+ * Reach for `<ssk-tooltip>` for short hints on icons, abbreviated labels,
+ * or disabled-state explanations. For richer click-to-open content use a
+ * popover or `<ssk-modal>`. For status badges that should always be
+ * visible use `<ssk-badge>` or `<ssk-tag>`.
+ *
+ * @example
+ *   <ssk-tooltip placement="top" trigger="hover" text="ลบรายการนี้">
+ *     <ssk-icon name="solid-trash"></ssk-icon>
+ *   </ssk-tooltip>
+ */
 export class Tooltip extends LitElement implements ThemeValue {
   static registeredName = "ssk-tooltip";
 

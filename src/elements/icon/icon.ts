@@ -15,6 +15,27 @@ import {
 } from "../../types/theme";
 import { themeContext } from "../../contexts/theme";
 
+/**
+ * Sellsuki Icon — DS 3.0
+ *
+ * Renders an SVG glyph by `name` from the built-in icon set (Heroicons
+ * variants: `solid-*`, `outline-*`, `mini-*`, plus a handful of
+ * Sellsuki-specific marks). Token-driven sizing via the `size` prop;
+ * color via `color` (semantic color name) or `themeColor` (brand role).
+ *
+ * Reach for `<ssk-icon>` for inline glyphs inside buttons, labels,
+ * sidebar items, and status pills. For a colored icon tile (filled
+ * square background) use `<ssk-misc-icon>`; for live-status pulses use
+ * `<ssk-wave-icon>`; for country flags use `<ssk-country-icon>`.
+ *
+ * The icon registry is generated from SVGs — never edit this file by
+ * hand. To add an icon, drop the SVG into the generator directory and
+ * run `npm run generate:icon`.
+ *
+ * @example
+ *   <ssk-icon name="solid-shopping-cart" size="md" color="primary.500"></ssk-icon>
+ *   <ssk-icon name="outline-x-mark" size="sm"></ssk-icon>
+ */
 export class Icon extends LitElement {
   static registeredName = "ssk-icon";
 

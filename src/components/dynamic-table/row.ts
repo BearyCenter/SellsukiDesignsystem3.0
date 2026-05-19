@@ -10,6 +10,20 @@ import {
   Theme,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Table Row — DS 3.0
+ *
+ * Row container that spans every column of its parent `<ssk-table>` grid.
+ * Inherits the table's padding and border-bottom by default; override per
+ * row via `padding` and `borderBottom` props. Supports an `expanded`
+ * reflected attribute for expandable detail rows — when set to `"false"`
+ * the row collapses (display: none) so it can be toggled without
+ * removing it from the DOM.
+ *
+ * Must be a direct child of `<ssk-table>` (or a custom grid that defines
+ * `--table-padding` / `--table-border-color`). Place
+ * `<ssk-table-cell>` elements as children.
+ */
 export class TableRow extends LitElement {
   static registeredName = "ssk-table-row";
 

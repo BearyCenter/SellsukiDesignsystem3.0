@@ -20,6 +20,28 @@ export interface TimelineItem {
     status: "completed" | "in-progress" | "pending";
 }
 
+/**
+ * Sellsuki Timeline — DS 3.0
+ *
+ * Chronological list of events rendered as a connected line with status
+ * dots. Each item in the `Items` array has a title, subTitle (e.g.
+ * timestamp), description, and a `status` (`completed` / `in-progress` /
+ * `pending`) that styles the connector segment leading into it. Supports
+ * `vertical` (default) and `horizontal` layouts.
+ *
+ * Reach for `<ssk-timeline>` for activity feeds, order history, audit
+ * logs — anywhere "what happened when" is the primary story. For a guided
+ * wizard with discrete steps use `<ssk-stepper>` instead.
+ *
+ * @example
+ *   <ssk-timeline
+ *     .Items=${[
+ *       { title: "สั่งซื้อ",   subTitle: "10:24", description: "", status: "completed" },
+ *       { title: "ชำระเงิน",  subTitle: "10:27", description: "", status: "in-progress" },
+ *       { title: "จัดส่ง",     subTitle: "—",    description: "", status: "pending" },
+ *     ]}
+ *   ></ssk-timeline>
+ */
 export class Timeline extends LitElement {
     static registeredName = "ssk-timeline";
 

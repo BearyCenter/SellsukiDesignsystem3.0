@@ -4,6 +4,21 @@ import { property } from "lit/decorators.js";
 import { until } from "lit/directives/until.js";
 import { I18nStore, i18nContext } from "../../contexts/i18n";
 
+/**
+ * Sellsuki I18n Translate — DS 3.0
+ *
+ * Renders a translated string from the `<ssk-i18n-provider>` store by
+ * `key`. Async — Lit's `until` directive renders nothing until the store
+ * resolves. Optional `lang` / `fallbackLang` props override the
+ * provider's active language for a single instance.
+ *
+ * Reach for `<ssk-i18n-translate>` for plain key → text lookups. For
+ * messages that interpolate runtime values use `<ssk-i18n-template>`.
+ *
+ * @example
+ *   <ssk-i18n-translate key="nav.orders"></ssk-i18n-translate>
+ *   <ssk-i18n-translate key="cta.save" lang="en" fallbackLang="th"></ssk-i18n-translate>
+ */
 export class Translate extends LitElement {
   static registeredName = "ssk-i18n-translate";
 

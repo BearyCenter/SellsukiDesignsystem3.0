@@ -20,6 +20,25 @@ export interface ToastStore {
 
 export const toastContext = createContext<ToastStore>("ssk-toast-context");
 
+/**
+ * Sellsuki Toast Provider — DS 3.0
+ *
+ * Hosts the global toast queue and renders `<ssk-toast>` notifications in a
+ * fixed top-center stack above page content. Place once near the root of the
+ * app — any descendant can dispatch toasts by consuming the `toastContext`
+ * via `addToast({ title, message, type })`.
+ *
+ * Reach for this when you need transient feedback (save success, network
+ * error, validation hint). For persistent inline messages prefer
+ * `<ssk-alert>`; for blocking dialogs use `<ssk-modal>`.
+ *
+ * @example
+ *   <ssk-toast-provider>
+ *     <ssk-app-shell>...</ssk-app-shell>
+ *   </ssk-toast-provider>
+ *
+ * @slot - App content that may dispatch toasts
+ */
 export class ToastProvider extends LitElement {
   @provide({ context: toastContext })
   @property({ attribute: false })

@@ -21,6 +21,24 @@ const _iconSizeMap: { [key: string]: number } = {
   xl: 56,
 };
 
+/**
+ * Sellsuki Wave Icon — DS 3.0
+ *
+ * Animated radar-ping icon: an `<ssk-icon>` centered inside concentric
+ * pulsing rings (six rings with cascading opacity 1 → 0.25). Conveys
+ * "active / live / new" presence without text.
+ *
+ * Reach for `<ssk-wave-icon>` for live-status indicators (live chat,
+ * realtime alerts, new-feature pulse). For a static decorative tile use
+ * `<ssk-misc-icon>`; for a tiny count badge use `<ssk-badge>`.
+ *
+ * @example
+ *   <ssk-wave-icon
+ *     iconName="solid-bell"
+ *     themeColor="brand"
+ *     size="xl"
+ *   ></ssk-wave-icon>
+ */
 export class WaveIcon extends LitElement {
   static registeredName = "ssk-wave-icon";
 

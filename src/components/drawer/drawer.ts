@@ -13,6 +13,30 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Drawer — DS 3.0
+ *
+ * Side-anchored overlay panel that slides in from the left or right with a
+ * backdrop. Contains three regions — `header`, `body`, `footer` — each as
+ * a named slot, with an optional divider between them. Clicking the
+ * backdrop emits `close`.
+ *
+ * Reach for `<ssk-drawer>` when you need a long, scrollable side panel for
+ * filters, multi-step forms, or detail views that keep the underlying page
+ * visible. For a centered, focused dialog use `<ssk-modal>`. For
+ * persistent navigation use `<ssk-sidebar>`.
+ *
+ * @example
+ *   <ssk-drawer side="right" width="480px" ?show=${this.open} @close=${this._close}>
+ *     <ssk-heading slot="header" level="3">ตัวกรอง</ssk-heading>
+ *     <div slot="body">...form...</div>
+ *     <ssk-button slot="footer" tone="brand">ใช้งาน</ssk-button>
+ *   </ssk-drawer>
+ *
+ * @slot header - Title row with optional close button
+ * @slot body   - Scrollable main content
+ * @slot footer - Action row (right-aligned)
+ */
 export class Drawer extends LitElement {
   static registeredName = "ssk-drawer";
 

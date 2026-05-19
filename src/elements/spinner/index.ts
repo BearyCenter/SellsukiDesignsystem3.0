@@ -12,6 +12,25 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Spinner — DS 3.0
+ *
+ * Indeterminate loading indicator — a rotating ring sized via the
+ * standard `size` token (xs–2xl) and tinted by `color`. CSS-only
+ * animation (no SVG sprite, no JS frame loop).
+ *
+ * Reach for `<ssk-spinner>` for unknown-duration loading: button
+ * "saving" state, page initial load before any data, inline indicator
+ * next to a label. For known progress prefer `<ssk-progress-bar>`. For
+ * a layout-reserving placeholder use `<ssk-skeleton>`.
+ *
+ * @example
+ *   <ssk-spinner size="md" color="brand"></ssk-spinner>
+ *   <ssk-button disabled>
+ *     <ssk-spinner slot="prefix" size="sm" color="white"></ssk-spinner>
+ *     กำลังบันทึก...
+ *   </ssk-button>
+ */
 export class Spinner extends LitElement {
   static registeredName = "ssk-spinner";
 

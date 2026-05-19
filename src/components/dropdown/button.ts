@@ -6,6 +6,26 @@ import { Size, Theme } from "../../types/theme";
 import { DropdownState, valueContext } from "./dropdown";
 import "../../elements/icon";
 
+/**
+ * Sellsuki Dropdown Button — DS 3.0
+ *
+ * Trigger element for `<ssk-dropdown>` — the box users click to open the
+ * option list. Reflects the dropdown's state (open / disabled / error /
+ * success / multi-select clear icon) via consumed context. Slot in the
+ * current value label.
+ *
+ * Must be a direct child of `<ssk-dropdown>` — it consumes the parent's
+ * shared context and cannot be used standalone. For a plain action button
+ * use `<ssk-button>`.
+ *
+ * @example
+ *   <ssk-dropdown>
+ *     <ssk-dropdown-button>เลือกสถานะ</ssk-dropdown-button>
+ *     <ssk-dropdown-option value="paid">ชำระแล้ว</ssk-dropdown-option>
+ *   </ssk-dropdown>
+ *
+ * @slot - Current value / placeholder label
+ */
 export class DropdownButton extends LitElement {
   static registeredName = "ssk-dropdown-button";
 

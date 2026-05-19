@@ -78,6 +78,22 @@ const statusToTone = (
   }
 };
 
+/**
+ * Sellsuki Pattern — Order Management (visual reference)
+ *
+ * Full-page e-commerce order management screen rendered inside an
+ * `<ssk-app-shell-provider>`: brand-aware top navbar + sidebar, a row of
+ * stat cards (รายได้ / ออเดอร์ / ลูกค้าใหม่), status tabs, a paginated
+ * order table with search + filter, and a populated activity area.
+ *
+ * Intentionally hand-rolled HTML + CSS with ~39% `<ssk-*>` density —
+ * exists to PIXEL-MATCH the DS 2.0 Vibe Code Demo as a visual quality
+ * bar, NOT as a shape to copy into product code. For real apps use
+ * `<ssk-default-shell>` + DS 3.0 body components instead.
+ *
+ * @example
+ *   <ssk-pattern-order-management brand="sellsuki"></ssk-pattern-order-management>
+ */
 export class OrderManagementPattern extends LitElement {
   static registeredName = TAG_NAME;
 

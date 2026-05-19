@@ -11,6 +11,27 @@ import {
   Theme,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Tab Button — DS 3.0
+ *
+ * Single tab trigger used inside `<ssk-tab-header>`. Two visual
+ * variants: `inline` (underlined text, default) and `button` (pill).
+ * The `active` boolean drives the selected styling; emit a `click` and
+ * let the parent set `active` to flip between tabs.
+ *
+ * Must be a direct child of `<ssk-tab-header>`. Slot the label as the
+ * default child; pair with an `<ssk-icon>` in the slot for icon-and-text
+ * tabs.
+ *
+ * @example
+ *   <ssk-tab-header variant="inline">
+ *     <ssk-tab-button active>ทั้งหมด</ssk-tab-button>
+ *     <ssk-tab-button>รอยืนยัน</ssk-tab-button>
+ *     <ssk-tab-button>จัดส่งแล้ว</ssk-tab-button>
+ *   </ssk-tab-header>
+ *
+ * @slot - Tab label
+ */
 export class TabButton extends LitElement {
   static registeredName = "ssk-tab-button";
 

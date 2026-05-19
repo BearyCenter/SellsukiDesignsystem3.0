@@ -14,6 +14,29 @@ import {
   FontFamilyGroup
 } from "../../types/theme";
 
+/**
+ * Sellsuki Download File — DS 3.0
+ *
+ * File-row UI for in-progress / completed downloads: a label area with
+ * leading and trailing icon slots, a close button, and a footer slot
+ * typically used for a `<ssk-progress-bar>` while bytes transfer.
+ *
+ * Reach for this when you need a uniform download card inside a list,
+ * drawer, or upload widget. For free-form file metadata use `<ssk-card>`;
+ * for just the progress visual use `<ssk-progress-bar>` directly.
+ *
+ * @example
+ *   <ssk-download-file size="md">
+ *     <ssk-icon slot="icon-slot-prefix" name="outline-document"></ssk-icon>
+ *     <span slot="label-name">report-2026-05.pdf</span>
+ *     <ssk-progress-bar slot="footer" value="72"></ssk-progress-bar>
+ *   </ssk-download-file>
+ *
+ * @slot label-name         - File name text
+ * @slot icon-slot-prefix   - Leading file-type icon
+ * @slot icon-slot-postfix  - Trailing action icon (download / pause)
+ * @slot footer             - Progress bar or status row below the label
+ */
 export class DownloadFile extends LitElement {
   static registeredName = "ssk-download-file";
 

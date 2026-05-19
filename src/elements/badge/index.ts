@@ -15,6 +15,24 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Badge — DS 3.0
+ *
+ * Small status pill for compact one-word labels — order status, count,
+ * label tone. Supports semantic colors via `themeColor` (brand / success
+ * / warning / danger / info) and three variants (`solid`, `solid-light`,
+ * `outline`).
+ *
+ * Reach for `<ssk-badge>` for table-cell status indicators, list-item
+ * status pills, or unread-count chips. For removable / interactive chips
+ * use `<ssk-tag>`; for full-width inline messages use `<ssk-alert>`.
+ *
+ * @example
+ *   <ssk-badge themeColor="success" variant="solid-light">ชำระแล้ว</ssk-badge>
+ *   <ssk-badge themeColor="danger">หมดสต็อก</ssk-badge>
+ *
+ * @slot - Badge label text
+ */
 export class Badge extends LitElement {
   static registeredName = "ssk-badge";
 

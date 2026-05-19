@@ -15,6 +15,29 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Top Navbar — DS 3.0
+ *
+ * Horizontal bar designed for the `navbar` slot of `<ssk-app-shell>` /
+ * `<ssk-default-shell>`. Lays out children with `space-between` so left
+ * (logo, breadcrumbs) and right (user menu, notifications) ends settle
+ * automatically. Applies the standard `--space-row` gap and font tokens.
+ *
+ * Reach for `<ssk-top-navbar>` for the global page chrome bar above the
+ * sidebar / main content. For section-level page titles use
+ * `<ssk-page-header>` inside the page body. For vertical nav use
+ * `<ssk-sidebar>`.
+ *
+ * @example
+ *   <ssk-app-shell>
+ *     <ssk-top-navbar slot="navbar">
+ *       <ssk-logo brand="sellsuki"></ssk-logo>
+ *       <ssk-avatar label="ชญานี ศ."></ssk-avatar>
+ *     </ssk-top-navbar>
+ *   </ssk-app-shell>
+ *
+ * @slot - Navbar content (left + right halves)
+ */
 export class TopNavbar extends LitElement implements ThemeValue {
   static registeredName = "ssk-top-navbar";
 

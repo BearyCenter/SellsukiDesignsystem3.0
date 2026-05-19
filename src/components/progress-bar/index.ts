@@ -12,6 +12,22 @@ import {
   Theme,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Progress Bar — DS 3.0
+ *
+ * Horizontal fill bar that reports progress 0–100 with a status-aware
+ * color (`in-progress` / `success` / `error`) and an optional label
+ * positioned above, below, or to the right. `styleOfProgress` switches the
+ * trailing indicator between a percentage text and a status icon.
+ *
+ * Reach for `<ssk-progress-bar>` for determinate operations whose
+ * percentage is known (file upload, multi-step form). For unknown
+ * duration loading use `<ssk-spinner>`. For discrete steps use
+ * `<ssk-stepper>`.
+ *
+ * @example
+ *   <ssk-progress-bar value="72" status="in-progress" label="กำลังอัปโหลด..."></ssk-progress-bar>
+ */
 export class ProgressBar extends LitElement {
   static registeredName = "ssk-progress-bar";
 

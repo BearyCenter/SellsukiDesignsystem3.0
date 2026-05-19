@@ -25,6 +25,26 @@ export type checkboxOptions = {
   disabled?: boolean;
   value: string;
 };
+/**
+ * Sellsuki Checkbox — DS 3.0
+ *
+ * Boolean toggle for multi-select inputs. Supports
+ * `checked` / `indeterminate` / `disabled` states and a slotted label.
+ * Emits `change` (and `value-change`) with the new boolean state when
+ * toggled.
+ *
+ * Reach for `<ssk-checkbox>` for multi-pick lists, terms-of-service
+ * agreement, table-row selection. For single-select use
+ * `<ssk-radio>` / `<ssk-radio-group>`. For on/off settings use
+ * `<ssk-toggle>` (preferred for instant-apply preferences).
+ *
+ * @example
+ *   <ssk-checkbox value="newsletter" ?checked=${this.optIn}>
+ *     ส่งโปรโมชั่นทางอีเมล
+ *   </ssk-checkbox>
+ *
+ * @slot - Label text
+ */
 export class Checkbox extends LitElement implements ThemeValue {
   static registeredName = "ssk-checkbox";
 

@@ -1,6 +1,31 @@
 import { LitElement, css, html, nothing } from "lit";
 import { property } from "lit/decorators.js";
 
+/**
+ * Sellsuki Feature Page Scaffold — DS 3.0
+ *
+ * Standard four-zone grid for a feature page inside `<ssk-app-shell>` /
+ * `<ssk-default-shell>`: `header`, `filters`, `content` (default slot), and
+ * `footer`. Empty slots collapse automatically. Pair with `<ssk-page-header>`
+ * in the `header` slot for the canonical title + breadcrumb layout.
+ *
+ * Reach for this when you want a consistent feature-page rhythm without
+ * laying out grid rows yourself. For a custom layout (split view, dashboard
+ * grid) just put your own elements inside `<ssk-app-shell>` directly.
+ *
+ * @example
+ *   <ssk-feature-page-scaffold full-height>
+ *     <ssk-page-header slot="header" title="คำสั่งซื้อ"></ssk-page-header>
+ *     <ssk-input slot="filters" placeholder="ค้นหา..."></ssk-input>
+ *     <ssk-table>...</ssk-table>
+ *     <div slot="footer"><ssk-pagination></ssk-pagination></div>
+ *   </ssk-feature-page-scaffold>
+ *
+ * @slot          - Page body content
+ * @slot header   - Title / breadcrumb area (typically `<ssk-page-header>`)
+ * @slot filters  - Filter / search toolbar
+ * @slot footer   - Pagination / action bar
+ */
 export class FeaturePageScaffold extends LitElement {
   static registeredName = "ssk-feature-page-scaffold";
 

@@ -17,6 +17,26 @@ import {
   Theme,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Accordion — DS 3.0
+ *
+ * Vertical stack of collapsible panels. `mode="single"` (default) closes
+ * other panels when one opens; `mode="multiple"` lets several stay open.
+ * Two visual variants: `clean` (flat) and `bordered` (separated boxes).
+ *
+ * Reach for `<ssk-accordion>` for FAQ lists, settings groups, or any
+ * disclosure pattern where several related sections share the same
+ * surface. For a single isolated reveal use `<ssk-expandable-card>`; for
+ * a tabbed switcher use `<ssk-tab-header>`.
+ *
+ * @example
+ *   <ssk-accordion mode="single" variant="bordered">
+ *     <ssk-accordion-item title="คำถามที่ 1">คำตอบ...</ssk-accordion-item>
+ *     <ssk-accordion-item title="คำถามที่ 2">คำตอบ...</ssk-accordion-item>
+ *   </ssk-accordion>
+ *
+ * @slot - `<ssk-accordion-item>` children
+ */
 export class Accordion extends LitElement {
   static registeredName = "ssk-accordion";
 

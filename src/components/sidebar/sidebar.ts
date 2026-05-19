@@ -25,6 +25,29 @@ export type State = {
 
 export const stateContext = createContext<State>("ssk-sidebar-state-context");
 
+/**
+ * Sellsuki Sidebar — DS 3.0
+ *
+ * Vertical navigation container that hosts `<ssk-sidebar-header>`,
+ * `<ssk-sidebar-list>`, `<ssk-sidebar-group>`, and `<ssk-sidebar-item>`
+ * children. Provides a shared context tracking `expanded` (full vs.
+ * icon-only mini), `selectedItems`, and `expandedGroups`. Emits
+ * `expanded-changed`, `selected-changed`, and `group-changed` events so
+ * parent shells can persist the nav state.
+ *
+ * Typically rendered in the `sidebar` slot of `<ssk-app-shell>` (or
+ * configured automatically by `<ssk-default-shell>` from a `menu` array).
+ *
+ * @example
+ *   <ssk-sidebar ?expanded=${this.expanded} .selectedItems=${["orders"]}>
+ *     <ssk-sidebar-header>
+ *       <ssk-logo brand="sellsuki"></ssk-logo>
+ *     </ssk-sidebar-header>
+ *     <ssk-sidebar-list>
+ *       <ssk-sidebar-item key="orders">คำสั่งซื้อ</ssk-sidebar-item>
+ *     </ssk-sidebar-list>
+ *   </ssk-sidebar>
+ */
 export class Sidebar extends LitElement {
   static registeredName = "ssk-sidebar";
 

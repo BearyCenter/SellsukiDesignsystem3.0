@@ -9,6 +9,26 @@ import {
   Theme,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Misc Icon — DS 3.0
+ *
+ * Decorative icon tile with a colored background — like a "feature
+ * highlight" icon. Renders an `<ssk-icon>` centered inside a padded
+ * rounded square that can be `solid` (filled brand color), `light` (tinted
+ * brand-100), or `outline` (transparent with a colored ring).
+ *
+ * Reach for `<ssk-misc-icon>` for empty-state hero icons, feature-list
+ * bullets, or onboarding tiles. For inline glyphs use `<ssk-icon>`; for
+ * the animated radar-ping effect use `<ssk-wave-icon>`.
+ *
+ * @example
+ *   <ssk-misc-icon
+ *     variant="light"
+ *     themeColor="brand"
+ *     iconName="outline-shopping-bag"
+ *     size="lg"
+ *   ></ssk-misc-icon>
+ */
 export class MiscIcon extends LitElement {
   static registeredName = "ssk-misc-icon";
 

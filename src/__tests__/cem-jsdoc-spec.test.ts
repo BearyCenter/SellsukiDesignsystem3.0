@@ -31,13 +31,16 @@ const audit = auditManifest(MANIFEST);
 // Update history:
 //   2026-05-19  initial — events=41 missing, components=91 missing
 //   2026-05-19  events JSDoc batch (24 components) — events 41→0, components 91→67
+//   2026-05-19  class JSDoc batch (67 components) — components 67→0, slots 0→0
+//               (60/60), cssParts 4→0 (5/5) [side-effect of slot/csspart tags
+//               authored alongside class descriptions]
 const BASELINE = {
-  componentsMissing: 67,
+  componentsMissing: 0,    // 100% covered as of 2026-05-19 batch — keep at 0
   attributesMissing: 1133,
   fieldsMissing:     1282,
-  eventsMissing:     0,   // 100% covered as of 2026-05-19 batch — keep at 0
-  slotsMissing:      0,   // already complete — keep at 0
-  cssPartsMissing:   4,
+  eventsMissing:     0,    // 100% covered as of 2026-05-19 batch — keep at 0
+  slotsMissing:      0,    // 100% covered — keep at 0
+  cssPartsMissing:   0,    // 100% covered as of 2026-05-19 batch — keep at 0
 } as const;
 
 describe.skipIf(audit === null)("CEM JSDoc coverage ratchet", () => {

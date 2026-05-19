@@ -17,8 +17,22 @@ import {
 } from "../../types/theme";
 
 /**
- * @slot - This element has a slot
- * @csspart text
+ * Sellsuki Image — DS 3.0
+ *
+ * Token-aware `<img>` wrapper. Accepts an `src`, optional `alt`, and the
+ * standard sizing / radius / border tokens so images stay on-system
+ * (consistent rounded corners, optional stroked frame, predictable
+ * `object-fit` behavior).
+ *
+ * Reach for `<ssk-image>` for product photos, banners, illustrations.
+ * For user / entity portraits prefer `<ssk-avatar>` (handles initials
+ * fallback). For decorative colored tiles use `<ssk-misc-icon>`.
+ *
+ * @example
+ *   <ssk-image src="/img/product.jpg" alt="กระเป๋าหนัง" rounded="md" width="240px"></ssk-image>
+ *
+ * @slot - Caption / overlay content (rare)
+ * @csspart text - Optional caption element
  */
 export class Image extends LitElement implements ThemeValue {
   static registeredName = "ssk-image";

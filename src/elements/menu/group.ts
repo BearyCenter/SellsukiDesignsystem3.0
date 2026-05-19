@@ -16,6 +16,26 @@ import {
   parseVariables,
 } from "../../types/theme";
 
+/**
+ * Sellsuki Menu Group — DS 3.0
+ *
+ * Wrapper around a list of `<ssk-menu-items>` rows that adds a section
+ * heading and a uniform gap between entries. Use inside a dropdown menu,
+ * popover, or `<ssk-drawer>` body to organize related actions under a
+ * shared label.
+ *
+ * Must contain `<ssk-menu-items>` children. For navigation-style nav
+ * groups use `<ssk-sidebar-group>` (sidebar-aware behavior with
+ * collapse / icon-only mini mode).
+ *
+ * @example
+ *   <ssk-menu-group label="การจัดการ">
+ *     <ssk-menu-items>แก้ไข</ssk-menu-items>
+ *     <ssk-menu-items>ลบ</ssk-menu-items>
+ *   </ssk-menu-group>
+ *
+ * @slot - `<ssk-menu-items>` children
+ */
 export class MenuGroup extends LitElement implements ThemeValue {
   static registeredName = "ssk-menu-group";
 

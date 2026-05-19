@@ -3,6 +3,28 @@ import { LitElement, css, html, nothing } from "lit";
 import { property } from "lit/decorators.js";
 import { State, stateContext } from "./sidebar";
 
+/**
+ * Sellsuki Sidebar Item — DS 3.0
+ *
+ * Single clickable nav row inside `<ssk-sidebar>` / `<ssk-sidebar-group>`.
+ * Tracks active state by `key` against the sidebar's `selectedItems`
+ * context, or accept a manual `actived` boolean override. The `prefix`
+ * slot is always rendered (icon stays visible when the sidebar collapses
+ * to icon-only mini mode); the default slot only renders when expanded.
+ *
+ * Must be a direct child of `<ssk-sidebar>`, `<ssk-sidebar-list>`, or
+ * `<ssk-sidebar-group>`. For grouped items use a `<ssk-sidebar-group>`
+ * wrapper.
+ *
+ * @example
+ *   <ssk-sidebar-item key="orders">
+ *     <ssk-icon slot="prefix" name="solid-shopping-cart"></ssk-icon>
+ *     คำสั่งซื้อ
+ *   </ssk-sidebar-item>
+ *
+ * @slot        - Label text (hidden when sidebar is collapsed)
+ * @slot prefix - Leading icon (always visible)
+ */
 export class SidebarItems extends LitElement {
   static registeredName = "ssk-sidebar-item";
 
