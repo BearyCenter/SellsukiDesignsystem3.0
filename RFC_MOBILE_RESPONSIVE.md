@@ -359,6 +359,58 @@ theme.density = {
 
 **Implementation note:** Avatar/logo size ใน slot ควร respond ด้วย — เสนอให้ `ssk-top-navbar density="compact"` shrink children ที่ใช้ `--slot-size` var (เช่น `ssk-avatar boxsize` ก็เป็น density-aware)
 
+### 15b — Default font scale is too large (related)
+
+Found while debugging Issue 15. DS3 [`contexts/theme/default.ts`](src/contexts/theme/default.ts) defaults:
+
+```ts
+fontSize: {
+  xs: "16px",   sm: "18px",   md: "20px",
+  lg: "24px",   xl: "28px",   "2xl": "36px",
+  "3xl": "44px", "4xl": "52px", "5xl": "60px"
+}
+```
+
+**Baseline comparison (industry-standard scale):**
+
+| Token | DS3 default | Tailwind / Material | Apple HIG | Linear / Notion |
+|-------|-------------|---------------------|-----------|-----------------|
+| xs    | 16px        | 12px                | 11px      | 11px            |
+| sm    | 18px        | 14px                | 13px      | 12px            |
+| **md** (body) | **20px** | **14-16px**     | **15px**  | **13-14px**     |
+| lg    | 24px        | 18px                | 17px      | 16px            |
+| xl    | 28px        | 20px                | 19-21px   | 18px            |
+
+DS3 `md` body text = 20px → ~25-40% bigger than industry baseline. Combined with thick navbar/sidebar padding, the whole UI feels chunky on desktop. Users compensate by browser zoom 90%.
+
+**Why this matters:** Most layout component padding is computed from font-size context. A 20px body forces 12px container padding ≈ 64px navbar; a 14px body would naturally yield 48-52px.
+
+**Proposed default scale:**
+```ts
+fontSize: {
+  xs:   "11px",
+  sm:   "12px",
+  md:   "14px",   // body — industry standard
+  lg:   "16px",   // CTA buttons, prominent labels
+  xl:   "18px",   // sub-headings
+  "2xl": "20px",
+  "3xl": "24px",
+  "4xl": "32px",
+  "5xl": "40px"
+}
+```
+
+**Migration:** This IS a breaking change visually — existing apps would see text shrink ~25%. Two paths:
+
+A. **Keep current scale as `theme.fontSize`, add new `theme.fontSizeDense`** — opt-in via theme provider mode:
+   ```html
+   <ssk-theme-provider density="compact">  <!-- uses fontSizeDense scale -->
+   ```
+
+B. **Bump major version** with migration guide.
+
+Recommend A for safer rollout — existing apps unchanged, new builds can opt-in.
+
 ---
 
 ## Priority ranking (by frequency of friction in real work)
