@@ -16,11 +16,36 @@ export interface FilterBarChangeEvent {
 export class FilterBar extends LitElement {
   static registeredName = "ssk-filter-bar";
 
+  /**
+   * Stable hook for end-to-end tests. Rendered as `data-testid` on the
+   * toolbar root so Playwright / Cypress can locate it reliably.
+   */
   @property({ type: String, attribute: "test-id" }) testId?: string;
+  /**
+   * Placeholder text shown in the search input when empty. Defaults to
+   * `"Search..."`; localize per locale (e.g. `"ค้นหา..."`).
+   */
   @property({ type: String }) placeholder = "Search...";
+  /**
+   * Initial / controlled search query. Mirrored into the input on mount and
+   * whenever this prop changes externally — pair with `filter-change` events
+   * to keep parent state in sync.
+   */
   @property({ type: String }) search = "";
+  /**
+   * Render the search input. Disable when the toolbar is filter-chip only
+   * (e.g. above an `<ssk-table>` with row filtering driven by chips).
+   */
   @property({ type: Boolean, attribute: "show-search" }) showSearch = true;
+  /**
+   * When true, the whole toolbar is dimmed and pointer-events are blocked.
+   * Useful while the bound table / list is loading.
+   */
   @property({ type: Boolean }) disabled = false;
+  /**
+   * Search input height preset — `sm` (36px), `md` (40px), `lg` (44px).
+   * Defaults to `md`.
+   */
   @property({ type: String }) size: "sm" | "md" | "lg" = "md";
 
   @state() private _searchValue = "";

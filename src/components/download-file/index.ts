@@ -40,39 +40,90 @@ import {
 export class DownloadFile extends LitElement {
   static registeredName = "ssk-download-file";
 
+  /**
+   * Active theme injected via Lit context by `<ssk-theme-provider>`. Resolves
+   * the brand token set (sellsuki / patona / oc2plus) — do not set manually.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Brand colour role applied to label and accent areas. Defaults to empty —
+   * falls back to neutral gray, or to the brand context when set.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "";
+  /**
+   * Optional foreground colour role override for the file label. Leave unset
+   * to inherit `themeColor`.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
 
+  /**
+   * Row size preset — `sm`, `md`, `lg`. Drives icon size and internal padding.
+   * Defaults to `md`.
+   */
   // ThemeValue
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Margin token override (any CSS length). Defaults to `auto` so the row
+   * centers inside narrow containers.
+   */
   @property({ type: String })
   margin?: string;
+  /**
+   * Padding size token override that maps to the internal container padding.
+   * Leave unset to use the `size`-derived default.
+   */
   @property({ type: String })
   padding?: Size;
+  /**
+   * Border-radius token override (e.g. `sm`, `md`, `lg`). Defaults to `8px`.
+   */
   @property({ type: String })
   rounded?: string | undefined;
+  /**
+   * Explicit width for the file row (any CSS length). Defaults to `100%` so
+   * the row fills its parent container.
+   */
   @property({ type: String })
   width?: string = "100%";
 
+  /**
+   * Font-family group token used for the file name label. Defaults to `sans`;
+   * switch to `serif` or `display` for branded contexts.
+   */
   // Font
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Optional font-size override (any CSS length) for the label slot. Leave
+   * unset to use the size-derived default (`--font-size-p`, 20px).
+   */
   @property({ type: String })
   fontSize?: string | undefined;
 
+  /**
+   * Hide the file row from layout (returns `nothing`). Cheaper than
+   * unmounting when toggling visibility frequently.
+   */
   // attributes
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * Fallback file name string used when the `label-name` slot is empty.
+   * Defaults to `"File Name"` — override per row in production.
+   */
   @property({ type: String })
   label?: string = "File Name";
+  /**
+   * Hide the trailing close (x-mark) button. Use when the row represents a
+   * completed download with no cancel/dismiss affordance.
+   */
   @property({ type: Boolean })
   hideCloseButton = false;
 

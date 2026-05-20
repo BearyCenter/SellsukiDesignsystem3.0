@@ -29,21 +29,42 @@ import "../../elements/icon";
 export class DropdownButton extends LitElement {
   static registeredName = "ssk-dropdown-button";
 
+  /**
+   * Shared dropdown state consumed from the parent `<ssk-dropdown>` via Lit
+   * context. Drives open/disabled/error/success/multi-select clear behavior.
+   * Internal — never set this from outside.
+   */
   @consume({ context: valueContext, subscribe: true })
   @property({ attribute: false })
   public state?: DropdownState;
 
+  /**
+   * Active theme injected via Lit context by `<ssk-theme-provider>`. Resolves
+   * the brand token set (sellsuki / patona / oc2plus) — do not set manually.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Stable hook for end-to-end tests. Rendered as `data-testid` on the trigger
+   * button so Playwright / Cypress can locate it reliably.
+   */
   // BaseAttributes
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Trigger height + icon scale. Falls back to the parent dropdown's `size`
+   * when that is set, otherwise defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
+  /**
+   * Hide the trailing chevron icon — useful when the trigger sits inline with
+   * other affordances or already conveys its open state visually.
+   */
   @property({ type: Boolean })
   hideChevron = false;
 

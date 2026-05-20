@@ -38,27 +38,60 @@ const DEFAULT_COLORS = [
 export class LineChart extends LitElement {
   static registeredName = "ssk-line-chart";
 
+  /**
+   * Named series rendered as overlaid lines. Each item is
+   * `{ label, values: number[], color? }` — `values.length` should match
+   * `labels.length`. Colours fall back to the default brand-token palette.
+   */
   @property({ type: Array })
   series: LineChartSeries[] = [];
 
+  /**
+   * X-axis tick labels — typically time bins (days, weeks, months). Length
+   * defines how many points each series should have for clean alignment.
+   */
   @property({ type: Array })
   labels: string[] = [];
 
+  /**
+   * Chart height in pixels — fixed (no responsive Y scaling). Width is
+   * auto-fit to the container via ResizeObserver. Defaults to `300`.
+   */
   @property({ type: Number })
   height = 300;
 
+  /**
+   * Use a Catmull-Rom smoothed curve between points. Set to `false` for
+   * straight line segments (clearer for sparse data or step-like trends).
+   */
   @property({ type: Boolean })
   smooth = true;
 
+  /**
+   * Render a coloured dot at every data point. Disable for dense time series
+   * where dots add visual noise.
+   */
   @property({ type: Boolean, attribute: "show-dots" })
   showDots = true;
 
+  /**
+   * Render horizontal grid lines and Y-axis tick labels. Disable for a
+   * minimal sparkline look.
+   */
   @property({ type: Boolean, attribute: "show-grid" })
   showGrid = true;
 
+  /**
+   * Render the series legend below the chart. Disable when there's a single
+   * series or the surrounding card already names the metric.
+   */
   @property({ type: Boolean, attribute: "show-legend" })
   showLegend = true;
 
+  /**
+   * Stable hook for end-to-end tests. Rendered as `data-testid` on the chart
+   * wrapper so Playwright / Cypress can locate the chart reliably.
+   */
   @property({ type: String, attribute: "test-id" })
   testId?: string;
 

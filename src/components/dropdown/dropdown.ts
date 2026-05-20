@@ -54,103 +54,232 @@ export class Dropdown extends LitElement {
 
   private static currentOpenDropdown: Dropdown | null = null;
 
+  /**
+   * Active theme injected via Lit context by `<ssk-theme-provider>`. Resolves
+   * the brand token set (sellsuki / patona / oc2plus) — do not set manually.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Stable hook for end-to-end tests. Rendered as `data-testid` on the root
+   * container so Playwright / Cypress can locate the dropdown reliably.
+   */
   // BaseAttributes
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Brand colour role used for the active outline, hover wash, and selected
+   * option highlight. Defaults to `info` and falls back to the brand context
+   * when unset.
+   */
   // ThemeValue
   @property({ type: String })
   themeColor: ColorRole | ColorName = "info";
 
+  /**
+   * Trigger height + font scale. Steps: `3xs`, `2xs`, `xs`, `sm`, `md`, `lg`,
+   * `xl`, `2xl`–`9xl`. Defaults to `md` (40px trigger height).
+   */
   @property({ type: String })
   size: Size = "md";
 
+  /**
+   * Font-family group token used for the trigger label and option text.
+   * Defaults to `sans`; switch to `serif` or `display` for branded contexts.
+   */
   // font
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Optional font-weight token override (`light`, `normal`, `medium`, `bold`).
+   * Leave unset to inherit the size-default weight.
+   */
   @property({ type: String })
   fontWeight?: FontWeight;
 
+  /**
+   * Explicit width for the dropdown shell — any CSS length (e.g. `240px`,
+   * `100%`). Defaults to `auto`, which sizes to the trigger content.
+   */
   @property({ type: String })
   width?: string | undefined;
 
+  /**
+   * Floating field label rendered above the trigger. Leave unset to omit the
+   * label row entirely.
+   */
   // dropdown specific
   @property({ type: String })
   label: string | undefined;
 
+  /**
+   * Helper / hint text shown below the trigger. Switches to the error / success
+   * colour token when `error` or `success` is true.
+   */
   @property({ type: String })
   helperText: string | undefined;
 
+  /**
+   * Form-control name forwarded to native form serialization. Use when the
+   * dropdown participates in a `<form>` submit.
+   */
   @property({ type: String })
   name: string | undefined;
 
+  /**
+   * Current selection — `string` in single-select, `string[]` in multi-select.
+   * Controlled-state contract: pair with the `change` event to update from
+   * the parent.
+   */
   @property({ type: String, attribute: false })
   value: string | string[] = "";
 
+  /**
+   * Validation status shortcut — `"error"` or `"success"` styles the trigger
+   * border and helper text accordingly. Prefer the boolean `error` / `success`
+   * props for new code.
+   */
   @property({ type: String })
   status: "error" | "success" | undefined;
 
+  /**
+   * When true, the trigger is non-interactive and styled muted — clicks and
+   * keyboard focus are blocked.
+   */
   @property({ type: Boolean })
   disabled = false;
 
+  /**
+   * Hide the entire dropdown from layout (returns `nothing`). Cheaper than
+   * unmounting when you toggle visibility frequently.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * Error state — colours the border red and tints the helper text. Pair with
+   * `helperText` to surface a validation message.
+   */
   @property({ type: Boolean })
   error = false;
-  
+
+  /**
+   * Success state — colours the border green and shows a check icon in the
+   * trigger. Mutually exclusive with `error` in practice.
+   */
   @property({ type: Boolean })
   success = false;
 
+  /**
+   * Renders a skeleton placeholder for the trigger (and label, if set) while
+   * options load asynchronously.
+   */
   @property({ type: Boolean })
   loading = false;
 
+  /**
+   * Reveal a search input above the option list that filters slotted options
+   * by text content. Useful for long lists (>10 items).
+   */
   @property({ type: Boolean })
   search = false;
 
+  /**
+   * Preferred placement of the option popover relative to the trigger. Auto-
+   * flips when there is not enough viewport space. Defaults to `bottom`.
+   */
   @property({ type: String })
   optionsAnchor: "top" | "bottom" | "left" | "right" = "bottom";
 
+  /**
+   * Horizontal alignment of the option popover when anchored top / bottom.
+   * Defaults to `right`; auto-flips when overflow would occur.
+   */
   @property({ type: String })
   optionsAlign: "left" | "right" = "right";
 
+  /**
+   * Width strategy for the option popover. `fit` matches the trigger width
+   * (default); `auto` sizes to the longest option label.
+   */
   @property({ type: String })
   optionsWidth: "auto" | "fit" = "fit";
 
+  /**
+   * Mark the field as required — renders a red `*` next to the label. Does
+   * not enforce validation on submit; pair with form-level validation.
+   */
   @property({ type: Boolean })
   required = false;
 
+  /**
+   * Maximum height (px) for the option popover before it scrolls. Defaults to
+   * `248`px which fits roughly 6 standard-sized options.
+   */
   @property({ type: Number })
   maxOptionsHeight: number = 248;
 
+  /**
+   * Switch to multi-select mode — options render `<ssk-checkbox>`, the trigger
+   * stays open after a pick, and `change.detail` is a `string[]` of selected
+   * values.
+   */
   @property({ type: Boolean })
   multiSelect = false;
 
+  /**
+   * Array of selected option `value`s mirrored to children for highlight
+   * styling. Updated internally on `setValue` — rarely set from outside.
+   */
   @property({ type: Array })
   isSelected: string[] = [];
 
+  /**
+   * Imperative trigger — set to `true` to clear the current selection. Resets
+   * back to `false` after the clear completes so callers can re-trigger it.
+   */
   @property({ type: Boolean, reflect: true })
   clearValue: boolean = false;
 
+  /**
+   * In single-select mode, allow clicking the currently selected option to
+   * unselect it (clearing `value` back to `""`). Defaults to `false`.
+   */
   @property({ type: Boolean })
   allowUnselect: boolean = false;
 
+  /**
+   * Hide the check icon next to the selected single-select option. Useful when
+   * the slotted option content already conveys its own selected state.
+   */
   @property({ type: Boolean })
   hideCheckIcon: boolean = false;
 
+  /**
+   * Hide the error icon rendered in the trigger when `error` is true. The
+   * border colour still reflects the error state.
+   */
   @property({ type: Boolean })
   hideErrorIcon: boolean = false;
 
+  /**
+   * Hide the success icon rendered in the trigger when `success` is true. The
+   * border colour still reflects the success state.
+   */
   @property({ type: Boolean })
   hideSuccessIcon: boolean = false;
 
+  /**
+   * Shared state object provided to child `<ssk-dropdown-button>`,
+   * `<ssk-dropdown-option>`, and `<ssk-dropdown-preview>` via Lit context.
+   * Internal — do not set from outside.
+   */
   @provide({ context: valueContext })
   @property({ attribute: false })
-  
+
   state: DropdownState = {
     clearValue: () => {
       this.clearSelection();
@@ -205,6 +334,10 @@ export class Dropdown extends LitElement {
     size: this.size,
   };
 
+  /**
+   * Pin the option popover open regardless of clicks — useful for Storybook
+   * stories and inline demos. When set, outside-click dismissal is disabled.
+   */
   @property({ type: Boolean, reflect: true })
   forceOpen = undefined;
 

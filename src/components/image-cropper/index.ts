@@ -14,12 +14,42 @@ import { property, state } from "lit/decorators.js";
 export class ImageCropper extends LitElement {
   static registeredName = "ssk-image-cropper";
 
+  /**
+   * Image source URL or data URI to be loaded into the cropper. Changing this
+   * tears down the current Croppie instance and re-initialises with the new
+   * image; listen for `ready` to know when the new image is ready to crop.
+   */
   @property({ type: String }) src = "";
+  /**
+   * Crop mask shape — `circle` (default) for avatars or `square` for product
+   * thumbnails. Changing this re-binds Croppie.
+   */
   @property({ type: String }) shape: "circle" | "square" = "circle";
+  /**
+   * Mask side length in pixels (also the natural crop output size). Defaults
+   * to `200`. Pair with `maxExportSize` to downscale on export.
+   */
   @property({ type: Number, attribute: "mask-size" }) maskSize = 200;
+  /**
+   * Extra space (in px) around the mask inside the cropper boundary. Larger
+   * padding gives users more room to drag and zoom. Defaults to `20`.
+   */
   @property({ type: Number, attribute: "mask-padding" }) maskPadding = 20;
+  /**
+   * Optional ceiling for the longest edge of the exported image (in px).
+   * When set, `crop()` resizes the result on a canvas to fit; leave unset to
+   * export at native crop resolution.
+   */
   @property({ type: Number, attribute: "max-export-size" }) maxExportSize?: number;
+  /**
+   * On `bind`, zoom in so the source image fills the mask completely. Useful
+   * when source images are smaller than the mask. Defaults to `false`.
+   */
   @property({ type: Boolean, attribute: "fit-to-mask" }) fitToMask = false;
+  /**
+   * Stable hook for end-to-end tests. Rendered as `data-testid` on the crop
+   * container so Playwright / Cypress can locate it reliably.
+   */
   @property({ type: String, attribute: "test-id" }) testId?: string;
 
   private croppieInstance?: Croppie;

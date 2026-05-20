@@ -38,24 +38,53 @@ const DEFAULT_COLORS = [
 export class BarChart extends LitElement {
   static registeredName = "ssk-bar-chart";
 
+  /**
+   * Named series rendered side-by-side per category. Each item is
+   * `{ label, values: number[], color? }` — `values.length` should match
+   * `labels.length`. Colours fall back to the default palette.
+   */
   @property({ type: Array })
   series: BarChartSeries[] = [];
 
+  /**
+   * X-axis category labels — one per group. Length defines the bar group
+   * count; if shorter than `series[].values`, extra values are dropped.
+   */
   @property({ type: Array })
   labels: string[] = [];
 
+  /**
+   * Chart height in pixels — fixed (no responsive scaling on the Y axis).
+   * Width is auto-fit to the container via ResizeObserver. Defaults to `300`.
+   */
   @property({ type: Number })
   height = 300;
 
+  /**
+   * Render horizontal grid lines and Y-axis tick labels. Disable for a
+   * minimal, label-less sparkline-style bar chart.
+   */
   @property({ type: Boolean, attribute: "show-grid" })
   showGrid = true;
 
+  /**
+   * Render the series legend below the chart. Disable when there's only one
+   * series (the chart title alone is enough) or when space is tight.
+   */
   @property({ type: Boolean, attribute: "show-legend" })
   showLegend = true;
 
+  /**
+   * Gap between adjacent bars within and between groups, in pixels. Defaults
+   * to `4`; raise for breathing room or drop to `0` for touching bars.
+   */
   @property({ type: Number, attribute: "bar-gap" })
   barGap = 4;
 
+  /**
+   * Stable hook for end-to-end tests. Rendered as `data-testid` on the chart
+   * wrapper so Playwright / Cypress can locate the chart reliably.
+   */
   @property({ type: String, attribute: "test-id" })
   testId?: string;
 

@@ -35,8 +35,17 @@ interface Card {
  *   ></ssk-card-group>
  */
 export class CardGroup extends LitElement {
+    /**
+     * Cards to render — each is `{ id, label, supportText, icon, cardSize,
+     * selected, disabled }`. The group enforces single-select: marking any
+     * card `selected` becomes the initial selection.
+     */
     @property({ type: Array }) cards: Card[] = [];
 
+    /**
+     * Index of the currently selected card within `cards`, or `null` for none.
+     * Updated internally on card click and when `cards` changes externally.
+     */
     @state() selectedCardIndex: number | null = null;
 
     updated(changedProperties: PropertyValues) {

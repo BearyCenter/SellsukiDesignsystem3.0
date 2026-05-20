@@ -37,36 +37,77 @@ import { DropdownState, valueContext } from "./dropdown";
 export class DropdownOption extends LitElement {
   static registeredName = "ssk-dropdown-option";
 
+  /**
+   * Shared dropdown state consumed from the parent `<ssk-dropdown>` via Lit
+   * context — used to read selection and report clicks back. Internal — never
+   * set this from outside.
+   */
   @consume({ context: valueContext, subscribe: true })
   @property({ attribute: false })
   public state?: DropdownState;
 
+  /**
+   * Active theme injected via Lit context by `<ssk-theme-provider>`. Resolves
+   * the brand token set (sellsuki / patona / oc2plus) — do not set manually.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Stable hook for end-to-end tests. Rendered as `data-testid` on the option
+   * row so each pick target can be located reliably.
+   */
   // BaseAttributes
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Brand colour role used for the selected check icon. Defaults to `primary`
+   * and falls back to the brand context when unset.
+   */
   // ThemeValue
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Optional foreground colour role override for the option label. Leave unset
+   * to inherit `themeColor`.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
 
+  /**
+   * Row height + font scale. Falls back to the parent dropdown's `size` when
+   * that is set; defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
+  /**
+   * Font-family group token used for the option label text. Defaults to
+   * `sans`; switch to `serif` or `display` for branded contexts.
+   */
   // font
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Optional font-weight token override (`light`, `normal`, `medium`, `bold`).
+   * Leave unset to inherit the size-default weight.
+   */
   @property({ type: String })
   fontWeight?: FontWeight;
 
+  /**
+   * Stable identifier emitted to the parent dropdown on click — surfaces in
+   * the `change` event payload. Required for selection to work.
+   */
   @property({ type: String })
   value: string = "";
 
+  /**
+   * When true, the option is non-interactive and styled muted — clicks are
+   * ignored and the row no longer reports back via context.
+   */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 

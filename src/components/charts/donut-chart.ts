@@ -45,24 +45,53 @@ const DEFAULT_COLORS = [
 export class DonutChart extends LitElement {
   static registeredName = "ssk-donut-chart";
 
+  /**
+   * Slice data — each item is `{ label, value, color? }`. Percentages are
+   * computed from the sum of `value`s. Colours fall back to the default
+   * palette, which uses brand-token foregrounds.
+   */
   @property({ type: Array })
   slices: DonutSlice[] = [];
 
+  /**
+   * Outer diameter of the ring in pixels (also the SVG viewBox edge).
+   * Defaults to `200`. Keep ≥ 120 to leave room for the center text.
+   */
   @property({ type: Number })
   size = 200;
 
+  /**
+   * Ring thickness (stroke width) in pixels. Defaults to `40`; thinner values
+   * push the design toward a "track" look, thicker toward a pie chart.
+   */
   @property({ type: Number })
   thickness = 40;
 
+  /**
+   * Render the legend below the ring with label + percentage per slice.
+   * Disable when slice colours are already self-explanatory or space is tight.
+   */
   @property({ type: Boolean, attribute: "show-legend" })
   showLegend = true;
 
+  /**
+   * Small caption shown beneath `centerValue` inside the ring (e.g. "Total").
+   * Falls back to standalone large text when `centerValue` is empty.
+   */
   @property({ type: String, attribute: "center-label" })
   centerLabel = "";
 
+  /**
+   * Large stat text rendered at the center of the ring (e.g. a total count).
+   * Leave empty to hide the center stat; pair with `centerLabel` for a caption.
+   */
   @property({ type: String, attribute: "center-value" })
   centerValue = "";
 
+  /**
+   * Stable hook for end-to-end tests. Rendered as `data-testid` on the chart
+   * wrapper so Playwright / Cypress can locate the chart reliably.
+   */
   @property({ type: String, attribute: "test-id" })
   testId?: string;
 

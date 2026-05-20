@@ -26,43 +26,101 @@ import {
 export class CardSelect extends LitElement {
     static registeredName = "ssk-card-select";
 
+    /**
+     * Active theme injected via Lit context by `<ssk-theme-provider>`. Resolves
+     * the brand token set (sellsuki / patona / oc2plus) — do not set manually.
+     */
     @consume({ context: themeContext, subscribe: true })
     @property({ attribute: false })
     public theme?: Theme;
 
+    /**
+     * Stable hook for end-to-end tests. Rendered as `data-testid` on the card
+     * container so Playwright / Cypress can locate it reliably.
+     */
     // BaseAttributes
     @property({ type: String })
     testId?: string;
 
+    /**
+     * Brand colour role used for the selected border, hover wash, and check
+     * icon. Defaults to `primary` and falls back to the brand context.
+     */
     // ThemeValue
     @property({ type: String })
     themeColor: ColorRole | ColorName = "primary";
+    /**
+     * Optional foreground colour role override for the card label and icon.
+     * Leave unset to inherit `themeColor`.
+     */
     @property({ type: String })
     color?: ColorRole | ColorName;
 
+    /**
+     * Font-size scale token for slotted text. Steps mirror DS sizes
+     * (`xs`–`9xl`); defaults to `md`.
+     */
     @property({ type: String })
     size: Size = "md";
+    /**
+     * Border-radius token override (e.g. `sm`, `md`, `lg`). Defaults to the
+     * card-default radius (`8px`).
+     */
     @property({ type: String })
     rounded?: string | undefined;
 
+    /**
+     * Card physical footprint preset — `sm` (~12.8 × 6.0 rem) or `md`
+     * (~13.2 × 6.5 rem). Drives width, height, and internal padding.
+     */
     @property({ type: String })
     cardSize: CardSize = "md";
+    /**
+     * When true, the card is non-interactive and styled muted — clicks are
+     * ignored and `card-click` is not emitted.
+     */
     @property({ type: Boolean })
     disabled = false;
+    /**
+     * Whether the card is currently in the selected state — drives the
+     * highlighted border and the trailing check-circle icon. Toggled
+     * internally on click; bind explicitly when wrapped by `<ssk-card-group>`.
+     */
     @property({ type: Boolean })
     selected = false;
+    /**
+     * Font-family group token used for slotted label text. Defaults to `sans`;
+     * switch to `serif` or `display` for branded contexts.
+     */
     // font
     @property({ type: String })
     fontFamilyGroup: FontFamilyGroup = "sans";
+    /**
+     * Font-weight token for slotted label text. Defaults to `normal`; raise to
+     * `medium` or `bold` for emphasis.
+     */
     @property({ type: String })
     fontWeight: FontWeight = "normal";
 
+    /**
+     * Explicit width for the card (any CSS length). Leave unset to use the
+     * `cardSize` preset width.
+     */
     @property({ type: String })
     width?: string | undefined;
 
+    /**
+     * Hide the card from layout (returns `nothing`). Cheaper than unmounting
+     * when toggling visibility frequently.
+     */
     @property({ type: Boolean })
     hidden = false;
 
+    /**
+     * Position index within a `<ssk-card-group>` parent — emitted in the
+     * `card-click` event payload so the group can resolve which card was
+     * picked. Defaults to `0`.
+     */
     @property({ type: Number })
     index = 0;
     
