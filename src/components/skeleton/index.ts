@@ -24,21 +24,49 @@ import { Size } from "../../types/theme";
 export class Skeleton extends LitElement {   
   static registeredName = "ssk-skeleton";    
 
+  /**
+   * Stable `data-testid` on the skeleton block for E2E/QA selectors. Useful
+   * when asserting that a loading state mounted before data arrives.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Geometry of the placeholder — `capsule` (default, rounded line for
+   * text), `circle` (avatar / icon spot), or `square` (image / card
+   * thumbnail with `radius-xs` corners).
+   */
   @property({ type: String })
-  skeletonShape: "capsule" | "circle" | "square" = "capsule";    
+  skeletonShape: "capsule" | "circle" | "square" = "capsule";
 
+  /**
+   * Size token from the `Size` scale (`3xs` … `9xl`) — drives both width and
+   * height from the lookup table. Leave unset and use explicit `width` /
+   * `height` for non-square geometry (e.g. text lines).
+   */
   @property({ type: String })
   size?: Size;
 
+  /**
+   * Explicit width as any CSS length (e.g. `"240px"`, `"60%"`). Overrides
+   * the width derived from `size`. Pair with `height` for fully custom
+   * dimensions.
+   */
   @property({ type: String })
   width?: string;
 
+  /**
+   * Explicit height as any CSS length (e.g. `"20px"`, `"4rem"`). Overrides
+   * the height derived from `size`.
+   */
   @property({ type: String })
   height?: string;
 
+  /**
+   * Duration of one shimmer cycle in milliseconds. Defaults to `800` (a slow,
+   * unhurried pulse); reduce for high-energy loading, increase for ambient
+   * placeholders.
+   */
   @property({ type: Number })
   animationDuration: number = 800;
 

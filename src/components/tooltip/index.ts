@@ -52,37 +52,95 @@ export type Trigger = "hover" | "click";
 export class Tooltip extends LitElement implements ThemeValue {
   static registeredName = "ssk-tooltip";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Maps
+   * brand tokens onto the tooltip surface; rarely set manually.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` on the tooltip wrapper for E2E/QA selectors. Place
+   * on the outer `<ssk-tooltip>` rather than the slotted trigger.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Padding / typography scale — accepts `xs` / `sm` / `md` / `lg` / `xl`.
+   * Defaults to `md`; the label text inherits this size.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Background color token — accepts a brand role (`primary`, `success`,
+   * `danger`, `warning`, `info`) or a named color. Defaults to `primary`,
+   * which falls back to the active brand context.
+   */
   @property({ type: String })
   themeColor: string = "primary";
+  /**
+   * Foreground text color token. Defaults to `white` for high contrast on the
+   * dark `primary` background; override when pairing with a light
+   * `themeColor`.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName = "white";
+  /**
+   * When `true` the tooltip renders nothing — useful to fully suppress the
+   * tip while still keeping the trigger in the DOM.
+   */
   @property({ type: Boolean })
   hidden = false;
 
   // Tooltip Attributes
+  /**
+   * Position of the tip relative to the trigger — `top` / `bottom` / `left` /
+   * `right` plus the eight corner variants (`topleft`, `topright`,
+   * `bottomleft`, `bottomright`, `lefttop`, `leftbottom`, `righttop`,
+   * `rightbottom`). Defaults to `top`.
+   */
   @property({ type: String })
   placement: Placement = "top";
+  /**
+   * Hides the directional arrow pointing back to the trigger. Defaults to
+   * `false` — keep the arrow on most surfaces, hide it when the tooltip is
+   * far from the trigger or floats over a busy background.
+   */
   @property({ type: Boolean })
   hideArrow = false;
+  /**
+   * Hides the `X` close button shown on `trigger="click"` tooltips. Defaults
+   * to `false` — hide only when the dismiss action is wired elsewhere.
+   */
   @property({ type: Boolean })
   hideCloseButton = false;
+  /**
+   * How the tooltip opens — `hover` (open on mouse enter, close on leave) or
+   * `click` (toggle open, dismiss via close button). Defaults to `hover`.
+   */
   @property({ type: String })
   trigger: Trigger = "hover";
+  /**
+   * Plain-text label rendered inside the tip. For richer markup (links,
+   * icons, multi-line content) use the `content` slot instead.
+   */
   @property({ type: String })
   label: string = "";
+  /**
+   * Distance between trigger and tip as any CSS length (defaults to `100%` of
+   * the trigger, plus a 10px gap added in CSS). Tune for tight layouts.
+   */
   @property({ type: String })
   areaPosition: string = "100%";
+  /**
+   * Maximum width of the tip — accepts any CSS length (e.g. `"240px"`,
+   * `"40ch"`). Defaults to `max-content` (shrink-to-fit); cap for long
+   * sentences that should wrap.
+   */
   @property({ type: String })
   maxWidth?: string = "max-content";
 

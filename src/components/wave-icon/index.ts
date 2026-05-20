@@ -42,25 +42,55 @@ const _iconSizeMap: { [key: string]: number } = {
 export class WaveIcon extends LitElement {
   static registeredName = "ssk-wave-icon";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Maps
+   * brand tokens onto the central icon and wave color; rarely set manually.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * When `true` the wave icon renders nothing — useful for conditionally
+   * suppressing the animation while keeping the slot in place.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * Name of the heroicons glyph rendered in the center (e.g.
+   * `"solid-bell"`, `"outline-megaphone"`). Defaults to a question-mark
+   * placeholder — set this to the icon that represents the live activity.
+   */
   @property({ type: String })
   iconName: string = "outline-question-mark-circle";
 
+  /**
+   * Brand color token used for both the icon tile and the wave rings unless
+   * `iconColor` / `waveColor` override them. Falls back to `primary` from the
+   * active brand context if unset.
+   */
   @property({ type: String })
   themeColor: string = "black";
 
+  /**
+   * Optional override for the central icon's color token, independent of the
+   * wave rings. Leave unset to inherit from `themeColor`.
+   */
   @property({ type: String })
   iconColor?: string;
 
+  /**
+   * Optional override for the wave ring color, independent of the icon.
+   * Leave unset to inherit from `themeColor`.
+   */
   @property({ type: String })
   waveColor?: string;
 
+  /**
+   * Diameter step for the central icon — `sm` (32) / `md` (40) / `lg` (48) /
+   * `xl` (56). Wave ring spacing scales from this base; defaults to `xl`.
+   */
   @property({ type: String })
   size: string = "xl";
 

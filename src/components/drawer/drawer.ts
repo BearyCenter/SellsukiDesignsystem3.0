@@ -40,16 +40,53 @@ import {
 export class Drawer extends LitElement {
   static registeredName = "ssk-drawer";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Maps the
+   * brand palette onto the drawer surface; rarely set manually.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Stable `data-testid` on the drawer container for E2E/QA selectors.
+   * Omit in production unless tests need to target this specific drawer.
+   */
   @property({ type: String }) testId?: string;
+  /**
+   * Drawer panel width as any CSS length (e.g. `"480px"`, `"32rem"`,
+   * `"40dvw"`). Defaults to `480px` — widen for multi-column forms, narrow
+   * for filter rails.
+   */
   @property({ type: String }) width: string = "480px";
+  /**
+   * Inline padding around the `header` slot. Accepts any CSS length; defaults
+   * to `24px`. Set `"0"` when the header slot already includes its own
+   * padding (e.g. `<ssk-drawer-header>`).
+   */
   @property({ type: String }) headerPadding?: string = "24px";
+  /**
+   * Inline padding around the `body` slot. Accepts any CSS length; defaults
+   * to `24px`. Set a smaller value for full-bleed lists / tables inside the
+   * drawer.
+   */
   @property({ type: String }) bodyPadding?: string = "24px";
+  /**
+   * Which edge the drawer slides in from — `left` for navigation-style panels,
+   * `right` (more common) for inspector / filter / detail panels.
+   */
   @property({ type: String }) side: "left" | "right" = "left";
+  /**
+   * Controlled-state flag — set `true` to slide the drawer in, `false` to
+   * slide it back out. The parent owns this value; listen to `@close` to flip
+   * it back when the user clicks the backdrop.
+   */
   @property({ type: Boolean }) show = false;
+  /**
+   * Hides the divider lines between header / body / footer regions.
+   * Defaults to `false` (dividers shown) — flip to `true` for a flush look
+   * on hero-style drawers.
+   */
   @property({ type: Boolean }) hideDivider = false;
 
   @eventOptions({ capture: false, once: false, passive: true })

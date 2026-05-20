@@ -32,25 +32,57 @@ import {
 export class MiscIcon extends LitElement {
   static registeredName = "ssk-misc-icon";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Maps
+   * brand tokens onto the icon tile background and foreground.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * When `true` the misc-icon renders nothing — useful for conditional empty
+   * states or progressive disclosure.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * Visual style — `solid` (filled brand-500 background, white icon),
+   * `light` (brand-100 tint, brand-500 icon), or `outline` (transparent with
+   * a concentric brand ring). Defaults to `solid`.
+   */
   @property({ type: String })
   variant: "solid" | "light" | "outline" = "solid";
 
+  /**
+   * Name of the heroicons glyph rendered inside the tile (e.g.
+   * `"outline-shopping-bag"`, `"solid-sparkles"`). Defaults to a
+   * question-mark placeholder.
+   */
   @property({ type: String })
   iconName: string = "outline-question-mark-circle";
 
+  /**
+   * Padding / glyph scale — accepts any `Size` token (e.g. `sm` / `md` /
+   * `lg` / `xl`). Defaults to `md`; bump to `lg` / `xl` for empty-state
+   * hero placements.
+   */
   @property({ type: String })
   size: string = "md";
 
+  /**
+   * Brand color token applied to the tile background and ring. Falls back to
+   * `primary` from the active brand context if the token resolves to nothing.
+   */
   @property({ type: String })
   themeColor: string = "black";
 
+  /**
+   * Optional override for the central icon color, independent of the tile
+   * background. Leave unset to inherit the contrast-correct foreground for
+   * the chosen `variant`.
+   */
   @property({ type: String })
   iconColor?: string;
 

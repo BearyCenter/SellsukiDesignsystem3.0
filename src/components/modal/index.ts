@@ -43,23 +43,51 @@ import {
 export class Modal extends LitElement {
   static registeredName = "ssk-modal";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Maps brand
+   * tokens onto the modal surface; you almost never set this manually.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` placed on the modal container for E2E/QA selectors.
+   * Omit in production markup unless you need to target the dialog from tests.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Width of the modal container as any CSS length (e.g. `"480px"`, `"60dvw"`).
+   * Defaults to `100%` capped at viewport minus container padding; pick a fixed
+   * width for confirmation dialogs and a wider value for form modals.
+   */
   @property({ type: String })
   width?: string | undefined;
 
+  /**
+   * Controlled-state flag — set `true` to open the modal, `false` to close.
+   * The parent owns this value; listen to `@close` to flip it back to `false`
+   * when the user clicks the backdrop or close button.
+   */
   @property({ type: Boolean })
   show = false;
 
+  /**
+   * Hides the built-in `X` close button in the top-right corner. Enable when
+   * the action is required (e.g. force the user to choose Confirm / Cancel
+   * in the footer) — but keep `Escape` / backdrop dismissal behavior in mind.
+   */
   @property({ type: Boolean })
   hideCloseButton = false;
 
+  /**
+   * Hides the thin divider line between header / body / footer regions.
+   * Defaults to `true` (no dividers) for a clean look; flip to `false` on
+   * dense forms where the section boundaries help scannability.
+   */
   @property({ type: Boolean })
   hideDivider = true;
 

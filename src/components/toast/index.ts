@@ -30,28 +30,63 @@ import {
 export class Toast extends LitElement {
   static registeredName = "ssk-toast";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Tints
+   * the toast surface with the active brand palette; rarely set manually.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Stable `data-testid` on the toast container for E2E/QA selectors.
+   * Useful when the toast is queued via `<ssk-toast-provider>` and the
+   * test needs to assert which one fired.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Width of the toast card as any CSS length (e.g. `"320px"`, `"60dvw"`).
+   * Defaults to `auto` (shrink-to-fit content); set a fixed width inside
+   * `<ssk-toast-provider>` to keep stack alignment consistent.
+   */
   @property({ type: String })
   width?: string | undefined;
 
+  /**
+   * When `true` the toast renders nothing (used by the provider to hide a
+   * dismissed toast before it's removed from the stack). Prefer letting the
+   * provider manage lifecycle rather than toggling this directly.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * Hides the trailing `X` close icon. Enable for system messages that
+   * auto-dismiss on a timer and shouldn't be manually closable.
+   */
   @property({ type: Boolean })
   hideCloseButton = false;
 
+  /**
+   * Bold title rendered at the top of the toast body — keep it under ~6 words
+   * (e.g. "บันทึกเรียบร้อย", "เกิดข้อผิดพลาด"). Omit for icon-only toasts.
+   */
   @property({ type: String })
   heading?: string | undefined;
 
+  /**
+   * Body message under the heading. One short sentence works best —
+   * additional context can go through the default slot for richer markup.
+   */
   @property({ type: String })
   content?: string | undefined;
 
+  /**
+   * Status tone — drives the leading icon and color: `success` (check),
+   * `error` / `warning` (exclamation), `info` (default i). Defaults to `info`.
+   */
   @property({ type: String })
   type: "success" | "error" | "warning" | "info" = "info";
 

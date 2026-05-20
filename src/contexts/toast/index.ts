@@ -40,6 +40,11 @@ export const toastContext = createContext<ToastStore>("ssk-toast-context");
  * @slot - App content that may dispatch toasts
  */
 export class ToastProvider extends LitElement {
+  /**
+   * Toast queue store provided to descendants via Lit context. Replace the
+   * default no-op stub with a reactive implementation (e.g. from your app
+   * store) so descendant components can call `addToast` / `removeToast`.
+   */
   @provide({ context: toastContext })
   @property({ attribute: false })
   toast: ToastStore = {

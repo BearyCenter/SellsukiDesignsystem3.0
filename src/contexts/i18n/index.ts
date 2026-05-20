@@ -46,13 +46,28 @@ export const i18nContext = createContext<I18nStore>("ssk-i18n-context");
  * @slot - Content that needs translation context
  */
 export class I18nProvider extends LitElement {
+  /**
+   * Translation store implementation provided to descendants via Lit context.
+   * Defaults to an IndexedDB-backed store; swap for a network / in-memory
+   * implementation in tests or SSR scenarios.
+   */
   @provide({ context: i18nContext })
   @property({ attribute: false })
   store: I18nStore = new IdbI18nStore();
 
+  /**
+   * Active BCP-47 language tag (e.g. `"th"`, `"en"`, `"ja"`). Descendant
+   * `<ssk-i18n-translate>` / `<ssk-i18n-template>` resolve keys against this
+   * locale unless they override `lang` themselves.
+   */
   @property({ attribute: true })
   lang: string = "en";
 
+  /**
+   * Epoch ms / version counter — bump after `store.bulkSet(...)` to force
+   * descendants to re-render translated content. Treat as an opaque
+   * cache-busting handle, not a real timestamp.
+   */
   @property({ attribute: true, type: Number })
   lastUpdate: number = 0;
 
