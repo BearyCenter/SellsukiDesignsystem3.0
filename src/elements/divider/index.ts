@@ -37,43 +37,96 @@ import {
 export class Divider extends LitElement implements ThemeValue {
   static registeredName = "ssk-divider";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Brand accent for the line color. Defaults to `gray` (`--stroke-secondary`). Pass a palette
+   * role (e.g. `"primary"`) for a tinted divider above section headings.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "gray";
+  /**
+   * Override for both the line and the inset label color.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
+  /**
+   * Background color override for the divider strip (rare — typically handled by the surrounding container).
+   */
   @property({ type: String })
   backgroundColor?: string | undefined;
+  /**
+   * Border color override (any CSS color or palette token). Use when the divider needs to match
+   * a custom container's stroke exactly.
+   */
   @property({ type: String })
   borderColor?: string | undefined;
 
+  /**
+   * Size token — `xs`–`xl`. Affects label font-size and the gap around the inset label.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Inner padding token (`xs`–`xl`) — controls the vertical thickness of the line band.
+   */
   @property({ type: String })
   padding?: Size;
+  /**
+   * Override label font-size (any CSS length). DS 3.0 floor is 18px; the divider label inherits
+   * the `--font-size-caption` step by default.
+   */
   @property({ type: String })
   fontSize?: string | undefined;
+  /**
+   * Override label line-height (any CSS length / unitless number).
+   */
   @property({ type: String })
   lineHeight?: string | undefined;
+  /**
+   * Gap between the inset label and the surrounding lines (any CSS length).
+   */
   @property({ type: String })
   gap?: string | undefined;
+  /**
+   * Outer margin override (any CSS length). Prefer parent layout gap.
+   */
   @property({ type: String })
   margin?: string | undefined;
 
   // font
+  /**
+   * Font family group used by the inset label — `sans` (default) or `mono`.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight token for the inset label. Defaults to `normal`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
   // divider specific
+  /**
+   * When set, the divider renders nothing (returns `nothing`) — use for conditional show/hide without DOM teardown.
+   */
   @property({ type: Boolean })
   hidden = false;
+  /**
+   * Layout direction — `horizontal` (default, full-width line) or `vertical` (column separator).
+   * Vertical dividers ignore the `label` slot.
+   */
   @property({ type: String })
   orientation: "horizontal" | "vertical" = "horizontal";
+  /**
+   * Optional inline label centered on the line (e.g. `"OR"`, `"หรือ"`). Slotted content takes
+   * precedence if both are supplied; horizontal orientation only.
+   */
   @property({ type: String })
   label?: string | undefined;
 

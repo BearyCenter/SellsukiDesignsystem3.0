@@ -33,43 +33,97 @@ import "../../../src/components/skeleton";
 export class ExpandableCard extends LitElement {
   static registeredName = "ssk-expandable-card";
 
+  /**
+   * Stable `data-testid` attribute applied to the card root for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
+  /**
+   * Override for the card text color (rare — defaults inherit from `<ssk-text>` slotted content).
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
+  /**
+   * Brand accent — falls back to the current `--fg-brand-primary` from `<ssk-app-shell-provider>`
+   * brand context. Used to tint the toggle icon and footer "View more" link.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
 
+  /**
+   * Visual surface treatment — `outlined` (default, thin border) or `elevated` (raised shadow).
+   */
   @property({ type: String })
   variant: "outlined" | "elevated" = "outlined";
+  /**
+   * Toggle placement — `expand-header` (chevron in header row, panel grows downward) or
+   * `expand-footer` ("View more / View less" footer bar reveals the panel above).
+   */
   @property({ type: String })
   type: "expand-header" | "expand-footer" = "expand-header";
 
+  /**
+   * When set, replaces all content with skeleton placeholders matching the chosen `type`.
+   */
   @property({ type: Boolean })
   loading = false;
+  /**
+   * When set, hides the chevron / toggle button — useful when the entire card surface is the toggle.
+   */
   @property({ type: Boolean })
   hideToggle = false;
+  /**
+   * When set, hides the "View more / View less" label in `expand-footer` mode (chevron only).
+   */
   @property({ type: Boolean })
   hideText = false;
+  /**
+   * Reflects the current expand state. Bind two-way via the `expanded-changed` event.
+   */
   @property({ type: Boolean, reflect: true })
   expanded = false;
 
+  /**
+   * Primary header title — bold, single-line clamp. `expand-header` mode only.
+   */
   @property({ type: String })
   title = "";
+  /**
+   * Secondary header subtitle — muted, single-line clamp. `expand-header` mode only.
+   */
   @property({ type: String })
   subtitle = "";
 
+  /**
+   * Explicit card width (any CSS length). Defaults to `366px`.
+   */
   @property({ type: String })
   width = "366px";
+  /**
+   * Explicit card height (any CSS length). Defaults to `auto`.
+   */
   @property({ type: String })
   height = "auto";
+  /**
+   * Corner radius (any CSS length). Defaults to `8px` — matches DS 3.0 `--radius-md` token.
+   */
   @property({ type: String })
   radius = "8px";
 
+  /**
+   * When set (default), the expanded panel's slotted content is only rendered after the first open
+   * — saves the initial render cost for cards that may never be expanded.
+   */
   @property({ type: Boolean })
   lazy = true;
+  /**
+   * Footer label shown when the card is collapsed (`expand-footer` mode). Defaults to `"View more"`.
+   */
   @property({ type: String, attribute: "more-label" })
   moreLabel = "View more";
+  /**
+   * Footer label shown when the card is expanded (`expand-footer` mode). Defaults to `"View less"`.
+   */
   @property({ type: String, attribute: "less-label" })
   lessLabel = "View less";
 

@@ -38,31 +38,63 @@ export class Card extends LitElement {
   static registeredName = "ssk-card";
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the card root for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
+  /**
+   * Accent color applied to the subtitle / price line. Defaults to brand orange; pass a status
+   * role (e.g. `"success.500"`) to tint the headline figure.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName = "aerospace-orange.500";
-  
+
   // CardAttributes
+  /**
+   * Card title — the primary line (two-line clamp). Required for the title row to render.
+   */
   @property({ type: String })
   title: string = "";
+  /**
+   * Card subtitle — the secondary line (e.g. price, status). Single-line clamp.
+   */
   @property({ type: String })
   subtitle: string | undefined;
+  /**
+   * Tertiary description — only rendered in `horizontal` layout under the subtitle.
+   */
   @property({ type: String })
   description: string | undefined;
+  /**
+   * Image URL for the card thumbnail. Missing values render a neutral placeholder block.
+   */
   @property({ type: String })
   image: string | undefined;
 
 
-  
+
   // LayoutAttributes
+  /**
+   * Layout — `stacked` (image on top, content below, default) or `horizontal` (image left, content right).
+   */
   @property({ type: String })
   type: TypeCard = "stacked";
+  /**
+   * Visual surface treatment — `outlined` (default, thin border) or `elevated` (raised shadow).
+   */
   @property({ type: String })
   variant: VariantCard = "outlined";
-  @property({ type: String }) 
+  /**
+   * Explicit card width (any CSS length). Defaults to `280px` for stacked / `376px` for horizontal.
+   */
+  @property({ type: String })
     width = "";
-  @property({ type: Boolean }) 
+  /**
+   * When set, replaces all content with skeleton placeholders matching the chosen layout.
+   * Use while async data is pending.
+   */
+  @property({ type: Boolean })
     loading = false;
 
 

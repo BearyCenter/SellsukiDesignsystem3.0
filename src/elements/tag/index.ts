@@ -40,39 +40,79 @@ import {
 export class Tag extends LitElement {
   static registeredName = "ssk-tag";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the tag wrapper for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Semantic tone — `primary` (brand), `success`, `warning`, `danger`, `info`, or any palette role.
+   * Controls background / border / text colors across variants.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Override for the tag text color. Falls back to a tone-matched fg.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
 
+  /**
+   * Tag size — `xs`–`xl`. Controls font-size and padding via tokens.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Override border-radius (any CSS length). Defaults to `8px` for the squared-pill tag shape
+   * (vs. badge's fully-rounded `9999px`).
+   */
   @property({ type: String })
   rounded?: string | undefined;
 
   // font
+  /**
+   * Font family group — `sans` (default) or `mono`.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight token (`normal` / `medium` / `bold`). Defaults to `normal`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  /**
+   * Explicit tag width (any CSS length). Leave unset to size from content.
+   */
   @property({ type: String })
   width?: string | undefined;
 
+  /**
+   * Visual variant — `solid` (filled), `outline` (transparent + colored border), or `subtle`
+   * (tinted background). Pair with `themeColor` for tone.
+   */
   @property({ type: String })
   variant: BadgeVariants = "solid";
+  /**
+   * When set, the tag renders nothing (returns `nothing`) — use for conditional show/hide without DOM teardown.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * CSS cursor override — set `"pointer"` when the tag is clickable (filter chip, navigation tag).
+   * Defaults to `"default"`.
+   */
   @property({ type: String })
   cursor?: string | undefined;
 

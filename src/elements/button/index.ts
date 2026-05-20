@@ -51,43 +51,101 @@ const LEGACY_THEME_COLOR_TO_TONE: Record<string, ButtonTone> = {
 export class Button extends LitElement {
   static registeredName = "ssk-button";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Stable `data-testid` attribute applied to the rendered `<button>` for E2E test selectors.
+   */
   @property({ type: String }) testId?: string;
 
   // ── Primary API (DS 3.0) ───────────────────────────────────────────────────
-  /** Visual variant of the button. */
+  /**
+   * Visual style — `solid` for primary actions, `outline` for secondary, `ghost` for tertiary,
+   * `solid-light` for emphasized secondary inside dense surfaces.
+   */
   @property({ type: String, reflect: true })
   variant: ButtonVariants = "solid";
 
-  /** Semantic tone of the button. */
+  /**
+   * Semantic intent — `brand` (default primary), `danger` (destructive), or `success` /
+   * `warning` / `info` (informational). Tone replaces the deprecated `themeColor` prop.
+   */
   @property({ type: String, reflect: true })
   tone: ButtonTone = "brand";
 
-  /** Size of the button. */
+  /**
+   * Visual size — `xs` / `sm` / `md` / `lg` / `xl`. Controls font size, padding, and radius
+   * via `--font-size-button` / spacing tokens. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
   // ── Layout (legitimate API — sizing/spacing only) ──────────────────────────
+  /**
+   * Override padding token — accepts the same `xs`–`xl` scale as `size`. Leave unset to inherit from `size`.
+   */
   @property({ type: String }) padding?: Size;
+  /**
+   * Override inline gap between prefix / label / postfix slots (any CSS length).
+   */
   @property({ type: String }) gap?: string;
+  /**
+   * Override border radius (any CSS length). Defaults to the size-bound `--radius-*` token.
+   */
   @property({ type: String }) rounded?: string;
+  /**
+   * Override outer margin (any CSS length). Prefer parent layout gap when possible.
+   */
   @property({ type: String }) margin?: string;
+  /**
+   * Explicit button width (any CSS length, e.g. `"160px"` or `"100%"` for full-width form CTAs).
+   */
   @property({ type: String }) width?: string;
+  /**
+   * Explicit button height (any CSS length). Leave unset to size from padding + line-height.
+   */
   @property({ type: String }) height?: string;
+  /**
+   * Minimum width constraint (any CSS length) — use to ensure short labels still hit a tap-target floor.
+   */
   @property({ type: String }) minWidth?: string;
+  /**
+   * Minimum height constraint (any CSS length).
+   */
   @property({ type: String }) minHeight?: string;
+  /**
+   * Maximum width constraint (any CSS length).
+   */
   @property({ type: String }) maxWidth?: string;
+  /**
+   * Maximum height constraint (any CSS length).
+   */
   @property({ type: String }) maxHeight?: string;
 
   // ── Font (token-bound — keep) ──────────────────────────────────────────────
+  /**
+   * Font family group — `sans` (default) or `mono`. Maps to `--font-button` family tokens.
+   */
   @property({ type: String }) fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight token (`normal` / `medium` / `bold`). Defaults to `normal`; DS 3.0 button weight token is 600.
+   */
   @property({ type: String }) fontWeight: FontWeight = "normal";
 
   // ── State ──────────────────────────────────────────────────────────────────
+  /**
+   * Renders disabled — clicks and keyboard focus are ignored, visual state matches
+   * `--bg-disabled` / `--text-disabled`.
+   */
   @property({ type: Boolean }) disabled = false;
+  /**
+   * When set, the button renders nothing (returns `nothing`) — use for conditional show/hide without DOM teardown.
+   */
   @property({ type: Boolean }) hidden = false;
 
   // ── Deprecated escape-hatch props (Stage 1 soft deprecation) ───────────────

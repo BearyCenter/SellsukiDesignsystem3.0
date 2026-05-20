@@ -34,21 +34,37 @@ import {
 export class Spinner extends LitElement {
   static registeredName = "ssk-spinner";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the spinner root for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Spinner tint — accepts a semantic role (e.g. `"primary"` / `"brand"`) or palette token.
+   * Defaults to `primary` (brand accent). Pass `"white"` for spinners inside brand buttons.
+   */
   @property({ type: String })
   color: ColorRole | ColorName = "primary";
 
+  /**
+   * Spinner diameter — `xs` / `sm` / `md` / `lg` / `xl` / `2xl`. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
+  /**
+   * When set, the spinner renders nothing (returns `nothing`) — use for conditional show/hide without DOM teardown.
+   */
   @property({ type: Boolean })
   hidden = false;
 

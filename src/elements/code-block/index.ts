@@ -111,59 +111,126 @@ import {
 export class CodeBlock extends LitElement {
   static registeredName = "ssk-code-block";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the code-block root for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Semantic tone — `background` (default). Drives default background tint when `backgroundColor` is unset.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "background";
+  /**
+   * Override for the code text color (rare — Shiki themes generally drive token colors).
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
+  /**
+   * Background color override for the code surface. Falls back to a `themeColor`-tinted background.
+   */
   @property({ type: String })
   backgroundColor?: ColorRole | ColorName;
 
+  /**
+   * Size step — `xs`–`xl`. Controls the code font-size; DS 3.0 floor is 18px.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Border radius override (any CSS length). Defaults to `8px`.
+   */
   @property({ type: String })
   rounded?: string | undefined;
 
+  /**
+   * Border width (any CSS length). Defaults to `1px`.
+   */
   @property({ type: String })
   borderWidth?: string | undefined;
+  /**
+   * Border color (palette role or token). Defaults to a `themeColor`-matched stroke.
+   */
   @property({ type: String })
   borderColor?: ColorRole | ColorName | undefined;
+  /**
+   * CSS `border-style` — `solid` (default), `dashed`, etc.
+   */
   @property({ type: String })
   borderStyle?: string | undefined;
 
   // font
+  /**
+   * Font family group — typically `mono` for code. Defaults to `sans`; set `mono` for proper code rendering.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight token for the code. Defaults to `normal`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  /**
+   * Explicit width (any CSS length). Defaults to `auto`.
+   */
   @property({ type: String })
   width?: string | undefined;
+  /**
+   * Explicit height (any CSS length). Defaults to `auto`.
+   */
   @property({ type: String })
   height?: string | undefined;
 
+  /**
+   * Inner padding token (`xs`–`xl`) or any CSS length. Defaults to `1em`.
+   */
   @property({ type: String })
   padding?: Size;
 
+  /**
+   * Visual variant — `solid` (default), `outline`, or `subtle`. Affects background / border interplay.
+   */
   @property({ type: String })
   variant: BadgeVariants = "solid";
+  /**
+   * When set, the code block renders nothing (returns `nothing`) — use for conditional show/hide without DOM teardown.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * Source language for syntax highlighting — `typescript` / `ts`, `javascript` / `js`, `tsx`,
+   * `jsx`, `css`, `scss`, `html`, `json`, `yaml`, `markdown` / `md`, `bash` / `sh`, `python` / `py`,
+   * `go`, `rust`. Unknown values fall back to plain text.
+   */
   @property({ type: String })
   language?: string | undefined;
+  /**
+   * When set, hides the floating copy-to-clipboard button in the top-right corner. Counter-intuitive
+   * — the legacy semantics treat the prop as "hide" rather than "show"; defaults to `false` (shown).
+   */
   @property({ type: Boolean })
   copyButton = false;
+  /**
+   * Source string to highlight and display. Multi-line strings are preserved verbatim.
+   */
   @property({ type: String })
   code: string = "";
+  /**
+   * Shiki theme name — `github-light` (default), `github-dark`, `vitesse-light`, or `vitesse-dark`.
+   * Unknown values fall back to `github-light`.
+   */
   @property({ type: String, attribute: "shiki-theme" })
   shikiTheme: string = "github-light";
 

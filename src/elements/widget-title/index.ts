@@ -46,44 +46,89 @@ export interface DropdownItem {
 export class WidgetTitle extends LitElement implements Widget, ThemeValue {
     static registeredName = 'ssk-widget-title'
     
+    /**
+     * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+     */
     @consume({ context: themeContext, subscribe: true })
     @property({ attribute: false })
     public theme?: Theme
 
     // ThemeValue
+    /**
+     * Size step — `xs`–`xl`. Used for token-derived spacing; title renders at `--font-size-h4`.
+     */
     @property({ type: String })
     size: Size = 'md'
+    /**
+     * Text color override for the title / subtext pair.
+     */
     @property({ type: String })
     color?: ColorRole | ColorName
+    /**
+     * Outer margin override (any CSS length). Prefer parent dashboard grid gap.
+     */
     @property({ type: String })
     margin?: string | undefined
+    /**
+     * Inner padding token (`xs`–`xl`).
+     */
     @property({ type: String })
     padding?: Size
+    /**
+     * Gap between widget regions (any CSS length or token). Defaults to `md`.
+     */
     @property({ type: String })
     gap?: string | undefined = 'md'
 
+    /**
+     * Stable `data-testid` attribute applied to the widget container for E2E test selectors.
+     */
     @property({ type: String })
     testId?: string
 
     // Font
+    /**
+     * Font family group inherited by slotted content — `sans` (default) or `mono`.
+     */
     @property({ type: String })
     fontFamilyGroup: FontFamilyGroup = 'sans'
+    /**
+     * Font weight token inherited by slotted content. Defaults to `normal`.
+     */
     @property({ type: String })
     fontWeight: FontWeight = 'normal'
+    /**
+     * Override font-size for slotted content (any CSS length). DS 3.0 floor is 18px.
+     */
     @property({ type: String })
     fontSize?: string | undefined
-    
+
+    /**
+     * Dashboard grid width in column units (`6`, `8`, or `12`). Invalid values fall back to `6`.
+     */
     @property({ type: String })
     widgetWidth: string = '6'
 
+    /**
+     * Dashboard grid height in row units. Locked to `1` for the section-title rhythm.
+     */
     @property({ type: String })
     widgetHeight: string = '1'
 
     private _defaultWidth = '6'
     private _defaultHeight = '1'
     // property data
+    /**
+     * Section title — bold headline, single-line clamp (e.g. `"ภาพรวมยอดขาย"`).
+     */
     @property({ type: String }) titleText = "title";
+    /**
+     * Section subtitle — muted secondary line below the title (e.g. `"7 วันล่าสุด"`).
+     */
     @property({ type: String }) subText = "subText";
+    /**
+     * Trailing action button label — automatically truncated to 15 characters. Used when `actionType="button"`.
+     */
     @property({ type: String })
     get buttonText() {
     return this._buttonText;
@@ -97,18 +142,46 @@ export class WidgetTitle extends LitElement implements Widget, ThemeValue {
     }
     }
     private _buttonText = 'buttonText';
+    /**
+     * Theme color role for the trailing action button. Defaults to `primary`.
+     */
     @property({ type: String }) buttonColor = "primary";
+    /**
+     * Variant of the trailing action button — `solid`, `outline` (default), `ghost`, etc.
+     */
     @property({ type: String }) buttonVariant = "outline";
+    /**
+     * Prefix icon for the trailing action button. Defaults to `"solid-arrow-right-circle"`.
+     */
     @property({ type: String }) buttonIcon = "solid-arrow-right-circle";
-    @property({ type: Array }) 
+    /**
+     * Items rendered when `actionType="dropdown"`. Each item provides `{ label, value }`; selecting
+     * one fires the `click-dropdown` custom event with the chosen item.
+     */
+    @property({ type: Array })
     public dropdownOptions: DropdownItem[] = [];
     private selectedValue = ""
 
     // property ควบคุมการแสดง
+    /**
+     * When set (default), renders the subtitle line below the title. Set `false` for a single-row title.
+     */
     @property({ type: Boolean }) showSubtext = true;
+    /**
+     * When set (default), renders the button label text. Use with `showButtonIcon` for icon+label CTAs.
+     */
     @property({ type: Boolean }) showButtonText = true;
+    /**
+     * When set (default), renders the button prefix icon. Use alongside `showButtonText`.
+     */
     @property({ type: Boolean }) showButtonIcon = true;
+    /**
+     * Trailing action — `none` (just the title), `button` (CTA), or `dropdown` (selector).
+     */
     @property({ type: String })  actionType: ActionType = 'none';
+    /**
+     * When set, the trailing button is rendered non-interactive (disabled styling, ignored clicks).
+     */
     @property({ type: Boolean }) disabledButton = false;
     
     @state()

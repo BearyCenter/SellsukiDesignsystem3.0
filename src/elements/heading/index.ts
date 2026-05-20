@@ -41,51 +41,106 @@ const levelToSize: Record<1 | 2 | 3 | 4 | 5, Size> = {
 export class Heading extends LitElement {
   static registeredName = "ssk-heading";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Brand accent color — falls back to the current `--fg-brand-primary` from
+   * `<ssk-app-shell-provider>` brand context. Pass an explicit `ColorRole` to override.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "";
+  /**
+   * Heading text color. Accepts a semantic role (e.g. `text-primary`) or a palette token (e.g. `background.900`).
+   */
   @property({ type: String })
   color?: ColorRole | ColorName = "background.900";
 
+  /**
+   * Visual size step — `xs`–`5xl`. For real headings prefer setting `level` (1–5), which maps to
+   * the matching `--font-size-h*` token (44 / 36 / 28 / 24 / 20 px).
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Override padding token — accepts the same scale as `size`.
+   */
   @property({ type: String })
   padding?: Size;
+  /**
+   * Explicit CSS font-size override — escape hatch for bespoke layout. Avoid when possible: prefer `level` / `size`.
+   */
   @property({ type: String })
   fontSize?: string | undefined;
+  /**
+   * Explicit CSS line-height override (any CSS length / unitless number).
+   */
   @property({ type: String })
   lineHeight?: string | undefined;
+  /**
+   * Outer margin override (any CSS length). Prefer parent layout gap when possible.
+   */
   @property({ type: String })
   margin?: string | undefined;
 
   // font
+  /**
+   * Font family group used for the heading — `sans` (default) or `mono`. Maps to `--font-h*` tokens.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight token — defaults to `normal`. H3 weight token is 700, H4 is 500.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
   // text specific
+  /**
+   * When set, the heading renders nothing (returns `nothing`) — use for conditional show/hide without DOM teardown.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * Renders the heading in italic style.
+   */
   @property({ type: Boolean })
   italic = false;
 
+  /**
+   * Underlines the heading text. Combine with `strike` for combined decorations.
+   */
   @property({ type: Boolean })
   underline = false;
 
+  /**
+   * Renders the heading with a strike-through. Combine with `underline` for combined decorations.
+   */
   @property({ type: Boolean })
   strike = false;
 
+  /**
+   * Horizontal text alignment — `left` (default), `center`, `right`, `justify`.
+   */
   @property({ type: String })
   align?: "left" | "center" | "right" | "justify" | undefined;
 
+  /**
+   * Letter-case transform — `uppercase`, `lowercase`, or `capitalize` (title case).
+   */
   @property({ type: String })
   transform?: "uppercase" | "lowercase" | "capitalize" | undefined;
 
+  /**
+   * Semantic heading level — `1` (h1, 44px) ... `5` (h5, 20px). Renders the corresponding HTML
+   * tag and sets `size` to the matching `--font-size-h*` token. Use the real level that fits the
+   * page outline; assistive tech relies on it.
+   */
   @property({ type: Number })
   level: 1 | 2 | 3 | 4 | 5 = 1;
 

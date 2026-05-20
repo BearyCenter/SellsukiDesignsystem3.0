@@ -40,36 +40,74 @@ import { Widget } from '../../types/widget'
 export class WidgetMatric extends LitElement implements Widget, ThemeValue {
   static registeredName = 'ssk-widget-matric'
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme
 
   // ThemeValue
+  /**
+   * Size step — `xs`–`xl`. Currently used for token-derived spacing; the headline figure is fixed
+   * at `--font-size-h2` for dashboard readability.
+   */
   @property({ type: String })
   size: Size = 'md'
+  /**
+   * Text color override for the value / label pair (rare — slotted `<ssk-text>` drives defaults).
+   */
   @property({ type: String })
   color?: ColorRole | ColorName
+  /**
+   * Outer margin override (any CSS length). Prefer parent dashboard grid gap.
+   */
   @property({ type: String })
   margin?: string | undefined
+  /**
+   * Inner padding token (`xs`–`xl`). Defaults to the widget container's built-in 16px padding.
+   */
   @property({ type: String })
   padding?: Size
+  /**
+   * Gap between widget regions (any CSS length or token). Defaults to `md`.
+   */
   @property({ type: String })
   gap?: string | undefined = 'md'
 
+  /**
+   * Stable `data-testid` attribute applied to the widget container for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string
 
   // Font
+  /**
+   * Font family group inherited by widget content — `sans` (default) or `mono`.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = 'sans'
+  /**
+   * Font weight token inherited by widget content. Defaults to `normal`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = 'normal'
+  /**
+   * Override font-size for slotted content (any CSS length). DS 3.0 floor is 18px.
+   */
   @property({ type: String })
   fontSize?: string | undefined
 
+  /**
+   * Dashboard grid width in column units (`3`, `4`, or `6`). Invalid values fall back to the default `3`.
+   * Defaults to `4` (a half-row stat tile at 12-column grids).
+   */
   @property({ type: String })
   widgetWidth: string = '4'
 
+  /**
+   * Dashboard grid height in row units. Currently locked to `2` (the standard stat-tile height).
+   */
   @property({ type: String })
   widgetHeight: string = '2'
 
@@ -78,27 +116,87 @@ export class WidgetMatric extends LitElement implements Widget, ThemeValue {
   // Data props — empty by default so unset widgets don't render placeholder
   // text or stock-photo URLs in production. Pair each visible region with
   // its show* flag below, OR slot in your own content via the named slots.
+  /**
+   * Headline value displayed prominently (e.g. `"฿128,450"`, `"1,024 ออเดอร์"`). Rendered at `--font-size-h2`.
+   */
   @property({ type: String }) label = "";
+  /**
+   * Secondary line shown below the value — typically a delta or comparison (e.g. `"↗ 12.5% vs เมื่อวาน"`).
+   */
   @property({ type: String }) subText = "";
+  /**
+   * Text shown inside the trailing badge. Length is clamped to the maxLength implied by `widgetWidth`.
+   */
   @property({ type: String }) badgeText = "";
+  /**
+   * Theme color role for the trailing badge — `success`, `warning`, `danger`, etc. Defaults to `success`.
+   */
   @property({ type: String }) badgeColor = "success";
+  /**
+   * Icon name shown inside the trailing badge (e.g. `"solid-arrow-trending-up"`). See `<ssk-icon>` registry.
+   */
   @property({ type: String }) badgeIcon = "";
+  /**
+   * Theme color role for the leading misc-icon tile. Defaults to `gray` for neutral KPIs.
+   */
   @property({ type: String }) iconLeftColor = "gray";
+  /**
+   * Icon name shown in the leading misc-icon tile. Optional — prefer the `left` slot for complex visuals.
+   */
   @property({ type: String }) iconLeft = "";
+  /**
+   * Image URL shown in the leading position (mutually exclusive with `iconLeft`). Renders as 56×56 `<ssk-image>`.
+   */
   @property({ type: String }) imgUrl = "";
+  /**
+   * Alternative text for the leading image. Falls back to empty string for decorative use.
+   */
   @property({ type: String }) imgAlt = "";
+  /**
+   * Theme color role for the trailing action button. Defaults to `primary`.
+   */
   @property({ type: String }) buttonColor = "primary";
+  /**
+   * Variant of the trailing action button — `solid`, `outline` (default), `ghost`, etc. See `<ssk-button>`.
+   */
   @property({ type: String }) buttonVariant = "outline";
+  /**
+   * Icon name shown inside the trailing action button (e.g. `"solid-arrow-right"`). Optional.
+   */
   @property({ type: String }) buttonIcon = "";
+  /**
+   * Theme color role for the trailing misc-icon tile. Defaults to `gray`.
+   */
   @property({ type: String }) iconRightColor = "gray";
+  /**
+   * Icon name shown in the trailing misc-icon tile. Mutually exclusive with `buttonIcon` and badge.
+   */
   @property({ type: String }) iconRight = "";
 
   // property ควบคุมการแสดง
+  /**
+   * When set (default), the secondary `subText` line is rendered below the value. Set `false` to suppress.
+   */
   @property({ type: Boolean }) showSubtext = true;
+  /**
+   * When set, renders the leading image (`imgUrl`). Otherwise the slot/icon-left fallbacks are used.
+   */
   @property({ type: Boolean }) showImage = false;
+  /**
+   * When set, renders the leading misc-icon tile (`iconLeft` + `iconLeftColor`). Ignored if `showImage` is set.
+   */
   @property({ type: Boolean }) showIconLeft = false;
+  /**
+   * When set, renders the trailing action button (`buttonIcon` + `buttonColor` + `buttonVariant`).
+   */
   @property({ type: Boolean }) showButtonIcon = false;
+  /**
+   * When set, renders the trailing badge (`badgeText` + `badgeColor` + `badgeIcon`). Mutually exclusive with the button.
+   */
   @property({ type: Boolean }) showBadge = false;
+  /**
+   * When set, renders the trailing misc-icon tile (`iconRight` + `iconRightColor`). Lowest priority of the trailing options.
+   */
   @property({ type: Boolean }) showIconRight = false;
 
   @state()

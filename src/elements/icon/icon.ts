@@ -39,40 +39,84 @@ import { themeContext } from "../../contexts/theme";
 export class Icon extends LitElement {
   static registeredName = "ssk-icon";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Brand accent — falls back to the current `--fg-brand-primary` from `<ssk-app-shell-provider>`
+   * brand context. Pass an explicit `ColorRole` to tint the icon for tone (e.g. `"danger"`).
+   */
   @property({ type: String })
   themeColor?: ColorRole | ColorName;
+  /**
+   * Direct color override — accepts a semantic role (e.g. `text-secondary`) or a palette token
+   * (e.g. `gray.500`). Takes precedence over `themeColor`.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
 
+  /**
+   * Glyph size — `xs` / `sm` / `md` / `lg` / `xl`. Maps to a square pixel box via `--width-*` tokens.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Inner padding token (`xs`–`xl`) around the glyph — rarely needed; defaults to none.
+   */
   @property({ type: String })
   padding?: Size;
+  /**
+   * Outer margin override (any CSS length). Prefer parent layout gap when possible.
+   */
   @property({ type: String })
   margin?: string | undefined;
- 
+
+  /**
+   * Explicit width override (any CSS length). Leave unset to size from `size`.
+   */
   @property({ type: String })
   width?: string | undefined;
+  /**
+   * Explicit height override (any CSS length). Leave unset to size from `size` (square).
+   */
   @property({ type: String })
   height?: string | undefined;
 
+  /**
+   * When set, the icon renders nothing (returns `nothing`) — use for conditional show/hide without DOM teardown.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * CSS cursor override — set `"pointer"` when the icon is clickable on its own (rare; prefer
+   * wrapping in `<ssk-button variant="ghost">` for proper a11y).
+   */
   @property({ type: String})
   cursor?: string | undefined;
 
   // Event
+  /**
+   * Optional click handler attached to the icon root. Prefer wrapping in `<ssk-button>` for keyboard
+   * and screen-reader semantics; this hook exists for purely decorative click targets.
+   */
   @property({ attribute: false })
   onClick?: () => void;
 
+  /**
+   * Glyph identifier from the built-in icon set — e.g. `"solid-shopping-cart"`, `"outline-x-mark"`,
+   * `"mini-chevron-down"`. See Storybook "Elements / Icon" for the full registry.
+   */
   @property({ type: String })
   name: string = "";
 
+  /**
+   * Legacy alias for `name`. Prefer `name` in new code.
+   */
   @property({ type: String })
   iconName: string = "";
 

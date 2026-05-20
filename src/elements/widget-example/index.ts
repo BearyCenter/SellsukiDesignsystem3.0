@@ -34,36 +34,72 @@ import { Widget } from '../../types/widget'
 export class WidgetExample extends LitElement implements Widget, ThemeValue {
   static registeredName = 'ssk-widget-example'
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme
 
   // ThemeValue
+  /**
+   * Size step — `xs`–`xl`. Reference value only in this scaffold; real widgets bind to specific tokens.
+   */
   @property({ type: String })
   size: Size = 'md'
+  /**
+   * Reference text color — unused by the scaffold render but kept to satisfy the `ThemeValue` contract.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName
+  /**
+   * Outer margin reference (any CSS length).
+   */
   @property({ type: String })
   margin?: string | undefined
+  /**
+   * Inner padding reference (`xs`–`xl`).
+   */
   @property({ type: String })
   padding?: Size
+  /**
+   * Gap reference (any CSS length or token).
+   */
   @property({ type: String })
   gap?: string | undefined = 'md'
 
+  /**
+   * Stable `data-testid` attribute for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string
 
   // Font
+  /**
+   * Font family group reference — `sans` (default) or `mono`.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = 'sans'
+  /**
+   * Font weight reference token.
+   */
   @property({ type: String })
   fontWeight: FontWeight = 'normal'
+  /**
+   * Font-size reference (any CSS length).
+   */
   @property({ type: String })
   fontSize?: string | undefined
 
+  /**
+   * Dashboard grid width in column units. Defaults to `2` for this scaffold; real widgets override.
+   */
   @property({ type: String })
   widgetWidth: string = '2'
 
+  /**
+   * Dashboard grid height in row units. Defaults to `2` for this scaffold; real widgets override.
+   */
   @property({ type: String })
   widgetHeight: string = '2'
 

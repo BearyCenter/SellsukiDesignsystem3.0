@@ -40,58 +40,121 @@ import {
 export class Container extends LitElement {
   static registeredName = "ssk-container";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the container root for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Semantic tone — `background` (default), `primary`, `success`, etc. Drives the default
+   * background tint when `backgroundColor` is unset.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "background";
+  /**
+   * Text color inside the container (any CSS color or palette token).
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
+  /**
+   * Explicit background color override (palette role or token). Falls back to a `themeColor`-tinted background.
+   */
   @property({ type: String })
   backgroundColor?: ColorRole | ColorName;
 
+  /**
+   * Size step — `xs`–`xl`. Affects default font-size; padding is controlled separately by `padding`.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Border radius override (any CSS length). Defaults to `8px`.
+   */
   @property({ type: String })
   rounded?: string | undefined;
 
+  /**
+   * Border width (any CSS length). Defaults to `1px`.
+   */
   @property({ type: String })
   borderWidth?: string | undefined;
+  /**
+   * Border color (palette role or token). Defaults to a `themeColor`-matched stroke.
+   */
   @property({ type: String })
   borderColor?: ColorRole | ColorName | undefined;
+  /**
+   * CSS `border-style` — `solid` (default), `dashed`, `dotted`, etc.
+   */
   @property({ type: String })
   borderStyle?: string | undefined;
 
   // font
+  /**
+   * Font family group inherited by slotted content — `sans` (default) or `mono`.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight token inherited by slotted content. Defaults to `normal`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  /**
+   * Explicit width (any CSS length, e.g. `"320px"` or `"100%"`). Defaults to `auto`.
+   */
   @property({ type: String })
   width?: string | undefined;
+  /**
+   * Explicit height (any CSS length). Defaults to `auto`.
+   */
   @property({ type: String })
   height?: string | undefined;
 
+  /**
+   * Inner padding token (`xs`–`xl`) or any CSS length. Defaults to `1em`. Prefer the
+   * `--space-container-x` / `--space-container-y` rhythm via tokens.
+   */
   @property({ type: String })
   padding?: Size;
 
+  /**
+   * Visual variant — `solid` (default), `outline`, or `subtle`. Affects the interplay between
+   * background and border tokens.
+   */
   @property({ type: String })
   variant: BadgeVariants = "solid";
+  /**
+   * When set, the container renders nothing (returns `nothing`) — use for conditional show/hide without DOM teardown.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * CSS cursor override — set `"pointer"` when the entire container is clickable.
+   */
   @property({ type: String })
   cursor?: string | undefined;
 
+  /**
+   * Cross-axis alignment of slotted children — `center` (default), `start` (left/top), or `end` (right/bottom).
+   */
   @property({ type: String })
   align?: "center" | "start" | "end" = "center";
+  /**
+   * Gap between slotted children (any CSS length). Defaults to `1em`. Prefer `--space-stack` / `--space-row` tokens.
+   */
   @property({ type: String })
   gap?: string | undefined;
 

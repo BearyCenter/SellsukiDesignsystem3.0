@@ -51,41 +51,124 @@ export interface sectionItem {
 export class WidgetUserDetail extends LitElement implements Widget, ThemeValue {
   static registeredName = 'ssk-widget-user-detail'
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme
 
+  /**
+   * Size step — `xs`–`xl`. Used for token-derived spacing; the headline label is fixed at `--font-size-h4`.
+   */
   @property({ type: String }) size: Size = 'md'
+  /**
+   * Text color override for the label / subText pair.
+   */
   @property({ type: String }) color?: ColorRole | ColorName
+  /**
+   * Outer margin override (any CSS length). Prefer parent dashboard grid gap.
+   */
   @property({ type: String }) margin?: string | undefined
+  /**
+   * Inner padding token (`xs`–`xl`). Defaults to the built-in 24px container padding.
+   */
   @property({ type: String }) padding?: Size
+  /**
+   * Gap between header and row list (any CSS length or token). Defaults to `md`.
+   */
   @property({ type: String }) gap?: string | undefined = 'md'
+  /**
+   * Stable `data-testid` attribute applied to the widget container for E2E test selectors.
+   */
   @property({ type: String }) testId?: string
+  /**
+   * Font family group inherited by widget content — `sans` (default) or `mono`.
+   */
   @property({ type: String }) fontFamilyGroup: FontFamilyGroup = 'sans'
+  /**
+   * Font weight token inherited by widget content. Defaults to `normal`.
+   */
   @property({ type: String }) fontWeight: FontWeight = 'normal'
+  /**
+   * Override font-size for slotted content (any CSS length). DS 3.0 floor is 18px.
+   */
   @property({ type: String }) fontSize?: string | undefined
 
+  /**
+   * Dashboard grid width in column units. Locked to `4` (the standard user-detail tile width).
+   */
   @property({ type: String }) widgetWidth: string = '4'
+  /**
+   * Dashboard grid height in row units (`3`, `4`, or `6`). Controls how many `rowItems` are rendered:
+   * `3` → 2 rows, `4` → 4 rows, `6` → 7 rows. Defaults to `3`.
+   */
   @property({ type: String }) widgetHeight: string = '3'
 
   private _defaultWidth = '4'
   private _defaultHeight = '3'
 
+  /**
+   * Primary user / entity label — bold, single-line clamp (e.g. user display name).
+   */
   @property({ type: String }) label = "";
+  /**
+   * Secondary line under the label — typically a role or tagline (e.g. `"ผู้ดูแลร้าน"`).
+   */
   @property({ type: String }) subText = "";
+  /**
+   * Theme color role for the trailing action button. Defaults to `primary`.
+   */
   @property({ type: String }) buttonColor = "primary";
+  /**
+   * Variant of the trailing action button — `ghost` (default), `solid`, `outline`, etc.
+   */
   @property({ type: String }) buttonVariant = "ghost";
+  /**
+   * Prefix icon for the trailing action button. Defaults to `"solid-arrow-right-circle"`.
+   */
   @property({ type: String }) buttonIcon = "solid-arrow-right-circle";
+  /**
+   * Trailing action button label — truncated to 5 characters for compact display next to the avatar.
+   */
   @property({ type: String }) buttonText = "";
+  /**
+   * Avatar image URL. Use a square portrait; rendered through `<ssk-avatar>` for initials fallback.
+   */
   @property({ type: String }) imgUrl = "";
+  /**
+   * Avatar shape — `circle` (default), `rounded` (8px squircle), or `square`.
+   */
   @property({ type: String }) imageShape = "circle";
+  /**
+   * When set (default), renders the secondary `subText` line. Set `false` to suppress.
+   */
   @property({ type: Boolean }) showSubtext = true;
+  /**
+   * When set, renders the leading avatar (`imgUrl` + `imageShape`). Otherwise the avatar is hidden.
+   */
   @property({ type: Boolean }) showImage = false;
+  /**
+   * When set (default), renders the trailing action button. Set `false` to hide it.
+   */
   @property({ type: Boolean }) showButtonIcon = true;
+  /**
+   * When set, wraps the trailing action button in a tooltip showing `buttonTooltipText` on hover.
+   */
   @property({ type: Boolean }) showButtonTooltip = false;
+  /**
+   * Tooltip body text shown when `showButtonTooltip` is set. Defaults to `"More details"`.
+   */
   @property({ type: String }) buttonTooltipText = 'More details';
+  /**
+   * When set, the trailing button is rendered non-interactive (disabled styling, ignored clicks).
+   */
   @property({ type: Boolean }) disabledButton = false;
 
+  /**
+   * Rows displayed beneath the user header. Each item supplies its own `label` / `description` and
+   * optional per-row button + tooltip. The list is truncated to fit the current `widgetHeight`.
+   */
   @property({ type: Array })
   public rowItems: sectionItem[] = [];
 

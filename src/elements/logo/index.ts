@@ -38,6 +38,9 @@ import {
 export class Logo extends LitElement implements ThemeValue {
   static registeredName = "ssk-logo";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
@@ -51,46 +54,94 @@ export class Logo extends LitElement implements ThemeValue {
   private _inheritedBrand?: Brand;
 
   /**
-   * Explicit brand override. When set, takes precedence over the inherited
-   * brandContext value. Use this when a logo needs to render a different
-   * brand than the surrounding shell (rare — e.g. cross-brand showcase).
+   * Explicit brand override (`sellsuki` / `patona` / `oc2plus`). When set, takes precedence over
+   * the inherited `brandContext`. Use only for cross-brand showcases — the logo otherwise picks
+   * up the host shell's brand automatically.
    */
   @property({ type: String })
   brand?: Brand;
 
   // ThemeValue
+  /**
+   * Logo size step — `xs`–`xl`. Maps to a square pixel box. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Brand accent for the optional logo border tint. Defaults to `primary`.
+   */
   @property({ type: String })
   themeColor: string = "primary";
+  /**
+   * Border color override (any CSS color or palette token). Pair with `borderWidth`.
+   */
   @property({ type: String })
   borderColor?: string;
+  /**
+   * Outer margin override (any CSS length). Prefer parent layout gap.
+   */
   @property({ type: String })
   margin?: string;
+  /**
+   * Border width (any CSS length). Defaults to `0px` — set to draw a framed logo plate.
+   */
   @property({ type: String })
   borderWidth?: string;
+  /**
+   * Explicit width override (any CSS length, e.g. `"160px"` for navbar branding).
+   */
   @property({ type: String })
   width?: string | undefined;
+  /**
+   * Explicit height override (any CSS length).
+   */
   @property({ type: String })
   height?: string | undefined;
+  /**
+   * Gap between the mark and wordmark when `fullLogo` is set (any CSS length). Defaults to `0.2em`.
+   */
   @property({ type: String })
   gap?: string | undefined = "0.2em";
+  /**
+   * Shorthand for equal width and height (any CSS length). Useful for square brand tiles.
+   */
   @property({ type: String })
   boxSize?: string | undefined;
+  /**
+   * When set, the logo renders nothing (returns `nothing`) — use for conditional show/hide without DOM teardown.
+   */
   @property({ type: Boolean })
   hidden = false;
 
   // Logo Attributes
+  /**
+   * When set, renders the full brand wordmark (mark + name); otherwise renders the compact mark only.
+   * Use `fullLogo` in login screens and footers, the mark-only form in tight navbars.
+   */
   @property({ type: Boolean })
   fullLogo = false;
 
+  /**
+   * Explicit URL override for the logo mark image. Leave unset to use the brand's default mark
+   * asset resolved from `brand` / `brandContext`.
+   */
   @property({ type: String })
   srcLogo?: string;
+  /**
+   * Alternative text for the logo mark image. Falls back to `"<brand name> logo"`.
+   */
   @property({ type: String })
   altLogo?: string;
 
+  /**
+   * Explicit URL override for the wordmark image (used when `fullLogo` is set). Falls back to the
+   * brand's default wordmark asset.
+   */
   @property({ type: String })
   srcLogoName?: string;
+  /**
+   * Alternative text for the wordmark image. Falls back to `"<brand name> wordmark"`.
+   */
   @property({ type: String })
   altLogoName?: string;
 

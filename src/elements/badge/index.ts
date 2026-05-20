@@ -36,37 +36,72 @@ import {
 export class Badge extends LitElement {
   static registeredName = "ssk-badge";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the badge wrapper for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Semantic tone — `primary` (brand), `success`, `warning`, `danger`, `info`, or any palette role.
+   * Controls background / border / text colors across variants.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Override for the badge text color. Falls back to a tone-matched fg.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
 
+  /**
+   * Badge size — `xs` (compact dot) through `xl`. Controls font-size and inner padding via tokens.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Override border-radius (any CSS length). Defaults to fully rounded (`9999px`) for pill shape.
+   */
   @property({ type: String })
   rounded?: string | undefined;
 
   // font
+  /**
+   * Font family group — `sans` (default) or `mono`. Maps to `--font-caption` family tokens.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight token (`normal` / `medium` / `bold`). Defaults to `normal`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  /**
+   * Explicit badge width (any CSS length). Leave unset to size from the label content.
+   */
   @property({ type: String })
   width?: string | undefined;
 
   // button specific
+  /**
+   * Visual variant — `solid` (filled brand), `outline` (transparent + colored border), or
+   * `subtle` (tinted background, no border). Pair with `themeColor` for tone.
+   */
   @property({ type: String })
   variant: BadgeVariants = "solid";
+  /**
+   * When set, the badge renders nothing (returns `nothing`) — use for conditional show/hide without DOM teardown.
+   */
   @property({ type: Boolean })
   hidden = false;
 
