@@ -58,19 +58,75 @@ export interface ADTBulkActionEvent {
 export class AdvancedDataTable extends LitElement {
   static registeredName = "ssk-advanced-data-table";
 
+  /**
+   * Column definitions — each object carries `key` (data field),
+   * `label` (header text), optional `width`, `sortable`, `align`, and a
+   * `render(value, row) => TemplateResult | string` callback for custom
+   * cell markup. Array order drives render order.
+   */
   @property({ type: Array }) columns: ADTColumn[] = [];
+  /**
+   * Row data — each object keyed by `columns[].key`, plus a required
+   * unique `id`. Set `expandContent` on a row to enable the expand
+   * affordance when `expandable` is true.
+   */
   @property({ type: Array }) rows: ADTRow[] = [];
+  /**
+   * When true, hides rows and renders shimmering skeleton placeholders.
+   * Drive this from your fetch state.
+   */
   @property({ type: Boolean }) loading = false;
+  /**
+   * Text shown in the empty-state cell when `rows` is empty and
+   * `loading` is false. Defaults to `"No data"`.
+   */
   @property({ type: String, attribute: "empty-message" }) emptyMessage = "No data";
+  /**
+   * Current page (1-indexed). Controlled — the parent owns state and
+   * listens to `page-change` to fetch the next slice.
+   */
   @property({ type: Number }) page = 1;
+  /**
+   * Rows per page — drives skeleton-row count during loading and the
+   * page-size dropdown's selected value. Defaults to `20`.
+   */
   @property({ type: Number, attribute: "page-size" }) pageSize = 20;
+  /**
+   * Total row count across all pages (server-side). Drives the
+   * "X–Y of Z" label and the last-page boundary. Defaults to `0`.
+   */
   @property({ type: Number }) total = 0;
+  /**
+   * Options shown in the rows-per-page dropdown. Defaults to
+   * `[10, 20, 50, 100]`.
+   */
   @property({ type: Array, attribute: "page-size-options" })
     pageSizeOptions: number[] = [10, 20, 50, 100];
+  /**
+   * Enables multi-row selection — renders the leading checkbox column,
+   * the header select-all checkbox, and the bulk-action toolbar (slot
+   * `bulk-actions`). Listen to `selection-change` for the updated id list.
+   */
   @property({ type: Boolean }) selectable = false;
+  /**
+   * Enables the expand chevron column. Each row's `expandContent` is
+   * rendered in a full-width detail row when its chevron is open.
+   */
   @property({ type: Boolean }) expandable = false;
+  /**
+   * Active sort column key. Controlled — set from the parent on
+   * `sort-change` to reflect the current sort. Empty string = unsorted.
+   */
   @property({ type: String, attribute: "sort-key" }) sortKey = "";
+  /**
+   * Sort direction for `sortKey` — `"asc"` (default) or `"desc"`. Mutated
+   * by clicks on sortable headers, which also dispatch `sort-change`.
+   */
   @property({ type: String, attribute: "sort-dir" }) sortDir: "asc" | "desc" = "asc";
+  /**
+   * Sets `data-testid` on the root container for stable selectors in E2E
+   * and visual tests.
+   */
   @property({ type: String, attribute: "test-id" }) testId?: string;
 
   @state() private _selected = new Set<string>();

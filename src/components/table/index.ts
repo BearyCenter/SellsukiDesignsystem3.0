@@ -50,91 +50,220 @@ interface RowData {
 export class Table extends LitElement {
   static registeredName = "ssk-table";
 
+  /**
+   * Theme object consumed from the ancestor `<ssk-theme-provider>` via Lit
+   * context. Component code rarely sets this directly — let the provider inject it.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Sets `data-testid` on the table container for stable selectors in E2E
+   * and visual tests.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Brand-context accent for header background and active pagination state.
+   * Accepts a semantic role (`"primary"`, `"secondary"`, etc.) or a palette
+   * name (e.g. `"sky"`, `"emerald"`). Defaults to `"primary"`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Text color for cells. Accepts a semantic role or palette name; resolves
+   * to the brand-aware token at the active shade.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
+  /**
+   * Override for the row/cell background. Use sparingly — prefer
+   * `themeColor` so brand swaps stay consistent.
+   */
   @property({ type: String })
   backgroundColor?: string | undefined;
 
+  /**
+   * Density / typography size step — `"xs" | "sm" | "md" | "lg" | "xl"`.
+   * Drives row font-size and line-height via tokens. Defaults to `"md"`.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Cell padding step. Falls back to the `size` value when unset.
+   */
   @property({ type: String })
   padding?: Size;
+  /**
+   * Explicit font-size token for cell text. Overrides the size-derived
+   * default. Must resolve to >= 18px per DS 3.0 minimum.
+   */
   @property({ type: String })
   fontSize?: string | undefined;
+  /**
+   * Horizontal gap between inline cell contents (icon + text, badge groups).
+   */
   @property({ type: String })
   gap?: string | undefined;
+  /**
+   * Corner radius token for the table container.
+   */
   @property({ type: String })
   rounded?: string | undefined;
+  /**
+   * Outer margin applied to the table container.
+   */
   @property({ type: String })
   margin?: string | undefined;
 
   // font
+  /**
+   * Font-family group token — `"sans"` (default UI) or `"serif"` /
+   * `"mono"` for special data tables.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font-weight token for cell text — `"normal"` (default), `"medium"`,
+   * `"semibold"`, `"bold"`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  /**
+   * Override for the cell border width (e.g. `"1px"`, `"2px"`).
+   */
   @property({ type: String })
   borderWidth?: string | undefined;
+  /**
+   * Fixed body height (e.g. `"480px"`). When set, `<tbody>` scrolls
+   * internally — required if you want a sticky header behavior.
+   */
   @property({ type: String })
   height?: string | undefined;
 
+  /**
+   * Column definitions — each object describes `title`, `dataIndex` (the
+   * row key to render), `align`, `width`, optional `sortable` + `onSort`
+   * callback, and `sortIcons` overrides. Array order drives header / cell
+   * render order.
+   */
   @property({ type: Array })
   columns: Column[] = [];
 
+  /**
+   * Row data — array of plain objects keyed by `columns[].dataIndex`. An
+   * empty array reveals the `empty-content` slot. The component slices
+   * this array by `currentPage` / `rowsPerPage` unless
+   * `totalPaginationPages` is set (server-side mode).
+   */
   @property({ type: Array })
   data: RowData[] = [];
 
+  /**
+   * When true, renders the integrated `<ssk-pagination>` footer beneath
+   * the table. Pair with `showPageNavigation` / `showRowsPerPageSelector`
+   * to choose which footer controls appear.
+   */
   @property({ type: Boolean })
   showPaginationFooter: boolean = false;
 
+  /**
+   * Indexes of rows currently checked (relative to the full `data` array).
+   * Controlled — update from the parent on `cell-change` / checkbox
+   * events; `toggleSelect()` mutates this internally when `showCheckbox`
+   * is on.
+   */
   @property({ type: Array })
   selectedRows: number[] = [];
 
+  /**
+   * When true, renders a leading checkbox column with a header
+   * "select-all" checkbox. The table manages `selectedRows` internally
+   * unless the parent overrides it.
+   */
   @property({ type: Boolean })
   showCheckbox: boolean = false;
 
+  /**
+   * Mirrors the header select-all checkbox state. Toggled by
+   * `toggleSelectAll()` — usually parent-read, not parent-written.
+   */
   @property({ type: Boolean })
   selectAll: boolean = false;
 
+  /**
+   * Page size — number of rows rendered per page. Bound to the rows-per-page
+   * selector when `showRowsPerPageSelector` is true. Defaults to `10`.
+   */
   @property({ type: Number })
   rowsPerPage: number = 10;
 
+  /**
+   * Current page (1-indexed). The parent listens to `load-data` to fetch
+   * the next slice in server-paginated mode.
+   */
   @property({ type: Number })
   currentPage: number = 1;
 
+  /**
+   * Shows the "Showing X to Y of Z items" label in the pagination footer.
+   */
   @property({ type: Boolean })
   showPageNavigation: boolean = false;
 
+  /**
+   * Shows the rows-per-page dropdown selector in the pagination footer.
+   */
   @property({ type: Boolean })
   showRowsPerPageSelector: boolean = false;
 
+  /**
+   * Shows the first-page / last-page double-chevron buttons alongside
+   * the numeric page buttons.
+   */
   @property({ type: Boolean })
   showPageButtons: boolean = false;
 
+  /**
+   * Shows the "Go to page" numeric input in the pagination footer.
+   */
   @property({ type: Boolean })
   showGoToPageInput: boolean = false;
 
+  /**
+   * Server-side row count. When `> 0`, switches the table to controlled
+   * pagination — it stops slicing `data` locally and the parent must
+   * fetch the next page on `load-data`. Leave at `0` for client-side
+   * pagination over the full `data` array.
+   */
   @property({ type: Number })
   totalPaginationPages: number = 0;
 
+  /**
+   * Caps the number of numeric page buttons in the pagination footer.
+   * Set to `0` (default) for no cap.
+   */
   @property({ type: Number })
   maxVisiblePageButtons: number = 0;
 
+  /**
+   * Compact mode — reduces vertical padding for dense data sets.
+   */
   @property({ type: Boolean })
   min = false;
 
+  /**
+   * Per-column render overrides keyed by `dataIndex`. Each entry exposes
+   * `render(value, row, rowIndex) => htmlString` for custom cell markup,
+   * plus optional `onClick` / `onChange` callbacks that also fire
+   * `cell-click` / `cell-change` events on the host. AI consumers commonly
+   * forget that `render` returns a string (not a `TemplateResult`).
+   */
   @property({ type: Object })
   customCell: {
     [dataIndex: string]: {

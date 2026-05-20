@@ -32,37 +32,82 @@ export const dynamicTableContext = createContext<TableState>(
 export class DynamicTable extends LitElement {
   static registeredName = "ssk-dynamic-table";
 
+  /**
+   * Theme object consumed from the ancestor `<ssk-theme-provider>` via Lit
+   * context. Set automatically — components rarely assign this directly.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Sets `data-testid` on the table container for stable selectors in E2E
+   * and visual tests.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * When true, the table renders nothing. Prefer the standard
+   * `hidden` HTML attribute over toggling at the parent.
+   */
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * Fixed table height (e.g. `"480px"`). When set, the body scrolls
+   * internally and `scrollend` becomes the trigger for load-more flows.
+   */
   @property({ type: String })
   height?: string;
 
+  /**
+   * Per-column track widths for the underlying CSS grid (e.g.
+   * `["48px", "1fr", "200px"]`). Length should match the number of slotted
+   * `[slot="headers"]` elements; falls back to `1fr` for each column.
+   */
   @property({ type: Array })
   columnsWidth?: string[];
 
+  /**
+   * Override the table body background color — accepts a palette name
+   * (e.g. `"gray"`) or any CSS color. Header background is controlled
+   * separately by `stripedBackgroundColor`.
+   */
   @property({ type: String })
   backgroundColor?: string;
 
+  /**
+   * Background applied to the header row AND to every other body row
+   * (zebra striping). Accepts a palette name or any CSS color.
+   */
   @property({ type: String })
   stripedBackgroundColor?: string;
 
+  /**
+   * Enables row selection — renders a leading checkbox column and the
+   * bulk-action toolbar (slot `bulk-actions`) once at least one row is
+   * checked. Listen to `selection-change` for the updated id list.
+   */
   @property({ type: Boolean })
   selectable = false;
 
+  /**
+   * Controlled list of currently selected row keys. Updates propagate to
+   * the table context so each `<ssk-table-row>` knows its own state.
+   * Empty array clears all selections.
+   */
   @property({ type: Array })
   selectedRows: string[] = [];
 
   @state() private _selectedRows: string[] = [];
 
+  /**
+   * Lit context value provided to descendant `<ssk-table-row>` /
+   * `<ssk-table-cell>` / `<ssk-header-cell>` elements. Carries selection
+   * state and the `toggleRow` callback — usually managed by the table itself.
+   */
   @provide({ context: dynamicTableContext })
   @property({ attribute: false })
   state: TableState = {

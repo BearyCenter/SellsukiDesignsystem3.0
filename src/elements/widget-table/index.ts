@@ -30,49 +30,167 @@ import { Widget } from '../../types/widget'
 export class WidgetTable extends LitElement implements Widget, ThemeValue {
   static registeredName = 'ssk-widget-table'
 
+  /**
+   * Theme object consumed from the ancestor `<ssk-theme-provider>` via Lit
+   * context. Set automatically — components rarely assign this directly.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme
 
+  /**
+   * Density / typography size step — `"xs" | "sm" | "md" | "lg" | "xl"`.
+   * Drives header / body text scale. Defaults to `"md"`.
+   */
   @property({ type: String }) size: Size = 'md'
+  /**
+   * Foreground color override applied to body text. Accepts a semantic
+   * role or palette name.
+   */
   @property({ type: String }) color?: ColorRole | ColorName
+  /**
+   * Outer margin applied to the widget container.
+   */
   @property({ type: String }) margin?: string | undefined
+  /**
+   * Padding step inside the widget container.
+   */
   @property({ type: String }) padding?: Size
+  /**
+   * Gap between header rows (title / badge / description). Defaults to `"md"`.
+   */
   @property({ type: String }) gap?: string | undefined = 'md'
+  /**
+   * Sets `data-testid` on the widget root for stable selectors in E2E tests.
+   */
   @property({ type: String }) testId?: string
+  /**
+   * Font-family group token — `"sans"` (default UI), `"serif"`, `"mono"`.
+   */
   @property({ type: String }) fontFamilyGroup: FontFamilyGroup = 'sans'
+  /**
+   * Font-weight token for header / body — `"normal"`, `"medium"`,
+   * `"semibold"`, `"bold"`.
+   */
   @property({ type: String }) fontWeight: FontWeight = 'normal'
+  /**
+   * Explicit font-size token override. Must resolve to >= 18px per DS 3.0.
+   */
   @property({ type: String }) fontSize?: string | undefined
 
+  /**
+   * Widget grid width in grid-track units, used by `<ssk-widget-grid>`.
+   * Valid combos are `"8"` (wide) or `"12"` (full row). Defaults to `"8"`.
+   */
   @property({ type: String }) widgetWidth: string = '8'
+  /**
+   * Widget grid height in grid-track units. Must be `"8"` to maintain
+   * the canonical 672px widget height. Defaults to `"8"`.
+   */
   @property({ type: String }) widgetHeight: string = '8'
 
   private defaultWidth = '8'
   private defaultHeight = '8'
 
+  /**
+   * Widget title shown in the header. Truncated at 120 characters; a
+   * tooltip appears on hover when clamped by the container.
+   */
   @property({ type: String }) label = "";
+  /**
+   * Subtitle / supporting copy shown beneath the title when
+   * `showDescription` is true. Truncated at 120 characters with a hover
+   * tooltip for clamped text.
+   */
   @property({ type: String }) description = "";
+  /**
+   * Text rendered inside the header `<ssk-badge>` when `showBadge` is true.
+   * Trimmed at 15 characters.
+   */
   @property({ type: String }) badgeText = "";
+  /**
+   * Semantic role for the header badge — `"success"` (default),
+   * `"warning"`, `"danger"`, `"info"`, or any palette name.
+   */
   @property({ type: String }) badgeColor = "success";
+  /**
+   * Icon name (from `<ssk-icon>` set) rendered before the badge text.
+   */
   @property({ type: String }) badgeIcon = "";
+  /**
+   * Reveals the header status badge to the right of the title.
+   */
   @property({ type: Boolean }) showBadge = false;
+  /**
+   * Reveals the description / subtitle row beneath the title.
+   */
   @property({ type: Boolean }) showDescription = false;
 
+  /**
+   * Theme color applied to the header action button. Accepts a semantic
+   * role or palette name. Defaults to `"primary"`.
+   */
   @property({ type: String }) buttonColor = "primary";
+  /**
+   * Button variant — `"outline"` (default), `"solid"`, `"ghost"`, `"link"`.
+   */
   @property({ type: String }) buttonVariant = "outline";
+  /**
+   * Icon name rendered as the button's prefix.
+   */
   @property({ type: String }) buttonIcon = "";
+  /**
+   * Label text for the header action button. Truncated at 15 characters.
+   */
   @property({ type: String }) buttonText = "";
+  /**
+   * When true, the header action button is disabled — pointer events are
+   * blocked and the button is dimmed.
+   */
   @property({ type: Boolean }) disabledButton = false;
+  /**
+   * Reveals the header action button. Despite the name, this toggles the
+   * entire button (not just its icon).
+   */
   @property({ type: Boolean }) showButtonIcon = false;
 
+  /**
+   * Column definitions forwarded to the wrapped `<ssk-table>`. Each
+   * column may carry a `type` (`"image" | "text" | "textsubtext" | "badge" |
+   * "action-icon"`) that maps to a built-in cell renderer; otherwise the
+   * value is rendered as-is.
+   */
   @property({ type: Array }) public tableColumns: any[] = [];
+  /**
+   * Row data forwarded to the wrapped `<ssk-table>`. Empty array reveals
+   * the `emptyImage` placeholder instead of the table body.
+   */
   @property({ type: Array }) public tableData: any[] = [];
+  /**
+   * Server-side total row count forwarded to the wrapped table for
+   * controlled pagination. Defaults to `0` (client-side).
+   */
   @property({ type: Number }) totalItems = 0;
+  /**
+   * Current page (1-indexed) forwarded to the wrapped table. Listen to
+   * `load-data` to fetch the next slice. Defaults to `1`.
+   */
   @property({ type: Number }) currentPage = 1;
+  /**
+   * Rows per page forwarded to the wrapped table. Defaults to `10`.
+   */
   @property({ type: Number }) rowsPerPage = 10;
 
+  /**
+   * Image URL displayed in the empty-state placeholder. Defaults to
+   * `/Blank.svg` when unset.
+   */
   @property({ type: String }) emptyImage = '';
 
+  /**
+   * Caps the number of numeric page buttons in the table's pagination
+   * footer. `0` (default) = no cap.
+   */
   @property({ type: Number }) maxVisiblePageButtons: number = 0;
 
   @state() private internalTableData: any[] = [];

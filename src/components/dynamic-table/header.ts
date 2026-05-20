@@ -13,16 +13,34 @@ import { dynamicTableContext, TableState } from "./table";
 export class HeaderCell extends LitElement {
   static registeredName = "ssk-header-cell";
 
+  /**
+   * Selection state shared by the parent `<ssk-dynamic-table>` via Lit
+   * context. Read-only from the header's perspective.
+   */
   @consume({ context: dynamicTableContext, subscribe: true })
   @property({ attribute: false })
   public tableState?: TableState;
 
+  /**
+   * Horizontal alignment of the header label — should mirror the cell
+   * alignment in the body for that column. Defaults to `"center"`.
+   */
   @property({ type: String })
   align: "left" | "center" | "right" = "center";
 
+  /**
+   * When true, renders the sort chevron icon and emits `sort-changed`
+   * when clicked. The parent owns the sort state — pass `sortDirection`
+   * back in to reflect the active direction.
+   */
   @property({ type: Boolean })
   sortable = false;
 
+  /**
+   * Active sort direction for this column — `"asc"` highlights the
+   * up-arrow, `"desc"` highlights the down-arrow, `undefined` shows the
+   * neutral chevron. Controlled by the parent listening to `sort-changed`.
+   */
   @property({ type: String })
   sortDirection?: "asc" | "desc";
 

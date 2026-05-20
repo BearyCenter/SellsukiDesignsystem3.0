@@ -26,21 +26,48 @@ export interface GridItem {
 export class WidgetGrid extends LitElement {
   static registeredName = 'ssk-widget-grid'
 
+  /**
+   * Sets `data-testid` on the grid container for stable selectors in E2E
+   * and visual tests.
+   */
   @property({ type: String })
   testId?: string
 
+  /**
+   * When true (default), children can be drag-reordered via gridstack.js.
+   * Set `false` for read-only dashboards — the underlying GridStack
+   * instance is disabled.
+   */
   @property({ type: Boolean, attribute: 'draggable' })
   draggable = true
 
+  /**
+   * Gap between grid items (CSS length). Defaults to `"16px"`.
+   */
   @property({ type: String, attribute: 'gap' })
   gap = '16px'
 
+  /**
+   * Pixel size of one grid track (both row height and the column unit
+   * used to compute width). Multiplied by `maxColumns` for the total
+   * grid width. Defaults to `88`.
+   */
   @property({ type: Number, attribute: 'grid-item-size' })
   gridItemSize = 88
 
+  /**
+   * Maximum column count of the responsive grid — defaults to `12`,
+   * matching the standard dashboard layout used by `<ssk-widget-table>`
+   * and other widgets.
+   */
   @property({ type: Number, attribute: 'max-columns' })
   maxColumns = 12
 
+  /**
+   * Optional persisted layout descriptor — array of
+   * `{ id, x, y, w, h, content }` objects. Currently informational; the
+   * runtime grid is built from slotted children that implement `Widget`.
+   */
   @property({ type: Array })
   items: GridItem[] = []
 

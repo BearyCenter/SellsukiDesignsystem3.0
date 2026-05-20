@@ -26,10 +26,19 @@ import { dynamicTableContext, TableState } from "./table";
 export class TableCell extends LitElement {
   static registeredName = "ssk-table-cell";
 
+  /**
+   * Selection state shared by the parent `<ssk-dynamic-table>` via Lit
+   * context. Read-only from the cell's perspective.
+   */
   @consume({ context: dynamicTableContext, subscribe: true })
   @property({ attribute: false })
   public tableState?: TableState;
 
+  /**
+   * Horizontal alignment of the cell's content — `"left"` for text columns,
+   * `"right"` for numeric / currency columns, `"center"` (default) for
+   * status badges and icons.
+   */
   @property({ type: String })
   align: "left" | "center" | "right" = "center";
 

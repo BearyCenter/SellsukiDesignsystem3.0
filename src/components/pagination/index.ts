@@ -29,78 +29,184 @@ import {
 export class Pagination extends LitElement {
   static registeredName = "ssk-pagination";
 
+  /**
+   * Theme object consumed from the ancestor `<ssk-theme-provider>` via Lit
+   * context. Set automatically — components rarely assign this directly.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Sets `data-testid` on the pagination container for stable selectors
+   * in E2E and visual tests.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Brand-context accent applied to the active page button background.
+   * Accepts a semantic role (`"primary"`) or a palette name. Defaults to `"primary"`.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Foreground (text) color for the active page button. Defaults to `"white"`.
+   */
   @property({ type: String })
   color?: string = "white";
+  /**
+   * Override for the container background. Use sparingly — defaults to
+   * `--bg-primary`.
+   */
   @property({ type: String })
   backgroundColor?: string | undefined;
 
+  /**
+   * Density / typography size step — `"xs" | "sm" | "md" | "lg" | "xl"`.
+   * Drives button font-size and padding. Defaults to `"sm"` (compact).
+   */
   @property({ type: String })
   size: Size = "sm";
+  /**
+   * Padding step override. Falls back to the `size` value when unset.
+   */
   @property({ type: String })
   padding?: Size;
+  /**
+   * Explicit font-size token for button / label text. Must resolve to
+   * >= 18px per DS 3.0 minimum.
+   */
   @property({ type: String })
   fontSize?: string | undefined;
+  /**
+   * Column gap between pagination controls (page list, prev/next, etc.).
+   */
   @property({ type: String })
   gap?: string | undefined;
+  /**
+   * Corner radius token applied to page buttons and the container.
+   */
   @property({ type: String })
   rounded?: string | undefined;
+  /**
+   * Outer margin applied to the pagination container.
+   */
   @property({ type: String })
   margin?: string | undefined;
 
   // font
+  /**
+   * Font-family group token — `"sans"` (default UI), `"serif"`, `"mono"`.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font-weight token for button labels — `"normal"`, `"medium"`,
+   * `"semibold"`, `"bold"`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  /**
+   * Override for page-button border width (e.g. `"1px"`).
+   */
   @property({ type: String })
   borderWidth?: string | undefined;
+  /**
+   * Fixed height for the container (e.g. `"40px"`).
+   */
   @property({ type: String })
   height?: string | undefined;
 
+  /**
+   * Current page (1-indexed). Controlled — listen to `page-changed` and
+   * update from the parent. Defaults to `1`.
+   */
   @property({ type: Number })
   currentPage = 1;
+  /**
+   * Total number of pages. Used to bound the prev/next/last navigation
+   * and to render the trailing ellipsis + last-page button.
+   */
   @property({ type: Number })
   totalPages = 1;
+  /**
+   * Rows per page — bound to the rows-per-page dropdown when
+   * `showRowsPerPage` is true. Listen to `rows-per-page-changed`.
+   */
   @property({ type: Number })
   rowsPerPage = 10;
 
+  /**
+   * Index of the first item visible on the current page — used by the
+   * "Showing X to Y of Z" label. Caller supplies this (table integration).
+   */
   @property({ type: Number })
   startItems = 1;
+  /**
+   * Index of the last item visible on the current page — used by the
+   * "Showing X to Y of Z" label.
+   */
   @property({ type: Number })
   endItems = 10;
+  /**
+   * Total item count across all pages — used by the "Showing X to Y of Z"
+   * label. Defaults to `100`.
+   */
   @property({ type: Number })
   allItems = 100;
 
+  /**
+   * Options shown in the rows-per-page dropdown. Defaults to
+   * `[10, 20, 50, 100]`.
+   */
   @property({ type: Array })
   selectedItems: number[] = [10, 20, 50, 100];
 
+  /**
+   * Shows the "Showing X to Y of Z items" label on the left side of the
+   * pagination row.
+   */
   @property({ type: Boolean, attribute: "showrowspage" })
   showRowsPage: boolean = false;
+  /**
+   * Shows the rows-per-page dropdown selector.
+   */
   @property({ type: Boolean, attribute: "showrowsperpage" })
   showRowsPerPage: boolean = false;
+  /**
+   * Shows the "Go to" numeric page-jump input on the right side.
+   */
   @property({ type: Boolean, attribute: "showgotopage" })
   showGoToPage: boolean = false;
+  /**
+   * Shows the first-page / last-page double-chevron buttons in addition
+   * to the prev/next single-chevrons.
+   */
   @property({ type: Boolean, attribute: "showbtnpage" })
   showBtnPage: boolean = false;
 
+  /**
+   * Compact mode — reduces button height and padding for dense toolbars.
+   */
   @property({ type: Boolean })
   min = false;
 
+  /**
+   * When true, the pagination container stretches to fill the parent's
+   * width; otherwise it sizes to content.
+   */
   @property({ type: Boolean })
   fullWidth = false;
 
+  /**
+   * Anchor direction for the rows-per-page dropdown popup. `"top"` opens
+   * upward (typical when pagination sits at the page bottom) — `"bottom"`
+   * is the default.
+   */
   @property({ type: String })
   dropdownAnchor: "top" | "bottom" = "bottom";
 

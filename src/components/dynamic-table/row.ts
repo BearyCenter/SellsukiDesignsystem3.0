@@ -27,15 +27,32 @@ import {
 export class TableRow extends LitElement {
   static registeredName = "ssk-table-row";
 
+  /**
+   * Selection state shared by the parent `<ssk-dynamic-table>` via Lit
+   * context. Used to render the row checkbox and selected styling.
+   */
   @consume({ context: dynamicTableContext, subscribe: true })
   @property({ attribute: false })
   public tableState?: TableState;
   public theme?: Theme;
 
+  /**
+   * Per-row padding step override — `"xs" | "sm" | "md" | "lg" | "xl"`.
+   * Falls back to the table-level `--table-padding` token.
+   */
   @property({ type: String })
   padding?: Size;
+  /**
+   * Custom border-bottom shorthand (e.g. `"2px solid #f00"`) for this row,
+   * overriding the table's default `1px solid var(--table-border-color)`.
+   */
   @property({ type: String })
   borderBottom?: string;
+  /**
+   * Expand state for collapsible detail rows. Reflected — set
+   * `expanded="false"` to hide the row via `display: none` without
+   * removing it from the DOM. Leave `undefined` for non-expandable rows.
+   */
   @property({ type: Boolean, reflect: true })
   expanded = undefined;
   render() {
