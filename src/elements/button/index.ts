@@ -151,39 +151,66 @@ export class Button extends LitElement {
   // ── Deprecated escape-hatch props (Stage 1 soft deprecation) ───────────────
   // Removed in DS 3.4.0. Use `tone` + `variant` instead. See DES-2011.
 
-  /** @deprecated Use `tone="..."` instead. Will be removed in DS 3.4.0. */
+  /**
+   * Legacy DS 1.0 color role / name. Bridged to `tone` in `willUpdate` so existing markup keeps working.
+   * @deprecated Use `tone="..."` instead. Will be removed in DS 3.4.0.
+   */
   @property({ type: String })
   themeColor?: ColorRole | ColorName;
 
-  /** @deprecated Use `tone="..."` for color theming. Will be removed in DS 3.4.0. */
+  /**
+   * Legacy DS 1.0 foreground color override. Bypasses brand-switching and DS 3.0 semantic tokens.
+   * @deprecated Use `tone="..."` for color theming. Will be removed in DS 3.4.0.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
 
-  /** @deprecated Use `tone="..."` instead. Bypasses brand-switching. Will be removed in DS 3.4.0. */
+  /**
+   * Legacy raw background color override (any CSS color). Bypasses brand tokens and triggers a console warning at runtime.
+   * @deprecated Use `tone="..."` instead. Bypasses brand-switching. Will be removed in DS 3.4.0.
+   */
   @property({ type: String })
   backgroundColor?: string;
 
-  /** @deprecated Use `variant="outline"` + `tone="..."`. Will be removed in DS 3.4.0. */
+  /**
+   * Legacy raw border color override (any CSS color). Bypasses brand tokens and triggers a console warning at runtime.
+   * @deprecated Use `variant="outline"` + `tone="..."`. Will be removed in DS 3.4.0.
+   */
   @property({ type: String })
   borderColor?: string;
 
-  /** @deprecated Use `size="..."` (token-bound). Below 18px violates DS 3.0 minimum. Will be removed in DS 3.4.0. */
+  /**
+   * Legacy raw font-size override (any CSS length). Bypasses the size-bound `--font-size-button` token and can violate the DS 3.0 18px minimum.
+   * @deprecated Use `size="..."` (token-bound). Below 18px violates DS 3.0 minimum. Will be removed in DS 3.4.0.
+   */
   @property({ type: String })
   fontSize?: string;
 
-  /** @deprecated Bound to `size`. Will be removed in DS 3.4.0. */
+  /**
+   * Legacy raw line-height override (any CSS length). Bypasses the size-bound vertical rhythm.
+   * @deprecated Bound to `size`. Will be removed in DS 3.4.0.
+   */
   @property({ type: String })
   lineHeight?: string;
 
-  /** @deprecated Bound to `variant`. Will be removed in DS 3.4.0. */
+  /**
+   * Legacy raw border-width override (any CSS length). Bypasses the variant-bound border thickness.
+   * @deprecated Bound to `variant`. Will be removed in DS 3.4.0.
+   */
   @property({ type: String })
   borderWidth?: string;
 
-  /** @deprecated Use elevation tokens via `theme.components.button`. Will be removed in DS 3.4.0. */
+  /**
+   * Legacy raw `box-shadow` override (any CSS shadow). Bypasses DS 3.0 `--elevation-*` tokens.
+   * @deprecated Use elevation tokens via `theme.components.button`. Will be removed in DS 3.4.0.
+   */
   @property({ type: String })
   boxShadow?: string;
 
-  /** @deprecated Use elevation tokens. Will be removed in DS 3.4.0. */
+  /**
+   * Legacy raw `filter: drop-shadow()` override (any CSS shadow). Bypasses DS 3.0 `--elevation-*` tokens.
+   * @deprecated Use elevation tokens. Will be removed in DS 3.4.0.
+   */
   @property({ type: String })
   dropShadow?: string;
 

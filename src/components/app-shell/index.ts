@@ -29,24 +29,45 @@ import { property } from "lit/decorators.js";
 export class AppShell extends LitElement {
   static registeredName = "ssk-app-shell";
 
+  /**
+   * Height of the sticky top navbar row (any CSS length). Defaults to `60px` — matches the DS 3.0 `<ssk-top-navbar>` spec.
+   */
   @property({ type: String, attribute: "navbar-height" })
   navbarHeight = "60px";
 
+  /**
+   * Width of the left sidebar column when expanded (any CSS length). Defaults to `256px`.
+   */
   @property({ type: String, attribute: "sidebar-width" })
   sidebarWidth = "256px";
 
+  /**
+   * Width of the left sidebar column when collapsed into icon-only mini mode (any CSS length). Defaults to `72px`.
+   */
   @property({ type: String, attribute: "sidebar-collapsed-width" })
   sidebarCollapsedWidth = "72px";
 
+  /**
+   * Reflects collapsed state — when true the body grid shrinks to `sidebarCollapsedWidth`. Attribute is reflected so consumers can animate the icon-only transition with CSS.
+   */
   @property({ type: Boolean, attribute: "sidebar-collapsed", reflect: true })
   sidebarCollapsed = false;
 
+  /**
+   * Hide the sidebar slot entirely and let `content` span full width — use on pages that don't need a left nav (sign-in, marketing).
+   */
   @property({ type: Boolean, attribute: "no-sidebar" })
   noSidebar = false;
 
+  /**
+   * Hide the navbar slot entirely and let the body span the full grid height — use for full-bleed flows without top chrome.
+   */
   @property({ type: Boolean, attribute: "no-navbar" })
   noNavbar = false;
 
+  /**
+   * Stable `data-testid` attribute applied to the shell root for E2E test selectors.
+   */
   @property({ type: String, attribute: "test-id" })
   testId?: string;
 

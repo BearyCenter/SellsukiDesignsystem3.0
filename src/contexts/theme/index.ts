@@ -37,10 +37,16 @@ export const themeContext = createContext<Theme>("ssk-theme-context");
  * `DS3_VIBECODE_PRODUCTION_PLAN.md` §10.1 for the audit.
  */
 export class ThemeProvider extends LitElement {
+  /**
+   * Theme object published on Lit context. Defaults to {@link defaultTheme}; override to swap component-level token bundles.
+   */
   @provide({ context: themeContext })
   @property({ attribute: false })
   theme: Theme = defaultTheme;
 
+  /**
+   * Strict DS 3.0 brand key (`ccs3` / `patona` / `oc2plus`) used to inject semantic tokens at runtime. Leave unset to keep the default brand.
+   */
   @property({ type: String })
   brand?: Brand;
 

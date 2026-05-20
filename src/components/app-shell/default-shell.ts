@@ -123,75 +123,146 @@ export class DefaultShell extends LitElement {
   static registeredName = "ssk-default-shell";
 
   // ── Brand ────────────────────────────────────────────────────────────
+  /**
+   * Friendly product brand name forwarded to the internal `<ssk-app-shell-provider>` — one of
+   * `sellsuki`, `patona`, `shipmunk`, `akita`, `sellsukipay`, `sukispace`, `oc2plus`, `ccs3`.
+   * Drives the injected semantic tokens for every descendant of this shell.
+   */
   @property({ type: String })
   brand: AppShellBrand = "sellsuki";
 
   // ── Company / user identity ──────────────────────────────────────────
+  /**
+   * Company / workspace name shown in the sidebar account-switcher header. Leave empty to skip the header block.
+   */
   @property({ type: String, attribute: "company-name" })
   companyName = "";
 
+  /**
+   * Secondary line under the company name (typically a branch or location). Rendered with `--fg-brand-primary` accent.
+   */
   @property({ type: String, attribute: "company-branch" })
   companyBranch = "";
 
+  /**
+   * URL of the company avatar image rendered alongside `companyName` in the sidebar header.
+   */
   @property({ type: String, attribute: "company-avatar" })
   companyAvatar = "";
 
+  /**
+   * URL of the user avatar shown at the right end of the navbar. Required for the `user-click` icon to render.
+   */
   @property({ type: String, attribute: "user-avatar" })
   userAvatar = "";
 
+  /**
+   * Accessible label for the user avatar (used as `alt`). Falls back to `"user"` when omitted.
+   */
   @property({ type: String, attribute: "user-name" })
   userName = "";
 
   // ── Logo (navbar left) ───────────────────────────────────────────────
+  /**
+   * URL of the brand mark rendered at the left edge of the navbar. Leave empty to omit the logo cluster.
+   */
   @property({ type: String, attribute: "logo-src" })
   logoSrc = "";
 
+  /**
+   * Accessible alt text for the brand mark image. Defaults to empty — set for non-decorative logos.
+   */
   @property({ type: String, attribute: "logo-alt" })
   logoAlt = "";
 
+  /**
+   * URL of the wordmark image rendered next to the brand mark. When set, the logo switches to full (mark + wordmark) layout.
+   */
   @property({ type: String, attribute: "logo-name-src" })
   logoNameSrc = "";
 
+  /**
+   * Accessible alt text for the wordmark image. Pair with `logoNameSrc`.
+   */
   @property({ type: String, attribute: "logo-name-alt" })
   logoNameAlt = "";
 
   // ── Search (navbar center) ───────────────────────────────────────────
+  /**
+   * Show the centered search input in the navbar. Toggle off for product flows that don't need global search.
+   */
   @property({ type: Boolean, attribute: "show-search" })
   showSearch = true;
 
+  /**
+   * Placeholder text for the navbar search input. Defaults to Thai `"ค้นหา"` — localize per product.
+   */
   @property({ type: String, attribute: "search-placeholder" })
   searchPlaceholder = "ค้นหา";
 
+  /**
+   * Two-way bound value of the search input. Updates on every keystroke; emits `search-input` and (on Enter) `search-submit`.
+   */
   @property({ type: String, attribute: "search-value" })
   searchValue = "";
 
   // ── Right-cluster icons ──────────────────────────────────────────────
+  /**
+   * Show the notification bell icon in the navbar right cluster. Emits `notifications-click` when activated.
+   */
   @property({ type: Boolean, attribute: "show-notifications" })
   showNotifications = true;
 
+  /**
+   * Show the 3×3 app-grid switcher icon in the navbar right cluster. Emits `appgrid-click` when activated.
+   */
   @property({ type: Boolean, attribute: "show-app-grid" })
   showAppGrid = true;
 
   // ── Layout ───────────────────────────────────────────────────────────
+  /**
+   * Reflects collapsed state of the sidebar — toggled by the hamburger button. When true the sidebar renders in icon-only mini mode and fires `sidebar-toggle`.
+   */
   @property({ type: Boolean, attribute: "sidebar-collapsed", reflect: true })
   sidebarCollapsed = false;
 
+  /**
+   * Expanded sidebar column width forwarded to `<ssk-app-shell>` (any CSS length). Defaults to `256px`.
+   */
   @property({ type: String, attribute: "sidebar-width" })
   sidebarWidth = "256px";
 
+  /**
+   * Navbar row height forwarded to `<ssk-app-shell>` (any CSS length). Defaults to `64px` — matches the DS 3.0 navbar spec.
+   */
   @property({ type: String, attribute: "navbar-height" })
   navbarHeight = "64px";
 
   // ── Menu data (prop-driven mode) ─────────────────────────────────────
+  /**
+   * Sidebar menu tree — array of `DefaultShellMenuGroup` (`{ key, label, items: DefaultShellMenuItem[] }`)
+   * where each item has `{ key, label, icon?, disabled? }`. Set this for prop-driven rendering, or override
+   * via the `sidebar-menu` slot for full markup control.
+   */
   @property({ type: Array })
   menu: DefaultShellMenuGroup[] = [];
 
+  /**
+   * Footer item list rendered below the sidebar menu — array of `DefaultShellMenuItem` (`{ key, label, icon?, disabled? }`).
+   * Clicks emit `menu-select` with the item's key. Override via the `sidebar-footer` slot.
+   */
   @property({ type: Array })
   footerItems: DefaultShellMenuItem[] = [];
 
+  /**
+   * Key of the currently active menu item — drives the `actived` highlight in the sidebar. Updates on `menu-select` so consumers can persist state externally.
+   */
   @property({ type: String, attribute: "selected-key" })
   selectedKey = "";
 
+  /**
+   * Keys of the currently expanded menu groups. Defaults to an empty array, in which case all groups expand. Updated on `expanded-groups-changed` from the sidebar.
+   */
   @property({ type: Array })
   expandedGroups: string[] = [];
 

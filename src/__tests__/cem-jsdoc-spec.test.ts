@@ -25,7 +25,7 @@ const MANIFEST = path.resolve(__dirname, "..", "..", "dist", "custom-elements.js
 
 const audit = auditManifest(MANIFEST);
 
-// Baselines captured 2026-05-19 against v3.5.2 (95 components, 1139 attrs).
+// Baselines captured against v3.5.2 (95 components, 1139 attrs).
 // Ratchet rule: each PR that adds JSDoc must lower the relevant baseline.
 //
 // Update history:
@@ -34,13 +34,16 @@ const audit = auditManifest(MANIFEST);
 //   2026-05-19  class JSDoc batch (67 components) — components 67→0, slots 0→0
 //               (60/60), cssParts 4→0 (5/5) [side-effect of slot/csspart tags
 //               authored alongside class descriptions]
+//   2026-05-20  attr/field JSDoc 7 batches (3.5.5 → 3.5.11) — attrs 1133→0,
+//               fields 1282→144 (89%). Remaining field gap is pattern + context
+//               consumer fields without @property decorator.
 const BASELINE = {
-  componentsMissing: 0,    // 100% covered as of 2026-05-19 batch — keep at 0
-  attributesMissing: 1133,
-  fieldsMissing:     1282,
-  eventsMissing:     0,    // 100% covered as of 2026-05-19 batch — keep at 0
+  componentsMissing: 0,    // 100% covered — keep at 0
+  attributesMissing: 0,    // 100% covered as of 2026-05-20 — keep at 0
+  fieldsMissing:     144,  // pattern + context-consumer fields without @property
+  eventsMissing:     0,    // 100% covered — keep at 0
   slotsMissing:      0,    // 100% covered — keep at 0
-  cssPartsMissing:   0,    // 100% covered as of 2026-05-19 batch — keep at 0
+  cssPartsMissing:   0,    // 100% covered — keep at 0
 } as const;
 
 describe.skipIf(audit === null)("CEM JSDoc coverage ratchet", () => {

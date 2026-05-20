@@ -46,6 +46,11 @@ const BRAND_MAP: Record<AppShellBrand, Brand> = {
 export class AppShellProvider extends LitElement {
   static registeredName = "ssk-app-shell-provider";
 
+  /**
+   * Friendly product brand name — one of `sellsuki`, `patona`, `shipmunk`, `akita`, `sellsukipay`,
+   * `sukispace`, `oc2plus`, or `ccs3`. Mapped to a strict DS 3.0 `Brand` via {@link BRAND_MAP}
+   * and applied via {@link injectSemanticTokens}.
+   */
   @property({ type: String })
   brand: AppShellBrand = "sellsuki";
 
@@ -57,6 +62,9 @@ export class AppShellProvider extends LitElement {
   @property({ attribute: false })
   tokenBrand: Brand = "ccs3";
 
+  /**
+   * Stable `data-testid` attribute applied to the host wrapper for E2E test selectors.
+   */
   @property({ type: String, attribute: "test-id" })
   testId?: string;
 

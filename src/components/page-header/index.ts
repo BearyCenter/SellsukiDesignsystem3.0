@@ -13,10 +13,25 @@ import "../../elements/icon";
 export class PageHeader extends LitElement {
   static registeredName = "ssk-page-header";
 
+  /**
+   * Page title rendered as the `<h1>` heading. Token-bound to `--font-size-h4` (24px) to match the DS 3.0 page-title spec inside `<ssk-app-shell>` / `<ssk-default-shell>`.
+   */
   @property({ type: String }) title = "";
+  /**
+   * Optional subtitle shown beneath the title. Token-bound to `--font-size-p` (20px). Leave empty to hide.
+   */
   @property({ type: String }) subtitle = "";
+  /**
+   * Render an inline back button to the left of the title. The button fires the `back` event — consumers wire it to navigation.
+   */
   @property({ type: Boolean, attribute: "show-back" }) showBack = false;
+  /**
+   * Accessible label for the back button (used as `aria-label`). Defaults to `"Back"`; localize as needed.
+   */
   @property({ type: String, attribute: "back-label" }) backLabel = "Back";
+  /**
+   * Stable `data-testid` attribute applied to the header wrapper for E2E test selectors.
+   */
   @property({ type: String, attribute: "test-id" }) testId?: string;
 
   private _onBack() {

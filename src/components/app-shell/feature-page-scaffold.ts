@@ -29,12 +29,21 @@ import { property } from "lit/decorators.js";
 export class FeaturePageScaffold extends LitElement {
   static registeredName = "ssk-feature-page-scaffold";
 
+  /**
+   * Outer padding applied to all four zones (any CSS length). Defaults to `24px` — match the DS 3.0 `--space-page-*` page rhythm.
+   */
   @property({ type: String })
   padding = "24px";
 
+  /**
+   * Stretch the scaffold to fill its parent's height so the `content` slot scrolls inside `<ssk-app-shell>`. Off by default.
+   */
   @property({ type: Boolean, attribute: "full-height" })
   fullHeight = false;
 
+  /**
+   * Stable `data-testid` attribute applied to the scaffold wrapper for E2E test selectors.
+   */
   @property({ type: String, attribute: "test-id" })
   testId?: string;
 
