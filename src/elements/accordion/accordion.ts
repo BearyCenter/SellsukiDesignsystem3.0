@@ -106,6 +106,10 @@ export class Accordion extends LitElement {
   @property({ type: String })
   variant: "clean" | "bordered" = "clean";
 
+  /**
+   * Internal — slotted `<ssk-accordion-item>` children resolved via `@queryAssignedElements`.
+   * Consumers don't read this directly; the accordion uses it to coordinate single-mode close behavior.
+   */
   @queryAssignedElements({ flatten: true })
   items!: HTMLElement[];
 
@@ -119,6 +123,10 @@ export class Accordion extends LitElement {
     this.removeEventListener("accordion-toggle", this.handleToggle);
   }
 
+  /**
+   * Internal — `accordion-toggle` event handler bound via arrow-fn-as-field for `this` capture.
+   * Enforces single-mode (only one item open at a time) vs multiple-mode behavior.
+   */
   handleToggle = (e: Event) => {
     const customEvent = e as CustomEvent<{ id: string }>;
     const clickedId = customEvent.detail.id;

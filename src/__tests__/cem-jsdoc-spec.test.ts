@@ -35,15 +35,17 @@ const audit = auditManifest(MANIFEST);
 //               (60/60), cssParts 4→0 (5/5) [side-effect of slot/csspart tags
 //               authored alongside class descriptions]
 //   2026-05-20  attr/field JSDoc 7 batches (3.5.5 → 3.5.11) — attrs 1133→0,
-//               fields 1282→144 (89%). Remaining field gap is pattern + context
-//               consumer fields without @property decorator.
+//               fields 1282→144 (89%).
+//   2026-05-20  field audit filter refined (skip registeredName / static /
+//               `_`-prefixed) + final 8 real public fields authored — fields
+//               144→0. ALL CATEGORIES NOW AT 100%; ratchet is zero-tolerance.
 const BASELINE = {
-  componentsMissing: 0,    // 100% covered — keep at 0
-  attributesMissing: 0,    // 100% covered as of 2026-05-20 — keep at 0
-  fieldsMissing:     144,  // pattern + context-consumer fields without @property
-  eventsMissing:     0,    // 100% covered — keep at 0
-  slotsMissing:      0,    // 100% covered — keep at 0
-  cssPartsMissing:   0,    // 100% covered — keep at 0
+  componentsMissing: 0,
+  attributesMissing: 0,
+  fieldsMissing:     0,
+  eventsMissing:     0,
+  slotsMissing:      0,
+  cssPartsMissing:   0,
 } as const;
 
 describe.skipIf(audit === null)("CEM JSDoc coverage ratchet", () => {

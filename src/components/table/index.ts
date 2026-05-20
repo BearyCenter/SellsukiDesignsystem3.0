@@ -273,6 +273,10 @@ export class Table extends LitElement {
     };
   } = {};
 
+  /**
+   * Computed total pages — either `totalPaginationPages / rowsPerPage` for server-side mode, or
+   * `data.length / rowsPerPage` for client-side, clamped by `maxVisiblePageButtons` when set.
+   */
   get restrictedTotalPages(): number {
       const calculatedPages = 
           this.totalPaginationPages > 0

@@ -111,6 +111,10 @@ export class DateDisplay extends LitElement {
     "2xl": "xl",
   };
 
+  /**
+   * Per-locale dayjs date format strings. Used when `dateFormat` prop is unset.
+   * Defaults: `th` (Thai Buddhist year), `en`, `fr`, `de` — extend by mutating the field via property binding.
+   */
   localeDateFormat: Record<string, string> = {
     th: "D MMM BBBB",
     en: "MMM DD, YYYY",
@@ -118,6 +122,10 @@ export class DateDisplay extends LitElement {
     de: "DD.MM.YYYY",
   };
 
+  /**
+   * Per-locale dayjs time format strings. Used when `timeFormat` prop is unset.
+   * Defaults: `th` / `fr` / `de` use 24h, `en` uses 12h with AM/PM.
+   */
   localeTimeFormat: Record<string, string> = {
     th: "HH:mm",
     en: "hh:mm A",

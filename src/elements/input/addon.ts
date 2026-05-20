@@ -142,10 +142,16 @@ export class InputAddon
   @property({ type: Boolean })
   hidden = false;
 
+  /**
+   * Internal — `true` when this addon is rendered into the parent input's `prefix` slot. Drives border-radius + padding styling.
+   */
   get hasPrefix(): boolean {
     return this.getAttribute("slot") === "prefix";
   }
 
+  /**
+   * Internal — `true` when this addon is rendered into the parent input's `postfix` slot.
+   */
   get hasPostfix(): boolean {
     return this.getAttribute("slot") === "postfix";
   }

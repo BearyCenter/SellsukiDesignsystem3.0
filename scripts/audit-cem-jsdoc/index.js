@@ -93,12 +93,22 @@ export function auditManifest(manifestPath = MANIFEST) {
         if (hasDescription(attr)) result.attributes.withDescription++;
       }
       for (const member of decl.members ?? []) {
-        // Public fields = the prop surface AI sees. Private/protected fields
-        // are implementation detail — don't count them against coverage.
-        if (member.kind === "field" && !member.privacy) {
-          result.fields.total++;
-          if (hasDescription(member)) result.fields.withDescription++;
-        }
+        // Count only the *real* public-field surface AI consumers see:
+        // - Skip if TS `private`/`protected` modifier is set
+        // - Skip static fields (class-level, not instance-level surface)
+        // - Skip `registeredName` — internal infrastructure for the custom-
+        //   element registration guard pattern, every component has one
+        // - Skip `_xxx`-prefixed fields — Lit `@state` declarations missing
+        //   the `private` keyword. By convention `_` prefix means private; the
+        //   analyzer can't see that without the keyword, but humans + AI both
+        //   treat them as internal
+        if (member.kind !== "field") continue;
+        if (member.privacy) continue;
+        if (member.static) continue;
+        if (member.name === "registeredName") continue;
+        if (typeof member.name === "string" && member.name.startsWith("_")) continue;
+        result.fields.total++;
+        if (hasDescription(member)) result.fields.withDescription++;
       }
       for (const ev of decl.events ?? []) {
         result.events.total++;

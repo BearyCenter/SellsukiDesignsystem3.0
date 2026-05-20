@@ -155,6 +155,10 @@ export class Inputtag extends LitElement {
     @property({ type: String })
     value: string = "";
 
+    /**
+     * Internal — cumulative character count across all tags, recomputed by `calculateTotalChars()`.
+     * Drives the `(N/limit)` counter and the per-tag `maxlength` budget.
+     */
     totalChars: number = 0;
 
     calculateTotalChars() {
