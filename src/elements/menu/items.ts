@@ -42,52 +42,112 @@ import {
 export class MenuItems extends LitElement implements ThemeValue {
   static registeredName = "ssk-menu-items";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the menu row for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 
   // ThemeValue
+  /**
+   * Visual density of the menu row — `xs` / `sm` / `md` / `lg` / `xl`. Drives padding, font size, gap, and radius via design tokens. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Brand accent for hover and active backgrounds — falls back to `--fg-brand-primary` from `<ssk-app-shell-provider>` brand context. Pass an explicit `ColorRole` to override.
+   */
   @property({ type: String })
   themeColor: string = "primary";
+  /**
+   * Override the outer margin around the row (any CSS shorthand).
+   */
   @property({ type: String })
   margin?: string;
+  /**
+   * Override the row width (any CSS length). Leave unset to stretch to the parent menu.
+   */
   @property({ type: String })
   width?: string | undefined;
+  /**
+   * Override the row height (any CSS length). Leave unset to fit content.
+   */
   @property({ type: String })
   height?: string | undefined;
+  /**
+   * Override the gap between the prefix slot, label, and postfix slot (any CSS length).
+   */
   @property({ type: String })
   gap?: string | undefined;
+  /**
+   * Override the corner radius (any CSS length). Defaults to the size-bound `--radius-*` token.
+   */
   @property({ type: String })
   rounded?: string | undefined;
+  /**
+   * Optional override for the label text color (`ColorRole` or `ColorName`). Leave unset to inherit from the menu.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
+  /**
+   * Override the label font size (any CSS length). Stay above 18px (`--font-size-caption`) for the DS 3.0 minimum.
+   */
   @property({ type: String })
   fontSize?: string | undefined;
+  /**
+   * Override the row padding (any CSS shorthand).
+   */
   @property({ type: String })
   padding?: string;
 
   // font
+  /**
+   * Font family group — `sans` (default body face) or `mono` for fixed-width labels.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight token for the row label — typically `normal` or `medium`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  /**
+   * Visual style — `solid` for filled active highlight, `light` for tinted, `outline` for bordered. Defaults to `solid`.
+   */
   @property({ type: String })
   variant: MenuVariants = "solid";
+  /**
+   * When `true`, the row is omitted from the rendered tree entirely.
+   */
   @property({ type: Boolean })
   hidden = false;
+  /**
+   * Label text shown for the row. Prefer slotting text content instead for richer markup; this prop is a convenience for simple labels.
+   */
   @property({ type: String })
   label?: string | undefined;
+  /**
+   * Renders disabled — clicks are ignored and the row shows the `--bg-disabled` / `--text-disabled` palette.
+   */
   @property({ type: Boolean })
   disabled = false;
+  /**
+   * When `true`, the row renders with the active highlight (selected state). The parent menu typically owns this state.
+   */
   @property({ type: Boolean })
   active = false;
+  /**
+   * When `true`, renders only the prefix slot (compact icon-only row) — used inside collapsed sidebars or dense menu rails.
+   */
   @property({ type: Boolean })
   min = false;
 

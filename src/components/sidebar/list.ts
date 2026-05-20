@@ -26,6 +26,9 @@ export class SidebarList extends LitElement {
   static registeredName = "ssk-sidebar-list";
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the list container for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 

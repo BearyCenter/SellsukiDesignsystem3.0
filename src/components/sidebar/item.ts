@@ -33,17 +33,32 @@ export class SidebarItems extends LitElement {
   private state?: State;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the item container for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Stable identifier used by the parent `<ssk-sidebar>` to track active selection via the `selectedItems` array. Must be unique within the sidebar.
+   */
   @property({ type: String })
   key: string = "";
 
+  /**
+   * Label text shown when the sidebar is expanded. Prefer slotting text content instead for richer markup; this prop is a convenience for simple labels.
+   */
   @property({ type: String })
   label?: string | undefined;
+  /**
+   * Renders disabled — clicks and keyboard focus are ignored, and the item shows the `--bg-disabled` / `--text-disabled` palette.
+   */
   @property({ type: Boolean })
   disabled = false;
 
+  /**
+   * Manual override for the active state — when set, ignores `<ssk-sidebar>` context tracking. Leave `undefined` to let the parent sidebar control via its `selectedItems` array.
+   */
   @property({ type: Boolean })
   actived?: boolean = undefined;
 

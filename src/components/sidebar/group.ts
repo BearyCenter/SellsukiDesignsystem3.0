@@ -31,15 +31,27 @@ export class SidebarGroup extends LitElement {
   private state?: State;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the group header for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Stable identifier used by the parent `<ssk-sidebar>` to track which groups are open via the `expandedGroups` array. Must be unique within the sidebar.
+   */
   @property({ type: String })
   key: string = "";
 
+  /**
+   * Heading text shown above the group's items when the sidebar is expanded — hidden automatically in icon-only mini mode.
+   */
   @property({ type: String })
   label?: string | undefined;
 
+  /**
+   * Manual override for the open state — when set, ignores `<ssk-sidebar>` context tracking. Leave `undefined` to let the parent sidebar control via its `expandedGroups` array.
+   */
   @property({ type: Boolean })
   expanded?: boolean = undefined;
 

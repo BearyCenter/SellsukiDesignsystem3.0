@@ -35,26 +35,47 @@ import {
 export class TabButton extends LitElement {
   static registeredName = "ssk-tab-button";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the tab trigger for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Visual style — must match the parent `<ssk-tab-header variant>`. `inline` is underlined text, `button` is a pill.
+   */
   @property({ type: String })
   variant: "inline" | "button" = "inline";
 
+  /**
+   * Tab text size — must match the parent `<ssk-tab-header size>`. Defaults to `md`.
+   */
   @property({ type: String })
   size: "sm" | "md" = "md";
 
+  /**
+   * Optional fixed width (any CSS length). Leave unset to auto-size to the label content.
+   */
   @property({ type: String })
   width?: string | undefined;
 
+  /**
+   * Brand accent for the active underline / text color — falls back to `--fg-brand-primary` from `<ssk-app-shell-provider>` brand context. Pass an explicit `ColorRole` to override.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName = "primary.500";
 
+  /**
+   * When `true`, applies selected styling (underline for `inline`, surface-tinted pill for `button`). Parent `<ssk-tab-header>` typically owns this state and flips it in response to click events.
+   */
   @property({ type: Boolean })
   active = false;
 

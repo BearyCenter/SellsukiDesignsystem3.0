@@ -45,47 +45,95 @@ export interface TimelineItem {
 export class Timeline extends LitElement {
     static registeredName = "ssk-timeline";
 
+    /**
+     * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+     */
     @consume({ context: themeContext, subscribe: true })
     @property({ attribute: false })
     public theme?: Theme;
 
     // BaseAttributes
+    /**
+     * Stable `data-testid` attribute applied to the timeline container for E2E test selectors.
+     */
     @property({ type: String })
     testId?: string;
 
     // ThemeValue
+    /**
+     * Brand accent for the in-progress event dot — falls back to `--fg-brand-primary` from `<ssk-app-shell-provider>` brand context. Pass an explicit `ColorRole` to override.
+     */
     @property({ type: String })
     themeColor: ColorRole | ColorName = "primary";
+    /**
+     * Optional override for event title color (`ColorRole` or `ColorName`). Leave unset to use `--text-primary`.
+     */
     @property({ type: String })
     color?: ColorRole | ColorName;
+    /**
+     * Optional surface color behind the timeline (any CSS color).
+     */
     @property({ type: String })
     backgroundColor?: string | undefined;
 
+    /**
+     * Visual size scale — `xs` / `sm` / `md` / `lg` / `xl`. Controls font tokens and spacing between events. Defaults to `md`.
+     */
     @property({ type: String })
     size: Size = "md";
+    /**
+     * Override the padding token — accepts the same `xs`–`xl` scale as `size`. Leave unset to inherit from `size`.
+     */
     @property({ type: String })
     padding?: Size;
+    /**
+     * Override the event title font size (any CSS length). Stay above 18px (`--font-size-caption`) for the DS 3.0 minimum.
+     */
     @property({ type: String })
     fontSize?: string | undefined;
+    /**
+     * Override the gap between timeline events (any CSS length).
+     */
     @property({ type: String })
     gap?: string | undefined;
+    /**
+     * Override the corner radius for event surfaces (any CSS length). Defaults to the size-bound `--radius-*` token.
+     */
     @property({ type: String })
     rounded?: string | undefined;
+    /**
+     * Override the outer margin around the timeline (any CSS shorthand).
+     */
     @property({ type: String })
     margin?: string | undefined;
 
     // font
+    /**
+     * Font family group — `sans` (default body face) or `mono` for fixed-width timestamps.
+     */
     @property({ type: String })
     fontFamilyGroup: FontFamilyGroup = "sans";
+    /**
+     * Font weight token for event titles — typically `normal`.
+     */
     @property({ type: String })
     fontWeight: FontWeight = "normal";
 
+    /**
+     * Ordered list of timeline events. Each item has `title`, `subTitle` (timestamp / context), `description`, and `status` (`completed` / `in-progress` / `pending`) which styles the connector segment leading into it.
+     */
     @property({ type: Array })
     Items: TimelineItem[] = [];
 
+    /**
+     * When `true`, the timeline is omitted from the rendered tree entirely.
+     */
     @property({ type: Boolean })
     hidden = false;
 
+    /**
+     * Layout orientation — `vertical` (default, stacked column) or `horizontal` (scrollable row).
+     */
     @property({ type: String })
     display: "vertical" | "horizontal" = "vertical";
     render() {

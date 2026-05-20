@@ -11,12 +11,24 @@ import { property } from "lit/decorators.js";
 export class AccordionItem extends LitElement {
   static registeredName = "ssk-accordion-item";
 
+  /**
+   * Stable identifier used by the parent `<ssk-accordion>` to decide which item to open/close in response to `accordion-toggle`. Must be unique within the accordion.
+   */
   @property({ type: String })
   id = "";
+  /**
+   * Header text shown in the trigger row. For rich markup, slot content into the `title` slot instead and leave this empty.
+   */
   @property({ type: String })
   title = "";
+  /**
+   * When `true`, the panel content is visible. The parent `<ssk-accordion>` owns this state and flips it in response to `accordion-toggle` based on its `mode` (`single` / `multiple`).
+   */
   @property({ type: Boolean, reflect: true })
   open = false;
+  /**
+   * Horizontal alignment of the header text — `left` (default), `center`, or `right`. The parent `<ssk-accordion>` syncs this from its own `align` prop.
+   */
   @property({ type: String, reflect: true })
   align: "left" | "center" | "right" = "left";
 

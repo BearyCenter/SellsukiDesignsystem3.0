@@ -48,56 +48,113 @@ export class Stepper extends LitElement {
     
     static registeredName = "ssk-stepper";
 
+    /**
+     * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+     */
     @consume({ context: themeContext, subscribe: true })
     @property({ attribute: false })
     public theme?: Theme;
 
     // BaseAttributes
+    /**
+     * Stable `data-testid` attribute applied to the stepper container for E2E test selectors.
+     */
     @property({ type: String })
     testId?: string;
 
     // ThemeValue
+    /**
+     * Brand accent for the active step circle and progress ring — falls back to `--fg-brand-primary` from `<ssk-app-shell-provider>` brand context. Pass an explicit `ColorRole` to override.
+     */
     @property({ type: String })
     themeColor: ColorRole | ColorName = "primary";
+    /**
+     * Optional override for the step text color (`ColorRole` or `ColorName`). Leave unset to use `--text-primary`.
+     */
     @property({ type: String })
     color?: ColorRole | ColorName;
+    /**
+     * Optional surface color behind the stepper (any CSS color).
+     */
     @property({ type: String })
     backgroundColor?: string | undefined;
 
+    /**
+     * Visual size scale — `xs` / `sm` / `md` / `lg` / `xl`. Controls circle size and font tokens. Defaults to `md`.
+     */
     @property({ type: String })
     size: Size = "md";
+    /**
+     * Override the padding token — accepts the same `xs`–`xl` scale as `size`. Leave unset to inherit from `size`.
+     */
     @property({ type: String })
     padding?: Size;
+    /**
+     * Override the step label font size (any CSS length). Stay above 18px (`--font-size-caption`) for the DS 3.0 minimum.
+     */
     @property({ type: String })
     fontSize?: string | undefined;
+    /**
+     * Override the gap between steps (any CSS length).
+     */
     @property({ type: String })
     gap?: string | undefined;
+    /**
+     * Override the corner radius (any CSS length). Defaults to the size-bound `--radius-*` token.
+     */
     @property({ type: String })
     rounded?: string | undefined;
+    /**
+     * Override the outer margin around the stepper (any CSS shorthand).
+     */
     @property({ type: String })
     margin?: string | undefined;
 
     // font
+    /**
+     * Font family group — `sans` (default body face) or `mono` for fixed-width labels.
+     */
     @property({ type: String })
     fontFamilyGroup: FontFamilyGroup = "sans";
+    /**
+     * Font weight token for step titles — typically `normal` (default) or `medium`.
+     */
     @property({ type: String })
     fontWeight: FontWeight = "normal";
 
+    /**
+     * Ordered list of steps. Each step has `title`, `description`, `status` (`finish` / `process` / `wait` / `error`), and optional `progress` (0–100 for the ring fill) and `icon` override.
+     */
     @property({ type: Array })
     steps: Step[] = [];
 
+    /**
+     * Zero-based index of the active step — drives the highlighted circle and divider styling. Defaults to `0`.
+     */
     @property({ type: Number })
     currentStep = 0;
 
+    /**
+     * Alias for `currentStep` retained for backward compatibility. Prefer `currentStep` in new code.
+     */
     @property({ type: Number })
     activeIndex = 0;
-    
+
+    /**
+     * String key matched against each step's `status` to trigger error styling. Defaults to `"error"`.
+     */
     @property({ type: String  })
     errorStep = "error";
 
+    /**
+     * When `true`, the stepper is omitted from the rendered tree entirely.
+     */
     @property({ type: Boolean })
     hidden = false;
 
+    /**
+     * Default progress percent (0–100) applied to the active step's ring when the step itself has no `progress` value.
+     */
     @property({ type: Number })
     percent: number | undefined;
 

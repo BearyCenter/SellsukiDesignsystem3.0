@@ -34,23 +34,41 @@ import {
 export class TabHeader extends LitElement {
   static registeredName = "ssk-tab-header";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the header container for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Visual style — `inline` for underlined text tabs (default, in-page section switching) or `button` for surface-tinted pill tabs (filter chips).
+   */
   @property({ type: String })
   variant: "inline" | "button" = "inline";
 
+  /**
+   * Horizontal alignment of the slotted `<ssk-tab-button>` children — `left` (default), `center`, or `right`.
+   */
   @property({ type: String })
   align: "left" | "center" | "right" = "left";
 
+  /**
+   * Tab text size — `sm` uses `--font-size-p` (20px) and `md` (default) uses `--font-size-button` (18px). Both stay above the 18px DS 3.0 minimum.
+   */
   @property({ type: String })
   size: "sm" | "md" = "md";
 
+  /**
+   * Brand accent for the active-tab indicator — falls back to `--fg-brand-primary` from `<ssk-app-shell-provider>` brand context. Pass an explicit `ColorRole` to override.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName = "primary.500";
 

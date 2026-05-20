@@ -21,15 +21,27 @@ export interface SidebarAccount {
 export class SidebarAccountSwitcher extends LitElement {
   static registeredName = "ssk-sidebar-account-switcher";
 
+  /**
+   * Currently signed-in account — `{ id; name; role?; avatar? }`. Required for the switcher to render; without it the component is hidden.
+   */
   @property({ type: Object })
   account?: SidebarAccount;
 
+  /**
+   * Full list of accounts the user can switch to. When the array has more than one entry, the switcher becomes clickable and opens a dropdown menu.
+   */
   @property({ type: Array })
   accounts: SidebarAccount[] = [];
 
+  /**
+   * Mirrors the parent `<ssk-sidebar expanded>` state — when `true`, renders avatar plus name/role; when `false`, collapses to an icon-only avatar for the mini rail.
+   */
   @property({ type: Boolean })
   expanded = false;
 
+  /**
+   * Stable `data-testid` attribute applied to the switcher container for E2E test selectors.
+   */
   @property({ type: String, attribute: "test-id" })
   testId?: string;
 

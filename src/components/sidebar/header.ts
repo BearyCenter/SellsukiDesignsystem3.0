@@ -32,11 +32,17 @@ export class SidebarHeader extends LitElement {
   @property({ attribute: false })
   private state?: State;
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Stable `data-testid` attribute applied to the header container for E2E test selectors.
+   */
   @property({ type: String })
   testId?: string;
 

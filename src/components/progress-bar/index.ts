@@ -31,34 +31,64 @@ import {
 export class ProgressBar extends LitElement {
   static registeredName = "ssk-progress-bar";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Brand accent for the in-progress fill color — falls back to `--fg-brand-primary` from `<ssk-app-shell-provider>` brand context. Pass an explicit `ColorRole` to override.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "";
 
+  /**
+   * Optional override for the label text color (`ColorRole` or `ColorName`). Leave unset to use `--text-secondary`.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
 
+  /**
+   * Visual height scale — `xs` / `sm` / `md` / `lg` / `xl`. Controls bar height, label font size, and line height via design tokens. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
+  /**
+   * Override the bar width (any CSS length). Defaults to `370px` when unset.
+   */
   @property({ type: String })
   width?: string | undefined;
 
+  /**
+   * Current progress percent (0–100). Values at or under 1 render a hairline so the bar remains visible at the start.
+   */
   @property({ type: Number })
   value = 0;
 
+  /**
+   * Where the label sits relative to the bar — `top`, `bottom` (default), or `right` (inline beside the fill).
+   */
   @property({ type: String })
   labelPosition: "top" | "bottom" | "right" = "bottom";
 
+  /**
+   * Status tone — `in-progress` (brand fill), `success` (green at 100%), or `error` (red regardless of value). Drives both fill color and the trailing indicator (DONE / ERROR / `%`).
+   */
   @property({ type: String })
   status: "in-progress" | "error" | "success" = "in-progress";
 
+  /**
+   * Trailing indicator style — `text` (default, shows `%` / `DONE` / `ERROR`) or `icon` (check-circle / x-circle for success/error states).
+   */
   @property({ type: String })
   styleOfProgress: "text" | "icon" = "text";
 
+  /**
+   * Label text shown next to the bar. Defaults to `"Loading Data..."` — override with a localized string for production UI.
+   */
   @property({ type: String })
   label: string = "Loading Data...";
 

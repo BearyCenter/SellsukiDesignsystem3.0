@@ -40,33 +40,69 @@ import {
 export class Accordion extends LitElement {
   static registeredName = "ssk-accordion";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
+  /**
+   * Stable `data-testid` attribute applied to the accordion and forwarded to each child item as `data-test-id="<testId>-item-<id>"`.
+   */
   @property({ type: String })
   testId?: string;
 
+  /**
+   * Brand accent for the borders and header surface — falls back to `--fg-brand-primary` from `<ssk-app-shell-provider>` brand context. Pass an explicit `ColorRole` to override.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
+  /**
+   * Visual size scale — `xs` / `sm` / `md` / `lg` / `xl`. Drives header padding, font size, and radius. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Override the header font size (any CSS length). Stay above 18px (`--font-size-caption`) for the DS 3.0 minimum.
+   */
   @property({ type: String })
   fontSize?: string | undefined;
+  /**
+   * Font family group — `sans` (default body face) or `mono` for fixed-width labels.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight token for accordion item headers — typically `normal` or `medium`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
 
+  /**
+   * Optional surface color for the header background (any CSS color). Leave unset to use the brand-tinted default.
+   */
   @property({ type: String })
   backgroundColor?: string | undefined;
+  /**
+   * Optional override for the header text color (`ColorRole` or `ColorName`). Leave unset to use `--text-primary`.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName = "primary.500";
 
+  /**
+   * Open behavior — `single` (default) closes other panels when one opens; `multiple` lets several panels stay open at once.
+   */
   @property({ type: String })
   mode: "single" | "multiple" = "single";
+  /**
+   * Horizontal alignment of the header label — `left` (default), `center`, or `right`. Forwarded automatically to each child item.
+   */
   @property({ type: String })
   align: "left" | "center" | "right" = "left";
+  /**
+   * Visual style — `clean` (flat, borderless, default) or `bordered` (separated boxes with brand-tinted outline).
+   */
   @property({ type: String })
   variant: "clean" | "bordered" = "clean";
 

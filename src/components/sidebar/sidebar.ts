@@ -51,33 +51,60 @@ export const stateContext = createContext<State>("ssk-sidebar-state-context");
 export class Sidebar extends LitElement {
   static registeredName = "ssk-sidebar";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // BaseAttributes
+  /**
+   * Visual density of nav items — `xs` / `sm` / `md` / `lg` / `xl`. Controls row padding and font tokens applied to child items. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
 
   // ThemeValue
+  /**
+   * Brand accent for the active nav row highlight — falls back to `--fg-brand-primary` from `<ssk-app-shell-provider>` brand context. Pass an explicit `ColorRole` to override.
+   */
   @property({ type: String })
   themeColor: ColorRole | ColorName = "primary";
 
+  /**
+   * Override the outer padding token — accepts the same `xs`–`xl` scale as `size`. Leave unset to inherit from `size`.
+   */
   @property({ type: String })
   padding?: Size;
 
+  /**
+   * When `true`, the sidebar renders at full width with labels visible; when `false`, it collapses to a 92px icon-only mini rail. Toggling fires `expanded-changed`.
+   */
   @property({ type: Boolean })
   expanded: boolean = false;
 
+  /**
+   * Array of currently-selected item keys — child `<ssk-sidebar-item>`s match against this list to render their active state. The sidebar emits `selected-items-changed` rather than mutating this directly.
+   */
   @property({ type: Array })
   selectedItems: string[] = [];
 
+  /**
+   * Array of currently-open `<ssk-sidebar-group>` keys. The sidebar emits `expanded-groups-changed` on header click rather than mutating this directly.
+   */
   @property({ type: Array })
   expandedGroups: string[] = [];
 
+  /**
+   * Expanded-state width of the sidebar (any CSS length). Defaults to `256px`. Collapsed width is fixed at 92px.
+   */
   @property({ type: String })
   width?: string = "256px";
 
+  /**
+   * Shared context exposed to descendant sidebar components — tracks `expanded`, `selectedItems`, `expandedGroups`, and provides setter callbacks. Not authored by callers.
+   */
   @provide({ context: stateContext })
   @property({ attribute: false })
   state: State = {

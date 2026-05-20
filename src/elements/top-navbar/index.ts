@@ -41,27 +41,54 @@ import {
 export class TopNavbar extends LitElement implements ThemeValue {
   static registeredName = "ssk-top-navbar";
 
+  /**
+   * Active theme injected via Lit context from `<ssk-theme-provider>`. Not authored by callers.
+   */
   @consume({ context: themeContext, subscribe: true })
   @property({ attribute: false })
   public theme?: Theme;
 
   // ThemeValue
+  /**
+   * Visual density of the navbar — `xs` / `sm` / `md` / `lg` / `xl`. Drives the default font size, padding, and gap via design tokens. Defaults to `md`.
+   */
   @property({ type: String })
   size: Size = "md";
+  /**
+   * Optional override for the navbar text color (`ColorRole` or `ColorName`). Leave unset to use `--text-primary`.
+   */
   @property({ type: String })
   color?: ColorRole | ColorName;
+  /**
+   * Override the outer margin around the navbar (any CSS shorthand).
+   */
   @property({ type: String })
   margin?: string | undefined;
+  /**
+   * Override the navbar padding token — accepts the same `xs`–`xl` scale as `size`. Leave unset to inherit from `size`.
+   */
   @property({ type: String })
   padding?: Size;
+  /**
+   * Gap between slotted left / center / right groups — accepts the `xs`–`xl` spacing scale. Defaults to `md`.
+   */
   @property({ type: String })
   gap?: string | undefined = "md";
 
   // Font
+  /**
+   * Font family group — `sans` (default body face) or `mono` for fixed-width labels.
+   */
   @property({ type: String })
   fontFamilyGroup: FontFamilyGroup = "sans";
+  /**
+   * Font weight token for navbar text — typically `normal` (default) or `medium`.
+   */
   @property({ type: String })
   fontWeight: FontWeight = "normal";
+  /**
+   * Override the navbar font size (any CSS length). Stay above 18px (`--font-size-caption`) for the DS 3.0 minimum.
+   */
   @property({ type: String })
   fontSize?: string | undefined;
 
